@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    <style name="Base.Theme.Ddugky" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ddy_logo</item>
+        <item name="android:windowSplashScreenBackground">@color/white</item>
+        <item name="postSplashScreenTheme">@style/Theme.DeendayalProject</item>
+        &lt;!&ndash; Customize your light theme here. &ndash;&gt;
+        <item name="android:windowBackground">@color/white</item>
+        &lt;!&ndash; <item name="colorPrimary">@color/my_light_primary</item> &ndash;&gt;
+    </style>-->
+
+    <style name="Base.Theme.Ddugky" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ddy_logo</item>
+        <item name="android:windowSplashScreenBackground">@color/white</item>
+        <item name="postSplashScreenTheme">@style/Theme.Ddugky</item>
+        <!-- Customize your light theme here. -->
+        <item name="android:windowBackground">@color/white</item>
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+</resources>

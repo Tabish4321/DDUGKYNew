@@ -1,0 +1,39 @@
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardElevation="4dp"
+    card_view:cardCornerRadius="8dp"
+    android:layout_margin="8dp"
+    android:backgroundTint="@color/color_dark_blue"
+    card_view:cardBackgroundColor="@color/soft_navy_blue"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvModuleName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Module Name"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:drawableEnd="@drawable/ic_dropdown_arrow"
+            android:textStyle="bold"
+            android:padding="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvForms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:nestedScrollingEnabled="false" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
