@@ -20,19 +20,26 @@ import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.TimeZone
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.preference.PreferenceManager
 import android.provider.Settings
 import android.text.InputType
 import android.view.MotionEvent
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.deendayalproject.R
 import com.google.gson.Gson
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 import java.security.MessageDigest
 import java.security.SecureRandom
 
@@ -42,15 +49,11 @@ object AppUtil {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     val storagePermissions = arrayOf(
-
-
         Manifest.permission.READ_MEDIA_IMAGES,
         Manifest.permission.READ_MEDIA_VIDEO,
         Manifest.permission.READ_MEDIA_AUDIO
     )
     val legacyStoragePermission = Manifest.permission.READ_EXTERNAL_STORAGE
-
-
 
     @SuppressLint("HardwareIds")
     fun getAndroidId(context: Context) : String{
@@ -72,7 +75,6 @@ object AppUtil {
             dialog.dismiss()
             logoutUser(navController, context)
         }
-
         val alertDialog = builder.create()
         alertDialog.show()
     }
@@ -172,6 +174,7 @@ object AppUtil {
         editor.putString("entity_code", entityCode)
         editor.apply()
     }*/
+
   fun saveLoginIdPreference(context: Context, loginId: String) {
       val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
       sharedPreferences.edit().putString("login_id", loginId).apply()
@@ -183,10 +186,6 @@ object AppUtil {
         val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         return sharedPreferences.getString("login_id", "") ?: ""
     }
-
-
-
-
 
     fun clearPreferences(context: Context) {
         val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
@@ -240,14 +239,7 @@ object AppUtil {
         return "MODEL : ${Build.MODEL}, MANUFACTURER : ${Build.MANUFACTURER}, DEVICE : ${Build.DEVICE}"
     }
 
-/*    fun getProgressDialog(context: Context?): AlertDialog? {
-        if (context == null) return null
-        return MaterialAlertDialogBuilder(context)
-            .setView(R.layout.layout_progress)
-            .setBackground(ColorDrawable(Color.TRANSPARENT))
-            .setCancelable(false)
-            .create()
-    }*/
+
 
 
     fun changeAppLanguage(context: Context, languageCode: String) {
@@ -496,6 +488,16 @@ object AppUtil {
         return sharedPreferences.getString("language_code", "en") ?: "en" // Default to English
     }
 
+    fun getSavedTcId(context: Context): String {
+        return context.getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
+            .getString("TC_ID", "") ?: ""
+    }
+
+    fun getSavedSanctionOrder(context: Context): String {
+        return context.getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
+            .getString("SANCTION_ORDER", "") ?: ""
+    }
+
 
 
 
@@ -552,6 +554,7 @@ object AppUtil {
     }
 
 
+
     fun setupPasswordToggle(editText: EditText) {
         var isPasswordVisible = false
 
@@ -590,4 +593,55 @@ object AppUtil {
         }
     }
 
+
+    fun imageViewToBase64(imageView: ImageView): String {
+        val drawable = imageView.drawable ?: return ""
+        val bitmap = (drawable as BitmapDrawable).bitmap
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
+        val byteArray = outputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
+
+
+    fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 1024): String? {
+        return try {
+            val options = BitmapFactory.Options()
+            options.inJustDecodeBounds = true
+
+            context.contentResolver.openInputStream(uri).use { stream ->
+                BitmapFactory.decodeStream(stream, null, options)
+            }
+
+            options.inSampleSize = calculateInSampleSize(options, maxSize, maxSize)
+            options.inJustDecodeBounds = false
+
+            val bitmap = context.contentResolver.openInputStream(uri).use { stream ->
+                BitmapFactory.decodeStream(stream, null, options)
+            } ?: return null
+
+            val outputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
+            val byteArray = outputStream.toByteArray()
+            Base64.encodeToString(byteArray, Base64.NO_WRAP)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        val (height, width) = options.outHeight to options.outWidth
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+            val halfHeight = height / 2
+            val halfWidth = width / 2
+
+            while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+        return inSampleSize
+    }
 }

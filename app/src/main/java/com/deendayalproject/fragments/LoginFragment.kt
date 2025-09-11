@@ -28,37 +28,21 @@ class LoginFragment : Fragment() {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         val logginStatus= AppUtil.getLoginStatus(requireContext())
-
         if (logginStatus){
-
             findNavController().navigate(R.id.action_fragmentLogin_to_homeFragment)
-
         }
-
-
-
 
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
         )[SharedViewModel::class.java]
-
         setupListeners()
         observeLoginResult()
-
-
-
-
     }
-
-
-
     private fun setupListeners() {
         binding.btnLogin.setOnClickListener {
             val request = LoginRequest(
@@ -66,14 +50,11 @@ class LoginFragment : Fragment() {
                 password = AppUtil.sha512Hash(binding.etPassword.text.toString()),
                 imeiNo = AppUtil.getAndroidId(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME
-
             )
-
                  viewModel.loginUser(request)
         }
         AppUtil.setupPasswordToggle(binding.etPassword)
     }
-
     private fun observeLoginResult() {
 
         viewModel.loginResult.observe(viewLifecycleOwner) { result ->
@@ -85,30 +66,19 @@ class LoginFragment : Fragment() {
                 Toast.makeText(requireContext(), "Login Successful", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_fragmentLogin_to_homeFragment)            }
             result.onFailure {
-                //AppUtil.clearPreferences(requireContext())
+                AppUtil.clearPreferences(requireContext())
                 Toast.makeText(requireContext(), "Login Failed: ${it.message}", Toast.LENGTH_LONG).show()
             }
         }
-    }
-
-
 /*
-    private fun observeLoginResult() {
-        viewModel.loginResult.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                val token = "Bearer " + it.accessToken
-                AppUtil.saveTokenPreference(requireContext(), token)
-                AppUtil.saveLoginIdPreference(requireContext(), binding.etUserId.text.toString().trim().uppercase())
-                Toast.makeText(requireContext(), "Login Successful", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_fragmentLogin_to_homeFragment)
-            }
-            result.onFailure {
-                AppUtil.clearPreferences(requireContext())
-                Toast.makeText(requireContext(), "Session expired: ${it.message}", Toast.LENGTH_LONG).show()
-            }
+        viewModel.sessionExpired.observe(viewLifecycleOwner){ expired->
+        if (expired){
+            AppUtil.showSessionExpiredDialog(findNavController(),requireContext())
         }
-    }
+
+        }
 */
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

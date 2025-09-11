@@ -3,15 +3,21 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.deendayalproject.model.request.CCTVComplianceRequest
+import com.deendayalproject.model.request.ElectricalWiringRequest
+import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.response.CCTVComplianceResponse
+import com.deendayalproject.model.response.ElectircalWiringReponse
+import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
 
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
+import kotlinx.coroutines.sync.Mutex
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -40,8 +46,23 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     val trainingCenters: LiveData<Result<TrainingCenterResponse>> = _trainingCenters
 
 
-    // Login API call
 
+    // insert cctv section
+    private val _insertCCTVdata = MutableLiveData<Result<CCTVComplianceResponse>>()
+    val insertCCTVdata: LiveData<Result<CCTVComplianceResponse>> =_insertCCTVdata
+
+    // insert ipenabled section
+    private val _insertIpenabledata = MutableLiveData<Result<ElectircalWiringReponse>>()
+    val insertIpenabledata : LiveData<Result<ElectircalWiringReponse>> = _insertIpenabledata
+
+
+
+    // insert general details
+
+    private val _insertGeneralDetails = MutableLiveData<Result< InsertTcGeneralDetailsResponse>>()
+    val insertGeneralDetails : LiveData<Result<InsertTcGeneralDetailsResponse>> = _insertGeneralDetails
+
+    // Login API call
     fun loginUser(request: LoginRequest) {
         viewModelScope.launch {
             val result = repository.loginUser(request)
@@ -49,6 +70,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             }
             _loginResult.postValue(result)
         }
+    }
+
+    fun triggerSesionExpired(){
+        _sessionExpired.postValue(true)
     }
 
     // fetch Module and forms
@@ -70,6 +95,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+
     fun fetchTrainingCenters(request: TrainingCenterRequest, token: String) {
         _loading.postValue(true)
         viewModelScope.launch {
@@ -81,5 +107,48 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _loading.postValue(false)
         }
     }
-}
+
+//IP enabled camera insert
+    fun submitCCTVDataToServer(request: CCTVComplianceRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitCCTVDataToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertCCTVdata.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    // electric wiring insert
+    fun submitElectricalData(request: ElectricalWiringRequest, token: String){
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitWiringDataToServer(request,token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertIpenabledata.postValue(result)
+            _loading.postValue(false)
+        }
+
+        }
+
+
+    // general details insert
+    fun submitGeneralDetails(request: InsertTcGeneralDetailsRequest, token: String){
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitGeneralDataToServer(request,token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertGeneralDetails.postValue(result)
+            _loading.postValue(false)
+        }
+
+    }
+    }
+
 
