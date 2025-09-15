@@ -14,21 +14,19 @@ import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.databinding.FragmentHomeBinding
 import com.deendayalproject.databinding.NavigationHeaderBinding
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.response.Form
 import com.deendayalproject.util.AppUtil
-import com.google.gson.internal.GsonBuildConfig
 
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: ModuleAdapter
 
@@ -43,8 +41,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
 
         // First, get the header view using getHeaderView()
         val headerView = binding.navigationView.getHeaderView(0)
@@ -61,25 +57,7 @@ class HomeFragment : Fragment() {
         binding.profilePic.setOnClickListener {
             binding.drawerLayout.openDrawer(GravityCompat.START)
         }
-      /*  binding.navigationView.setNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_logout-> {
-                    Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show()
 
-                    AppUtil.saveLoginStatus(requireContext(), false)
-                     navController.navigate(
-            R.id.fragmentLogin,
-            null,
-            NavOptions.Builder()
-                .setPopUpTo(navController.graph.startDestinationId, true) // Clear everything
-                .build()
-        )
-
-                    binding.drawerLayout.closeDrawer(GravityCompat.START)
-                }
-            }
-            true
-        }*/
 //New Logout (Rohit)
         binding.navigationView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -102,10 +80,13 @@ class HomeFragment : Fragment() {
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
+
                 else -> false
             }
         }
-
+/*binding.changeLanguage.setOnClickListener {
+    findNavController().navigate(R.id.action_homeFragment_to_languageSelectionFragment)
+}*/
 
         // Initialize ViewModel scoped to this Fragment
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
@@ -115,7 +96,11 @@ class HomeFragment : Fragment() {
             // Show Toast with formCd when form clicked
 
             if (form.formCd == "TRAINING_CENTER_APP") {
-                findNavController().navigate(com.deendayalproject.R.id.action_homeFragment_to_centerFragment)
+                findNavController().navigate(R.id.action_homeFragment_to_centerFragment)
+            }
+            if (
+                form.formCd=="RESIDENTIAL_FACILITY_FORM"){
+                findNavController().navigate(R.id.action_homeFragment_to_centerFragment)
             }
 
             if (form.formCd == "TRAINING_CENTER_VERIFICATION") {
@@ -129,49 +114,46 @@ class HomeFragment : Fragment() {
         binding.rvModules.layoutManager = LinearLayoutManager(requireContext())
         binding.rvModules.adapter = adapter
 
-
+        viewModel.triggerSesionExpired()
         observeViewModel()
-
 
         val modulesRequest = ModulesRequest(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             appVersion = BuildConfig.VERSION_NAME
         )
         val token = AppUtil.getSavedTokenPreference(requireContext())
-        Log.d("HomeFragment",  "Using token: $token")
+        Log.d("HomeFragment", "Using token: $token")
 
         // Trigger data fetch with token
         viewModel.fetch(
             modulesRequest,
             "Bearer ${AppUtil.getSavedTokenPreference(requireContext())}"
         )
-
     }
-
     private fun observeViewModel() {
         viewModel.modules.observe(viewLifecycleOwner) { response ->
             response.onSuccess {
-
-                if (it.responseCode==200){
+                if (it.responseCode == 200) {
 
                     // Initialize modules as collapsed (optional)
                     val collapsedModules = it.wrappedList?.map { module ->
                         module.isExpanded = false
                         module
                     } ?: emptyList()
-
                     adapter.updateData(collapsedModules)
                 }
-
-                if (it.responseCode== 401){
-
-                    AppUtil.showSessionExpiredDialog(findNavController(),requireContext())
+                if (it.responseCode == 401) {
+                    Log.d("SessionCheck", "401 detected, session expired.")
+                    AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
-                Toast.makeText(requireContext(),it.responseDesc, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), it.responseDesc, Toast.LENGTH_SHORT).show()
             }
             response.onFailure {
-
-                Toast.makeText(requireContext(),"Something went wrong try again", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Something went wrong try again",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -184,8 +166,15 @@ class HomeFragment : Fragment() {
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
-    }
 
+
+        viewModel.sessionExpired.observe(viewLifecycleOwner){ expired ->
+            if (expired){
+                Log.d("homeFragment","sessionexpired")
+                AppUtil.showSessionExpiredDialog(findNavController(),requireContext())
+            }
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

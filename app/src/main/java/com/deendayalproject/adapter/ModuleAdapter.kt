@@ -1,3 +1,6 @@
+package com.deendayalproject.adapter
+
+import FormAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

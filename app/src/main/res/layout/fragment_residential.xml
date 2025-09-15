@@ -1,0 +1,205 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_16"/>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardInfrastructure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:padding="8dp"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/headerInfrastructure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="12dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <TextView
+
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="Residential Facility"
+                        android:drawableStart="@drawable/ic_ren"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary" />
+
+                    <ImageView
+                        android:id="@+id/ivToggleInfrastructure"
+                        android:layout_width="20dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_dropdown_arrow" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutInfrastructureContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:paddingTop="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ownership of Building (Own / Rent / Govt)"
+                        android:textStyle="bold"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"/>
+
+                    <Spinner
+                        android:id="@+id/spinnerOwnership"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Area of the Building (Sq. Ft.)"
+                        android:textStyle="bold"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etInfraArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Roof of the Building -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Roof of the Building"
+                        android:textStyle="bold"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"/>
+
+                    <Spinner
+                        android:id="@+id/spinnerRoof"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="If non-RCC, Structurally Sound on Visual Inspection?"
+                        android:textStyle="bold"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"/>
+                    <Spinner
+                        android:id="@+id/spinnerStructuralSound"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Plastering &amp; Painting of Internal/External Walls and Ceiling"
+                        android:textStyle="bold"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"/>
+
+                    <Spinner
+                        android:id="@+id/spinnerPainting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <!-- Upload: Self Declaration -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Upload Self Declaration Statement"
+                        android:textStyle="bold"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="4dp"/>
+                    <Button
+                        android:id="@+id/btnUploadDeclaration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Choose File" />
+
+                    <!-- Upload: Building Plan -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Upload Schematic Building Plan"
+                        android:textStyle="bold"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="4dp"/>
+                    <Button
+                        android:id="@+id/btnUploadPlan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Choose File" />
+
+                    <!-- Upload: Roof/Ceiling Photos -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Upload Photos of Building, Ceiling, Roof (PDF)"
+                        android:textStyle="bold"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="4dp"/>
+                    <Button
+                        android:id="@+id/btnUploadRoofPhotos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Choose PDF" />
+
+                    <!-- Upload: Internal/External Wall Photos -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Upload Photos of Internal &amp; External Walls (PDF)"
+                        android:textStyle="bold"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="4dp"/>
+
+                    <Button
+                        android:id="@+id/btnUploadWallPhotos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Choose PDF"
+                        android:layout_marginBottom="16dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>

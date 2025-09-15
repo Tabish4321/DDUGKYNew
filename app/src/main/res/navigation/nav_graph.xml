@@ -15,15 +15,14 @@
         <action
             android:id="@+id/action_fragmentLogin_to_homeFragment"
             app:destination="@id/homeFragment" />
+
+        <!-- (Optional) Login to language screen -->
+        <action
+            android:id="@+id/action_fragmentLogin_to_languageSelectionFragment"
+            app:destination="@id/languageSelectionFragment" />
     </fragment>
 
-    <!-- Training Fragment -->
-    <fragment
-        android:id="@+id/fragment_training"
-        android:name="com.deendayalproject.fragments.TrainingFragment"
-        android:label="Training"
-        tools:layout="@layout/fragment_training" />
-
+    <!-- Home Fragment -->
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.deendayalproject.fragments.HomeFragment"
@@ -34,17 +33,28 @@
         <action
             android:id="@+id/action_homeFragment_to_QTeamListFragment"
             app:destination="@id/QTeamListFragment" />
+
+        <!-- ✅ Correct action to language fragment -->
+        <action
+            android:id="@+id/action_homeFragment_to_languageSelectionFragment"
+            app:destination="@id/languageSelectionFragment" />
     </fragment>
 
+    <!-- Training Fragment -->
+    <fragment
+        android:id="@+id/fragment_training"
+        android:name="com.deendayalproject.fragments.TrainingFragment"
+        android:label="Training"
+        tools:layout="@layout/fragment_training" />
+
+    <!-- Center Fragment -->
     <fragment
         android:id="@+id/centerFragment"
         android:name="com.deendayalproject.fragments.CenterFragment"
         android:label="CenterFragment" >
-        <!-- Action to TrainingFragment -->
         <action
             android:id="@+id/action_centerFragment_to_fragment_training"
             app:destination="@id/fragment_training" />
-
     </fragment>
     <fragment
         android:id="@+id/QTeamListFragment"
@@ -65,4 +75,10 @@
         android:label="fragment_q_team_form"
         tools:layout="@layout/fragment_q_team_form" />
 
+    <!-- ✅ Language Selection Fragment -->
+    <fragment
+        android:id="@+id/languageSelectionFragment"
+        android:name="com.deendayalproject.fragments.LanguageSelectionFragment"
+        android:label="LanguageSelectionFragment"
+        tools:layout="@layout/fragment_language" />
 </navigation>
