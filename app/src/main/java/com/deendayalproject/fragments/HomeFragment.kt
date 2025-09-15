@@ -118,6 +118,11 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(com.deendayalproject.R.id.action_homeFragment_to_centerFragment)
             }
 
+            if (form.formCd == "TRAINING_CENTER_VERIFICATION") {
+                findNavController().navigate(com.deendayalproject.R.id.action_homeFragment_to_QTeamListFragment)
+            }
+
+
         }
 
         // Setup RecyclerView with adapter

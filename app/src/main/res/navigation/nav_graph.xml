@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_homeFragment_to_centerFragment"
             app:destination="@id/centerFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_QTeamListFragment"
+            app:destination="@id/QTeamListFragment" />
     </fragment>
 
     <fragment
@@ -43,5 +46,23 @@
             app:destination="@id/fragment_training" />
 
     </fragment>
+    <fragment
+        android:id="@+id/QTeamListFragment"
+        android:name="com.deendayalproject.fragments.QTeamListFragment"
+        android:label="fragment_q_team_list"
+        tools:layout="@layout/fragment_q_team_list" >
+        <action
+            android:id="@+id/action_QTeamListFragment_to_QTeamFormFragment"
+            app:destination="@id/QTeamFormFragment" >
+        <argument
+            android:name="centerId"
+            app:argType="string"/>
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/QTeamFormFragment"
+        android:name="com.deendayalproject.fragments.QTeamFormFragment"
+        android:label="fragment_q_team_form"
+        tools:layout="@layout/fragment_q_team_form" />
 
 </navigation>

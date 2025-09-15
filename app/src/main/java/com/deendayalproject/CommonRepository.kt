@@ -1,4 +1,6 @@
 import android.content.Context
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.deendayalproject.model.LoginErrorResponse
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
@@ -6,6 +8,7 @@ import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
+import com.deendayalproject.util.AppUtil
 import com.google.gson.Gson
 
 class CommonRepository(private val context: Context) {
@@ -46,7 +49,8 @@ class CommonRepository(private val context: Context) {
                 response.body()?.let { Result.success(it) }
                     ?: Result.failure(Exception("Empty response"))
             } else {
-                Result.failure(Exception("Error: ${response.code()} ${response.message()}"))
+                Result.failure(Exception("Error: ${response.code()} ${response.body()}"))
+
             }
         } catch (e: Exception) {
             Result.failure(e)

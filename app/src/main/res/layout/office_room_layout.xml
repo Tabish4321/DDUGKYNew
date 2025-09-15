@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/color_light_grey">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_100">
+
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100"
+            android:background="@color/color_dark_blue"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:padding="@dimen/dp_5"
+                android:scaleType="fitCenter"
+                android:src="@drawable/back_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/office_room"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="150dp"
+                android:layout_height="@dimen/dp_60"
+                android:layout_gravity="end"
+                android:background="@color/white"
+                android:padding="@dimen/dp_5"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ddy_logo"
+                app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <!-- Content Fields -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/trainingInfraFields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_margin="@dimen/dp_20"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- Office Room Photograph -->
+            <TextView
+                android:id="@+id/labelOfficeRoomPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/office_room_photograph"
+                android:textColor="@color/color_dark_green"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/office_room"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/yesNoOfficeRoomPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                app:layout_constraintTop_toBottomOf="@id/labelOfficeRoomPhoto"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/valueOfficeRoomPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoOfficeRoomPhoto"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="2dp"/>
+
+            <!-- Type of Roof -->
+            <TextView
+                android:id="@+id/labelRoofType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/type_of_roof"
+                android:textColor="@color/color_dark_green"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_roof"
+                app:layout_constraintTop_toBottomOf="@id/valueOfficeRoomPhoto"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/yesNoRoofType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelRoofType"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/valueRoofType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoRoofType"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="2dp"/>
+
+            <!-- False Ceiling Provided -->
+            <TextView
+                android:id="@+id/labelFalseCeiling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/false_ceiling_provided"
+                android:textColor="@color/color_dark_green"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_walls"
+                app:layout_constraintTop_toBottomOf="@id/valueRoofType"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/yesNoFalseCeiling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelFalseCeiling"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/valueFalseCeiling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoFalseCeiling"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="2dp"/>
+
+
+            <TextView
+                android:id="@+id/labelCeilingHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/height_of_ceiling_in_ft"
+                android:textColor="@color/color_dark_green"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_special"
+                app:layout_constraintTop_toBottomOf="@id/valueFalseCeiling"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/yesNoCeilingHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelCeilingHeight"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/valueCeilingHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoCeilingHeight"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="2dp"/>
+
+            <!-- Storage Place for Securing Documents -->
+            <TextView
+                android:id="@+id/labelStorage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/storage_place_for_securing_documents"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/file"
+                android:textColor="@color/color_dark_green"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/valueCeilingHeight"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/yesNoStorage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelStorage"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/valueStorage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoStorage"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="2dp"/>
+
+            <!-- Office Table -->
+            <TextView
+                android:id="@+id/labelOfficeTable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/an_office_table_in_no"
+                android:textColor="@color/color_dark_green"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/office_room"
+                app:layout_constraintTop_toBottomOf="@id/valueStorage"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/yesNoOfficeTable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelOfficeTable"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/valueOfficeTable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoOfficeTable"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="2dp"/>
+
+            <!-- Chairs -->
+            <TextView
+                android:id="@+id/labelChairs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chairs_in_no"
+                android:textColor="@color/color_dark_green"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/chair"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/valueOfficeTable"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/yesNoChairs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelChairs"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/valueChairs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoChairs"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="2dp"/>
+
+            <!-- Table for Office Computer -->
+            <TextView
+                android:id="@+id/labelComputerTable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/table_for_office_computer"
+                android:textColor="@color/color_dark_green"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/table"
+                app:layout_constraintTop_toBottomOf="@id/valueChairs"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/yesNoComputerTable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelComputerTable"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/valueComputerTable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoComputerTable"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="2dp"/>
+
+            <!-- Printer Cum Scanner -->
+            <TextView
+                android:id="@+id/labelPrinter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/printer_cum_scanner_in_no"
+                android:textColor="@color/color_dark_green"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/printshop"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/valueComputerTable"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/yesNoPrinter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelPrinter"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/valuePrinter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoPrinter"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="2dp"/>
+
+            <!-- Digital Camera -->
+            <TextView
+                android:id="@+id/labelCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/digital_camera_in_no"
+                android:textColor="@color/color_dark_green"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/digital_camera"
+                app:layout_constraintTop_toBottomOf="@id/valuePrinter"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/yesNoCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelCamera"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/valueCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoCamera"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="2dp"/>
+
+            <!-- Electrical Power Backup -->
+            <TextView
+                android:id="@+id/labelPowerBackup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/electrical_power_backup_for_the_room"
+                android:textColor="@color/color_dark_green"
+                android:textSize="18sp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/backup"
+                app:layout_constraintTop_toBottomOf="@id/valueCamera"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/yesNoPowerBackup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelPowerBackup"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/valuePowerBackup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoPowerBackup"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="2dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

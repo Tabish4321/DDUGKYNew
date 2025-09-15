@@ -1,0 +1,67 @@
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_margin="@dimen/dp_10"
+    android:background="@drawable/shape_rectangle_white">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+
+    <TextView
+        android:id="@+id/tvProfileType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_type" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/trainer_staff_name" />
+
+    <TextView
+        android:id="@+id/tvDesignation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/designation" />
+
+    <TextView
+        android:id="@+id/tvEngagementType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/engagement_type" />
+
+    <TextView
+        android:id="@+id/tvDomain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/domain_non_domain" />
+
+    <TextView
+        android:id="@+id/tvAssignedCourse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/assigned_course" />
+
+    <TextView
+        android:id="@+id/tvTotCert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/whether_tot_certificate" />
+
+    <TextView
+        android:id="@+id/tvTotCertNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tot_certificate_no" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
