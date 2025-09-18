@@ -1,5 +1,4 @@
 package com.deendayalproject.fragments
-import ModuleAdapter
 import SharedViewModel
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.R
 import com.deendayalproject.BuildConfig
+import com.deendayalproject.adapter.ModuleAdapter
 import com.deendayalproject.databinding.FragmentHomeBinding
 import com.deendayalproject.databinding.NavigationHeaderBinding
 import com.deendayalproject.model.request.ModulesRequest
@@ -104,7 +104,7 @@ class HomeFragment : Fragment() {
             }
 
             if (form.formCd == "TRAINING_CENTER_VERIFICATION") {
-                findNavController().navigate(com.deendayalproject.R.id.action_homeFragment_to_QTeamListFragment)
+                findNavController().navigate(R.id.action_homeFragment_to_QTeamListFragment)
             }
 
 

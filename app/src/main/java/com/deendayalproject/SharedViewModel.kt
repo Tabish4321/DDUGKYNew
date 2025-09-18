@@ -83,7 +83,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun triggerSesionExpired(){
-        _sessionExpired.postValue(true)
+        _sessionExpired.postValue(false)
     }
 
     // fetch Module and forms

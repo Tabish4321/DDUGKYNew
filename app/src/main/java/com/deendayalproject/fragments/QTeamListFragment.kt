@@ -46,7 +46,7 @@ class QTeamListFragment : Fragment() {
 
         adapter = TrainingQAdapter(emptyList()) { center ->
             val action = QTeamListFragmentDirections.actionQTeamListFragmentToQTeamFormFragment(
-                center.trainingCenterId.toString()
+                center.trainingCenterId.toString(),center.trainingCenterName,center.senctionOrder
             )
             findNavController().navigate(action)
         }

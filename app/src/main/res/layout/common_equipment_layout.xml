@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/llTopCommonEquipmentDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_background_light_grey"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvTrainCommonEquipmentDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/common_equipment"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/viewCommonEquipmentDetails"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="#F7F7F7"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/llTopCommonEquipmentDetails" />
+
+    <!-- Container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/trainingCommonEquipmentDetailsExpand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:elevation="@dimen/dp_2"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/viewCommonEquipmentDetails"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- 1. Electrical Power Backup -->
+        <TextView
+            android:id="@+id/labelElectricalPowerBackup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/electrical_power_backup"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/backup"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/yesNoElectricalPowerBackup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelElectricalPowerBackup"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/valueElectricalPowerBackup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoElectricalPowerBackup"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/labelBiometricDevices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/installation_of_biometric_devices"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/baseline_fingerprint_24"
+            android:layout_marginTop="@dimen/dp_15"
+            app:layout_constraintTop_toBottomOf="@id/valueElectricalPowerBackup"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/yesNoBiometricDevices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelBiometricDevices"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/valueBiometricDevices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoBiometricDevices"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- 3. Installation of CCTV Monitor -->
+        <TextView
+            android:id="@+id/labelCCTVMonitor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/installation_of_cctv_monitor"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/cctv"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:layout_constraintTop_toBottomOf="@id/valueBiometricDevices"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/yesNoCCTVMonitor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCCTVMonitor"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/valueCCTVMonitor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCCTVMonitor"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- 4. Storage Place -->
+        <TextView
+            android:id="@+id/labelStorageDocs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/storage_place_for_securing_documents"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/file"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:layout_constraintTop_toBottomOf="@id/valueCCTVMonitor"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/yesNoStorageDocs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelStorageDocs"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/valueStorageDocs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoStorageDocs"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- 5. Printer Cum Scanner -->
+        <TextView
+            android:id="@+id/labelPrinterScanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/printer_cum_scanner_in_no"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/printshop"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:layout_constraintTop_toBottomOf="@id/valueStorageDocs"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/yesNoPrinterScanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelPrinterScanner"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/valuePrinterScanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoPrinterScanner"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- 6. Digital Camera -->
+        <TextView
+            android:id="@+id/labelDigitalCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/digital_camera_in_no"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/digital_camera"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:layout_constraintTop_toBottomOf="@id/valuePrinterScanner"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/yesNoDigitalCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelDigitalCamera"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/valueDigitalCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoDigitalCamera"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- 7. Grievance Register -->
+        <TextView
+            android:id="@+id/labelGrievanceRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/grievance_register"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/file"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:layout_constraintTop_toBottomOf="@id/valueDigitalCamera"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/yesNoGrievanceRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelGrievanceRegister"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/valueGrievanceRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoGrievanceRegister"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- 8. Minimum Equipment -->
+        <TextView
+            android:id="@+id/labelMinEquipment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/minimum_equipment_as_per_sf_5_1p"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/ic_equipment"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:layout_constraintTop_toBottomOf="@id/valueGrievanceRegister"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/yesNoMinEquipment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelMinEquipment"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/valueMinEquipment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoMinEquipment"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- 9. Direction Boards -->
+        <TextView
+            android:id="@+id/labelDirectionBoards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/direction_boards"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/direction_board"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:layout_constraintTop_toBottomOf="@id/valueMinEquipment"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/yesNoDirectionBoards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelDirectionBoards"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/valueDirectionBoards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoDirectionBoards"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/llCommonEquipment"
+            android:text="@string/select_approvals"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintTop_toBottomOf="@id/valueDirectionBoards"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_next_demi_bold"
+            android:hint="@string/select_approval"
+            android:id="@+id/llTcCommonEquipment"
+            android:layout_marginStart="@dimen/dp_3"
+            android:textColorHint="@color/color_dark_green"
+            app:boxStrokeColor="@color/color_dark_green"
+            app:layout_constraintTop_toBottomOf="@id/llCommonEquipment"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/SpinnerCommonEquipment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="none"
+                android:textColor="@color/color_dark_green"
+                android:textSize="15sp"
+                tools:ignore="LabelFor"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/CommonEquipmentRemarks"
+            android:visibility="gone"
+            android:text="@string/remarkss"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintTop_toBottomOf="@id/llTcCommonEquipment"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <EditText
+            android:id="@+id/etCommonEquipmentRemarks"
+            android:visibility="gone"
+            style="@style/EditText"
+            android:hint="@string/remarks"
+            android:background="@drawable/edittext_background"
+            android:padding="12dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/CommonEquipmentRemarks"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/llElectricalBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCommonEquipmentRemarks">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/btnCommonEquipmentPrevious"
+                android:elevation="4dp"
+                android:text="@string/previous"
+                android:textColor="@color/color_dark_blue"
+                android:textSize="@dimen/sp_16"
+                android:background="@drawable/backgroung_overlay"
+                android:layout_margin="8dp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="@string/save_and_next"
+                android:gravity="center"
+                android:id="@+id/btnCommonEquipmentNext"
+                android:textColor="@color/white"
+                android:elevation="4dp"
+                android:textSize="@dimen/sp_16"
+                android:background="@drawable/card_background"
+                android:layout_margin="8dp" />
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

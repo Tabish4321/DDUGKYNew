@@ -1,0 +1,1374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/llTopAvailOfStandardForms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_background_light_grey"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tvTrainAvailOfStandardForms"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/availability_of_standard_forms"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/viewAvailOfStandardForms"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="#F7F7F7"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llTopAvailOfStandardForms"/>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/trainingAvailOfStandardFormsExpand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:elevation="@dimen/dp_2"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/viewAvailOfStandardForms"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+
+        <TextView
+            android:id="@+id/labelPlanOfTraining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_4_1a_plan_of_training"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/training_center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoPlanOfTraining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelPlanOfTraining"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/labelLessonPlanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_4_1c_activity_cum_lesson_planner"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/ic_available"
+            app:layout_constraintTop_toBottomOf="@id/yesNoPlanOfTraining"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoLessonPlanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelLessonPlanner"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 4.3H : On the Job Training Plan -->
+        <TextView
+            android:id="@+id/labelOnJobTraining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_4_3h_on_the_job_training_plan"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/attendance"
+            app:layout_constraintTop_toBottomOf="@id/yesNoLessonPlanner"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoOnJobTraining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelOnJobTraining"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 4.5A : Daily Distribution of Tablets -->
+        <TextView
+            android:id="@+id/labelDailyTablets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_4_5a_daily_distribution_of_tablets"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/tablet"
+            app:layout_constraintTop_toBottomOf="@id/yesNoOnJobTraining"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoDailyTablets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelDailyTablets"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 5.1A2 : Training Center Name Board -->
+        <TextView
+            android:id="@+id/labelCenterNameBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_5_1a2_training_center_name_board"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/signage"
+            app:layout_constraintTop_toBottomOf="@id/yesNoDailyTablets"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCenterNameBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCenterNameBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 5.1B1 : Activity Summary and Achievement Board -->
+        <TextView
+            android:id="@+id/labelActivitySummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_5_1b1_activity_summary_and_achievement_board"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/board"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCenterNameBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoActivitySummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelActivitySummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 5.1B2 : Contact Details of Important People -->
+        <TextView
+            android:id="@+id/labelContactDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_5_1b2_contact_details_of_important_people"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/baseline_import_contacts_24"
+            app:layout_constraintTop_toBottomOf="@id/yesNoActivitySummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoContactDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelContactDetails"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <!-- SF 5.1C1 : Student Entitlement Banner -->
+        <TextView
+            android:id="@+id/labelStudentEntitlementBanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_5_1c1_student_entitlement_banner"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/board"
+            app:layout_constraintTop_toBottomOf="@+id/yesNoContactDetails"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoStudentEntitlementBanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelStudentEntitlementBanner"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1C2 : Welcome Kit to Trainees -->
+        <TextView
+            android:id="@+id/labelWelcomeKit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_5_1c2_welcome_kit_to_trainees"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/wellcome_kit"
+            app:layout_constraintTop_toBottomOf="@id/yesNoStudentEntitlementBanner"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoWelcomeKit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelWelcomeKit"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1C3 : First Aid Kit -->
+        <TextView
+            android:id="@+id/labelFirstAidKit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_5_1c3_first_aid_kit"
+            android:drawablePadding="8dp"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/first_aid"
+            app:layout_constraintTop_toBottomOf="@id/yesNoWelcomeKit"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoFirstAidKit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelFirstAidKit"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1E1 : Summary of Staff Deployed at the Training Centre -->
+        <TextView
+            android:id="@+id/labelStaffSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_5_1e1_summary_of_staff"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/signage"
+            app:layout_constraintTop_toBottomOf="@id/yesNoFirstAidKit"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoStaffSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelStaffSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1E2 : Trainers Profile -->
+        <TextView
+            android:id="@+id/labelTrainersProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_5_1e2_trainers_profile"
+            android:drawablePadding="8dp"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_person_24"
+            app:layout_constraintTop_toBottomOf="@id/yesNoStaffSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoTrainersProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelTrainersProfile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <!-- … Continue same pattern for ALL items … -->
+
+        <!-- SF 5.1F : Candidate ID Template -->
+        <TextView
+            android:id="@+id/labelCandidateIDTemplate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_5_1f_candidate_id_template"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/candidate_id"
+            app:layout_constraintTop_toBottomOf="@id/yesNoTrainersProfile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCandidateIDTemplate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCandidateIDTemplate"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1G1 : Index of Individual Candidate Dossier -->
+        <TextView
+            android:id="@+id/labelCandidateDossierIndex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51g1_candidate_dossier_index"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="8dp"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/candidate_dossier"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCandidateIDTemplate"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCandidateDossierIndex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCandidateDossierIndex"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1G2 : Parents Consent Form -->
+        <TextView
+            android:id="@+id/labelParentsConsentForm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_5_1g2_parents_consent_form"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_note_alt_24"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCandidateDossierIndex"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoParentsConsentForm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelParentsConsentForm"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1H1 : Batch Summary as on Day of Batch Freezing -->
+        <TextView
+            android:id="@+id/labelBatchSummaryFreezing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            android:text="@string/sf_51h1_batch_summary"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/flooring"
+            app:layout_constraintTop_toBottomOf="@id/yesNoParentsConsentForm"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoBatchSummaryFreezing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelBatchSummaryFreezing"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1H2 : List of Candidates in the Batch and their Profile -->
+        <TextView
+            android:id="@+id/labelCandidateListBatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51h2_candidates_list_profile"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="8dp"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/office_room"
+            app:layout_constraintTop_toBottomOf="@id/yesNoBatchSummaryFreezing"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCandidateListBatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCandidateListBatch"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1I : Attendance Registers for Candidates (as per Biometric) -->
+        <TextView
+            android:id="@+id/labelCandidateAttendanceRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51i_attendance_candidates"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_fingerprint_24"
+            android:drawablePadding="8dp"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCandidateListBatch"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCandidateAttendanceRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCandidateAttendanceRegister"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1J : Attendance Registers for Trainers (as per Biometric) -->
+        <TextView
+            android:id="@+id/labelTrainerAttendanceRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51j_attendance_trainers"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            app:drawableStartCompat="@drawable/baseline_fingerprint_24"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCandidateAttendanceRegister"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoTrainerAttendanceRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelTrainerAttendanceRegister"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1K : Checklist of Items Given to Candidates -->
+        <TextView
+            android:id="@+id/labelItemsChecklist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51k_checklist_items_candidates"
+            android:drawablePadding="@dimen/dp_8"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_note_alt_24"
+            app:layout_constraintTop_toBottomOf="@id/yesNoTrainerAttendanceRegister"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoItemsChecklist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelItemsChecklist"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1L1 : Candidate Feedback Form -->
+        <TextView
+            android:id="@+id/labelCandidateFeedbackForm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_5_1l1_candidate_feedback_form"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="@dimen/dp_8"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/area"
+            app:layout_constraintTop_toBottomOf="@id/yesNoItemsChecklist"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCandidateFeedbackForm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCandidateFeedbackForm"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1L2 : Summary of the Feedback -->
+        <TextView
+            android:id="@+id/labelFeedbackSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51l2_feedback_summary"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            app:drawableStartCompat="@drawable/area"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCandidateFeedbackForm"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoFeedbackSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelFeedbackSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1M : Summary of Evaluation and Assessment Done -->
+        <TextView
+            android:id="@+id/labelEvaluationSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51m_summary_evaluation_assessment"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            app:drawableStartCompat="@drawable/baseline_note_alt_24"
+            app:layout_constraintTop_toBottomOf="@id/yesNoFeedbackSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoEvaluationSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelEvaluationSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1N : TA/ DA Calculation Record -->
+        <TextView
+            android:id="@+id/labelTADARecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51n_ta_da_record"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="@dimen/dp_8"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_calculate_24"
+            app:layout_constraintTop_toBottomOf="@id/yesNoEvaluationSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoTADARecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelTADARecord"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1O1 : Training Certificate -->
+        <TextView
+            android:id="@+id/labelTrainingCertificate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51o1_training_certificate"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            app:drawableStartCompat="@drawable/certificate"
+            app:layout_constraintTop_toBottomOf="@id/yesNoTADARecord"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoTrainingCertificate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelTrainingCertificate"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+        <!-- SF 5.1O2 : Training Completion Certificate Distribution Record -->
+        <TextView
+            android:id="@+id/labelTrainingCompletionCertificateRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51o2_training_completion_certificate"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            app:drawableStartCompat="@drawable/certificate"
+            app:layout_constraintTop_toBottomOf="@id/yesNoTrainingCertificate"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoTrainingCompletionCertificateRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelTrainingCompletionCertificateRecord"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1P : List of Equipment in the Training Centre -->
+        <TextView
+            android:id="@+id/labelEquipmentTrainingCentre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="@dimen/dp_8"
+            android:text="@string/sf_51p_equipment_training_centre"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/training_center"
+            app:layout_constraintTop_toBottomOf="@id/yesNoTrainingCompletionCertificateRecord"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoEquipmentTrainingCentre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelEquipmentTrainingCentre"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1Q : List of Equipment in the Trainees Accommodation Facilities -->
+        <TextView
+            android:id="@+id/labelEquipmentAccommodation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51q_equipment_accommodation"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            app:drawableStartCompat="@drawable/signage"
+            app:layout_constraintTop_toBottomOf="@id/yesNoEquipmentTrainingCentre"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoEquipmentAccommodation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelEquipmentAccommodation"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1R : Instructions for Opening Hybrid Training Centres -->
+        <TextView
+            android:id="@+id/labelOpeningHybridCentres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51r_opening_hybrid_centres"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            app:drawableStartCompat="@drawable/baseline_note_alt_24"
+            app:layout_constraintTop_toBottomOf="@id/yesNoEquipmentAccommodation"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoOpeningHybridCentres"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelOpeningHybridCentres"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.1S : Bare Minimum Items -->
+        <TextView
+            android:id="@+id/labelBareMinimumItems"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_51s_bare_minimum_items"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="@dimen/dp_8"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/office_room"
+            app:layout_constraintTop_toBottomOf="@id/yesNoOpeningHybridCentres"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoBareMinimumItems"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelBareMinimumItems"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.2A : Training Centre Inspection -->
+        <TextView
+            android:id="@+id/labelTrainingCentreInspection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_52a_training_centre_inspection"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            app:drawableStartCompat="@drawable/training_center"
+            app:layout_constraintTop_toBottomOf="@id/yesNoBareMinimumItems"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoTrainingCentreInspection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelTrainingCentreInspection"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.2B : CCTV Specifications -->
+        <TextView
+            android:id="@+id/labelCCTVSpecifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_52b_cctv_specifications"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            app:drawableStartCompat="@drawable/cctv"
+            app:layout_constraintTop_toBottomOf="@id/yesNoTrainingCentreInspection"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCCTVSpecifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCCTVSpecifications"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <!-- SF 5.3A : Specification of Uniform -->
+        <TextView
+            android:id="@+id/labelUniformSpec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/sf_5_3a_uniform_spec"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            app:drawableStartCompat="@drawable/uniform"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCCTVSpecifications"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoUniformSpec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelUniformSpec"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 5.4A -->
+        <TextView
+            android:id="@+id/labelAssessmentCertification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sf_54a_assessment_certification"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/certificate"
+            app:layout_constraintTop_toBottomOf="@id/yesNoUniformSpec"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/yesNoAssessmentCertification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelAssessmentCertification"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 6.1A -->
+        <TextView
+            android:id="@+id/labelLetterSRLMInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sf_61a_letter_srlm_info_mobilization"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="@dimen/dp_8"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/tablet"
+            app:layout_constraintTop_toBottomOf="@id/yesNoAssessmentCertification"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/yesNoLetterSRLMInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelLetterSRLMInfo"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 6.1B -->
+        <TextView
+            android:id="@+id/labelLetterFromSRLM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sf_61b_letter_from_srlm_mobilization"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="@dimen/dp_8"
+            app:drawableStartCompat="@drawable/tablet"
+            app:layout_constraintTop_toBottomOf="@id/yesNoLetterSRLMInfo"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/yesNoLetterFromSRLM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelLetterFromSRLM"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 6.1C -->
+        <TextView
+            android:id="@+id/labelOnFieldRegistration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sf_61c_on_field_registration"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/area"
+            app:layout_constraintTop_toBottomOf="@id/yesNoLetterFromSRLM"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/yesNoOnFieldRegistration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelOnFieldRegistration"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 6.2A1 -->
+        <TextView
+            android:id="@+id/labelOverviewAptitudeTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sf_62a1_overview_aptitude_test"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/office_room"
+            android:drawablePadding="@dimen/dp_8"
+            app:layout_constraintTop_toBottomOf="@id/yesNoOnFieldRegistration"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/yesNoOverviewAptitudeTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelOverviewAptitudeTest"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <!-- SF 6.2A2 : Content for Counselling for Each Trade -->
+        <TextView
+            android:id="@+id/labelContentCounselling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sf_62a2_counselling_content"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/office_room"
+            app:layout_constraintTop_toBottomOf="@id/yesNoOverviewAptitudeTest"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoContentCounselling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelContentCounselling"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 6.2A3 : Candidate Application Form -->
+        <TextView
+            android:id="@+id/labelCandidateApplicationForm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/dp_8"
+            android:text="@string/sf_62a3_candidate_application_form"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/signage"
+            app:layout_constraintTop_toBottomOf="@id/yesNoContentCounselling"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCandidateApplicationForm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCandidateApplicationForm"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 6.2A4 : List of Candidates Who Were Admitted -->
+        <TextView
+            android:id="@+id/labelCandidatesAdmitted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sf_62a4_list_admitted_candidates"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="@dimen/dp_8"
+            app:drawableStartCompat="@drawable/attendance"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCandidateApplicationForm"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCandidatesAdmitted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCandidatesAdmitted"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <!-- SF 6.2B : List of Candidates in the Final Batch -->
+        <TextView
+            android:id="@+id/labelFinalBatchCandidates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sf_62b_list_final_batch"
+            android:drawablePadding="@dimen/dp_8"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/candidate_id"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCandidatesAdmitted"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoFinalBatchCandidates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelFinalBatchCandidates"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 6.3A1 : Batch Details -->
+        <TextView
+            android:id="@+id/labelBatchDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sf_63a1_batch_details"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/candidate_id"
+            app:layout_constraintTop_toBottomOf="@id/yesNoFinalBatchCandidates"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoBatchDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelBatchDetails"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 6.3A2 : Batch Enrollment Summary -->
+        <TextView
+            android:id="@+id/labelBatchEnrollmentSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sf_63a2_batch_enrollment_summary"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="@dimen/dp_8"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/enrollment"
+            app:layout_constraintTop_toBottomOf="@id/yesNoBatchDetails"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoBatchEnrollmentSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelBatchEnrollmentSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 6.3A3 : Batch Freeze Summary -->
+        <TextView
+            android:id="@+id/labelBatchFreezeSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sf_63a3_batch_freeze_summary"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="@dimen/dp_8"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/signage"
+            app:layout_constraintTop_toBottomOf="@id/yesNoBatchEnrollmentSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoBatchFreezeSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelBatchFreezeSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- SF 6.3A4 : Batch Completion Summary -->
+        <TextView
+            android:id="@+id/labelBatchCompletionSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/dp_8"
+            android:text="@string/sf_63a4_batch_completion_summary"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/ic_verified"
+            app:layout_constraintTop_toBottomOf="@id/yesNoBatchFreezeSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoBatchCompletionSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelBatchCompletionSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 6.3A5 : List of Candidates Who Were Enrolled -->
+        <TextView
+            android:id="@+id/labelCandidatesEnrolled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/dp_8"
+            android:text="@string/sf_63a5_list_enrolled_candidates"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/attendance"
+            app:layout_constraintTop_toBottomOf="@id/yesNoBatchCompletionSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCandidatesEnrolled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCandidatesEnrolled"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 6.3A6 : List of Candidates After Freezing of the Batch -->
+        <TextView
+            android:id="@+id/labelCandidatesAfterFreezing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sf_63a6_candidates_after_freezing"
+            android:drawablePadding="@dimen/dp_8"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/enrollment"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCandidatesEnrolled"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCandidatesAfterFreezing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCandidatesAfterFreezing"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 6.3A7 : List of Candidates After Completion of Training of the Batch -->
+        <TextView
+            android:id="@+id/labelCandidatesAfterCompletion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/dp_8"
+            android:text="@string/sf_63a7_candidates_after_completion"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/ic_verified"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCandidatesAfterFreezing"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCandidatesAfterCompletion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCandidatesAfterCompletion"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 5.1T : Daily Failure Items Report -->
+        <TextView
+            android:id="@+id/labelDailyFailureReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/dp_8"
+            android:text="@string/sf_51t_daily_failure_report"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/certificate"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCandidatesAfterCompletion"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoDailyFailureReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelDailyFailureReport"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- SF 5.1U : 15 Days Summary of Centre Status -->
+        <TextView
+            android:id="@+id/label15DaysSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/dp_8"
+            android:text="@string/sf_51u_15days_summary_centre_status"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            app:drawableStartCompat="@drawable/enrollment"
+            app:layout_constraintTop_toBottomOf="@id/yesNoDailyFailureReport"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNo15DaysSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/label15DaysSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/llAvailOfStandardForms"
+            android:text="@string/select_approvals"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintTop_toBottomOf="@id/yesNo15DaysSummary"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_next_demi_bold"
+            android:hint="@string/select_approval"
+            android:id="@+id/llTcAvailOfStandardForms"
+            android:layout_marginStart="@dimen/dp_3"
+            android:textColorHint="@color/color_dark_green"
+            app:boxStrokeColor="@color/color_dark_green"
+            app:layout_constraintTop_toBottomOf="@id/llAvailOfStandardForms"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/SpinnerAvailOfStandardForms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="none"
+                android:textColor="@color/color_dark_green"
+                android:textSize="15sp"
+                tools:ignore="LabelFor"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/AvailOfStandardFormsRemarks"
+            android:visibility="gone"
+            android:text="@string/remarkss"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintTop_toBottomOf="@id/llTcAvailOfStandardForms"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <EditText
+            android:id="@+id/etAvailOfStandardFormsRemarks"
+            android:visibility="gone"
+            style="@style/EditText"
+            android:hint="@string/remarks"
+            android:background="@drawable/edittext_background"
+            android:padding="12dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/AvailOfStandardFormsRemarks"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/llAvailOfStandardFormsBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etAvailOfStandardFormsRemarks">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/btnAvailOfStandardFormsPrevious"
+                android:elevation="4dp"
+                android:text="@string/previous"
+                android:textColor="@color/color_dark_blue"
+                android:textSize="@dimen/sp_16"
+                android:background="@drawable/backgroung_overlay"
+                android:layout_margin="8dp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="@string/submit"
+                android:gravity="center"
+                android:id="@+id/btnAvailOfStandardFormsNext"
+                android:textColor="@color/white"
+                android:elevation="4dp"
+                android:textSize="@dimen/sp_16"
+                android:background="@drawable/card_background"
+                android:layout_margin="8dp" />
+
+
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
