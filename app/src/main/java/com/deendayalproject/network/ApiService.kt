@@ -5,12 +5,16 @@ import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
+import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.CCTVComplianceResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.TcInfraResponse
+import com.deendayalproject.model.response.TcStaffAndTrainerResponse
+import com.deendayalproject.model.response.TrainingCenterInfoRes
 import com.deendayalproject.model.response.TrainingCenterResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -31,6 +35,11 @@ interface ApiService {
     suspend fun getTrainingCenterList(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
 
 
+
+    @POST(value ="getTrainingCenterVerificationList")
+    suspend fun getQTeamTrainingList(@Body request: TrainingCenterRequest) : Response<TrainingCenterResponse>
+
+
     @POST(value = "insertCCTVCompliance")
     suspend fun insertCCTVCompliance(@Body request: CCTVComplianceRequest): Response<CCTVComplianceResponse>
 
@@ -41,6 +50,23 @@ interface ApiService {
 
     @POST(value ="insertTcGeneralDetails")
     suspend fun insertTcGeneralDetails(@Body request: InsertTcGeneralDetailsRequest) : Response<InsertTcGeneralDetailsResponse>
+
+
+
+    @POST(value ="getTrainerCenterInfo")
+    suspend fun getTrainerCenterInfo(@Body request: TrainingCenterInfo) : Response<TrainingCenterInfoRes>
+
+
+
+
+    @POST(value ="getTCTrainerAndOtherStaffsList")
+    suspend fun getTcStaffDetails(@Body request: TrainingCenterInfo) : Response<TcStaffAndTrainerResponse>
+
+
+
+    @POST(value ="getTrainerCenterInfra")
+    suspend fun getTrainerCenterInfra(@Body request: TrainingCenterInfo) : Response<TcInfraResponse>
+
 }
 
 

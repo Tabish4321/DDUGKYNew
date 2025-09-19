@@ -15,7 +15,7 @@ class DescriptionAcademiaAdapter(
 ) : RecyclerView.Adapter<DescriptionAcademiaAdapter.RoomViewHolder>() {
 
     inner class RoomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvRoomNo: TextView = itemView.findViewById(R.id.tvRoomNo)
+        val tvMaxCandidate: TextView = itemView.findViewById(R.id.tvMaxCandidate)
         val tvLength: TextView = itemView.findViewById(R.id.tvLength)
         val tvWidth: TextView = itemView.findViewById(R.id.tvWidth)
         val tvArea: TextView = itemView.findViewById(R.id.tvArea)
@@ -31,7 +31,7 @@ class DescriptionAcademiaAdapter(
 
     override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
         val room = rooms[position]
-        holder.tvRoomNo.text = room.roomNo
+        holder.tvMaxCandidate.text = room.maxCandidates
         holder.tvLength.text = room.length
         holder.tvWidth.text = room.width
         holder.tvArea.text = room.area

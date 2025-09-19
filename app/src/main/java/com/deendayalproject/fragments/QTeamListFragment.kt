@@ -66,7 +66,7 @@ class QTeamListFragment : Fragment() {
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
-        viewModel.fetchTrainingCenters(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.fetchQTeamTrainingList(request, AppUtil.getSavedTokenPreference(requireContext()))
 
     }
     private fun observeViewModel() {

@@ -1,30 +1,44 @@
 package com.deendayalproject.fragments
 
 import SharedViewModel
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.adapter.DescriptionAcademiaAdapter
 import com.deendayalproject.adapter.TrainerStaffAdapter
 import com.deendayalproject.databinding.FragmentQTeamFormBinding
 import com.deendayalproject.model.RoomModel
-import com.deendayalproject.model.response.TrainerStaff
+import com.deendayalproject.model.request.TrainingCenterInfo
+import com.deendayalproject.model.response.Trainer
+import com.deendayalproject.util.AppUtil
+import android.content.Intent
+import android.net.Uri
+import android.util.Base64
+import androidx.core.content.FileProvider
+import java.io.File
 
 class QTeamFormFragment : Fragment() {
 
     private var _binding: FragmentQTeamFormBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
+    var dataStaffList: MutableList<Trainer> = mutableListOf()
+
 
     private val approvalList = listOf("Approved", "Send for modification")
     private lateinit var tcInfoAdapter: ArrayAdapter<String>
@@ -60,13 +74,9 @@ class QTeamFormFragment : Fragment() {
     private var selectedTcGeneralRemarks = ""
 
 
-
-
     private lateinit var tcElectricalAdapter: ArrayAdapter<String>
     private var selectedTcElectricalApproval = ""
     private var selectedTcElectricalRemarks = ""
-
-
 
 
     private lateinit var tcSignageAdapter: ArrayAdapter<String>
@@ -74,11 +84,9 @@ class QTeamFormFragment : Fragment() {
     private var selectedTcSignageRemarks = ""
 
 
-
     private lateinit var tcIpEnableAdapter: ArrayAdapter<String>
     private var selectedTcIpEnableApproval = ""
     private var selectedTcIpEnableRemarks = ""
-
 
 
     private lateinit var tcCommonEquipmentAdapter: ArrayAdapter<String>
@@ -91,7 +99,6 @@ class QTeamFormFragment : Fragment() {
     private var selectedTcAvailSupportInfraRemarks = ""
 
 
-
     private lateinit var tcAvailOfStandardFormAdapter: ArrayAdapter<String>
     private var selectedTcAvailOfStandardFormApproval = ""
     private var selectedTcAvailOfStandardFormRemarks = ""
@@ -102,11 +109,10 @@ class QTeamFormFragment : Fragment() {
     private var sanctionOrder = ""
 
     private val roomList = listOf(
-        RoomModel("101", "12", "10", "120", "Bedroom"),
-        RoomModel("102", "14", "12", "168", "Living Room"),
-        RoomModel("103", "10", "8", "80", "Kitchen")
+        RoomModel("IT Lab", "12", "10", "120", "2"),
+        RoomModel("Theory Class", "14", "12", "168", "0"),
+        RoomModel("Office Room", "10", "8", "80", "5")
     )
-
 
 
     override fun onCreateView(
@@ -117,30 +123,56 @@ class QTeamFormFragment : Fragment() {
 
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+
         init()
-
-
-    }
-    private fun init(){
-
-        listener()
-
-    }
-    private fun listener(){
 
         centerId = arguments?.getString("centerId").toString()
         centerName = arguments?.getString("centerName").toString()
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
 
+        // TrainingCenterInfo API
+        val requestTcInfo = TrainingCenterInfo(
+            appVersion = BuildConfig.VERSION_NAME,
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            tcId = centerId.toInt(),
+            imeiNo = AppUtil.getAndroidId(requireContext())
+        )
+        viewModel.getTrainerCenterInfo(requestTcInfo)
 
-        binding.trainingCenterInfoLayout.tvCenterName.text=centerName
-        binding.trainingCenterInfoLayout.tvSanctionOrder.text=sanctionOrder
+
+        collectTCInfoResponse()
+
+
+        // TrainingCenterStaffList API
+        val requestStaffList = TrainingCenterInfo(
+            appVersion = BuildConfig.VERSION_NAME,
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            tcId = centerId.toInt(),
+            imeiNo = AppUtil.getAndroidId(requireContext())
+        )
+        viewModel.getTcStaffDetails(requestStaffList)
+
+        collectTCStaffResponse()
+
+    }
+
+    private fun init() {
+
+        listener()
+
+    }
+
+    private fun listener() {
+
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = DescriptionAcademiaAdapter(roomList) { room ->
-            Toast.makeText(requireContext(), "Viewing Room: ${room.roomNo}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Viewing Room: ${room.roomType}", Toast.LENGTH_SHORT)
+                .show()
         }
 
 
@@ -154,13 +186,12 @@ class QTeamFormFragment : Fragment() {
 
         binding.trainingCenterInfoLayout.SpinnerTcInfo.setOnItemClickListener { parent, view, position, id ->
             selectedTcInfoApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcInfoApproval== "Send for modification"){
+            if (selectedTcInfoApproval == "Send for modification") {
 
                 binding.trainingCenterInfoLayout.InfoRemarks.visibility = View.VISIBLE
                 binding.trainingCenterInfoLayout.etInfoRemarks.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
 
                 binding.trainingCenterInfoLayout.InfoRemarks.visibility = View.GONE
                 binding.trainingCenterInfoLayout.etInfoRemarks.visibility = View.GONE
@@ -177,13 +208,12 @@ class QTeamFormFragment : Fragment() {
 
         binding.SpinnerDescAcademia.setOnItemClickListener { parent, view, position, id ->
             selectedTcDescAcademiaApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcDescAcademiaApproval== "Send for modification"){
+            if (selectedTcDescAcademiaApproval == "Send for modification") {
 
                 binding.DescAcademiaRemarks.visibility = View.VISIBLE
                 binding.etDescAcademiaRemarks.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
 
                 binding.DescAcademiaRemarks.visibility = View.GONE
                 binding.etDescAcademiaRemarks.visibility = View.GONE
@@ -201,13 +231,12 @@ class QTeamFormFragment : Fragment() {
         binding.SpinnerTcInfra.setOnItemClickListener { parent, view, position, id ->
             selectedTcInfraApproval = parent.getItemAtPosition(position).toString()
 
-            if (selectedTcInfraApproval== "Send for modification"){
+            if (selectedTcInfraApproval == "Send for modification") {
 
                 binding.InfraRemarks.visibility = View.VISIBLE
                 binding.etInfraRemarks.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
 
                 binding.InfraRemarks.visibility = View.GONE
                 binding.etInfraRemarks.visibility = View.GONE
@@ -223,20 +252,18 @@ class QTeamFormFragment : Fragment() {
 
         binding.SpinnerBasin.setOnItemClickListener { parent, view, position, id ->
             selectedTcBasinApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcBasinApproval== "Send for modification"){
+            if (selectedTcBasinApproval == "Send for modification") {
 
                 binding.BasinRemarks.visibility = View.VISIBLE
                 binding.etBasinRemarks.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
 
                 binding.BasinRemarks.visibility = View.GONE
                 binding.etBasinRemarks.visibility = View.GONE
             }
 
         }
-
 
 
         //Adapter DescOtherArea
@@ -247,21 +274,18 @@ class QTeamFormFragment : Fragment() {
 
         binding.SpinnerDescOtherArea.setOnItemClickListener { parent, view, position, id ->
             selectedTcDescOtherAreaApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcDescOtherAreaApproval== "Send for modification"){
+            if (selectedTcDescOtherAreaApproval == "Send for modification") {
 
                 binding.DescOtherAreaRemarks.visibility = View.VISIBLE
                 binding.etDescOtherAreaRemarks.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
 
                 binding.DescOtherAreaRemarks.visibility = View.GONE
                 binding.etDescOtherAreaRemarks.visibility = View.GONE
             }
 
         }
-
-
 
 
         //Adapter Teaching
@@ -272,21 +296,18 @@ class QTeamFormFragment : Fragment() {
 
         binding.SpinnerTeaching.setOnItemClickListener { parent, view, position, id ->
             selectedTcTeachingApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcTeachingApproval== "Send for modification"){
+            if (selectedTcTeachingApproval == "Send for modification") {
 
                 binding.TeachingRemarks.visibility = View.VISIBLE
                 binding.etTeachingRemarks.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
 
                 binding.TeachingRemarks.visibility = View.GONE
                 binding.etTeachingRemarks.visibility = View.GONE
             }
 
         }
-
-
 
 
         //Adapter General
@@ -297,13 +318,12 @@ class QTeamFormFragment : Fragment() {
 
         binding.SpinnerGeneral.setOnItemClickListener { parent, view, position, id ->
             selectedTcGeneralApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcGeneralApproval== "Send for modification"){
+            if (selectedTcGeneralApproval == "Send for modification") {
 
                 binding.GeneralRemarks.visibility = View.VISIBLE
                 binding.etGeneralRemarks.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
 
                 binding.GeneralRemarks.visibility = View.GONE
                 binding.etGeneralRemarks.visibility = View.GONE
@@ -320,20 +340,18 @@ class QTeamFormFragment : Fragment() {
 
         binding.SpinnerElectrical.setOnItemClickListener { parent, view, position, id ->
             selectedTcElectricalApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcElectricalApproval== "Send for modification"){
+            if (selectedTcElectricalApproval == "Send for modification") {
 
                 binding.ElectricalRemarks.visibility = View.VISIBLE
                 binding.etElectricalRemarks.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
 
                 binding.ElectricalRemarks.visibility = View.GONE
                 binding.etElectricalRemarks.visibility = View.GONE
             }
 
         }
-
 
 
         //Adapter Signage
@@ -344,21 +362,18 @@ class QTeamFormFragment : Fragment() {
 
         binding.signageLayout.SpinnerSignage.setOnItemClickListener { parent, view, position, id ->
             selectedTcSignageApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcSignageApproval== "Send for modification"){
+            if (selectedTcSignageApproval == "Send for modification") {
 
                 binding.signageLayout.SignageRemarks.visibility = View.VISIBLE
                 binding.signageLayout.etSignageRemarks.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
 
                 binding.signageLayout.SignageRemarks.visibility = View.GONE
                 binding.signageLayout.etSignageRemarks.visibility = View.GONE
             }
 
         }
-
-
 
 
         //Adapter IpEnable
@@ -369,13 +384,12 @@ class QTeamFormFragment : Fragment() {
 
         binding.ipCameraLayout.SpinnerIpEnable.setOnItemClickListener { parent, view, position, id ->
             selectedTcIpEnableApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcIpEnableApproval== "Send for modification"){
+            if (selectedTcIpEnableApproval == "Send for modification") {
 
                 binding.ipCameraLayout.IpEnableRemarks.visibility = View.VISIBLE
                 binding.ipCameraLayout.etIpEnableRemarks.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
 
                 binding.ipCameraLayout.IpEnableRemarks.visibility = View.GONE
                 binding.ipCameraLayout.etIpEnableRemarks.visibility = View.GONE
@@ -392,13 +406,12 @@ class QTeamFormFragment : Fragment() {
 
         binding.commonEquipmentLayout.SpinnerCommonEquipment.setOnItemClickListener { parent, view, position, id ->
             selectedTcCommonEquipmentApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcCommonEquipmentApproval== "Send for modification"){
+            if (selectedTcCommonEquipmentApproval == "Send for modification") {
 
                 binding.commonEquipmentLayout.CommonEquipmentRemarks.visibility = View.VISIBLE
                 binding.commonEquipmentLayout.etCommonEquipmentRemarks.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
 
                 binding.commonEquipmentLayout.CommonEquipmentRemarks.visibility = View.GONE
                 binding.commonEquipmentLayout.etCommonEquipmentRemarks.visibility = View.GONE
@@ -407,23 +420,22 @@ class QTeamFormFragment : Fragment() {
         }
 
 
-
-
         //Adapter Avail Support Infra Adapter
         tcAvailSupportInfraAdapter = ArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
         )
-        binding.availSupportInfraLayout.SpinnerAvailSupportInfra.setAdapter(tcAvailSupportInfraAdapter)
+        binding.availSupportInfraLayout.SpinnerAvailSupportInfra.setAdapter(
+            tcAvailSupportInfraAdapter
+        )
 
         binding.availSupportInfraLayout.SpinnerAvailSupportInfra.setOnItemClickListener { parent, view, position, id ->
             selectedTcAvailSupportInfraApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcAvailSupportInfraApproval== "Send for modification"){
+            if (selectedTcAvailSupportInfraApproval == "Send for modification") {
 
                 binding.availSupportInfraLayout.AvailSupportInfraRemarks.visibility = View.VISIBLE
                 binding.availSupportInfraLayout.etAvailSupportInfraRemarks.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
 
                 binding.availSupportInfraLayout.AvailSupportInfraRemarks.visibility = View.GONE
                 binding.availSupportInfraLayout.etAvailSupportInfraRemarks.visibility = View.GONE
@@ -432,27 +444,30 @@ class QTeamFormFragment : Fragment() {
         }
 
 
-
-
         // AvailOfStandardFormAdapter
         tcAvailOfStandardFormAdapter = ArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
         )
-        binding.availOfStandardFormsLayout.SpinnerAvailOfStandardForms.setAdapter(tcAvailOfStandardFormAdapter)
+        binding.availOfStandardFormsLayout.SpinnerAvailOfStandardForms.setAdapter(
+            tcAvailOfStandardFormAdapter
+        )
 
         binding.availOfStandardFormsLayout.SpinnerAvailOfStandardForms.setOnItemClickListener { parent, view, position, id ->
             selectedTcAvailOfStandardFormApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcAvailOfStandardFormApproval== "Send for modification"){
+            if (selectedTcAvailOfStandardFormApproval == "Send for modification") {
 
-                binding.availOfStandardFormsLayout.AvailOfStandardFormsRemarks.visibility = View.VISIBLE
-                binding.availOfStandardFormsLayout.etAvailOfStandardFormsRemarks.visibility = View.VISIBLE
+                binding.availOfStandardFormsLayout.AvailOfStandardFormsRemarks.visibility =
+                    View.VISIBLE
+                binding.availOfStandardFormsLayout.etAvailOfStandardFormsRemarks.visibility =
+                    View.VISIBLE
 
-            }
-            else{
+            } else {
 
 
-                binding.availOfStandardFormsLayout.AvailOfStandardFormsRemarks.visibility = View.GONE
-                binding.availOfStandardFormsLayout.etAvailOfStandardFormsRemarks.visibility = View.GONE
+                binding.availOfStandardFormsLayout.AvailOfStandardFormsRemarks.visibility =
+                    View.GONE
+                binding.availOfStandardFormsLayout.etAvailOfStandardFormsRemarks.visibility =
+                    View.GONE
             }
 
         }
@@ -463,62 +478,90 @@ class QTeamFormFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+
+        binding.tvSelfDeclarationPdf.setOnClickListener {
+
+
+
+            val base64PdfString = "JVBERi0xLjQKJcTl8uXrp/Og0MTGCjEgMCBvYmoKPDwKL0xlbmd0aCAyIDAgUgovRmlsdGVyIC9GbGF0ZURlY29kZQpbC9EZWNvZGVQYXJhbWV0ZXJzIDw8IC9QcmVkaWN0b3IgMzIgL0NvbHVtbnMgNT4+XQpzdHJlYW0KeJwr5HIK4PIz4KQyNDQy1DMwMjAyVFIoKEpUKVIAUgQAr8kN5wp0ZW5kc3RyZWFtCmVuZG9iagoKMiAwIG9iago0MgovZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UKL1BhcmVudCA0IDAgUgovUmVzb3VyY2VzIDw8ID4+Ci9NZWRpYUJveCBbIDAgMCA2MTIgNzkyIF0KPj4KZW5kb2JqCjQgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzCi9LaWRzIFsgMyAwIFIgXQovQ291bnQgMQo+PgplbmRvYmoKNSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZwovUGFnZXMgNCAwIFIKPj4KZW5kb2JqCjYgMCBvYmoKPDwgL1Byb2R1Y2VyIChDaGF0R1BUKQo+PgplbmRvYmoKeHJlZgowIDcKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDEwIDAwMDAwIG4gCjAwMDAwMDAwNzAgMDAwMDAgbiAKMDAwMDAwMDE1NyAwMDAwMCBuIAowMDAwMDAwMjQ0IDAwMDAwIG4gCjAwMDAwMDAzMzAgMDAwMDAgbiAKMDAwMDAwMDM4MCAwMDAwMCBuIAp0cmFpbGVyCjw8IC9Sb290IDUgMCBSIC9JbmZvIDYgMCBSIC9TaXplIDcgPj4Kc3RhcnR4cmVmCjQ5NAolJUVPRgo="
+
+
+            if (isValidBase64(base64PdfString)) {
+                val pdfFile = base64ToPdf(requireContext(), base64PdfString, "sample.pdf")
+                pdfFile?.let {
+                    openPdf(requireContext(), it)
+                } ?: run {
+                    Toast.makeText(requireContext(), "Failed to create PDF", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "Invalid Base64 string", Toast.LENGTH_SHORT).show()
+            }
+
+
+
+        }
+
         binding.trainingCenterInfoLayout.tvViewTrainerAndStaff.setOnClickListener {
-            val dialog = Dialog(requireContext()) // or requireContext() if in Fragment
+            val dialog = Dialog(requireContext())
             dialog.setContentView(R.layout.dialog_trainer_staff)
 
             val recyclerView = dialog.findViewById<RecyclerView>(R.id.rvTrainerStaff)
+            val closeButton = dialog.findViewById<TextView>(R.id.tvClose)
+
             recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView.adapter = TrainerStaffAdapter(dataStaffList)
 
-            // Example data list
-            val dataList = listOf(
-                TrainerStaff(
-                    profileType = "Trainer",
-                    name = "John Doe",
-                    designation = "Senior Trainer",
-                    engagementType = "Full-Time",
-                    domainNonDomain = "Domain",
-                    assignedCourse = "Electrical Engineering",
-                    whetherTotCer = "Yes",
-                    totCertificateNo = "TOT123456"
-                ),
-                TrainerStaff(
-                    profileType = "Staff",
-                    name = "Jane Smith",
-                    designation = "Support Staff",
-                    engagementType = "Part-Time",
-                    domainNonDomain = "Non-Domain",
-                    assignedCourse = "NA",
-                    whetherTotCer = "No",
-                    totCertificateNo = "-"
-                )
-            )
-
-            recyclerView.adapter = TrainerStaffAdapter(dataList)
+            closeButton.setOnClickListener {
+                dialog.dismiss()
+            }
 
             dialog.show()
         }
+
+
         binding.trainingCenterInfoLayout.btnInfoNext.setOnClickListener {
             if (selectedTcInfoApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
 
             }
 
             if (selectedTcInfoApproval == "Send for modification") {
-                selectedTcInfoRemarks = binding.trainingCenterInfoLayout.etInfoRemarks.text.toString()
+                selectedTcInfoRemarks =
+                    binding.trainingCenterInfoLayout.etInfoRemarks.text.toString()
 
                 if (selectedTcInfoRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
-            }
-            else selectedTcInfoRemarks=""
+            } else selectedTcInfoRemarks = ""
 
             // Common UI updates
+
+            val requestTcInfraReq = TrainingCenterInfo(
+                appVersion = BuildConfig.VERSION_NAME,
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                tcId = centerId.toInt(),
+                imeiNo = AppUtil.getAndroidId(requireContext())
+            )
+            viewModel.getTrainerCenterInfra(requestTcInfraReq)
+
+            collectTCInfraResponse()
+
+
             binding.trainingCenterInfoLayout.trainingInfoExpand.visibility = View.GONE
             binding.trainingCenterInfoLayout.viewInfo.visibility = View.GONE
-            binding.trainingCenterInfoLayout.tvTrainInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+            binding.trainingCenterInfoLayout.tvTrainInfo.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
             binding.mainInfra.visibility = View.VISIBLE
             binding.viewInfra.visibility = View.VISIBLE
 
@@ -530,7 +573,8 @@ class QTeamFormFragment : Fragment() {
 
         binding.btnInfraNext.setOnClickListener {
             if (selectedTcInfraApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
 
             }
@@ -538,15 +582,24 @@ class QTeamFormFragment : Fragment() {
             if (selectedTcInfraApproval == "Send for modification") {
                 selectedTcInfraRemarks = binding.etInfraRemarks.text.toString()
                 if (selectedTcInfraRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
-            } else selectedTcInfraRemarks=""
+            } else selectedTcInfraRemarks = ""
 
             // Common UI updates
             binding.trainingInfraExpand.visibility = View.GONE
             binding.viewInfra.visibility = View.GONE
-            binding.tvTrainInfra.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+            binding.tvTrainInfra.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
             binding.mainDescAcademia.visibility = View.VISIBLE
             binding.viewDescAcademia.visibility = View.VISIBLE
 
@@ -570,7 +623,8 @@ class QTeamFormFragment : Fragment() {
 
         binding.btnDescAcademiaNext.setOnClickListener {
             if (selectedTcDescAcademiaApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
 
             }
@@ -578,17 +632,25 @@ class QTeamFormFragment : Fragment() {
             if (selectedTcDescAcademiaApproval == "Send for modification") {
                 selectedTcDescAcademiaRemarks = binding.etDescAcademiaRemarks.text.toString()
                 if (selectedTcDescAcademiaRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
-            }
-            else selectedTcDescAcademiaRemarks=""
+            } else selectedTcDescAcademiaRemarks = ""
             // Common UI updates
             binding.trainingDescAcademiaExpand.visibility = View.GONE
             binding.viewDescAcademia.visibility = View.GONE
-            binding.tvTrainDescAcademia.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+            binding.tvTrainDescAcademia.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
             binding.mainToilet.visibility = View.VISIBLE
-           binding.viewToilet.visibility = View.VISIBLE
+            binding.viewToilet.visibility = View.VISIBLE
 
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
@@ -610,7 +672,8 @@ class QTeamFormFragment : Fragment() {
 
         binding.btnBasinNext.setOnClickListener {
             if (selectedTcBasinApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
 
             }
@@ -618,15 +681,23 @@ class QTeamFormFragment : Fragment() {
             if (selectedTcBasinApproval == "Send for modification") {
                 selectedTcBasinRemarks = binding.etBasinRemarks.text.toString()
                 if (selectedTcBasinRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
-            }
-            else selectedTcBasinRemarks=""
+            } else selectedTcBasinRemarks = ""
             // Common UI updates
             binding.trainingToiletExpand.visibility = View.GONE
             binding.viewToilet.visibility = View.GONE
-            binding.tvTrainToilet.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+            binding.tvTrainToilet.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
             binding.mainDescOfOtherArea.visibility = View.VISIBLE
             binding.viewDescOfOtherArea.visibility = View.VISIBLE
 
@@ -650,7 +721,8 @@ class QTeamFormFragment : Fragment() {
 
         binding.btnDescOtherAreaNext.setOnClickListener {
             if (selectedTcDescOtherAreaApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
 
             }
@@ -658,15 +730,23 @@ class QTeamFormFragment : Fragment() {
             if (selectedTcDescOtherAreaApproval == "Send for modification") {
                 selectedTcDescOtherAreaRemarks = binding.etDescOtherAreaRemarks.text.toString()
                 if (selectedTcDescOtherAreaRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
-            }
-            else selectedTcDescOtherAreaRemarks=""
+            } else selectedTcDescOtherAreaRemarks = ""
             // Common UI updates
             binding.trainingDescOfOtherAreaExpand.visibility = View.GONE
             binding.viewDescOfOtherArea.visibility = View.GONE
-            binding.tvTrainDescOfOtherArea.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+            binding.tvTrainDescOfOtherArea.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
             binding.mainTeaching.visibility = View.VISIBLE
             binding.viewTeaching.visibility = View.VISIBLE
 
@@ -690,7 +770,8 @@ class QTeamFormFragment : Fragment() {
 
         binding.btnTeachingNext.setOnClickListener {
             if (selectedTcTeachingApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
 
             }
@@ -698,15 +779,23 @@ class QTeamFormFragment : Fragment() {
             if (selectedTcTeachingApproval == "Send for modification") {
                 selectedTcTeachingRemarks = binding.etTeachingRemarks.text.toString()
                 if (selectedTcTeachingRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
-            }
-            else selectedTcTeachingRemarks=""
+            } else selectedTcTeachingRemarks = ""
             // Common UI updates
             binding.trainingTeachingExpand.visibility = View.GONE
             binding.viewTeaching.visibility = View.GONE
-            binding.tvTrainTeaching.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+            binding.tvTrainTeaching.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
             binding.mainGeneralDetails.visibility = View.VISIBLE
             binding.viewGeneralDetails.visibility = View.VISIBLE
 
@@ -730,7 +819,8 @@ class QTeamFormFragment : Fragment() {
 
         binding.btnGeneralNext.setOnClickListener {
             if (selectedTcGeneralApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
 
             }
@@ -738,15 +828,23 @@ class QTeamFormFragment : Fragment() {
             if (selectedTcGeneralApproval == "Send for modification") {
                 selectedTcGeneralRemarks = binding.etGeneralRemarks.text.toString()
                 if (selectedTcGeneralRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
-            }
-            else selectedTcGeneralRemarks=""
+            } else selectedTcGeneralRemarks = ""
             // Common UI updates
             binding.trainingGeneralDetailsExpand.visibility = View.GONE
             binding.viewGeneralDetails.visibility = View.GONE
-            binding.tvTrainGeneralDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+            binding.tvTrainGeneralDetails.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
             binding.mainElectricalDetails.visibility = View.VISIBLE
             binding.viewElectricalDetails.visibility = View.VISIBLE
 
@@ -770,7 +868,8 @@ class QTeamFormFragment : Fragment() {
 
         binding.btnElectricalNext.setOnClickListener {
             if (selectedTcElectricalApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
 
             }
@@ -778,15 +877,23 @@ class QTeamFormFragment : Fragment() {
             if (selectedTcElectricalApproval == "Send for modification") {
                 selectedTcElectricalRemarks = binding.etElectricalRemarks.text.toString()
                 if (selectedTcElectricalRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
-            }
-            else selectedTcElectricalRemarks=""
+            } else selectedTcElectricalRemarks = ""
             // Common UI updates
             binding.trainingElectricalDetailsExpand.visibility = View.GONE
             binding.viewElectricalDetails.visibility = View.GONE
-            binding.tvTrainElectricalDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+            binding.tvTrainElectricalDetails.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
             binding.mainSignageBoardDetails.visibility = View.VISIBLE
             binding.signageLayout.viewSignageBoardDetails.visibility = View.VISIBLE
 
@@ -810,7 +917,8 @@ class QTeamFormFragment : Fragment() {
 
         binding.signageLayout.btnSignageNext.setOnClickListener {
             if (selectedTcSignageApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
 
             }
@@ -818,15 +926,23 @@ class QTeamFormFragment : Fragment() {
             if (selectedTcSignageApproval == "Send for modification") {
                 selectedTcSignageRemarks = binding.signageLayout.etSignageRemarks.text.toString()
                 if (selectedTcSignageRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
-            }
-            else selectedTcSignageRemarks=""
+            } else selectedTcSignageRemarks = ""
             // Common UI updates
             binding.signageLayout.trainingSignageBoardlDetailsExpand.visibility = View.GONE
             binding.signageLayout.viewSignageBoardDetails.visibility = View.GONE
-            binding.signageLayout.tvTrainSignageBoardDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+            binding.signageLayout.tvTrainSignageBoardDetails.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
             binding.mainIPEnableCameraDetails.visibility = View.VISIBLE
             binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.VISIBLE
 
@@ -850,7 +966,8 @@ class QTeamFormFragment : Fragment() {
 
         binding.ipCameraLayout.btnIpEnableNext.setOnClickListener {
             if (selectedTcIpEnableApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
 
             }
@@ -858,16 +975,24 @@ class QTeamFormFragment : Fragment() {
             if (selectedTcIpEnableApproval == "Send for modification") {
                 selectedTcIpEnableRemarks = binding.ipCameraLayout.etIpEnableRemarks.text.toString()
                 if (selectedTcIpEnableRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
-            }
-            else selectedTcIpEnableRemarks=""
+            } else selectedTcIpEnableRemarks = ""
             // Common UI updates
             binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.GONE
             binding.ipCameraLayout.trainingIPEnableCameralDetailsExpand.visibility = View.GONE
 
-            binding.ipCameraLayout.tvTrainIPEnableCameraDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+            binding.ipCameraLayout.tvTrainIPEnableCameraDetails.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
             binding.mainCommonEquipmentDetails.visibility = View.VISIBLE
             binding.commonEquipmentLayout.viewCommonEquipmentDetails.visibility = View.VISIBLE
 
@@ -891,24 +1016,35 @@ class QTeamFormFragment : Fragment() {
 
         binding.commonEquipmentLayout.btnCommonEquipmentNext.setOnClickListener {
             if (selectedTcCommonEquipmentApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
 
             }
 
             if (selectedTcCommonEquipmentApproval == "Send for modification") {
-                selectedTcCommonEquipmentRemarks = binding.commonEquipmentLayout.etCommonEquipmentRemarks.text.toString()
+                selectedTcCommonEquipmentRemarks =
+                    binding.commonEquipmentLayout.etCommonEquipmentRemarks.text.toString()
                 if (selectedTcCommonEquipmentRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
-            }
-            else selectedTcCommonEquipmentRemarks=""
+            } else selectedTcCommonEquipmentRemarks = ""
             // Common UI updates
             binding.commonEquipmentLayout.viewCommonEquipmentDetails.visibility = View.GONE
-            binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand.visibility = View.GONE
+            binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand.visibility =
+                View.GONE
 
-            binding.commonEquipmentLayout.tvTrainCommonEquipmentDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+            binding.commonEquipmentLayout.tvTrainCommonEquipmentDetails.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
 
 
             binding.mainAvailSupportInfra.visibility = View.VISIBLE
@@ -935,23 +1071,33 @@ class QTeamFormFragment : Fragment() {
 
         binding.availSupportInfraLayout.btnAvailSupportInfraNext.setOnClickListener {
             if (selectedTcAvailSupportInfraApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
 
             }
 
             if (selectedTcAvailSupportInfraApproval == "Send for modification") {
-                selectedTcAvailSupportInfraRemarks = binding.availSupportInfraLayout.etAvailSupportInfraRemarks.text.toString()
+                selectedTcAvailSupportInfraRemarks =
+                    binding.availSupportInfraLayout.etAvailSupportInfraRemarks.text.toString()
                 if (selectedTcAvailSupportInfraRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
-            }
-            else selectedTcAvailSupportInfraRemarks=""
+            } else selectedTcAvailSupportInfraRemarks = ""
             // Common UI updates
             binding.availSupportInfraLayout.viewAvailSupportInfra.visibility = View.GONE
             binding.availSupportInfraLayout.trainingAvailSupportInfraExpand.visibility = View.GONE
-            binding.availSupportInfraLayout.tvTrainAvailSupportInfra.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+            binding.availSupportInfraLayout.tvTrainAvailSupportInfra.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
 
 
             binding.mainAvailOfStandardForms.visibility = View.VISIBLE
@@ -964,7 +1110,8 @@ class QTeamFormFragment : Fragment() {
         }
         binding.availSupportInfraLayout.btnAvailSupportInfraPrevious.setOnClickListener {
 
-            binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand.visibility = View.VISIBLE
+            binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand.visibility =
+                View.VISIBLE
             binding.commonEquipmentLayout.viewCommonEquipmentDetails.visibility = View.VISIBLE
 
             binding.mainAvailSupportInfra.visibility = View.GONE
@@ -980,7 +1127,8 @@ class QTeamFormFragment : Fragment() {
 
             // 🔹 First: Run all validations
             if (selectedTcAvailOfStandardFormApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
 
@@ -988,7 +1136,11 @@ class QTeamFormFragment : Fragment() {
                 selectedTcAvailOfStandardFormRemarks =
                     binding.availOfStandardFormsLayout.etAvailOfStandardFormsRemarks.text.toString()
                 if (selectedTcAvailOfStandardFormRemarks.isEmpty()) {
-                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnClickListener
                 }
             } else {
@@ -1007,8 +1159,10 @@ class QTeamFormFragment : Fragment() {
 
                     //  Hit the insert API
 
-                    binding.availOfStandardFormsLayout.viewAvailOfStandardForms.visibility = View.GONE
-                    binding.availOfStandardFormsLayout.trainingAvailOfStandardFormsExpand.visibility = View.GONE
+                    binding.availOfStandardFormsLayout.viewAvailOfStandardForms.visibility =
+                        View.GONE
+                    binding.availOfStandardFormsLayout.trainingAvailOfStandardFormsExpand.visibility =
+                        View.GONE
                     binding.availOfStandardFormsLayout.tvTrainAvailOfStandardForms.setCompoundDrawablesWithIntrinsicBounds(
                         0, 0, R.drawable.ic_verified, 0
                     )
@@ -1023,7 +1177,8 @@ class QTeamFormFragment : Fragment() {
         }
         binding.availOfStandardFormsLayout.btnAvailOfStandardFormsPrevious.setOnClickListener {
 
-            binding.availSupportInfraLayout.trainingAvailSupportInfraExpand.visibility = View.VISIBLE
+            binding.availSupportInfraLayout.trainingAvailSupportInfraExpand.visibility =
+                View.VISIBLE
             binding.availSupportInfraLayout.viewAvailSupportInfra.visibility = View.VISIBLE
 
             binding.mainAvailOfStandardForms.visibility = View.GONE
@@ -1038,10 +1193,205 @@ class QTeamFormFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
+    private fun collectTCInfoResponse() {
+        viewModel.trainingCentersInfo.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+
+                            binding.trainingCenterInfoLayout.tvSchemeName.text = x.schemeName
+                            binding.trainingCenterInfoLayout.tvCenterName.text = x.centerName
+                            binding.trainingCenterInfoLayout.tvProjectState.text = x.projectState
+                            binding.trainingCenterInfoLayout.tvTypeOfArea.text = x.addressType
+                            binding.trainingCenterInfoLayout.tvlatAndLang.text =
+                                x.latitude + x.longitude
+                            binding.trainingCenterInfoLayout.tvDistanceBus.text =
+                                x.distanceFromBusStand
+                            binding.trainingCenterInfoLayout.tvDistanceAuto.text =
+                                x.distanceFromAutoStand
+                            binding.trainingCenterInfoLayout.tvSanctionOrder.text =
+                                x.sanctionOrderNo
+                            binding.trainingCenterInfoLayout.tvTypeOfTraining.text = x.tcType
+                            binding.trainingCenterInfoLayout.tvNatureOfTraining.text = x.tcNature
+                            binding.trainingCenterInfoLayout.tvSpecialArea.text = x.specialArea
+                            binding.trainingCenterInfoLayout.tvTrainingCenterAddress.text =
+                                x.latitude + "," + x.tcAddress
+                            binding.trainingCenterInfoLayout.tvTrainingCenterEmail.text =
+                                x.tcEmailID
+                            binding.trainingCenterInfoLayout.tvMobileNumber.text = x.tcMobileNo
+                            binding.trainingCenterInfoLayout.tvLandlineNumber.text = x.tcLandline
+                            binding.trainingCenterInfoLayout.tvParliamentaryConstituency.text =
+                                x.parliamentaryConstituency
+                            binding.trainingCenterInfoLayout.tvAssemblyConstituency.text =
+                                x.assemblyConstituency
+                            binding.trainingCenterInfoLayout.tvCenterIncharge.text =
+                                x.centerIncharge
+                            binding.trainingCenterInfoLayout.tvCenterInchargeMobile.text =
+                                x.inchargeMobileNo
+                            binding.trainingCenterInfoLayout.tvCenterInchargeEmail.text =
+                                x.inchargeMailId
+
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+
+    private fun collectTCStaffResponse() {
+        viewModel.getTcStaffDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        dataStaffList = it.wrappedList
+
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+
+    private fun collectTCInfraResponse() {
+
+        viewModel.getTrainerCenterInfra.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+
+                            binding.tvOwnershipOfBuilding.text = x.buildingOwner
+                            binding.tvAreaOfBuilding.text = x.buildingArea
+                            binding.tvRoofOfBuilding.text = x.buildingRoof
+                            binding.tvPlasteringPainting.text = x.painting
+
+                        }
+
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+
+
+    fun isValidBase64(base64: String): Boolean {
+        return try {
+            val cleanBase64 = base64
+                .replace("data:application/pdf;base64,", "")
+                .replace("\\s".toRegex(), "")
+
+            Base64.decode(cleanBase64, Base64.DEFAULT or Base64.NO_WRAP)
+            true
+        } catch (e: IllegalArgumentException) {
+            false
+        }
+    }
+
+    fun base64ToPdf(context: Context, base64: String, fileName: String = "temp.pdf"): File? {
+        val cleanBase64 = base64
+            .replace("data:application/pdf;base64,", "")
+            .replace("\\s".toRegex(), "")
+
+        return try {
+            val pdfAsBytes = Base64.decode(cleanBase64, Base64.DEFAULT or Base64.NO_WRAP)
+
+            val file = File(context.cacheDir, fileName)
+            file.outputStream().use { it.write(pdfAsBytes) }
+            file
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    fun openPdf(context: Context, pdfFile: File) {
+        val uri: Uri = FileProvider.getUriForFile(
+            context,
+            context.packageName + ".provider", // authority (must match manifest provider)
+            pdfFile
+        )
+
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, "application/pdf")
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        // Show chooser (Adobe, Drive, etc.)
+        context.startActivity(Intent.createChooser(intent, "Open PDF with"))
+    }
 
 
 }
-
 
 
 
