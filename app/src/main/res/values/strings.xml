@@ -254,6 +254,196 @@
     <string name="theory_class_room_photograph">Theory Class Room Photograph</string>
     <string name="description_of_academic_non_academic_areas">Description of Academic/Non-Academic Areas</string>
     <string name="toilets_and_wash_basins">Toilets and Wash Basins</string>
+    <string name="male_toilets_in_no">Male Toilets (In No.)</string>
+    <string name="female_toilets_in_no">Female Toilets (In No.)</string>
+    <string name="proof_of_male_toilets_signage">Proof of Male Toilets Signage</string>
+    <string name="proof_of_female_toilets_signage">Proof of Female Toilets Signage</string>
+    <string name="male_urinals_in_no">Male Urinals (In No.)</string>
+    <string name="male_wash_basins_in_no">Male Wash Basins (In No.)</string>
+    <string name="female_wash_basins_in_no">Female Wash Basins (In No.)</string>
+    <string name="overhead_tanks">Overhead Tanks</string>
+    <string name="type_of_flooring">Type of Flooring</string>
+    <string name="description_of_other_areas">Description of Other Areas</string>
+    <string name="corridor_no">Corridor No.</string>
+    <string name="length_in_ft">Length (In Ft.)</string>
+    <string name="width_in_ft">Width (In Ft.)</string>
+    <string name="area_in_sq_ft">Area (In Sq. Ft.)</string>
+    <string name="lights">Lights</string>
+    <string name="circulation_area_in_sq_ft">Circulation Area (In Sq. Ft.)</string>
+    <string name="open_space_for_people_to_gather_and_interact_in_sq_ft">Open Space for People to Gather and Interact (In Sq. Ft.)</string>
+    <string name="exclusive_parking_space_no_in_terms_of_bicycle_parking_slots">Exclusive Parking Space(No. in terms of Bicycle Parking Slots)</string>
+    <string name="availability_of_teaching_learning_materials">Availability of Teaching Learning Materials</string>
+    <string name="trade">Trade</string>
+    <string name="nature_of_training_proposed">Nature of Training Proposed</string>
+    <string name="is_the_available_trades_as_per_project_execution_readiness_assessment_at_project_hq_s">Is the Available Trades as Per Project Execution Readiness Assessment at Project HQ\'s ?</string>
+    <string name="is_training_plan_available_as_per_sf_4_1a">Is Training Plan Available as per SF-4.1A ?</string>
+    <string name="is_domain_curriculum_available_as_per_sf_4_2a">Is Domain Curriculum Available as per SF 4.2A ?</string>
+    <string name="is_activity_cum_lesson_planner_available_as_per_sf_4_5a">Is Activity-cum-Lesson Planner Available as per SF-4.5A ?</string>
+    <string name="is_welcome_kit_available_as_per_sf_5_1c2">Is Welcome Kit Available as per SF-5.1C2 ?</string>
+    <string name="name_of_certifying_agency">Name of Certifying Agency</string>
+    <string name="assessment_material_availability">Assessment Material Availability ?</string>
+    <string name="general_details">General Details</string>
+    <string name="visible_signs_of_leakages_from_walls_and_roof_applicable_for_both_rcc_and_non_rcc_structures">Visible signs of Leakages from Walls and Roof - Applicable for both RCC and Non RCC Structures</string>
+    <string name="protection_of_stairs_balconies_and_other_locations">Protection of Stairs, Balconies and Other Locations</string>
+    <string name="conformance_to_ddu_gky_look_and_feel_standards_as_per_sub_section_4_2_1">Conformance to DDU-GKY Look and Feel Standards as per sub section 4.2.1</string>
+    <string name="can_the_candidates_safely_come_to_the_centre_when_training_is_conducted">Can the Candidates Safely come to the Centre When Training is Conducted</string>
+    <string name="electrical_wiring_and_standards">Electrical Wiring and Standards</string>
+    <string name="signages_and_information_boards">Signages and Information Boards</string>
+    <string name="activity_summary_and_achievement_board_sf_4_2d">Activity Summary and Achievement Board (SF-4.2D)</string>
+    <string name="training_centre_name_board_sf_4_2b">Training Centre Name Board (SF- 4.2B)</string>
+    <string name="code_of_conduct_board_for_candidates_sf_4_2j">Code of Conduct Board for Candidates (SF-4.2J)</string>
+    <string name="student_attendance_and_entitlement_summary_information_board_sf_4_2n">Student Attendance and Entitlement Summary Information Board (SF-4.2N)</string>
+    <string name="basic_information_board_at_training_centre_sf_4_2g">Basic Information Board at Training Centre (SF-4.2G)</string>
+    <string name="contact_detail_of_important_people_sf_4_2e">Contact Detail of Important People (SF-4.2E)</string>
+    <string name="student_entitlement_board_and_responsibilities_board_sf_4_2m">Student Entitlement Board and Responsibilities Board (SF-4.2M)</string>
+    <string name="ip_enabled_camera">IP Enabled Camera</string>
+    <string name="central_monitor_is_easily_accessible_to_centre_incharge">Central Monitor is easily Accessible to Centre Incharge</string>
+    <string name="conformance_of_cctv_to_ddu_gky_as_provided_in_chapter_5_of_sop">Conformance of CCTV to DDU-GKY as Provided in Chapter 5 of SOP</string>
+    <string name="storage_of_the_cctv_recorded_material">Storage of the CCTV Recorded Material</string>
+    <string name="dvr_is_connected_to_working_static_ip_as_per_sf_5_2b">DVR is Connected to Working Static IP as per SF 5.2B</string>
+    <string name="ip_enabled">IP Enabled</string>
+    <string name="resolution_1080_hd_25_fps_or_better">Resolution - 1080 HD @25 FPS or better</string>
+    <string name="video_stream_dual_h_264_or_better">Video Stream - Dual H.264 or better</string>
+    <string name="remote_access_via_web_browser_for_configuration_viewing_and_control">Remote Access - Via web browser for configuration, viewing and control</string>
+    <string name="storage_facility_to_keep_complete_recording_till_closure_of_project">Storage facility to keep complete recording till closure of project</string>
+    <string name="color_video_with_audio">Color video with audio</string>
+    <string name="supported_protocols_ipv4_http_tcp_rtsp_rtp_icmp_udp_dns_dhcp_etc">Supported protocols - IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP, etc.</string>
+    <string name="remote_access_simultaneous_access_at_minimum_10_users">Remote Access - Simultaneous access at minimum 10 users</string>
+    <string name="common_equipment">Common Equipment</string>
+    <string name="safe_drinking_water">Safe Drinking Water</string>
+    <string name="first_aid_kit">First Aid Kit</string>
+    <string name="fire_fighting_equipment">Fire Fighting Equipment</string>
+    <string name="availability_of_support_infrastructure">Availability of Support Infrastructure</string>
+    <string name="installation_of_biometric_devices">Installation of Biometric Devices *</string>
+    <string name="installation_of_cctv_monitor">Installation of CCTV Monitor</string>
+    <string name="minimum_equipment_as_per_sf_5_1p">Minimum Equipment as per SF 5.1P</string>
+    <string name="availability_of_standard_forms">Availability of Standard Forms</string>
+    <string name="sf_4_1a_plan_of_training">SF 4.1A : Plan of Training</string>
+
+    <string name="sf_4_1c_activity_cum_lesson_planner">SF 4.1C : Activity Cum Lesson Planner</string>
+
+    <string name="sf_4_3h_on_the_job_training_plan">SF 4.3H : On the Job Training Plan for the Batch</string>
+
+    <string name="sf_4_5a_daily_distribution_of_tablets">SF 4.5A : Daily Distribution of Tablets</string>
+
+    <string name="sf_5_1a2_training_center_name_board">SF 5.1A2 : Training Center Name Board</string>
+
+    <string name="sf_5_1b1_activity_summary_and_achievement_board">SF 5.1B1 : Activity Summary and Achievement Board</string>
+
+
+    <string name="sf_5_1b2_contact_details_of_important_people">SF 5.1B2 : Contact Details of Important People</string>
+    <!-- SF 5.1C1 – SF 5.1C3 -->
+    <string name="sf_5_1c1_student_entitlement_banner">SF 5.1C1 : Student Entitlement Banner</string>
+    <string name="sf_5_1c2_welcome_kit_to_trainees">SF 5.1C2 : Welcome Kit to Trainees</string>
+    <string name="sf_5_1c3_first_aid_kit">SF 5.1C3 : First Aid Kit</string>
+
+    <!-- SF 5.1E1 – SF 5.1E2 -->
+    <string name="sf_5_1e1_summary_of_staff">SF 5.1E1 : Summary of Staff Deployed at the Training Centre</string>
+    <string name="sf_5_1e2_trainers_profile">SF 5.1E2 : Trainers Profile</string>
+
+    <!-- SF 5.1F – SF 5.1G2 -->
+    <string name="sf_5_1f_candidate_id_template">SF 5.1F : Candidate ID Template</string>
+    <string name="sf_5_1g1_index_of_candidate_dossier">SF 5.1G1 : Index of Individual Candidate Dossier</string>
+    <string name="sf_5_1g2_parents_consent_form">SF 5.1G2 : Parents Consent Form</string>
+
+    <!-- SF 5.1H1 – SF 5.1H2 -->
+    <string name="sf_5_1h1_batch_summary">SF 5.1H1 : Batch Summary as on Day of Batch Freezing</string>
+    <string name="sf_5_1h2_list_of_candidates">SF 5.1H2 : List of Candidates in the Batch and their Profile</string>
+
+    <!-- SF 5.1I – SF 5.1K -->
+    <string name="sf_5_1i_attendance_register_candidates">SF 5.1I : Attendance Registers for Candidates (as per Biometric)</string>
+    <string name="sf_5_1j_attendance_register_trainers">SF 5.1J : Attendance Registers for Trainers (as per Biometric)</string>
+    <string name="sf_5_1k_checklist_items_given">SF 5.1K : Checklist of Items Given to Candidates</string>
+
+    <!-- SF 5.1L1 – SF 5.1L2 -->
+    <string name="sf_5_1l1_candidate_feedback_form">SF 5.1L1 : Candidate Feedback Form</string>
+    <string name="sf_5_1l2_summary_feedback_candidates">SF 5.1L2 : Summary of the Feedback Given by the Candidates in SF 5.1L1 On Completion of Training Programme</string>
+
+    <!-- SF 5.1M – SF 5.1N -->
+    <string name="sf_5_1m_summary_evaluation_assessment">SF 5.1M : Summary of Evaluation and Assessment Done</string>
+    <string name="sf_5_1n_ta_da_calculation_record">SF 5.1N : TA/ DA Calculation Record (Batch Wise) To be Linked with Biometric Attendance</string>
+
+    <!-- SF 5.1O1 – SF 5.1O2 -->
+    <string name="sf_5_1o1_training_certificate">SF 5.1O1 : Training Certificate</string>
+    <string name="sf_5_1o2_training_completion_certificate">SF 5.1O2 : Training Completion Certificate Distribution Record</string>
+
+    <!-- SF 5.1P – SF 5.1Q -->
+    <string name="sf_5_1p_list_of_equipment_training_centre">SF 5.1P : List of Equipment in the Training Centre</string>
+    <string name="sf_5_1q_list_of_equipment_accommodation">SF 5.1Q : List of Equipment in the Trainees Accommodation Facilities (Applicable for Residential Training only)</string>
+
+    <!-- SF 5.1R – SF 5.1S -->
+    <string name="sf_5_1r_instructions_opening_hybrid_centres">SF 5.1R : Instructions for Opening Hybrid Training Centres</string>
+    <string name="sf_5_1s_bare_minimum_items">SF 5.1S : Bare Minimum Items to be Ensured to Start Training Pending CTSA/SRLM Due Diligence Visit</string>
+
+    <!-- SF 5.2A – SF 5.2B -->
+    <string name="sf_5_2a_training_centre_inspection">SF 5.2A : Training Centre Inspection</string>
+    <string name="sf_5_2b_cctv_specifications">SF 5.2B : CCTV- Specifications, Location and Recording, Review and Storage</string>
+
+    <!-- SF 5.3A -->
+    <string name="sf_5_3a_specification_of_uniform">SF 5.3A : Specification of Uniform</string>
+
+    <!-- SF 5.1F to SF 5.1O1 -->
+
+    <string name="sf_51f_candidate_id_template">SF 5.1F : Candidate ID Template</string>
+    <string name="sf_51g1_candidate_dossier_index">SF 5.1G1 : Index of Individual Candidate Dossier</string>
+    <string name="sf_51g2_parents_consent_form">SF 5.1G2 : Parents Consent Form</string>
+    <string name="sf_51h1_batch_summary"> SF 4.3B Batch freeze summary</string>
+    <string name="sf_51h2_candidates_list_profile">SF 5.1H2 : List of Candidates in the Batch and their Profile</string>
+    <string name="sf_51i_attendance_candidates">SF 5.1I : Attendance Registers for Candidates (as per Biometric)</string>
+    <string name="sf_51j_attendance_trainers">SF 5.1J : Attendance Registers for Trainers (as per Biometric)</string>
+    <string name="sf_51k_checklist_items_candidates">SF 5.1K : Checklist of Items Given to Candidates</string>
+    <string name="sf_51l1_candidate_feedback_form">SF 5.1L1 : Candidate Feedback Form</string>
+    <string name="sf_51l2_feedback_summary">SF 5.1L2 : Summary of the Feedback Given by the Candidates</string>
+    <string name="sf_51m_summary_evaluation_assessment">SF 5.1M : Summary of Evaluation and Assessment Done</string>
+    <string name="sf_51n_ta_da_record">SF 5.1N : TA/ DA Calculation Record (Batch Wise) To be Linked with Biometric Attendance</string>
+    <string name="sf_51o1_training_certificate">SF 5.1O1 : Training Certificate</string>
+    <string name="sf_5_3a_uniform_spec">SF 5.3A : Specification of Uniform</string>
+
+
+    <string name="sf_51o2_training_completion_certificate_distribution_record">SF 5.1O2 : Training Completion Certificate Distribution Record</string>
+    <string name="sf_51p_equipment_training_centre">SF 5.1P : List of Equipment in the Training Centre</string>
+    <string name="sf_51q_equipment_trainees_accommodation">SF 5.1Q : List of Equipment in the Trainees Accommodation Facilities (Applicable for Residential Training only)</string>
+    <string name="sf_51r_instructions_hybrid_training">SF 5.1R : Instructions for Opening Hybrid Training Centres</string>
+    <string name="sf_51s_bare_minimum_items">SF 5.1S : Bare Minimum Items to be Ensured to Start Training Pending CTSA/SRLM Due Diligence Visit</string>
+    <string name="sf_52a_training_centre_inspection">SF 5.2A : Training Centre Inspection</string>
+    <string name="sf_52b_cctv_specification">SF 5.2B : CCTV - Specifications, Location and Recording, Review and Storage</string>
+    <string name="sf_51o2_training_completion_certificate">SF 5.1O2 : Training Completion Certificate Distribution Record</string>
+    <string name="sf_51q_equipment_accommodation">SF 5.1Q : List of Equipment in the Trainees Accommodation Facilities (Applicable for Residential Training only)</string>
+    <string name="sf_51r_opening_hybrid_centres">SF 5.1R : Instructions for Opening Hybrid Training Centres</string>
+    <string name="sf_52b_cctv_specifications">SF 5.2B : CCTV- Specifications, Location and Recording, Review and Storage</string>
+
+
+    <string name="sf_54a_assessment_certification">SF 5.4A : Assessment and Certification of Candidates</string>
+    <string name="sf_61a_letter_srlm_info_mobilization">SF 6.1A : Letter to SRLM Seeking Information on Mobilization Plan</string>
+    <string name="sf_61b_letter_from_srlm_mobilization">SF 6.1B : Letter from SRLM Regarding Mobilization Plan</string>
+    <string name="sf_61c_on_field_registration">SF 6.1C : On Field Registration of Candidates</string>
+    <string name="sf_62a1_overview_aptitude_test">SF 6.2A1 : Overview of Aptitude Test</string>
+    <string name="sf_62a2_counselling_content">SF 6.2A2 : Content for Counselling for Each Trade</string>
+    <string name="sf_62a3_candidate_application">SF 6.2A3 : Candidate Application Form</string>
+    <string name="sf_62a4_list_admitted_candidates">SF 6.2A4 : List of Candidates Who Were Admitted</string>
+    <string name="sf_62b_final_batch_list">SF 6.2B : List of Candidates in the Final Batch</string>
+    <string name="sf_63a1_batch_details">SF 6.3A1 : Batch Details</string>
+    <string name="sf_63a2_batch_enrollment_summary">SF 6.3A2 : Batch Enrollment Summary</string>
+    <string name="sf_63a3_batch_freeze_summary">SF 6.3A3 : Batch Freeze Summary</string>
+    <string name="sf_63a4_batch_completion_summary">SF 6.3A4 : Batch Completion Summary</string>
+    <string name="sf_63a5_list_enrolled_candidates">SF 6.3A5 : List of Candidates Who Were Enrolled</string>
+    <string name="sf_51t_daily_failure_report">SF 5.1T : Daily Failure Items Report</string>
+
+    <string name="sf_51u_15days_summary_centre_status">SF 5.1U : 15 Days Summary of Centre Status</string>
+    <!-- SF 6.1A -->
+    <string name="sf_61a_letter_mobilization_plan">SF 6.1A : Letter to SRLM Seeking Information on Mobilization Plan</string>
+
+    <!-- SF 6.1B -->
+    <string name="sf_61b_letter_from_srlm">SF 6.1B : Letter from SRLM Regarding Mobilization Plan</string>
+
+    <!-- SF 6.2A3 -->
+    <string name="sf_62a3_candidate_application_form">SF 6.2A3 : Candidate Application Form</string>
+
+    <!-- SF 6.2B -->
+    <string name="sf_62b_list_final_batch">SF 6.2B : List of Candidates in the Final Batch</string>
+    <string name="sf_63a6_candidates_after_freezing">SF 6.3A6 : List of Candidates After Freezing of the Batch</string>
+    <string name="sf_63a7_candidates_after_completion">SF 6.3A7 : List of Candidates After Completion of Training of the Batch</string>
+    <string name="submit">Submit</string>
 
 
 </resources>

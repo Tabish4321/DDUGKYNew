@@ -46,7 +46,7 @@ class QTeamListFragment : Fragment() {
 
         adapter = TrainingQAdapter(emptyList()) { center ->
             val action = QTeamListFragmentDirections.actionQTeamListFragmentToQTeamFormFragment(
-                center.trainingCenterId.toString()
+                center.trainingCenterId.toString(),center.trainingCenterName,center.senctionOrder
             )
             findNavController().navigate(action)
         }
@@ -66,7 +66,7 @@ class QTeamListFragment : Fragment() {
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
-        viewModel.fetchTrainingCenters(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.fetchQTeamTrainingList(request, AppUtil.getSavedTokenPreference(requireContext()))
 
     }
     private fun observeViewModel() {

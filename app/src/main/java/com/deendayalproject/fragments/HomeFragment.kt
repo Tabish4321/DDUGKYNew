@@ -104,7 +104,7 @@ class HomeFragment : Fragment() {
             }
 
             if (form.formCd == "TRAINING_CENTER_VERIFICATION") {
-                findNavController().navigate(com.deendayalproject.R.id.action_homeFragment_to_QTeamListFragment)
+                findNavController().navigate(R.id.action_homeFragment_to_QTeamListFragment)
             }
 
 

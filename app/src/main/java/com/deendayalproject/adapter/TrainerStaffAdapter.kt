@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.R
+import com.deendayalproject.model.response.Trainer
 import com.deendayalproject.model.response.TrainerStaff
 
-class TrainerStaffAdapter(private val list: List<TrainerStaff>) :
+class TrainerStaffAdapter(private val list: List<Trainer>) :
     RecyclerView.Adapter<TrainerStaffAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -34,12 +35,12 @@ class TrainerStaffAdapter(private val list: List<TrainerStaff>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
         holder.tvProfileType.text = "Profile Type: ${item.profileType}"
-        holder.tvName.text = "Name: ${item.name}"
-        holder.tvDesignation.text = "Designation: ${item.designation}"
+        holder.tvName.text = "Name: ${item.trainerName}"
+        holder.tvDesignation.text = "Designation: ${item.trainerDesignation}"
         holder.tvEngagementType.text = "Engagement Type: ${item.engagementType}"
-        holder.tvDomain.text = "Domain/Non-Domain: ${item.domainNonDomain}"
+        holder.tvDomain.text = "Domain/Non-Domain: ${item.domainNondomain}"
         holder.tvAssignedCourse.text = "Assigned Course: ${item.assignedCourse}"
-        holder.tvTotCert.text = "TOT Certificate: ${item.whetherTotCer}"
+        holder.tvTotCert.text = "TOT Certificate: ${item.totCertificate}"
         holder.tvTotCertNo.text = "TOT Cert. No: ${item.totCertificateNo}"
     }
 }

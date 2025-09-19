@@ -7,6 +7,7 @@ import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
+import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TcAvailabilitySupportInfraRequest
 import com.deendayalproject.model.request.TcBasicInfoRequest
 import com.deendayalproject.model.request.TcCommonEquipmentRequest
@@ -19,6 +20,9 @@ import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.TcInfraResponse
+import com.deendayalproject.model.response.TcStaffAndTrainerResponse
+import com.deendayalproject.model.response.TrainingCenterInfoRes
 import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
 import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
@@ -61,7 +65,7 @@ class CommonRepository(private val context: Context) {
                 Result.success(response.body()!!)
             } else {
                 if (response.code() == 401) {
-                    Result.failure(HttpException(response)) // force failure to trigger session handling
+                    Result.failure(HttpException(response))
                 } else {
                     Result.failure(HttpException(response))
                 }
@@ -89,10 +93,29 @@ class CommonRepository(private val context: Context) {
         }
     }
 
-    suspend fun submitCCTVDataToServer(
-        request: CCTVComplianceRequest,
-        token: String
-    ): Result<CCTVComplianceResponse> {
+
+
+    suspend fun fetchQTeamTrainingList(request: TrainingCenterRequest, token: String): Result<TrainingCenterResponse> {
+        return try {
+            val response = apiService.getQTeamTrainingList(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                if (response.code() == 202) {
+                    Result.failure(HttpException(response))
+                } else {
+                    Result.failure(HttpException(response))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+    suspend fun submitCCTVDataToServer(request: CCTVComplianceRequest, token: String): Result<CCTVComplianceResponse> {
         return try {
             val bearerToken = "Bearer $token"
             val response = apiService.insertCCTVCompliance(request) // ✅ token now passed correctly
@@ -242,6 +265,59 @@ class CommonRepository(private val context: Context) {
             Result.failure(e)
         }
     }
+
+
+
+    suspend fun getTrainerCenterInfo(request: TrainingCenterInfo) : Result<TrainingCenterInfoRes>{
+        return try {
+           // val bearerToken = "Bearer $token"
+            val response = apiService.getTrainerCenterInfo(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+    suspend fun getTcStaffDetails(request: TrainingCenterInfo) : Result<TcStaffAndTrainerResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getTcStaffDetails(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+    suspend fun getTrainerCenterInfra(request: TrainingCenterInfo) : Result<TcInfraResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getTrainerCenterInfra(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
 }
 
 

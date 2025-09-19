@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/llTopSignageBoardDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_background_light_grey"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tvTrainSignageBoardDetails"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/signages_and_information_boards"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/viewSignageBoardDetails"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="#F7F7F7"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llTopSignageBoardDetails"/>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/trainingSignageBoardlDetailsExpand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:elevation="@dimen/dp_2"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/viewSignageBoardDetails"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+
+        <TextView
+            android:id="@+id/labelCenterNameBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/training_centre_name_board_sf_4_2b"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/signage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCenterNameBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCenterNameBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/valueCenterNameBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCenterNameBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+        <TextView
+            android:id="@+id/labelSummaryAcheivement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_summary_and_achievement_board_sf_4_2d"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/board"
+            app:layout_constraintTop_toBottomOf="@+id/valueCenterNameBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoSummaryAcheivement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelSummaryAcheivement"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/valueSummaryAcheivement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoSummaryAcheivement"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <TextView
+            android:id="@+id/labelStudentEntitlement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/student_entitlement_board_and_responsibilities_board_sf_4_2m"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/baseline_dashboard_24"
+            app:layout_constraintTop_toBottomOf="@+id/valueSummaryAcheivement"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoStudentEntitlement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelStudentEntitlement"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/valueStudentEntitlement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoStudentEntitlement"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <TextView
+            android:id="@+id/labelContactDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contact_detail_of_important_people_sf_4_2e"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/baseline_import_contacts_24"
+            app:layout_constraintTop_toBottomOf="@+id/valueStudentEntitlement"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoContactDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelContactDetail"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/valueContactDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoContactDetail"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- Basic Information Board at Training Centre (SF-4.2G) -->
+        <TextView
+            android:id="@+id/labelBasicInfoBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/basic_information_board_at_training_centre_sf_4_2g"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/ic_available"
+            app:layout_constraintTop_toBottomOf="@+id/valueContactDetail"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoBasicInfoBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelBasicInfoBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/valueBasicInfoBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoBasicInfoBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- Code of Conduct Board for Candidates (SF-4.2J) -->
+        <TextView
+            android:id="@+id/labelCodeOfConduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/code_of_conduct_board_for_candidates_sf_4_2j"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/board"
+            app:layout_constraintTop_toBottomOf="@+id/valueBasicInfoBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoCodeOfConduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCodeOfConduct"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/valueCodeOfConduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoCodeOfConduct"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- Student Attendance and Entitlement Summary Information Board (SF-4.2N) -->
+        <TextView
+            android:id="@+id/labelAttendanceSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/student_attendance_and_entitlement_summary_information_board_sf_4_2n"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/attendance"
+            app:layout_constraintTop_toBottomOf="@+id/valueCodeOfConduct"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/yesNoAttendanceSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelAttendanceSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/valueAttendanceSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/yesNoAttendanceSummary"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/llSignage"
+            android:text="@string/select_approvals"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintTop_toBottomOf="@id/valueAttendanceSummary"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_next_demi_bold"
+            android:hint="@string/select_approval"
+            android:id="@+id/llTcSignage"
+            android:layout_marginStart="@dimen/dp_3"
+            android:textColorHint="@color/color_dark_green"
+            app:boxStrokeColor="@color/color_dark_green"
+            app:layout_constraintTop_toBottomOf="@id/llSignage"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/SpinnerSignage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="none"
+                android:textColor="@color/color_dark_green"
+                android:textSize="15sp"
+                tools:ignore="LabelFor"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/SignageRemarks"
+            android:visibility="gone"
+            android:text="@string/remarkss"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintTop_toBottomOf="@id/llTcSignage"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <EditText
+            android:id="@+id/etSignageRemarks"
+            android:visibility="gone"
+            style="@style/EditText"
+            android:hint="@string/remarks"
+            android:background="@drawable/edittext_background"
+            android:padding="12dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/SignageRemarks"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/llSignageBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etSignageRemarks">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/btnSignagePrevious"
+                android:elevation="4dp"
+                android:text="@string/previous"
+                android:textColor="@color/color_dark_blue"
+                android:textSize="@dimen/sp_16"
+                android:background="@drawable/backgroung_overlay"
+                android:layout_margin="8dp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="@string/save_and_next"
+                android:gravity="center"
+                android:id="@+id/btnSignageNext"
+                android:textColor="@color/white"
+                android:elevation="4dp"
+                android:textSize="@dimen/sp_16"
+                android:background="@drawable/card_background"
+                android:layout_margin="8dp" />
+
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

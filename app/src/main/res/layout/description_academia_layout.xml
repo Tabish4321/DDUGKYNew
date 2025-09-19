@@ -6,14 +6,22 @@
     android:background="@drawable/bg_item_border">
 
     <TextView
-        android:id="@+id/tvRoomNo"
+        android:id="@+id/tvRoomType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:gravity="center"
-        android:text="101"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        android:text="Bedroom"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvMaxCandidate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:gravity="center"
+        android:text="2"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/tvLength"
@@ -42,16 +50,9 @@
         android:text="120"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/tvRoomType"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.5"
-        android:gravity="center"
-        android:text="Bedroom"
-        android:textSize="14sp" />
 
-    <!-- New Column: View Button -->
+
+
     <TextView
         android:id="@+id/btnView"
         android:layout_width="0dp"

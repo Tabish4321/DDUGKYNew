@@ -29,7 +29,7 @@ class TrainingQAdapter(
 
     override fun onBindViewHolder(holder: CenterViewHolder, position: Int) {
         val center = centers[position]
-        // holder.name.text = center.trainingCenterName
+
         holder.name.text = "Training Center Name: ${center.trainingCenterName}"
         holder.address.text = "Training Center Address: ${center.trainingCenterAddress}"
         holder.order.text = "Sanction Order: ${center.senctionOrder}"

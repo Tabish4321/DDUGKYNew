@@ -13,6 +13,7 @@ import com.deendayalproject.model.request.TcBasicInfoRequest
 import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
+import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.CCTVComplianceResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
@@ -20,6 +21,9 @@ import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.TcInfraResponse
+import com.deendayalproject.model.response.TcStaffAndTrainerResponse
+import com.deendayalproject.model.response.TrainingCenterInfoRes
 import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
 import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
@@ -150,6 +154,22 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     //IP enabled camera insert
+
+    fun fetchQTeamTrainingList(request: TrainingCenterRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.fetchQTeamTrainingList(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _trainingCenters.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+    //IP enabled camera insert
     fun submitCCTVDataToServer(request: CCTVComplianceRequest, token: String) {
         _loading.postValue(true)
         viewModelScope.launch {
@@ -256,7 +276,66 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-}
 
+
+
+
+    private val _trainingCentersInfo = MutableLiveData<Result<TrainingCenterInfoRes>>()
+    val trainingCentersInfo: LiveData<Result<TrainingCenterInfoRes>> = _trainingCentersInfo
+
+
+    fun getTrainerCenterInfo(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getTrainerCenterInfo(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _trainingCentersInfo.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+
+    private val _getTcStaffDetails = MutableLiveData<Result<TcStaffAndTrainerResponse>>()
+    val getTcStaffDetails: LiveData<Result<TcStaffAndTrainerResponse>> = _getTcStaffDetails
+
+
+    fun getTcStaffDetails(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getTcStaffDetails(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getTcStaffDetails.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    private val _getTrainerCenterInfra = MutableLiveData<Result<TcInfraResponse>>()
+    val getTrainerCenterInfra: LiveData<Result<TcInfraResponse>> = _getTrainerCenterInfra
+
+
+    fun getTrainerCenterInfra(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getTrainerCenterInfra(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getTrainerCenterInfra.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+
+
+}
 
 
