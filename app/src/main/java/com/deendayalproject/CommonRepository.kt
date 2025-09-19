@@ -93,11 +93,6 @@ class CommonRepository(private val context: Context) {
         }
     }
 
-    suspend fun submitCCTVDataToServer(
-        request: CCTVComplianceRequest,
-        token: String
-    ): Result<CCTVComplianceResponse> {
-
 
 
     suspend fun fetchQTeamTrainingList(request: TrainingCenterRequest, token: String): Result<TrainingCenterResponse> {
@@ -323,8 +318,6 @@ class CommonRepository(private val context: Context) {
 
 
 
-
-        }
 }
 
 

@@ -169,7 +169,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
 
 
-//IP enabled camera insert
+    //IP enabled camera insert
     fun submitCCTVDataToServer(request: CCTVComplianceRequest, token: String) {
         _loading.postValue(true)
         viewModelScope.launch {
@@ -276,7 +276,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-}
+
 
 
 
@@ -336,6 +336,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
 
 
-    }
+}
 
 
