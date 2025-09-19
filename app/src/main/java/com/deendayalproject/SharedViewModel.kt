@@ -98,6 +98,16 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch {
             val result = repository.loginUser(request)
             result.onSuccess { response ->
+
+            }
+
+            result.onFailure { throwable ->
+                // Check if error is 401 token expired
+                if (throwable is retrofit2.HttpException && throwable.code() == 401) {
+                    _sessionExpired.postValue(true)
+                } else {
+                    _errorMessage.postValue(throwable.message ?: "Unknown error")
+                }
             }
             _loginResult.postValue(result)
         }

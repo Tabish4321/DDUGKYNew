@@ -58,13 +58,26 @@ class LoginFragment : Fragment() {
     private fun observeLoginResult() {
 
         viewModel.loginResult.observe(viewLifecycleOwner) { result ->
+
             result.onSuccess {
-                AppUtil.saveLoginStatus(requireContext(), true)  // true means user is logged in
-                AppUtil.saveTokenPreference( requireContext(),it.accessToken)
-                AppUtil.saveLoginIdPreference( requireContext(),binding.etUserId.text.toString().trim().uppercase())
-                Log.d(requireContext().toString(), "token:Bearer + ${it.accessToken}")
-                Toast.makeText(requireContext(), "Login Successful", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_fragmentLogin_to_homeFragment)            }
+
+
+                when (it.responseCode) {
+                    200 ->  {
+                        AppUtil.saveLoginStatus(requireContext(), true)
+                        AppUtil.saveTokenPreference( requireContext(),it.accessToken)
+                        AppUtil.saveLoginIdPreference( requireContext(),binding.etUserId.text.toString().trim().uppercase())
+                        Log.d(requireContext().toString(), "token:Bearer + ${it.accessToken}")
+                    Toast.makeText(requireContext(), "Login Successful", Toast.LENGTH_SHORT).show()
+                            findNavController().navigate(R.id.action_fragmentLogin_to_homeFragment)
+                    }
+
+                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+
             result.onFailure {
                 AppUtil.clearPreferences(requireContext())
                 Toast.makeText(requireContext(), "Login Failed: ${it.message}", Toast.LENGTH_LONG).show()

@@ -1,6 +1,5 @@
 package com.deendayalproject.fragments
-
-import com.deendayalproject.adapter.ModuleAdapter
+import ModuleAdapter
 import SharedViewModel
 import android.os.Bundle
 import android.util.Log
@@ -103,6 +102,12 @@ class HomeFragment : Fragment() {
                 form.formCd=="RESIDENTIAL_FACILITY_FORM"){
                 findNavController().navigate(R.id.action_homeFragment_to_centerFragment)
             }
+
+            if (form.formCd == "TRAINING_CENTER_VERIFICATION") {
+                findNavController().navigate(com.deendayalproject.R.id.action_homeFragment_to_QTeamListFragment)
+            }
+
+
         }
 
         // Setup RecyclerView with adapter

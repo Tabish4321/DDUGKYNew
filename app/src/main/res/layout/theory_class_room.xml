@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/color_light_grey">
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_100">
+
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100"
+            android:background="@color/color_dark_blue"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/backButton"
+                android:layout_marginStart="@dimen/dp_20"
+                android:padding="@dimen/dp_5"
+                android:scaleType="fitCenter"
+                android:src="@drawable/back_arrow"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/theory_class_room"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"/>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="150dp"
+                android:layout_height="@dimen/dp_60"
+                android:layout_gravity="end"
+                android:background="@color/white"
+                android:padding="@dimen/dp_5"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ddy_logo"
+                app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
+
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <!-- Section Start -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/trainingInfraFields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:layout_margin="@dimen/dp_20"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- 1. Type of Roof -->
+            <TextView
+                android:id="@+id/labelTypeOfRoof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/type_of_roof"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_roof"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/yesNoTypeOfRoof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelTypeOfRoof"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/valueTypeOfRoof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoTypeOfRoof"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <!-- 2. False Ceiling Provided -->
+            <TextView
+                android:id="@+id/labelFalseCeiling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/false_ceiling_provided"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_walls"
+                app:layout_constraintTop_toBottomOf="@id/valueTypeOfRoof"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/yesNoFalseCeiling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelFalseCeiling"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/valueFalseCeiling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoFalseCeiling"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <!-- 3. Height of Ceiling -->
+            <TextView
+                android:id="@+id/labelHeightCeiling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/height_of_ceiling_in_ft"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_special"
+                app:layout_constraintTop_toBottomOf="@id/valueFalseCeiling"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/yesNoHeightCeiling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelHeightCeiling"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/valueHeightCeiling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoHeightCeiling"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <!-- 4. Ventilation Area (In Sq. ft) -->
+            <TextView
+                android:id="@+id/labelVentilationArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ventilation_area_in_sq_ft"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_square_feet"
+                app:layout_constraintTop_toBottomOf="@id/valueHeightCeiling"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoVentilationArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelVentilationArea"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueVentilationArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoVentilationArea"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- 5. Sound Level (In dB) -->
+            <TextView
+                android:id="@+id/labelSoundLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sound_level_in_db"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_sound"
+                app:layout_constraintTop_toBottomOf="@id/valueVentilationArea"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoSoundLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelSoundLevel"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueSoundLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoSoundLevel"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- 6. Are Academic Centres Sound Proofed & Air Conditioned -->
+            <TextView
+                android:id="@+id/labelSoundProofAC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ac"
+                app:layout_constraintTop_toBottomOf="@id/valueSoundLevel"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoSoundProofAC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelSoundProofAC"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueSoundProofAC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoSoundProofAC"
+                app:layout_constraintStart_toStartOf="parent" />
+            <!-- 10. Academic Room Information Board -->
+            <TextView
+                android:id="@+id/labelInfoBoard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/academic_room_information_board"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_special"
+                app:layout_constraintTop_toBottomOf="@id/valueSoundProofAC"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoInfoBoard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelInfoBoard"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueInfoBoard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoInfoBoard"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- 11. Internal Signage -->
+            <TextView
+                android:id="@+id/labelInternalSignage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/internal_signage"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/signage"
+                app:layout_constraintTop_toBottomOf="@id/valueInfoBoard"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoInternalSignage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelInternalSignage"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueInternalSignage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoInternalSignage"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- 12. CCTV Cameras with Audio Facility -->
+            <TextView
+                android:id="@+id/labelCCTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cctv_cameras_with_audio_facility"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/cctv"
+                app:layout_constraintTop_toBottomOf="@id/valueInternalSignage"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoCCTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelCCTV"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueCCTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoCCTV"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- 13. LAN Enabled Computers (In No.) -->
+            <TextView
+                android:id="@+id/labelLCDComputers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lcd_digital_projector"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/baseline_screenshot_monitor_24"
+                app:layout_constraintTop_toBottomOf="@id/valueCCTV"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoLCDComputers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelLCDComputers"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueLCDComputers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoLCDComputers"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- 14. Internet Connections -->
+            <TextView
+                android:id="@+id/labelChairForCan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chair_for_candidates_in_no"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/chair"
+                app:layout_constraintTop_toBottomOf="@id/valueLCDComputers"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoChairForCan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelChairForCan"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueChairForCan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoChairForCan"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- 15. Do all Computers have Typing Tutor -->
+            <TextView
+                android:id="@+id/labelWritingBoard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/writing_board"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/tuition"
+                app:layout_constraintTop_toBottomOf="@id/valueChairForCan"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoWritingBoard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelWritingBoard"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueWritingBoard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoWritingBoard"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
+
+            <!-- 18. Trainer Chair -->
+            <TextView
+                android:id="@+id/labelTrainerChair"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trainer_chair"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/chair"
+                app:layout_constraintTop_toBottomOf="@id/valueWritingBoard"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoTrainerChair"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelTrainerChair"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueTrainerChair"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoTrainerChair"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- 19. Trainer Table -->
+            <TextView
+                android:id="@+id/labelTrainerTable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/trainer_table"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/table"
+                app:layout_constraintTop_toBottomOf="@id/valueTrainerChair"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoTrainerTable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelTrainerTable"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueTrainerTable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoTrainerTable"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- 20. Lights (In No.) -->
+            <TextView
+                android:id="@+id/labelLights"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lights_in_no"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/light"
+                app:layout_constraintTop_toBottomOf="@id/valueTrainerTable"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoLights"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelLights"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueLights"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoLights"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- 21. Fans (In No.) -->
+            <TextView
+                android:id="@+id/labelFans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fans_in_no"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/fan"
+                app:layout_constraintTop_toBottomOf="@id/valueLights"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoFans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelFans"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueFans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoFans"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- 22. Electrical Power Backup for the Room -->
+            <TextView
+                android:id="@+id/labelPowerBackup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/electrical_power_backup_for_the_room"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/backup"
+                app:layout_constraintTop_toBottomOf="@id/valueFans"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoPowerBackup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelPowerBackup"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valuePowerBackup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoPowerBackup"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- 23. IT Lab Photograph -->
+            <TextView
+                android:id="@+id/labelITLabPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/theory_class_room_photograph"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ic_lab"
+                app:layout_constraintTop_toBottomOf="@id/valuePowerBackup"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoLabPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelITLabPhoto"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <TextView
+                android:id="@+id/valueITLabPhoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoLabPhoto"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
+
+            <!-- 24. Does the room have Air Conditioning? -->
+            <TextView
+                android:id="@+id/labelAirConditioning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/does_the_room_have_air_conditioning"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                app:drawableStartCompat="@drawable/ac"
+                app:layout_constraintTop_toBottomOf="@id/valueITLabPhoto"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/yesNoAirConditioning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/n_a"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/labelAirConditioning"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/valueAirConditioning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                android:layout_marginStart="@dimen/dp_35"
+                app:layout_constraintTop_toBottomOf="@id/yesNoAirConditioning"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

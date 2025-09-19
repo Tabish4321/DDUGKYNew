@@ -1,4 +1,6 @@
 import android.content.Context
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.deendayalproject.model.LoginErrorResponse
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
@@ -22,6 +24,7 @@ import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
+import com.deendayalproject.util.AppUtil
 import com.google.gson.Gson
 import retrofit2.HttpException
 
@@ -240,7 +243,6 @@ class CommonRepository(private val context: Context) {
         }
     }
 }
-
 
 
 
