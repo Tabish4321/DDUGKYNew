@@ -114,12 +114,13 @@ class HomeFragment : Fragment() {
         binding.rvModules.layoutManager = LinearLayoutManager(requireContext())
         binding.rvModules.adapter = adapter
 
-        viewModel.triggerSesionExpired()
+        //viewModel.triggerSesionExpired()
         observeViewModel()
 
         val modulesRequest = ModulesRequest(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             appVersion = BuildConfig.VERSION_NAME
+
         )
         val token = AppUtil.getSavedTokenPreference(requireContext())
         Log.d("HomeFragment", "Using token: $token")
@@ -168,12 +169,14 @@ class HomeFragment : Fragment() {
         }
 
 
+/*
         viewModel.sessionExpired.observe(viewLifecycleOwner){ expired ->
             if (expired){
                 Log.d("homeFragment","sessionexpired")
                 AppUtil.showSessionExpiredDialog(findNavController(),requireContext())
             }
         }
+*/
     }
     override fun onDestroyView() {
         super.onDestroyView()

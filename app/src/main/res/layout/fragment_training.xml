@@ -89,8 +89,8 @@
                             android:id="@+id/etDistanceBusStand"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
                             android:inputType="number" />
+
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Approximate Distance from an Auto Stand (In Mtrs) -->
@@ -172,203 +172,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- (ROHIT): INFRA -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardInfrastructure"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:padding="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- Header: Infrastructure -->
-                <LinearLayout
-                    android:id="@+id/headerInfrastructure"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableStart="@drawable/ic_property"
-                        android:gravity="center"
-                        android:text="Infrastructure"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/ivToggleInfrastructure"
-                        android:layout_width="20dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_dropdown_arrow" />
-                </LinearLayout>
-
-
-                <!-- Content: Infrastructure Fields -->
-                <LinearLayout
-                    android:id="@+id/layoutInfrastructureContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp"
-                    android:visibility="gone">
-
-                    <!-- Ownership of Building -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="4dp"
-                        android:text="Ownership of Building (Own / Rent / Govt)"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerOwnership"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <!-- Area of the Building -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="4dp"
-                        android:text="Area of the Building (Sq. Ft.)"
-                        android:textStyle="bold" />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etInfraArea"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <!-- Roof of the Building -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="4dp"
-                        android:text="Roof of the Building"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerRoof"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <!-- Structurally Sound -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="4dp"
-                        android:text="If non-RCC, Structurally Sound on Visual Inspection?"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerStructuralSound"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <!-- Painting & Plastering -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="4dp"
-                        android:text="Plastering &amp; Painting of Internal/External Walls and Ceiling"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerPainting"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <!-- Upload: Self Declaration -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="4dp"
-                        android:text="Upload Self Declaration Statement"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/btnUploadDeclaration"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Choose File" />
-
-                    <!-- Upload: Building Plan -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="4dp"
-                        android:text="Upload Schematic Building Plan"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/btnUploadPlan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Choose File" />
-
-                    <!-- Upload: Roof/Ceiling Photos -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="4dp"
-                        android:text="Upload Photos of Building, Ceiling, Roof (PDF)"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/btnUploadRoofPhotos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Choose PDF" />
-
-                    <!-- Upload: Internal/External Wall Photos -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="4dp"
-                        android:text="Upload Photos of Internal &amp; External Walls (PDF)"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/btnUploadWallPhotos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        android:text="Choose PDF" />
-
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
         <!-- (ROHIT): IPenabledCamera2 -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardCCTVCompliance"
@@ -404,7 +207,7 @@
                         android:layout_weight="1"
                         android:drawableStart="@drawable/ic_cctvcom"
                         android:gravity="center"
-                        android:text="IP Enabled Camera"
+                        android:text="IP enabled camera"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -423,17 +226,15 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:visibility="gone">
-
 
                     <!-- IP Enabled -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
                         android:text="IP Enabled"
                         android:textStyle="bold" />
-
                     <Spinner
                         android:id="@+id/spinnerIPEnabled"
                         android:layout_width="match_parent"
@@ -446,7 +247,6 @@
                         android:paddingTop="8dp"
                         android:text="Resolution - 1080p HD @ 25 FPS or better"
                         android:textStyle="bold" />
-
                     <Spinner
                         android:id="@+id/spinnerResolution"
                         android:layout_width="match_parent"
@@ -459,7 +259,6 @@
                         android:paddingTop="8dp"
                         android:text="Video Stream - Dual H.264 or better"
                         android:textStyle="bold" />
-
                     <Spinner
                         android:id="@+id/spinnerVideoStream"
                         android:layout_width="match_parent"
@@ -470,9 +269,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:text="Remote Access - Via web browser for Configuration, Viewing &amp; control"
+                        android:text="Remote Access - Via web browser for Configuration, Viewing &amp; Control"
                         android:textStyle="bold" />
-
                     <Spinner
                         android:id="@+id/spinnerRemoteAccessBrowser"
                         android:layout_width="match_parent"
@@ -483,9 +281,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:text="Remote Access - Simultaneously access at any time at minimum 10 users"
+                        android:text="Remote Access - Minimum 10 users simultaneously"
                         android:textStyle="bold" />
-
                     <Spinner
                         android:id="@+id/spinnerSimultaneousAccess"
                         android:layout_width="match_parent"
@@ -496,9 +293,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:text="Supported Protocols - As per system design for real-time live monitoring and recording using IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP etc."
+                        android:text="Supported Protocols - IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP etc."
                         android:textStyle="bold" />
-
                     <Spinner
                         android:id="@+id/spinnerSupportedProtocols"
                         android:layout_width="match_parent"
@@ -511,7 +307,6 @@
                         android:paddingTop="8dp"
                         android:text="Color Video with Audio"
                         android:textStyle="bold" />
-
                     <Spinner
                         android:id="@+id/spinnerColorVideoAudio"
                         android:layout_width="match_parent"
@@ -522,34 +317,30 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:text="Storage facility to keep the complete recording till closure of project"
+                        android:text="Storage Facility to keep recording till project closure"
                         android:textStyle="bold" />
-
                     <Spinner
                         android:id="@+id/spinnerStorageFacility"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <!-- Row 1 -->
+                    <!-- Central Monitor Accessible -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:text="Central Monitor is easily Accessible to Centre Incharge"
+                        android:text="Central Monitor accessible to Centre Incharge"
                         android:textStyle="bold" />
-
                     <Spinner
                         android:id="@+id/spinnerMonitorAccessible"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-
                     <Button
                         android:id="@+id/btnUploadMonitorPhoto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Click photo" />
-
                     <ImageView
                         android:id="@+id/ivMonitorPreview"
                         android:layout_width="100dp"
@@ -558,27 +349,23 @@
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
 
-
-                    <!-- Row 2 -->
+                    <!-- CCTV Conformance -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:text="Conformance of CCTV to DDU-GKY as Provided in Chapter 5 of SOP"
+                        android:text="Conformance of CCTV to DDU-GKY as per Chapter 5 of SOP"
                         android:textStyle="bold" />
-
                     <Spinner
                         android:id="@+id/spinnerConformance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-
                     <Button
                         android:id="@+id/btnUploadConformancePhoto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Click photo" />
-
                     <ImageView
                         android:id="@+id/ivConformancePreview"
                         android:layout_width="100dp"
@@ -587,26 +374,23 @@
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
 
-                    <!-- Row 3 -->
+                    <!-- Storage of Recorded Material -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:text="Storage of the CCTV Recorded Material"
+                        android:text="Storage of CCTV Recorded Material"
                         android:textStyle="bold" />
-
                     <Spinner
                         android:id="@+id/spinnerStorage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-
                     <Button
                         android:id="@+id/btnUploadStoragePhoto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:text="Click photo" />
-
                     <ImageView
                         android:id="@+id/ivStoragePreview"
                         android:layout_width="100dp"
@@ -615,19 +399,17 @@
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
 
-                    <!-- Row 4 -->
+                    <!-- DVR Static IP -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:text="DVR is Connected to Working Static IP as per SF 5.2B"
+                        android:text="DVR Connected to Working Static IP as per SF 5.2B"
                         android:textStyle="bold" />
-
                     <Spinner
                         android:id="@+id/spinnerDVRStaticIP"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-
                     <Button
                         android:id="@+id/btnUploadDVRPhoto"
                         android:layout_width="match_parent"
@@ -635,7 +417,6 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="8dp"
                         android:text="Click photo" />
-
                     <ImageView
                         android:id="@+id/ivDVRPreview"
                         android:layout_width="100dp"
@@ -644,7 +425,7 @@
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
 
-
+                    <!-- Submit Button -->
                     <Button
                         android:id="@+id/btnSubmitCCTVComplianceDetails"
                         android:layout_width="match_parent"
@@ -655,651 +436,13 @@
                         android:text="Submit"
                         android:textColor="@android:color/white"
                         android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- (ROHIT): Availabe trainers3 -->
-<!--
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardAvailableTrainers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:padding="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                &lt;!&ndash; Header &ndash;&gt;
-                <LinearLayout
-                    android:id="@+id/headerAvailableTrainers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableStart="@drawable/ic_trainner"
-                        android:gravity="center"
-                        android:text="Available Trainers and Other Staff"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/ivToggleAvailableTrainers"
-                        android:layout_width="20dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_dropdown_arrow" />
-                </LinearLayout>
-
-                &lt;!&ndash; Content &ndash;&gt;
-                <LinearLayout
-                    android:id="@+id/layoutAvailableTrainersContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp"
-                    android:visibility="visible">
-
-                    &lt;!&ndash; Profile Type &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Profile Type"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerProfileTypeTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    &lt;!&ndash; Trainer/Staff Name &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Trainer/Staff Name"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerTrainerNameTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    &lt;!&ndash; Designation &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Designation"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerDesignationTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    &lt;!&ndash; Engagement Type &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Engagement Type"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerEngagementTypeTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    &lt;!&ndash; Domain / Non-Domain &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Domain/Non-Domain"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerDomainTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    &lt;!&ndash; Assigned Courses &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Assigned Courses"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerAssignedCoursesTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    &lt;!&ndash; TOT Certified &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Whether TOT Certified?"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerTOTCertifiedTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    &lt;!&ndash; TOT Certification No. &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="TOT Certification No."
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/etTOTCertificationNoTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter Certification Number" />
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
--->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardAvailableTrainers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:padding="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- Header -->
-                <LinearLayout
-                    android:id="@+id/headerAvailableTrainers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableStart="@drawable/ic_trainner"
-                        android:gravity="center"
-                        android:text="Available Trainers and Other Staff"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/ivToggleAvailableTrainers"
-                        android:layout_width="20dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_dropdown_arrow" />
-                </LinearLayout>
-
-                <!-- Content -->
-                <LinearLayout
-                    android:id="@+id/layoutAvailableTrainersContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp"
-                    android:visibility="gone">
-
-                    <!-- Profile Type -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Profile Type"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/tvProfileTypeTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="Loading..."
-                        android:textColor="@android:color/black" />
-
-                    <!-- Trainer/Staff Name -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Trainer/Staff Name"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/tvTrainerNameTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="Loading..."
-                        android:textColor="@android:color/black" />
-
-                    <!-- Designation -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Designation"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/tvDesignationTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="Loading..."
-                        android:textColor="@android:color/black" />
-
-                    <!-- Engagement Type -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Engagement Type"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/tvEngagementTypeTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="Loading..."
-                        android:textColor="@android:color/black" />
-
-                    <!-- Domain / Non-Domain -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Domain/Non-Domain"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/tvDomainTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="Loading..."
-                        android:textColor="@android:color/black" />
-
-                    <!-- Assigned Courses -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Assigned Courses"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/tvAssignedCoursesTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="Loading..."
-                        android:textColor="@android:color/black" />
-
-                    <!-- TOT Certified -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Whether TOT Certified?"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/tvTOTCertifiedTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="Loading..."
-                        android:textColor="@android:color/black" />
-
-                    <!-- TOT Certification No. -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="TOT Certification No."
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/etTOTCertificationNoTrainers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:inputType="none"
-                        android:text="Loading..."
-                        android:textColor="@android:color/black" />
 
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- (ROHIT): Theory class room details 4-->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardTheoryClassroomDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:padding="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- Header -->
-                <LinearLayout
-                    android:id="@+id/headerTheoryClassroom"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableStart="@drawable/ic_class"
-                        android:gravity="center"
-                        android:text="Theory Class Room Details"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/ivToggleTheoryClassroom"
-                        android:layout_width="20dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_dropdown_arrow" />
-                </LinearLayout>
-
-                <!-- Content -->
-                <LinearLayout
-                    android:id="@+id/layoutTheoryClassroomContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:visibility="gone">
-
-                    <!-- Room No -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Room No."
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/etRoomNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter Room Number" />
-
-                    <!-- Room Allocation Type -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Room Allocation Type"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerRoomAllocationType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <!-- Length -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Length (In Sq Ft.)"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/etLength"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter length in sq ft"
-                        android:inputType="numberDecimal" />
-
-                    <!-- Width -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Width (In Sq Ft.)"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/etWidth"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter width in sq ft"
-                        android:inputType="numberDecimal" />
-
-                    <!-- Area -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Area (In Sq Ft.)"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/etArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter area or auto-calculate"
-                        android:inputType="numberDecimal" />
-
-                    <!-- Max Permissible Candidates -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Max Permissible Candidates"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/etMaxCandidates"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter maximum number of candidates"
-                        android:inputType="number" />
-
-                    <!-- Type of Roof -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Type of Roof"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerRoofType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <!-- False Ceiling Provided -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="False Ceiling Provided?"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerFalseCeiling"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <!-- Height of Ceiling -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Height of Ceiling (In ft)"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/etCeilingHeight"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter ceiling height in ft"
-                        android:inputType="numberDecimal" />
-
-                    <!-- Ventilation Area -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Ventilation Area (In Sq. ft)"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/etVentilationArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter ventilation area"
-                        android:inputType="numberDecimal" />
-
-                    <!-- Sound level as per Specifications -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Sound level as per Specifications"
-                        android:textStyle="bold" />
-
-                    <Spinner
-                        android:id="@+id/spinnerSoundLevel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <!-- Sound level in dB -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Sound level (In dB)"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/etSoundLevel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter dB level"
-                        android:inputType="numberDecimal" />
-
-                    <!-- Upload Photos -->
-                    <Button
-                        android:id="@+id/btnUploadPhotos"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Upload Photos" />
-
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
 
         <!-- (ROHIT): Wash Basin details 5-->
-<!--
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardToiletsWashBasins"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:padding="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                &lt;!&ndash; Header &ndash;&gt;
-                <LinearLayout
-                    android:id="@+id/headerToiletsWashBasins"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:drawableStart="@drawable/ic_bathroom"
-                        android:gravity="center"
-                        android:text="Toilets &amp; Wash Basins"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/ivToggleToiletsWashBasins"
-                        android:layout_width="20dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_dropdown_arrow" />
-                </LinearLayout>
-
-                &lt;!&ndash; Content &ndash;&gt;
-                <LinearLayout
-                    android:id="@+id/layoutToiletsWashBasinsContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:visibility="visible">
-
-                    &lt;!&ndash; Paste your full Toilets & Wash Basins content here (like etMaleToilets, btnUploadMaleToilet etc.) &ndash;&gt;
-                    &lt;!&ndash; Trimmed for readability &ndash;&gt;
-
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
--->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardToiletsWashBasins"
             android:layout_width="match_parent"
@@ -1689,11 +832,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <Button
-                        android:id="@+id/btnUploadPowerBackup"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <Button
+                            android:id="@+id/btnUploadPowerBackup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload photos" />
+
+                        <ImageView
+                            android:id="@+id/ivPowerBackupPreview"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="12dp"
+                            android:contentDescription="Power Backup Image Preview"
+                            android:scaleType="centerCrop" />
+                    </LinearLayout>
 
                     <!-- Biometric Devices -->
                     <TextView
@@ -1702,17 +860,40 @@
                         android:text="Installation of Biometric Devices"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/etBiometricDevices"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Enter details" />
+                        android:hint="Enter details"
+                        android:layout_marginBottom="8dp">
 
-                    <Button
-                        android:id="@+id/btnUploadBiometricDevices"
-                        android:layout_width="wrap_content"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etBiometricDevices"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <Button
+                            android:id="@+id/btnUploadBiometricDevices"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload photos" />
+
+                        <ImageView
+                            android:id="@+id/ivBiometricDevicesPreview"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="12dp"
+                            android:contentDescription="Biometric Devices Image Preview"
+                            android:scaleType="centerCrop"
+                           />
+                    </LinearLayout>
 
                     <!-- CCTV Monitor -->
                     <TextView
@@ -1726,11 +907,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <Button
-                        android:id="@+id/btnUploadCCTV"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <Button
+                            android:id="@+id/btnUploadCCTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload photos" />
+
+                        <ImageView
+                            android:id="@+id/ivCCTVPreview"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="12dp"
+                            android:contentDescription="CCTV Image Preview"
+                            android:scaleType="centerCrop"
+                             />
+                    </LinearLayout>
 
                     <!-- Document Storage -->
                     <TextView
@@ -1744,11 +941,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <Button
-                        android:id="@+id/btnUploadDocumentStorage"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <Button
+                            android:id="@+id/btnUploadDocumentStorage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload photos" />
+
+                        <ImageView
+                            android:id="@+id/ivDocumentStoragePreview"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="12dp"
+                            android:contentDescription="Document Storage Image Preview"
+                            android:scaleType="centerCrop"
+                            />
+                    </LinearLayout>
 
                     <!-- Printer Cum Scanner -->
                     <TextView
@@ -1757,17 +970,40 @@
                         android:text="Printer Cum Scanner (In No.)"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/etPrinterScanner"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:hint="Enter number"
+                        android:layout_marginBottom="8dp">
 
-                    <Button
-                        android:id="@+id/btnUploadPrinterScanner"
-                        android:layout_width="wrap_content"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPrinterScanner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <Button
+                            android:id="@+id/btnUploadPrinterScanner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload photos" />
+
+                        <ImageView
+                            android:id="@+id/ivPrinterScannerPreview"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="12dp"
+                            android:contentDescription="Printer Scanner Image Preview"
+                            android:scaleType="centerCrop"
+                             />
+                    </LinearLayout>
 
                     <!-- Digital Camera -->
                     <TextView
@@ -1776,17 +1012,40 @@
                         android:text="Digital Camera (In No.)"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/etDigitalCamera"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:hint="Enter number"
+                        android:layout_marginBottom="8dp">
 
-                    <Button
-                        android:id="@+id/btnUploadDigitalCamera"
-                        android:layout_width="wrap_content"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDigitalCamera"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <Button
+                            android:id="@+id/btnUploadDigitalCamera"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload photos" />
+
+                        <ImageView
+                            android:id="@+id/ivDigitalCameraPreview"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="12dp"
+                            android:contentDescription="Digital Camera Image Preview"
+                            android:scaleType="centerCrop"
+                             />
+                    </LinearLayout>
 
                     <!-- Grievance Register -->
                     <TextView
@@ -1800,11 +1059,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <Button
-                        android:id="@+id/btnUploadGrievanceRegister"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <Button
+                            android:id="@+id/btnUploadGrievanceRegister"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload photos" />
+
+                        <ImageView
+                            android:id="@+id/ivGrievanceRegisterPreview"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="12dp"
+                            android:contentDescription="Grievance Register Image Preview"
+                            android:scaleType="centerCrop"
+                             />
+                    </LinearLayout>
 
                     <!-- SF 5.1P Equipment -->
                     <TextView
@@ -1818,11 +1093,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <Button
-                        android:id="@+id/btnUploadMinimumEquipment"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <Button
+                            android:id="@+id/btnUploadMinimumEquipment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload photos" />
+
+                        <ImageView
+                            android:id="@+id/ivMinimumEquipmentPreview"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="12dp"
+                            android:contentDescription="Minimum Equipment Image Preview"
+                            android:scaleType="centerCrop"
+                             />
+                    </LinearLayout>
 
                     <!-- Direction Boards -->
                     <TextView
@@ -1836,11 +1127,40 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <Button
-                        android:id="@+id/btnUploadDirectionBoards"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <Button
+                            android:id="@+id/btnUploadDirectionBoards"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload photos" />
+
+                        <ImageView
+                            android:id="@+id/ivDirectionBoardsPreview"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="12dp"
+                            android:contentDescription="Direction Boards Image Preview"
+                            android:scaleType="centerCrop"
+                            />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnCommonEquipmentDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="8dp"
+                        android:backgroundTint="?attr/colorPrimary"
+                        android:text="Submit"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -1921,6 +1241,15 @@
                         android:layout_height="wrap_content"
                         android:text="Upload photos" />
 
+                    <ImageView
+                        android:id="@+id/ivTcNameBoardPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Training Centre Name Board Preview"
+                        android:visibility="gone" />
+
                     <!-- Activity Summary Board -->
                     <TextView
                         android:layout_width="match_parent"
@@ -1938,6 +1267,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Upload photos" />
+
+                    <ImageView
+                        android:id="@+id/ivActivityAchievementBoardPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Activity Summary Board Preview"
+                        android:visibility="gone" />
 
                     <!-- Student Entitlement & Responsibilities Board -->
                     <TextView
@@ -1957,6 +1295,15 @@
                         android:layout_height="wrap_content"
                         android:text="Upload photos" />
 
+                    <ImageView
+                        android:id="@+id/ivStudentEntitlementBoardPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Student Entitlement Board Preview"
+                        android:visibility="gone" />
+
                     <!-- Contact Details of Important People -->
                     <TextView
                         android:layout_width="match_parent"
@@ -1974,6 +1321,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Upload photos" />
+
+                    <ImageView
+                        android:id="@+id/ivContactDetailBoardPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Contact Detail Board Preview"
+                        android:visibility="gone" />
 
                     <!-- Basic Info Board at Training Centre -->
                     <TextView
@@ -1993,6 +1349,15 @@
                         android:layout_height="wrap_content"
                         android:text="Upload photos" />
 
+                    <ImageView
+                        android:id="@+id/ivBasicInfoBoardPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Basic Info Board Preview"
+                        android:visibility="gone" />
+
                     <!-- Code of Conduct Board -->
                     <TextView
                         android:layout_width="match_parent"
@@ -2010,6 +1375,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Upload photos" />
+
+                    <ImageView
+                        android:id="@+id/ivCodeConductBoardPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Code of Conduct Board Preview"
+                        android:visibility="gone" />
 
                     <!-- Student Attendance & Entitlement Summary -->
                     <TextView
@@ -2029,9 +1403,32 @@
                         android:layout_height="wrap_content"
                         android:text="Upload photos" />
 
+                    <ImageView
+                        android:id="@+id/ivStudentAttendanceBoardPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="Student Attendance Board Preview"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btnSignagesInfoDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="8dp"
+                        android:backgroundTint="?attr/colorPrimary"
+                        android:text="Submit"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
+
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
 
         <!-- (ROHIT):General details8 -->
         <com.google.android.material.card.MaterialCardView
@@ -2187,101 +1584,6 @@
         </com.google.android.material.card.MaterialCardView>
 
         <!-- (ROHIT):Electrical wiring Deatils9-->
-        <!--
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardElectricalWiring"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:padding="8dp"
-            app:cardElevation="6dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                &lt;!&ndash; Header &ndash;&gt;
-                <LinearLayout
-                    android:id="@+id/headerElectricalWiring"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Electrical Wiring &amp; Standards"
-                        android:drawableStart="@drawable/ic_electrical"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/ivToggleElectricalWiring"
-                        android:layout_width="20dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_dropdown_arrow" />
-                </LinearLayout>
-
-                &lt;!&ndash; Content &ndash;&gt;
-                <LinearLayout
-                    android:id="@+id/layoutElectricalWiringContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="visible"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp">
-
-                    &lt;!&ndash; Securing of Wires &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Securing of Wires"
-                        android:textStyle="bold" />
-                    <Spinner
-                        android:id="@+id/spinnerSecuringWires"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                    <Button
-                        android:id="@+id/btnUploadSecuringWires"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Click photo"
-                        android:layout_margin="@dimen/dp_4"/>
-
-                    &lt;!&ndash; Switch Boards & Panel Boards &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Switch Boards &amp; Panel Boards"
-                        android:textStyle="bold" />
-                    <Spinner
-                        android:id="@+id/spinnerSwitchBoards"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                    <Button
-                        android:id="@+id/btnUploadSwitchBoards"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Click photo"
-                        android:layout_margin="@dimen/dp_4"/>
-
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
--->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardElectricalWiring"
             android:layout_width="match_parent"
@@ -2500,12 +1802,20 @@
                         android:text="Fire Fighting Equipment"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/editFireFightingEquipment"
+                    <!-- TextInputLayout wrapping TextInputEditText -->
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:hint="Type here" />
+                        android:hint="Type here">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editFireFightingEquipment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <Button
                         android:id="@+id/btnUploadFireFightingEquipment"
@@ -2553,6 +1863,8 @@
                         android:id="@+id/btnSubmitSupportInfrastructure"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="8dp"
                         android:backgroundTint="?attr/colorPrimary"
@@ -2564,9 +1876,13 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Availability of Teaching Learning Materials11-->
+
+
+
+        <!--Description of other areas12-->
+<!--
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardTeachingLearningMaterials"
+            android:id="@+id/cardDescriptionOtherAreas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -2581,9 +1897,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Header -->
+                &lt;!&ndash; Header &ndash;&gt;
                 <LinearLayout
-                    android:id="@+id/headerTeachingLearningMaterials"
+                    android:id="@+id/headerDescriptionOtherAreas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
@@ -2597,69 +1913,290 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableStart="@drawable/ic_cctv"
                         android:gravity="center"
-                        android:text="Availability of Teaching Learning Materials"
+                        android:text="Description of Other Areas"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <ImageView
-                        android:id="@+id/ivToggleTeachingLearningMaterials"
+                        android:id="@+id/ivToggleDescriptionOtherAreas"
                         android:layout_width="20dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_dropdown_arrow" />
                 </LinearLayout>
 
-                <!-- Content -->
+                &lt;!&ndash; Content &ndash;&gt;
                 <LinearLayout
-                    android:id="@+id/layoutTeachingLearningMaterialsContent"
+                    android:id="@+id/layoutDescriptionOtherAreasContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
-                    <!-- Is Welcome Kit Available -->
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Is Welcome Kit Available as per SF-5.1C2 ?"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingTop="8dp"
+                        android:text="Enter Corridor number"
                         android:textStyle="bold" />
 
-                    <Spinner
-                        android:id="@+id/spinnerWelcomeKitAvailable"
+                    &lt;!&ndash; Corridor No. &ndash;&gt;
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:hint="Corridor No."
+                        android:paddingTop="8dp">
 
-                    <!-- Welcome Kit Proof -->
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etCorridorNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Welcome Kit Proof"
-                        android:textStyle="bold"
-                        android:layout_marginTop="12dp"/>
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingTop="8dp"
+                        android:text="Enter Length"
+                        android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/btnUploadWelcomeKitProof"
+                    &lt;!&ndash; Length (In Ft.) &ndash;&gt;
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload"
-                        android:layout_margin="@dimen/dp_4" />
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:hint="Length (In Ft.)"
+                        android:paddingTop="8dp">
 
-                    <ImageView
-                        android:id="@+id/ivWelcomeKitProofPreview"
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_marginBottom="@dimen/dp_8"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDescLength"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <Button
-                        android:id="@+id/btnSubmitTeachingLearningMaterials"
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingTop="8dp"
+                        android:text="Enter width"
+                        android:textStyle="bold" />
+
+                    &lt;!&ndash; Width (In Ft.) &ndash;&gt;
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:hint="Width (In Ft.)"
+                        android:paddingTop="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etDescWidth"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingTop="8dp"
+                        android:text="Area"
+                        android:textStyle="bold" />
+
+
+                    &lt;!&ndash; Area (In Sq. Ft.) - Auto Calculated &ndash;&gt;
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:hint="Area (In Sq. Ft.)"
+                        android:paddingTop="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:focusable="false"
+                            android:inputType="numberDecimal"
+                            android:text="0.0"
+                            android:textColor="@android:color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    &lt;!&ndash; Lights (In No.) &ndash;&gt;
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:hint="Lights (In No.)"
+                        android:paddingTop="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etLights"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    &lt;!&ndash; Fans (In No.) &ndash;&gt;
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:hint="Fans (In No.)"
+                        android:paddingTop="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etFans"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    &lt;!&ndash; Proof Upload &ndash;&gt;
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingTop="8dp"
+                        android:text="Proof Upload"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/btnUploadProof"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload Proof" />
+
+                    &lt;!&ndash; Circulation Area (In Sq. Ft.) &ndash;&gt;
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:hint="Circulation Area (In Sq. Ft.)"
+                        android:paddingTop="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etCirculationArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    &lt;!&ndash; Circulation Area Proof Upload &ndash;&gt;
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingTop="8dp"
+                        android:text="Circulation Area Proof Upload"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/btnUploadCirculationProof"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload Circulation Proof" />
+
+                    &lt;!&ndash; Open Space for People to Gather and Interact (In Sq. Ft.) &ndash;&gt;
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:hint="Open Space for People to Gather and Interact (In Sq. Ft.)"
+                        android:paddingTop="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etOpenSpace"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    &lt;!&ndash; Open Space Proof Upload &ndash;&gt;
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingTop="8dp"
+                        android:text="Open Space Proof Upload"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/btnUploadOpenSpaceProof"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload Open Space Proof" />
+
+                    &lt;!&ndash; Exclusive Parking Space (No. of Bicycle Parking Slots) &ndash;&gt;
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:hint="Exclusive Parking Space (No. of Bicycle Parking Slots)"
+                        android:paddingTop="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etExclusiveParkingSpace"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    &lt;!&ndash; Parking Space Proof Upload &ndash;&gt;
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingTop="8dp"
+                        android:text="Parking Space Proof Upload"
+                        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/btnUploadParkingSpaceProof"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload Parking Space Proof" />
+
+                    &lt;!&ndash; Submit Button &ndash;&gt;
+                    <Button
+                        android:id="@+id/btnSubmitDescriptionOtherAreas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="8dp"
                         android:backgroundTint="?attr/colorPrimary"
@@ -2670,8 +2207,8 @@
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+-->
 
-        <!--Description of other areas12-->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardDescriptionOtherAreas"
             android:layout_width="match_parent"
@@ -2724,15 +2261,15 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
-                    <!-- Corridor No. -->
+                    <!-- Corridor No -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Corridor No."
+                        android:hint="Corridor No"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -2742,13 +2279,13 @@
                             android:inputType="text" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Length (In Ft.) -->
+                    <!-- Length -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Length (In Ft.)"
+                        android:hint="Length"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -2758,13 +2295,13 @@
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Width (In Ft.) -->
+                    <!-- Width -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Width (In Ft.)"
+                        android:hint="Width"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -2774,34 +2311,29 @@
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Area (In Sq. Ft.) - Calculated (Readonly TextView styled) -->
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:paddingTop="8dp"
-                        android:padding="8dp"
-                        android:text="Area (In Sq. Ft.) (Auto Calculated)"/>
-
-                    <TextView
-                        android:id="@+id/tvArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:padding="8dp"
-                        android:background="@android:color/darker_gray"
-                        android:text="0.0"
-                        android:textColor="@android:color/black" />
-
-                    <!-- Lights (In No.) -->
+                    <!-- Area -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Lights (In No.)"
+                        android:hint="Area"
+                        android:paddingTop="8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Lights -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:hint="Lights"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -2811,13 +2343,13 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Fans (In No.) -->
+                    <!-- Fans -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Fans (In No.)"
+                        android:hint="Fans"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -2843,6 +2375,16 @@
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:text="Upload Proof" />
+
+                    <ImageView
+                        android:id="@+id/ivProofPreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:layout_marginTop="4dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
 
                     <!-- Circulation Area (In Sq. Ft.) -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -2877,6 +2419,16 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:text="Upload Circulation Proof" />
 
+                    <ImageView
+                        android:id="@+id/ivCirculationProofPreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:layout_marginTop="4dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
                     <!-- Open Space for People to Gather and Interact (In Sq. Ft.) -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -2910,6 +2462,16 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:text="Upload Open Space Proof" />
 
+                    <ImageView
+                        android:id="@+id/ivOpenSpaceProofPreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:layout_marginTop="4dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
                     <!-- Exclusive Parking Space (No. of Bicycle Parking Slots) -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -2936,20 +2498,27 @@
                         android:text="Parking Space Proof Upload"
                         android:textStyle="bold" />
                     <Button
-                        android:id="@+id/btnUploadParkingSpaceProof"
+                        android:id="@+id/btnUploadParkingProof"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Upload Parking Space Proof" />
+                        android:text="Upload Parking Proof" />
 
-                    <!-- Submit Button -->
-                    <Button
-                        android:id="@+id/btnSubmitDescriptionOtherAreas"
+                    <ImageView
+                        android:id="@+id/ivParkingProofPreview"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
+                        android:layout_marginTop="4dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btnSubmitDescOtherArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="8dp"
                         android:backgroundTint="?attr/colorPrimary"
@@ -2960,7 +2529,6 @@
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
 
     </LinearLayout>
 </ScrollView>
