@@ -35,7 +35,9 @@ class CenterFragment : Fragment() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
         adapter = CenterAdapter(emptyList()) {
-            findNavController().navigate(R.id.action_centerFragment_to_fragment_training)
+
+            val action = CenterFragmentDirections.actionCenterFragmentToFragmentTraining(it.trainingCenterId.toString())
+            findNavController().navigate(action)
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())

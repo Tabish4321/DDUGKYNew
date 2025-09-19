@@ -1,137 +1,145 @@
 <resources>
-         <string name="app_name">Ddugky</string>
+    <string name="app_name">Ddugky</string>
     <!-- TODO: Remove or change this placeholder text -->
-         <string name="hello_blank_fragment">Hello blank fragment</string>
-        <string name="electrical_wiring_title">Electrical Wiring &amp; Standards</string>
-        <string name="securing_of_wires">Securing of Wires</string>
-        <string name="switch_boards_panel_boards">Switch Boards &amp; Panel Boards</string>
-        <string name="upload_photos">Upload photos</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="electrical_wiring_title">Electrical Wiring &amp; Standards</string>
+    <string name="securing_of_wires">Securing of Wires</string>
+    <string name="switch_boards_panel_boards">Switch Boards &amp; Panel Boards</string>
+    <string name="upload_photos">Upload photos</string>
 
-        <string name="general_details_title">General Details</string>
-        <string name="leakage_check_title">Visible signs of Leakages from Walls and Roof (RCC &amp; Non-RCC)</string>
-        <string name="upload_photos_general">Upload photos</string>
-        <string name="protection_of_stairs_title">Protection of Stairs, Balconies and Other Locations</string>
-        <string name="ddu_look_and_feel_title">Conformance to DDU-GKY Look and Feel Standards (4.2.1)</string>
-        <string name="candidate_safety_title">Can the Candidates Safely come to the Centre When Training is Conducted</string>
+    <string name="general_details_title">General Details</string>
+    <string name="leakage_check_title">Visible signs of Leakages from Walls and Roof (RCC &amp; Non-RCC)</string>
+    <string name="upload_photos_general">Upload photos</string>
+    <string name="protection_of_stairs_title">Protection of Stairs, Balconies and Other Locations</string>
+    <string name="ddu_look_and_feel_title">Conformance to DDU-GKY Look and Feel Standards (4.2.1)</string>
+    <string name="candidate_safety_title">Can the Candidates Safely come to the Centre When Training is Conducted</string>
 
-        <string name="signages_info_boards_title">Signages &amp; Information Boards</string>
-        <string name="training_centre_name_board">Training Centre Name Board (SF-4.2B)</string>
-        <string name="activity_summary_board">Activity Summary and Achievement Board (SF-4.2D)</string>
-        <string name="entitlement_responsibilities_board">Student Entitlement &amp; Responsibilities Board (SF-4.2M)</string>
-        <string name="important_contacts_board">Contact Detail of Important People (SF-4.2E)</string>
-        <string name="basic_info_board">Basic Information Board at Training Centre (SF-4.2G)</string>
-        <string name="code_of_conduct_board">Code of Conduct Board for Candidates (SF-4.2J)</string>
-        <string name="attendance_summary_board">Student Attendance &amp; Entitlement Summary Info Board (SF-4.2N)</string>
-
-
-        <string name="common_equipment_title">Common Equipment</string>
-        <string name="electrical_power_backup">Electrical Power Backup</string>
-        <string name="biometric_devices_installation">Installation of Biometric Devices</string>
-        <string name="enter_details_hint">Enter details</string>
-        <string name="cctv_monitor_installation">Installation of CCTV Monitor</string>
-        <string name="document_storage_place">Storage Place for Securing Documents</string>
-        <string name="printer_scanner_quantity">Printer Cum Scanner (In No.)</string>
-        <string name="digital_camera_quantity">Digital Camera (In No.)</string>
-        <string name="grievance_register">Grievance Register</string>
-        <string name="minimum_equipment_sf_5_1p">Minimum Equipment as per SF 5.1P</string>
-        <string name="direction_boards">Direction Boards</string>
+    <string name="signages_info_boards_title">Signages &amp; Information Boards</string>
+    <string name="training_centre_name_board">Training Centre Name Board (SF-4.2B)</string>
+    <string name="activity_summary_board">Activity Summary and Achievement Board (SF-4.2D)</string>
+    <string name="entitlement_responsibilities_board">Student Entitlement &amp; Responsibilities Board (SF-4.2M)</string>
+    <string name="important_contacts_board">Contact Detail of Important People (SF-4.2E)</string>
+    <string name="basic_info_board">Basic Information Board at Training Centre (SF-4.2G)</string>
+    <string name="code_of_conduct_board">Code of Conduct Board for Candidates (SF-4.2J)</string>
+    <string name="attendance_summary_board">Student Attendance &amp; Entitlement Summary Info Board (SF-4.2N)</string>
 
 
-
-        <string name="theory_classroom_title">Theory Class Room Details</string>
-        <string name="room_number_label">Room No.</string>
-        <string name="room_number_hint">Enter Room Number</string>
-        <string name="room_allocation_type_label">Room Allocation Type</string>
-        <string name="length_label">Length (In Sq Ft.)</string>
-        <string name="length_hint">Enter length in sq ft</string>
-        <string name="width_label">Width (In Sq Ft.)</string>
-        <string name="width_hint">Enter width in sq ft</string>
-        <string name="area_label">Area (In Sq Ft.)</string>
-        <string name="area_hint">Enter area or auto-calculate</string>
-        <string name="max_candidates_label">Max Permissible Candidates</string>
-        <string name="max_candidates_hint">Enter maximum number of candidates</string>
-        <string name="roof_type_label">Type of Roof</string>
-        <string name="false_ceiling_label">False Ceiling Provided?</string>
-        <string name="ceiling_height_label">Height of Ceiling (In ft)</string>
-        <string name="ceiling_height_hint">Enter ceiling height in ft</string>
-        <string name="ventilation_area_label">Ventilation Area (In Sq. ft)</string>
-        <string name="ventilation_area_hint">Enter ventilation area</string>
-        <string name="sound_specification_label">Sound level as per Specifications</string>
-        <string name="sound_db_label">Sound level (In dB)</string>
-        <string name="sound_db_hint">Enter dB level</string>
-        <string name="upload_photos_theory_classroom">Upload Photos</string>
+    <string name="common_equipment_title">Common Equipment</string>
+    <string name="electrical_power_backup">Electrical Power Backup</string>
+    <string name="biometric_devices_installation">Installation of Biometric Devices</string>
+    <string name="enter_details_hint">Enter details</string>
+    <string name="cctv_monitor_installation">Installation of CCTV Monitor</string>
+    <string name="document_storage_place">Storage Place for Securing Documents</string>
+    <string name="printer_scanner_quantity">Printer Cum Scanner (In No.)</string>
+    <string name="digital_camera_quantity">Digital Camera (In No.)</string>
+    <string name="grievance_register">Grievance Register</string>
+    <string name="minimum_equipment_sf_5_1p">Minimum Equipment as per SF 5.1P</string>
+    <string name="direction_boards">Direction Boards</string>
 
 
-
-        <string name="trainers_section_title">Available Trainers and Other Staff</string>
-        <string name="profile_type_label">Profile Type</string>
-        <string name="trainer_name_label">Trainer/Staff Name</string>
-        <string name="designation_label">Designation</string>
-        <string name="engagement_type_label">Engagement Type</string>
-        <string name="domain_type_label">Domain/Non-Domain</string>
-        <string name="assigned_courses_label">Assigned Courses</string>
-        <string name="tot_certified_label">Whether TOT Certified?</string>
-        <string name="tot_certification_number_label">TOT Certification No.</string>
-        <string name="tot_certification_number_hint">Enter Certification Number</string>
-
-
-        <string name="cctv_section_title">IP Enabled Camera</string>
-        <string name="ip_enabled_label">IP Enabled</string>
-        <string name="resolution_label">Resolution - 1080p HD @ 25 FPS or better</string>
-        <string name="video_stream_label">Video Stream - Dual H.264 or better</string>
-        <string name="remote_access_browser_label">Remote Access - Via web browser for Configuration, Viewing &amp; control</string>
-        <string name="remote_access_simultaneous_label">Remote Access - Simultaneously access at any time at minimum 10 users</string>
-        <string name="supported_protocols_label">Supported Protocols - As per system design for real-time live monitoring and recording using IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP etc.</string>
-        <string name="color_video_audio_label">Color Video with Audio</string>
-        <string name="storage_facility_label">Storage facility to keep the complete recording till closure of project</string>
-        <string name="monitor_accessible_label">Central Monitor is easily Accessible to Centre Incharge</string>
-        <string name="click_photo">Click photo</string>
-        <string name="conformance_label">Conformance of CCTV to DDU-GKY as Provided in Chapter 5 of SOP</string>
-        <string name="storage_recorded_material_label">Storage of the CCTV Recorded Material</string>
-        <string name="dvr_static_ip_label">DVR is Connected to Working Static IP as per SF 5.2B</string>
-        <string name="submit_button">Submit</string>
+    <string name="theory_classroom_title">Theory Class Room Details</string>
+    <string name="room_number_label">Room No.</string>
+    <string name="room_number_hint">Enter Room Number</string>
+    <string name="room_allocation_type_label">Room Allocation Type</string>
+    <string name="length_label">Length (In Sq Ft.)</string>
+    <string name="length_hint">Enter length in sq ft</string>
+    <string name="width_label">Width (In Sq Ft.)</string>
+    <string name="width_hint">Enter width in sq ft</string>
+    <string name="area_label">Area (In Sq Ft.)</string>
+    <string name="area_hint">Enter area or auto-calculate</string>
+    <string name="max_candidates_label">Max Permissible Candidates</string>
+    <string name="max_candidates_hint">Enter maximum number of candidates</string>
+    <string name="roof_type_label">Type of Roof</string>
+    <string name="false_ceiling_label">False Ceiling Provided?</string>
+    <string name="ceiling_height_label">Height of Ceiling (In ft)</string>
+    <string name="ceiling_height_hint">Enter ceiling height in ft</string>
+    <string name="ventilation_area_label">Ventilation Area (In Sq. ft)</string>
+    <string name="ventilation_area_hint">Enter ventilation area</string>
+    <string name="sound_specification_label">Sound level as per Specifications</string>
+    <string name="sound_db_label">Sound level (In dB)</string>
+    <string name="sound_db_hint">Enter dB level</string>
+    <string name="upload_photos_theory_classroom">Upload Photos</string>
 
 
-        <string name="infrastructure_section_title">Infrastructure</string>
-        <string name="ownership_building_label">Ownership of Building (Own / Rent / Govt)</string>
-        <string name="area_building_label">Area of the Building (Sq. Ft.)</string>
-        <string name="roof_building_label">Roof of the Building</string>
-        <string name="structurally_sound_label">If non-RCC, Structurally Sound on Visual Inspection?</string>
-        <string name="plastering_painting_label">Plastering &amp; Painting of Internal/External Walls and Ceiling</string>
-        <string name="upload_declaration_label">Upload Self Declaration Statement</string>
-        <string name="choose_file_button">Choose File</string>
-        <string name="upload_building_plan_label">Upload Schematic Building Plan</string>
-        <string name="upload_roof_photos_label">Upload Photos of Building, Ceiling, Roof (PDF)</string>
-        <string name="upload_wall_photos_label">Upload Photos of Internal &amp; External Walls (PDF)</string>
-        <string name="choose_pdf_button">Choose PDF</string>
+    <string name="trainers_section_title">Available Trainers and Other Staff</string>
+    <string name="profile_type_label">Profile Type</string>
+    <string name="trainer_name_label">Trainer/Staff Name</string>
+    <string name="designation_label">Designation</string>
+    <string name="engagement_type_label">Engagement Type</string>
+    <string name="domain_type_label">Domain/Non-Domain</string>
+    <string name="assigned_courses_label">Assigned Courses</string>
+    <string name="tot_certified_label">Whether TOT Certified?</string>
+    <string name="tot_certification_number_label">TOT Certification No.</string>
+    <string name="tot_certification_number_hint">Enter Certification Number</string>
 
 
-
-        <string name="tc_basic_info_title">Training center information</string>
-        <string name="scheme_name_label">Scheme Name</string>
-        <string name="project_state_label">Project State</string>
-        <string name="sanction_order_no_label">Sanction Order No</string>
-        <string name="training_centre_name_hint">Name of Training Centre</string>
-        <string name="nature_training_centre_label">Nature of Training Centre</string>
-        <string name="type_of_area_label">Type of Area</string>
-        <string name="address_type_label">Address Type</string>
-        <string name="house_no_hint">House No./ Bld. No./ Apt. No.</string>
-        <string name="street_road_lane_hint">Street/ Road/ Lane</string>
-        <string name="area_locality_sector_hint">Area/ Locality/ Sector</string>
-        <string name="landmark_hint">Landmark</string>
-        <string name="state_ut_tc_label">State/UT (TC)</string>
-        <string name="district_tc_label">District (TC)</string>
-        <string name="block_label">Block</string>
-        <string name="gram_panchayat_label">Gram Panchayat</string>
-        <string name="village_ward_no_hint">Village/Ward No.</string>
-        <string name="police_station_hint">Police Station</string>
-        <string name="pincode_hint">Pincode</string>
-        <string name="mobile_no_hint">Mobile No.</string>
-        <string name="phone_std_code_hint">Training Centre Phone No. with STD Code</string>
-        <string name="email_id_hint">Email Id</string>
-        <string name="centre_incharge_details_label">Centre Incharge Details</string>
+    <string name="cctv_section_title">IP Enabled Camera</string>
+    <string name="ip_enabled_label">IP Enabled</string>
+    <string name="resolution_label">Resolution - 1080p HD @ 25 FPS or better</string>
+    <string name="video_stream_label">Video Stream - Dual H.264 or better</string>
+    <string name="remote_access_browser_label">Remote Access - Via web browser for Configuration, Viewing &amp; control</string>
+    <string name="remote_access_simultaneous_label">Remote Access - Simultaneously access at any time at minimum 10 users</string>
+    <string name="supported_protocols_label">Supported Protocols - As per system design for real-time live monitoring and recording using IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP etc.</string>
+    <string name="color_video_audio_label">Color Video with Audio</string>
+    <string name="storage_facility_label">Storage facility to keep the complete recording till closure of project</string>
+    <string name="monitor_accessible_label">Central Monitor is easily Accessible to Centre Incharge</string>
+    <string name="click_photo">Click photo</string>
+    <string name="conformance_label">Conformance of CCTV to DDU-GKY as Provided in Chapter 5 of SOP</string>
+    <string name="storage_recorded_material_label">Storage of the CCTV Recorded Material</string>
+    <string name="dvr_static_ip_label">DVR is Connected to Working Static IP as per SF 5.2B</string>
+    <string name="submit_button">Submit</string>
 
 
+    <string name="infrastructure_section_title">Infrastructure</string>
+    <string name="ownership_building_label">Ownership of Building (Own / Rent / Govt)</string>
+    <string name="area_building_label">Area of the Building (Sq. Ft.)</string>
+    <string name="roof_building_label">Roof of the Building</string>
+    <string name="structurally_sound_label">If non-RCC, Structurally Sound on Visual Inspection?</string>
+    <string name="plastering_painting_label">Plastering &amp; Painting of Internal/External Walls and Ceiling</string>
+    <string name="upload_declaration_label">Upload Self Declaration Statement</string>
+    <string name="choose_file_button">Choose File</string>
+    <string name="upload_building_plan_label">Upload Schematic Building Plan</string>
+    <string name="upload_roof_photos_label">Upload Photos of Building, Ceiling, Roof (PDF)</string>
+    <string name="upload_wall_photos_label">Upload Photos of Internal &amp; External Walls (PDF)</string>
+    <string name="choose_pdf_button">Choose PDF</string>
+
+
+    <string name="tc_basic_info_title">Training center information</string>
+    <string name="scheme_name_label">Scheme Name</string>
+    <string name="project_state_label">Project State</string>
+    <string name="sanction_order_no_label">Sanction Order No</string>
+    <string name="training_centre_name_hint">Name of Training Centre</string>
+    <string name="nature_training_centre_label">Nature of Training Centre</string>
+    <string name="type_of_area_label">Type of Area</string>
+    <string name="address_type_label">Address Type</string>
+    <string name="house_no_hint">House No./ Bld. No./ Apt. No.</string>
+    <string name="street_road_lane_hint">Street/ Road/ Lane</string>
+    <string name="area_locality_sector_hint">Area/ Locality/ Sector</string>
+    <string name="landmark_hint">Landmark</string>
+    <string name="state_ut_tc_label">State/UT (TC)</string>
+    <string name="district_tc_label">District (TC)</string>
+    <string name="block_label">Block</string>
+    <string name="gram_panchayat_label">Gram Panchayat</string>
+    <string name="village_ward_no_hint">Village/Ward No.</string>
+    <string name="police_station_hint">Police Station</string>
+    <string name="pincode_hint">Pincode</string>
+    <string name="mobile_no_hint">Mobile No.</string>
+    <string name="phone_std_code_hint">Training Centre Phone No. with STD Code</string>
+    <string name="email_id_hint">Email Id</string>
+    <string name="centre_incharge_details_label">Centre Incharge Details</string>
+
+
+    <string-array name="academic_room_types">
+        <item>Select Room Type</item>
+        <item>IT Lab</item>
+        <item>Office Cum Counselling Room</item>
+        <item>Office Room</item>
+        <item>IT Cum Domain Lab</item>
+        <item>Theory Cum IT Lab</item>
+        <item>Theory Cum Domain Lab</item>
+        <item>Domain Lab</item>
+        <item>Theory Class Room</item>
+    </string-array>
 
 
 </resources>

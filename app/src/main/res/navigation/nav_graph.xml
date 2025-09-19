@@ -51,7 +51,13 @@
         android:label="CenterFragment" >
         <action
             android:id="@+id/action_centerFragment_to_fragment_training"
-            app:destination="@id/fragment_training" />
+            app:destination="@id/fragment_training">
+            <argument
+                android:name="centerId"
+                app:argType="string" /> <!-- or int -->
+        </action>
+
+
     </fragment>
 
     <!-- ✅ Language Selection Fragment -->

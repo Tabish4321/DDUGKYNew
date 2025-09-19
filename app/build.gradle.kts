@@ -3,7 +3,9 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin") // <-- Add this line
 }
+
 
 android {
     namespace = "com.deendayalproject"

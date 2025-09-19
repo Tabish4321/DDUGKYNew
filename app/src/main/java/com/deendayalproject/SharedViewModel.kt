@@ -8,16 +8,25 @@ import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
+import com.deendayalproject.model.request.TcAvailabilitySupportInfraRequest
+import com.deendayalproject.model.request.TcBasicInfoRequest
+import com.deendayalproject.model.request.TcCommonEquipmentRequest
+import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
+import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.CCTVComplianceResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
+import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
+import com.deendayalproject.model.response.TcCommonEquipmentResponse
+import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
+import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
 
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -46,22 +55,44 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     val trainingCenters: LiveData<Result<TrainingCenterResponse>> = _trainingCenters
 
 
-
     // insert cctv section
     private val _insertCCTVdata = MutableLiveData<Result<CCTVComplianceResponse>>()
-    val insertCCTVdata: LiveData<Result<CCTVComplianceResponse>> =_insertCCTVdata
+    val insertCCTVdata: LiveData<Result<CCTVComplianceResponse>> = _insertCCTVdata
 
     // insert ipenabled section
     private val _insertIpenabledata = MutableLiveData<Result<ElectircalWiringReponse>>()
-    val insertIpenabledata : LiveData<Result<ElectircalWiringReponse>> = _insertIpenabledata
-
-
+    val insertIpenabledata: LiveData<Result<ElectircalWiringReponse>> = _insertIpenabledata
 
     // insert general details
+    private val _insertGeneralDetails = MutableLiveData<Result<InsertTcGeneralDetailsResponse>>()
+    val insertGeneralDetails: LiveData<Result<InsertTcGeneralDetailsResponse>> =
+        _insertGeneralDetails
 
-    private val _insertGeneralDetails = MutableLiveData<Result< InsertTcGeneralDetailsResponse>>()
-    val insertGeneralDetails : LiveData<Result<InsertTcGeneralDetailsResponse>> = _insertGeneralDetails
+    // insert TC details
+    private val _insertTCInfoDeatils = MutableLiveData<Result<InsertTcBasicInfoResponse>>()
+    val insertTCInfoDetails: LiveData<Result<InsertTcBasicInfoResponse>> = _insertTCInfoDeatils
 
+    // TC signages and info boards
+
+    private val _insertSignagesInfoBoardsDetails =
+        MutableLiveData<Result<TcSignagesInfoBoardResponse>>()
+    val insertSignagesInfoBoardsDetails: LiveData<Result<TcSignagesInfoBoardResponse>> =
+        _insertSignagesInfoBoardsDetails
+
+
+    // TC Support Infra
+    private val _insertSupportInfraDetails =
+        MutableLiveData<Result<TcAvailabilitySupportInfraResponse>>()
+    val insertSupportInfraDetails: LiveData<Result<TcAvailabilitySupportInfraResponse>> =
+        _insertSupportInfraDetails
+
+    // Common equipment
+
+    private val _insertCommonEquipDetails = MutableLiveData<Result<TcCommonEquipmentResponse>>()
+    val insertCommonEquipDetails: LiveData<Result<TcCommonEquipmentResponse>> = _insertCommonEquipDetails
+
+    private val _insertDescAreaDetails = MutableLiveData<Result<TcDescriptionOtherAreasResponse>>()
+    val insertDescAreaDetails: LiveData<Result<TcDescriptionOtherAreasResponse>> = _insertDescAreaDetails
     // Login API call
     fun loginUser(request: LoginRequest) {
         viewModelScope.launch {
@@ -72,9 +103,9 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun triggerSesionExpired(){
+    /*   fun triggerSesionExpired(){
         _sessionExpired.postValue(true)
-    }
+    }*/
 
     // fetch Module and forms
     fun fetch(modulesRequest: ModulesRequest, token: String) {
@@ -108,7 +139,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-//IP enabled camera insert
+    //IP enabled camera insert
     fun submitCCTVDataToServer(request: CCTVComplianceRequest, token: String) {
         _loading.postValue(true)
         viewModelScope.launch {
@@ -122,10 +153,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     // electric wiring insert
-    fun submitElectricalData(request: ElectricalWiringRequest, token: String){
+    fun submitElectricalData(request: ElectricalWiringRequest, token: String) {
         _loading.postValue(true)
         viewModelScope.launch {
-            val result = repository.submitWiringDataToServer(request,token)
+            val result = repository.submitWiringDataToServer(request, token)
             result.onFailure {
                 _errorMessage.postValue(it.message ?: "Unknown error")
             }
@@ -133,14 +164,13 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _loading.postValue(false)
         }
 
-        }
-
+    }
 
     // general details insert
-    fun submitGeneralDetails(request: InsertTcGeneralDetailsRequest, token: String){
+    fun submitGeneralDetails(request: InsertTcGeneralDetailsRequest, token: String) {
         _loading.postValue(true)
         viewModelScope.launch {
-            val result = repository.submitGeneralDataToServer(request,token)
+            val result = repository.submitGeneralDataToServer(request, token)
             result.onFailure {
                 _errorMessage.postValue(it.message ?: "Unknown error")
             }
@@ -149,6 +179,74 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
 
     }
+
+    //TC basic info
+    fun submitTcBasicDataToServer(request: TcBasicInfoRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitTcBasicDataToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertTCInfoDeatils.postValue(result)
+            _loading.postValue(false)
+
+        }
     }
+
+    fun submitTcInfoSignageDataToServer(request: TcSignagesInfoBoardRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitSignagesBoardsDataToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertSignagesInfoBoardsDetails.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    fun submitTcSupportInfraDataToserver(
+        request: TcAvailabilitySupportInfraRequest,
+        token: String
+    ) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitInfraDataToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertSupportInfraDetails.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    fun submitTcCommonEquipment(request: TcCommonEquipmentRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitCommonEquipmentDataToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertCommonEquipDetails.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    fun submitTcDescriptionArea(request: TcDescriptionOtherAreasRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitDescDataToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertDescAreaDetails.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+}
+
 
 
