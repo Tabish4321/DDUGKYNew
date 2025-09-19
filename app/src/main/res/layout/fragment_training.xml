@@ -2368,13 +2368,6 @@
                         android:paddingTop="8dp"
                         android:text="Proof Upload"
                         android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadProof"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Upload Proof" />
 
                     <ImageView
                         android:id="@+id/ivProofPreview"
@@ -2385,6 +2378,15 @@
                         android:layout_marginTop="4dp"
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
+                    <Button
+                        android:id="@+id/btnUploadProof"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload Proof" />
+
+
 
                     <!-- Circulation Area (In Sq. Ft.) -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -2411,13 +2413,6 @@
                         android:paddingTop="8dp"
                         android:text="Circulation Area Proof Upload"
                         android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadCirculationProof"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Upload Circulation Proof" />
 
                     <ImageView
                         android:id="@+id/ivCirculationProofPreview"
@@ -2428,6 +2423,16 @@
                         android:layout_marginTop="4dp"
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btnUploadCirculationProof"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload Circulation Proof" />
+
+
 
                     <!-- Open Space for People to Gather and Interact (In Sq. Ft.) -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -2445,6 +2450,9 @@
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+
+
+
                     <!-- Open Space Proof Upload -->
                     <TextView
                         android:layout_width="match_parent"
@@ -2454,14 +2462,6 @@
                         android:paddingTop="8dp"
                         android:text="Open Space Proof Upload"
                         android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadOpenSpaceProof"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Upload Open Space Proof" />
-
                     <ImageView
                         android:id="@+id/ivOpenSpaceProofPreview"
                         android:layout_width="match_parent"
@@ -2471,6 +2471,16 @@
                         android:layout_marginTop="4dp"
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btnUploadOpenSpaceProof"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload Open Space Proof" />
+
+
 
                     <!-- Exclusive Parking Space (No. of Bicycle Parking Slots) -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -2488,6 +2498,10 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+
+
+
+
                     <!-- Parking Space Proof Upload -->
                     <TextView
                         android:layout_width="match_parent"
@@ -2497,13 +2511,6 @@
                         android:paddingTop="8dp"
                         android:text="Parking Space Proof Upload"
                         android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadParkingProof"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Upload Parking Proof" />
 
                     <ImageView
                         android:id="@+id/ivParkingProofPreview"
@@ -2514,6 +2521,13 @@
                         android:layout_marginTop="4dp"
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
+                    <Button
+                        android:id="@+id/btnUploadParkingProof"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload Parking Proof" />
 
                     <Button
                         android:id="@+id/btnSubmitDescOtherArea"
