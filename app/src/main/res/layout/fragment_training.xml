@@ -1880,334 +1880,6 @@
 
 
         <!--Description of other areas12-->
-<!--
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardDescriptionOtherAreas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:padding="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="6dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                &lt;!&ndash; Header &ndash;&gt;
-                <LinearLayout
-                    android:id="@+id/headerDescriptionOtherAreas"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Description of Other Areas"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/ivToggleDescriptionOtherAreas"
-                        android:layout_width="20dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_dropdown_arrow" />
-                </LinearLayout>
-
-                &lt;!&ndash; Content &ndash;&gt;
-                <LinearLayout
-                    android:id="@+id/layoutDescriptionOtherAreasContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp"
-                    android:visibility="visible">
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:paddingTop="8dp"
-                        android:text="Enter Corridor number"
-                        android:textStyle="bold" />
-
-                    &lt;!&ndash; Corridor No. &ndash;&gt;
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Corridor No."
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etCorridorNo"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="text" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:paddingTop="8dp"
-                        android:text="Enter Length"
-                        android:textStyle="bold" />
-
-                    &lt;!&ndash; Length (In Ft.) &ndash;&gt;
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Length (In Ft.)"
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etDescLength"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:paddingTop="8dp"
-                        android:text="Enter width"
-                        android:textStyle="bold" />
-
-                    &lt;!&ndash; Width (In Ft.) &ndash;&gt;
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Width (In Ft.)"
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etDescWidth"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:paddingTop="8dp"
-                        android:text="Area"
-                        android:textStyle="bold" />
-
-
-                    &lt;!&ndash; Area (In Sq. Ft.) - Auto Calculated &ndash;&gt;
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Area (In Sq. Ft.)"
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etArea"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:enabled="false"
-                            android:focusable="false"
-                            android:inputType="numberDecimal"
-                            android:text="0.0"
-                            android:textColor="@android:color/black" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    &lt;!&ndash; Lights (In No.) &ndash;&gt;
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Lights (In No.)"
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etLights"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    &lt;!&ndash; Fans (In No.) &ndash;&gt;
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Fans (In No.)"
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etFans"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    &lt;!&ndash; Proof Upload &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:paddingTop="8dp"
-                        android:text="Proof Upload"
-                        android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadProof"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Upload Proof" />
-
-                    &lt;!&ndash; Circulation Area (In Sq. Ft.) &ndash;&gt;
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Circulation Area (In Sq. Ft.)"
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etCirculationArea"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    &lt;!&ndash; Circulation Area Proof Upload &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:paddingTop="8dp"
-                        android:text="Circulation Area Proof Upload"
-                        android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadCirculationProof"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Upload Circulation Proof" />
-
-                    &lt;!&ndash; Open Space for People to Gather and Interact (In Sq. Ft.) &ndash;&gt;
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Open Space for People to Gather and Interact (In Sq. Ft.)"
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etOpenSpace"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    &lt;!&ndash; Open Space Proof Upload &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:paddingTop="8dp"
-                        android:text="Open Space Proof Upload"
-                        android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadOpenSpaceProof"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Upload Open Space Proof" />
-
-                    &lt;!&ndash; Exclusive Parking Space (No. of Bicycle Parking Slots) &ndash;&gt;
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:hint="Exclusive Parking Space (No. of Bicycle Parking Slots)"
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etExclusiveParkingSpace"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    &lt;!&ndash; Parking Space Proof Upload &ndash;&gt;
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:paddingTop="8dp"
-                        android:text="Parking Space Proof Upload"
-                        android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadParkingSpaceProof"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:text="Upload Parking Space Proof" />
-
-                    &lt;!&ndash; Submit Button &ndash;&gt;
-                    <Button
-                        android:id="@+id/btnSubmitDescriptionOtherAreas"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginBottom="8dp"
-                        android:backgroundTint="?attr/colorPrimary"
-                        android:text="Submit"
-                        android:textColor="@android:color/white"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
--->
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardDescriptionOtherAreas"
@@ -2263,6 +1935,15 @@
                     android:paddingTop="8dp"
                     android:visibility="visible">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=" Enter Corridor No"
+                        android:textStyle="bold"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/dp_5" />
+
                     <!-- Corridor No -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -2278,6 +1959,17 @@
                             android:layout_height="wrap_content"
                             android:inputType="text" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Enter Length"
+                        android:textStyle="bold"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/dp_5" />
 
                     <!-- Length -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -2295,6 +1987,16 @@
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=" Enter Width"
+                        android:textStyle="bold"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/dp_5" />
+
+
                     <!-- Width -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -2310,6 +2012,16 @@
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=" Enter Area"
+                        android:textStyle="bold"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/dp_5" />
 
                     <!-- Area -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -2327,6 +2039,16 @@
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Enter number of Lights"
+                        android:textStyle="bold"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/dp_5" />
+
                     <!-- Lights -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -2342,6 +2064,16 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Enter number of Fans"
+                        android:textStyle="bold"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/dp_5" />
+
 
                     <!-- Fans -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -2386,7 +2118,15 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:text="Upload Proof" />
 
-
+                    <!-- Circulation Area (In Sq. Ft.) -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=" Ener Circulation Area (In Sq. Ft.)"
+                        android:textStyle="bold"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="@dimen/dp_5" />
 
                     <!-- Circulation Area (In Sq. Ft.) -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -2449,8 +2189,6 @@
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-
 
 
                     <!-- Open Space Proof Upload -->
