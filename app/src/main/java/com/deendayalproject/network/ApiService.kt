@@ -18,12 +18,14 @@ import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
 import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
 import com.deendayalproject.model.response.TcInfraResponse
 import com.deendayalproject.model.response.TcStaffAndTrainerResponse
+import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.TrainingCenterInfoRes
 import com.deendayalproject.model.response.TrainingCenterResponse
 import retrofit2.Response
@@ -92,6 +94,19 @@ interface ApiService {
 
     @POST(value ="getTrainerCenterInfra")
     suspend fun getTrainerCenterInfra(@Body request: TrainingCenterInfo) : Response<TcInfraResponse>
+
+
+
+    @POST(value ="getTcAcademicNonAcademicArea")
+    suspend fun getTcAcademicNonAcademicArea(@Body request: TrainingCenterInfo) : Response<TcAcademiaNonAcademiaRes>
+
+
+
+    @POST(value ="getTcToiletWashBasin")
+    suspend fun getTcToiletWashBasin(@Body request: TrainingCenterInfo) : Response<ToiletResponse>
+
+
+
 
 }
 

@@ -21,7 +21,6 @@ import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.adapter.DescriptionAcademiaAdapter
 import com.deendayalproject.adapter.TrainerStaffAdapter
-import com.deendayalproject.databinding.FragmentQTeamFormBinding
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.response.Trainer
 import com.deendayalproject.util.AppUtil
@@ -32,12 +31,13 @@ import android.net.Uri
 import android.util.Base64
 import android.widget.ImageView
 import androidx.core.content.FileProvider
+import com.deendayalproject.databinding.FragmentSrlmverificatiomFormBinding
 import com.deendayalproject.model.response.RoomItem
 import java.io.File
 
-class QTeamFormFragment : Fragment() {
+class SrlmVerificationForm : Fragment() {
 
-    private var _binding: FragmentQTeamFormBinding? = null
+    private var _binding: FragmentSrlmverificatiomFormBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
     var dataStaffList: MutableList<Trainer> = mutableListOf()
@@ -134,12 +134,11 @@ class QTeamFormFragment : Fragment() {
 
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentQTeamFormBinding.inflate(inflater, container, false)
+        _binding = FragmentSrlmverificatiomFormBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -187,18 +186,6 @@ class QTeamFormFragment : Fragment() {
     }
 
     private fun listener() {
-
-
-        // Remove this when new module added
-
-        binding.logo.setOnClickListener {
-
-            findNavController().navigate(R.id.action_QTeamFormFragment_to_srlmVerListFragment)
-
-        }
-
-
-
 
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -510,11 +497,9 @@ class QTeamFormFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-
-
         binding.valueMaleToilet.setOnClickListener {
 
-            showBase64ImageDialog(requireContext(), maleToiletImage, "maleToilet Image")
+            showBase64ImageDialog(requireContext(), maleToiletImage, "Self Declaration Image")
 
         }
 
@@ -1441,6 +1426,21 @@ class QTeamFormFragment : Fragment() {
                             binding.tvRoofOfBuilding.text = x.buildingRoof
                             binding.tvPlasteringPainting.text = x.painting
 
+                            /* selfDeclarationPdf=
+                                """ JVBERi0xLjUKJeLjz9MKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAwIFI+PgplbmRv
+                             YmoKMiAwIG9iago8PC9UeXBlL1BhZ2VzL0tpZHMgWzMgMCBSXS9Db3VudCAxPj4KZW5kb2JqCjMg
+                             MCBvYmoKPDwvVHlwZS9QYWdlL1BhcmVudCAyIDAgUi9SZXNvdXJjZXMgPDwvRm9udCA8PC9GMCA0
+                             IDAgUj4+Pj4vTWVkaWFCb3hbMCAwIDU5NSA4NDJdL0NvbnRlbnRzIDUgMCBSPj4KZW5kb2JqCjQg
+                             MCBvYmoKPDwvVHlwZS9Gb250L1N1YnR5cGUvVHlwZTEvTmFtZS9GMC9CYXNlRm9udC9IZWx2ZXRp
+                             Y2EvRW5jb2RpbmcvV2luQW5zaUVuY29kaW5nPj4KZW5kb2JqCjUgMCBvYmoKPDwvTGVuZ3RoIDY2
+                             Pj5zdHJlYW0KSGVsbG8gV29ybGQKZW5kc3RyZWFtCmVuZG9iago3IDAgb2JqCjw8L1R5cGUvWE9i
+                             amVjdC9TdWJ0eXBlL0ltYWdlL0hlaWdodCAxL1dpZHRoIDEvQml0c1BlckNvbXBvbmVudCA4L0xl
+                             bmd0aCAwPj4KZW5kb2JqCnhyZWYKMCA4CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAxMCAw
+                             MDAwMCBuIAowMDAwMDAwMDYzIDAwMDAwIG4gCjAwMDAwMDAxMjYgMDAwMDAgbiAKMDAwMDAwMDE5
+                             MCAwMDAwMCBuIAowMDAwMDAwMjYwIDAwMDAwIG4gCjAwMDAwMDAzNDMgMDAwMDAgbiAKMDAwMDAw
+                             MDM5MyAwMDAwMCBuIAp0cmFpbGVyCjw8L1Jvb3QgMSAwIFIvU2l6ZSA4Pj4Kc3RhcnR4cmVmCjQ0
+                             NQolJUVPRgo=""".trimIndent()*/
+
                             selfDeclarationPdf=x.selfDeclaration
                             buildingPdf= x.roofCeilingPhoto
                             schematicPdf= x.buildingPlan
@@ -1514,7 +1514,6 @@ class QTeamFormFragment : Fragment() {
         }
     }
 
-
     private fun collectTCToiletAndWash() {
 
         viewModel.getTcToiletWashBasin.observe(viewLifecycleOwner) { result ->
@@ -1574,6 +1573,7 @@ class QTeamFormFragment : Fragment() {
     }
 
 
+
     fun openBase64Pdf(context: Context, base64: String) {
         try {
             // Clean Base64
@@ -1607,9 +1607,6 @@ class QTeamFormFragment : Fragment() {
             Toast.makeText(context, "Failed to open PDF", Toast.LENGTH_SHORT).show()
         }
     }
-
-
-
     fun showBase64ImageDialog(context: Context, base64ImageString: String?, title: String = "Image") {
         val imageView = ImageView(context)
 
@@ -1649,6 +1646,7 @@ class QTeamFormFragment : Fragment() {
             .setPositiveButton("Close") { dialog, _ -> dialog.dismiss() }
             .show()
     }
+
 
 }
 

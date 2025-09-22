@@ -23,15 +23,18 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.deendayalproject.fragments.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_centerFragment"
             app:destination="@id/centerFragment" />
         <action
             android:id="@+id/action_homeFragment_to_QTeamListFragment"
             app:destination="@id/QTeamListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_srlmVerListFragment"
+            app:destination="@id/srlmVerListFragment" />
 
-        <!-- ✅ Correct action to language fragment -->
 
     </fragment>
 
@@ -80,7 +83,39 @@
         android:id="@+id/QTeamFormFragment"
         android:name="com.deendayalproject.fragments.QTeamFormFragment"
         android:label="fragment_q_team_form"
-        tools:layout="@layout/fragment_q_team_form" />
+        tools:layout="@layout/fragment_q_team_form">
+        <action
+            android:id="@+id/action_QTeamFormFragment_to_srlmVerListFragment"
+            app:destination="@id/srlmVerListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/srlmVerListFragment"
+        android:name="com.deendayalproject.fragments.SrlmVerListFragment"
+        android:label="SrlmVerListFragment"
+        tools:layout="@layout/fragment_srlm_list_layout">
+        <action
+            android:id="@+id/action_srlmVerListFragment_to_srlmVerificationForm"
+            app:destination="@id/srlmVerificationForm" >
+
+
+            <argument
+                android:name="centerId"
+                app:argType="string"/>
+            <argument
+                android:name="centerName"
+                app:argType="string"/>
+            <argument
+                android:name="sanctionOrder"
+                app:argType="string"/>
+
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/srlmVerificationForm"
+        android:name="com.deendayalproject.fragments.SrlmVerificationForm"
+        android:label="SrlmVerificationForm"
+        tools:layout="@layout/fragment_srlmverificatiom_form"/>
 
 
 </navigation>

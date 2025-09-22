@@ -20,6 +20,7 @@ import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcInfraResponse
 import com.deendayalproject.model.response.TcStaffAndTrainerResponse
 import com.deendayalproject.model.response.TrainingCenterInfoRes
@@ -27,6 +28,7 @@ import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
 import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
+import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
 import com.deendayalproject.util.AppUtil
 import com.google.gson.Gson
@@ -305,6 +307,41 @@ class CommonRepository(private val context: Context) {
         return try {
             // val bearerToken = "Bearer $token"
             val response = apiService.getTrainerCenterInfra(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+
+        suspend fun getTcAcademicNonAcademicArea(request: TrainingCenterInfo) : Result<TcAcademiaNonAcademiaRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getTcAcademicNonAcademicArea(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+    suspend fun getTcToiletWashBasin(request: TrainingCenterInfo) : Result<ToiletResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getTcToiletWashBasin(request)
             if (response.isSuccessful){
                 response.body()?.let { Result.success(it) }
                     ?: Result.failure(Exception("Empty response"))

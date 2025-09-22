@@ -21,6 +21,7 @@ import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcInfraResponse
 import com.deendayalproject.model.response.TcStaffAndTrainerResponse
 import com.deendayalproject.model.response.TrainingCenterInfoRes
@@ -28,6 +29,7 @@ import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
 import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
+import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
 
 import kotlinx.coroutines.launch
@@ -328,6 +330,39 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 _errorMessage.postValue(it.message ?: "Unknown error")
             }
             _getTrainerCenterInfra.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    private val _getTcAcademicNonAcademicArea = MutableLiveData<Result<TcAcademiaNonAcademiaRes>>()
+    val getTcAcademicNonAcademicArea: LiveData<Result<TcAcademiaNonAcademiaRes>> = _getTcAcademicNonAcademicArea
+
+
+    fun getTcAcademicNonAcademicArea(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getTcAcademicNonAcademicArea(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getTcAcademicNonAcademicArea.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    private val _getTcToiletWashBasin = MutableLiveData<Result<ToiletResponse>>()
+    val getTcToiletWashBasin: LiveData<Result<ToiletResponse>> = _getTcToiletWashBasin
+
+
+    fun getTcToiletWashBasin(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getTcToiletWashBasin(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getTcToiletWashBasin.postValue(result)
             _loading.postValue(false)
         }
     }
