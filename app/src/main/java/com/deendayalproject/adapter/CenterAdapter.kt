@@ -37,8 +37,6 @@ class CenterAdapter(
             onItemClick(center)
         }
     }
-
-
     override fun getItemCount(): Int = centers.size
 
     fun updateData(newList: List<TrainingCenter>) {
