@@ -444,6 +444,7 @@
     <string name="sf_63a6_candidates_after_freezing">SF 6.3A6 : List of Candidates After Freezing of the Batch</string>
     <string name="sf_63a7_candidates_after_completion">SF 6.3A7 : List of Candidates After Completion of Training of the Batch</string>
     <string name="submit">Submit</string>
+    <string name="switch_boards_and_panel_boards">Switch Boards and Panel Boards</string>
 
 
 </resources>

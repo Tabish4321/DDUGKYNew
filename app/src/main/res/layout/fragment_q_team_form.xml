@@ -2413,7 +2413,7 @@
             android:id="@+id/labelSwitchBoard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/protection_of_stairs_balconies_and_other_locations"
+            android:text="@string/switch_boards_and_panel_boards"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
             android:layout_marginTop="@dimen/dp_15"

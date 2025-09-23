@@ -13,7 +13,9 @@ import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.CCTVComplianceResponse
+import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.ElectircalWiringReponse
+import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.LoginResponse
@@ -25,6 +27,7 @@ import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
 import com.deendayalproject.model.response.TcInfraResponse
 import com.deendayalproject.model.response.TcStaffAndTrainerResponse
+import com.deendayalproject.model.response.TeachingLearningRes
 import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.TrainingCenterInfoRes
 import com.deendayalproject.model.response.TrainingCenterResponse
@@ -106,6 +109,17 @@ interface ApiService {
     suspend fun getTcToiletWashBasin(@Body request: TrainingCenterInfo) : Response<ToiletResponse>
 
 
+
+    @POST(value ="getDescriptionOtherArea")
+    suspend fun getDescriptionOtherArea(@Body request: TrainingCenterInfo) : Response<DescOtherAreaRes>
+
+
+    @POST(value ="getTeachingLearningMaterial")
+    suspend fun getTeachingLearningMaterial(@Body request: TrainingCenterInfo) : Response<TeachingLearningRes>
+
+
+    @POST(value ="getGeneralDetails")
+    suspend fun getGeneralDetails(@Body request: TrainingCenterInfo) : Response<GeneralDetails>
 
 
 }

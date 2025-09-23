@@ -132,6 +132,44 @@ class SrlmVerificationForm : Fragment() {
     private var typeOfFlooringImage = ""
 
 
+    private var fansImage = ""
+    private var circulationAreaImage = ""
+    private var openSpaceImage = ""
+    private var parkingSpaceImage = ""
+    private var welcomeKitImage = ""
+    private var signOfLeakageImage = ""
+    private var protectionStairsBalImage = ""
+    private var securingWiringImage = ""
+    private var switchBoardImage = ""
+
+
+    private var tcNameBoardImage = ""
+    private var activitySummaryBoardImage = ""
+    private var studentEntitlementBoardImage = ""
+    private var contactDetailImpoPeopleImage = ""
+    private var basicInfoBoardImage = ""
+    private var codeOfConductImage = ""
+    private var studentAttendanceImage = ""
+    private var centralMonitorImage = ""
+    private var conformationOfCCTVImage = ""
+    private var storageOfCCtvImage = ""
+    private var dvrImage = ""
+
+
+    private var electricPowerImage = ""
+    private var installBiometricImage = ""
+    private var installationCCTVImage = ""
+    private var storagePlaceSecuringDocImage = ""
+    private var printerCumImage = ""
+    private var digitalCameraImage = ""
+    private var grievanceImage = ""
+    private var minimumEquipmentImage = ""
+    private var directionBoardsImage = ""
+    private var safeDrinkingImage = ""
+    private var fireFightingImage = ""
+    private var firstAidImage = ""
+
+
 
 
     override fun onCreateView(
@@ -185,7 +223,9 @@ class SrlmVerificationForm : Fragment() {
 
     }
 
+
     private fun listener() {
+
 
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -497,9 +537,12 @@ class SrlmVerificationForm : Fragment() {
             findNavController().navigateUp()
         }
 
+
+
+        // Wash basin image set
         binding.valueMaleToilet.setOnClickListener {
 
-            showBase64ImageDialog(requireContext(), maleToiletImage, "Self Declaration Image")
+            showBase64ImageDialog(requireContext(), maleToiletImage, "maleToilet Image")
 
         }
 
@@ -508,8 +551,6 @@ class SrlmVerificationForm : Fragment() {
             showBase64ImageDialog(requireContext(), maleToiletSignageImage, "male Toilet Signage Image ")
 
         }
-
-
 
         binding.valueMaleUrinals.setOnClickListener {
 
@@ -559,7 +600,39 @@ class SrlmVerificationForm : Fragment() {
         }
 
 
+        // desc area image set
 
+
+        binding.valueFans.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), fansImage, "fan Image")
+
+        }
+
+
+        binding.valueCirculationArea.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), circulationAreaImage, "circulation Area Image")
+
+        }
+
+
+        binding.valueOpenSpace.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), openSpaceImage, "open Space Image")
+
+        }
+
+
+
+        binding.valueParking.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), parkingSpaceImage, "parking Space Image")
+
+        }
+
+
+        // Infra pdf set
         binding.tvSelfDeclarationPdf.setOnClickListener {
 
             openBase64Pdf(requireContext(), selfDeclarationPdf)
@@ -583,6 +656,206 @@ class SrlmVerificationForm : Fragment() {
             openBase64Pdf(requireContext(), internalExternalWallPdf)
 
         }
+
+
+
+        //Availiblity Teaching  image set
+
+
+        binding.valueIsWelcomeKitAvail.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), welcomeKitImage, "welcome Kit Image")
+
+        }
+
+
+        //General Details image set
+
+        binding.valueSignOfLiakage.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), signOfLeakageImage, "sign Of Leakage Image")
+
+        }
+
+        binding.valueProtectionOfStairs.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), protectionStairsBalImage, "protection Stairs Balcony Image")
+
+        }
+
+
+        //Electrical wiring
+        binding.valueSecuringWire.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), securingWiringImage, "securing Wiring Image")
+
+        }
+
+        binding.valueSwitchBoard.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), switchBoardImage, "switch Board Image")
+
+        }
+
+        //signage's and info boards
+
+        binding.signageLayout.valueCenterNameBoard.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), tcNameBoardImage, "Training Center Name Board")
+
+        }
+
+
+        binding.signageLayout.valueSummaryAcheivement.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), activitySummaryBoardImage, "Activity Summary Achievement")
+
+        }
+
+
+        binding.signageLayout.valueStudentEntitlement.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), studentEntitlementBoardImage, "student Entitlement Board Image")
+
+        }
+
+
+        binding.signageLayout.valueContactDetail.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), contactDetailImpoPeopleImage, "contact Detail Important People Image")
+
+        }
+
+        binding.signageLayout.valueBasicInfoBoard.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), basicInfoBoardImage, "basic Info Board Image")
+
+        }
+
+        binding.signageLayout.valueCodeOfConduct.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), codeOfConductImage, "code of conduct")
+
+        }
+
+        binding.signageLayout.valueAttendanceSummary.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), studentAttendanceImage, "student Attendance Image")
+
+        }
+
+        // Ip Enable
+
+        binding.ipCameraLayout.valueCentralMonitor.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), centralMonitorImage, "central Monitor Image")
+
+        }
+
+
+        binding.ipCameraLayout.valueConformanceCCTV.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), conformationOfCCTVImage, "conformation Of CCTV Image")
+
+        }
+
+        binding.ipCameraLayout.valueStorageCCTV.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), storageOfCCtvImage, "storage Of CCtv Image")
+
+        }
+
+
+        binding.ipCameraLayout.valueDvrStaticIP.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), dvrImage, "DVR is Connected")
+
+        }
+
+
+        // common equipment
+
+        binding.commonEquipmentLayout.valueElectricalPowerBackup.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), electricPowerImage, "electric Power Image")
+
+        }
+
+        binding.commonEquipmentLayout.valueBiometricDevices.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), installBiometricImage, "install Biometric Image")
+
+        }
+
+
+        binding.commonEquipmentLayout.valueCCTVMonitor.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), installationCCTVImage, "installation CCTV Image")
+
+        }
+
+        binding.commonEquipmentLayout.valueStorageDocs.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), storagePlaceSecuringDocImage, "storage Place Securing Doc Image")
+
+        }
+
+        binding.commonEquipmentLayout.valuePrinterScanner.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), printerCumImage, "printer Cum Image")
+
+        }
+
+        binding.commonEquipmentLayout.valueDigitalCamera.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), digitalCameraImage, "digital Camera Image")
+
+        }
+
+
+        binding.commonEquipmentLayout.valueGrievanceRegister.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), grievanceImage, "grievance Image")
+
+        }
+
+        binding.commonEquipmentLayout.valueMinEquipment.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), minimumEquipmentImage, "minimum Equipment Image")
+
+        }
+
+
+        binding.commonEquipmentLayout.valueDirectionBoards.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), directionBoardsImage, "direction Boards Image")
+
+        }
+
+        //Availability of support infra
+
+
+        binding.availSupportInfraLayout.valueSafeDrinkingWater.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), safeDrinkingImage, "safe Drinking Image")
+
+        }
+
+        binding.availSupportInfraLayout.valueFireFighting.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), fireFightingImage, "fire Fighting Image")
+
+        }
+
+
+        binding.availSupportInfraLayout.valueFirstAidKit.setOnClickListener {
+
+            showBase64ImageDialog(requireContext(), firstAidImage, "first Aid Image")
+
+        }
+
+
+
 
 
         binding.trainingCenterInfoLayout.tvViewTrainerAndStaff.setOnClickListener {
@@ -802,6 +1075,22 @@ class SrlmVerificationForm : Fragment() {
                 }
             } else selectedTcBasinRemarks = ""
             // Common UI updates
+
+
+
+
+            val requestTcInfraReq = TrainingCenterInfo(
+                appVersion = BuildConfig.VERSION_NAME,
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                tcId = centerId.toInt(),
+                imeiNo = AppUtil.getAndroidId(requireContext())
+            )
+            viewModel.getDescriptionOtherArea(requestTcInfraReq)
+
+            collectTCDescOtherArea()
+
+
+
             binding.trainingToiletExpand.visibility = View.GONE
             binding.viewToilet.visibility = View.GONE
             binding.tvTrainToilet.setCompoundDrawablesWithIntrinsicBounds(
@@ -850,6 +1139,19 @@ class SrlmVerificationForm : Fragment() {
                     return@setOnClickListener
                 }
             } else selectedTcDescOtherAreaRemarks = ""
+
+
+
+
+            val requestTcInfraReq = TrainingCenterInfo(
+                appVersion = BuildConfig.VERSION_NAME,
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                tcId = centerId.toInt(),
+                imeiNo = AppUtil.getAndroidId(requireContext())
+            )
+            viewModel.getTeachingLearningMaterial(requestTcInfraReq)
+
+            collectTCTeaching()
             // Common UI updates
             binding.trainingDescOfOtherAreaExpand.visibility = View.GONE
             binding.viewDescOfOtherArea.visibility = View.GONE
@@ -900,6 +1202,20 @@ class SrlmVerificationForm : Fragment() {
                 }
             } else selectedTcTeachingRemarks = ""
             // Common UI updates
+
+
+            val requestTcInfraReq = TrainingCenterInfo(
+                appVersion = BuildConfig.VERSION_NAME,
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                tcId = centerId.toInt(),
+                imeiNo = AppUtil.getAndroidId(requireContext())
+            )
+            viewModel.getGeneralDetails(requestTcInfraReq)
+
+
+            collectTCGeneral()
+
+
             binding.trainingTeachingExpand.visibility = View.GONE
             binding.viewTeaching.visibility = View.GONE
             binding.tvTrainTeaching.setCompoundDrawablesWithIntrinsicBounds(
@@ -1319,8 +1635,9 @@ class SrlmVerificationForm : Fragment() {
                             binding.trainingCenterInfoLayout.tvCenterName.text = x.centerName
                             binding.trainingCenterInfoLayout.tvProjectState.text = x.projectState
                             binding.trainingCenterInfoLayout.tvTypeOfArea.text = x.addressType
-                            binding.trainingCenterInfoLayout.tvlatAndLang.text =
-                                x.latitude + x.longitude
+                            binding.trainingCenterInfoLayout.tvlatAndLang.text = x.latitude + " , " + x.longitude
+
+
                             binding.trainingCenterInfoLayout.tvDistanceBus.text =
                                 x.distanceFromBusStand
                             binding.trainingCenterInfoLayout.tvDistanceAuto.text =
@@ -1426,21 +1743,6 @@ class SrlmVerificationForm : Fragment() {
                             binding.tvRoofOfBuilding.text = x.buildingRoof
                             binding.tvPlasteringPainting.text = x.painting
 
-                            /* selfDeclarationPdf=
-                                """ JVBERi0xLjUKJeLjz9MKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAwIFI+PgplbmRv
-                             YmoKMiAwIG9iago8PC9UeXBlL1BhZ2VzL0tpZHMgWzMgMCBSXS9Db3VudCAxPj4KZW5kb2JqCjMg
-                             MCBvYmoKPDwvVHlwZS9QYWdlL1BhcmVudCAyIDAgUi9SZXNvdXJjZXMgPDwvRm9udCA8PC9GMCA0
-                             IDAgUj4+Pj4vTWVkaWFCb3hbMCAwIDU5NSA4NDJdL0NvbnRlbnRzIDUgMCBSPj4KZW5kb2JqCjQg
-                             MCBvYmoKPDwvVHlwZS9Gb250L1N1YnR5cGUvVHlwZTEvTmFtZS9GMC9CYXNlRm9udC9IZWx2ZXRp
-                             Y2EvRW5jb2RpbmcvV2luQW5zaUVuY29kaW5nPj4KZW5kb2JqCjUgMCBvYmoKPDwvTGVuZ3RoIDY2
-                             Pj5zdHJlYW0KSGVsbG8gV29ybGQKZW5kc3RyZWFtCmVuZG9iago3IDAgb2JqCjw8L1R5cGUvWE9i
-                             amVjdC9TdWJ0eXBlL0ltYWdlL0hlaWdodCAxL1dpZHRoIDEvQml0c1BlckNvbXBvbmVudCA4L0xl
-                             bmd0aCAwPj4KZW5kb2JqCnhyZWYKMCA4CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAxMCAw
-                             MDAwMCBuIAowMDAwMDAwMDYzIDAwMDAwIG4gCjAwMDAwMDAxMjYgMDAwMDAgbiAKMDAwMDAwMDE5
-                             MCAwMDAwMCBuIAowMDAwMDAwMjYwIDAwMDAwIG4gCjAwMDAwMDAzNDMgMDAwMDAgbiAKMDAwMDAw
-                             MDM5MyAwMDAwMCBuIAp0cmFpbGVyCjw8L1Jvb3QgMSAwIFIvU2l6ZSA4Pj4Kc3RhcnR4cmVmCjQ0
-                             NQolJUVPRgo=""".trimIndent()*/
-
                             selfDeclarationPdf=x.selfDeclaration
                             buildingPdf= x.roofCeilingPhoto
                             schematicPdf= x.buildingPlan
@@ -1514,6 +1816,7 @@ class SrlmVerificationForm : Fragment() {
         }
     }
 
+
     private fun collectTCToiletAndWash() {
 
         viewModel.getTcToiletWashBasin.observe(viewLifecycleOwner) { result ->
@@ -1573,6 +1876,172 @@ class SrlmVerificationForm : Fragment() {
     }
 
 
+    private fun collectTCDescOtherArea() {
+
+        viewModel.getDescriptionOtherArea.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+
+                            binding.valueCorridorNo.text=  x.corridorNo
+                            binding.valueLenghth.text=  x.length
+                            binding.valueWidth.text=  x.width
+                            binding.valueArea.text=  x.areas
+                            binding.valueLights.text=  x.numberOfLights
+                            binding.yesNoFans.text=  x.numberOfFans
+                            binding.yesNoCirculationArea.text=  x.circulationArea
+                            binding.yesNoOpenSpace.text=  x.openSpace
+                            binding.yesNoParking.text=  x.parkingSpace
+
+
+                            fansImage = x.descProofImagePath.toString()
+                            circulationAreaImage = x.circulationAreaImagePath.toString()
+                            openSpaceImage = x.openSpaceImagePath.toString()
+                            parkingSpaceImage = x.parkingSpaceImagePath.toString()
+
+
+
+                        }
+
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCTeaching() {
+
+        viewModel.getTeachingLearningMaterial.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+
+
+
+                            binding.yesNoTrade.text= x.trade
+                            binding.yesNoNatureofTraining.text= x.trainingNature
+                            binding.yesNoTradeAsPerProject.text= x.tradesAvailable
+                            binding.yesNoIsTrainingPlanAvail.text= x.trainingPlan
+                            binding.yesNoIsDomainCirAvail.text= x.domainCurriculum
+                            binding.yesNoIsActivityCumLess.text= x.availableACLP
+                            binding.yesNoIsWelcomeKitAvail.text= x.welcomeKit
+                            binding.yesNoNameOfCertifyingAg.text= x.certifingAgencyName
+                            binding.yesNoAssessmentMaterial.text= x.assessmentMaterial
+
+
+                            welcomeKitImage = x.welcomeKitPdf
+
+
+
+
+
+
+                        }
+
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCGeneral() {
+
+        viewModel.getGeneralDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+
+
+                            signOfLeakageImage = x.signLeakageImage
+                            protectionStairsBalImage = x.stairsProtectionImage
+
+                            binding.yesNoSignOfLiakage.text = x.signLeakage
+                            binding.yesNoProtectionOfStairs.text = x.stairsProtection
+                            binding.yesNoconformanceDDUGKY.text = x.ddugkyConfrence
+                            binding.yesNoCandidateComeSafely.text = x.centerSafty
+
+                        }
+
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+
+
 
     fun openBase64Pdf(context: Context, base64: String) {
         try {
@@ -1607,6 +2076,9 @@ class SrlmVerificationForm : Fragment() {
             Toast.makeText(context, "Failed to open PDF", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
     fun showBase64ImageDialog(context: Context, base64ImageString: String?, title: String = "Image") {
         val imageView = ImageView(context)
 
@@ -1646,6 +2118,7 @@ class SrlmVerificationForm : Fragment() {
             .setPositiveButton("Close") { dialog, _ -> dialog.dismiss() }
             .show()
     }
+
 
 
 }

@@ -16,7 +16,9 @@ import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.CCTVComplianceResponse
+import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.ElectircalWiringReponse
+import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.LoginResponse
@@ -29,6 +31,7 @@ import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
 import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
+import com.deendayalproject.model.response.TeachingLearningRes
 import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
 
@@ -367,7 +370,58 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    private val _getDescriptionOtherArea = MutableLiveData<Result<DescOtherAreaRes>>()
+    val getDescriptionOtherArea: LiveData<Result<DescOtherAreaRes>> = _getDescriptionOtherArea
 
+
+    fun getDescriptionOtherArea(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getDescriptionOtherArea(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getDescriptionOtherArea.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+    private val _getTeachingLearningMaterial = MutableLiveData<Result<TeachingLearningRes>>()
+    val getTeachingLearningMaterial: LiveData<Result<TeachingLearningRes>> = _getTeachingLearningMaterial
+
+
+    fun getTeachingLearningMaterial(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getTeachingLearningMaterial(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getTeachingLearningMaterial.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+
+    private val _getGeneralDetails = MutableLiveData<Result<GeneralDetails>>()
+    val getGeneralDetails: LiveData<Result<GeneralDetails>> = _getGeneralDetails
+
+
+    fun getGeneralDetails(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getGeneralDetails(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getGeneralDetails.postValue(result)
+            _loading.postValue(false)
+        }
+    }
 
 
 
