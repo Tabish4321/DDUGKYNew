@@ -13,6 +13,7 @@ import com.deendayalproject.model.request.TcBasicInfoRequest
 import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
+import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.CCTVComplianceResponse
@@ -28,6 +29,7 @@ import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
 import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
+import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
 
 import kotlinx.coroutines.launch
@@ -94,9 +96,30 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _insertCommonEquipDetails = MutableLiveData<Result<TcCommonEquipmentResponse>>()
     val insertCommonEquipDetails: LiveData<Result<TcCommonEquipmentResponse>> = _insertCommonEquipDetails
-
+//desc area
     private val _insertDescAreaDetails = MutableLiveData<Result<TcDescriptionOtherAreasResponse>>()
     val insertDescAreaDetails: LiveData<Result<TcDescriptionOtherAreasResponse>> = _insertDescAreaDetails
+
+    //wash bain
+    private val _insertWashBasinDtails = MutableLiveData<Result<ToiletDetailsErrorResponse>>()
+    val insertWashBasinDtails : LiveData<Result<ToiletDetailsErrorResponse>> = _insertWashBasinDtails
+
+
+    fun submitElectricalData(request: ElectricalWiringRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitWiringDataToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertIpenabledata.postValue(result)
+            _loading.postValue(false)
+        }
+
+    }
+
+
+
     // Login API call
     fun loginUser(request: LoginRequest) {
         viewModelScope.launch {
@@ -182,160 +205,153 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    // electric wiring insert
-    fun submitElectricalData(request: ElectricalWiringRequest, token: String) {
+
+    //wash basin
+    fun SubmitWashBasinDataToServer(request: ToiletDetailsRequest, token: String) {
         _loading.postValue(true)
         viewModelScope.launch {
-            val result = repository.submitWiringDataToServer(request, token)
+            val result = repository.submitWashbsinDataToServer(request, token)
             result.onFailure {
                 _errorMessage.postValue(it.message ?: "Unknown error")
             }
-            _insertIpenabledata.postValue(result)
-            _loading.postValue(false)
-        }
-
-    }
-
-    // general details insert
-    fun submitGeneralDetails(request: InsertTcGeneralDetailsRequest, token: String) {
-        _loading.postValue(true)
-        viewModelScope.launch {
-            val result = repository.submitGeneralDataToServer(request, token)
-            result.onFailure {
-                _errorMessage.postValue(it.message ?: "Unknown error")
-            }
-            _insertGeneralDetails.postValue(result)
-            _loading.postValue(false)
-        }
-
-    }
-
-    //TC basic info
-    fun submitTcBasicDataToServer(request: TcBasicInfoRequest, token: String) {
-        _loading.postValue(true)
-        viewModelScope.launch {
-            val result = repository.submitTcBasicDataToServer(request, token)
-            result.onFailure {
-                _errorMessage.postValue(it.message ?: "Unknown error")
-            }
-            _insertTCInfoDeatils.postValue(result)
-            _loading.postValue(false)
-
-        }
-    }
-
-    fun submitTcInfoSignageDataToServer(request: TcSignagesInfoBoardRequest, token: String) {
-        _loading.postValue(true)
-        viewModelScope.launch {
-            val result = repository.submitSignagesBoardsDataToServer(request, token)
-            result.onFailure {
-                _errorMessage.postValue(it.message ?: "Unknown error")
-            }
-            _insertSignagesInfoBoardsDetails.postValue(result)
+            _insertWashBasinDtails.postValue(result)
             _loading.postValue(false)
         }
     }
 
-    fun submitTcSupportInfraDataToserver(
-        request: TcAvailabilitySupportInfraRequest,
-        token: String
-    ) {
-        _loading.postValue(true)
-        viewModelScope.launch {
-            val result = repository.submitInfraDataToServer(request, token)
-            result.onFailure {
-                _errorMessage.postValue(it.message ?: "Unknown error")
+        // general details insert
+        fun submitGeneralDetails(request: InsertTcGeneralDetailsRequest, token: String) {
+            _loading.postValue(true)
+            viewModelScope.launch {
+                val result = repository.submitGeneralDataToServer(request, token)
+                result.onFailure {
+                    _errorMessage.postValue(it.message ?: "Unknown error")
+                }
+                _insertGeneralDetails.postValue(result)
+                _loading.postValue(false)
             }
-            _insertSupportInfraDetails.postValue(result)
-            _loading.postValue(false)
+
         }
+
+        //TC basic info
+        fun submitTcBasicDataToServer(request: TcBasicInfoRequest, token: String) {
+            _loading.postValue(true)
+            viewModelScope.launch {
+                val result = repository.submitTcBasicDataToServer(request, token)
+                result.onFailure {
+                    _errorMessage.postValue(it.message ?: "Unknown error")
+                }
+                _insertTCInfoDeatils.postValue(result)
+                _loading.postValue(false)
+
+            }
+        }
+
+        fun submitTcInfoSignageDataToServer(request: TcSignagesInfoBoardRequest, token: String) {
+            _loading.postValue(true)
+            viewModelScope.launch {
+                val result = repository.submitSignagesBoardsDataToServer(request, token)
+                result.onFailure {
+                    _errorMessage.postValue(it.message ?: "Unknown error")
+                }
+                _insertSignagesInfoBoardsDetails.postValue(result)
+                _loading.postValue(false)
+            }
+        }
+
+        fun submitTcSupportInfraDataToserver(
+            request: TcAvailabilitySupportInfraRequest,
+            token: String
+        ) {
+            _loading.postValue(true)
+            viewModelScope.launch {
+                val result = repository.submitInfraDataToServer(request, token)
+                result.onFailure {
+                    _errorMessage.postValue(it.message ?: "Unknown error")
+                }
+                _insertSupportInfraDetails.postValue(result)
+                _loading.postValue(false)
+            }
+        }
+
+
+        fun submitTcCommonEquipment(request: TcCommonEquipmentRequest, token: String) {
+            _loading.postValue(true)
+            viewModelScope.launch {
+                val result = repository.submitCommonEquipmentDataToServer(request, token)
+                result.onFailure {
+                    _errorMessage.postValue(it.message ?: "Unknown error")
+                }
+                _insertCommonEquipDetails.postValue(result)
+                _loading.postValue(false)
+            }
+        }
+
+        fun submitTcDescriptionArea(request: TcDescriptionOtherAreasRequest, token: String) {
+            _loading.postValue(true)
+            viewModelScope.launch {
+                val result = repository.submitDescDataToServer(request, token)
+                result.onFailure {
+                    _errorMessage.postValue(it.message ?: "Unknown error")
+                }
+                _insertDescAreaDetails.postValue(result)
+                _loading.postValue(false)
+            }
+        }
+
+
+        private val _trainingCentersInfo = MutableLiveData<Result<TrainingCenterInfoRes>>()
+        val trainingCentersInfo: LiveData<Result<TrainingCenterInfoRes>> = _trainingCentersInfo
+
+
+        fun getTrainerCenterInfo(request: TrainingCenterInfo) {
+            _loading.postValue(true)
+            viewModelScope.launch {
+                val result = repository.getTrainerCenterInfo(request)
+                result.onFailure {
+                    _errorMessage.postValue(it.message ?: "Unknown error")
+                }
+                _trainingCentersInfo.postValue(result)
+                _loading.postValue(false)
+            }
+        }
+
+
+        private val _getTcStaffDetails = MutableLiveData<Result<TcStaffAndTrainerResponse>>()
+        val getTcStaffDetails: LiveData<Result<TcStaffAndTrainerResponse>> = _getTcStaffDetails
+
+
+        fun getTcStaffDetails(request: TrainingCenterInfo) {
+            _loading.postValue(true)
+            viewModelScope.launch {
+                val result = repository.getTcStaffDetails(request)
+                result.onFailure {
+                    _errorMessage.postValue(it.message ?: "Unknown error")
+                }
+                _getTcStaffDetails.postValue(result)
+                _loading.postValue(false)
+            }
+        }
+
+
+        private val _getTrainerCenterInfra = MutableLiveData<Result<TcInfraResponse>>()
+        val getTrainerCenterInfra: LiveData<Result<TcInfraResponse>> = _getTrainerCenterInfra
+
+
+        fun getTrainerCenterInfra(request: TrainingCenterInfo) {
+            _loading.postValue(true)
+            viewModelScope.launch {
+                val result = repository.getTrainerCenterInfra(request)
+                result.onFailure {
+                    _errorMessage.postValue(it.message ?: "Unknown error")
+                }
+                _getTrainerCenterInfra.postValue(result)
+                _loading.postValue(false)
+            }
+        }
+
+
     }
 
-
-    fun submitTcCommonEquipment(request: TcCommonEquipmentRequest, token: String) {
-        _loading.postValue(true)
-        viewModelScope.launch {
-            val result = repository.submitCommonEquipmentDataToServer(request, token)
-            result.onFailure {
-                _errorMessage.postValue(it.message ?: "Unknown error")
-            }
-            _insertCommonEquipDetails.postValue(result)
-            _loading.postValue(false)
-        }
-    }
-
-    fun submitTcDescriptionArea(request: TcDescriptionOtherAreasRequest, token: String) {
-        _loading.postValue(true)
-        viewModelScope.launch {
-            val result = repository.submitDescDataToServer(request, token)
-            result.onFailure {
-                _errorMessage.postValue(it.message ?: "Unknown error")
-            }
-            _insertDescAreaDetails.postValue(result)
-            _loading.postValue(false)
-        }
-    }
-
-
-
-
-
-    private val _trainingCentersInfo = MutableLiveData<Result<TrainingCenterInfoRes>>()
-    val trainingCentersInfo: LiveData<Result<TrainingCenterInfoRes>> = _trainingCentersInfo
-
-
-    fun getTrainerCenterInfo(request: TrainingCenterInfo) {
-        _loading.postValue(true)
-        viewModelScope.launch {
-            val result = repository.getTrainerCenterInfo(request)
-            result.onFailure {
-                _errorMessage.postValue(it.message ?: "Unknown error")
-            }
-            _trainingCentersInfo.postValue(result)
-            _loading.postValue(false)
-        }
-    }
-
-
-
-
-    private val _getTcStaffDetails = MutableLiveData<Result<TcStaffAndTrainerResponse>>()
-    val getTcStaffDetails: LiveData<Result<TcStaffAndTrainerResponse>> = _getTcStaffDetails
-
-
-    fun getTcStaffDetails(request: TrainingCenterInfo) {
-        _loading.postValue(true)
-        viewModelScope.launch {
-            val result = repository.getTcStaffDetails(request)
-            result.onFailure {
-                _errorMessage.postValue(it.message ?: "Unknown error")
-            }
-            _getTcStaffDetails.postValue(result)
-            _loading.postValue(false)
-        }
-    }
-
-
-    private val _getTrainerCenterInfra = MutableLiveData<Result<TcInfraResponse>>()
-    val getTrainerCenterInfra: LiveData<Result<TcInfraResponse>> = _getTrainerCenterInfra
-
-
-    fun getTrainerCenterInfra(request: TrainingCenterInfo) {
-        _loading.postValue(true)
-        viewModelScope.launch {
-            val result = repository.getTrainerCenterInfra(request)
-            result.onFailure {
-                _errorMessage.postValue(it.message ?: "Unknown error")
-            }
-            _getTrainerCenterInfra.postValue(result)
-            _loading.postValue(false)
-        }
-    }
-
-
-
-
-
-}
 
 

@@ -25,11 +25,9 @@ class OfficeCumCouncelingRoomFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         init()
-
 
     }
     private fun init(){

@@ -32,9 +32,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.RadioGroup
 import android.widget.Spinner
+import android.widget.Switch
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
@@ -71,11 +74,11 @@ object AppUtil {
     }
 
     fun showSessionExpiredDialog(navController: NavController, context: Context) {
-        if (AppUtil.isSessionDialogShown) return // Prevent showing multiple dialogs
+        if (isSessionDialogShown) return // Prevent showing multiple dialogs
 
-        AppUtil.isSessionDialogShown = true // Set flag to true when dialog is shown
+        isSessionDialogShown = true // Set flag to true when dialog is shown
 
-        val builder = androidx.appcompat.app.AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context)
         builder.setTitle("Session Expired")
         builder.setMessage("Your session has expired. Please log in again.")
         builder.setCancelable(false) // Prevent dismissing on outside touch or back press
@@ -103,7 +106,7 @@ object AppUtil {
 
     fun logoutUser(navController: NavController, context: Context) {
         // Clear user session data
-        AppUtil.saveLoginStatus(context, false)
+        saveLoginStatus(context, false)
 
         // Navigate to login and reset the flag after navigation
         navController.navigate(
@@ -114,7 +117,7 @@ object AppUtil {
                 .build()
         )
 
-        AppUtil.isSessionDialogShown = false // Reset flag after navigation
+        isSessionDialogShown = false // Reset flag after navigation
     }
 
     fun sha512Hash(input: String): String {
@@ -475,6 +478,26 @@ object AppUtil {
         }
     }
 
+//rohit reset fields
+        fun clearAllInputs(sectionRoot: ViewGroup) {
+            for (i in 0 until sectionRoot.childCount) {
+                val child = sectionRoot.getChildAt(i)
 
-}
+                when (child) {
+                    is ViewGroup -> clearAllInputs(child)
+
+                    is EditText -> child.text?.clear()
+                    is Spinner -> child.setSelection(0)
+                    is ImageView -> {
+                        child.setImageDrawable(null)
+                        child.visibility = View.GONE
+                    }
+                    is CheckBox -> child.isChecked = false
+                    is RadioGroup -> child.clearCheck()
+                    is Switch -> child.isChecked = false
+                }
+            }
+        }
+    }
+
 

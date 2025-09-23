@@ -163,6 +163,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="8dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:backgroundTint="?attr/colorPrimary"
                         android:text="Submit"
                         android:textColor="@android:color/white"
@@ -339,6 +341,8 @@
                         android:id="@+id/btnUploadMonitorPhoto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="4dp"
                         android:text="Click photo" />
                     <ImageView
@@ -364,6 +368,8 @@
                         android:id="@+id/btnUploadConformancePhoto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="4dp"
                         android:text="Click photo" />
                     <ImageView
@@ -389,6 +395,8 @@
                         android:id="@+id/btnUploadStoragePhoto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="4dp"
                         android:text="Click photo" />
                     <ImageView
@@ -414,6 +422,8 @@
                         android:id="@+id/btnUploadDVRPhoto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="8dp"
                         android:text="Click photo" />
@@ -430,6 +440,8 @@
                         android:id="@+id/btnSubmitCCTVComplianceDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="8dp"
                         android:backgroundTint="?attr/colorPrimary"
@@ -485,7 +497,9 @@
                         android:id="@+id/ivToggleToiletsWashBasins"
                         android:layout_width="20dp"
                         android:layout_height="24dp"
+                        android:background="@drawable/bg_image_preview"
                         android:src="@drawable/ic_dropdown_arrow" />
+
                 </LinearLayout>
 
                 <!-- Content -->
@@ -522,11 +536,42 @@
                         android:paddingTop="8dp"
                         android:text="Proof of Male Toilets"
                         android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadProofMaleToilets"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload Proof" />
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="4dp">
+
+                        <Button
+                            android:id="@+id/btnUploadProofMaleToilets"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+
+
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofMaleToilets"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Male Toilets Proof"
+                            android:visibility="gone" />
+
+
+
+                    </LinearLayout>
 
                     <!-- Proof of Male Toilets Signage (Upload) -->
                     <TextView
@@ -537,11 +582,39 @@
                         android:paddingTop="8dp"
                         android:text="Proof of Male Toilets Signage"
                         android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadProofMaleToiletsSignage"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload Proof" />
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="4dp">
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofMaleToiletsSignage"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Male Toilets Signage Proof"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/btnUploadProofMaleToiletsSignage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+
+
+                    </LinearLayout>
 
                     <!-- Female Toilets (In No.) -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -568,11 +641,36 @@
                         android:paddingTop="8dp"
                         android:text="Proof of Female Toilets"
                         android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadProofFemaleToilets"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload Proof" />
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="4dp">
+
+                        <Button
+                            android:id="@+id/btnUploadProofFemaleToilets"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+                        <ImageView
+                            android:id="@+id/ivPreviewProofFemaleToilets"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Female Toilets Proof"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <!-- Proof of Female Toilets Signage (Upload) -->
                     <TextView
@@ -583,11 +681,37 @@
                         android:paddingTop="8dp"
                         android:text="Proof of Female Toilets Signage"
                         android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadProofFemaleToiletsSignage"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload Proof" />
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="4dp">
+
+                        <Button
+                            android:id="@+id/btnUploadProofFemaleToiletsSignage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofFemaleToiletsSignage"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Female Toilets Signage Proof"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <!-- Male Urinals (In No.) -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -614,11 +738,37 @@
                         android:paddingTop="8dp"
                         android:text="Proof of Male Urinals"
                         android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadProofMaleUrinals"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload Proof" />
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="4dp">
+
+                        <Button
+                            android:id="@+id/btnUploadProofMaleUrinals"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofMaleUrinals"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Male Urinals Proof"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <!-- Male Wash Basins (In No.) -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -645,11 +795,37 @@
                         android:paddingTop="8dp"
                         android:text="Proof of Male Wash Basins"
                         android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadProofMaleWashBasins"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload Proof" />
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="4dp">
+
+                        <Button
+                            android:id="@+id/btnUploadProofMaleWashBasins"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofMaleWashBasins"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Male Wash Basins Proof"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <!-- Female Wash Basins (In No.) -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -676,89 +852,157 @@
                         android:paddingTop="8dp"
                         android:text="Proof of Female Wash Basins"
                         android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadProofFemaleWashBasins"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload Proof" />
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="4dp">
+
+                        <Button
+                            android:id="@+id/btnUploadProofFemaleWashBasins"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+                        <ImageView
+                            android:id="@+id/ivPreviewProofFemaleWashBasins"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/bg_image_preview"
+                            android:padding="2dp"
+                            android:contentDescription="Preview Female Wash Basins Proof"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <!-- Overhead Tanks (Dropdown) -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tlOverheadTanks"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
                         android:hint="Overhead Tanks"
-                        android:paddingTop="8dp">
+                        android:paddingTop="8dp"
+                        app:endIconMode="dropdown_menu">
 
                         <AutoCompleteTextView
                             android:id="@+id/actvOverheadTanks"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none"
-                            android:completionThreshold="1" />
+                            android:inputType="none" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Upload Overhead Tanks Proof -->
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:paddingTop="8dp"
-                        android:text="Proof of Overhead Tanks"
-                        android:textStyle="bold" />
-                    <Button
-                        android:id="@+id/btnUploadProofOverheadTanks"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Upload Proof" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="4dp">
+
+                        <Button
+                            android:id="@+id/btnUploadProofOverheadTanks"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofOverheadTanks"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="2dp"
+                            android:background="@drawable/bg_image_preview"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Preview Overhead Tanks Proof"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <!-- Type of Flooring (Dropdown) -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tlTypeOfFlooring"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
                         android:hint="Type of Flooring"
-                        android:paddingTop="8dp">
+                        android:paddingTop="8dp"
+                        app:endIconMode="dropdown_menu">
 
                         <AutoCompleteTextView
                             android:id="@+id/actvTypeOfFlooring"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="none"
-                            android:completionThreshold="1" />
+                            android:inputType="none" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Upload Flooring Proof -->
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:paddingTop="8dp"
-                        android:text="Proof of Flooring"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="4dp">
+
+                        <Button
+                            android:id="@+id/btnUploadProofFlooring"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            app:icon="@drawable/ic_equipment"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofFlooring"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:padding="2dp"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Preview Flooring Proof"
+                            android:background="@drawable/bg_image_preview"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
                     <Button
-                        android:id="@+id/btnUploadProofFlooring"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Upload Proof" />
-                    <!-- Submit Button -->
-                    <Button
-                        android:id="@+id/btnSubmitWasBasin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/btnWashBasinDetails"
+                        android:layout_width="220dp"
+                        android:layout_height="52dp"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="8dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_upload_button"
                         android:backgroundTint="?attr/colorPrimary"
+                        app:icon="@drawable/ic_ren"
                         android:text="Submit"
                         android:textColor="@android:color/white"
-                        android:textStyle="bold" />
-
+                        android:textStyle="bold"
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -841,8 +1085,19 @@
                         <Button
                             android:id="@+id/btnUploadPowerBackup"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Upload photos" />
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+
+                        <!--android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload photos" />-->
+
 
                         <ImageView
                             android:id="@+id/ivPowerBackupPreview"
@@ -882,8 +1137,19 @@
                         <Button
                             android:id="@+id/btnUploadBiometricDevices"
                             android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+                           <!-- android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload photos" />
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:text="Upload photos" />-->
 
                         <ImageView
                             android:id="@+id/ivBiometricDevicesPreview"
@@ -916,8 +1182,20 @@
                         <Button
                             android:id="@+id/btnUploadCCTV"
                             android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+                           <!-- android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload photos" />
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:text="Upload photos" />-->
+
 
                         <ImageView
                             android:id="@+id/ivCCTVPreview"
@@ -950,8 +1228,19 @@
                         <Button
                             android:id="@+id/btnUploadDocumentStorage"
                             android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+                           <!-- android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload photos" />
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:text="Upload photos" />-->
 
                         <ImageView
                             android:id="@+id/ivDocumentStoragePreview"
@@ -992,8 +1281,19 @@
                         <Button
                             android:id="@+id/btnUploadPrinterScanner"
                             android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+                            <!--android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload photos" />
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:text="Upload photos" />-->
 
                         <ImageView
                             android:id="@+id/ivPrinterScannerPreview"
@@ -1034,8 +1334,19 @@
                         <Button
                             android:id="@+id/btnUploadDigitalCamera"
                             android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+                           <!-- android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload photos" />
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:text="Upload photos" />-->
 
                         <ImageView
                             android:id="@+id/ivDigitalCameraPreview"
@@ -1068,8 +1379,19 @@
                         <Button
                             android:id="@+id/btnUploadGrievanceRegister"
                             android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+                           <!-- android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload photos" />
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:text="Upload photos" />-->
 
                         <ImageView
                             android:id="@+id/ivGrievanceRegisterPreview"
@@ -1102,9 +1424,20 @@
                         <Button
                             android:id="@+id/btnUploadMinimumEquipment"
                             android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+                           <!-- android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
                             android:text="Upload photos" />
-
+-->
                         <ImageView
                             android:id="@+id/ivMinimumEquipmentPreview"
                             android:layout_width="48dp"
@@ -1136,8 +1469,19 @@
                         <Button
                             android:id="@+id/btnUploadDirectionBoards"
                             android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:background="@drawable/bg_upload_button"
+                            android:text="Upload"
+                            android:textSize="12sp" />
+                          <!--  android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload photos" />
+                            android:layout_marginStart="@dimen/dp_5"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:text="Upload photos" />-->
 
                         <ImageView
                             android:id="@+id/ivDirectionBoardsPreview"
@@ -1238,8 +1582,19 @@
                     <Button
                         android:id="@+id/btnUploadTrainingCentreNameBoard"
                         android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                      <!--  android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload photos" />-->
 
                     <ImageView
                         android:id="@+id/ivTcNameBoardPreview"
@@ -1265,8 +1620,19 @@
                     <Button
                         android:id="@+id/btnUploadActivitySummaryBoard"
                         android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                      <!--  android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload photos" />-->
 
                     <ImageView
                         android:id="@+id/ivActivityAchievementBoardPreview"
@@ -1292,8 +1658,19 @@
                     <Button
                         android:id="@+id/btnUploadEntitlementBoard"
                         android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                        <!--android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload photos" />-->
 
                     <ImageView
                         android:id="@+id/ivStudentEntitlementBoardPreview"
@@ -1319,8 +1696,19 @@
                     <Button
                         android:id="@+id/btnUploadImportantContacts"
                         android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                   <!--     android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload photos" />-->
 
                     <ImageView
                         android:id="@+id/ivContactDetailBoardPreview"
@@ -1346,8 +1734,19 @@
                     <Button
                         android:id="@+id/btnUploadBasicInfoBoard"
                         android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                        <!--android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload photos" />-->
 
                     <ImageView
                         android:id="@+id/ivBasicInfoBoardPreview"
@@ -1373,8 +1772,19 @@
                     <Button
                         android:id="@+id/btnUploadCodeOfConductBoard"
                         android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                       <!-- android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload photos" />-->
 
                     <ImageView
                         android:id="@+id/ivCodeConductBoardPreview"
@@ -1400,8 +1810,19 @@
                     <Button
                         android:id="@+id/btnUploadAttendanceSummaryBoard"
                         android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                       <!-- android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Upload photos" />
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:text="Upload photos" />-->
 
                     <ImageView
                         android:id="@+id/ivStudentAttendanceBoardPreview"
@@ -1488,23 +1909,50 @@
                     android:visibility="gone">
 
                     <!-- Leakages from Walls and Roof -->
+          <!--          <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Visible signs of Leakages from Walls and Roof (RCC &amp; Non-RCC)"
+                        android:textStyle="bold" />-->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Visible signs of Leakages from Walls and Roof (RCC &amp; Non-RCC)"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:paddingTop="8dp" />
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:hint="Leakage Check">
                     <Spinner
                         android:id="@+id/spinnerLeakageCheck"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <Button
                         android:id="@+id/btnUploadLeakageProof"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                        <!--android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_margin="@dimen/dp_4"
-                        android:text="Click photo" />
+                        android:text="Click photo" />-->
 
 
                     <ImageView
@@ -1530,10 +1978,21 @@
 
                     <Button
                         android:id="@+id/btnUploadProtectionStairs"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                      <!--  android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_margin="@dimen/dp_4"
-                        android:text="Click  photo" />
+                        android:text="Click  photo" />-->
 
                     <ImageView
                         android:id="@+id/ivStairsPreview"
@@ -1572,6 +2031,8 @@
                         android:id="@+id/btnSubmitGeneralDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="8dp"
                         android:backgroundTint="?attr/colorPrimary"
@@ -1652,12 +2113,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
+
                     <Button
                         android:id="@+id/btnUploadSecuringWires"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                      <!--  android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_margin="@dimen/dp_4"
-                        android:text="Click photo" />
+                        android:text="Click photo" />-->
 
                     <!-- Image preview for Securing of Wires -->
                     <ImageView
@@ -1682,10 +2155,21 @@
 
                     <Button
                         android:id="@+id/btnUploadSwitchBoards"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                        <!--android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_margin="@dimen/dp_4"
-                        android:text="Click photo" />
+                        android:text="Click photo" />-->
 
                     <!-- Image preview for Switch Boards -->
                     <ImageView
@@ -1700,6 +2184,8 @@
                         android:id="@+id/btnSubmitElectricalDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="8dp"
                         android:backgroundTint="?attr/colorPrimary"
@@ -1782,10 +2268,21 @@
 
                     <Button
                         android:id="@+id/btnUploadSafeDrinkingWater"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                      <!--  android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_margin="@dimen/dp_4"
-                        android:text="Upload photos" />
+                        android:text="Upload photos" />-->
 
                     <ImageView
                         android:id="@+id/ivSafeDrinkingWaterPreview"
@@ -1819,10 +2316,21 @@
 
                     <Button
                         android:id="@+id/btnUploadFireFightingEquipment"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                       <!-- android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_margin="@dimen/dp_4"
-                        android:text="Upload photos" />
+                        android:text="Upload photos" />-->
 
                     <ImageView
                         android:id="@+id/ivFireFightingEquipmentPreview"
@@ -1846,11 +2354,22 @@
 
                     <Button
                         android:id="@+id/btnUploadFirstAidKit"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Upload"
+                        android:textSize="12sp" />
+                      <!--  android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_margin="@dimen/dp_4"
                         android:text="Upload photos" />
-
+-->
                     <ImageView
                         android:id="@+id/ivFirstAidKitPreview"
                         android:layout_width="match_parent"
@@ -1876,11 +2395,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-
-
-
         <!--Description of other areas12-->
-
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardDescriptionOtherAreas"
             android:layout_width="match_parent"
@@ -1933,16 +2448,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=" Enter Corridor No"
-                        android:textStyle="bold"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="@dimen/dp_5" />
 
                     <!-- Corridor No -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -1962,15 +2469,6 @@
 
 
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Enter Length"
-                        android:textStyle="bold"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="@dimen/dp_5" />
-
                     <!-- Length -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -1987,14 +2485,6 @@
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=" Enter Width"
-                        android:textStyle="bold"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="@dimen/dp_5" />
 
 
                     <!-- Width -->
@@ -2014,14 +2504,6 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=" Enter Area"
-                        android:textStyle="bold"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="@dimen/dp_5" />
 
                     <!-- Area -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -2040,15 +2522,6 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Enter number of Lights"
-                        android:textStyle="bold"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="@dimen/dp_5" />
-
                     <!-- Lights -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -2064,15 +2537,6 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Enter number of Fans"
-                        android:textStyle="bold"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="@dimen/dp_5" />
 
 
                     <!-- Fans -->
@@ -2271,6 +2735,8 @@
                         android:id="@+id/btnSubmitDescOtherArea"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="8dp"
                         android:backgroundTint="?attr/colorPrimary"

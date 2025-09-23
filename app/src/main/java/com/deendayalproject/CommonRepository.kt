@@ -13,6 +13,7 @@ import com.deendayalproject.model.request.TcBasicInfoRequest
 import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
+import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.CCTVComplianceResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
@@ -27,9 +28,12 @@ import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
 import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
+import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
 import com.deendayalproject.util.AppUtil
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
 class CommonRepository(private val context: Context) {
@@ -94,7 +98,6 @@ class CommonRepository(private val context: Context) {
     }
 
 
-
     suspend fun fetchQTeamTrainingList(request: TrainingCenterRequest, token: String): Result<TrainingCenterResponse> {
         return try {
             val response = apiService.getQTeamTrainingList(request)
@@ -112,13 +115,10 @@ class CommonRepository(private val context: Context) {
             Result.failure(e)
         }
     }
-
-
-
-    suspend fun submitCCTVDataToServer(request: CCTVComplianceRequest, token: String): Result<CCTVComplianceResponse> {
-        return try {
-            val bearerToken = "Bearer $token"
-            val response = apiService.insertCCTVCompliance(request) // ✅ token now passed correctly
+    suspend fun submitCCTVDataToServer(request: CCTVComplianceRequest, token: String): Result<CCTVComplianceResponse>   = withContext(Dispatchers.IO) {
+         try {
+             "Bearer $token"
+            val response = apiService.insertCCTVCompliance(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
                     ?: Result.failure(Exception("Empty response"))
@@ -133,9 +133,9 @@ class CommonRepository(private val context: Context) {
     suspend fun submitWiringDataToServer(
         request: ElectricalWiringRequest,
         token: String
-    ): Result<ElectircalWiringReponse> {
-        return try {
-            val bearerToken = "Bearer $token"
+    ): Result<ElectircalWiringReponse> = withContext(Dispatchers.IO)  {
+         try {
+             "Bearer $token"
             val response = apiService.insertTcElectricWiringStandard(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
@@ -151,10 +151,26 @@ class CommonRepository(private val context: Context) {
     suspend fun submitGeneralDataToServer(
         request: InsertTcGeneralDetailsRequest,
         token: String
-    ): Result<InsertTcGeneralDetailsResponse> {
-        return try {
-            val bearerToken = "Bearer $token"
+    ): Result<InsertTcGeneralDetailsResponse> = withContext(Dispatchers.IO) {
+         try {
+             "Bearer $token"
             val response = apiService.insertTcGeneralDetails(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+ // wash bain info
+    suspend fun submitWashbsinDataToServer(request: ToiletDetailsRequest, token: String): Result<ToiletDetailsErrorResponse> = withContext(Dispatchers.IO) {
+        try {
+            "Bearer $token"
+            val response = apiService.insertTcToiletsWashBasins(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
                     ?: Result.failure(Exception("Empty response"))
@@ -170,9 +186,9 @@ class CommonRepository(private val context: Context) {
     suspend fun submitTcBasicDataToServer(
         request: TcBasicInfoRequest,
         token: String
-    ): Result<InsertTcBasicInfoResponse> {
-        return try {
-            val bearerToken = "Bearer $token"
+    ): Result<InsertTcBasicInfoResponse> = withContext(Dispatchers.IO)  {
+         try {
+             "Bearer $token"
             val response = apiService.insertTcBasicInfo(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
@@ -187,13 +203,14 @@ class CommonRepository(private val context: Context) {
     }
 
 
+
     // signages info boards
     suspend fun submitSignagesBoardsDataToServer(
         request: TcSignagesInfoBoardRequest,
         token: String
     ): Result<TcSignagesInfoBoardResponse> {
         return try {
-            val bearerToken = "Bearer $token"
+            "Bearer $token"
             val response = apiService.insertTcSignagesInfoBoard(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
@@ -214,7 +231,7 @@ class CommonRepository(private val context: Context) {
         token: String
     ): Result<TcAvailabilitySupportInfraResponse> {
         return try {
-            val bearerToken = "Bearer $token"
+            "Bearer $token"
             val response = apiService.insertTcAvailabilitySupportInfra(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
@@ -228,12 +245,16 @@ class CommonRepository(private val context: Context) {
 
     }
 
+
+
+
+
     suspend fun submitCommonEquipmentDataToServer(
         request: TcCommonEquipmentRequest,
         token: String
     ): Result<TcCommonEquipmentResponse> {
         return try {
-            val bearerToken = "Bearer $token"
+            "Bearer $token"
             val response = apiService.insertTcCommonEquipment(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
@@ -253,7 +274,7 @@ class CommonRepository(private val context: Context) {
         token: String
     ): Result<TcDescriptionOtherAreasResponse> {
         return try {
-            val bearerToken = "Bearer $token"
+            "Bearer $token"
             val response = apiService.insertTcDescriptionOtherAreas(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }

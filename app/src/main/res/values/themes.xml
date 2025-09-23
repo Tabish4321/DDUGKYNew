@@ -4,20 +4,20 @@
         <item name="android:windowSplashScreenBackground">@color/white</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/ddy_logo</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimarynew</item>
         <item name="postSplashScreenTheme">@style/Theme.Ddugky</item>
         <!-- Customize your light theme here. -->
         <item name="android:windowBackground">@color/white</item>
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
     </style>
 
     <style name="Theme.Ddugky" parent="Base.Theme.Ddugky" />
+
 
     <style name="CircleImageView" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
-
-
     <style name="EditText" parent="Base.Theme.Ddugky">
         <item name="android:fontFamily">@font/avenir_next_medium</item>
         <item name="android:layout_width">match_parent</item>

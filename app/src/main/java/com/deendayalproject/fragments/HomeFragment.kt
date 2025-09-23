@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
         val headerBinding = NavigationHeaderBinding.bind(headerView)
 
         // Access the ImageView from the header layout
-        val headerImageView: ImageView = headerBinding.circleImageView
+        headerBinding.circleImageView
         val headerIdView: TextView = headerBinding.loginId
 
         headerIdView.text = AppUtil.getSavedLoginIdPreference(requireContext())
@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
 
                     // Navigate back to login fragment and clear back stack
                     findNavController().navigate(
-                        com.deendayalproject.R.id.fragmentLogin,
+                        R.id.fragmentLogin,
                         null,
                         androidx.navigation.NavOptions.Builder()
                             .setPopUpTo(findNavController().graph.startDestinationId, true)

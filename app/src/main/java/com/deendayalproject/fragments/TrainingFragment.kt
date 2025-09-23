@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
+import com.deendayalproject.databinding.FragmentTrainingBinding
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
@@ -27,6 +28,7 @@ import com.deendayalproject.model.request.TcBasicInfoRequest
 import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
+import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.util.AppUtil
 import com.google.android.material.textfield.TextInputEditText
 import java.io.File
@@ -35,6 +37,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.String
 class TrainingFragment : Fragment() {
+
+
+    private lateinit var binding:  FragmentTrainingBinding
+
     private val viewModel: SharedViewModel by activityViewModels()
     private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
@@ -52,6 +58,62 @@ class TrainingFragment : Fragment() {
     private lateinit var ivConformancePreview: ImageView
     private lateinit var ivStoragePreview: ImageView
     private lateinit var ivDVRPreview: ImageView
+
+///////////////////////// WashBasin
+    private lateinit var etMaleToilets: TextInputEditText
+    private lateinit var btnUploadProofMaleToilets: Button
+    private lateinit var ivPreviewMaleToiletsProof: ImageView
+
+    private lateinit var btnUploadProofMaleToiletsSignage: Button
+    private lateinit var ivPreviewMaleToiletsSignageProof: ImageView
+
+    private lateinit var etFemaleToilets: TextInputEditText
+    private lateinit var btnUploadProofFemaleToilets: Button
+    private lateinit var ivPreviewFemaleToiletsProof: ImageView
+
+    private lateinit var btnUploadProofFemaleToiletsSignage: Button
+    private lateinit var ivPreviewFemaleToiletsSignageProof: ImageView
+
+    private lateinit var etMaleUrinals: TextInputEditText
+    private lateinit var btnUploadProofMaleUrinals: Button
+    private lateinit var ivPreviewMaleUrinalsProof: ImageView
+
+    private lateinit var etMaleWashBasins: TextInputEditText
+    private lateinit var btnUploadProofMaleWashBasins: Button
+    private lateinit var ivPreviewMaleWashBasinsProof: ImageView
+
+    private lateinit var etFemaleWashBasins: TextInputEditText
+    private lateinit var btnUploadProofFemaleWashBasins: Button
+    private lateinit var ivPreviewFemaleWashBasinsProof: ImageView
+
+    private lateinit var actvOverheadTanks: AutoCompleteTextView
+    private lateinit var btnUploadProofOverheadTanks: Button
+    private lateinit var ivPreviewOverheadTanksProof: ImageView
+
+    private lateinit var actvTypeOfFlooring: AutoCompleteTextView
+    private lateinit var btnUploadProofFlooring: Button
+    private lateinit var ivPreviewFlooringProof: ImageView
+
+    private lateinit var btnSubmitWasBasin: Button
+
+    private var base64ProofMaleToilets: String? = null
+
+    private var base64ProofMaleToiletsSignage: String? = null
+
+    private var base64ProofFemaleToilets: String? = null
+
+    private var base64ProofFemaleToiletsSignage: String? = null
+
+    private var base64ProofMaleUrinals: String? = null
+
+    private var base64ProofMaleWashBasins: String? = null
+
+    private var base64ProofFemaleWashBasins: String? = null
+
+    private var base64ProofOverheadTanks: String? = null
+
+    private var base64ProofFlooring: String? = null
+
 
     // Electrical Wiring
     private var base64SwitchBoardImage: String? = null
@@ -169,6 +231,76 @@ class TrainingFragment : Fragment() {
     // First Aid Kit
     private lateinit var ivFirstAidKitPreview: ImageView
     private var base64FirstAidKit: String? = null
+
+    private val photoUploadButtons = mapOf(
+        // CCTV
+        R.id.btnUploadMonitorPhoto to "monitor",
+        R.id.btnUploadConformancePhoto to "conformance",
+        R.id.btnUploadStoragePhoto to "storage",
+        R.id.btnUploadDVRPhoto to "dvr",
+
+        // Electrical
+        R.id.btnUploadSwitchBoards to "switchBoard",
+        R.id.btnUploadSecuringWires to "WireSecurity",
+
+        // General
+        R.id.btnUploadLeakageProof to "leakage",
+        R.id.btnUploadProtectionStairs to "stairs",
+
+        // Signages info boards
+        R.id.btnUploadTrainingCentreNameBoard to "tcNameBoard",
+        R.id.btnUploadActivitySummaryBoard to "activityAchievementBoard",
+        R.id.btnUploadEntitlementBoard to "studentEntitlementBoard",
+        R.id.btnUploadImportantContacts to "contactDetailBoard",
+        R.id.btnUploadBasicInfoBoard to "basicInfoBoard",
+        R.id.btnUploadCodeOfConductBoard to "codeConductBoard",
+        R.id.btnUploadAttendanceSummaryBoard to "studentAttendanceBoard",
+
+        // Support infra
+        R.id.btnUploadFirstAidKit to "FirstAidKit",
+        R.id.btnUploadFireFightingEquipment to "FireFightingEquipment",
+        R.id.btnUploadSafeDrinkingWater to "SafeDrinkingWater",
+
+        // Other areas
+        R.id.btnUploadProof to "proof",
+        R.id.btnUploadCirculationProof to "circulationProof",
+        R.id.btnUploadParkingProof to "parking",
+        R.id.btnUploadOpenSpaceProof to "openSpaceProof",
+
+        // Common Equipment
+        R.id.btnUploadPowerBackup to "powerBackup",
+        R.id.btnUploadBiometricDevices to "biometricDevices",
+        R.id.btnUploadCCTV to "cctv",
+        R.id.btnUploadDocumentStorage to "documentStorage",
+        R.id.btnUploadPrinterScanner to "printerScanner",
+        R.id.btnUploadDigitalCamera to "digitalCamera",
+        R.id.btnUploadGrievanceRegister to "grievanceRegister",
+        R.id.btnUploadMinimumEquipment to "minimumEquipment",
+        R.id.btnUploadDirectionBoards to "directionBoards",  // fixed typo from "irectionBoards"
+
+        // Wash basin upload buttons
+        R.id.btnUploadProofMaleToilets to "maleToiletsProof",
+        R.id.btnUploadProofMaleToiletsSignage to "maleToiletsSignageProof",
+        R.id.btnUploadProofFemaleToilets to "femaleToiletsProof",
+        R.id.btnUploadProofFemaleToiletsSignage to "femaleToiletsSignageProof",
+        R.id.btnUploadProofMaleUrinals to "maleUrinalsProof",
+        R.id.btnUploadProofMaleWashBasins to "maleWashBasinsProof",
+        R.id.btnUploadProofFemaleWashBasins to "femaleWashBasinsProof",
+        R.id.btnUploadProofOverheadTanks to "overheadTanksProof",
+        R.id.btnUploadProofFlooring to "flooringProof",
+        )
+
+    private fun setupPhotoUploadButtons(view: View) {
+        photoUploadButtons.forEach { (buttonId, photoTarget) ->
+            view.findViewById<Button>(buttonId).setOnClickListener {
+                currentPhotoTarget = photoTarget
+                checkAndLaunchCamera()
+            }
+        }
+    }
+
+    private fun <T : View> View.bindView(id: Int): T = findViewById(id)
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -351,6 +483,64 @@ class TrainingFragment : Fragment() {
                             ivDirectionBoardsPreview.visibility = View.VISIBLE
                             base64DirectionBoardsImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
+                        "maleToiletsProof" -> {
+                            try{
+                                ivPreviewMaleToiletsProof.setImageURI(photoUri)
+                                ivPreviewMaleToiletsProof.visibility = View.VISIBLE
+                                base64ProofMaleToilets = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                            }catch (e: Exception){
+                                Log.e("ImagePreview", "Error in maleToiletsProof", e)
+                            }
+
+                        }
+
+                        "maleToiletsSignageProof" -> {
+                            ivPreviewMaleToiletsSignageProof.setImageURI(photoUri)
+                            ivPreviewMaleToiletsSignageProof.visibility = View.VISIBLE
+                            base64ProofMaleToiletsSignage = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+                        "femaleToiletsProof" -> {
+                            ivPreviewFemaleToiletsProof.setImageURI(photoUri)
+                            ivPreviewFemaleToiletsProof.visibility = View.VISIBLE
+                            base64ProofFemaleToilets = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+                        "femaleToiletsSignageProof" -> {
+                            ivPreviewFemaleToiletsSignageProof.setImageURI(photoUri)
+                            ivPreviewFemaleToiletsSignageProof.visibility = View.VISIBLE
+                            base64ProofFemaleToiletsSignage = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+                        "maleUrinalsProof" -> {
+                            ivPreviewMaleUrinalsProof.setImageURI(photoUri)
+                            ivPreviewMaleUrinalsProof.visibility = View.VISIBLE
+                            base64ProofMaleUrinals = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+                        "maleWashBasinsProof" -> {
+                            ivPreviewMaleWashBasinsProof.setImageURI(photoUri)
+                            ivPreviewMaleWashBasinsProof.visibility = View.VISIBLE
+                            base64ProofMaleWashBasins = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+                        "femaleWashBasinsProof" -> {
+                            ivPreviewFemaleWashBasinsProof.setImageURI(photoUri)
+                            ivPreviewFemaleWashBasinsProof.visibility = View.VISIBLE
+                            base64ProofFemaleWashBasins = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+                        "overheadTanksProof" -> {
+                            ivPreviewOverheadTanksProof.setImageURI(photoUri)
+                            ivPreviewOverheadTanksProof.visibility = View.VISIBLE
+                            base64ProofOverheadTanks = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+                        "flooringProof" -> {
+                            ivPreviewFlooringProof.setImageURI(photoUri)
+                            ivPreviewFlooringProof.visibility = View.VISIBLE
+                            base64ProofFlooring = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
                     }
                 } else {
                     Toast.makeText(requireContext(), "Photo capture failed", Toast.LENGTH_SHORT)
@@ -379,9 +569,47 @@ class TrainingFragment : Fragment() {
     @SuppressLint("CutPasteId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentTrainingBinding.bind(view)
         setupExpandableSections(view)
+        setupPhotoUploadButtons(view)
 
          centerId = arguments?.getString("centerId").toString()
+
+        // Initialize Wash Basin views
+        etMaleToilets = view.bindView(R.id.etMaleToilets)
+        btnUploadProofMaleToilets = view.bindView(R.id.btnUploadProofMaleToilets)
+        ivPreviewMaleToiletsProof = view.bindView(R.id.ivPreviewProofMaleToilets)
+
+        btnUploadProofMaleToiletsSignage = view.bindView(R.id.btnUploadProofMaleToiletsSignage)
+        ivPreviewMaleToiletsSignageProof = view.bindView(R.id.ivPreviewProofMaleToiletsSignage)
+
+        etFemaleToilets = view.bindView(R.id.etFemaleToilets)
+        btnUploadProofFemaleToilets = view.bindView(R.id.btnUploadProofFemaleToilets)
+        ivPreviewFemaleToiletsProof = view.bindView(R.id.ivPreviewProofFemaleToilets)
+
+        btnUploadProofFemaleToiletsSignage = view.bindView(R.id.btnUploadProofFemaleToiletsSignage)
+        ivPreviewFemaleToiletsSignageProof = view.bindView(R.id.ivPreviewProofFemaleToiletsSignage)
+
+        etMaleUrinals = view.bindView(R.id.etMaleUrinals)
+        btnUploadProofMaleUrinals = view.bindView(R.id.btnUploadProofMaleUrinals)
+        ivPreviewMaleUrinalsProof = view.bindView(R.id.ivPreviewProofMaleUrinals)
+
+        etMaleWashBasins = view.bindView(R.id.etMaleWashBasins)
+        btnUploadProofMaleWashBasins = view.bindView(R.id.btnUploadProofMaleWashBasins)
+        ivPreviewMaleWashBasinsProof = view.bindView(R.id.ivPreviewProofMaleWashBasins)
+
+        etFemaleWashBasins = view.bindView(R.id.etFemaleWashBasins)
+        btnUploadProofFemaleWashBasins = view.bindView(R.id.btnUploadProofFemaleWashBasins)
+        ivPreviewFemaleWashBasinsProof = view.bindView(R.id.ivPreviewProofFemaleWashBasins)
+
+        actvOverheadTanks = view.bindView(R.id.actvOverheadTanks)
+        btnUploadProofOverheadTanks = view.bindView(R.id.btnUploadProofOverheadTanks)
+        ivPreviewOverheadTanksProof = view.bindView(R.id.ivPreviewProofOverheadTanks)
+
+        actvTypeOfFlooring = view.bindView(R.id.actvTypeOfFlooring)
+        btnUploadProofFlooring = view.bindView(R.id.btnUploadProofFlooring)
+        ivPreviewFlooringProof = view.bindView(R.id.ivPreviewProofFlooring)
+
 
         // Initialize CCTV ImageViews
         ivMonitorPreview = view.findViewById(R.id.ivMonitorPreview)
@@ -448,6 +676,31 @@ class TrainingFragment : Fragment() {
         ).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
+        ///////////////////////////
+        val overheadTankOptions = listOf("--Select--", "Available", "Not Available")
+        val flooringOptions = listOf("--Select--", "Cement", "TILE", "Polished")
+        // Find your AutoCompleteTextViews in fragment or activity
+        val actvOverheadTanks: AutoCompleteTextView = view.findViewById(R.id.actvOverheadTanks)
+        val actvTypeOfFlooring: AutoCompleteTextView = view.findViewById(R.id.actvTypeOfFlooring)
+
+// Create ArrayAdapter for Overhead Tanks dropdown
+        val overheadTankAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            overheadTankOptions
+        )
+
+// Create ArrayAdapter for Flooring dropdown
+        val flooringAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            flooringOptions
+        )
+
+// Set adapter on AutoCompleteTextViews
+        actvOverheadTanks.setAdapter(overheadTankAdapter)
+        actvTypeOfFlooring.setAdapter(flooringAdapter)
+
         // Setup CCTV & Electrical Spinners& upport infra spinners
            val spinners = listOf(
             R.id.spinnerMonitorAccessible, R.id.spinnerConformance, R.id.spinnerStorage,
@@ -455,7 +708,7 @@ class TrainingFragment : Fragment() {
             R.id.spinnerVideoStream, R.id.spinnerRemoteAccessBrowser, R.id.spinnerSimultaneousAccess,
             R.id.spinnerSupportedProtocols, R.id.spinnerColorVideoAudio, R.id.spinnerStorageFacility,
             R.id.spinnerSwitchBoards, R.id.spinnerSecuringWires,R.id.spinnerFirstAidKit,R.id.spinnerSafeDrinkingWater,R.id.spinnerPowerBackup,R.id.spinnerCCTV,R.id.spinnerStorage,
-        )
+           )
         spinners.forEach {
             view.findViewById<Spinner>(it).adapter = yesNoAdapter
         }
@@ -537,6 +790,8 @@ class TrainingFragment : Fragment() {
         spinnerBasicInfoBoard.adapter = yesNoAdapter
         spinnerCodeConductBoard.adapter = yesNoAdapter
         spinnerStudentAttendanceBoard.adapter = yesNoAdapter
+
+/*
 
         // CCTV Photo Upload Buttons
         view.findViewById<Button>(R.id.btnUploadMonitorPhoto).setOnClickListener {
@@ -637,9 +892,6 @@ class TrainingFragment : Fragment() {
             currentPhotoTarget = "openSpaceProof"
             checkAndLaunchCamera()
         }
-
-
-
         // Common Equipment Upload Buttons
         view.findViewById<Button>(R.id.btnUploadPowerBackup).setOnClickListener {
             currentPhotoTarget = "powerBackup"
@@ -685,6 +937,49 @@ class TrainingFragment : Fragment() {
             currentPhotoTarget = "irectionBoards"
             checkAndLaunchCamera()
         }
+
+        // wash basin upload buttons
+        view.findViewById<Button>(R.id.btnUploadProofMaleToilets).setOnClickListener {
+            currentPhotoTarget = "proofMaleToilets"
+            checkAndLaunchCamera()
+        }
+
+        view.findViewById<Button>(R.id.btnUploadProofMaleToiletsSignage).setOnClickListener {
+            currentPhotoTarget = "proofMaleToiletsSignage"
+            checkAndLaunchCamera()
+        }
+
+        view.findViewById<Button>(R.id.btnUploadProofFemaleToilets).setOnClickListener {
+            currentPhotoTarget = "proofFemaleToilets"
+            checkAndLaunchCamera()
+        }
+
+        view.findViewById<Button>(R.id.btnUploadProofFemaleToiletsSignage).setOnClickListener {
+            currentPhotoTarget = "proofFemaleToiletsSignage"
+            checkAndLaunchCamera()
+        }
+
+        view.findViewById<Button>(R.id.btnUploadProofMaleUrinals).setOnClickListener {
+            currentPhotoTarget = "proofMaleUrinals"
+            checkAndLaunchCamera()
+        }
+
+        view.findViewById<Button>(R.id.btnUploadProofMaleWashBasins).setOnClickListener {
+            currentPhotoTarget = "proofMaleWashBasins"
+            checkAndLaunchCamera()
+        }
+
+        view.findViewById<Button>(R.id.btnUploadProofFemaleWashBasins).setOnClickListener {
+            currentPhotoTarget = "proofFemaleWashBasins"
+            checkAndLaunchCamera()
+        }
+
+        view.findViewById<Button>(R.id.btnUploadProofOverheadTanks).setOnClickListener {
+            currentPhotoTarget = "proofOverheadTanks"
+            checkAndLaunchCamera()
+        }*/
+
+
 
         // Submit buttons
         view.findViewById<Button>(R.id.btnSubmitCCTVComplianceDetails).setOnClickListener {
@@ -754,6 +1049,16 @@ class TrainingFragment : Fragment() {
                 Toast.LENGTH_LONG
             ).show()
         }
+        //wash basin
+        view.findViewById<Button>(R.id.btnWashBasinDetails).setOnClickListener {
+            if(validateToiletsAndWashBasins()) submitWashBasins()
+            else Toast.makeText(
+                requireContext(),
+                "Please complete all fields for Toilet & WashBasin Details.",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+
         // Observers
         viewModel.insertCCTVdata.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
@@ -778,6 +1083,12 @@ class TrainingFragment : Fragment() {
                     "Electrical data submitted successfully!",
                     Toast.LENGTH_SHORT
                 ).show()
+
+                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutElectricalWiringContent)
+                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+
+                base64SwitchBoardImage = null
+                base64WireSecurityImage = null
             }
             result.onFailure {
                 Toast.makeText(
@@ -886,6 +1197,24 @@ class TrainingFragment : Fragment() {
 
             }
         }
+        viewModel.insertWashBasinDtails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                Toast.makeText(
+                    requireContext(),
+                    "Toilet & WashBasin details submitted successfully!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            result.onFailure {
+                Toast.makeText(
+                    requireContext(),
+                    " Toilet & WashBasin details submission failed: ${it.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+
+            }
+        }
+
     }
     private fun setupExpandableSections(view: View) {
         val sections = listOf(
@@ -1187,6 +1516,7 @@ class TrainingFragment : Fragment() {
 
         return isValid
     }
+
     private fun validateDescriptionForm(): Boolean {
         var isValid = true
 
@@ -1211,6 +1541,68 @@ class TrainingFragment : Fragment() {
         isValid = checkEmpty(etCirculationArea, "Circulation Area") && isValid
         isValid = checkEmpty(etOpenSpace, "Open Space") && isValid
         isValid = checkEmpty(etExclusiveParkingSpace, "Exclusive Parking Space") && isValid
+        return isValid
+    }
+
+    private fun validateToiletsAndWashBasins(): Boolean {
+        var isValid = true
+
+        // Map of EditText fields and their error messages
+        val editTextFields = mapOf(
+            etMaleToilets to "Male Toilets is required",
+            etFemaleToilets to "Female Toilets is required",
+            etMaleUrinals to "Male Urinals is required",
+            etMaleWashBasins to "Male Wash Basins is required",
+            etFemaleWashBasins to "Female Wash Basins is required"
+        )
+
+        // Validate all EditTexts
+        for ((field, errorMsg) in editTextFields) {
+            if (field.text.isNullOrBlank()) {
+                field.error = errorMsg
+                isValid = false
+            } else {
+                field.error = null
+            }
+        }
+
+        // Map of AutoCompleteTextView fields and their error messages
+        val autoCompleteFields = mapOf(
+            actvOverheadTanks to "Please select Overhead Tanks option",
+            actvTypeOfFlooring to "Please select Type of Flooring"
+        )
+
+        // Validate AutoCompleteTextViews
+        for ((field, errorMsg) in autoCompleteFields) {
+            val text = field.text.toString()
+            if (text.isBlank() || text == "--Select--") {
+                field.error = errorMsg
+                isValid = false
+            } else {
+                field.error = null
+            }
+        }
+
+        // Map of base64 image strings and error messages
+        val proofImages = mapOf(
+            base64ProofMaleToilets to "Please upload proof for Male Toilets",
+            base64ProofMaleToiletsSignage to "Please upload proof for Male Toilets Signage",
+            base64ProofFemaleToilets to "Please upload proof for Female Toilets",
+            base64ProofFemaleToiletsSignage to "Please upload proof for Female Toilets Signage",
+            base64ProofMaleUrinals to "Please upload proof for Male Urinals",
+            base64ProofMaleWashBasins to "Please upload proof for Male Wash Basins",
+            base64ProofFemaleWashBasins to "Please upload proof for Female Wash Basins",
+            base64ProofOverheadTanks to "Please upload proof for Overhead Tanks"
+        )
+
+        // Validate proof images
+        for ((base64, errorMsg) in proofImages) {
+            if (base64.isNullOrBlank()) {
+                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
+                isValid = false
+            }
+        }
+
         return isValid
     }
 
@@ -1316,7 +1708,7 @@ class TrainingFragment : Fragment() {
         viewModel.submitTcBasicDataToServer(request, token)
     }
 
-    //Rohit submitSignagesInfoDetails
+    //Rohit Signages Info Details
     private fun submitSignagesInfoBoards() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -1474,6 +1866,55 @@ class TrainingFragment : Fragment() {
         )
 
         viewModel.submitTcDescriptionArea(request, token)
+    }
+
+    private fun submitWashBasins() {
+        val token = requireContext()
+            .getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
+            .getString("ACCESS_TOKEN", "") ?: ""
+
+        val maleToiletsCount = etMaleToilets.text.toString().toIntOrNull() ?: 0
+        val femaleToiletsCount = etFemaleToilets.text.toString().toIntOrNull() ?: 0
+        val maleUrinalsCount = etMaleUrinals.text.toString().toIntOrNull() ?: 0
+        val maleWashBasinsCount = etMaleWashBasins.text.toString().toIntOrNull() ?: 0
+        val femaleWashBasinsCount = etFemaleWashBasins.text.toString().toIntOrNull() ?: 0
+        val overheadTanksStatus = actvOverheadTanks.text.toString()
+        val typeOfFlooring = actvTypeOfFlooring.text.toString()
+
+        val request = ToiletDetailsRequest(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            tcId = centerId,
+            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+
+            maleToilet = maleToiletsCount,
+            maleToiletProof = base64ProofMaleToilets ?: "",
+
+            maleToiletSignageProof = base64ProofMaleToiletsSignage ?: "",
+
+            femaleToilet = femaleToiletsCount,
+            femaleToiletProof = base64ProofFemaleToilets ?: "",
+
+            femaleToiletSignageProof = base64ProofFemaleToiletsSignage ?: "",
+
+            maleUrinals = maleUrinalsCount,
+            maleUrinalsImage = base64ProofMaleUrinals ?: "",
+
+            maleWashBasin = maleWashBasinsCount,
+            maleWashBasinImage = base64ProofMaleWashBasins ?: "",
+
+            femaleWashBasin = femaleWashBasinsCount,
+            femaleWashBasinImage = base64ProofFemaleWashBasins ?: "",
+
+            overheadTanks = overheadTanksStatus,
+            overheadTanksImage = base64ProofOverheadTanks ?: "",
+
+            flooringType = typeOfFlooring,
+            flooringTypeImage = base64ProofFlooring ?: ""
+        )
+
+        viewModel.SubmitWashBasinDataToServer(request, token)
     }
 
 

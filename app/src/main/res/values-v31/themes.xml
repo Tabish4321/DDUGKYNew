@@ -14,6 +14,8 @@
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/ddy_logo</item>
         <item name="android:windowSplashScreenBackground">@color/white</item>
         <item name="postSplashScreenTheme">@style/Theme.Ddugky</item>
+        <item name="colorPrimary">@color/colorPrimarynew</item>
+
         <!-- Customize your light theme here. -->
         <item name="android:windowBackground">@color/white</item>
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
