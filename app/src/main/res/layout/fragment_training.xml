@@ -69,7 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:paddingTop="8dp">
 
                     <!-- Your existing fields here ... -->
@@ -122,7 +122,7 @@
                             android:id="@+id/etDistanceRailwayStation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal|numberSigned" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Latitude -->
@@ -138,7 +138,7 @@
                             android:id="@+id/etLatitude"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
+                            android:inputType="numberDecimal|numberSigned" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Longitude -->
@@ -167,8 +167,8 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:backgroundTint="?attr/colorPrimary"
                         android:text="Submit"
-                        android:textColor="@android:color/white"
                         android:textStyle="bold" />
+
 
                 </LinearLayout>
             </LinearLayout>
@@ -497,7 +497,6 @@
                         android:id="@+id/ivToggleToiletsWashBasins"
                         android:layout_width="20dp"
                         android:layout_height="24dp"
-                        android:background="@drawable/bg_image_preview"
                         android:src="@drawable/ic_dropdown_arrow" />
 
                 </LinearLayout>
@@ -1908,12 +1907,6 @@
                     android:paddingBottom="8dp"
                     android:visibility="gone">
 
-                    <!-- Leakages from Walls and Roof -->
-          <!--          <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Visible signs of Leakages from Walls and Roof (RCC &amp; Non-RCC)"
-                        android:textStyle="bold" />-->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1927,17 +1920,18 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Leakage Check">
-                    <Spinner
-                        android:id="@+id/spinnerLeakageCheck"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:hint="Overhead Tanks">
+
+                        <Spinner
+                            android:id="@+id/spinnerLeakageCheck"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+
+
                     <Button
-                        android:id="@+id/btnUploadLeakageProof"
+                        android:id="@+id/btnUploadLeaSkageProof"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
                         android:layout_marginStart="@dimen/dp_5"
@@ -2044,6 +2038,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+
         <!-- (ROHIT):Electrical wiring Deatils9-->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardElectricalWiring"
@@ -2109,10 +2104,9 @@
                         android:textStyle="bold" />
 
                     <Spinner
-                        android:id="@+id/spinnerSecuringWires"
+                        android:id="@+id/spinnerSecure"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-
 
                     <Button
                         android:id="@+id/btnUploadSecuringWires"
@@ -2125,12 +2119,6 @@
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
-                      <!--  android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:layout_margin="@dimen/dp_4"
-                        android:text="Click photo" />-->
 
                     <!-- Image preview for Securing of Wires -->
                     <ImageView

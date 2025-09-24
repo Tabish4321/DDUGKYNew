@@ -134,6 +134,8 @@ class TrainingFragment : Fragment() {
     private lateinit var spinnerDDUConformance: Spinner
     private lateinit var spinnerCandidateSafety: Spinner
 
+
+
     // Spinners
     private lateinit var spinnerTcNameBoard: Spinner
     private lateinit var spinnerActivityAchievementBoard: Spinner
@@ -232,9 +234,10 @@ class TrainingFragment : Fragment() {
     private lateinit var ivFirstAidKitPreview: ImageView
     private var base64FirstAidKit: String? = null
 
-    private val photoUploadButtons = mapOf(
+    private val photoUploadButtons: Map<Int, String> = mapOf(
+
         // CCTV
-        R.id.btnUploadMonitorPhoto to "monitor",
+        (R.id.btnUploadMonitorPhoto to "monitor"),
         R.id.btnUploadConformancePhoto to "conformance",
         R.id.btnUploadStoragePhoto to "storage",
         R.id.btnUploadDVRPhoto to "dvr",
@@ -244,7 +247,7 @@ class TrainingFragment : Fragment() {
         R.id.btnUploadSecuringWires to "WireSecurity",
 
         // General
-        R.id.btnUploadLeakageProof to "leakage",
+        R.id.btnUploadLeaSkageProof to "leakage",
         R.id.btnUploadProtectionStairs to "stairs",
 
         // Signages info boards
@@ -276,7 +279,7 @@ class TrainingFragment : Fragment() {
         R.id.btnUploadDigitalCamera to "digitalCamera",
         R.id.btnUploadGrievanceRegister to "grievanceRegister",
         R.id.btnUploadMinimumEquipment to "minimumEquipment",
-        R.id.btnUploadDirectionBoards to "directionBoards",  // fixed typo from "irectionBoards"
+        R.id.btnUploadDirectionBoards to "directionBoards",
 
         // Wash basin upload buttons
         R.id.btnUploadProofMaleToilets to "maleToiletsProof",
@@ -287,7 +290,7 @@ class TrainingFragment : Fragment() {
         R.id.btnUploadProofMaleWashBasins to "maleWashBasinsProof",
         R.id.btnUploadProofFemaleWashBasins to "femaleWashBasinsProof",
         R.id.btnUploadProofOverheadTanks to "overheadTanksProof",
-        R.id.btnUploadProofFlooring to "flooringProof",
+        R.id.btnUploadProofFlooring to "flooringProof"
         )
 
     private fun setupPhotoUploadButtons(view: View) {
@@ -676,6 +679,7 @@ class TrainingFragment : Fragment() {
         ).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
+
         ///////////////////////////
         val overheadTankOptions = listOf("--Select--", "Available", "Not Available")
         val flooringOptions = listOf("--Select--", "Cement", "TILE", "Polished")
@@ -707,7 +711,7 @@ class TrainingFragment : Fragment() {
             R.id.spinnerDVRStaticIP, R.id.spinnerIPEnabled, R.id.spinnerResolution,
             R.id.spinnerVideoStream, R.id.spinnerRemoteAccessBrowser, R.id.spinnerSimultaneousAccess,
             R.id.spinnerSupportedProtocols, R.id.spinnerColorVideoAudio, R.id.spinnerStorageFacility,
-            R.id.spinnerSwitchBoards, R.id.spinnerSecuringWires,R.id.spinnerFirstAidKit,R.id.spinnerSafeDrinkingWater,R.id.spinnerPowerBackup,R.id.spinnerCCTV,R.id.spinnerStorage,
+            R.id.spinnerSwitchBoards, R.id.spinnerCandidateSafety,R.id.spinnerFirstAidKit,R.id.spinnerSafeDrinkingWater,R.id.spinnerPowerBackup,R.id.spinnerCCTV,R.id.spinnerStorage,R.id.spinnerSecure
            )
         spinners.forEach {
             view.findViewById<Spinner>(it).adapter = yesNoAdapter
@@ -718,8 +722,8 @@ class TrainingFragment : Fragment() {
             Pair(view.findViewById<Spinner>(R.id.spinnerStorage), view.findViewById<Button>(R.id.btnUploadStoragePhoto)),
             Pair(view.findViewById<Spinner>(R.id.spinnerDVRStaticIP), view.findViewById<Button>(R.id.btnUploadDVRPhoto)),
             Pair(view.findViewById<Spinner>(R.id.spinnerSwitchBoards), view.findViewById<Button>(R.id.btnUploadSwitchBoards)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerSecuringWires), view.findViewById<Button>(R.id.btnUploadSecuringWires)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerLeakageCheck), view.findViewById<Button>(R.id.btnUploadLeakageProof)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerSecure), view.findViewById<Button>(R.id.btnUploadSecuringWires)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerLeakageCheck), view.findViewById<Button>(R.id.btnUploadLeaSkageProof)),
             Pair(view.findViewById<Spinner>(R.id.spinnerProtectionStairs), view.findViewById<Button>(R.id.btnUploadProtectionStairs)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTrainingCentreNameBoard), view.findViewById<Button>(R.id.btnUploadTrainingCentreNameBoard)),
             Pair(view.findViewById<Spinner>(R.id.spinnerActivitySummaryBoard), view.findViewById<Button>(R.id.btnUploadActivitySummaryBoard)),
@@ -759,10 +763,10 @@ class TrainingFragment : Fragment() {
         spinnerDDUConformance = view.findViewById(R.id.spinnerDDUConformance)
         spinnerCandidateSafety = view.findViewById(R.id.spinnerCandidateSafety)
 
-        spinnerLeakageCheck.adapter = yesNoAdapter
-        spinnerProtectionStairs.adapter = yesNoAdapter
-        spinnerDDUConformance.adapter = yesNoAdapter
-        spinnerCandidateSafety.adapter = yesNoAdapter
+        spinnerLeakageCheck.setAdapter(yesNoAdapter)
+        spinnerProtectionStairs.setAdapter(yesNoAdapter)
+        spinnerDDUConformance.setAdapter(yesNoAdapter)
+        spinnerCandidateSafety.setAdapter(yesNoAdapter)
 
         // signage info baords spinners
         spinnerTcNameBoard = view.findViewById(R.id.spinnerTrainingCentreNameBoard)
@@ -1363,16 +1367,16 @@ class TrainingFragment : Fragment() {
         val switchSelected =
             view.findViewById<Spinner>(R.id.spinnerSwitchBoards).selectedItem != "--Select--"
         val wireSelected =
-            view.findViewById<Spinner>(R.id.spinnerSecuringWires).selectedItem != "--Select--"
+            view.findViewById<Spinner>(R.id.spinnerSecure).selectedItem != "--Select--"
         val photosOk = base64SwitchBoardImage != null && base64WireSecurityImage != null
         return switchSelected && wireSelected && photosOk
     }
 
     private fun validateGeneralDetailsForm(): Boolean {
-        return spinnerLeakageCheck.selectedItem != "--Select--"
-                && spinnerProtectionStairs.selectedItem != "--Select--"
-                && spinnerDDUConformance.selectedItem != "--Select--"
-                && spinnerCandidateSafety.selectedItem != "--Select--"
+        return spinnerLeakageCheck.toString() != "--Select--"
+                && spinnerProtectionStairs.toString() != "--Select--"
+                && spinnerDDUConformance.toString() != "--Select--"
+                && spinnerCandidateSafety.toString() != "--Select--"
                 && base64LeakageImage != null
                 && base64StairsImage != null
     }
@@ -1645,7 +1649,7 @@ class TrainingFragment : Fragment() {
             appVersion = BuildConfig.VERSION_NAME,
             switchBoard = view.findViewById<Spinner>(R.id.spinnerSwitchBoards).selectedItem.toString(),
             switchBoardImage = base64SwitchBoardImage ?: "",
-            wireSecurity = view.findViewById<Spinner>(R.id.spinnerSecuringWires).selectedItem.toString(),
+            wireSecurity = view.findViewById<Spinner>(R.id.spinnerSecure).selectedItem.toString(),
             wireSecurityImage = base64WireSecurityImage ?: "",
             tcId = centerId,
             sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext())
@@ -1653,6 +1657,7 @@ class TrainingFragment : Fragment() {
         viewModel.submitElectricalData(request, token)
     }
 
+/*
     private fun submitGeneralDetails() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -1661,18 +1666,38 @@ class TrainingFragment : Fragment() {
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
-            signLeakages = spinnerLeakageCheck.selectedItem.toString(),
+            signLeakages = dropdownLeakageCheck.selectedItem.toString(),
             signLeakagesImage = base64LeakageImage ?: "",
-            stairsProtection = spinnerProtectionStairs.selectedItem.toString(),
+            stairsProtection = dropdownProtectionStairs.selectedItem.toString(),
             stairsProtectionImage = base64StairsImage ?: "",
-            dduConformance = spinnerDDUConformance.selectedItem.toString(),
-            centerSafety = spinnerCandidateSafety.selectedItem.toString(),
+            dduConformance = dropdownDDUConformance.selectedItem.toString(),
+            centerSafety = dropdownCandidateSafety.selectedItem.toString(),
             tcId = centerId,
             sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext())
         )
         viewModel.submitGeneralDetails(request, token)
 
     }
+*/
+private fun submitGeneralDetails() {
+    val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
+        .getString("ACCESS_TOKEN", "") ?: ""
+
+    val request = InsertTcGeneralDetailsRequest(
+        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+        imeiNo = AppUtil.getAndroidId(requireContext()),
+        appVersion = BuildConfig.VERSION_NAME,
+        signLeakages = spinnerLeakageCheck.toString(),
+        signLeakagesImage = base64LeakageImage ?: "",
+        stairsProtection = spinnerProtectionStairs.toString(),
+        stairsProtectionImage = base64StairsImage ?: "",
+        dduConformance = spinnerDDUConformance.toString(),
+        centerSafety = spinnerCandidateSafety.toString(),
+        tcId = centerId,
+        sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext())
+    )
+    viewModel.submitGeneralDetails(request, token)
+}
 
     private fun submitTCInfoDeatails() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
