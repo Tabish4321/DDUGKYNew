@@ -16,11 +16,18 @@ import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.CCTVComplianceResponse
+import com.deendayalproject.model.response.CommonEquipmentRes
+import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.ElectircalWiringReponse
+import com.deendayalproject.model.response.ElectricalWireRes
+import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
+import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.SignageInfo
+import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcInfraResponse
 import com.deendayalproject.model.response.TcStaffAndTrainerResponse
 import com.deendayalproject.model.response.TrainingCenterInfoRes
@@ -29,6 +36,8 @@ import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
 import com.deendayalproject.model.response.ToiletDetailsErrorResponse
+import com.deendayalproject.model.response.TeachingLearningRes
+import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
 import com.deendayalproject.util.AppUtil
 import com.google.gson.Gson
@@ -96,6 +105,7 @@ class CommonRepository(private val context: Context) {
             Result.failure(e)
         }
     }
+
 
 
     suspend fun fetchQTeamTrainingList(request: TrainingCenterRequest, token: String): Result<TrainingCenterResponse> {
@@ -336,6 +346,156 @@ class CommonRepository(private val context: Context) {
             Result.failure(e)
         }
     }
+
+
+
+
+        suspend fun getTcAcademicNonAcademicArea(request: TrainingCenterInfo) : Result<TcAcademiaNonAcademiaRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getTcAcademicNonAcademicArea(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+    suspend fun getTcToiletWashBasin(request: TrainingCenterInfo) : Result<ToiletResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getTcToiletWashBasin(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+
+    suspend fun getDescriptionOtherArea(request: TrainingCenterInfo) : Result<DescOtherAreaRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getDescriptionOtherArea(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+    suspend fun getTeachingLearningMaterial(request: TrainingCenterInfo) : Result<TeachingLearningRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getTeachingLearningMaterial(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getGeneralDetails(request: TrainingCenterInfo) : Result<GeneralDetails>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getGeneralDetails(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+    suspend fun getElectricalWiringStandard(request: TrainingCenterInfo) : Result<ElectricalWireRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getElectricalWiringStandard(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+    suspend fun getSignagesAndInfoBoard(request: TrainingCenterInfo) : Result<SignageInfo>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getSignagesAndInfoBoard(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+    suspend fun getIpEnabledcamera(request: TrainingCenterInfo) : Result<IpEnableRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getIpEnabledcamera(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+    suspend fun getCommonEquipment(request: TrainingCenterInfo) : Result<CommonEquipmentRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getCommonEquipment(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 
 
 

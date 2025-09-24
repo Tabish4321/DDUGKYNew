@@ -21,33 +21,23 @@ import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.adapter.DescriptionAcademiaAdapter
 import com.deendayalproject.adapter.TrainerStaffAdapter
-import com.deendayalproject.databinding.FragmentQTeamFormBinding
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.response.Trainer
 import com.deendayalproject.util.AppUtil
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import android.util.Base64
 import android.widget.ImageView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import com.deendayalproject.databinding.FragmentSrlmverificatiomFormBinding
 import com.deendayalproject.model.response.RoomItem
-import com.deendayalproject.util.AppUtil.hasStoragePermission
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
-import com.google.android.gms.location.Priority
-import com.google.android.material.imageview.ShapeableImageView
 import java.io.File
 
-class QTeamFormFragment : Fragment() {
+class SrlmVerificationForm : Fragment() {
 
-    private var _binding: FragmentQTeamFormBinding? = null
+    private var _binding: FragmentSrlmverificatiomFormBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
     var dataStaffList: MutableList<Trainer> = mutableListOf()
@@ -181,11 +171,12 @@ class QTeamFormFragment : Fragment() {
 
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentQTeamFormBinding.inflate(inflater, container, false)
+        _binding = FragmentSrlmverificatiomFormBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -228,24 +219,10 @@ class QTeamFormFragment : Fragment() {
 
     private fun init() {
 
-        collectTCElectrical()
-        collectTCGeneral()
-        collectTCTeaching()
-        collectTCDescOtherArea()
-        collectTCToiletAndWash()
-        collectTCAcademiaNonAcademia()
-        collectTCInfraResponse()
-        collectTCSignage()
-        collectTCIpEnabele()
-        collectTCCommonEquipment()
-
-
-
         listener()
 
-
-
     }
+
 
     private fun listener() {
 
@@ -253,173 +230,8 @@ class QTeamFormFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = DescriptionAcademiaAdapter(academiaList) { room ->
-
-            when (room.roomType) {
-                "Training Room" -> {
-                    showCustomDialog(R.layout.office_room_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val officeRoomPhoto = view.findViewById<TextView>(R.id.valueOfficeRoomPhoto)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        officeRoomPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Office Room Photo clicked!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                "Rest Room" -> {
-                    showCustomDialog(R.layout.it_lab_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                      //  val labMachines = view.findViewById<TextView>(R.id.)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                      /*  labMachines.setOnClickListener {
-                            Toast.makeText(requireContext(), "Lab Machines clicked!", Toast.LENGTH_SHORT).show()
-                        }*/
-                    }
-                }
-
-                "Living Room" -> {
-                    showCustomDialog(R.layout.office_cum_counceling_room_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                      //  val booksCount = view.findViewById<TextView>(R.id.valueBooksCount)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        /*booksCount.setOnClickListener {
-                            Toast.makeText(requireContext(), "Books Count clicked!", Toast.LENGTH_SHORT).show()
-                        }*/
-                    }
-                }
-            }
-
-/*
-            when (room.roomType) {
-
-                "Theory Class Room" -> {
-                    showCustomDialog(R.layout.theory_class_room_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val classPhoto = view.findViewById<TextView>(R.id.valueClassPhoto)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        classPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Theory Class Room clicked!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                "Office Cum Counselling" -> {
-                    showCustomDialog(R.layout.office_counselling_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val officePhoto = view.findViewById<TextView>(R.id.valueOfficePhoto)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        officePhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Office Cum Counselling clicked!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                "Reception Area" -> {
-                    showCustomDialog(R.layout.reception_area_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val receptionPhoto = view.findViewById<TextView>(R.id.valueReceptionPhoto)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        receptionPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Reception Area clicked!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                "Counselling Room" -> {
-                    showCustomDialog(R.layout.counselling_room_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val counsellingPhoto = view.findViewById<TextView>(R.id.valueCounsellingPhoto)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        counsellingPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Counselling Room clicked!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                "Office Room" -> {
-                    showCustomDialog(R.layout.office_room_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val officeRoomPhoto = view.findViewById<TextView>(R.id.valueOfficeRoomPhoto)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        officeRoomPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Office Room clicked!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                "IT cum Domain Lab" -> {
-                    showCustomDialog(R.layout.it_cum_domain_lab_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val itDomainLabPhoto = view.findViewById<TextView>(R.id.valueItDomainLabPhoto)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        itDomainLabPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "IT cum Domain Lab clicked!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                "Theory Cum IT Lab" -> {
-                    showCustomDialog(R.layout.theory_cum_it_lab_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val theoryItPhoto = view.findViewById<TextView>(R.id.valueTheoryItPhoto)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        theoryItPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Theory Cum IT Lab clicked!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                "Theory Cum Domain Lab" -> {
-                    showCustomDialog(R.layout.theory_cum_domain_lab_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val theoryDomainPhoto = view.findViewById<TextView>(R.id.valueTheoryDomainPhoto)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        theoryDomainPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Theory Cum Domain Lab clicked!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                "IT Lab" -> {
-                    showCustomDialog(R.layout.it_lab_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val itLabPhoto = view.findViewById<TextView>(R.id.valueItLabPhoto)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        itLabPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "IT Lab clicked!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                "Domain Lab" -> {
-                    showCustomDialog(R.layout.domain_lab_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val domainLabPhoto = view.findViewById<TextView>(R.id.valueDomainLabPhoto)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        domainLabPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Domain Lab clicked!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                else -> {
-                    Toast.makeText(requireContext(), "No layout found for ${room.roomType}", Toast.LENGTH_SHORT).show()
-                }
-            }
-*/
+            Toast.makeText(requireContext(), "Viewing Room: ${room.roomType}", Toast.LENGTH_SHORT)
+                .show()
         }
 
 
@@ -961,7 +773,7 @@ class QTeamFormFragment : Fragment() {
         }
 
 
-            // common equipment
+        // common equipment
 
         binding.commonEquipmentLayout.valueElectricalPowerBackup.setOnClickListener {
 
@@ -1096,6 +908,7 @@ class QTeamFormFragment : Fragment() {
             )
             viewModel.getTrainerCenterInfra(requestTcInfraReq)
 
+            collectTCInfraResponse()
 
 
             binding.trainingCenterInfoLayout.trainingInfoExpand.visibility = View.GONE
@@ -1146,6 +959,7 @@ class QTeamFormFragment : Fragment() {
             )
             viewModel.getTcAcademicNonAcademicArea(requestTcInfraReq)
 
+            collectTCAcademiaNonAcademia()
 
 
             // Common UI updates
@@ -1208,6 +1022,7 @@ class QTeamFormFragment : Fragment() {
             )
             viewModel.getTcToiletWashBasin(requestTcInfraReq)
 
+            collectTCToiletAndWash()
 
 
             // Common UI updates
@@ -1272,6 +1087,7 @@ class QTeamFormFragment : Fragment() {
             )
             viewModel.getDescriptionOtherArea(requestTcInfraReq)
 
+            collectTCDescOtherArea()
 
 
 
@@ -1335,6 +1151,7 @@ class QTeamFormFragment : Fragment() {
             )
             viewModel.getTeachingLearningMaterial(requestTcInfraReq)
 
+            collectTCTeaching()
             // Common UI updates
             binding.trainingDescOfOtherAreaExpand.visibility = View.GONE
             binding.viewDescOfOtherArea.visibility = View.GONE
@@ -1396,6 +1213,7 @@ class QTeamFormFragment : Fragment() {
             viewModel.getGeneralDetails(requestTcInfraReq)
 
 
+            collectTCGeneral()
 
 
             binding.trainingTeachingExpand.visibility = View.GONE
@@ -1446,19 +1264,6 @@ class QTeamFormFragment : Fragment() {
                     return@setOnClickListener
                 }
             } else selectedTcGeneralRemarks = ""
-
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getElectricalWiringStandard(requestTcInfraReq)
-
-
-
             // Common UI updates
             binding.trainingGeneralDetailsExpand.visibility = View.GONE
             binding.viewGeneralDetails.visibility = View.GONE
@@ -1508,16 +1313,6 @@ class QTeamFormFragment : Fragment() {
                     return@setOnClickListener
                 }
             } else selectedTcElectricalRemarks = ""
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getSignagesAndInfoBoard(requestTcInfraReq)
-
-
             // Common UI updates
             binding.trainingElectricalDetailsExpand.visibility = View.GONE
             binding.viewElectricalDetails.visibility = View.GONE
@@ -1567,17 +1362,6 @@ class QTeamFormFragment : Fragment() {
                     return@setOnClickListener
                 }
             } else selectedTcSignageRemarks = ""
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getIpEnabledCamera(requestTcInfraReq)
-
-
             // Common UI updates
             binding.signageLayout.trainingSignageBoardlDetailsExpand.visibility = View.GONE
             binding.signageLayout.viewSignageBoardDetails.visibility = View.GONE
@@ -1627,18 +1411,6 @@ class QTeamFormFragment : Fragment() {
                     return@setOnClickListener
                 }
             } else selectedTcIpEnableRemarks = ""
-
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getCommonEquipment(requestTcInfraReq)
-
-
             // Common UI updates
             binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.GONE
             binding.ipCameraLayout.trainingIPEnableCameralDetailsExpand.visibility = View.GONE
@@ -2115,15 +1887,15 @@ class QTeamFormFragment : Fragment() {
 
                         for (x in dataInfra) {
 
-                             binding.valueCorridorNo.text=  x.corridorNo
-                             binding.valueLenghth.text=  x.length
-                             binding.valueWidth.text=  x.width
-                             binding.valueArea.text=  x.areas
-                             binding.valueLights.text=  x.numberOfLights
-                             binding.yesNoFans.text=  x.numberOfFans
-                             binding.yesNoCirculationArea.text=  x.circulationArea
-                             binding.yesNoOpenSpace.text=  x.openSpace
-                             binding.yesNoParking.text=  x.parkingSpace
+                            binding.valueCorridorNo.text=  x.corridorNo
+                            binding.valueLenghth.text=  x.length
+                            binding.valueWidth.text=  x.width
+                            binding.valueArea.text=  x.areas
+                            binding.valueLights.text=  x.numberOfLights
+                            binding.yesNoFans.text=  x.numberOfFans
+                            binding.yesNoCirculationArea.text=  x.circulationArea
+                            binding.yesNoOpenSpace.text=  x.openSpace
+                            binding.yesNoParking.text=  x.parkingSpace
 
 
                             fansImage = x.descProofImagePath.toString()
@@ -2269,240 +2041,6 @@ class QTeamFormFragment : Fragment() {
     }
 
 
-    private fun collectTCElectrical() {
-
-        viewModel.getElectricalWiringStandard.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
-                            securingWiringImage = x.wireSecurityImage.toString()
-                            switchBoardImage = x.switchBoardImage.toString()
-
-
-                            binding.yesNoSecuringWire.text = x.wireSecurity
-                            binding.yesNoSwitchBoard.text = x.switchBoard
-
-                        }
-
-                    }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
-            }
-            result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-        }
-    }
-
-    private fun collectTCSignage() {
-
-        viewModel.getSignagesAndInfoBoard.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
-                          tcNameBoardImage = x.tcNameImage.toString()
-                          activitySummaryBoardImage = x.activityAchivementImage.toString()
-                          studentEntitlementBoardImage = x.studentEntitlementImage.toString()
-                          contactDetailImpoPeopleImage = x.contactDetailsImage.toString()
-                          basicInfoBoardImage = x.basicInfoImage.toString()
-                          codeOfConductImage = x.codeConductImage.toString()
-                          studentAttendanceImage = x.studentsAttendanceImage.toString()
-
-
-                            binding.signageLayout.yesNoCenterNameBoard.text= x.tcName
-                            binding.signageLayout.yesNoSummaryAcheivement.text= x.activityAchivement
-                            binding.signageLayout.yesNoStudentEntitlement.text= x.studentEntitlement
-                            binding.signageLayout.yesNoContactDetail.text= x.contactDetails
-                            binding.signageLayout.yesNoBasicInfoBoard.text= x.basicInfo
-                            binding.signageLayout.yesNoCodeOfConduct.text= x.codeConduct
-                            binding.signageLayout.yesNoAttendanceSummary.text= x.studentsAttendance
-
-                        }
-
-                    }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
-            }
-            result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-        }
-    }
-
-
-    private fun collectTCIpEnabele() {
-
-        viewModel.getIpEnabledCamera.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
-                            centralMonitorImage = x.centralMonitorImagePath.toString()
-                            conformationOfCCTVImage= x.cctvConformanceImagePath.toString()
-                            storageOfCCtvImage = x.cctvStorageImagePath.toString()
-                            dvrImage = x.dvrStaticIpImagePath.toString()
-
-
-
-                            binding.ipCameraLayout.yesNoCentralMonitor.text= x.centralMonitor
-                            binding.ipCameraLayout.yesNoConformanceCCTV.text= x.cctvConformance
-                            binding.ipCameraLayout.yesNoStorageCCTV.text= x.cctvStorage
-                            binding.ipCameraLayout.yesNoDvrStaticIP.text= x.dvrStaticIp
-                            binding.ipCameraLayout.yesNoIpEnabled.text= x.ipEnable
-                            binding.ipCameraLayout.yesNoResolution.text= x.resolution
-                            binding.ipCameraLayout.yesNoVideoStream.text= x.videoStream
-                            binding.ipCameraLayout.yesNoRemoteAccessWeb.text= x.remoteAccessBrowser
-                            binding.ipCameraLayout.yesNoRemoteAccessUsers.text= x.simultaneousAccess
-                            binding.ipCameraLayout.yesNoSupportedProtocols.text= x.supportedProtocol
-                            binding.ipCameraLayout.yesNoColorAudio.text= x.colorVideoAudit
-                            binding.ipCameraLayout.yesNoStorageFacility.text= x.storageFacility
-
-
-                        }
-
-                    }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
-            }
-            result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-        }
-    }
-
-    private fun collectTCCommonEquipment() {
-
-        viewModel.getCommonEquipment.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
-                            electricPowerImage = x.ecPowerBackupImage.toString()
-                            installBiometricImage = x.biomatricDeviceInstallationImage.toString()
-                            installationCCTVImage = x.cctvMoniotrInstallImage.toString()
-                            storagePlaceSecuringDocImage = x.storageSecuringImage.toString()
-                            printerCumImage = x.printerScannerImage.toString()
-                            digitalCameraImage = x.digitalCameraImage.toString()
-                            grievanceImage = x.grievanceRegisterImage.toString()
-                            minimumEquipmentImage = x.minimumEquipmentImage.toString()
-                            directionBoardsImage = x.directionBoardImage.toString()
-
-
-
-
-                            binding.commonEquipmentLayout.yesNoElectricalPowerBackup.text= x.ecPowerBackup
-                            binding.commonEquipmentLayout.yesNoBiometricDevices.text= x.biomatricDeviceInstallation
-                            binding.commonEquipmentLayout.yesNoCCTVMonitor.text= x.cctvMoniotrInstall
-                            binding.commonEquipmentLayout.yesNoStorageDocs.text= x.storageSecuring
-                            binding.commonEquipmentLayout.yesNoPrinterScanner.text= x.printerScanner.toString()
-                            binding.commonEquipmentLayout.yesNoDigitalCamera.text= x.digitalCamera.toString()
-                            binding.commonEquipmentLayout.yesNoGrievanceRegister.text= x.grievanceRegister.toString()
-                            binding.commonEquipmentLayout.yesNoMinEquipment.text= x.minimumEquipment.toString()
-                            binding.commonEquipmentLayout.yesNoDirectionBoards.text= x.directionBoard.toString()
-
-
-
-                        }
-
-                    }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
-            }
-            result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-        }
-    }
-
-
-
-
-
-
-
-
 
 
     fun openBase64Pdf(context: Context, base64: String) {
@@ -2579,26 +2117,6 @@ class QTeamFormFragment : Fragment() {
             .setView(imageView)
             .setPositiveButton("Close") { dialog, _ -> dialog.dismiss() }
             .show()
-    }
-
-    private fun showCustomDialog(layoutRes: Int, setupView: (View, AlertDialog) -> Unit) {
-        val dialogView = layoutInflater.inflate(layoutRes, null)
-
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .setCancelable(true)
-            .create()
-
-        // Allow full width
-        dialog.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        setupView(dialogView, dialog)
-
-        dialog.show()
     }
 
 

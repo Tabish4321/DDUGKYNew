@@ -1,22 +1,29 @@
 package com.deendayalproject.fragments
 
 import SharedViewModel
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
-import com.deendayalproject.R
-import com.deendayalproject.adapter.CenterAdapter
 import com.deendayalproject.adapter.TrainingQAdapter
 import com.deendayalproject.databinding.FragmentQTeamListBinding
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.util.AppUtil
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 
 
 class QTeamListFragment : Fragment() {
@@ -25,13 +32,20 @@ class QTeamListFragment : Fragment() {
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: TrainingQAdapter
 
+    private var latitude = 26.2153
+    private var longitude = 84.3588
+    private var radius = 500000000f
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+
 
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentQTeamListBinding.inflate(inflater, container, false)
 
@@ -42,13 +56,33 @@ class QTeamListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
         adapter = TrainingQAdapter(emptyList()) { center ->
-            val action = QTeamListFragmentDirections.actionQTeamListFragmentToQTeamFormFragment(
-                center.trainingCenterId.toString(),center.trainingCenterName,center.senctionOrder
-            )
-            findNavController().navigate(action)
+
+
+
+            checkGeofence(
+                context = requireContext(),
+                latitude = latitude,
+                longitude = longitude,
+                radiusInMeters = radius,
+                progressBar = binding.progressBar
+            ) { inside, location ->
+                if (inside) {
+                    val action = QTeamListFragmentDirections.actionQTeamListFragmentToQTeamFormFragment(
+                        center.trainingCenterId.toString(),center.trainingCenterName,center.senctionOrder
+                    )
+                    findNavController().navigate(action)
+                } else {
+                    Toast.makeText(requireContext(), "You are outside the geofence!", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+
+
         }
 
         binding.backButton.setOnClickListener {
@@ -92,4 +126,70 @@ class QTeamListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
+    private fun checkGeofence(
+        context: Context,
+        latitude: Double,
+        longitude: Double,
+        radiusInMeters: Float,
+        progressBar: ProgressBar,
+        onResult: (inside: Boolean, location: Location?) -> Unit
+    ) {
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+
+        // Show progress bar
+        progressBar.visibility = View.VISIBLE
+
+        // Check permission
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            progressBar.visibility = View.GONE
+            Toast.makeText(context, "Location permission not granted", Toast.LENGTH_SHORT).show()
+            onResult(false, null)
+            return
+        }
+
+        // Get current location
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener { location ->
+                progressBar.visibility = View.GONE
+                if (location != null) {
+                    val inside = isUserInGeofence(
+                        userLat = location.latitude,
+                        userLng = location.longitude,
+                        centerLat = latitude,
+                        centerLng = longitude,
+                        radiusInMeters = radiusInMeters
+                    )
+                    onResult(inside, location)
+                } else {
+                    Toast.makeText(context, "Location not available", Toast.LENGTH_SHORT).show()
+                    onResult(false, null)
+                }
+            }
+            .addOnFailureListener {
+                progressBar.visibility = View.GONE
+                Toast.makeText(context, "Failed to get location", Toast.LENGTH_SHORT).show()
+                onResult(false, null)
+            }
+    }
+
+    // Simple geofence check
+    private fun isUserInGeofence(
+        userLat: Double,
+        userLng: Double,
+        centerLat: Double,
+        centerLng: Double,
+        radiusInMeters: Float
+    ): Boolean {
+        val results = FloatArray(1)
+        Location.distanceBetween(userLat, userLng, centerLat, centerLng, results)
+        return results[0] <= radiusInMeters
+    }
+
+
 }

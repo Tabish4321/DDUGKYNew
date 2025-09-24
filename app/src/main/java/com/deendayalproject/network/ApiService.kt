@@ -14,11 +14,18 @@ import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.CCTVComplianceResponse
+import com.deendayalproject.model.response.CommonEquipmentRes
+import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.ElectircalWiringReponse
+import com.deendayalproject.model.response.ElectricalWireRes
+import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
+import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.SignageInfo
+import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
 import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
@@ -26,6 +33,8 @@ import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
 import com.deendayalproject.model.response.TcInfraResponse
 import com.deendayalproject.model.response.TcStaffAndTrainerResponse
 import com.deendayalproject.model.response.ToiletDetailsErrorResponse
+import com.deendayalproject.model.response.TeachingLearningRes
+import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.TrainingCenterInfoRes
 import com.deendayalproject.model.response.TrainingCenterResponse
 import retrofit2.Response
@@ -91,6 +100,7 @@ interface ApiService {
     suspend fun getTcStaffDetails(@Body request: TrainingCenterInfo) : Response<TcStaffAndTrainerResponse>
 
 
+
     @POST(value ="getTrainerCenterInfra")
     suspend fun getTrainerCenterInfra(@Body request: TrainingCenterInfo) : Response<TcInfraResponse>
 
@@ -99,6 +109,46 @@ interface ApiService {
     suspend fun insertTcToiletsWashBasins(@Body request: ToiletDetailsRequest) : Response<ToiletDetailsErrorResponse>
 
 
+
+
+    @POST(value ="getTcAcademicNonAcademicArea")
+    suspend fun getTcAcademicNonAcademicArea(@Body request: TrainingCenterInfo) : Response<TcAcademiaNonAcademiaRes>
+
+
+
+    @POST(value ="getTcToiletWashBasin")
+    suspend fun getTcToiletWashBasin(@Body request: TrainingCenterInfo) : Response<ToiletResponse>
+
+
+
+    @POST(value ="getDescriptionOtherArea")
+    suspend fun getDescriptionOtherArea(@Body request: TrainingCenterInfo) : Response<DescOtherAreaRes>
+
+
+    @POST(value ="getTeachingLearningMaterial")
+    suspend fun getTeachingLearningMaterial(@Body request: TrainingCenterInfo) : Response<TeachingLearningRes>
+
+
+    @POST(value ="getGeneralDetails")
+    suspend fun getGeneralDetails(@Body request: TrainingCenterInfo) : Response<GeneralDetails>
+
+
+
+
+    @POST(value ="getElectricalWiringStandard")
+    suspend fun getElectricalWiringStandard(@Body request: TrainingCenterInfo) : Response<ElectricalWireRes>
+
+
+    @POST(value ="getSignagesAndInfoBoard")
+    suspend fun getSignagesAndInfoBoard(@Body request: TrainingCenterInfo) : Response<SignageInfo>
+
+
+    @POST(value ="getIpEnabledcamera")
+    suspend fun getIpEnabledcamera(@Body request: TrainingCenterInfo) : Response<IpEnableRes>
+
+
+    @POST(value ="getCommonEquipment")
+    suspend fun getCommonEquipment(@Body request: TrainingCenterInfo) : Response<CommonEquipmentRes>
 }
 
 

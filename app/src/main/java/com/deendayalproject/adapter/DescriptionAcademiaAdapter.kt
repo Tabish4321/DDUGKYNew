@@ -3,15 +3,14 @@ package com.deendayalproject.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.R
-import com.deendayalproject.model.RoomModel
+import com.deendayalproject.model.response.RoomItem
 
 class DescriptionAcademiaAdapter(
-    private val rooms: List<RoomModel>,
-    private val onViewClick: (RoomModel) -> Unit
+    private val rooms: MutableList<RoomItem>,
+    private val onViewClick: (RoomItem) -> Unit
 ) : RecyclerView.Adapter<DescriptionAcademiaAdapter.RoomViewHolder>() {
 
     inner class RoomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -31,10 +30,10 @@ class DescriptionAcademiaAdapter(
 
     override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
         val room = rooms[position]
-        holder.tvMaxCandidate.text = room.maxCandidates
-        holder.tvLength.text = room.length
-        holder.tvWidth.text = room.width
-        holder.tvArea.text = room.area
+        holder.tvMaxCandidate.text = room.maxPermissibleCandidate
+        holder.tvLength.text = room.roomLength
+        holder.tvWidth.text = room.roomWidth
+        holder.tvArea.text = room.roomArea
         holder.tvRoomType.text = room.roomType
 
         holder.btnView.setOnClickListener {
