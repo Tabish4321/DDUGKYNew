@@ -1109,6 +1109,11 @@ class TrainingFragment : Fragment() {
                     "General details submitted successfully!",
                     Toast.LENGTH_SHORT
                 ).show()
+                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutGeneralDetailsContent)
+                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+
+               base64LeakageImage = null
+               base64StairsImage = null
             }
             result.onFailure {
                 Toast.makeText(
@@ -1125,6 +1130,15 @@ class TrainingFragment : Fragment() {
                     "Training details submitted successfully!",
                     Toast.LENGTH_SHORT
                 ).show()
+
+                 distanceBus =null
+
+                val distanceAuto = requireView().findViewById<TextInputEditText>(R.id.etDistanceAutoStand)
+                val distanceRailway =
+                    requireView().findViewById<TextInputEditText>(R.id.etDistanceRailwayStation)
+                val latitude = requireView().findViewById<TextInputEditText>(R.id.etLatitude)
+                val longitude = requireView().findViewById<TextInputEditText>(R.id.etLongitude)
+
             }
             result.onFailure {
                 Toast.makeText(
