@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -57,6 +58,8 @@ class QTeamListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+
 
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
@@ -138,22 +141,19 @@ class QTeamListFragment : Fragment() {
     ) {
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
-        // Show progress bar
-        progressBar.visibility = View.VISIBLE
-
-        // Check permission
         if (ActivityCompat.checkSelfPermission(
                 context,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            progressBar.visibility = View.GONE
-            Toast.makeText(context, "Location permission not granted", Toast.LENGTH_SHORT).show()
-            onResult(false, null)
+            // 👉 Ask user for permission
+            locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             return
         }
 
-        // Get current location
+        // Show progress bar
+        progressBar.visibility = View.VISIBLE
+
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
                 progressBar.visibility = View.GONE
@@ -178,6 +178,7 @@ class QTeamListFragment : Fragment() {
             }
     }
 
+
     // Simple geofence check
     private fun isUserInGeofence(
         userLat: Double,
@@ -191,5 +192,14 @@ class QTeamListFragment : Fragment() {
         return results[0] <= radiusInMeters
     }
 
+    private val locationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                // Permission granted → retry geofence check
+
+            } else {
+                Toast.makeText(requireContext(), "❌ Location permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
 
 }
