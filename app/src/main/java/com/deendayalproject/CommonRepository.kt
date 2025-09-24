@@ -35,8 +35,8 @@ import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
 import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
-import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.TeachingLearningRes
+import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
 import com.deendayalproject.util.AppUtil
