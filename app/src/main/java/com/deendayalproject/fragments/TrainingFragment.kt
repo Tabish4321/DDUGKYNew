@@ -195,10 +195,10 @@ class TrainingFragment : Fragment() {
     private lateinit var ivMinimumEquipmentPreview: ImageView
     private lateinit var ivDirectionBoardsPreview: ImageView
 
-    // description
+    // description of other area
     private var base64ProofUploadImage: String? = null
     private var base64CirculationProofImage: String? = null
-    private var base64OpenSpaceProofImage: String? = null
+    private var base64penSpaceProofImage: String? = null
     private var base64ParkingSpaceProofImage: String? = null
 
     private lateinit var ivProofPreview: ImageView
@@ -1071,6 +1071,14 @@ class TrainingFragment : Fragment() {
                     "CCTV data submitted successfully!",
                     Toast.LENGTH_SHORT
                 ).show()
+                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutCCTVComplianceContent)
+                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+
+                base64MonitorFile= null
+                base64ConformanceFile= null
+                base64StorageFile = null
+                base64DVRFile = null
+
             }
             result.onFailure {
                 Toast.makeText(
@@ -1130,17 +1138,8 @@ class TrainingFragment : Fragment() {
                     "Training details submitted successfully!",
                     Toast.LENGTH_SHORT
                 ).show()
-
-          /*      etDistanceAutoStand =null
-                etDistanceRailwayStation =null
-                etLatitude =null
-                etLongitude =null
-*/
-           /*     val distanceAuto = requireView().findViewById<TextInputEditText>(R.id.etDistanceAutoStand)
-                val distanceRailway = requireView().findViewById<TextInputEditText>(R.id.etDistanceRailwayStation)
-                val latitude = requireView().findViewById<TextInputEditText>(R.id.etLatitude)
-                val longitude = requireView().findViewById<TextInputEditText>(R.id.etLongitude)
-*/
+                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutTCBasicInfoContent)
+                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
             }
             result.onFailure {
                 Toast.makeText(
@@ -1157,6 +1156,17 @@ class TrainingFragment : Fragment() {
                     "Signages&InfoBoards details submitted successfully!",
                     Toast.LENGTH_SHORT
                 ).show()
+
+                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutSignagesInfoBoardsContent)
+                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+                base64TcNameBoardImage= null
+                base64ActivityAchievementBoardImage = null
+               base64StudentEntitlementBoardImage = null
+                base64ContactDetailBoardImage = null
+               base64BasicInfoBoardImage = null
+                base64CodeConductBoardImage = null
+              base64StudentAttendanceBoardImage = null
+
             }
             result.onFailure {
                 Toast.makeText(
@@ -1173,6 +1183,13 @@ class TrainingFragment : Fragment() {
                     "Support Infrastructure details submitted successfully!",
                     Toast.LENGTH_SHORT
                 ).show()
+                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutSupportInfrastructureContent)
+                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+
+                base64SafeDrinkingWater =null
+                base64FireFightingEquipment=null
+                base64FirstAidKit=null
+
             }
             result.onFailure {
                 Toast.makeText(
@@ -1190,6 +1207,19 @@ class TrainingFragment : Fragment() {
                     "Common equipment details submitted successfully!",
                     Toast.LENGTH_SHORT
                 ).show()
+                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutCommonEquipmentContent)
+                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+             base64PowerBackupImage = null
+                base64BiometricDevices = null
+                base64CCTVImage= null
+                 base64DocumentStorageImage = null
+                 base64PrinterScanner = null
+                 base64DigitalCamera = null
+                 base64GrievanceRegisterImage = null
+                 base64MinimumEquipmentImage = null
+                 base64DirectionBoardsImage = null
+
+
             }
             result.onFailure {
                 Toast.makeText(
@@ -1207,6 +1237,14 @@ class TrainingFragment : Fragment() {
                     "Description of other area details submitted successfully!",
                     Toast.LENGTH_SHORT
                 ).show()
+                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutDescriptionOtherAreasContent)
+                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+                 base64ProofUploadImage = null
+                 base64CirculationProofImage = null
+                base64penSpaceProofImage = null
+                base64ParkingSpaceProofImage = null
+
+
             }
             result.onFailure {
                 Toast.makeText(
@@ -1224,6 +1262,26 @@ class TrainingFragment : Fragment() {
                     "Toilet & WashBasin details submitted successfully!",
                     Toast.LENGTH_SHORT
                 ).show()
+                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutToiletsWashBasinsContent)
+                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+
+             base64ProofMaleToilets = null
+
+             base64ProofMaleToiletsSignage = null
+
+             base64ProofFemaleToilets = null
+
+               base64ProofFemaleToiletsSignage = null
+
+               base64ProofMaleUrinals = null
+
+              base64ProofMaleWashBasins = null
+
+                base64ProofFemaleWashBasins = null
+
+                 base64ProofOverheadTanks = null
+                 base64ProofFlooring = null
+
             }
             result.onFailure {
                 Toast.makeText(
@@ -1234,7 +1292,6 @@ class TrainingFragment : Fragment() {
 
             }
         }
-
     }
     private fun setupExpandableSections(view: View) {
         val sections = listOf(
@@ -1539,7 +1596,6 @@ class TrainingFragment : Fragment() {
 
     private fun validateDescriptionForm(): Boolean {
         var isValid = true
-
         // Helper to check if a TextInputEditText is empty
         fun checkEmpty(editText: TextInputEditText, fieldName: String): Boolean {
             val text = editText.text?.toString()?.trim()
@@ -1625,8 +1681,6 @@ class TrainingFragment : Fragment() {
 
         return isValid
     }
-
-
     private fun submitCCTVData(view: View) {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -1654,7 +1708,6 @@ class TrainingFragment : Fragment() {
         )
         viewModel.submitCCTVDataToServer(request, token)
     }
-
     private fun submitElectricalData(view: View) {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -1748,7 +1801,6 @@ private fun submitGeneralDetails() {
         )
         viewModel.submitTcBasicDataToServer(request, token)
     }
-
     //Rohit Signages Info Details
     private fun submitSignagesInfoBoards() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
@@ -1792,7 +1844,6 @@ private fun submitGeneralDetails() {
         )
         viewModel.submitTcInfoSignageDataToServer(request, token)
     }
-
     private fun submitInfraDetails() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -1816,7 +1867,6 @@ private fun submitGeneralDetails() {
         )
         viewModel.submitTcSupportInfraDataToserver(request, token)
     }
-
     private fun submitCommonEquipment() {
         val token = requireContext()
             .getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
@@ -1869,7 +1919,6 @@ private fun submitGeneralDetails() {
 
         viewModel.submitTcCommonEquipment(request, token)
     }
-
     private fun submitDescriptionOtherAreas() {
         val token = requireContext()
             .getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
@@ -1900,12 +1949,11 @@ private fun submitGeneralDetails() {
             circulationArea = circulationArea,
             circulationAreaImage = base64CirculationProofImage ?: "",
             openSpace = openSpace,
-            openSpaceImage = base64OpenSpaceProofImage ?: "",
+            openSpaceImage = base64penSpaceProofImage ?: "",
             parkingSpace = exclusiveParkingSpace,
             parkingSpaceImage = base64ParkingSpaceProofImage ?: "",
             proofImage = base64ProofUploadImage?:"",
         )
-
         viewModel.submitTcDescriptionArea(request, token)
     }
 
@@ -1957,6 +2005,4 @@ private fun submitGeneralDetails() {
 
         viewModel.SubmitWashBasinDataToServer(request, token)
     }
-
-
 }
