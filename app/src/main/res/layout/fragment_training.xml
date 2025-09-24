@@ -338,6 +338,23 @@
                         android:id="@+id/spinnerMonitorAccessible"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+<!--
+                    <ImageView
+                        android:id="@+id/ivMonitorPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />-->
+                    <ImageView
+                        android:id="@+id/ivMonitorPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
                     <Button
                         android:id="@+id/btnUploadMonitorPhoto"
                         android:layout_width="match_parent"
@@ -347,13 +364,7 @@
                         android:layout_marginTop="4dp"
                         android:drawableEnd="@drawable/ic_up"
                         android:text="Click photo" />
-                    <ImageView
-                        android:id="@+id/ivMonitorPreview"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="8dp"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone" />
+
 
                     <!-- CCTV Conformance -->
                     <TextView
@@ -366,6 +377,15 @@
                         android:id="@+id/spinnerConformance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+                    <ImageView
+                        android:id="@+id/ivConformancePreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="gone" />
+
                     <Button
                         android:id="@+id/btnUploadConformancePhoto"
                         android:layout_width="match_parent"
@@ -375,13 +395,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="4dp"
                         android:text="Click photo" />
-                    <ImageView
-                        android:id="@+id/ivConformancePreview"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="8dp"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone" />
+
 
                     <!-- Storage of Recorded Material -->
                     <TextView
