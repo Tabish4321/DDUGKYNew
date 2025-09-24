@@ -39,7 +39,6 @@
     <string name="female_wash_basins">Female Wash Basins (In No.)</string>
     <string name="proof_female_wash_basins">Proof of Female Wash Basins</string>
     <string name="proof_overhead_tanks">Proof of Overhead Tanks</string>
-    <string name="type_of_flooring">Type of Flooring</string>
     <string name="proof_flooring">Proof of Flooring</string>
     <string name="upload">Upload</string>
     <string name="submit_toilet_wash_basin">Submit</string>
@@ -47,13 +46,12 @@
 
 
         <!-- Section Header -->
-        <string name="description_of_other_areas">Description of Other Areas</string>
+
         <!-- TextInput Hints -->
-        <string name="corridor_no">Corridor No</string>
+
         <string name="length">Length</string>
         <string name="width">Width</string>
         <string name="area">Area</string>
-        <string name="lights">Lights</string>
         <string name="fans">Fans</string>
         <string name="circulation_area_hint">Circulation Area (In Sq. Ft.)</string>
         <string name="open_space_hint">Open Space for People to Gather and Interact (In Sq. Ft.)</string>

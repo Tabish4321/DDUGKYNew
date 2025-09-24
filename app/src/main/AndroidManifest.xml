@@ -9,11 +9,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:ignore="CoarseFineLocation" />
 
-
-    <!-- Declare optional camera hardware -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -32,15 +31,22 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.Ddugky"
     tools:targetApi="31">
+
+
+
+        <!-- FileProvider configuration -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
+            android:authorities="com.deendayalproject.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+
 
         <!-- Launcher Activity -->
         <activity

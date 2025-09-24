@@ -250,7 +250,7 @@ class TrainingFragment : Fragment() {
         R.id.btnUploadLeaSkageProof to "leakage",
         R.id.btnUploadProtectionStairs to "stairs",
 
-        // Signages info boards
+        //Signages info boards
         R.id.btnUploadTrainingCentreNameBoard to "tcNameBoard",
         R.id.btnUploadActivitySummaryBoard to "activityAchievementBoard",
         R.id.btnUploadEntitlementBoard to "studentEntitlementBoard",
@@ -264,7 +264,7 @@ class TrainingFragment : Fragment() {
         R.id.btnUploadFireFightingEquipment to "FireFightingEquipment",
         R.id.btnUploadSafeDrinkingWater to "SafeDrinkingWater",
 
-        // Other areas
+        //  desc Other areas
         R.id.btnUploadProof to "proof",
         R.id.btnUploadCirculationProof to "circulationProof",
         R.id.btnUploadParkingProof to "parking",
@@ -430,8 +430,7 @@ class TrainingFragment : Fragment() {
                         "FirstAidKit" -> {
                             ivFirstAidKitPreview.setImageURI(photoUri)
                             ivFirstAidKitPreview.visibility = View.VISIBLE
-                            base64FirstAidKit =
-                                AppUtil.imageUriToBase64(context = requireContext(), photoUri)
+                            base64FirstAidKit = AppUtil.imageUriToBase64(context = requireContext(), photoUri)
                         }
                         "powerBackup" -> {
                             ivPowerBackupPreview.setImageURI(photoUri)
@@ -496,7 +495,6 @@ class TrainingFragment : Fragment() {
                             }
 
                         }
-
                         "maleToiletsSignageProof" -> {
                             ivPreviewMaleToiletsSignageProof.setImageURI(photoUri)
                             ivPreviewMaleToiletsSignageProof.visibility = View.VISIBLE
@@ -544,6 +542,31 @@ class TrainingFragment : Fragment() {
                             ivPreviewFlooringProof.visibility = View.VISIBLE
                             base64ProofFlooring = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
+                        "proofUpload" -> {
+                            ivProofPreview.setImageURI(photoUri)
+                            ivProofPreview.visibility = View.VISIBLE
+                            base64ProofUploadImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+                        "circulationProof" -> {
+                            ivCirculationProofPreview.setImageURI(photoUri)
+                            ivCirculationProofPreview.visibility = View.VISIBLE
+                            base64CirculationProofImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+                        "openSpaceProof" -> {
+                            ivOpenSpaceProofPreview.setImageURI(photoUri)
+                            ivOpenSpaceProofPreview.visibility = View.VISIBLE
+                            base64penSpaceProofImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                            // Consider renaming base64penSpaceProofImage to base64OpenSpaceProofImage for clarity
+                        }
+
+                        "parkingProof" -> {
+                            ivParkingProofPreview.setImageURI(photoUri)
+                            ivParkingProofPreview.visibility = View.VISIBLE
+                            base64ParkingSpaceProofImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
                     }
                 } else {
                     Toast.makeText(requireContext(), "Photo capture failed", Toast.LENGTH_SHORT)
