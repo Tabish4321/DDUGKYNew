@@ -1131,14 +1131,16 @@ class TrainingFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                 distanceBus =null
-
-                val distanceAuto = requireView().findViewById<TextInputEditText>(R.id.etDistanceAutoStand)
-                val distanceRailway =
-                    requireView().findViewById<TextInputEditText>(R.id.etDistanceRailwayStation)
+          /*      etDistanceAutoStand =null
+                etDistanceRailwayStation =null
+                etLatitude =null
+                etLongitude =null
+*/
+           /*     val distanceAuto = requireView().findViewById<TextInputEditText>(R.id.etDistanceAutoStand)
+                val distanceRailway = requireView().findViewById<TextInputEditText>(R.id.etDistanceRailwayStation)
                 val latitude = requireView().findViewById<TextInputEditText>(R.id.etLatitude)
                 val longitude = requireView().findViewById<TextInputEditText>(R.id.etLongitude)
-
+*/
             }
             result.onFailure {
                 Toast.makeText(
