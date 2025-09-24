@@ -107,9 +107,9 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(R.id.action_homeFragment_to_QTeamListFragment)
             }
 
-            if (form.formCd == "TRAINING_CENTERS_VERIFICATION_SRLM") {
+           /* if (form.formCd == "TRAINING_CENTERS_VERIFICATION_SRLM") {
                 findNavController().navigate(R.id.action_homeFragment_to_srlmVerListFragment)
-            }
+            }*/
 
 
 

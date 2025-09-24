@@ -16,13 +16,17 @@ import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.CCTVComplianceResponse
+import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.ElectircalWiringReponse
+import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
+import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcInfraResponse
 import com.deendayalproject.model.response.TcStaffAndTrainerResponse
@@ -422,6 +426,74 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _loading.postValue(false)
         }
     }
+
+
+
+    private val _getElectricalWiringStandard = MutableLiveData<Result<ElectricalWireRes>>()
+    val getElectricalWiringStandard: LiveData<Result<ElectricalWireRes>> = _getElectricalWiringStandard
+
+    fun getElectricalWiringStandard(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getElectricalWiringStandard(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getElectricalWiringStandard.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    private val _getSignagesAndInfoBoard = MutableLiveData<Result<SignageInfo>>()
+    val getSignagesAndInfoBoard: LiveData<Result<SignageInfo>> = _getSignagesAndInfoBoard
+
+    fun getSignagesAndInfoBoard(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getSignagesAndInfoBoard(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getSignagesAndInfoBoard.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+
+    private val _getIpEnabledCamera = MutableLiveData<Result<IpEnableRes>>()
+    val getIpEnabledCamera: LiveData<Result<IpEnableRes>> = _getIpEnabledCamera
+
+    fun getIpEnabledCamera(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getIpEnabledcamera(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getIpEnabledCamera.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    private val _getCommonEquipment = MutableLiveData<Result<CommonEquipmentRes>>()
+    val getCommonEquipment: LiveData<Result<CommonEquipmentRes>> = _getCommonEquipment
+
+    fun getCommonEquipment(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getCommonEquipment(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getCommonEquipment.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
 
 
 

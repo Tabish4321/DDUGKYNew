@@ -13,13 +13,17 @@ import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.CCTVComplianceResponse
+import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.ElectircalWiringReponse
+import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
+import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
 import com.deendayalproject.model.response.TcCommonEquipmentResponse
@@ -122,6 +126,22 @@ interface ApiService {
     suspend fun getGeneralDetails(@Body request: TrainingCenterInfo) : Response<GeneralDetails>
 
 
+
+
+    @POST(value ="getElectricalWiringStandard")
+    suspend fun getElectricalWiringStandard(@Body request: TrainingCenterInfo) : Response<ElectricalWireRes>
+
+
+    @POST(value ="getSignagesAndInfoBoard")
+    suspend fun getSignagesAndInfoBoard(@Body request: TrainingCenterInfo) : Response<SignageInfo>
+
+
+    @POST(value ="getIpEnabledcamera")
+    suspend fun getIpEnabledcamera(@Body request: TrainingCenterInfo) : Response<IpEnableRes>
+
+
+    @POST(value ="getCommonEquipment")
+    suspend fun getCommonEquipment(@Body request: TrainingCenterInfo) : Response<CommonEquipmentRes>
 }
 
 
