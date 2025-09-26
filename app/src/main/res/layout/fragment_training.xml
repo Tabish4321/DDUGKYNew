@@ -69,7 +69,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:paddingTop="8dp">
 
                     <!-- Your existing fields here ... -->
@@ -166,6 +166,7 @@
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:backgroundTint="?attr/colorPrimary"
+                        android:drawableEnd="@drawable/ic_up"
                         android:text="Submit"
                         android:textStyle="bold" />
 
@@ -337,6 +338,23 @@
                         android:id="@+id/spinnerMonitorAccessible"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+<!--
+                    <ImageView
+                        android:id="@+id/ivMonitorPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />-->
+                    <ImageView
+                        android:id="@+id/ivMonitorPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_gravity="center_horizontal"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
                     <Button
                         android:id="@+id/btnUploadMonitorPhoto"
                         android:layout_width="match_parent"
@@ -344,14 +362,9 @@
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:text="Click photo" />
-                    <ImageView
-                        android:id="@+id/ivMonitorPreview"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="8dp"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone" />
+
 
                     <!-- CCTV Conformance -->
                     <TextView
@@ -364,21 +377,25 @@
                         android:id="@+id/spinnerConformance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-                    <Button
-                        android:id="@+id/btnUploadConformancePhoto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:layout_marginTop="4dp"
-                        android:text="Click photo" />
                     <ImageView
                         android:id="@+id/ivConformancePreview"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginTop="8dp"
                         android:scaleType="centerCrop"
+                        android:layout_gravity="center_horizontal"
                         android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btnUploadConformancePhoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_up"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:layout_marginTop="4dp"
+                        android:text="Click photo" />
+
 
                     <!-- Storage of Recorded Material -->
                     <TextView
@@ -395,6 +412,7 @@
                         android:id="@+id/btnUploadStoragePhoto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_up"
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="4dp"
@@ -422,6 +440,7 @@
                         android:id="@+id/btnUploadDVRPhoto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_up"
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:layout_marginTop="4dp"
@@ -552,6 +571,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -608,6 +628,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -657,6 +678,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -697,6 +719,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -754,6 +777,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -811,6 +835,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -868,6 +893,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -919,6 +945,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -971,6 +998,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             app:icon="@drawable/ic_equipment"
@@ -1089,6 +1117,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -1141,6 +1170,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -1186,6 +1216,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -1232,6 +1263,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -1285,6 +1317,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -1338,6 +1371,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -1383,6 +1417,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -1428,6 +1463,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -1473,6 +1509,7 @@
                             android:layout_marginEnd="@dimen/dp_5"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
+                            android:drawableEnd="@drawable/ic_up"
                             android:background="@drawable/bg_upload_button"
                             android:text="Upload"
                             android:textSize="12sp" />
@@ -1586,6 +1623,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -1624,6 +1662,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -1662,6 +1701,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -1700,6 +1740,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -1737,6 +1778,7 @@
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:paddingVertical="4dp"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
@@ -1776,6 +1818,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -1814,6 +1857,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -1938,6 +1982,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -1978,6 +2023,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -2116,6 +2162,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -2149,6 +2196,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -2218,7 +2266,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableStart="@drawable/ic_residential"
+                        android:drawableStart="@drawable/ic_infra"
                         android:gravity="center"
                         android:text="Availability of Support Infrastructure"
                         android:textColor="?attr/colorPrimary"
@@ -2262,6 +2310,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -2310,6 +2359,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -2348,6 +2398,7 @@
                         android:layout_marginEnd="@dimen/dp_5"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
+                        android:drawableEnd="@drawable/ic_up"
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
@@ -2418,6 +2469,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="Description of Other Areas"
+                        android:drawableStart="@drawable/ic_description"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -2454,8 +2506,6 @@
                             android:layout_height="wrap_content"
                             android:inputType="text" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-
 
                     <!-- Length -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -2567,6 +2617,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_5"
+                        android:drawableEnd="@drawable/ic_up"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:text="Upload Proof" />
 
@@ -2620,6 +2671,7 @@
                         android:id="@+id/btnUploadCirculationProof"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_up"
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:text="Upload Circulation Proof" />
@@ -2652,6 +2704,7 @@
                         android:paddingTop="8dp"
                         android:text="Open Space Proof Upload"
                         android:textStyle="bold" />
+
                     <ImageView
                         android:id="@+id/ivOpenSpaceProofPreview"
                         android:layout_width="match_parent"
@@ -2664,13 +2717,12 @@
 
                     <Button
                         android:id="@+id/btnUploadOpenSpaceProof"
+                        android:drawableEnd="@drawable/ic_up"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:text="Upload Open Space Proof" />
-
-
 
                     <!-- Exclusive Parking Space (No. of Bicycle Parking Slots) -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -2687,9 +2739,6 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-
-
 
 
                     <!-- Parking Space Proof Upload -->
@@ -2711,10 +2760,12 @@
                         android:layout_marginTop="4dp"
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
+
                     <Button
                         android:id="@+id/btnUploadParkingProof"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_up"
                         android:layout_marginStart="@dimen/dp_5"
                         android:layout_marginEnd="@dimen/dp_5"
                         android:text="Upload Parking Proof" />

@@ -1,6 +1,82 @@
 <resources>
+
+
+    <string name="training_center_info">Training center information</string>
+    <string name="hint_distance_bus_stand">Approximate Distance from a prominent Bus Stand (In Mtrs)</string>
+    <string name="hint_distance_auto_stand">Approximate Distance from an Auto Stand (In Mtrs)</string>
+    <string name="hint_distance_railway_station">Approximate Distance from a Railway Station (In Mtrs)</string>
+    <string name="hint_latitude">Latitude</string>
+    <string name="hint_longitude">Longitude</string>
+
+        <string name="title_ip_enabled_camera">IP enabled camera</string>
+        <string name="label_ip_enabled">IP Enabled</string>
+        <string name="label_resolution">Resolution - 1080p HD @ 25 FPS or better</string>
+        <string name="label_video_stream">Video Stream - Dual H.264 or better</string>
+        <string name="label_remote_browser">Remote Access - Via web browser for Configuration, Viewing &amp; Control</string>
+        <string name="label_simultaneous_access">Remote Access - Minimum 10 users simultaneously</string>
+        <string name="label_supported_protocols">Supported Protocols - IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP etc.</string>
+        <string name="label_color_video_audio">Color Video with Audio</string>
+        <string name="label_storage_facility">Storage Facility to keep recording till project closure</string>
+        <string name="label_monitor_accessible">Central Monitor accessible to Centre Incharge</string>
+        <string name="btn_click_photo">Click photo</string>
+        <string name="label_conformance">Conformance of CCTV to DDU-GKY as per Chapter 5 of SOP</string>
+        <string name="label_storage_recording">Storage of CCTV Recorded Material</string>
+        <string name="label_dvr_static_ip">DVR Connected to Working Static IP as per SF 5.2B</string>
+        <string name="btn_submit_cctv">Submit</string>
+
+
+    <string name="toilets_wash_basins_section_title">Toilets &amp; Wash Basins</string>
+    <string name="male_toilets">Male Toilets (In No.)</string>
+    <string name="proof_male_toilets">Proof of Male Toilets</string>
+    <string name="proof_male_toilets_signage">Proof of Male Toilets Signage</string>
+    <string name="female_toilets">Female Toilets (In No.)</string>
+    <string name="proof_female_toilets">Proof of Female Toilets</string>
+    <string name="proof_female_toilets_signage">Proof of Female Toilets Signage</string>
+    <string name="male_urinals">Male Urinals (In No.)</string>
+    <string name="proof_male_urinals">Proof of Male Urinals</string>
+    <string name="male_wash_basins">Male Wash Basins (In No.)</string>
+    <string name="proof_male_wash_basins">Proof of Male Wash Basins</string>
+    <string name="female_wash_basins">Female Wash Basins (In No.)</string>
+    <string name="proof_female_wash_basins">Proof of Female Wash Basins</string>
+    <string name="proof_overhead_tanks">Proof of Overhead Tanks</string>
+    <string name="proof_flooring">Proof of Flooring</string>
+    <string name="upload">Upload</string>
+    <string name="submit_toilet_wash_basin">Submit</string>
+
+
+
+        <!-- Section Header -->
+
+        <!-- TextInput Hints -->
+
+        <string name="length">Length</string>
+        <string name="width">Width</string>
+        <string name="area">Area</string>
+        <string name="fans">Fans</string>
+        <string name="circulation_area_hint">Circulation Area (In Sq. Ft.)</string>
+        <string name="open_space_hint">Open Space for People to Gather and Interact (In Sq. Ft.)</string>
+        <string name="exclusive_parking_space_hint">Exclusive Parking Space (No. of Bicycle Parking Slots)</string>
+
+        <!-- Section Titles -->
+        <string name="proof_upload">Proof Upload</string>
+        <string name="circulation_area_title">Ener Circulation Area (In Sq. Ft.)</string>
+        <string name="circulation_proof_upload">Circulation Area Proof Upload</string>
+        <string name="open_space_proof_upload">Open Space Proof Upload</string>
+        <string name="parking_space_proof_upload">Parking Space Proof Upload</string>
+
+        <!-- Button Labels -->
+        <string name="upload_proof">Upload Proof</string>
+        <string name="upload_circulation_proof">Upload Circulation Proof</string>
+        <string name="upload_open_space_proof">Upload Open Space Proof</string>
+        <string name="upload_parking_proof">Upload Parking Proof</string>
+
+
+
+
+
+
+
     <string name="app_name">Ddugky</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="electrical_wiring_title">Electrical Wiring &amp; Standards</string>
     <string name="securing_of_wires">Securing of Wires</string>
@@ -127,6 +203,15 @@
     <string name="phone_std_code_hint">Training Centre Phone No. with STD Code</string>
     <string name="email_id_hint">Email Id</string>
     <string name="centre_incharge_details_label">Centre Incharge Details</string>
+
+
+
+
+
+
+
+
+
 
 
     <string-array name="academic_room_types">
