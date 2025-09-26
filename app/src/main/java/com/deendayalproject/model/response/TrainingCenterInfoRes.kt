@@ -2,12 +2,12 @@ package com.deendayalproject.model.response
 
 
 data class TrainingCenterInfoRes(
-    val wrappedList: List<WrappedItem>,
+    val wrappedList: MutableList<DataItem>,
     val responseCode: Int,
     val responseDesc: String
 )
 
-data class WrappedItem(
+data class DataItem(
     val inchargeMailId: String,
     val tcAddress: String,
     val tcType: String,

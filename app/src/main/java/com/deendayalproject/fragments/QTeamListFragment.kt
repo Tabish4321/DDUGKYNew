@@ -80,7 +80,7 @@ class QTeamListFragment : Fragment() {
                     )
                     findNavController().navigate(action)
                 } else {
-                    Toast.makeText(requireContext(), "You are outside the geofence!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "You are outside the center", Toast.LENGTH_SHORT).show()
                 }
             }
 

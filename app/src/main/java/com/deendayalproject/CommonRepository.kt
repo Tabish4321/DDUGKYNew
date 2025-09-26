@@ -27,6 +27,8 @@ import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.SignageInfo
+import com.deendayalproject.model.response.StandardFormResponse
+import com.deendayalproject.model.response.SupportInfrastructureResponse
 import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcInfraResponse
 import com.deendayalproject.model.response.TcStaffAndTrainerResponse
@@ -496,6 +498,37 @@ class CommonRepository(private val context: Context) {
         }
     }
 
+
+    suspend fun getAvailabilitySupportInfra(request: TrainingCenterInfo) : Result<SupportInfrastructureResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getAvailabilitySupportInfra(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+        suspend fun getAvailabilityStandardForms(request: TrainingCenterInfo) : Result<StandardFormResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getAvailabilityStandardForms(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
 
 

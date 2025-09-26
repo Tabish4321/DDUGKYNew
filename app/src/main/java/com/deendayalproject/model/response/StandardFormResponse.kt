@@ -1,0 +1,63 @@
+package com.deendayalproject.model.response
+
+
+data class StandardFormResponse(
+    val wrappedList: List<WrappedItem>,
+    val responseCode: Int,
+    val responseDesc: String
+)
+
+data class WrappedItem(
+    val candidateFeedbackForm: String?,
+    val candidateFeedbackSummery: String?,
+    val admittedCandidateList: String?,
+    val aclp: String?,
+    val aptitudeTest: String?,
+    val trainingCenterName: String?,
+    val impContactDetails: String?,
+    val deployedStaffSummary: String?,
+    val trainingCompCertDisbRecord: String?,
+    val dueDiligenceVisit: String?,
+    val batchEnrollSumm: String?,
+    val batchFreeze: String?,
+    val candidateChecklistItem: String?,
+    val candidateCertificateAsmt: String?,
+    val candidateListAfCompTrainBatch: String?,
+    val evaluationAssessmentSumm: String?,
+    val trainersAttendRegBoi: String?,
+    val cctvRecording: String?,
+    val candidateListAfterBatchFreeze: String?,
+    val batchFreezeSumm: String?,
+    val trainersProfile: String?,
+    val candidateOnFieldReg: String?,
+    val candidateAttendRegBio: String?,
+    val finalBatchCandidateList: String?,
+    val letterToMobilizationPlan: String?,
+    val candidateAppForm: String?,
+    val parentsConsentForm: String?,
+    val welcomeKit: String?,
+    val candidateProfileList: String?,
+    val trainingPlan: String?,
+    val uniformSpecific: String?,
+    val letterFromMobilizationPlan: String?,
+    val tradeCounsellingTrade: String?,
+    val batchComletionSumm: String?,
+    val hybridTraingCtrOpenInstruct: String?,
+    val achievementBoard: String?,
+    val firstAidKit: String?,
+    val batchDetails: String?,
+    val tadaCalcRecord: String?,
+    val daysCenterSumm: String?,
+    val enrollCandidateList: String?,
+    val batchJobTrainingPlan: String?,
+    val studentEntitlement: String?,
+    val equipmentList: String?,
+    val tcInspection: String?,
+    val failureItemReport: String?,
+    val tafEquipment: String?,
+    val trainingCertificate: String?,
+    val tabletsDistribution: String?,
+    val candidateIdTemplate: String?,
+    val invCandidateDossier: String?
+)
+

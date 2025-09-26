@@ -25,6 +25,8 @@ import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.SignageInfo
+import com.deendayalproject.model.response.StandardFormResponse
+import com.deendayalproject.model.response.SupportInfrastructureResponse
 import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
 import com.deendayalproject.model.response.TcCommonEquipmentResponse
@@ -149,6 +151,15 @@ interface ApiService {
 
     @POST(value ="getCommonEquipment")
     suspend fun getCommonEquipment(@Body request: TrainingCenterInfo) : Response<CommonEquipmentRes>
+
+
+    @POST(value ="getAvailabilitySupportInfra")
+    suspend fun getAvailabilitySupportInfra(@Body request: TrainingCenterInfo) : Response<SupportInfrastructureResponse>
+
+
+    @POST(value ="getAvailabilityStandardForms")
+    suspend fun getAvailabilityStandardForms(@Body request: TrainingCenterInfo) : Response<StandardFormResponse>
+
 }
 
 

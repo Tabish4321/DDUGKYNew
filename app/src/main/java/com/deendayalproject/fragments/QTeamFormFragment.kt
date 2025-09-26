@@ -31,17 +31,10 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import android.util.Base64
 import android.widget.ImageView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import com.deendayalproject.model.response.RoomItem
-import com.deendayalproject.util.AppUtil.hasStoragePermission
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
-import com.google.android.gms.location.Priority
 import com.google.android.material.imageview.ShapeableImageView
 import java.io.File
 
@@ -238,6 +231,8 @@ class QTeamFormFragment : Fragment() {
         collectTCSignage()
         collectTCIpEnabele()
         collectTCCommonEquipment()
+        collectTCSupportInfra()
+        collectTCStandardForms()
 
 
 
@@ -254,92 +249,43 @@ class QTeamFormFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = DescriptionAcademiaAdapter(academiaList) { room ->
 
-            when (room.roomType) {
-                "Training Room" -> {
-                    showCustomDialog(R.layout.office_room_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val officeRoomPhoto = view.findViewById<TextView>(R.id.valueOfficeRoomPhoto)
 
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        officeRoomPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Office Room Photo clicked!", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-
-                "Rest Room" -> {
-                    showCustomDialog(R.layout.it_lab_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                      //  val labMachines = view.findViewById<TextView>(R.id.)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                      /*  labMachines.setOnClickListener {
-                            Toast.makeText(requireContext(), "Lab Machines clicked!", Toast.LENGTH_SHORT).show()
-                        }*/
-                    }
-                }
-
-                "Living Room" -> {
-                    showCustomDialog(R.layout.office_cum_counceling_room_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                      //  val booksCount = view.findViewById<TextView>(R.id.valueBooksCount)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        /*booksCount.setOnClickListener {
-                            Toast.makeText(requireContext(), "Books Count clicked!", Toast.LENGTH_SHORT).show()
-                        }*/
-                    }
-                }
-            }
-
-/*
             when (room.roomType) {
 
                 "Theory Class Room" -> {
-                    showCustomDialog(R.layout.theory_class_room_layout) { view, dialog ->
+                    showCustomDialog(R.layout.theory_class_room) { view, dialog ->
                         val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val classPhoto = view.findViewById<TextView>(R.id.valueClassPhoto)
+                     //   val classPhoto = view.findViewById<TextView>(R.id.valueClassPhoto)
 
                         backButton.setOnClickListener { dialog.dismiss() }
-                        classPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Theory Class Room clicked!", Toast.LENGTH_SHORT).show()
-                        }
+
                     }
                 }
 
                 "Office Cum Counselling" -> {
-                    showCustomDialog(R.layout.office_counselling_layout) { view, dialog ->
+                    showCustomDialog(R.layout.office_cum_counceling_room_layout) { view, dialog ->
                         val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val officePhoto = view.findViewById<TextView>(R.id.valueOfficePhoto)
 
                         backButton.setOnClickListener { dialog.dismiss() }
-                        officePhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Office Cum Counselling clicked!", Toast.LENGTH_SHORT).show()
-                        }
+
                     }
                 }
 
                 "Reception Area" -> {
                     showCustomDialog(R.layout.reception_area_layout) { view, dialog ->
                         val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val receptionPhoto = view.findViewById<TextView>(R.id.valueReceptionPhoto)
 
                         backButton.setOnClickListener { dialog.dismiss() }
-                        receptionPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Reception Area clicked!", Toast.LENGTH_SHORT).show()
-                        }
+
                     }
                 }
 
                 "Counselling Room" -> {
-                    showCustomDialog(R.layout.counselling_room_layout) { view, dialog ->
+                    showCustomDialog(R.layout.counselling_room) { view, dialog ->
                         val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val counsellingPhoto = view.findViewById<TextView>(R.id.valueCounsellingPhoto)
 
                         backButton.setOnClickListener { dialog.dismiss() }
-                        counsellingPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Counselling Room clicked!", Toast.LENGTH_SHORT).show()
-                        }
+
                     }
                 }
 
@@ -358,60 +304,45 @@ class QTeamFormFragment : Fragment() {
                 "IT cum Domain Lab" -> {
                     showCustomDialog(R.layout.it_cum_domain_lab_layout) { view, dialog ->
                         val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val itDomainLabPhoto = view.findViewById<TextView>(R.id.valueItDomainLabPhoto)
 
                         backButton.setOnClickListener { dialog.dismiss() }
-                        itDomainLabPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "IT cum Domain Lab clicked!", Toast.LENGTH_SHORT).show()
-                        }
+
                     }
                 }
 
                 "Theory Cum IT Lab" -> {
                     showCustomDialog(R.layout.theory_cum_it_lab_layout) { view, dialog ->
                         val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val theoryItPhoto = view.findViewById<TextView>(R.id.valueTheoryItPhoto)
 
                         backButton.setOnClickListener { dialog.dismiss() }
-                        theoryItPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Theory Cum IT Lab clicked!", Toast.LENGTH_SHORT).show()
-                        }
+
                     }
                 }
 
                 "Theory Cum Domain Lab" -> {
                     showCustomDialog(R.layout.theory_cum_domain_lab_layout) { view, dialog ->
                         val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val theoryDomainPhoto = view.findViewById<TextView>(R.id.valueTheoryDomainPhoto)
 
                         backButton.setOnClickListener { dialog.dismiss() }
-                        theoryDomainPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Theory Cum Domain Lab clicked!", Toast.LENGTH_SHORT).show()
-                        }
+
                     }
                 }
 
                 "IT Lab" -> {
                     showCustomDialog(R.layout.it_lab_layout) { view, dialog ->
                         val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val itLabPhoto = view.findViewById<TextView>(R.id.valueItLabPhoto)
 
                         backButton.setOnClickListener { dialog.dismiss() }
-                        itLabPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "IT Lab clicked!", Toast.LENGTH_SHORT).show()
-                        }
+
                     }
                 }
 
                 "Domain Lab" -> {
                     showCustomDialog(R.layout.domain_lab_layout) { view, dialog ->
                         val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val domainLabPhoto = view.findViewById<TextView>(R.id.valueDomainLabPhoto)
 
                         backButton.setOnClickListener { dialog.dismiss() }
-                        domainLabPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Domain Lab clicked!", Toast.LENGTH_SHORT).show()
-                        }
+
                     }
                 }
 
@@ -419,7 +350,6 @@ class QTeamFormFragment : Fragment() {
                     Toast.makeText(requireContext(), "No layout found for ${room.roomType}", Toast.LENGTH_SHORT).show()
                 }
             }
-*/
         }
 
 
@@ -1691,6 +1621,17 @@ class QTeamFormFragment : Fragment() {
                 }
             } else selectedTcCommonEquipmentRemarks = ""
             // Common UI updates
+
+
+            val requestTcInfraReq = TrainingCenterInfo(
+                appVersion = BuildConfig.VERSION_NAME,
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                tcId = centerId.toInt(),
+                imeiNo = AppUtil.getAndroidId(requireContext())
+            )
+            viewModel.getAvailabilitySupportInfra(requestTcInfraReq)
+
+
             binding.commonEquipmentLayout.viewCommonEquipmentDetails.visibility = View.GONE
             binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand.visibility =
                 View.GONE
@@ -1746,6 +1687,17 @@ class QTeamFormFragment : Fragment() {
                 }
             } else selectedTcAvailSupportInfraRemarks = ""
             // Common UI updates
+
+
+            val requestTcInfraReq = TrainingCenterInfo(
+                appVersion = BuildConfig.VERSION_NAME,
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                tcId = centerId.toInt(),
+                imeiNo = AppUtil.getAndroidId(requireContext())
+            )
+            viewModel.getAvailabilityStandardForms(requestTcInfraReq)
+
+
             binding.availSupportInfraLayout.viewAvailSupportInfra.visibility = View.GONE
             binding.availSupportInfraLayout.trainingAvailSupportInfraExpand.visibility = View.GONE
             binding.availSupportInfraLayout.tvTrainAvailSupportInfra.setCompoundDrawablesWithIntrinsicBounds(
@@ -2495,6 +2447,157 @@ class QTeamFormFragment : Fragment() {
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
+
+
+    private fun collectTCSupportInfra() {
+
+        viewModel.getAvailabilitySupportInfra.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+
+                            safeDrinkingImage = x.drinkingWaterImage.toString()
+                            fireFightingImage = x.fireFighterEquipImage.toString()
+                            firstAidImage = x.firstAidKitImage.toString()
+
+
+
+
+
+                            binding.availSupportInfraLayout.yesNoSafeDrinkingWater.text= x.drinkingWater
+                            binding.availSupportInfraLayout.yesNoFireFighting.text= x.fireFighterEquip
+                            binding.availSupportInfraLayout.yesNoFirstAidKit.text= x.firstAidKit
+
+
+
+
+                        }
+
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCStandardForms() {
+
+        viewModel.getAvailabilityStandardForms.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+
+                            binding.availOfStandardFormsLayout.yesNoPlanOfTraining.text= x.trainingPlan
+                            binding.availOfStandardFormsLayout.yesNoLessonPlanner.text= x.aclp
+                            binding.availOfStandardFormsLayout.yesNoOnJobTraining.text= x.batchJobTrainingPlan
+                            binding.availOfStandardFormsLayout.yesNoDailyTablets.text= x.tabletsDistribution
+                            binding.availOfStandardFormsLayout.yesNoCenterNameBoard.text= x.trainingCenterName
+                            binding.availOfStandardFormsLayout.yesNoActivitySummary.text= x.achievementBoard
+                            binding.availOfStandardFormsLayout.yesNoContactDetails.text= x.impContactDetails
+                            binding.availOfStandardFormsLayout.yesNoStudentEntitlementBanner.text= x.studentEntitlement
+                            binding.availOfStandardFormsLayout.yesNoWelcomeKit.text= x.welcomeKit
+                            binding.availOfStandardFormsLayout.yesNoFirstAidKit.text= x.firstAidKit
+                            binding.availOfStandardFormsLayout.yesNoStaffSummary.text= x.deployedStaffSummary
+                            binding.availOfStandardFormsLayout.yesNoTrainersProfile.text= x.trainersProfile
+                            binding.availOfStandardFormsLayout.yesNoCandidateIDTemplate.text= x.candidateIdTemplate
+                            binding.availOfStandardFormsLayout.yesNoCandidateDossierIndex.text= x.invCandidateDossier
+                            binding.availOfStandardFormsLayout.yesNoParentsConsentForm.text= x.parentsConsentForm
+                            binding.availOfStandardFormsLayout.yesNoBatchSummaryFreezing.text= x.batchFreeze
+                            binding.availOfStandardFormsLayout.yesNoCandidateListBatch.text= x.candidateProfileList
+                            binding.availOfStandardFormsLayout.yesNoCandidateAttendanceRegister.text= x.candidateAttendRegBio
+                            binding.availOfStandardFormsLayout.yesNoTrainerAttendanceRegister.text= x.trainersAttendRegBoi
+                            binding.availOfStandardFormsLayout.yesNoItemsChecklist.text= x.candidateChecklistItem
+                            binding.availOfStandardFormsLayout.yesNoCandidateFeedbackForm.text= x.candidateFeedbackForm
+                            binding.availOfStandardFormsLayout.yesNoFeedbackSummary.text= x.candidateFeedbackSummery
+                            binding.availOfStandardFormsLayout.yesNoEvaluationSummary.text= x.evaluationAssessmentSumm
+                            binding.availOfStandardFormsLayout.yesNoTADARecord.text= x.tadaCalcRecord
+                            binding.availOfStandardFormsLayout.yesNoTrainingCertificate.text= x.trainingCertificate
+                            binding.availOfStandardFormsLayout.yesNoTrainingCompletionCertificateRecord.text= x.trainingCompCertDisbRecord
+                            binding.availOfStandardFormsLayout.yesNoEquipmentTrainingCentre.text= x.equipmentList
+                            binding.availOfStandardFormsLayout.yesNoEquipmentAccommodation.text= x.tafEquipment
+                            binding.availOfStandardFormsLayout.yesNoOpeningHybridCentres.text= x.hybridTraingCtrOpenInstruct
+                            binding.availOfStandardFormsLayout.yesNoBareMinimumItems.text= x.dueDiligenceVisit
+                            binding.availOfStandardFormsLayout.yesNoTrainingCentreInspection.text= x.tcInspection
+                            binding.availOfStandardFormsLayout.yesNoCCTVSpecifications.text= x.cctvRecording
+                            binding.availOfStandardFormsLayout.yesNoUniformSpec.text= x.uniformSpecific
+                            binding.availOfStandardFormsLayout.yesNoAssessmentCertification.text= x.candidateCertificateAsmt
+                            binding.availOfStandardFormsLayout.yesNoLetterSRLMInfo.text= x.letterToMobilizationPlan
+                            binding.availOfStandardFormsLayout.yesNoLetterFromSRLM.text= x.letterFromMobilizationPlan
+                            binding.availOfStandardFormsLayout.yesNoOnFieldRegistration.text= x.candidateOnFieldReg
+                            binding.availOfStandardFormsLayout.yesNoOverviewAptitudeTest.text= x.aptitudeTest
+                            binding.availOfStandardFormsLayout.yesNoContentCounselling.text= x.tradeCounsellingTrade
+                            binding.availOfStandardFormsLayout.yesNoCandidateApplicationForm.text= x.candidateAppForm
+                            binding.availOfStandardFormsLayout.yesNoCandidatesAdmitted.text= x.admittedCandidateList
+                            binding.availOfStandardFormsLayout.yesNoFinalBatchCandidates.text= x.finalBatchCandidateList
+                            binding.availOfStandardFormsLayout.yesNoBatchDetails.text= x.batchDetails
+                            binding.availOfStandardFormsLayout.yesNoBatchEnrollmentSummary.text= x.batchEnrollSumm
+                            binding.availOfStandardFormsLayout.yesNoBatchFreezeSummary.text= x.batchFreezeSumm
+                            binding.availOfStandardFormsLayout.yesNoBatchCompletionSummary.text= x.batchComletionSumm
+                            binding.availOfStandardFormsLayout.yesNoCandidatesEnrolled.text= x.enrollCandidateList
+                            binding.availOfStandardFormsLayout.yesNoCandidatesAfterFreezing.text= x.candidateListAfterBatchFreeze
+                            binding.availOfStandardFormsLayout.yesNoCandidatesAfterCompletion.text= x.candidateListAfCompTrainBatch
+                            binding.availOfStandardFormsLayout.yesNoDailyFailureReport.text= x.failureItemReport
+                            binding.availOfStandardFormsLayout.yesNo15DaysSummary.text= x.daysCenterSumm
+
+
+
+
+
+                        }
+
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
 
 
 

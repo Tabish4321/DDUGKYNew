@@ -28,6 +28,8 @@ import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.SignageInfo
+import com.deendayalproject.model.response.StandardFormResponse
+import com.deendayalproject.model.response.SupportInfrastructureResponse
 import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcInfraResponse
 import com.deendayalproject.model.response.TcStaffAndTrainerResponse
@@ -512,7 +514,43 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    private val _getAvailabilitySupportInfra = MutableLiveData<Result<SupportInfrastructureResponse>>()
+    val getAvailabilitySupportInfra: LiveData<Result<SupportInfrastructureResponse>> = _getAvailabilitySupportInfra
+
+    fun getAvailabilitySupportInfra(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getAvailabilitySupportInfra(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getAvailabilitySupportInfra.postValue(result)
+            _loading.postValue(false)
+        }
     }
+
+
+
+    private val _getAvailabilityStandardForms = MutableLiveData<Result<StandardFormResponse>>()
+    val getAvailabilityStandardForms: LiveData<Result<StandardFormResponse>> = _getAvailabilityStandardForms
+
+    fun getAvailabilityStandardForms(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getAvailabilityStandardForms(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getAvailabilityStandardForms.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+
+
+}
 
 
 
