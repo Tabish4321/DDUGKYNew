@@ -1,5 +1,6 @@
 package com.deendayalproject.network
 
+import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
@@ -13,6 +14,7 @@ import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
@@ -159,6 +161,13 @@ interface ApiService {
 
     @POST(value ="getAvailabilityStandardForms")
     suspend fun getAvailabilityStandardForms(@Body request: TrainingCenterInfo) : Response<StandardFormResponse>
+
+
+
+    @POST(value ="getAcademicRoomDetails")
+    suspend fun getAcademicRoomDetails(@Body request: AllRoomDetaisReques) : Response<AllRoomDetailResponse>
+
+
 
 }
 

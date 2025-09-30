@@ -3,6 +3,6 @@
     <external-files-path
         name="images"
         path="Pictures/" />
-    <cache-path name="cache" path="." />
+    <cache-path name="pdf_cache" path="." />
 </paths>
 

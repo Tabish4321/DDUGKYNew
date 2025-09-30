@@ -28,14 +28,27 @@ import com.deendayalproject.util.AppUtil
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import kotlin.time.Duration.Companion.seconds
 import android.net.Uri
 import android.util.Base64
 import android.widget.ImageView
 import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
+import com.deendayalproject.databinding.CounsellingRoomBinding
+import com.deendayalproject.databinding.DomainLabLayoutBinding
+import com.deendayalproject.databinding.ItCumDomainLabLayoutBinding
+import com.deendayalproject.databinding.ItLabLayoutBinding
+import com.deendayalproject.databinding.OfficeCumCouncelingRoomLayoutBinding
+import com.deendayalproject.databinding.OfficeRoomLayoutBinding
+import com.deendayalproject.databinding.ReceptionAreaLayoutBinding
+import com.deendayalproject.databinding.TheoryClassRoomBinding
+import com.deendayalproject.databinding.TheoryCumDomainLabLayoutBinding
+import com.deendayalproject.databinding.TheoryCumItLabLayoutBinding
+import com.deendayalproject.model.request.AllRoomDetaisReques
+import com.deendayalproject.model.response.RoomDetail
 import com.deendayalproject.model.response.RoomItem
-import com.google.android.material.imageview.ShapeableImageView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 
 class QTeamFormFragment : Fragment() {
@@ -56,6 +69,8 @@ class QTeamFormFragment : Fragment() {
     private var selectedTcDescAcademiaApproval = ""
     private var selectedTcDescAcademiaRemarks = ""
 
+
+    private lateinit var roomDetails: RoomDetail
 
     private lateinit var tcInfraAdapter: ArrayAdapter<String>
     private var selectedTcInfraApproval = ""
@@ -110,10 +125,76 @@ class QTeamFormFragment : Fragment() {
     private var selectedTcAvailOfStandardFormApproval = ""
     private var selectedTcAvailOfStandardFormRemarks = ""
 
+    //All Room Var
+
+    private var fansRoomImage = ""
+    private var writingBoard = ""
+    private var internetConnectionImage = ""
+    private var roomInfoBoardImage = ""
+    private var digitalProjectorImage = ""
+    private var officeComputer = ""
+    private var printerScannerImage = ""
+    private var centerSoundProof = ""
+    private var falseCeiling = ""
+    private var tablet = ""
+    private var typingTuterCompImage = ""
+    private var lanEnabledImage = ""
+    private var internalSignageImage = ""
+    private var airConditionRoom = ""
+    private var roomsPhotographs = ""
+    private var roomsPhotographsImage = ""
+    private var audioCamera = ""
+    private var lanEnabled = ""
+    private var soundLevelImage = ""
+    private var centerSoundProofImage = ""
+    private var digitalCameraRoomImage = ""
+    private var internetConnection = ""
+    private var officeChair = ""
+    private var officeTableImage = ""
+    private var printerScanner = ""
+    private var trainerChair = ""
+    private var domainEquipmentImage = ""
+    private var ecPowerBackup = ""
+    private var tabletImage = ""
+    private var soundLevel = ""
+    private var trainerTable = ""
+    private var falseCeilingImage = ""
+    private var roomInfoBoard = ""
+    private var roofTypeImage = ""
+    private var digitalProjector = ""
+    private var secureDocumentStorage = ""
+    private var airConditionRoomImage = ""
+    private var sounfLevelSpecific = ""
+    private var ventilationArea = ""
+    private var domainEquipment = ""
+    private var officeTable = ""
+    private var officeChairImage = ""
+    private var typingTuterComp = ""
+    private var ceilingHeightImage = ""
+    private var candidateChair = ""
+    private var candidateChairImage = ""
+    private var ceilingHeight =""
+    private var lightsImage = ""
+    private var secureDocumentStorageImage = ""
+    private var writingBoardImage = ""
+    private var lights = ""
+    private var digitalCamera = ""
+    private var audioCameraImage = ""
+    private var internalSignage = ""
+    private var trainerChairImage = ""
+    private var ventilationAreaImage = ""
+    private var roofType = ""
+    private var trainerTableImage = ""
+    private var fans = ""
+    private var officeComputerImagePath = ""
+    private var ecPowerBackupImage = ""
+
+    //end all room var
+
 
     private var centerId = ""
-    private var centerName = ""
     private var sanctionOrder = ""
+    private var centerName = ""
 
 
     private var selfDeclarationPdf = ""
@@ -145,7 +226,7 @@ class QTeamFormFragment : Fragment() {
     private var securingWiringImage = ""
     private var switchBoardImage = ""
 
-
+    var roomData: RoomDetail? = null
     private var tcNameBoardImage = ""
     private var activitySummaryBoardImage = ""
     private var studentEntitlementBoardImage = ""
@@ -198,6 +279,7 @@ class QTeamFormFragment : Fragment() {
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             tcId = centerId.toInt(),
+            sanctionOrder = sanctionOrder,
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
         viewModel.getTrainerCenterInfo(requestTcInfo)
@@ -211,6 +293,7 @@ class QTeamFormFragment : Fragment() {
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             tcId = centerId.toInt(),
+            sanctionOrder = sanctionOrder,
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
         viewModel.getTcStaffDetails(requestStaffList)
@@ -233,6 +316,7 @@ class QTeamFormFragment : Fragment() {
         collectTCCommonEquipment()
         collectTCSupportInfra()
         collectTCStandardForms()
+        collectAllRoomDetails()
 
 
 
@@ -246,6 +330,7 @@ class QTeamFormFragment : Fragment() {
 
 
 
+
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = DescriptionAcademiaAdapter(academiaList) { room ->
 
@@ -253,97 +338,239 @@ class QTeamFormFragment : Fragment() {
             when (room.roomType) {
 
                 "Theory Class Room" -> {
-                    showCustomDialog(R.layout.theory_class_room) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                     //   val classPhoto = view.findViewById<TextView>(R.id.valueClassPhoto)
+                    val binding = TheoryClassRoomBinding.inflate(layoutInflater)
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(binding.root)
+                        .create()
 
-                        backButton.setOnClickListener { dialog.dismiss() }
+                    dialog.show()
+
+                    val requestTcRoomDetails = AllRoomDetaisReques(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        tcId = centerId,
+                        roomType = room.roomType,
+                        roomNo = room.roomNo.toInt(),
+                        sanctionOrder = sanctionOrder,
+                    )
+
+                    // Show progress bar
+                    binding.progressBar.visibility = View.VISIBLE
+
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        // Call API
+                        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+
+                        // Wait for 2 seconds
+                        delay(2000L)
+
+                        // Hide progress bar
+                        binding.progressBar.visibility = View.GONE
+
+                        // Now set data to TextViews
+                        binding.yesNoTypeOfRoof.text = safeText(roofType)
+                        binding.yesNoFalseCeiling.text = safeText(falseCeiling)
+                        binding.yesNoHeightCeiling.text = safeText(ceilingHeight.toString())
+                        binding.yesNoVentilationArea.text = safeText(ventilationArea.toString())
+                        binding.yesNoSoundLevel.text = safeText(soundLevel.toString())
+                        binding.yesNoSoundProofAC.text = safeText(centerSoundProof)
+                        binding.yesNoInfoBoard.text = safeText(roomInfoBoard)
+                        binding.yesNoInternalSignage.text = safeText(internalSignage)
+                        binding.yesNoCCTV.text = safeText(audioCamera)
+                        binding.yesNoLCDComputers.text = safeText(digitalProjector)
+                        binding.yesNoChairForCan.text = safeText(candidateChair)
+                        binding.yesNoWritingBoard.text = safeText(writingBoard)
+                        binding.yesNoTrainerChair.text = safeText(trainerChair)
+                        binding.yesNoTrainerTable.text = safeText(trainerTable)
+                        binding.yesNoLights.text = safeText(lights.toString())
+                        binding.yesNoFans.text = safeText(fans.toString())
+                        binding.yesNoPowerBackup.text = safeText(ecPowerBackup)
+                        binding.yesNoLabPhoto.text = safeText(roomsPhotographs)
+                        binding.yesNoAirConditioning.text = safeText(airConditionRoom)
+
 
                     }
+
+                    binding.backButton.setOnClickListener { dialog.dismiss() }
                 }
 
-                "Office Cum Counselling" -> {
-                    showCustomDialog(R.layout.office_cum_counceling_room_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
+                "Office Cum Counselling Room" -> {
+                    val binding = OfficeCumCouncelingRoomLayoutBinding.inflate(layoutInflater)
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(binding.root)
+                        .create()
 
-                        backButton.setOnClickListener { dialog.dismiss() }
+                    val requestTcRoomDetails = AllRoomDetaisReques(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        tcId = centerId,
+                        roomType = room.roomType,
+                        roomNo = room.roomNo.toInt(),
+                        sanctionOrder = sanctionOrder,
+                    )
+                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
 
-                    }
+                    binding.backButton.setOnClickListener { dialog.dismiss() }
+                    dialog.show()
                 }
 
                 "Reception Area" -> {
-                    showCustomDialog(R.layout.reception_area_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
+                    val binding = ReceptionAreaLayoutBinding.inflate(layoutInflater)
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(binding.root)
+                        .create()
 
-                        backButton.setOnClickListener { dialog.dismiss() }
+                    val requestTcRoomDetails = AllRoomDetaisReques(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        tcId = centerId,
+                        roomType = room.roomType,
+                        roomNo = room.roomNo.toInt(),
+                        sanctionOrder = sanctionOrder,
+                    )
+                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
 
-                    }
+                    binding.backButton.setOnClickListener { dialog.dismiss() }
+                    dialog.show()
                 }
 
                 "Counselling Room" -> {
-                    showCustomDialog(R.layout.counselling_room) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-
-                    }
+                    val binding = CounsellingRoomBinding.inflate(layoutInflater)
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(binding.root)
+                        .create()
+                    val requestTcRoomDetails = AllRoomDetaisReques(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        tcId = centerId,
+                        roomType = room.roomType,
+                        roomNo = room.roomNo.toInt(),
+                        sanctionOrder = sanctionOrder,
+                    )
+                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+                    binding.backButton.setOnClickListener { dialog.dismiss() }
+                    dialog.show()
                 }
 
                 "Office Room" -> {
-                    showCustomDialog(R.layout.office_room_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-                        val officeRoomPhoto = view.findViewById<TextView>(R.id.valueOfficeRoomPhoto)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-                        officeRoomPhoto.setOnClickListener {
-                            Toast.makeText(requireContext(), "Office Room clicked!", Toast.LENGTH_SHORT).show()
-                        }
+                    val binding = OfficeRoomLayoutBinding.inflate(layoutInflater)
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(binding.root)
+                        .create()
+                    val requestTcRoomDetails = AllRoomDetaisReques(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        tcId = centerId,
+                        roomType = room.roomType,
+                        roomNo = room.roomNo.toInt(),
+                        sanctionOrder = sanctionOrder,
+                    )
+                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+                    binding.backButton.setOnClickListener { dialog.dismiss() }
+                    binding.valueOfficeRoomPhoto.setOnClickListener {
+                        Toast.makeText(requireContext(), "Office Room clicked!", Toast.LENGTH_SHORT).show()
                     }
+                    dialog.show()
                 }
 
                 "IT cum Domain Lab" -> {
-                    showCustomDialog(R.layout.it_cum_domain_lab_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-
-                    }
+                    val binding = ItCumDomainLabLayoutBinding.inflate(layoutInflater)
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(binding.root)
+                        .create()
+                    val requestTcRoomDetails = AllRoomDetaisReques(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        tcId = centerId,
+                        roomType = room.roomType,
+                        roomNo = room.roomNo.toInt(),
+                        sanctionOrder = sanctionOrder,
+                    )
+                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+                    binding.backButton.setOnClickListener { dialog.dismiss() }
+                    dialog.show()
                 }
 
                 "Theory Cum IT Lab" -> {
-                    showCustomDialog(R.layout.theory_cum_it_lab_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-
-                    }
+                    val binding = TheoryCumItLabLayoutBinding.inflate(layoutInflater)
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(binding.root)
+                        .create()
+                    val requestTcRoomDetails = AllRoomDetaisReques(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        tcId = centerId,
+                        roomType = room.roomType,
+                        roomNo = room.roomNo.toInt(),
+                        sanctionOrder = sanctionOrder,
+                    )
+                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+                    binding.backButton.setOnClickListener { dialog.dismiss() }
+                    dialog.show()
                 }
 
                 "Theory Cum Domain Lab" -> {
-                    showCustomDialog(R.layout.theory_cum_domain_lab_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-
-                    }
+                    val binding = TheoryCumDomainLabLayoutBinding.inflate(layoutInflater)
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(binding.root)
+                        .create()
+                    val requestTcRoomDetails = AllRoomDetaisReques(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        tcId = centerId,
+                        roomType = room.roomType,
+                        roomNo = room.roomNo.toInt(),
+                        sanctionOrder = sanctionOrder,
+                    )
+                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+                    binding.backButton.setOnClickListener { dialog.dismiss() }
+                    dialog.show()
                 }
 
                 "IT Lab" -> {
-                    showCustomDialog(R.layout.it_lab_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-
-                    }
+                    val binding = ItLabLayoutBinding.inflate(layoutInflater)
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(binding.root)
+                        .create()
+                    val requestTcRoomDetails = AllRoomDetaisReques(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        tcId = centerId,
+                        roomType = room.roomType,
+                        roomNo = room.roomNo.toInt(),
+                        sanctionOrder = sanctionOrder,
+                    )
+                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+                    binding.backButton.setOnClickListener { dialog.dismiss() }
+                    dialog.show()
                 }
 
                 "Domain Lab" -> {
-                    showCustomDialog(R.layout.domain_lab_layout) { view, dialog ->
-                        val backButton = view.findViewById<ShapeableImageView>(R.id.backButton)
-
-                        backButton.setOnClickListener { dialog.dismiss() }
-
-                    }
+                    val binding = DomainLabLayoutBinding.inflate(layoutInflater)
+                    val dialog = AlertDialog.Builder(requireContext())
+                        .setView(binding.root)
+                        .create()
+                    val requestTcRoomDetails = AllRoomDetaisReques(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        tcId = centerId,
+                        roomType = room.roomType,
+                        roomNo = room.roomNo.toInt(),
+                        sanctionOrder = sanctionOrder,
+                    )
+                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+                    binding.backButton.setOnClickListener { dialog.dismiss() }
+                    dialog.show()
                 }
 
                 else -> {
@@ -777,7 +1004,7 @@ class QTeamFormFragment : Fragment() {
 
 
 
-        //Availiblity Teaching  image set
+        //Availability Teaching  image set
 
 
         binding.valueIsWelcomeKitAvail.setOnClickListener {
@@ -1022,6 +1249,7 @@ class QTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getTrainerCenterInfra(requestTcInfraReq)
@@ -1072,6 +1300,7 @@ class QTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getTcAcademicNonAcademicArea(requestTcInfraReq)
@@ -1134,6 +1363,7 @@ class QTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getTcToiletWashBasin(requestTcInfraReq)
@@ -1198,6 +1428,7 @@ class QTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getDescriptionOtherArea(requestTcInfraReq)
@@ -1261,6 +1492,7 @@ class QTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getTeachingLearningMaterial(requestTcInfraReq)
@@ -1321,6 +1553,7 @@ class QTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getGeneralDetails(requestTcInfraReq)
@@ -1383,6 +1616,7 @@ class QTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getElectricalWiringStandard(requestTcInfraReq)
@@ -1443,6 +1677,7 @@ class QTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getSignagesAndInfoBoard(requestTcInfraReq)
@@ -1503,6 +1738,7 @@ class QTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getIpEnabledCamera(requestTcInfraReq)
@@ -1564,6 +1800,7 @@ class QTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getCommonEquipment(requestTcInfraReq)
@@ -1627,6 +1864,7 @@ class QTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getAvailabilitySupportInfra(requestTcInfraReq)
@@ -1693,6 +1931,7 @@ class QTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getAvailabilityStandardForms(requestTcInfraReq)
@@ -2054,8 +2293,7 @@ class QTeamFormFragment : Fragment() {
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
-
-
+    
     private fun collectTCDescOtherArea() {
 
         viewModel.getDescriptionOtherArea.observe(viewLifecycleOwner) { result ->
@@ -2220,7 +2458,6 @@ class QTeamFormFragment : Fragment() {
         }
     }
 
-
     private fun collectTCElectrical() {
 
         viewModel.getElectricalWiringStandard.observe(viewLifecycleOwner) { result ->
@@ -2322,7 +2559,6 @@ class QTeamFormFragment : Fragment() {
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
-
 
     private fun collectTCIpEnabele() {
 
@@ -2447,7 +2683,6 @@ class QTeamFormFragment : Fragment() {
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
-
 
     private fun collectTCSupportInfra() {
 
@@ -2598,43 +2833,148 @@ class QTeamFormFragment : Fragment() {
         }
     }
 
+    private fun collectAllRoomDetails() {
+
+        viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataAllRoom = it.wrappedList
+
+                            for (x in dataAllRoom) {
+
+                                fansRoomImage = x.fansImage ?: ""
+                                writingBoard = x.writingBoard ?: ""
+                                internetConnectionImage = x.internetConnectionImage ?: ""
+                                roomInfoBoardImage = x.roomInfoBoardImage ?: ""
+                                digitalProjectorImage = x.digitalProjectorImage ?: ""
+                                officeComputer = x.officeComputer ?: ""
+                                printerScannerImage = x.printerScannerImage ?: ""
+                                centerSoundProof = x.centerSoundProof ?: ""
+                                falseCeiling = x.falseCeiling ?: ""
+                                tablet = x.tablet.toString()
+                                typingTuterCompImage = x.typingTuterCompImage ?: ""
+                                lanEnabledImage = x.lanEnabledImage ?: ""
+                                internalSignageImage = x.internalSignageImage ?: ""
+                                airConditionRoom = x.airConditionRoom ?: ""
+                                roomsPhotographs = x.roomsPhotographs ?: ""
+                                roomsPhotographsImage = x.roomsPhotographsImage ?: ""
+                                audioCamera = x.audioCamera ?: ""
+                                lanEnabled = x.lanEnabled.toString()
+                                soundLevelImage = x.soundLevelImage ?: ""
+                                centerSoundProofImage = x.centerSoundProofImage ?: ""
+                                digitalCameraRoomImage = x.digitalCameraImage ?: ""
+                                internetConnection = x.internetConnection ?: ""
+                                officeChair = x.officeChair.toString()
+                                officeTableImage = x.officeTableImage ?: ""
+                                printerScanner = x.printerScanner.toString()
+                                trainerChair = x.trainerChair ?: ""
+                                domainEquipmentImage = x.domainEquipmentImage ?: ""
+                                ecPowerBackup = x.ecPowerBackup ?: ""
+                                tabletImage = x.tabletImage ?: ""
+                                soundLevel = x.soundLevel.toString()
+                                trainerTable = x.trainerTable ?: ""
+                                falseCeilingImage = x.falseCeilingImage ?: ""
+                                roomInfoBoard = x.roomInfoBoard ?: ""
+                                roofTypeImage = x.roofTypeImage ?: ""
+                                digitalProjector = x.digitalProjector ?: ""
+                                secureDocumentStorage = x.secureDocumentStorage ?: ""
+                                airConditionRoomImage = x.airConditionRoomImage ?: ""
+                                sounfLevelSpecific = x.sounfLevelSpecific ?: ""
+                                ventilationArea = x.ventilationArea.toString()
+                                domainEquipment = x.domainEquipment.toString()
+                                officeTable = x.officeTable.toString()
+                                officeChairImage = x.officeChairImage ?: ""
+                                typingTuterComp = x.typingTuterComp ?: ""
+                                ceilingHeightImage = x.ceilingHeightImage ?: ""
+                                candidateChair = x.candidateChair ?: ""
+                                candidateChairImage = x.candidateChairImage ?: ""
+                                ceilingHeight = x.ceilingHeight.toString()
+                                lightsImage = x.lightsImage ?: ""
+                                secureDocumentStorageImage = x.secureDocumentStorageImage ?: ""
+                                writingBoardImage = x.writingBoardImage ?: ""
+                                lights = x.lights.toString()
+                                digitalCamera = x.digitalCamera.toString()
+                                audioCameraImage = x.audioCameraImage ?: ""
+                                internalSignage = x.internalSignage ?: ""
+                                trainerChairImage = x.trainerChairImage ?: ""
+                                ventilationAreaImage = x.ventilationAreaImage ?: ""
+                                roofType = x.roofType
+                                trainerTableImage = x.trainerTableImage ?: ""
+                                fans = x.fans.toString()
+                                officeComputerImagePath = x.officeComputerImagePath ?: ""
+                                ecPowerBackupImage = x.ecPowerBackupImage ?: ""
+                            }
 
 
 
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
 
 
-
-
-
-
-
-    fun openBase64Pdf(context: Context, base64: String) {
+    private fun openBase64Pdf(context: Context, base64: String) {
         try {
-            // Clean Base64
+            // 1. Clean Base64 (remove header if present)
             val cleanBase64 = base64
                 .replace("data:application/pdf;base64,", "")
-                .replace("\\s".toRegex(), "")
+                .trim()
 
-            // Decode
-            val pdfBytes = Base64.decode(cleanBase64, Base64.DEFAULT or Base64.NO_WRAP)
+            // 2. Decode Base64
+            val pdfBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
 
-            // Save temporarily in cache
+            // 3. Verify PDF header
+            if (pdfBytes.isEmpty() || !String(pdfBytes.copyOfRange(0, 4)).startsWith("%PDF")) {
+                Toast.makeText(context, "Invalid PDF data", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            // 4. Save temporarily in cache
             val pdfFile = File.createTempFile("temp_", ".pdf", context.cacheDir)
             pdfFile.outputStream().use { it.write(pdfBytes) }
 
-            // Build URI using FileProvider
+            // 5. Get URI via FileProvider
             val uri: Uri = FileProvider.getUriForFile(
                 context,
-                context.packageName + ".provider",  // must match manifest
+                context.packageName + ".provider",  // must match manifest authority
                 pdfFile
             )
 
-            // Launch chooser
+            // 6. Create intent
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 setDataAndType(uri, "application/pdf")
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
-            context.startActivity(Intent.createChooser(intent, "Open PDF with"))
+
+            // 7. Check if any app can handle PDFs
+            if (intent.resolveActivity(context.packageManager) != null) {
+                context.startActivity(Intent.createChooser(intent, "Open PDF with"))
+            } else {
+                Toast.makeText(context, "No PDF viewer installed", Toast.LENGTH_SHORT).show()
+            }
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -2642,9 +2982,7 @@ class QTeamFormFragment : Fragment() {
         }
     }
 
-
-
-    fun showBase64ImageDialog(context: Context, base64ImageString: String?, title: String = "Image") {
+    private fun showBase64ImageDialog(context: Context, base64ImageString: String?, title: String = "Image") {
         val imageView = ImageView(context)
 
         // Decode Base64 → Bitmap
@@ -2684,26 +3022,11 @@ class QTeamFormFragment : Fragment() {
             .show()
     }
 
-    private fun showCustomDialog(layoutRes: Int, setupView: (View, AlertDialog) -> Unit) {
-        val dialogView = layoutInflater.inflate(layoutRes, null)
-
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .setCancelable(true)
-            .create()
-
-        // Allow full width
-        dialog.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        setupView(dialogView, dialog)
-
-        dialog.show()
+    fun safeText(value: String?): String {
+        return if (value.isNullOrBlank() || value.equals("null", ignoreCase = true)) {
+            "N/A"
+        } else value
     }
-
 
 
 }
