@@ -12,6 +12,7 @@ data class DataItem(
     val tcAddress: String,
     val tcType: String,
     val distanceFromBusStand: String,
+    val distanceFromRailway: String,
     val tcEmailID: String,
     val addressType: String,
     val latitude: String,
