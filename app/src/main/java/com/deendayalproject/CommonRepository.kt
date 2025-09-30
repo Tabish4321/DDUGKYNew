@@ -2,6 +2,7 @@ import android.content.Context
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.deendayalproject.model.LoginErrorResponse
+import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
@@ -15,6 +16,7 @@ import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
@@ -519,6 +521,21 @@ class CommonRepository(private val context: Context) {
         return try {
             // val bearerToken = "Bearer $token"
             val response = apiService.getAvailabilityStandardForms(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getAcademicRoomDetails(request: AllRoomDetaisReques) : Result<AllRoomDetailResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getAcademicRoomDetails(request)
             if (response.isSuccessful){
                 response.body()?.let { Result.success(it) }
                     ?: Result.failure(Exception("Empty response"))

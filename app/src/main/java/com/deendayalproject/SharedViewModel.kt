@@ -3,6 +3,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
@@ -16,6 +17,7 @@ import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
@@ -545,6 +547,24 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _loading.postValue(false)
         }
     }
+
+    private val _getAcademicRoomDetails = MutableLiveData<Result<AllRoomDetailResponse>>()
+    val getAcademicRoomDetails: LiveData<Result<AllRoomDetailResponse>> = _getAcademicRoomDetails
+
+    fun getAcademicRoomDetails(request: AllRoomDetaisReques) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getAcademicRoomDetails(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getAcademicRoomDetails.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
 
 
 

@@ -196,6 +196,7 @@ class SrlmVerificationForm : Fragment() {
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             tcId = centerId.toInt(),
+            sanctionOrder = sanctionOrder,
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
         viewModel.getTrainerCenterInfo(requestTcInfo)
@@ -209,6 +210,7 @@ class SrlmVerificationForm : Fragment() {
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             tcId = centerId.toInt(),
+            sanctionOrder = sanctionOrder,
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
         viewModel.getTcStaffDetails(requestStaffList)
@@ -904,6 +906,7 @@ class SrlmVerificationForm : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getTrainerCenterInfra(requestTcInfraReq)
@@ -955,6 +958,7 @@ class SrlmVerificationForm : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getTcAcademicNonAcademicArea(requestTcInfraReq)
@@ -1018,6 +1022,7 @@ class SrlmVerificationForm : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getTcToiletWashBasin(requestTcInfraReq)
@@ -1083,6 +1088,7 @@ class SrlmVerificationForm : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getDescriptionOtherArea(requestTcInfraReq)
@@ -1147,6 +1153,7 @@ class SrlmVerificationForm : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getTeachingLearningMaterial(requestTcInfraReq)
@@ -1208,6 +1215,7 @@ class SrlmVerificationForm : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getGeneralDetails(requestTcInfraReq)
