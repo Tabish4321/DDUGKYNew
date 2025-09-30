@@ -35,9 +35,7 @@ class CenterFragment : Fragment() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
         adapter = CenterAdapter(emptyList()) {
-            //TODO: to uncomment below line
-            //val action = CenterFragmentDirections.actionCenterFragmentToFragmentTraining(it.trainingCenterId.toString(), it.status, it.remarks)
-            val action = CenterFragmentDirections.actionCenterFragmentToFragmentTraining(it.trainingCenterId.toString(), "QM", "")
+            val action = CenterFragmentDirections.actionCenterFragmentToFragmentTraining(it.trainingCenterId.toString(), it.senctionOrder,it.status, it.remarks)
             findNavController().navigate(action)
         }
 

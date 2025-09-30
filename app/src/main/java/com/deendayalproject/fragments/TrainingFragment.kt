@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.databinding.FragmentTrainingBinding
@@ -39,6 +40,9 @@ import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
+import com.deendayalproject.util.AppConstant
+import com.deendayalproject.util.AppConstant.STATUS_QM
+import com.deendayalproject.util.AppConstant.STATUS_SM
 import com.deendayalproject.util.AppUtil
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -61,6 +65,7 @@ class TrainingFragment : Fragment() {
     private lateinit var photoUri: Uri
     private var currentPhotoTarget: String = ""
     private var centerId: String = ""
+    private var sanctionOrder: String = ""
     private var status: String? = ""
     private var remarks: String? = ""
 
@@ -635,6 +640,7 @@ class TrainingFragment : Fragment() {
         setupPhotoUploadButtons(view)
 
          centerId = arguments?.getString("centerId").toString()
+         sanctionOrder = arguments?.getString("sanctionOrder").toString()
          status = arguments?.getString("status")
          remarks = arguments?.getString("remarks")
 
@@ -1441,12 +1447,65 @@ class TrainingFragment : Fragment() {
 
             header.setOnClickListener {
                 expansionStates[index] = !expansionStates[index]
-                content.visibility = if (expansionStates[index]) View.VISIBLE else View.GONE
-                icon.setImageResource(
-                    if (expansionStates[index]) R.drawable.outline_arrow_upward_24
-                    else R.drawable.ic_dropdown_arrow
-                )
+
+                if (expansionStates[index]){
+                    if(status == STATUS_QM || status == STATUS_SM){
+                        collectTCInfoResponse()
+                    } else {
+                        content.visibility = View.VISIBLE
+                        icon.setImageResource(R.drawable.outline_arrow_upward_24)
+                    }
+                } else {
+                    content.visibility = View.GONE
+                    icon.setImageResource(R.drawable.ic_dropdown_arrow)
+                }
             }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun collectTCInfoResponse() {
+        viewModel.trainingCentersInfo.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+
+                            val distanceBus =  x.distanceFromBusStand
+                                view?.findViewById<TextInputEditText>(R.id.etDistanceBusStand)?.text.toString()
+                            val distanceAuto =         x.distanceFromAutoStand
+                                view?.findViewById<TextInputEditText>(R.id.etDistanceAutoStand)?.text.toString()
+                            val distanceRailway =
+                                view?.findViewById<TextInputEditText>(R.id.etDistanceRailwayStation)?.text.toString()
+
+
+
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+           // binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 

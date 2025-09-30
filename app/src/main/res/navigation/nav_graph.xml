@@ -57,6 +57,9 @@
                 android:name="centerId"
                 app:argType="string" /> <!-- or int -->
             <argument
+                android:name="sanctionOrder"
+                app:argType="string"/>
+            <argument
                 android:name="status"
                 app:argType="string" />
             <argument
