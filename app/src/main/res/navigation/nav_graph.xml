@@ -56,6 +56,12 @@
             <argument
                 android:name="centerId"
                 app:argType="string" /> <!-- or int -->
+            <argument
+                android:name="status"
+                app:argType="string" />
+            <argument
+                android:name="remarks"
+                app:argType="string" />
         </action>
 
 

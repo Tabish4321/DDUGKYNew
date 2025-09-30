@@ -9,8 +9,18 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import android.view.*
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -30,12 +40,16 @@ import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.util.AppUtil
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.android.material.textfield.TextInputEditText
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.String
+import java.util.Date
+import java.util.Locale
+
 class TrainingFragment : Fragment() {
 
 
@@ -47,6 +61,14 @@ class TrainingFragment : Fragment() {
     private lateinit var photoUri: Uri
     private var currentPhotoTarget: String = ""
     private var centerId: String = ""
+    private var status: String? = ""
+    private var remarks: String? = ""
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    // Training center information
+    private lateinit var etLatitude: TextInputEditText
+    private lateinit var etLongitude: TextInputEditText
 
     // CCTV Photos (IP-enabled camera)
     private var base64MonitorFile: String? = null
@@ -303,6 +325,19 @@ class TrainingFragment : Fragment() {
     }
 
     private fun <T : View> View.bindView(id: Int): T = findViewById(id)
+
+    // Permission request launcher
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val fineLocationGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
+            val coarseLocationGranted = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
+
+            if (fineLocationGranted || coarseLocationGranted) {
+                getCurrentLocation()
+            } else {
+                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
 
 
 
@@ -600,6 +635,12 @@ class TrainingFragment : Fragment() {
         setupPhotoUploadButtons(view)
 
          centerId = arguments?.getString("centerId").toString()
+         status = arguments?.getString("status")
+         remarks = arguments?.getString("remarks")
+
+        // Initialize Training center information views
+        etLatitude = view.bindView(R.id.etLatitude)
+        etLongitude = view.bindView(R.id.etLongitude)
 
         // Initialize Wash Basin views
         etMaleToilets = view.bindView(R.id.etMaleToilets)
@@ -693,6 +734,15 @@ class TrainingFragment : Fragment() {
         etCirculationArea =view.findViewById(R.id.etCirculationArea)
         etOpenSpace =view.findViewById(R.id.etOpenSpace)
         etExclusiveParkingSpace =view.findViewById(R.id.etExclusiveParkingSpace)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        // Check and request permission
+        if (hasLocationPermission()) {
+            getCurrentLocation()
+        } else {
+            requestLocationPermission()
+        }
 
         // Setup Yes/No adapter
         val yesNoAdapter = ArrayAdapter(
@@ -1398,6 +1448,46 @@ class TrainingFragment : Fragment() {
                 )
             }
         }
+    }
+
+    private fun hasLocationPermission(): Boolean {
+        val fineLocation = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        val coarseLocation = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+        return fineLocation == PackageManager.PERMISSION_GRANTED ||
+                coarseLocation == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestLocationPermission() {
+        requestPermissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private fun getCurrentLocation() {
+        // Uses high accuracy priority for precise location
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Lat: ${location.latitude}, Lng: ${location.longitude}",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    etLatitude.setText(location.latitude.toString())
+                    etLongitude.setText(location.longitude.toString())
+                } else {
+                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to get location: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun checkAndLaunchCamera() {
