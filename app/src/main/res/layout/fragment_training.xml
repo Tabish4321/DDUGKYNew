@@ -15,6 +15,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_16" />
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center" />
+
         <!-- (ROHIT): TC BASIC INFORMATION 1-->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardTCBasicInfo"
@@ -69,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility=""
+                    android:visibility="gone"
                     android:paddingTop="8dp">
 
                     <!-- Your existing fields here ... -->

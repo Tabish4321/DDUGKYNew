@@ -4,10 +4,14 @@ import SharedViewModel
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +27,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -40,7 +45,7 @@ import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
-import com.deendayalproject.util.AppConstant
+import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.util.AppConstant.STATUS_QM
 import com.deendayalproject.util.AppConstant.STATUS_SM
 import com.deendayalproject.util.AppUtil
@@ -53,6 +58,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.Objects
 
 class TrainingFragment : Fragment() {
 
@@ -644,6 +650,9 @@ class TrainingFragment : Fragment() {
          status = arguments?.getString("status")
          remarks = arguments?.getString("remarks")
 
+        //TODO: To remove below line
+        status = STATUS_QM
+
         // Initialize Training center information views
         etLatitude = view.bindView(R.id.etLatitude)
         etLongitude = view.bindView(R.id.etLongitude)
@@ -763,8 +772,8 @@ class TrainingFragment : Fragment() {
         val overheadTankOptions = listOf("--Select--", "Available", "Not Available")
         val flooringOptions = listOf("--Select--", "Cement", "TILE", "Polished")
         // Find your AutoCompleteTextViews in fragment or activity
-        val actvOverheadTanks: AutoCompleteTextView = view.findViewById(R.id.actvOverheadTanks)
-        val actvTypeOfFlooring: AutoCompleteTextView = view.findViewById(R.id.actvTypeOfFlooring)
+        //val actvOverheadTanks: AutoCompleteTextView = view.findViewById(R.id.actvOverheadTanks)
+        //val actvTypeOfFlooring: AutoCompleteTextView = view.findViewById(R.id.actvTypeOfFlooring)
 
 // Create ArrayAdapter for Overhead Tanks dropdown
         val overheadTankAdapter = ArrayAdapter(
@@ -1450,7 +1459,135 @@ class TrainingFragment : Fragment() {
 
                 if (expansionStates[index]){
                     if(status == STATUS_QM || status == STATUS_SM){
-                        collectTCInfoResponse()
+                        AlertDialog.Builder(requireContext())
+                            .setTitle("Alert")
+                            .setMessage("Do you want to edit this section ?")
+                            .setPositiveButton("Yes") { dialog: DialogInterface?, _: Int ->
+                                dialog?.dismiss()
+
+                                when (index) {
+                                    0 -> {
+                                        // TrainingCenterInfo API
+                                        val requestTcInfo = TrainingCenterInfo(
+                                            appVersion = BuildConfig.VERSION_NAME,
+                                            loginId = AppUtil.getSavedLoginIdPreference(
+                                                requireContext()
+                                            ),
+                                            tcId = centerId.toInt(),
+                                            sanctionOrder = sanctionOrder,
+                                            imeiNo = AppUtil.getAndroidId(requireContext())
+                                        )
+                                        viewModel.getTrainerCenterInfo(requestTcInfo)
+
+                                        collectTCInfoResponse(content, icon)
+                                    }
+                                    1 -> {
+                                        val requestTcInfraReq = TrainingCenterInfo(
+                                            appVersion = BuildConfig.VERSION_NAME,
+                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                            tcId = centerId.toInt(),
+                                            sanctionOrder = sanctionOrder,
+                                            imeiNo = AppUtil.getAndroidId(requireContext())
+                                        )
+                                        viewModel.getIpEnabledCamera(requestTcInfraReq)
+
+                                        collectTCIpEnabele(content, icon)
+                                    }
+                                    7 -> {
+                                        val requestTcInfraReq = TrainingCenterInfo(
+                                            appVersion = BuildConfig.VERSION_NAME,
+                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                            tcId = centerId.toInt(),
+                                            sanctionOrder = sanctionOrder,
+                                            imeiNo = AppUtil.getAndroidId(requireContext())
+                                        )
+                                        viewModel.getTcToiletWashBasin(requestTcInfraReq)
+
+                                        collectTCToiletAndWash(content, icon)
+                                    }
+                                    9 -> {
+                                        val requestTcInfraReq = TrainingCenterInfo(
+                                            appVersion = BuildConfig.VERSION_NAME,
+                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                            tcId = centerId.toInt(),
+                                            sanctionOrder = sanctionOrder,
+                                            imeiNo = AppUtil.getAndroidId(requireContext())
+                                        )
+                                        viewModel.getCommonEquipment(requestTcInfraReq)
+
+                                        collectTCCommonEquipment(content, icon)
+                                    }
+                                    5 -> {
+                                        val requestTcInfraReq = TrainingCenterInfo(
+                                            appVersion = BuildConfig.VERSION_NAME,
+                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                            tcId = centerId.toInt(),
+                                            sanctionOrder = sanctionOrder,
+                                            imeiNo = AppUtil.getAndroidId(requireContext())
+                                        )
+                                        viewModel.getSignagesAndInfoBoard(requestTcInfraReq)
+
+                                        collectTCSignage(content, icon)
+                                    }
+                                    3 -> {
+                                        val requestTcInfraReq = TrainingCenterInfo(
+                                            appVersion = BuildConfig.VERSION_NAME,
+                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                            tcId = centerId.toInt(),
+                                            sanctionOrder = sanctionOrder,
+                                            imeiNo = AppUtil.getAndroidId(requireContext())
+                                        )
+                                        viewModel.getGeneralDetails(requestTcInfraReq)
+
+                                        collectTCGeneral(content, icon)
+                                    }
+                                    2 -> {
+                                        val requestTcInfraReq = TrainingCenterInfo(
+                                            appVersion = BuildConfig.VERSION_NAME,
+                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                            tcId = centerId.toInt(),
+                                            sanctionOrder = sanctionOrder,
+                                            imeiNo = AppUtil.getAndroidId(requireContext())
+                                        )
+                                        viewModel.getElectricalWiringStandard(requestTcInfraReq)
+
+                                        collectTCElectrical(content, icon)
+                                    }
+                                    8 -> {
+                                        val requestTcInfraReq = TrainingCenterInfo(
+                                            appVersion = BuildConfig.VERSION_NAME,
+                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                            tcId = centerId.toInt(),
+                                            sanctionOrder = sanctionOrder,
+                                            imeiNo = AppUtil.getAndroidId(requireContext())
+                                        )
+                                        viewModel.getAvailabilitySupportInfra(requestTcInfraReq)
+
+                                        collectTCSupportInfra(content, icon)
+                                    }
+                                    6 -> {
+                                        val requestTcInfraReq = TrainingCenterInfo(
+                                            appVersion = BuildConfig.VERSION_NAME,
+                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                            tcId = centerId.toInt(),
+                                            sanctionOrder = sanctionOrder,
+                                            imeiNo = AppUtil.getAndroidId(requireContext())
+                                        )
+                                        viewModel.getDescriptionOtherArea(requestTcInfraReq)
+
+                                        collectTCDescOtherArea(content, icon)
+                                    }
+                                    else -> {
+                                        content.visibility = View.VISIBLE
+                                        icon.setImageResource(R.drawable.outline_arrow_upward_24)
+                                    }
+                                }
+                            }
+                            .setNegativeButton("No") { dialog: DialogInterface?, _: Int ->
+                                dialog?.dismiss()
+                            }
+                            .show()
+
                     } else {
                         content.visibility = View.VISIBLE
                         icon.setImageResource(R.drawable.outline_arrow_upward_24)
@@ -1464,24 +1601,23 @@ class TrainingFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun collectTCInfoResponse() {
+    private fun collectTCInfoResponse(content: LinearLayout, icon: ImageView) {
         viewModel.trainingCentersInfo.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> {
-
                         val tcInfoData = it.wrappedList
                         for (x in tcInfoData) {
-
                             val distanceBus =  x.distanceFromBusStand
-                                view?.findViewById<TextInputEditText>(R.id.etDistanceBusStand)?.text.toString()
-                            val distanceAuto =         x.distanceFromAutoStand
-                                view?.findViewById<TextInputEditText>(R.id.etDistanceAutoStand)?.text.toString()
-                            val distanceRailway =
-                                view?.findViewById<TextInputEditText>(R.id.etDistanceRailwayStation)?.text.toString()
+                            val distanceAuto = x.distanceFromAutoStand
+                            val distanceRailway = x.distanceFromRailway
 
-
-
+                            view?.findViewById<TextInputEditText>(R.id.etDistanceBusStand)?.setText(distanceBus)
+                            view?.findViewById<TextInputEditText>(R.id.etDistanceAutoStand)?.setText(distanceAuto)
+                            view?.findViewById<TextInputEditText>(R.id.etDistanceRailwayStation)?.setText(distanceRailway)
                         }
                     }
 
@@ -1505,7 +1641,521 @@ class TrainingFragment : Fragment() {
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
-           // binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCIpEnabele(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getIpEnabledCamera.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val spinnerDetailsMap = mutableMapOf<Any, String?>()
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            spinnerDetailsMap[R.id.spinnerIPEnabled] = x.ipEnable
+                            spinnerDetailsMap[R.id.spinnerResolution] = x.resolution
+                            spinnerDetailsMap[R.id.spinnerVideoStream] = x.videoStream
+                            spinnerDetailsMap[R.id.spinnerRemoteAccessBrowser] = x.remoteAccessBrowser
+                            spinnerDetailsMap[R.id.spinnerSimultaneousAccess] = x.simultaneousAccess
+                            spinnerDetailsMap[R.id.spinnerSupportedProtocols] = x.supportedProtocol
+                            spinnerDetailsMap[R.id.spinnerColorVideoAudio] = x.colorVideoAudit
+                            spinnerDetailsMap[R.id.spinnerStorageFacility] = x.storageFacility
+                            spinnerDetailsMap[R.id.spinnerMonitorAccessible] = x.centralMonitor
+                            spinnerDetailsMap[R.id.spinnerConformance] = x.cctvConformance
+                            spinnerDetailsMap[R.id.spinnerStorage] = x.cctvStorage
+                            spinnerDetailsMap[R.id.spinnerDVRStaticIP] = x.dvrStaticIp
+
+                            imagesMap[ivMonitorPreview] = x.centralMonitorImagePath.toString()
+                            imagesMap[ivConformancePreview] = x.cctvConformanceImagePath.toString()
+                            imagesMap[ivStoragePreview] = x.cctvStorageImagePath.toString()
+                            imagesMap[ivDVRPreview] = x.dvrStaticIpImagePath.toString()
+
+                            updateSpinner(spinnerDetailsMap)
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCToiletAndWash(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getTcToiletWashBasin.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            etMaleToilets.setText(x.maleToilet.toString())
+                            etFemaleToilets.setText(x.femaleToilet.toString())
+                            etMaleUrinals.setText(x.maleUrinal.toString())
+                            etMaleWashBasins.setText( x.maleWashBasin.toString())
+                            etFemaleWashBasins.setText(x.femaleWashBasin.toString())
+                            actvOverheadTanks.setText(x.overheadTanks, false)
+                            actvTypeOfFlooring.setText(x.flooringType, false)
+
+                            imagesMap[ivPreviewMaleToiletsProof] = x.maleToiletImage
+                            imagesMap[ivPreviewMaleToiletsSignageProof] = x.maleToiletSignageImage
+                            imagesMap[ivPreviewFemaleToiletsProof] = x.femaleToiletImage
+                            imagesMap[ivPreviewFemaleToiletsSignageProof] = x.femaleToiletSignageImage
+                            imagesMap[ivPreviewMaleUrinalsProof] = x.maleUrinalImage
+                            imagesMap[ivPreviewMaleWashBasinsProof] = x.maleWashBasinImage
+                            imagesMap[ivPreviewFemaleWashBasinsProof] = x.femaleWashBasinImage
+                            imagesMap[ivPreviewOverheadTanksProof] = x.overheadTankImage
+                            imagesMap[ivPreviewFlooringProof] = x.flooringTypeImage
+
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCCommonEquipment(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getCommonEquipment.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val spinnerDetailsMap = mutableMapOf<Any, String?>()
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            etBiometricDevices.setText(x.biomatricDeviceInstallation)
+                            etPrinterScanner.setText(x.printerScanner.toString())
+                            etDigitalCamera.setText(x.digitalCamera.toString())
+
+                            spinnerDetailsMap[spinnerPowerBackup] = x.ecPowerBackup
+                            spinnerDetailsMap[spinnerCCTV] = x.cctvMoniotrInstall
+                            spinnerDetailsMap[spinnerDocumentStorage] = x.storageSecuring
+                            spinnerDetailsMap[spinnerGrievanceRegister] = x.grievanceRegister.toString()
+                            spinnerDetailsMap[spinnerMinimumEquipment] = x.minimumEquipment.toString()
+                            spinnerDetailsMap[spinnerDirectionBoards] = x.directionBoard.toString()
+
+                            imagesMap[ivPowerBackupPreview] = x.ecPowerBackupImage.toString()
+                            imagesMap[ivBiometricDevicesPreview] =  x.biomatricDeviceInstallationImage.toString()
+                            imagesMap[ivCCTVPreview] = x.cctvMoniotrInstallImage.toString()
+                            imagesMap[ivDocumentStoragePreview] = x.storageSecuringImage.toString()
+                            imagesMap[ivPrinterScannerPreview] = x.printerScannerImage.toString()
+                            imagesMap[ivDigitalCameraPreview] = x.digitalCameraImage.toString()
+                            imagesMap[ivGrievanceRegisterPreview] = x.grievanceRegisterImage.toString()
+                            imagesMap[ivMinimumEquipmentPreview] = x.minimumEquipmentImage.toString()
+                            imagesMap[ivDirectionBoardsPreview] =x.directionBoardImage.toString()
+
+                            showBase64Image(imagesMap)
+                            updateSpinner(spinnerDetailsMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCSignage(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getSignagesAndInfoBoard.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val spinnerDetailsMap = mutableMapOf<Any, String?>()
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            spinnerDetailsMap[spinnerTcNameBoard] = x.tcNameImage.toString()
+                            spinnerDetailsMap[spinnerActivityAchievementBoard] = x.activityAchivementImage.toString()
+                            spinnerDetailsMap[spinnerStudentEntitlementBoard] = x.studentEntitlementImage.toString()
+                            spinnerDetailsMap[spinnerContactDetailBoard] = x.contactDetailsImage.toString()
+                            spinnerDetailsMap[spinnerBasicInfoBoard] = x.basicInfoImage.toString()
+                            spinnerDetailsMap[spinnerCodeConductBoard] = x.codeConductImage.toString()
+                            spinnerDetailsMap[spinnerStudentAttendanceBoard] = x.studentsAttendanceImage.toString()
+
+                            imagesMap[ivTcNameBoardPreview] = x.tcName
+                            imagesMap[ivActivityAchievementBoardPreview] = x.activityAchivement
+                            imagesMap[ivStudentEntitlementBoardPreview] =  x.studentEntitlement
+                            imagesMap[ivContactDetailBoardPreview] = x.contactDetails
+                            imagesMap[ivBasicInfoBoardPreview] = x.basicInfo
+                            imagesMap[ivCodeConductBoardPreview] = x.codeConduct
+                            imagesMap[ivStudentAttendanceBoardPreview] = x.studentsAttendance
+
+                            updateSpinner(spinnerDetailsMap)
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCGeneral(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getGeneralDetails.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val spinnerDetailsMap = mutableMapOf<Any, String?>()
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            spinnerDetailsMap[spinnerLeakageCheck] = x.signLeakage
+                            spinnerDetailsMap[spinnerProtectionStairs] = x.stairsProtection
+                            spinnerDetailsMap[spinnerDDUConformance] = x.ddugkyConfrence
+                            spinnerDetailsMap[spinnerCandidateSafety] = x.centerSafty
+
+                            imagesMap[ivLeakagePreview] = x.signLeakageImage
+                            imagesMap[ivStairsPreview] = x.stairsProtectionImage
+
+                            updateSpinner(spinnerDetailsMap)
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCElectrical(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getElectricalWiringStandard.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val spinnerDetailsMap = mutableMapOf<Any, String?>()
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            spinnerDetailsMap[R.id.spinnerSecure] = x.wireSecurity
+                            spinnerDetailsMap[R.id.spinnerSwitchBoards] = x.switchBoard
+
+                            imagesMap[ivSwitchBoardPreview] = x.wireSecurityImage.toString()
+                            imagesMap[ivWireSecurityPreview] = x.switchBoardImage.toString()
+
+                            updateSpinner(spinnerDetailsMap)
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCSupportInfra(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getAvailabilitySupportInfra.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val spinnerDetailsMap = mutableMapOf<Any, String?>()
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            editFireFightingEquipment.setText(x.fireFighterEquip)
+
+                            spinnerDetailsMap[spinnerSafeDrinkingWater] = x.drinkingWater
+                            spinnerDetailsMap[spinnerFirstAidKit] = x.firstAidKit
+
+                            imagesMap[ivSafeDrinkingWaterPreview] = x.drinkingWaterImage.toString()
+                            imagesMap[ivFireFightingEquipmentPreview] = x.fireFighterEquipImage.toString()
+                            imagesMap[ivFirstAidKitPreview] = x.firstAidKitImage.toString()
+
+                            updateSpinner(spinnerDetailsMap)
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCDescOtherArea(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getDescriptionOtherArea.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            etCorridorNo.setText(x.corridorNo)
+                            etDescLength.setText(x.length)
+                            etDescWidth.setText(x.width)
+                            etArea.setText(x.areas)
+                            etLights.setText( x.numberOfLights)
+                            etFans.setText( x.numberOfFans)
+                            etCirculationArea.setText(x.circulationArea)
+                            etOpenSpace.setText(x.openSpace)
+                            etExclusiveParkingSpace.setText(x.parkingSpace)
+
+                            imagesMap[ivProofPreview] = x.descProofImagePath.toString()
+                            imagesMap[ivCirculationProofPreview] = x.circulationAreaImagePath.toString()
+                            imagesMap[ivOpenSpaceProofPreview] = x.openSpaceImagePath.toString()
+                            imagesMap[ivParkingProofPreview] = x.parkingSpaceImagePath.toString()
+
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun updateSpinner(spinnerDetailsMap: Map<Any, String?>) {
+        spinnerDetailsMap.forEach { (spinner, value) ->
+            when (spinner) {
+                is Int ->  view?.findViewById<Spinner>(spinner)?.setSelection(updateSelection(value))
+                is Spinner-> spinner.setSelection(updateSelection(value))
+            }
+        }
+    }
+
+    private fun updateSelection(value: String?) : Int {
+        return  when(value) {
+            "Yes" -> 1
+            "No" -> 2
+            else -> 0
+        }
+    }
+
+    private fun showBase64Image(imagesMap: Map<ImageView, String?>) {
+        imagesMap.forEach { (imageView, base64ImageString) ->
+            // Decode Base64 → Bitmap
+            val bitmap: Bitmap? = if (!base64ImageString.isNullOrBlank()) {
+                try {
+                    val cleanBase64 = base64ImageString
+                        .replace("data:image/png;base64,", "")
+                        .replace("data:image/jpg;base64,", "")
+                        .replace("data:image/jpeg;base64,", "")
+                        .replace("\\s".toRegex(), "")
+
+                    val decodedBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
+                    BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                } catch (e: Exception) {
+                    null
+                }
+            } else {
+                null
+            }
+
+            // If bitmap is null → show default image
+            if (bitmap != null) {
+                imageView.setImageBitmap(bitmap)
+            } else {
+                imageView.setImageResource(R.drawable.no_image) // your fallback drawable
+            }
+            imageView.visibility = View.VISIBLE
         }
     }
 
@@ -1893,7 +2543,7 @@ class TrainingFragment : Fragment() {
             wireSecurity = view.findViewById<Spinner>(R.id.spinnerSecure).selectedItem.toString(),
             wireSecurityImage = base64WireSecurityImage ?: "",
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext())
+            sanctionOrder = sanctionOrder
         )
         viewModel.submitElectricalData(request, token)
     }
@@ -1935,7 +2585,7 @@ private fun submitGeneralDetails() {
         dduConformance = spinnerDDUConformance.toString(),
         centerSafety = spinnerCandidateSafety.toString(),
         tcId = centerId,
-        sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext())
+        sanctionOrder = sanctionOrder
     )
     viewModel.submitGeneralDetails(request, token)
 }
@@ -1962,7 +2612,7 @@ private fun submitGeneralDetails() {
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+            sanctionOrder = sanctionOrder,
             distanceBus = distanceBus,
             distanceAuto = distanceAuto,
             distanceRailway = distanceRailway,
@@ -1991,7 +2641,7 @@ private fun submitGeneralDetails() {
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+            sanctionOrder = sanctionOrder,
 
             tcNameBoard = trainingCentreNameBoard,
             tcNameBoardImage = base64TcNameBoardImage ?: "",
@@ -2029,7 +2679,7 @@ private fun submitGeneralDetails() {
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             tcId =centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+            sanctionOrder = sanctionOrder,
             drinkingWater = safeDrinkingWater,
             drinkingWaterImage = base64SafeDrinkingWater ?: "",
             fireFightingEquipment = fireFightingEquipment,
@@ -2059,7 +2709,7 @@ private fun submitGeneralDetails() {
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+            sanctionOrder = sanctionOrder,
 
             ecPowerBackup = electricalPowerBackup,
             ecPowerBackupImage = base64PowerBackupImage ?: "",
@@ -2111,7 +2761,7 @@ private fun submitGeneralDetails() {
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+            sanctionOrder = sanctionOrder,
             corridorNo = corridorNo,
             length = descLength,
             width = descWidth,
@@ -2147,7 +2797,7 @@ private fun submitGeneralDetails() {
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+            sanctionOrder = sanctionOrder,
 
             maleToilet = maleToiletsCount,
             maleToiletProof = base64ProofMaleToilets ?: "",
