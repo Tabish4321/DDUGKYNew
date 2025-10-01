@@ -64,7 +64,7 @@ class SrlmVerListFragment : Fragment() {
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
-        viewModel.fetchQTeamTrainingList(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.fetchSrlmTeamTrainingList(request, AppUtil.getSavedTokenPreference(requireContext()))
 
     }
     private fun observeViewModel() {
