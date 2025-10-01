@@ -13,6 +13,7 @@ import com.deendayalproject.model.request.TcAvailabilitySupportInfraRequest
 import com.deendayalproject.model.request.TcBasicInfoRequest
 import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
+import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
@@ -202,6 +203,19 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _loading.postValue(false)
         }
     }
+
+    fun fetchSrlmTeamTrainingList(request: TrainingCenterRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.fetchSrlmTeamTrainingList(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _trainingCenters.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
 
 
 
@@ -564,6 +578,37 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
 
+
+
+    private val _insertQTeamVerification = MutableLiveData<Result<InsertTcGeneralDetailsResponse>>()
+    val insertQTeamVerification: LiveData<Result<InsertTcGeneralDetailsResponse>> = _insertQTeamVerification
+
+    fun insertQTeamVerification(request: TcQTeamInsertReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.insertQTeamVerification(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertQTeamVerification.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    private val _insertSrlmVerification = MutableLiveData<Result<InsertTcGeneralDetailsResponse>>()
+    val insertSrlmVerification: LiveData<Result<InsertTcGeneralDetailsResponse>> = _insertSrlmVerification
+
+    fun insertSrlmVerification(request: TcQTeamInsertReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.insertSrlmVerification(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertSrlmVerification.postValue(result)
+            _loading.postValue(false)
+        }
+    }
 
 
 

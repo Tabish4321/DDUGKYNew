@@ -13,6 +13,7 @@ import com.deendayalproject.model.request.TcAvailabilitySupportInfraRequest
 import com.deendayalproject.model.request.TcBasicInfoRequest
 import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
+import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
@@ -115,6 +116,24 @@ class CommonRepository(private val context: Context) {
     suspend fun fetchQTeamTrainingList(request: TrainingCenterRequest, token: String): Result<TrainingCenterResponse> {
         return try {
             val response = apiService.getQTeamTrainingList(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                if (response.code() == 202) {
+                    Result.failure(HttpException(response))
+                } else {
+                    Result.failure(HttpException(response))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun fetchSrlmTeamTrainingList(request: TrainingCenterRequest, token: String): Result<TrainingCenterResponse> {
+        return try {
+            val response = apiService.getTrainingCenterVerificationSRLM(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
                     ?: Result.failure(Exception("Empty response"))
@@ -547,6 +566,37 @@ class CommonRepository(private val context: Context) {
         }
     }
 
+
+    suspend fun insertQTeamVerification(request: TcQTeamInsertReq) : Result<InsertTcGeneralDetailsResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.insertQTeamVerification(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+    suspend fun insertSrlmVerification(request: TcQTeamInsertReq) : Result<InsertTcGeneralDetailsResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.insertSrlmVerification(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
 
 }

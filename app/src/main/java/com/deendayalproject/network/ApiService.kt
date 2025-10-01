@@ -10,6 +10,7 @@ import com.deendayalproject.model.request.TcAvailabilitySupportInfraRequest
 import com.deendayalproject.model.request.TcBasicInfoRequest
 import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
+import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
@@ -62,6 +63,12 @@ interface ApiService {
 
     @POST(value ="getTrainingCenterVerificationList")
     suspend fun getQTeamTrainingList(@Body request: TrainingCenterRequest) : Response<TrainingCenterResponse>
+
+
+    @POST(value ="getTrainingCenterVerificationSRLM")
+    suspend fun getTrainingCenterVerificationSRLM(@Body request: TrainingCenterRequest) : Response<TrainingCenterResponse>
+
+
 
 
     @POST(value = "insertCCTVCompliance")
@@ -168,6 +175,12 @@ interface ApiService {
     suspend fun getAcademicRoomDetails(@Body request: AllRoomDetaisReques) : Response<AllRoomDetailResponse>
 
 
+    @POST(value ="insertQTeamVerification")
+    suspend fun insertQTeamVerification(@Body request: TcQTeamInsertReq) : Response<InsertTcGeneralDetailsResponse>
+
+
+    @POST(value ="insertQTeamVerification")
+    suspend fun insertSrlmVerification(@Body request: TcQTeamInsertReq) : Response<InsertTcGeneralDetailsResponse>
 
 }
 
