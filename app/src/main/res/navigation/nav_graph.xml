@@ -34,6 +34,12 @@
         <action
             android:id="@+id/action_homeFragment_to_srlmVerListFragment"
             app:destination="@id/srlmVerListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_RFQTeamListFragment"
+            app:destination="@id/RFQTeamListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_RFSrlmListFragment"
+            app:destination="@id/RFSrlmListFragment" />
 
 
     </fragment>
@@ -116,6 +122,59 @@
         android:name="com.deendayalproject.fragments.SrlmVerificationForm"
         android:label="SrlmVerificationForm"
         tools:layout="@layout/fragment_srlmverificatiom_form"/>
+    <fragment
+        android:id="@+id/RFQTeamListFragment"
+        android:name="com.deendayalproject.fragments.RFQTeamListFragment"
+        android:label="RFQTeamListFragment"
+        tools:layout="@layout/rf_qteam_list_fragment">
+        <action
+            android:id="@+id/action_RFQTeamListFragment_to_RFQTeamFormFragment"
+            app:destination="@id/RFQTeamFormFragment" >
+
+            <argument
+                android:name="centerId"
+                app:argType="string"/>
+            <argument
+                android:name="centerName"
+                app:argType="string"/>
+            <argument
+                android:name="sanctionOrder"
+                app:argType="string"/>
+
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/RFSrlmListFragment"
+        android:name="com.deendayalproject.fragments.RFSrlmListFragment"
+        android:label="RFSrlmListFragment"
+        tools:layout="@layout/rf_srlm_list_fragment">
+        <action
+            android:id="@+id/action_RFSrlmListFragment_to_RFSRLMFormFragment"
+            app:destination="@id/RFSRLMFormFragment" >
+
+            <argument
+                android:name="centerId"
+                app:argType="string"/>
+            <argument
+                android:name="centerName"
+                app:argType="string"/>
+            <argument
+                android:name="sanctionOrder"
+                app:argType="string"/>
+
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/RFQTeamFormFragment"
+        android:name="com.deendayalproject.fragments.RFQTeamFormFragment"
+        android:label="RFQTeamFormFragment"
+        tools:layout="@layout/rf_qteam_form_fagment"
+        />
+    <fragment
+        android:id="@+id/RFSRLMFormFragment"
+        android:name="com.deendayalproject.fragments.RFSRLMFormFragment"
+        android:label="RFSRLMFormFragment"
+        tools:layout="@layout/rf_srlm_form_fragment"/>
 
 
 </navigation>

@@ -49,7 +49,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Training center information"
+                        android:text="@string/training_center_information"
                         android:drawableStart="@drawable/ic_training"
                         android:gravity="center"
                         android:textSize="18sp"
