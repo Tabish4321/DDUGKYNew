@@ -17,7 +17,7 @@ import com.deendayalproject.databinding.FragmentCenterBinding
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.util.AppUtil
 
-class CenterFragment : Fragment() {
+class RfCenterFragment : Fragment() {
 
     private var _binding: FragmentCenterBinding? = null
     private val binding get() = _binding!!
@@ -35,9 +35,7 @@ class CenterFragment : Fragment() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
         adapter = CenterAdapter(emptyList()) {
-
-            val action = CenterFragmentDirections.actionCenterFragmentToFragmentTraining(it.trainingCenterId.toString())
-            findNavController().navigate(action)
+            findNavController().navigate(R.id.action_rfcenterFragment_to_fragment_residential_facility)
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())

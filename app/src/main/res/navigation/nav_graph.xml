@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_homeFragment_to_RFSrlmListFragment"
             app:destination="@id/RFSrlmListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_rfCenterFragment"
+            app:destination="@id/rfCenterFragment" />
 
 
     </fragment>
@@ -175,6 +178,23 @@
         android:name="com.deendayalproject.fragments.RFSRLMFormFragment"
         android:label="RFSRLMFormFragment"
         tools:layout="@layout/rf_srlm_form_fragment"/>
+
+
+    <!-- RF Center Fragment -->
+    <fragment
+        android:id="@+id/rfCenterFragment"
+        android:name="com.deendayalproject.fragments.RfCenterFragment"
+        android:label="ResidentialCenterFragment" >
+        <action
+            android:id="@+id/action_rfcenterFragment_to_fragment_residential_facility"
+            app:destination="@id/fragment_residential_facility" />
+    </fragment>
+    <!-- Residential Facility Fragment -->
+    <fragment
+        android:id="@+id/fragment_residential_facility"
+        android:name="com.deendayalproject.fragments.ResidentialFacilityFragment"
+        android:label="Residential Facility"
+        tools:layout="@layout/fragment_residential" />
 
 
 </navigation>

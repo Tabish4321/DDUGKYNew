@@ -1,4 +1,3 @@
-package com.deendayalproject.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -6,6 +5,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.R
 import com.deendayalproject.model.request.TrainingCenter
+
 
 class CenterAdapter(
 
@@ -28,7 +28,7 @@ class CenterAdapter(
 
     override fun onBindViewHolder(holder: CenterViewHolder, position: Int) {
         val center = centers[position]
-       // holder.name.text = center.trainingCenterName
+        // holder.name.text = center.trainingCenterName
         holder.name.text = "Training Center Name: ${center.trainingCenterName}"
         holder.address.text = "Training Center Address: ${center.trainingCenterAddress}"
         holder.order.text = "Sanction Order: ${center.senctionOrder}"
@@ -37,6 +37,8 @@ class CenterAdapter(
             onItemClick(center)
         }
     }
+
+
     override fun getItemCount(): Int = centers.size
 
     fun updateData(newList: List<TrainingCenter>) {

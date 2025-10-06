@@ -98,9 +98,8 @@ class HomeFragment : Fragment() {
             if (form.formCd == "TRAINING_CENTER_APP") {
                 findNavController().navigate(R.id.action_homeFragment_to_centerFragment)
             }
-            if (
-                form.formCd=="RESIDENTIAL_FACILITY_FORM"){
-                findNavController().navigate(R.id.action_homeFragment_to_centerFragment)
+            if (form.formCd=="RESIDENTIAL_FACILITY_FORM"){
+                findNavController().navigate(R.id.action_homeFragment_to_rfCenterFragment)
             }
 
             if (form.formCd == "TRAINING_CENTER_VERIFICATION") {
