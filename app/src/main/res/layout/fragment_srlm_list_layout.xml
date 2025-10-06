@@ -41,7 +41,6 @@
             app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
 
 
-
     </androidx.appcompat.widget.Toolbar>
 
     <ProgressBar
