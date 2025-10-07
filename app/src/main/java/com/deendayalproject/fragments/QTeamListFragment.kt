@@ -70,22 +70,24 @@ class QTeamListFragment : Fragment() {
             )
             findNavController().navigate(action)
 
-         /*   checkGeofence(
-                context = requireContext(),
-                latitude = latitude,
-                longitude = longitude,
-                radiusInMeters = radius,
-                progressBar = binding.progressBar
-            ) { inside, location ->
-                if (inside) {
-                    val action = QTeamListFragmentDirections.actionQTeamListFragmentToQTeamFormFragment(
-                        center.trainingCenterId.toString(),center.trainingCenterName,center.senctionOrder
-                    )
-                    findNavController().navigate(action)
-                } else {
-                    Toast.makeText(requireContext(), "You are outside the center", Toast.LENGTH_SHORT).show()
-                }
-            }*/
+
+
+            /*   checkGeofence(
+                   context = requireContext(),
+                   latitude = latitude,
+                   longitude = longitude,
+                   radiusInMeters = radius,
+                   progressBar = binding.progressBar
+               ) { inside, location ->
+                   if (inside) {
+                       val action = QTeamListFragmentDirections.actionQTeamListFragmentToQTeamFormFragment(
+                           center.trainingCenterId.toString(),center.trainingCenterName,center.senctionOrder
+                       )
+                       findNavController().navigate(action)
+                   } else {
+                       Toast.makeText(requireContext(), "You are outside the center", Toast.LENGTH_SHORT).show()
+                   }
+               }*/
 
 
 
@@ -113,8 +115,16 @@ class QTeamListFragment : Fragment() {
         viewModel.trainingCenters.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 when (it.responseCode) {
-                    200 -> adapter.updateData(it.wrappedList ?: emptyList())
-                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                    200 ->{
+                        adapter.updateData(it.wrappedList ?: emptyList())
+                        adapter.notifyDataSetChanged()
+
+                    }
+                    202 -> {
+                        adapter.updateData(it.wrappedList ?: emptyList())
+                        adapter.notifyDataSetChanged()
+                        Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                    }
                     301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
@@ -204,5 +214,6 @@ class QTeamListFragment : Fragment() {
                 Toast.makeText(requireContext(), "❌ Location permission denied", Toast.LENGTH_SHORT).show()
             }
         }
+
 
 }

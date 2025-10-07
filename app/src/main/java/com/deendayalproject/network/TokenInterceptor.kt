@@ -20,7 +20,7 @@ class TokenInterceptor(private val context: Context) : Interceptor {
 
         val newRequest = originalRequest.newBuilder().apply {
 
-              // addHeader("ddugkyauth","Bearer eyJhbGciOiJIUzUxMiJ9.eyJwYXlsb2FkIjp7ImxvZ2luSWQiOiJNQU5BU0kiLCJsZXZlbENkIjoiMTMiLCJsZXZlbFJvbGVDZCI6bnVsbCwiZW50aXR5Q29kZSI6IjI5Iiwib3JnSWQiOiJXQjIwMjVSRjAxMTQiLCJocklkIjoiNjkyIiwiaW5zdGl0dXRlIjpudWxsLCJ0cmFpbmdDZW50ZXJDb2RlIjpudWxsfSwic3ViIjoiTUFOQVNJIiwiaWF0IjoxNzUzNzg1MzcyLCJleHAiOjE3NTM3OTEzNzJ9.6vH_1_zEC8PeLxjLH78_pvqqI-QPFdV50B0GZ1t-e8QkmUbYgWy55jL9CpIu2YzQjzpbUxZTjEeS9kIQ87VwXw")
+              //addHeader("ddugkyauth","Bearer eyJhbGciOiJIUzUxMiJ9.eyJwYXlsb2FkIjp7ImxvZ2luSWQiOiJNQU5BU0kiLCJsZXZlbENkIjoiMTMiLCJsZXZlbFJvbGVDZCI6bnVsbCwiZW50aXR5Q29kZSI6IjI5Iiwib3JnSWQiOiJXQjIwMjVSRjAxMTQiLCJocklkIjoiNjkyIiwiaW5zdGl0dXRlIjpudWxsLCJ0cmFpbmdDZW50ZXJDb2RlIjpudWxsfSwic3ViIjoiTUFOQVNJIiwiaWF0IjoxNzUzNzg1MzcyLCJleHAiOjE3NTM3OTEzNzJ9.6vH_1_zEC8PeLxjLH78_pvqqI-QPFdV50B0GZ1t-e8QkmUbYgWy55jL9CpIu2YzQjzpbUxZTjEeS9kIQ87VwXw")
                 addHeader("ddugkyappauth","Bearer $token")
 
         }.build()

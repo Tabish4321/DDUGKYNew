@@ -38,7 +38,7 @@ plugins {
 
         buildFeatures {
             viewBinding = true
-            buildConfig = true  // ✅ Ensure BuildConfig is enabled
+            buildConfig = true
 
         }
     }

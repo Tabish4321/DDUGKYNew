@@ -166,6 +166,10 @@ class HomeFragment : Fragment() {
 
             }
             response.onFailure {
+
+                if (it is retrofit2.HttpException && it.code() == 401) {
+                    AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
                 Toast.makeText(
                     requireContext(),
                     "Something went wrong try again",

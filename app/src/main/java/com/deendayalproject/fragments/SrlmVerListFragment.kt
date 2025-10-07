@@ -71,8 +71,15 @@ class SrlmVerListFragment : Fragment() {
         viewModel.trainingCenters.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 when (it.responseCode) {
-                    200 -> adapter.updateData(it.wrappedList ?: emptyList())
-                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                    200 ->{
+                        adapter.updateData(it.wrappedList ?: emptyList())
+                        adapter.notifyDataSetChanged()
+                    }
+                    202 -> {
+                        adapter.updateData(it.wrappedList ?: emptyList())
+                        adapter.notifyDataSetChanged()
+                        Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                    }
                     301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
@@ -90,4 +97,7 @@ class SrlmVerListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
+
 }

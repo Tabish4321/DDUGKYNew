@@ -187,10 +187,8 @@ interface ApiService {
     suspend fun insertQTeamVerification(@Body request: TcQTeamInsertReq) : Response<InsertTcGeneralDetailsResponse>
 
 
-    @POST(value ="insertQTeamVerification")
+    @POST(value ="insertSrlmVerification")
     suspend fun insertSrlmVerification(@Body request: TcQTeamInsertReq) : Response<InsertTcGeneralDetailsResponse>
-
-
 
 
     @POST("getStateList")
