@@ -4,22 +4,39 @@ import SharedViewModel
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Base64
 import android.util.Log
-import android.view.*
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.databinding.FragmentTrainingBinding
+import com.deendayalproject.model.SectionHandler
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
@@ -29,13 +46,21 @@ import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
+import com.deendayalproject.model.request.TrainingCenterInfo
+import com.deendayalproject.model.response.SectionStatus
+import com.deendayalproject.util.AppConstant.STATUS_QM
+import com.deendayalproject.util.AppConstant.STATUS_SM
 import com.deendayalproject.util.AppUtil
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.android.material.textfield.TextInputEditText
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.String
+import java.util.Date
+import java.util.Locale
+
 class TrainingFragment : Fragment() {
 
 
@@ -47,6 +72,17 @@ class TrainingFragment : Fragment() {
     private lateinit var photoUri: Uri
     private var currentPhotoTarget: String = ""
     private var centerId: String = ""
+    private var sanctionOrder: String = ""
+    private var status: String? = ""
+    private var remarks: String? = ""
+
+    private lateinit var sectionsStatus: SectionStatus
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    // Training center information
+    private lateinit var etLatitude: TextInputEditText
+    private lateinit var etLongitude: TextInputEditText
 
     // CCTV Photos (IP-enabled camera)
     private var base64MonitorFile: String? = null
@@ -216,6 +252,7 @@ class TrainingFragment : Fragment() {
     private lateinit var etCirculationArea: TextInputEditText
     private lateinit var etOpenSpace: TextInputEditText
     private lateinit var etExclusiveParkingSpace: TextInputEditText
+    private lateinit var btnCalculateArea: Button
 
     //Support Infra
     private lateinit var spinnerFirstAidKit: Spinner
@@ -265,7 +302,7 @@ class TrainingFragment : Fragment() {
         R.id.btnUploadSafeDrinkingWater to "SafeDrinkingWater",
 
         //  desc Other areas
-        R.id.btnUploadProof to "proof",
+        R.id.btnUploadProof to "proofUpload",
         R.id.btnUploadCirculationProof to "circulationProof",
         R.id.btnUploadParkingProof to "parking",
         R.id.btnUploadOpenSpaceProof to "openSpaceProof",
@@ -293,6 +330,9 @@ class TrainingFragment : Fragment() {
         R.id.btnUploadProofFlooring to "flooringProof"
         )
 
+    // Final Submit Button
+    private lateinit var btnSubmitFinal: Button
+
     private fun setupPhotoUploadButtons(view: View) {
         photoUploadButtons.forEach { (buttonId, photoTarget) ->
             view.findViewById<Button>(buttonId).setOnClickListener {
@@ -303,6 +343,19 @@ class TrainingFragment : Fragment() {
     }
 
     private fun <T : View> View.bindView(id: Int): T = findViewById(id)
+
+    // Permission request launcher
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val fineLocationGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
+            val coarseLocationGranted = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
+
+            if (fineLocationGranted || coarseLocationGranted) {
+                getCurrentLocation()
+            } else {
+                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
 
 
 
@@ -600,6 +653,34 @@ class TrainingFragment : Fragment() {
         setupPhotoUploadButtons(view)
 
          centerId = arguments?.getString("centerId").toString()
+         sanctionOrder = arguments?.getString("sanctionOrder").toString()
+         status = arguments?.getString("status")
+         remarks = arguments?.getString("remarks")
+
+        if (status == STATUS_QM || status == STATUS_SM) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Remarks")
+                .setMessage(remarks)
+                .setPositiveButton("Okay") { dialog: DialogInterface?, _: Int ->
+                    dialog?.dismiss()
+                }
+                .show()
+        }
+
+        val requestTcInfraReq = TrainingCenterInfo(
+            appVersion = BuildConfig.VERSION_NAME,
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            tcId = centerId.toInt(),
+            sanctionOrder = sanctionOrder,
+            imeiNo = AppUtil.getAndroidId(requireContext())
+        )
+
+        viewModel.getSectionsStatusData(requestTcInfraReq)
+        collectSectionStatus()
+
+        // Initialize Training center information views
+        etLatitude = view.bindView(R.id.etLatitude)
+        etLongitude = view.bindView(R.id.etLongitude)
 
         // Initialize Wash Basin views
         etMaleToilets = view.bindView(R.id.etMaleToilets)
@@ -694,6 +775,19 @@ class TrainingFragment : Fragment() {
         etOpenSpace =view.findViewById(R.id.etOpenSpace)
         etExclusiveParkingSpace =view.findViewById(R.id.etExclusiveParkingSpace)
 
+        //Button Final Submit
+        btnCalculateArea = view.findViewById(R.id.btnCalculateArea)
+        btnSubmitFinal = view.findViewById(R.id.btnSubmitFinal)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        // Check and request permission
+        if (hasLocationPermission()) {
+            getCurrentLocation()
+        } else {
+            requestLocationPermission()
+        }
+
         // Setup Yes/No adapter
         val yesNoAdapter = ArrayAdapter(
             requireContext(),
@@ -707,8 +801,8 @@ class TrainingFragment : Fragment() {
         val overheadTankOptions = listOf("--Select--", "Available", "Not Available")
         val flooringOptions = listOf("--Select--", "Cement", "TILE", "Polished")
         // Find your AutoCompleteTextViews in fragment or activity
-        val actvOverheadTanks: AutoCompleteTextView = view.findViewById(R.id.actvOverheadTanks)
-        val actvTypeOfFlooring: AutoCompleteTextView = view.findViewById(R.id.actvTypeOfFlooring)
+        //val actvOverheadTanks: AutoCompleteTextView = view.findViewById(R.id.actvOverheadTanks)
+        //val actvTypeOfFlooring: AutoCompleteTextView = view.findViewById(R.id.actvTypeOfFlooring)
 
 // Create ArrayAdapter for Overhead Tanks dropdown
         val overheadTankAdapter = ArrayAdapter(
@@ -775,7 +869,8 @@ class TrainingFragment : Fragment() {
                     id: Long
                 ) {
                     val selected = parent.getItemAtPosition(position).toString()
-                    button.visibility = if (selected == "No") View.GONE else View.VISIBLE
+                    //button.visibility = if (selected == "No") View.GONE else View.VISIBLE
+                    button.visibility = View.VISIBLE
                 }
                 override fun onNothingSelected(parent: AdapterView<*>) {}
             }
@@ -1086,6 +1181,28 @@ class TrainingFragment : Fragment() {
             ).show()
         }
 
+        // Calculate Area
+        btnCalculateArea.setOnClickListener {
+            val length = etDescLength.text.toString().toDoubleOrNull() ?: 0.0
+            val width = etDescWidth.text.toString().toDoubleOrNull() ?: 0.0
+
+            etArea.setText("${length * width}")
+        }
+
+        // Final Submit
+        btnSubmitFinal.setOnClickListener {
+            val requestTcInfraReq = TrainingCenterInfo(
+                appVersion = BuildConfig.VERSION_NAME,
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
+                imeiNo = AppUtil.getAndroidId(requireContext())
+            )
+            viewModel.getFinalSubmitData(requestTcInfraReq)
+
+            collectFinalSubmitData()
+        }
+
         // Observers
         viewModel.insertCCTVdata.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
@@ -1391,13 +1508,790 @@ class TrainingFragment : Fragment() {
 
             header.setOnClickListener {
                 expansionStates[index] = !expansionStates[index]
-                content.visibility = if (expansionStates[index]) View.VISIBLE else View.GONE
-                icon.setImageResource(
-                    if (expansionStates[index]) R.drawable.outline_arrow_upward_24
-                    else R.drawable.ic_dropdown_arrow
+
+                if (!expansionStates[index]) {
+                    content.visibility = View.GONE
+                    icon.setImageResource(R.drawable.ic_dropdown_arrow)
+                    return@setOnClickListener
+                }
+
+                // Prepare a reusable request object
+                val request = TrainingCenterInfo(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    imeiNo = AppUtil.getAndroidId(requireContext())
                 )
+
+                // Map each index to its section status + API call + collector
+                val sectionHandlers = mapOf(
+                    0 to SectionHandler(sectionsStatus.infoSection, {
+                        viewModel.getTrainerCenterInfo(request)
+                        collectTCInfoResponse(content, icon)
+                    }),
+                    1 to SectionHandler(sectionsStatus.careraSection, {
+                        viewModel.getIpEnabledCamera(request)
+                        collectTCIpEnabele(content, icon)
+                    }),
+                    2 to SectionHandler(sectionsStatus.wiringSection, {
+                        viewModel.getElectricalWiringStandard(request)
+                        collectTCElectrical(content, icon)
+                    }),
+                    3 to SectionHandler(sectionsStatus.generalDetailsSection, {
+                        viewModel.getGeneralDetails(request)
+                        collectTCGeneral(content, icon)
+                    }),
+                    5 to SectionHandler(sectionsStatus.signageSection, {
+                        viewModel.getSignagesAndInfoBoard(request)
+                        collectTCSignage(content, icon)
+                    }),
+                    6 to SectionHandler(sectionsStatus.descOtherAreaSection, {
+                        viewModel.getDescriptionOtherArea(request)
+                        collectTCDescOtherArea(content, icon)
+                    }),
+                    7 to SectionHandler(sectionsStatus.toiletWashBasinSection, {
+                        viewModel.getTcToiletWashBasin(request)
+                        collectTCToiletAndWash(content, icon)
+                    }),
+                    8 to SectionHandler(sectionsStatus.supportInfraSection, {
+                        viewModel.getAvailabilitySupportInfra(request)
+                        collectTCSupportInfra(content, icon)
+                    }),
+                    9 to SectionHandler(sectionsStatus.commonEquipSection, {
+                        viewModel.getCommonEquipment(request)
+                        collectTCCommonEquipment(content, icon)
+                    })
+                )
+
+                val handler = sectionHandlers[index]
+
+                // If section doesn't exist, just expand content
+                if (handler == null) {
+                    content.visibility = View.VISIBLE
+                    icon.setImageResource(R.drawable.outline_arrow_upward_24)
+                    return@setOnClickListener
+                }
+
+                // Show confirmation dialog if section already exists
+                if (handler.sectionCount > 0) {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Alert")
+                        .setMessage("Do you want to edit this section?")
+                        .setPositiveButton("Yes") { dialog, _ ->
+                            dialog.dismiss()
+                            handler.action()
+                        }
+                        .setNegativeButton("No") { dialog, _ ->
+                            dialog.dismiss()
+                            expansionStates[index] = !expansionStates[index]
+                        }
+                        .show()
+                } else {
+                    content.visibility = View.VISIBLE
+                    icon.setImageResource(R.drawable.outline_arrow_upward_24)
+                }
             }
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun collectTCInfoResponse(content: LinearLayout, icon: ImageView) {
+        viewModel.trainingCentersInfo.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+                            val distanceBus =  x.distanceFromBusStand
+                            val distanceAuto = x.distanceFromAutoStand
+                            val distanceRailway = x.distanceFromRailway
+
+                            view?.findViewById<TextInputEditText>(R.id.etDistanceBusStand)?.setText(distanceBus)
+                            view?.findViewById<TextInputEditText>(R.id.etDistanceAutoStand)?.setText(distanceAuto)
+                            view?.findViewById<TextInputEditText>(R.id.etDistanceRailwayStation)?.setText(distanceRailway)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCIpEnabele(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getIpEnabledCamera.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val spinnerDetailsMap = mutableMapOf<Any, String?>()
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            spinnerDetailsMap[R.id.spinnerIPEnabled] = x.ipEnable
+                            spinnerDetailsMap[R.id.spinnerResolution] = x.resolution
+                            spinnerDetailsMap[R.id.spinnerVideoStream] = x.videoStream
+                            spinnerDetailsMap[R.id.spinnerRemoteAccessBrowser] = x.remoteAccessBrowser
+                            spinnerDetailsMap[R.id.spinnerSimultaneousAccess] = x.simultaneousAccess
+                            spinnerDetailsMap[R.id.spinnerSupportedProtocols] = x.supportedProtocol
+                            spinnerDetailsMap[R.id.spinnerColorVideoAudio] = x.colorVideoAudit
+                            spinnerDetailsMap[R.id.spinnerStorageFacility] = x.storageFacility
+                            spinnerDetailsMap[R.id.spinnerMonitorAccessible] = x.centralMonitor
+                            spinnerDetailsMap[R.id.spinnerConformance] = x.cctvConformance
+                            spinnerDetailsMap[R.id.spinnerStorage] = x.cctvStorage
+                            spinnerDetailsMap[R.id.spinnerDVRStaticIP] = x.dvrStaticIp
+
+                            imagesMap[ivMonitorPreview] = x.centralMonitorImagePath.toString()
+                            imagesMap[ivConformancePreview] = x.cctvConformanceImagePath.toString()
+                            imagesMap[ivStoragePreview] = x.cctvStorageImagePath.toString()
+                            imagesMap[ivDVRPreview] = x.dvrStaticIpImagePath.toString()
+
+                            updateSpinner(spinnerDetailsMap)
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCToiletAndWash(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getTcToiletWashBasin.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            etMaleToilets.setText(x.maleToilet.toString())
+                            etFemaleToilets.setText(x.femaleToilet.toString())
+                            etMaleUrinals.setText(x.maleUrinal.toString())
+                            etMaleWashBasins.setText( x.maleWashBasin.toString())
+                            etFemaleWashBasins.setText(x.femaleWashBasin.toString())
+                            actvOverheadTanks.setText(x.overheadTanks, false)
+                            actvTypeOfFlooring.setText(x.flooringType, false)
+
+                            imagesMap[ivPreviewMaleToiletsProof] = x.maleToiletImage
+                            imagesMap[ivPreviewMaleToiletsSignageProof] = x.maleToiletSignageImage
+                            imagesMap[ivPreviewFemaleToiletsProof] = x.femaleToiletImage
+                            imagesMap[ivPreviewFemaleToiletsSignageProof] = x.femaleToiletSignageImage
+                            imagesMap[ivPreviewMaleUrinalsProof] = x.maleUrinalImage
+                            imagesMap[ivPreviewMaleWashBasinsProof] = x.maleWashBasinImage
+                            imagesMap[ivPreviewFemaleWashBasinsProof] = x.femaleWashBasinImage
+                            imagesMap[ivPreviewOverheadTanksProof] = x.overheadTankImage
+                            imagesMap[ivPreviewFlooringProof] = x.flooringTypeImage
+
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCCommonEquipment(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getCommonEquipment.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val spinnerDetailsMap = mutableMapOf<Any, String?>()
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            etBiometricDevices.setText(x.biomatricDeviceInstallation)
+                            etPrinterScanner.setText(x.printerScanner.toString())
+                            etDigitalCamera.setText(x.digitalCamera.toString())
+
+                            spinnerDetailsMap[spinnerPowerBackup] = x.ecPowerBackup
+                            spinnerDetailsMap[spinnerCCTV] = x.cctvMoniotrInstall
+                            spinnerDetailsMap[spinnerDocumentStorage] = x.storageSecuring
+                            spinnerDetailsMap[spinnerGrievanceRegister] = x.grievanceRegister.toString()
+                            spinnerDetailsMap[spinnerMinimumEquipment] = x.minimumEquipment.toString()
+                            spinnerDetailsMap[spinnerDirectionBoards] = x.directionBoard.toString()
+
+                            imagesMap[ivPowerBackupPreview] = x.ecPowerBackupImage.toString()
+                            imagesMap[ivBiometricDevicesPreview] =  x.biomatricDeviceInstallationImage.toString()
+                            imagesMap[ivCCTVPreview] = x.cctvMoniotrInstallImage.toString()
+                            imagesMap[ivDocumentStoragePreview] = x.storageSecuringImage.toString()
+                            imagesMap[ivPrinterScannerPreview] = x.printerScannerImage.toString()
+                            imagesMap[ivDigitalCameraPreview] = x.digitalCameraImage.toString()
+                            imagesMap[ivGrievanceRegisterPreview] = x.grievanceRegisterImage.toString()
+                            imagesMap[ivMinimumEquipmentPreview] = x.minimumEquipmentImage.toString()
+                            imagesMap[ivDirectionBoardsPreview] =x.directionBoardImage.toString()
+
+                            showBase64Image(imagesMap)
+                            updateSpinner(spinnerDetailsMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCSignage(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getSignagesAndInfoBoard.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val spinnerDetailsMap = mutableMapOf<Any, String?>()
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            spinnerDetailsMap[spinnerTcNameBoard] = x.tcNameImage.toString()
+                            spinnerDetailsMap[spinnerActivityAchievementBoard] = x.activityAchivementImage.toString()
+                            spinnerDetailsMap[spinnerStudentEntitlementBoard] = x.studentEntitlementImage.toString()
+                            spinnerDetailsMap[spinnerContactDetailBoard] = x.contactDetailsImage.toString()
+                            spinnerDetailsMap[spinnerBasicInfoBoard] = x.basicInfoImage.toString()
+                            spinnerDetailsMap[spinnerCodeConductBoard] = x.codeConductImage.toString()
+                            spinnerDetailsMap[spinnerStudentAttendanceBoard] = x.studentsAttendanceImage.toString()
+
+                            imagesMap[ivTcNameBoardPreview] = x.tcName
+                            imagesMap[ivActivityAchievementBoardPreview] = x.activityAchivement
+                            imagesMap[ivStudentEntitlementBoardPreview] =  x.studentEntitlement
+                            imagesMap[ivContactDetailBoardPreview] = x.contactDetails
+                            imagesMap[ivBasicInfoBoardPreview] = x.basicInfo
+                            imagesMap[ivCodeConductBoardPreview] = x.codeConduct
+                            imagesMap[ivStudentAttendanceBoardPreview] = x.studentsAttendance
+
+                            updateSpinner(spinnerDetailsMap)
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCGeneral(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getGeneralDetails.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val spinnerDetailsMap = mutableMapOf<Any, String?>()
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            spinnerDetailsMap[spinnerLeakageCheck] = x.signLeakage
+                            spinnerDetailsMap[spinnerProtectionStairs] = x.stairsProtection
+                            spinnerDetailsMap[spinnerDDUConformance] = x.ddugkyConfrence
+                            spinnerDetailsMap[spinnerCandidateSafety] = x.centerSafty
+
+                            imagesMap[ivLeakagePreview] = x.signLeakageImage
+                            imagesMap[ivStairsPreview] = x.stairsProtectionImage
+
+                            updateSpinner(spinnerDetailsMap)
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCElectrical(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getElectricalWiringStandard.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val spinnerDetailsMap = mutableMapOf<Any, String?>()
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            spinnerDetailsMap[R.id.spinnerSecure] = x.wireSecurity
+                            spinnerDetailsMap[R.id.spinnerSwitchBoards] = x.switchBoard
+
+                            imagesMap[ivSwitchBoardPreview] = x.wireSecurityImage.toString()
+                            imagesMap[ivWireSecurityPreview] = x.switchBoardImage.toString()
+
+                            updateSpinner(spinnerDetailsMap)
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCSupportInfra(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getAvailabilitySupportInfra.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val spinnerDetailsMap = mutableMapOf<Any, String?>()
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            editFireFightingEquipment.setText(x.fireFighterEquip)
+
+                            spinnerDetailsMap[spinnerSafeDrinkingWater] = x.drinkingWater
+                            spinnerDetailsMap[spinnerFirstAidKit] = x.firstAidKit
+
+                            imagesMap[ivSafeDrinkingWaterPreview] = x.drinkingWaterImage.toString()
+                            imagesMap[ivFireFightingEquipmentPreview] = x.fireFighterEquipImage.toString()
+                            imagesMap[ivFirstAidKitPreview] = x.firstAidKitImage.toString()
+
+                            updateSpinner(spinnerDetailsMap)
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectTCDescOtherArea(content: LinearLayout, icon: ImageView) {
+
+        viewModel.getDescriptionOtherArea.observe(viewLifecycleOwner) { result ->
+            content.visibility = View.VISIBLE
+            icon.setImageResource(R.drawable.outline_arrow_upward_24)
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val dataInfra = it.wrappedList
+
+                        for (x in dataInfra) {
+                            val imagesMap = mutableMapOf<ImageView, String?>()
+
+                            etCorridorNo.setText(x.corridorNo)
+                            etDescLength.setText(x.length)
+                            etDescWidth.setText(x.width)
+                            etArea.setText(x.areas)
+                            etLights.setText( x.numberOfLights)
+                            etFans.setText( x.numberOfFans)
+                            etCirculationArea.setText(x.circulationArea)
+                            etOpenSpace.setText(x.openSpace)
+                            etExclusiveParkingSpace.setText(x.parkingSpace)
+
+                            imagesMap[ivProofPreview] = x.descProofImagePath.toString()
+                            imagesMap[ivCirculationProofPreview] = x.circulationAreaImagePath.toString()
+                            imagesMap[ivOpenSpaceProofPreview] = x.openSpaceImagePath.toString()
+                            imagesMap[ivParkingProofPreview] = x.parkingSpaceImagePath.toString()
+
+                            showBase64Image(imagesMap)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun updateSpinner(spinnerDetailsMap: Map<Any, String?>) {
+        spinnerDetailsMap.forEach { (spinner, value) ->
+            when (spinner) {
+                is Int ->  view?.findViewById<Spinner>(spinner)?.setSelection(updateSelection(value))
+                is Spinner-> spinner.setSelection(updateSelection(value))
+            }
+        }
+    }
+
+    private fun updateSelection(value: String?) : Int {
+        return  when(value) {
+            "Yes" -> 1
+            "No" -> 2
+            else -> 0
+        }
+    }
+
+    private fun showBase64Image(imagesMap: Map<ImageView, String?>) {
+        imagesMap.forEach { (imageView, base64ImageString) ->
+            // Decode Base64 → Bitmap
+            val bitmap: Bitmap? = if (!base64ImageString.isNullOrBlank()) {
+                try {
+                    val cleanBase64 = base64ImageString
+                        .replace("data:image/png;base64,", "")
+                        .replace("data:image/jpg;base64,", "")
+                        .replace("data:image/jpeg;base64,", "")
+                        .replace("\\s".toRegex(), "")
+
+                    val decodedBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
+                    BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                } catch (e: Exception) {
+                    null
+                }
+            } else {
+                null
+            }
+
+            // If bitmap is null → show default image
+            if (bitmap != null) {
+                imageView.setImageBitmap(bitmap)
+            } else {
+                imageView.setImageResource(R.drawable.no_image) // your fallback drawable
+            }
+            imageView.visibility = View.VISIBLE
+        }
+    }
+
+    private fun collectFinalSubmitData() {
+
+        viewModel.getFinalSubmitData.observe(viewLifecycleOwner) { result ->
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "Details sent successfully to Q-Team",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        it.responseDesc,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectSectionStatus() {
+
+        viewModel.getSectionsStatusData.observe(viewLifecycleOwner) { result ->
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+                         sectionsStatus = it.wrappedList?.get(0)!!
+
+                        if (sectionsStatus.infoSection > 0) {
+                            binding.ivToggleTCBasicInfo.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.careraSection > 0) {
+                            binding.ivToggleCCTVCompliance.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.toiletWashBasinSection > 0) {
+                            binding.ivToggleToiletsWashBasins.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.commonEquipSection > 0) {
+                            binding.ivToggleCommonEquipment.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.signageSection > 0) {
+                            binding.ivToggleSignagesInfoBoards.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.generalDetailsSection > 0) {
+                            binding.ivToggleGeneralDetails.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.wiringSection > 0) {
+                            binding.ivToggleElectricalWiring.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.supportInfraSection > 0) {
+                            binding.ivToggleSupportInfrastructure.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.descOtherAreaSection > 0) {
+                            binding.ivToggleDescriptionOtherAreas.setImageResource(R.drawable.ic_verified)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        it.responseDesc,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun hasLocationPermission(): Boolean {
+        val fineLocation = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        val coarseLocation = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+        return fineLocation == PackageManager.PERMISSION_GRANTED ||
+                coarseLocation == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestLocationPermission() {
+        requestPermissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private fun getCurrentLocation() {
+        // Uses high accuracy priority for precise location
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Lat: ${location.latitude}, Lng: ${location.longitude}",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    etLatitude.setText(location.latitude.toString())
+                    etLongitude.setText(location.longitude.toString())
+                } else {
+                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to get location: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun checkAndLaunchCamera() {
@@ -1451,7 +2345,7 @@ class TrainingFragment : Fragment() {
             R.id.spinnerColorVideoAudio,
             R.id.spinnerStorageFacility
         ).all {
-            view.findViewById<Spinner>(it).selectedItem != "--Select--"
+            view.findViewById<Spinner>(it).selectedItem.toString() != "--Select--"
         }
 
         val photosOk = base64MonitorFile != null && base64ConformanceFile != null &&
@@ -1469,10 +2363,10 @@ class TrainingFragment : Fragment() {
     }
 
     private fun validateGeneralDetailsForm(): Boolean {
-        return spinnerLeakageCheck.toString() != "--Select--"
-                && spinnerProtectionStairs.toString() != "--Select--"
-                && spinnerDDUConformance.toString() != "--Select--"
-                && spinnerCandidateSafety.toString() != "--Select--"
+        return spinnerLeakageCheck.selectedItem.toString() != "--Select--"
+                && spinnerProtectionStairs.selectedItem.toString() != "--Select--"
+                && spinnerDDUConformance.selectedItem.toString() != "--Select--"
+                && spinnerCandidateSafety.selectedItem.toString() != "--Select--"
                 && base64LeakageImage != null
                 && base64StairsImage != null
     }
@@ -1728,6 +2622,8 @@ class TrainingFragment : Fragment() {
             supportedProtocols = view.findViewById<Spinner>(R.id.spinnerSupportedProtocols).selectedItem.toString(),
             colorVideoAudio = view.findViewById<Spinner>(R.id.spinnerColorVideoAudio).selectedItem.toString(),
             storageFacility = view.findViewById<Spinner>(R.id.spinnerStorageFacility).selectedItem.toString(),
+            tcId = centerId,
+            sanctionOrder = sanctionOrder
         )
         viewModel.submitCCTVDataToServer(request, token)
     }
@@ -1744,7 +2640,7 @@ class TrainingFragment : Fragment() {
             wireSecurity = view.findViewById<Spinner>(R.id.spinnerSecure).selectedItem.toString(),
             wireSecurityImage = base64WireSecurityImage ?: "",
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext())
+            sanctionOrder = sanctionOrder
         )
         viewModel.submitElectricalData(request, token)
     }
@@ -1779,14 +2675,14 @@ private fun submitGeneralDetails() {
         loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
         imeiNo = AppUtil.getAndroidId(requireContext()),
         appVersion = BuildConfig.VERSION_NAME,
-        signLeakages = spinnerLeakageCheck.toString(),
+        signLeakages = spinnerLeakageCheck.selectedItem.toString(),
         signLeakagesImage = base64LeakageImage ?: "",
-        stairsProtection = spinnerProtectionStairs.toString(),
+        stairsProtection = spinnerProtectionStairs.selectedItem.toString(),
         stairsProtectionImage = base64StairsImage ?: "",
-        dduConformance = spinnerDDUConformance.toString(),
-        centerSafety = spinnerCandidateSafety.toString(),
+        dduConformance = spinnerDDUConformance.selectedItem.toString(),
+        centerSafety = spinnerCandidateSafety.selectedItem.toString(),
         tcId = centerId,
-        sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext())
+        sanctionOrder = sanctionOrder
     )
     viewModel.submitGeneralDetails(request, token)
 }
@@ -1805,15 +2701,14 @@ private fun submitGeneralDetails() {
         val longitude = view?.findViewById<TextInputEditText>(R.id.etLongitude)?.text.toString()
 
         // For geoAddress, assuming you have an EditText or a way to get this value
-        val geoAddress =
-            "Jeevan Bharti Building Delhi - 110001"  // Replace with actual input if available
+        val geoAddress = ""  // Replace with actual input if available
 
         val request = TcBasicInfoRequest(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+            sanctionOrder = sanctionOrder,
             distanceBus = distanceBus,
             distanceAuto = distanceAuto,
             distanceRailway = distanceRailway,
@@ -1842,7 +2737,7 @@ private fun submitGeneralDetails() {
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+            sanctionOrder = sanctionOrder,
 
             tcNameBoard = trainingCentreNameBoard,
             tcNameBoardImage = base64TcNameBoardImage ?: "",
@@ -1880,7 +2775,7 @@ private fun submitGeneralDetails() {
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             tcId =centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+            sanctionOrder = sanctionOrder,
             drinkingWater = safeDrinkingWater,
             drinkingWaterImage = base64SafeDrinkingWater ?: "",
             fireFightingEquipment = fireFightingEquipment,
@@ -1910,7 +2805,7 @@ private fun submitGeneralDetails() {
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+            sanctionOrder = sanctionOrder,
 
             ecPowerBackup = electricalPowerBackup,
             ecPowerBackupImage = base64PowerBackupImage ?: "",
@@ -1962,7 +2857,7 @@ private fun submitGeneralDetails() {
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+            sanctionOrder = sanctionOrder,
             corridorNo = corridorNo,
             length = descLength,
             width = descWidth,
@@ -1998,7 +2893,7 @@ private fun submitGeneralDetails() {
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext()),
+            sanctionOrder = sanctionOrder,
 
             maleToilet = maleToiletsCount,
             maleToiletProof = base64ProofMaleToilets ?: "",
