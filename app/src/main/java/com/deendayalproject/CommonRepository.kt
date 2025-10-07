@@ -29,6 +29,7 @@ import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.DistrictResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
+import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
@@ -36,6 +37,7 @@ import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
 import com.deendayalproject.model.response.StateResponse
@@ -606,14 +608,11 @@ class CommonRepository(private val context: Context) {
         }
     }
 
-
-    suspend fun getStateList(
-        request: StateRequest,
-        token: String
-    ): Result<StateResponse> {
+    suspend fun getFinalSubmitData(request: TrainingCenterInfo) : Result<FinalSubmitRes>{
         return try {
-            val response = apiService.getStateList(request)
-            if (response.isSuccessful) {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getFinalSubmitData(request)
+            if (response.isSuccessful){
                 response.body()?.let { Result.success(it) }
                     ?: Result.failure(Exception("Empty response"))
             } else {
@@ -623,6 +622,39 @@ class CommonRepository(private val context: Context) {
             Result.failure(e)
         }
     }
+
+    suspend fun getSectionsStatus(request: TrainingCenterInfo) : Result<SectionStatusRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getSectionsStatus(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getStateList(request: StateRequest,
+        token: String
+    ): Result<StateResponse> {
+        return try {
+            val response = apiService.getStateList(request)
+            if (response.isSuccessful) {
+
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 
     suspend fun getDistrictList(
         request: DistrictRequest,
@@ -675,6 +707,3 @@ class CommonRepository(private val context: Context) {
     }
 
 }
-
-
-

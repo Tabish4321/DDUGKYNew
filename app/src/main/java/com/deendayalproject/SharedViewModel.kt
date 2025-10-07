@@ -30,6 +30,7 @@ import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.DistrictResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
+import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
@@ -37,6 +38,7 @@ import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
 import com.deendayalproject.model.response.StateResponse
@@ -630,9 +632,35 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    private val _getFinalSubmitData = MutableLiveData<Result<FinalSubmitRes>>()
+    val getFinalSubmitData: LiveData<Result<FinalSubmitRes>> = _getFinalSubmitData
 
+    fun getFinalSubmitData(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getFinalSubmitData(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getFinalSubmitData.postValue(result)
+            _loading.postValue(false)
+        }
+    }
 
+    private val _getSectionsStatusData = MutableLiveData<Result<SectionStatusRes>>()
+    val getSectionsStatusData: LiveData<Result<SectionStatusRes>> = _getSectionsStatusData
 
+    fun getSectionsStatusData(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getSectionsStatus(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getSectionsStatusData.postValue(result)
+            _loading.postValue(false)
+        }
+    }
 
     fun getStateList(request: StateRequest, token: String) {
         _loading.postValue(true)
@@ -681,6 +709,3 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
 
 }
-
-
-
