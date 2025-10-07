@@ -335,7 +335,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:text="Storage Facility to keep recording till project closure"
+                        android:text="@string/storage_facility_to_keep_recording_till_project_closure"
                         android:textStyle="bold" />
                     <Spinner
                         android:id="@+id/spinnerStorageFacility"
@@ -347,7 +347,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:text="Central Monitor accessible to Centre Incharge"
+                        android:text="@string/central_monitor_accessible_to_centre_incharge"
                         android:textStyle="bold" />
                     <Spinner
                         android:id="@+id/spinnerMonitorAccessible"

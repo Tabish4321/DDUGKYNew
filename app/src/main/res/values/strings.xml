@@ -530,6 +530,8 @@
     <string name="sf_63a7_candidates_after_completion">SF 6.3A7 : List of Candidates After Completion of Training of the Batch</string>
     <string name="submit">Submit</string>
     <string name="switch_boards_and_panel_boards">Switch Boards and Panel Boards</string>
+    <string name="storage_facility_to_keep_recording_till_project_closure">Storage Facility to keep recording till project closure</string>
+    <string name="central_monitor_accessible_to_centre_incharge">Central Monitor accessible to Centre Incharge</string>
 
 
 </resources>
