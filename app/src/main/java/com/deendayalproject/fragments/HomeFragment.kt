@@ -98,9 +98,8 @@ class HomeFragment : Fragment() {
             if (form.formCd == "TRAINING_CENTER_APP") {
                 findNavController().navigate(R.id.action_homeFragment_to_centerFragment)
             }
-            if (
-                form.formCd=="RESIDENTIAL_FACILITY_FORM"){
-                findNavController().navigate(R.id.action_homeFragment_to_centerFragment)
+            if (form.formCd=="RESIDENTIAL_FACILITY_FORM"){
+                findNavController().navigate(R.id.action_homeFragment_to_rfCenterFragment)
             }
 
             if (form.formCd == "TRAINING_CENTER_VERIFICATION") {
@@ -112,7 +111,12 @@ class HomeFragment : Fragment() {
             }
 
 
-
+            if (form.formCd == "RESIDENTIAL_FACILITY_FORM_SRLM") {
+                findNavController().navigate(R.id.action_homeFragment_to_RFSrlmListFragment)
+            }
+            if (form.formCd == "RESIDENTIAL_FACILITY_FORM_QTEAM") {
+                findNavController().navigate(R.id.action_homeFragment_to_RFQTeamListFragment)
+            }
 
         }
 
@@ -140,20 +144,26 @@ class HomeFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.modules.observe(viewLifecycleOwner) { response ->
             response.onSuccess {
-                if (it.responseCode == 200) {
 
-                    // Initialize modules as collapsed (optional)
-                    val collapsedModules = it.wrappedList?.map { module ->
-                        module.isExpanded = false
-                        module
-                    } ?: emptyList()
-                    adapter.updateData(collapsedModules)
+
+                when (it.responseCode) {
+
+                    200 -> {
+                        // Initialize modules as collapsed (optional)
+                        val collapsedModules = it.wrappedList?.map { module ->
+                            module.isExpanded = false
+                            module
+                        } ?: emptyList()
+                        adapter.updateData(collapsedModules)
+
+                    }
+
+                    401 -> {
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+
+                    }
                 }
-                if (it.responseCode == 401) {
-                    Log.d("SessionCheck", "401 detected, session expired.")
-                    AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
-                Toast.makeText(requireContext(), it.responseDesc, Toast.LENGTH_SHORT).show()
+
             }
             response.onFailure {
                 Toast.makeText(

@@ -1,11 +1,15 @@
 package com.deendayalproject.network
 
 import com.deendayalproject.model.request.AllRoomDetaisReques
+import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
+import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
+import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
+import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.TcAvailabilitySupportInfraRequest
 import com.deendayalproject.model.request.TcBasicInfoRequest
 import com.deendayalproject.model.request.TcCommonEquipmentRequest
@@ -16,13 +20,16 @@ import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.AllRoomDetailResponse
+import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
+import com.deendayalproject.model.response.DistrictResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
+import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
@@ -31,6 +38,7 @@ import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
+import com.deendayalproject.model.response.StateResponse
 import com.deendayalproject.model.response.SupportInfrastructureResponse
 import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
@@ -189,6 +197,19 @@ interface ApiService {
 
     @POST(value ="getTcSectionStatus")
     suspend fun getSectionsStatus(@Body request: TrainingCenterInfo) : Response<SectionStatusRes>
+    
+    @POST("getStateList")
+    suspend fun getStateList(@Body request: StateRequest): Response<StateResponse>
+
+    @POST("getDistrictList")
+    suspend fun getDistrictList(@Body request: DistrictRequest): Response<DistrictResponse>
+
+    @POST("getBlockList")
+    suspend fun getBlockList(@Body request: BlockRequest): Response<BlockResponse>
+
+    @POST("getGPList")
+    suspend fun getGPList(@Body request: GpRequest): Response<GpResponse>
+
 }
 
 

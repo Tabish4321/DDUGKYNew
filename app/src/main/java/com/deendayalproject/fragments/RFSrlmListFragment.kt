@@ -1,6 +1,5 @@
 package com.deendayalproject.fragments
 
-import CenterAdapter
 import SharedViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,31 +11,47 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
-import com.deendayalproject.R
-import com.deendayalproject.databinding.FragmentCenterBinding
+import com.deendayalproject.adapter.RfSrlmAdapter
+import com.deendayalproject.databinding.RfSrlmListFragmentBinding
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.util.AppUtil
 
-class CenterFragment : Fragment() {
-
-    private var _binding: FragmentCenterBinding? = null
+class RFSrlmListFragment : Fragment() {
+    private var _binding: RfSrlmListFragmentBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var viewModel: SharedViewModel
-    private lateinit var adapter: CenterAdapter
+    private lateinit var adapter: RfSrlmAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentCenterBinding.inflate(inflater, container, false)
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        _binding = RfSrlmListFragmentBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
-        adapter = CenterAdapter(emptyList()) {
-            val action = CenterFragmentDirections.actionCenterFragmentToFragmentTraining(it.trainingCenterId.toString(), it.senctionOrder,it.status, it.remarks)
+        adapter = RfSrlmAdapter(emptyList()) { center ->
+            val action =
+                RFSrlmListFragmentDirections.actionRFSrlmListFragmentToRFSRLMFormFragment(
+                    center.trainingCenterId.toString(),
+                    center.trainingCenterName,
+                    center.senctionOrder
+                )
             findNavController().navigate(action)
+        }
+
+        binding.backButton.setOnClickListener {
+
+            findNavController().navigateUp()
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -49,7 +64,11 @@ class CenterFragment : Fragment() {
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
-        viewModel.fetchTrainingCenters(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.fetchSrlmTeamTrainingList(
+            request,
+            AppUtil.getSavedTokenPreference(requireContext())
+        )
+
     }
 
     private fun observeViewModel() {
@@ -57,8 +76,18 @@ class CenterFragment : Fragment() {
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> adapter.updateData(it.wrappedList ?: emptyList())
-                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
             }

@@ -4,11 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.deendayalproject.model.request.AllRoomDetaisReques
+import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
+import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
+import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
+import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.TcAvailabilitySupportInfraRequest
 import com.deendayalproject.model.request.TcBasicInfoRequest
 import com.deendayalproject.model.request.TcCommonEquipmentRequest
@@ -19,13 +23,16 @@ import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.AllRoomDetailResponse
+import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
+import com.deendayalproject.model.response.DistrictResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
+import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
@@ -34,6 +41,7 @@ import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
+import com.deendayalproject.model.response.StateResponse
 import com.deendayalproject.model.response.SupportInfrastructureResponse
 import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcInfraResponse
@@ -120,6 +128,18 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _insertWashBasinDtails = MutableLiveData<Result<ToiletDetailsErrorResponse>>()
     val insertWashBasinDtails : LiveData<Result<ToiletDetailsErrorResponse>> = _insertWashBasinDtails
 
+
+    private val _stateList = MutableLiveData<Result<StateResponse>>()
+    val stateList: LiveData<Result<StateResponse>> = _stateList
+
+    private val _districtList = MutableLiveData<Result<DistrictResponse>>()
+    val districtList: LiveData<Result<DistrictResponse>> = _districtList
+
+    private val _blockList = MutableLiveData<Result<BlockResponse>>()
+    val blockList: LiveData<Result<BlockResponse>> = _blockList
+
+    private val _gpList = MutableLiveData<Result<GpResponse>>()
+    val gpList: LiveData<Result<GpResponse>> = _gpList
 
     fun submitElectricalData(request: ElectricalWiringRequest, token: String) {
         _loading.postValue(true)
@@ -641,4 +661,51 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _loading.postValue(false)
         }
     }
+
+    fun getStateList(request: StateRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getStateList(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _stateList.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+    fun getDistrictList(request: DistrictRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getDistrictList(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _districtList.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+    fun getBlockList(request: BlockRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getBlockList(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _blockList.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+    fun getGpList(request: GpRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getGpList(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _gpList.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
 }

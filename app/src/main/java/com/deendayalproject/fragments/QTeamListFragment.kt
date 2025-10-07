@@ -65,9 +65,12 @@ class QTeamListFragment : Fragment() {
 
         adapter = TrainingQAdapter(emptyList()) { center ->
 
+            val action = QTeamListFragmentDirections.actionQTeamListFragmentToQTeamFormFragment(
+                center.trainingCenterId.toString(),center.trainingCenterName,center.senctionOrder
+            )
+            findNavController().navigate(action)
 
-
-            checkGeofence(
+         /*   checkGeofence(
                 context = requireContext(),
                 latitude = latitude,
                 longitude = longitude,
@@ -82,7 +85,7 @@ class QTeamListFragment : Fragment() {
                 } else {
                     Toast.makeText(requireContext(), "You are outside the center", Toast.LENGTH_SHORT).show()
                 }
-            }
+            }*/
 
 
 
