@@ -2556,7 +2556,18 @@
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-
+                    <Button
+                        android:id="@+id/btnCalculateArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:paddingHorizontal="8dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/bg_upload_button"
+                        android:text="Calculate"
+                        android:textSize="12sp" />
 
                     <!-- Area -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -2569,6 +2580,10 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etArea"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:focusedByDefault="false"
+                            android:focusableInTouchMode="false"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal" />
@@ -2814,6 +2829,4 @@
 
     </LinearLayout>
 </ScrollView>
-
-
 

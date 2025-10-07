@@ -20,6 +20,7 @@ val remoteAccessBrowser: String,
 val simultaneousAccess: String,
 val supportedProtocols: String,
 val colorVideoAudio: String,
-val storageFacility: String
-
+val storageFacility: String,
+val tcId: String,
+val sanctionOrder: String
 )

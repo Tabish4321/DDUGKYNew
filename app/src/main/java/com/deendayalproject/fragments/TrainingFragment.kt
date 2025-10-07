@@ -36,6 +36,7 @@ import androidx.navigation.fragment.findNavController
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.databinding.FragmentTrainingBinding
+import com.deendayalproject.model.SectionHandler
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
@@ -46,6 +47,7 @@ import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
+import com.deendayalproject.model.response.SectionStatus
 import com.deendayalproject.util.AppConstant.STATUS_QM
 import com.deendayalproject.util.AppConstant.STATUS_SM
 import com.deendayalproject.util.AppUtil
@@ -58,7 +60,6 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import java.util.Objects
 
 class TrainingFragment : Fragment() {
 
@@ -74,6 +75,8 @@ class TrainingFragment : Fragment() {
     private var sanctionOrder: String = ""
     private var status: String? = ""
     private var remarks: String? = ""
+
+    private lateinit var sectionsStatus: SectionStatus
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
@@ -249,6 +252,7 @@ class TrainingFragment : Fragment() {
     private lateinit var etCirculationArea: TextInputEditText
     private lateinit var etOpenSpace: TextInputEditText
     private lateinit var etExclusiveParkingSpace: TextInputEditText
+    private lateinit var btnCalculateArea: Button
 
     //Support Infra
     private lateinit var spinnerFirstAidKit: Spinner
@@ -298,7 +302,7 @@ class TrainingFragment : Fragment() {
         R.id.btnUploadSafeDrinkingWater to "SafeDrinkingWater",
 
         //  desc Other areas
-        R.id.btnUploadProof to "proof",
+        R.id.btnUploadProof to "proofUpload",
         R.id.btnUploadCirculationProof to "circulationProof",
         R.id.btnUploadParkingProof to "parking",
         R.id.btnUploadOpenSpaceProof to "openSpaceProof",
@@ -325,6 +329,9 @@ class TrainingFragment : Fragment() {
         R.id.btnUploadProofOverheadTanks to "overheadTanksProof",
         R.id.btnUploadProofFlooring to "flooringProof"
         )
+
+    // Final Submit Button
+    private lateinit var btnSubmitFinal: Button
 
     private fun setupPhotoUploadButtons(view: View) {
         photoUploadButtons.forEach { (buttonId, photoTarget) ->
@@ -650,8 +657,26 @@ class TrainingFragment : Fragment() {
          status = arguments?.getString("status")
          remarks = arguments?.getString("remarks")
 
-        //TODO: To remove below line
-        status = STATUS_QM
+        if (status == STATUS_QM || status == STATUS_SM) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Remarks")
+                .setMessage(remarks)
+                .setPositiveButton("Okay") { dialog: DialogInterface?, _: Int ->
+                    dialog?.dismiss()
+                }
+                .show()
+        }
+
+        val requestTcInfraReq = TrainingCenterInfo(
+            appVersion = BuildConfig.VERSION_NAME,
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            tcId = centerId.toInt(),
+            sanctionOrder = sanctionOrder,
+            imeiNo = AppUtil.getAndroidId(requireContext())
+        )
+
+        viewModel.getSectionsStatusData(requestTcInfraReq)
+        collectSectionStatus()
 
         // Initialize Training center information views
         etLatitude = view.bindView(R.id.etLatitude)
@@ -750,6 +775,10 @@ class TrainingFragment : Fragment() {
         etOpenSpace =view.findViewById(R.id.etOpenSpace)
         etExclusiveParkingSpace =view.findViewById(R.id.etExclusiveParkingSpace)
 
+        //Button Final Submit
+        btnCalculateArea = view.findViewById(R.id.btnCalculateArea)
+        btnSubmitFinal = view.findViewById(R.id.btnSubmitFinal)
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         // Check and request permission
@@ -840,7 +869,8 @@ class TrainingFragment : Fragment() {
                     id: Long
                 ) {
                     val selected = parent.getItemAtPosition(position).toString()
-                    button.visibility = if (selected == "No") View.GONE else View.VISIBLE
+                    //button.visibility = if (selected == "No") View.GONE else View.VISIBLE
+                    button.visibility = View.VISIBLE
                 }
                 override fun onNothingSelected(parent: AdapterView<*>) {}
             }
@@ -1151,6 +1181,28 @@ class TrainingFragment : Fragment() {
             ).show()
         }
 
+        // Calculate Area
+        btnCalculateArea.setOnClickListener {
+            val length = etDescLength.text.toString().toDoubleOrNull() ?: 0.0
+            val width = etDescWidth.text.toString().toDoubleOrNull() ?: 0.0
+
+            etArea.setText("${length * width}")
+        }
+
+        // Final Submit
+        btnSubmitFinal.setOnClickListener {
+            val requestTcInfraReq = TrainingCenterInfo(
+                appVersion = BuildConfig.VERSION_NAME,
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
+                imeiNo = AppUtil.getAndroidId(requireContext())
+            )
+            viewModel.getFinalSubmitData(requestTcInfraReq)
+
+            collectFinalSubmitData()
+        }
+
         // Observers
         viewModel.insertCCTVdata.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
@@ -1457,144 +1509,87 @@ class TrainingFragment : Fragment() {
             header.setOnClickListener {
                 expansionStates[index] = !expansionStates[index]
 
-                if (expansionStates[index]){
-                    if(status == STATUS_QM || status == STATUS_SM){
-                        AlertDialog.Builder(requireContext())
-                            .setTitle("Alert")
-                            .setMessage("Do you want to edit this section ?")
-                            .setPositiveButton("Yes") { dialog: DialogInterface?, _: Int ->
-                                dialog?.dismiss()
-
-                                when (index) {
-                                    0 -> {
-                                        // TrainingCenterInfo API
-                                        val requestTcInfo = TrainingCenterInfo(
-                                            appVersion = BuildConfig.VERSION_NAME,
-                                            loginId = AppUtil.getSavedLoginIdPreference(
-                                                requireContext()
-                                            ),
-                                            tcId = centerId.toInt(),
-                                            sanctionOrder = sanctionOrder,
-                                            imeiNo = AppUtil.getAndroidId(requireContext())
-                                        )
-                                        viewModel.getTrainerCenterInfo(requestTcInfo)
-
-                                        collectTCInfoResponse(content, icon)
-                                    }
-                                    1 -> {
-                                        val requestTcInfraReq = TrainingCenterInfo(
-                                            appVersion = BuildConfig.VERSION_NAME,
-                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                            tcId = centerId.toInt(),
-                                            sanctionOrder = sanctionOrder,
-                                            imeiNo = AppUtil.getAndroidId(requireContext())
-                                        )
-                                        viewModel.getIpEnabledCamera(requestTcInfraReq)
-
-                                        collectTCIpEnabele(content, icon)
-                                    }
-                                    7 -> {
-                                        val requestTcInfraReq = TrainingCenterInfo(
-                                            appVersion = BuildConfig.VERSION_NAME,
-                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                            tcId = centerId.toInt(),
-                                            sanctionOrder = sanctionOrder,
-                                            imeiNo = AppUtil.getAndroidId(requireContext())
-                                        )
-                                        viewModel.getTcToiletWashBasin(requestTcInfraReq)
-
-                                        collectTCToiletAndWash(content, icon)
-                                    }
-                                    9 -> {
-                                        val requestTcInfraReq = TrainingCenterInfo(
-                                            appVersion = BuildConfig.VERSION_NAME,
-                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                            tcId = centerId.toInt(),
-                                            sanctionOrder = sanctionOrder,
-                                            imeiNo = AppUtil.getAndroidId(requireContext())
-                                        )
-                                        viewModel.getCommonEquipment(requestTcInfraReq)
-
-                                        collectTCCommonEquipment(content, icon)
-                                    }
-                                    5 -> {
-                                        val requestTcInfraReq = TrainingCenterInfo(
-                                            appVersion = BuildConfig.VERSION_NAME,
-                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                            tcId = centerId.toInt(),
-                                            sanctionOrder = sanctionOrder,
-                                            imeiNo = AppUtil.getAndroidId(requireContext())
-                                        )
-                                        viewModel.getSignagesAndInfoBoard(requestTcInfraReq)
-
-                                        collectTCSignage(content, icon)
-                                    }
-                                    3 -> {
-                                        val requestTcInfraReq = TrainingCenterInfo(
-                                            appVersion = BuildConfig.VERSION_NAME,
-                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                            tcId = centerId.toInt(),
-                                            sanctionOrder = sanctionOrder,
-                                            imeiNo = AppUtil.getAndroidId(requireContext())
-                                        )
-                                        viewModel.getGeneralDetails(requestTcInfraReq)
-
-                                        collectTCGeneral(content, icon)
-                                    }
-                                    2 -> {
-                                        val requestTcInfraReq = TrainingCenterInfo(
-                                            appVersion = BuildConfig.VERSION_NAME,
-                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                            tcId = centerId.toInt(),
-                                            sanctionOrder = sanctionOrder,
-                                            imeiNo = AppUtil.getAndroidId(requireContext())
-                                        )
-                                        viewModel.getElectricalWiringStandard(requestTcInfraReq)
-
-                                        collectTCElectrical(content, icon)
-                                    }
-                                    8 -> {
-                                        val requestTcInfraReq = TrainingCenterInfo(
-                                            appVersion = BuildConfig.VERSION_NAME,
-                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                            tcId = centerId.toInt(),
-                                            sanctionOrder = sanctionOrder,
-                                            imeiNo = AppUtil.getAndroidId(requireContext())
-                                        )
-                                        viewModel.getAvailabilitySupportInfra(requestTcInfraReq)
-
-                                        collectTCSupportInfra(content, icon)
-                                    }
-                                    6 -> {
-                                        val requestTcInfraReq = TrainingCenterInfo(
-                                            appVersion = BuildConfig.VERSION_NAME,
-                                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                            tcId = centerId.toInt(),
-                                            sanctionOrder = sanctionOrder,
-                                            imeiNo = AppUtil.getAndroidId(requireContext())
-                                        )
-                                        viewModel.getDescriptionOtherArea(requestTcInfraReq)
-
-                                        collectTCDescOtherArea(content, icon)
-                                    }
-                                    else -> {
-                                        content.visibility = View.VISIBLE
-                                        icon.setImageResource(R.drawable.outline_arrow_upward_24)
-                                    }
-                                }
-                            }
-                            .setNegativeButton("No") { dialog: DialogInterface?, _: Int ->
-                                dialog?.dismiss()
-                            }
-                            .show()
-
-                    } else {
-                        content.visibility = View.VISIBLE
-                        icon.setImageResource(R.drawable.outline_arrow_upward_24)
-                    }
-                } else {
+                if (!expansionStates[index]) {
                     content.visibility = View.GONE
                     icon.setImageResource(R.drawable.ic_dropdown_arrow)
+                    return@setOnClickListener
+                }
+
+                // Prepare a reusable request object
+                val request = TrainingCenterInfo(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    imeiNo = AppUtil.getAndroidId(requireContext())
+                )
+
+                // Map each index to its section status + API call + collector
+                val sectionHandlers = mapOf(
+                    0 to SectionHandler(sectionsStatus.infoSection, {
+                        viewModel.getTrainerCenterInfo(request)
+                        collectTCInfoResponse(content, icon)
+                    }),
+                    1 to SectionHandler(sectionsStatus.careraSection, {
+                        viewModel.getIpEnabledCamera(request)
+                        collectTCIpEnabele(content, icon)
+                    }),
+                    2 to SectionHandler(sectionsStatus.wiringSection, {
+                        viewModel.getElectricalWiringStandard(request)
+                        collectTCElectrical(content, icon)
+                    }),
+                    3 to SectionHandler(sectionsStatus.generalDetailsSection, {
+                        viewModel.getGeneralDetails(request)
+                        collectTCGeneral(content, icon)
+                    }),
+                    5 to SectionHandler(sectionsStatus.signageSection, {
+                        viewModel.getSignagesAndInfoBoard(request)
+                        collectTCSignage(content, icon)
+                    }),
+                    6 to SectionHandler(sectionsStatus.descOtherAreaSection, {
+                        viewModel.getDescriptionOtherArea(request)
+                        collectTCDescOtherArea(content, icon)
+                    }),
+                    7 to SectionHandler(sectionsStatus.toiletWashBasinSection, {
+                        viewModel.getTcToiletWashBasin(request)
+                        collectTCToiletAndWash(content, icon)
+                    }),
+                    8 to SectionHandler(sectionsStatus.supportInfraSection, {
+                        viewModel.getAvailabilitySupportInfra(request)
+                        collectTCSupportInfra(content, icon)
+                    }),
+                    9 to SectionHandler(sectionsStatus.commonEquipSection, {
+                        viewModel.getCommonEquipment(request)
+                        collectTCCommonEquipment(content, icon)
+                    })
+                )
+
+                val handler = sectionHandlers[index]
+
+                // If section doesn't exist, just expand content
+                if (handler == null) {
+                    content.visibility = View.VISIBLE
+                    icon.setImageResource(R.drawable.outline_arrow_upward_24)
+                    return@setOnClickListener
+                }
+
+                // Show confirmation dialog if section already exists
+                if (handler.sectionCount > 0) {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Alert")
+                        .setMessage("Do you want to edit this section?")
+                        .setPositiveButton("Yes") { dialog, _ ->
+                            dialog.dismiss()
+                            handler.action()
+                        }
+                        .setNegativeButton("No") { dialog, _ ->
+                            dialog.dismiss()
+                            expansionStates[index] = !expansionStates[index]
+                        }
+                        .show()
+                } else {
+                    content.visibility = View.VISIBLE
+                    icon.setImageResource(R.drawable.outline_arrow_upward_24)
                 }
             }
         }
@@ -2159,6 +2154,106 @@ class TrainingFragment : Fragment() {
         }
     }
 
+    private fun collectFinalSubmitData() {
+
+        viewModel.getFinalSubmitData.observe(viewLifecycleOwner) { result ->
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "Details sent successfully to Q-Team",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        it.responseDesc,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun collectSectionStatus() {
+
+        viewModel.getSectionsStatusData.observe(viewLifecycleOwner) { result ->
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+                         sectionsStatus = it.wrappedList?.get(0)!!
+
+                        if (sectionsStatus.infoSection > 0) {
+                            binding.ivToggleTCBasicInfo.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.careraSection > 0) {
+                            binding.ivToggleCCTVCompliance.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.toiletWashBasinSection > 0) {
+                            binding.ivToggleToiletsWashBasins.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.commonEquipSection > 0) {
+                            binding.ivToggleCommonEquipment.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.signageSection > 0) {
+                            binding.ivToggleSignagesInfoBoards.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.generalDetailsSection > 0) {
+                            binding.ivToggleGeneralDetails.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.wiringSection > 0) {
+                            binding.ivToggleElectricalWiring.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.supportInfraSection > 0) {
+                            binding.ivToggleSupportInfrastructure.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.descOtherAreaSection > 0) {
+                            binding.ivToggleDescriptionOtherAreas.setImageResource(R.drawable.ic_verified)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        it.responseDesc,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
     private fun hasLocationPermission(): Boolean {
         val fineLocation = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
         val coarseLocation = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -2250,7 +2345,7 @@ class TrainingFragment : Fragment() {
             R.id.spinnerColorVideoAudio,
             R.id.spinnerStorageFacility
         ).all {
-            view.findViewById<Spinner>(it).selectedItem != "--Select--"
+            view.findViewById<Spinner>(it).selectedItem.toString() != "--Select--"
         }
 
         val photosOk = base64MonitorFile != null && base64ConformanceFile != null &&
@@ -2268,10 +2363,10 @@ class TrainingFragment : Fragment() {
     }
 
     private fun validateGeneralDetailsForm(): Boolean {
-        return spinnerLeakageCheck.toString() != "--Select--"
-                && spinnerProtectionStairs.toString() != "--Select--"
-                && spinnerDDUConformance.toString() != "--Select--"
-                && spinnerCandidateSafety.toString() != "--Select--"
+        return spinnerLeakageCheck.selectedItem.toString() != "--Select--"
+                && spinnerProtectionStairs.selectedItem.toString() != "--Select--"
+                && spinnerDDUConformance.selectedItem.toString() != "--Select--"
+                && spinnerCandidateSafety.selectedItem.toString() != "--Select--"
                 && base64LeakageImage != null
                 && base64StairsImage != null
     }
@@ -2527,6 +2622,8 @@ class TrainingFragment : Fragment() {
             supportedProtocols = view.findViewById<Spinner>(R.id.spinnerSupportedProtocols).selectedItem.toString(),
             colorVideoAudio = view.findViewById<Spinner>(R.id.spinnerColorVideoAudio).selectedItem.toString(),
             storageFacility = view.findViewById<Spinner>(R.id.spinnerStorageFacility).selectedItem.toString(),
+            tcId = centerId,
+            sanctionOrder = sanctionOrder
         )
         viewModel.submitCCTVDataToServer(request, token)
     }
@@ -2578,12 +2675,12 @@ private fun submitGeneralDetails() {
         loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
         imeiNo = AppUtil.getAndroidId(requireContext()),
         appVersion = BuildConfig.VERSION_NAME,
-        signLeakages = spinnerLeakageCheck.toString(),
+        signLeakages = spinnerLeakageCheck.selectedItem.toString(),
         signLeakagesImage = base64LeakageImage ?: "",
-        stairsProtection = spinnerProtectionStairs.toString(),
+        stairsProtection = spinnerProtectionStairs.selectedItem.toString(),
         stairsProtectionImage = base64StairsImage ?: "",
-        dduConformance = spinnerDDUConformance.toString(),
-        centerSafety = spinnerCandidateSafety.toString(),
+        dduConformance = spinnerDDUConformance.selectedItem.toString(),
+        centerSafety = spinnerCandidateSafety.selectedItem.toString(),
         tcId = centerId,
         sanctionOrder = sanctionOrder
     )
@@ -2604,8 +2701,7 @@ private fun submitGeneralDetails() {
         val longitude = view?.findViewById<TextInputEditText>(R.id.etLongitude)?.text.toString()
 
         // For geoAddress, assuming you have an EditText or a way to get this value
-        val geoAddress =
-            "Jeevan Bharti Building Delhi - 110001"  // Replace with actual input if available
+        val geoAddress = ""  // Replace with actual input if available
 
         val request = TcBasicInfoRequest(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),

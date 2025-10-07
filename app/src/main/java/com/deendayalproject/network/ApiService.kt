@@ -21,12 +21,14 @@ import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
+import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
 import com.deendayalproject.model.response.SupportInfrastructureResponse
@@ -182,6 +184,11 @@ interface ApiService {
     @POST(value ="insertQTeamVerification")
     suspend fun insertSrlmVerification(@Body request: TcQTeamInsertReq) : Response<InsertTcGeneralDetailsResponse>
 
+    @POST(value ="trainingCenterFinalInsert")
+    suspend fun getFinalSubmitData(@Body request: TrainingCenterInfo) : Response<FinalSubmitRes>
+
+    @POST(value ="getTcSectionStatus")
+    suspend fun getSectionsStatus(@Body request: TrainingCenterInfo) : Response<SectionStatusRes>
 }
 
 
