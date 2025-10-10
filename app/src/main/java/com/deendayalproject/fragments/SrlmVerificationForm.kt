@@ -3756,62 +3756,44 @@ class SrlmVerificationForm : Fragment() {
 
                         for (x in dataInfra) {
 
-                            binding.availOfStandardFormsLayout.yesNoPlanOfTraining.text= x.trainingPlan
-                            binding.availOfStandardFormsLayout.yesNoLessonPlanner.text= x.aclp
-                            binding.availOfStandardFormsLayout.yesNoOnJobTraining.text= x.batchJobTrainingPlan
-                            binding.availOfStandardFormsLayout.yesNoDailyTablets.text= x.tabletsDistribution
-                            binding.availOfStandardFormsLayout.yesNoCenterNameBoard.text= x.trainingCenterName
-                            binding.availOfStandardFormsLayout.yesNoActivitySummary.text= x.achievementBoard
-                            binding.availOfStandardFormsLayout.yesNoContactDetails.text= x.impContactDetails
-                            binding.availOfStandardFormsLayout.yesNoStudentEntitlementBanner.text= x.studentEntitlement
-                            binding.availOfStandardFormsLayout.yesNoWelcomeKit.text= x.welcomeKit
-                            binding.availOfStandardFormsLayout.yesNoFirstAidKit.text= x.firstAidKit
-                            binding.availOfStandardFormsLayout.yesNoStaffSummary.text= x.deployedStaffSummary
-                            binding.availOfStandardFormsLayout.yesNoTrainersProfile.text= x.trainersProfile
-                            binding.availOfStandardFormsLayout.yesNoCandidateIDTemplate.text= x.candidateIdTemplate
-                            binding.availOfStandardFormsLayout.yesNoCandidateDossierIndex.text= x.invCandidateDossier
-                            binding.availOfStandardFormsLayout.yesNoParentsConsentForm.text= x.parentsConsentForm
-                            binding.availOfStandardFormsLayout.yesNoBatchSummaryFreezing.text= x.batchFreeze
-                            binding.availOfStandardFormsLayout.yesNoCandidateListBatch.text= x.candidateProfileList
-                            binding.availOfStandardFormsLayout.yesNoCandidateAttendanceRegister.text= x.candidateAttendRegBio
-                            binding.availOfStandardFormsLayout.yesNoTrainerAttendanceRegister.text= x.trainersAttendRegBoi
-                            binding.availOfStandardFormsLayout.yesNoItemsChecklist.text= x.candidateChecklistItem
-                            binding.availOfStandardFormsLayout.yesNoCandidateFeedbackForm.text= x.candidateFeedbackForm
-                            binding.availOfStandardFormsLayout.yesNoFeedbackSummary.text= x.candidateFeedbackSummery
-                            binding.availOfStandardFormsLayout.yesNoEvaluationSummary.text= x.evaluationAssessmentSumm
-                            binding.availOfStandardFormsLayout.yesNoTADARecord.text= x.tadaCalcRecord
-                            binding.availOfStandardFormsLayout.yesNoTrainingCertificate.text= x.trainingCertificate
-                            binding.availOfStandardFormsLayout.yesNoTrainingCompletionCertificateRecord.text= x.trainingCompCertDisbRecord
-                            binding.availOfStandardFormsLayout.yesNoEquipmentTrainingCentre.text= x.equipmentList
-                            binding.availOfStandardFormsLayout.yesNoEquipmentAccommodation.text= x.tafEquipment
-                            binding.availOfStandardFormsLayout.yesNoOpeningHybridCentres.text= x.hybridTraingCtrOpenInstruct
-                            binding.availOfStandardFormsLayout.yesNoBareMinimumItems.text= x.dueDiligenceVisit
-                            binding.availOfStandardFormsLayout.yesNoTrainingCentreInspection.text= x.tcInspection
-                            binding.availOfStandardFormsLayout.yesNoCCTVSpecifications.text= x.cctvRecording
-                            binding.availOfStandardFormsLayout.yesNoUniformSpec.text= x.uniformSpecific
-                            binding.availOfStandardFormsLayout.yesNoAssessmentCertification.text= x.candidateCertificateAsmt
-                            binding.availOfStandardFormsLayout.yesNoLetterSRLMInfo.text= x.letterToMobilizationPlan
-                            binding.availOfStandardFormsLayout.yesNoLetterFromSRLM.text= x.letterFromMobilizationPlan
-                            binding.availOfStandardFormsLayout.yesNoOnFieldRegistration.text= x.candidateOnFieldReg
-                            binding.availOfStandardFormsLayout.yesNoOverviewAptitudeTest.text= x.aptitudeTest
-                            binding.availOfStandardFormsLayout.yesNoContentCounselling.text= x.tradeCounsellingTrade
-                            binding.availOfStandardFormsLayout.yesNoCandidateApplicationForm.text= x.candidateAppForm
-                            binding.availOfStandardFormsLayout.yesNoCandidatesAdmitted.text= x.admittedCandidateList
-                            binding.availOfStandardFormsLayout.yesNoFinalBatchCandidates.text= x.finalBatchCandidateList
-                            binding.availOfStandardFormsLayout.yesNoBatchDetails.text= x.batchDetails
-                            binding.availOfStandardFormsLayout.yesNoBatchEnrollmentSummary.text= x.batchEnrollSumm
-                            binding.availOfStandardFormsLayout.yesNoBatchFreezeSummary.text= x.batchFreezeSumm
-                            binding.availOfStandardFormsLayout.yesNoBatchCompletionSummary.text= x.batchComletionSumm
-                            binding.availOfStandardFormsLayout.yesNoCandidatesEnrolled.text= x.enrollCandidateList
-                            binding.availOfStandardFormsLayout.yesNoCandidatesAfterFreezing.text= x.candidateListAfterBatchFreeze
-                            binding.availOfStandardFormsLayout.yesNoCandidatesAfterCompletion.text= x.candidateListAfCompTrainBatch
-                            binding.availOfStandardFormsLayout.yesNoDailyFailureReport.text= x.failureItemReport
-                            binding.availOfStandardFormsLayout.yesNo15DaysSummary.text= x.daysCenterSumm
+                            binding.availOfStandardFormsLayout.yesNoPlanOfTraining.text = x.trainingPlan
+                            binding.availOfStandardFormsLayout.yesNoLessonPlanner.text = x.aclp
+                            binding.availOfStandardFormsLayout.yesNoOnJobTraining.text = x.batchJobTrainingPlan
+                            binding.availOfStandardFormsLayout.yesNoDailyTablets.text = x.tabletsDistribution
+                            binding.availOfStandardFormsLayout.yesNoStudentEntitlementBanner.text = x.studentEntitlement
+                            binding.availOfStandardFormsLayout.yesNoParentsConsentForm.text = x.parentsConsentForm
+                            binding.availOfStandardFormsLayout.yesNoCandidateAttendanceRegister.text = x.candidateAttendRegBio
+                            binding.availOfStandardFormsLayout.yesNoTrainerAttendanceRegister.text = x.trainersAttendRegBoi
+                            binding.availOfStandardFormsLayout.yesNoItemsChecklist.text = x.candidateChecklistItem
+                            binding.availOfStandardFormsLayout.yesNoEvaluationSummary.text = x.evaluationAssessmentSumm
+                            binding.availOfStandardFormsLayout.yesNoTADARecord.text = x.tadaCalcRecord
+                            binding.availOfStandardFormsLayout.yesNoTrainingCertificate.text = x.trainingCertificate
+                            binding.availOfStandardFormsLayout.yesNoTrainingCompletionCertificateRecord.text = x.trainingCompCertDisbRecord
+                            binding.availOfStandardFormsLayout.yesNoEquipmentTrainingCentre.text = x.equipmentList
+                            binding.availOfStandardFormsLayout.yesNoEquipmentAccommodation.text = x.tafEquipment
+                            binding.availOfStandardFormsLayout.yesNoTrainingCentreInspection.text = x.tcInspection
+                            binding.availOfStandardFormsLayout.yesNoAssessmentCertification.text = x.candidateCertificateAsmt
+                            binding.availOfStandardFormsLayout.yesNoLetterSRLMInfo.text = x.letterToMobilizationPlan
+                            binding.availOfStandardFormsLayout.yesNoLetterFromSRLM.text = x.letterFromMobilizationPlan
+                            binding.availOfStandardFormsLayout.yesNoOnFieldRegistration.text = x.candidateOnFieldReg
+                            binding.availOfStandardFormsLayout.yesNoOverviewAptitudeTest.text = x.aptitudeTest
+                            binding.availOfStandardFormsLayout.yesNoCandidateApplicationForm.text = x.candidateAppForm
+                            binding.availOfStandardFormsLayout.yesNoTrainersProfile.text = x.trainerProfile
+                            binding.availOfStandardFormsLayout.yesNoCandidatesEnrolled.text = x.enrolledCandidateList
 
-
-
-
-
+                            // 🔹 Additional fields from API (make sure to add TextViews for these in XML)
+                            binding.availOfStandardFormsLayout.yesNoCandidateDossierIndex.text = x.indexInvdcandidateDossier
+                            binding.availOfStandardFormsLayout.yesNoPerformanceCan.text = x.prfEvelPlanCandidate
+                            binding.availOfStandardFormsLayout.yesNoListOfCandidateAfterBatchFreezing.text = x.candidateAfterBatchFreeze
+                            binding.availOfStandardFormsLayout.yesNoDailyFailureReport.text = x.dailyFailureItemReport
+                            binding.availOfStandardFormsLayout.yesNo15DaysSummary.text = x.days15Summery
+                            binding.availOfStandardFormsLayout.yesNoContentCounselling.text = x.tradeCounselling
+                            binding.availOfStandardFormsLayout.yesNoCandidateIDTemplate.text = x.candidateIdTemp
+                            binding.availOfStandardFormsLayout.yesNoStaffSummary.text = x.deployedStaffSumm
+                            binding.availOfStandardFormsLayout.yesNoDullyIfApplicable.text = x.dulySignedformProofApplicable
+                            binding.availOfStandardFormsLayout.yesNoPerformanceTrainer.text = x.prfEvelPlanTrainers
+                            binding.availOfStandardFormsLayout.yesNoDully.text = x.dulySignedformProof
+                            binding.availOfStandardFormsLayout.yesNoIpEnabled.text = x.ipEnabledCamera
                         }
 
                     }

@@ -1,0 +1,944 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!--        <include-->
+        <!--            layout="@layout/toolbar_layout"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginBottom="@dimen/dp_16" />-->
+
+        <!-- (ROHIT): TC BASIC INFORMATION 1-->
+
+        <!--    <RelativeLayout-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:background="@color/color_dark_blue"-->
+        <!--        android:orientation="vertical">-->
+
+        <!--&lt;!&ndash;        <com.google.android.material.imageview.ShapeableImageView&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:id="@+id/backButton"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_marginTop="@dimen/dp_10"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_centerVertical="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:layout_marginStart="@dimen/dp_20"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:padding="@dimen/dp_5"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:scaleType="fitCenter"&ndash;&gt;-->
+        <!--&lt;!&ndash;            android:src="@drawable/back_arrow" />&ndash;&gt;-->
+
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="@string/it_lab"-->
+        <!--            android:layout_marginTop="@dimen/dp_10"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:textColor="@color/white"-->
+        <!--            android:textSize="@dimen/sp_16" />-->
+        <!--    </RelativeLayout>-->
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_gravity="center"
+            android:text="@string/office_cum_counselling_room"
+            android:gravity="center"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/layoutTCBasicInfoContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp">
+
+            <!-- Your existing fields here ... -->
+
+            <!-- Add the new Excel fields below -->
+
+
+
+            <!-- type_of_roof -->
+
+            <!--            -->
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_4"-->
+            <!--                android:layout_marginEnd="@dimen/dp_4"-->
+            <!--                android:hint="@string/type_of_roof"-->
+            <!--                android:paddingTop="8dp">-->
+
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/etTypeofRoofItLab"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:inputType="text" />-->
+
+            <!--                <ImageView-->
+            <!--                    android:layout_width="100dp"-->
+            <!--                    android:src="@drawable/no_image"-->
+            <!--                    android:id="@+id/imgTypeofRoom"-->
+            <!--                    android:layout_marginTop="@dimen/dp_10"-->
+            <!--                    android:layout_marginStart="@dimen/dp_4"-->
+            <!--                    android:layout_marginEnd="@dimen/dp_4"-->
+            <!--                    android:layout_height="100dp"/>-->
+
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <!--            OfficeRoomPhotograph-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/office_room_photograph"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/office_room_photograph"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOfficeRoomPhotograph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of OfficeRoomPhotograph -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/office_cum_proof_of_office_room_photogragh"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnUploadOfficeRoomPhotograph"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewOfficeRoomPhotograph"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/office_cum_proof_of_office_room_photogragh"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+            <!--            type_of_roof-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/type_of_roof"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/type_of_roof"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOfficeCumTypeofRoofItLab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of Male Toilets (Upload) -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_type_of_roof"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnUploadOfficeCumTypeofRoofItLab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewOfficeCumTypeofRoofItLab"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="Preview Male Toilets Proof"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+
+
+            <!-- FalseCeilingProvided -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/false_ceiling_label"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerOfficeCumFalseCellingProvide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/false_ceiling_label"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etOfficeCumFalseCellingProvide"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <!-- Proof of FalseCeilingProvided  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_false_celling"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnOfficeCumFalseCellingProvide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewOfficeCumFalseCellingProvide"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_false_celling"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+            <!-- HeightofCeiling -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/height_of_ceiling"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/height_of_ceiling"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOfficeCumHeightOfCelling"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of HeightofCeiling  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_height_celling_in_ft"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnOfficeCumHeightOfCelling"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewOfficeCumHeightOfCelling"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_height_celling_in_ft"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+            <!--SplaceforSecuringDoc-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/storage_place_for_securing_documents"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/storage_place_for_securing_documents"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOfficeCumSplaceforSecuringDoc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of HeightofCeiling  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/office_cum_proof_of_storage_place_for"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnOfficeCumSplaceforSecuringDoc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewOfficeCumSplaceforSecuringDoc"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/office_cum_proof_of_storage_place_for"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+
+
+
+            <!-- OfficeCumAnOfficeTableNo-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/an_office_table_in_no"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/an_office_table_in_no"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOfficeCumAnOfficeTableNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of OfficeCumAnOfficeTableNo  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/office_cum_proof_of_an_office_table_no"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnOfficeCumAnOfficeTableNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewOfficeCumAnOfficeTableNo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/office_cum_proof_of_an_office_table_no"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+            <!-- Chairs"-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/chairs_in_no"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/chairs_in_no"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOfficeCumChairs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of Chairs  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/office_cum_proof_of_chairs_in_no"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnOfficeCumChairs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewOfficeCumChairs"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/office_cum_proof_of_chairs_in_no"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--table_for_office_computer-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/table_for_office_computer"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerOfficeCumTableOfofficeCumpter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/table_for_office_computer"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etOfficeCumTableOfofficeCumpter"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <!-- Proof of whether_all_the_academic  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/office_cum_proof_of_table_for_office_computer"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnOfficeCumTableOfofficeCumpter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewOfficeCumTableOfofficeCumpter"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/office_cum_proof_of_table_for_office_computer"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+            <!-- OfficeCumPrinterCumScannerInNo-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/printer_cum_scanner_in_no"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/printer_cum_scanner_in_no"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOfficeCumPrinterCumScannerInNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of OfficeCumPrinterCumScannerInNo  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/office_cum_proof_of_printer_cum_scanner"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnOfficeCumPrinterCumScannerInNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewOfficeCumPrinterCumScannerInNo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/office_cum_proof_of_printer_cum_scanner"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+            <!-- digital_camera_in_no-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/digital_camera_in_no"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/digital_camera_in_no"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOfficeCumDigitalCameraInNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of InternalSignage  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/office_cum_proof_of_digital_camera_in_no"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnOfficeCumDigitalCameraInNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewOfficeCumDigitalCameraInNo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/office_cum_proof_of_digital_camera_in_no"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+            <!-- OfficeCumElectricialPowerBackup-->
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/electrica_power_back_up_for_the_room"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerOfficeCumLepbftr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Proof of OfficeCumElectricialPowerBackup  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/office_cum_proof_of_electrical_power_back_up_for_the_room"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnOfficeCumElectricialPowerBackup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewOfficeCumElectricialPowerBackup"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/office_cum_proof_of_electrical_power_back_up_for_the_room"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+
+            <Button
+                android:id="@+id/btnSubmitOCRDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_5"
+                android:backgroundTint="?attr/colorPrimary"
+                android:text="@string/submit"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

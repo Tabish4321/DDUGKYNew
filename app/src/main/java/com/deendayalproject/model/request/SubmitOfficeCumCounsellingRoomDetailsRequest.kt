@@ -1,0 +1,36 @@
+package com.deendayalproject.model.request
+
+data class SubmitOfficeCumCounsellingRoomDetailsRequest(
+    var loginId: String = "",
+    var imeiNo: String = "",
+    var appVersion: String = "",
+    var tcId: String = "",
+    var sanctionOrder: String = "",
+    var roomType: String = "",
+    var roomLength:String = "",
+    var roomWidth:String = "",
+    var roomArea: String = "",
+    var roofType: String = "",
+    var roofTypeAttachment: String = "",
+    var falseCeiling: String = "",
+    var falseCeilingAttachment: String = "",
+    var ceilingHeight: String = "",
+    var ceilingHeightAttachment: String = "",
+    var storageSecuringDocument: String = "",
+    var storageSecuringDocumentAttachment: String = "",
+    var officeTable: String = "",
+    var officeTableAttachment: String = "",
+    var officeChair:String = "",
+    var officeChairAttachment: String = "",
+    var officeComputerTable:String = "",
+    var officeComputerTableAttachment: String = "",
+    var printerScannerAcademic:String = "",
+    var printerScannerAttachment: String = "",
+    var digitalCameraAcademic:String = "",
+    var digitalCameraAttachment: String = "",
+    var electricalPowerBackup: String = "",
+    var electricalPowerBackupAttachment: String = "",
+    var roomPhotograph: String = "",
+    var roomPhotographAttachment: String = ""
+)
+

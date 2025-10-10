@@ -1,0 +1,1675 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_gravity="center"
+            android:text="@string/domain_lab"
+            android:gravity="center"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/layoutTCBasicInfoContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp">
+            <!--            type_of_roof-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/type_of_roof"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/type_of_roof"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLTypeofRoofItLab"
+                    android:layout_width="match_parent"
+                    android:layout_height="57dp"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of Male Toilets (Upload) -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_type_of_roof"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLTypeofRoofItLab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLTypeofRoofItLab"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="Preview Male Toilets Proof"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+
+
+
+            <!-- FalseCeilingProvided -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/false_ceiling_label"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/false_ceiling_label"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLFalseCellingProvide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of FalseCeilingProvided  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_false_celling"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLFalseCellingProvide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLFalseCellingProvide"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_false_celling"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+            <!-- HeightofCeiling -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/height_of_ceiling"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/height_of_ceiling"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLHeightOfCelling"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of HeightofCeiling  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:visibility="gone"
+                android:paddingTop="8dp"
+                android:text="@string/proof_of_height_celling_in_ft"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLHeightOfCelling"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLHeightOfCelling"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_height_celling_in_ft"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+            <!--VentilationAreaInSqFt-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/ventilation_area"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/ventilation_area"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLVentilationAreaInSqFt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of HeightofCeiling  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_ventilation_area_sq_ft"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLVentilationAreaInSqFt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLVentilationAreaInSqFt"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_ventilation_area_sq_ft"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+            <!-- SoundLevelAsPerSpecifications-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/sound_level_as_per_specifications"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/sound_level_as_per_specifications"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLSoundLevelAsPerSpecifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of HeightofCeiling  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+
+                android:visibility="gone"
+                android:text="@string/proof_of_sound_level_as_per_specifications"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLSoundLevelAsPerSpecifications"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLSoundLevelAsPerSpecifications"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_sound_level_as_per_specifications"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+            <!-- SoundLevelInDb-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/sound_level_in_db"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/sound_level_in_db"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLSoundLevelInDb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of HeightofCeiling  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_sound_level_in_db"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLSoundLevelInDb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLSoundLevelInDb"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_sound_level_in_db"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+            <!--whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerDLwhether_all_the_academic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etDLwhether_all_the_academic"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <!-- Proof of whether_all_the_academic  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_whether_all"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLwhether_all_the_academic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLwhether_all_the_academic"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_whether_all"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+            <!-- AcademicRoomInformationBoard-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/academic_room_information_board"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerDLAcademicRoomInformationBoard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/academic_room_information_board"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etDLAcademicRoomInformationBoard"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <!-- Proof of AcademicRoomInformationBoard  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/proof_of_academic_room_information_board"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLAcademicRoomInformationBoard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLAcademicRoomInformationBoard"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_academic_room_information_board"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+            <!-- InternalSignage-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/academic_room_information_board"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerDLInternalSignage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/internal_signage"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etDLInternalSignage"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <!-- Proof of InternalSignage  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:visibility="gone"
+                android:paddingTop="8dp"
+                android:text="@string/proof_of_internal_signage"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLInternalSignage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLInternalSignage"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_internal_signage"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+            <!-- CctcCamerasWithAudioFacility-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/academic_room_information_board"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerDLCctcCamerasWithAudioFacility"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/cctc_cameras_with_audio_facility"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etDLCctcCamerasWithAudioFacility"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <!-- Proof of CctcCamerasWithAudioFacility  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:visibility="gone"
+                android:paddingTop="8dp"
+                android:text="@string/proof_of_cctc_cameras_audio_facility"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLCctcCamerasWithAudioFacility"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLCctcCamerasWithAudioFacility"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_cctc_cameras_audio_facility"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+            <!-- LanEnabledComputersInNo-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/lcd_digital_projector"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/lcd_digital_projector"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLLcdDigitalProjector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of LanEnabledComputersInNo  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:visibility="gone"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/proof_of_lcd_digital_projector"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLLcdDigitalProjector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLLcdDigitalProjector"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_lcd_digital_projector"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+            <!-- InternetConnections"-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/chair_for_candidates_in_no"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/chair_for_candidates_in_no"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLChairForCandidatesInNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of InternetConnections  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_chair_for_candidates"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLChairForCandidatesInNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLChairForCandidatesInNo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_chair_for_candidates"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+
+            <!-- TrainerChair"-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/trainer_chair"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/trainer_chair"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLTrainerChair"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of TrainerChair  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_triner_chairs"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLUploaadTrainerChair"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLTrainerChair"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_triner_chairs"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+            <!-- TrainerTable"-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/trainer_table"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/trainer_table"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLTrainerTable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of TrainerTable  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_triner_table"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLTrainerTable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLTrainerTable"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_triner_table"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+            <!-- LightsInNo"-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/writing_board"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/writing_board"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLWritingBoard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of LightsInNo  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_writing_board"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLWritingBoard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLWritingBoard"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_writing_board"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+            <!-- LightsInNo"-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/lights_in_no"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/lights_in_no"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLLightsInNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of LightsInNo  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:visibility="gone"
+                android:paddingTop="8dp"
+                android:text="@string/proof_of_lights_in_no"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLLightsInNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLLightsInNo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_lights_in_no"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+            <!-- FansInNo"-->
+            <!-- LightsInNo"-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/fans_in_no"
+                android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/fans_in_no"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLFansInNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of FansInNo  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_fans_in_no"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLFansInNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLFansInNo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_fans_in_no"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+            <!-- ElectricaPowerBackUpForThRoom"-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/electrica_power_back_up_for_the_room"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerDLElectricaPowerBackUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Proof of ElectricaPowerBackUpForThRoom  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/proof_of_electrical_power_backup_for_the_room"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLElectricaPowerBackUpForThRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLElectricaPowerBackUpForThRoom"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_electrical_power_backup_for_the_room"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- ListofDomain"-->
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/list_of_domain_related_equip"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerDLListofDomain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/list_of_domain_related_equip"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etDLILListofDomain"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <!-- Proof of ItLabPhotograph  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:visibility="gone"
+                android:paddingTop="8dp"
+                android:text="@string/proof_of_it_list_of_domain"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLILListofDomain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLILListofDomain"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_it_list_of_domain"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+
+
+
+            <!-- ItLabPhotograph"-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/domain_lab_photogragh"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDLDomainLabPhotogragh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Proof of ItLabPhotograph  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:visibility="gone"
+                android:paddingTop="8dp"
+                android:text="@string/proof_of_doman_lab_photograph"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLDomainLabPhotogragh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLDomainLabPhotogragh"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/proof_of_doman_lab_photograph"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+            <!--Does the room has Air Conditioning-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+
+                android:text="@string/does_the_room_has_air_conditioning"
+                android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/spinnerDLDoes_the_room_has"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/does_the_room_has_air_conditioning"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etTCDLDoes_the_room_has"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <!-- Proof of ItLabPhotograph  -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:visibility="gone"
+                android:paddingTop="8dp"
+                android:text="@string/office_cum_proof_of_does_the_room_has_air_conditioning"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <Button
+                    android:id="@+id/btnDLDoes_the_room_has"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewDLDoes_the_room_has"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/office_cum_proof_of_does_the_room_has_air_conditioning"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- ItLabPhotograph"-->
+
+            <Button
+                android:id="@+id/btnSubmitDL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_5"
+                android:backgroundTint="?attr/colorPrimary"
+                android:text="@string/submit"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

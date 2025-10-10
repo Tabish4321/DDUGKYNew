@@ -2,16 +2,26 @@ import android.content.Context
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.deendayalproject.model.LoginErrorResponse
+import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
+import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
+import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
+import com.deendayalproject.model.request.ITLabDetailsRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
+import com.deendayalproject.model.request.OfficeRoomDetailsRequest
+import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.StateRequest
+import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
+import com.deendayalproject.model.request.TCDLRequest
+import com.deendayalproject.model.request.TCITLDomainLabDetailsRequest
+import com.deendayalproject.model.request.TCRRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TcAvailabilitySupportInfraRequest
 import com.deendayalproject.model.request.TcBasicInfoRequest
@@ -21,6 +31,7 @@ import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
@@ -32,6 +43,7 @@ import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GpResponse
+import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
@@ -159,8 +171,8 @@ class CommonRepository(private val context: Context) {
         }
     }
     suspend fun submitCCTVDataToServer(request: CCTVComplianceRequest, token: String): Result<CCTVComplianceResponse>   = withContext(Dispatchers.IO) {
-         try {
-             "Bearer $token"
+        try {
+            "Bearer $token"
             val response = apiService.insertCCTVCompliance(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
@@ -177,8 +189,8 @@ class CommonRepository(private val context: Context) {
         request: ElectricalWiringRequest,
         token: String
     ): Result<ElectircalWiringReponse> = withContext(Dispatchers.IO)  {
-         try {
-             "Bearer $token"
+        try {
+            "Bearer $token"
             val response = apiService.insertTcElectricWiringStandard(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
@@ -195,8 +207,8 @@ class CommonRepository(private val context: Context) {
         request: InsertTcGeneralDetailsRequest,
         token: String
     ): Result<InsertTcGeneralDetailsResponse> = withContext(Dispatchers.IO) {
-         try {
-             "Bearer $token"
+        try {
+            "Bearer $token"
             val response = apiService.insertTcGeneralDetails(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
@@ -209,7 +221,7 @@ class CommonRepository(private val context: Context) {
         }
     }
 
- // wash bain info
+    // wash bain info
     suspend fun submitWashbsinDataToServer(request: ToiletDetailsRequest, token: String): Result<ToiletDetailsErrorResponse> = withContext(Dispatchers.IO) {
         try {
             "Bearer $token"
@@ -230,8 +242,8 @@ class CommonRepository(private val context: Context) {
         request: TcBasicInfoRequest,
         token: String
     ): Result<InsertTcBasicInfoResponse> = withContext(Dispatchers.IO)  {
-         try {
-             "Bearer $token"
+        try {
+            "Bearer $token"
             val response = apiService.insertTcBasicInfo(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
@@ -334,7 +346,7 @@ class CommonRepository(private val context: Context) {
 
     suspend fun getTrainerCenterInfo(request: TrainingCenterInfo) : Result<TrainingCenterInfoRes>{
         return try {
-           // val bearerToken = "Bearer $token"
+            // val bearerToken = "Bearer $token"
             val response = apiService.getTrainerCenterInfo(request)
             if (response.isSuccessful){
                 response.body()?.let { Result.success(it) }
@@ -383,7 +395,7 @@ class CommonRepository(private val context: Context) {
 
 
 
-        suspend fun getTcAcademicNonAcademicArea(request: TrainingCenterInfo) : Result<TcAcademiaNonAcademiaRes>{
+    suspend fun getTcAcademicNonAcademicArea(request: TrainingCenterInfo) : Result<TcAcademiaNonAcademiaRes>{
         return try {
             // val bearerToken = "Bearer $token"
             val response = apiService.getTcAcademicNonAcademicArea(request)
@@ -546,7 +558,7 @@ class CommonRepository(private val context: Context) {
     }
 
 
-        suspend fun getAvailabilityStandardForms(request: TrainingCenterInfo) : Result<StandardFormResponse>{
+    suspend fun getAvailabilityStandardForms(request: TrainingCenterInfo) : Result<StandardFormResponse>{
         return try {
             // val bearerToken = "Bearer $token"
             val response = apiService.getAvailabilityStandardForms(request)
@@ -639,7 +651,7 @@ class CommonRepository(private val context: Context) {
     }
 
     suspend fun getStateList(request: StateRequest,
-        token: String
+                             token: String
     ): Result<StateResponse> {
         return try {
             val response = apiService.getStateList(request)
@@ -705,5 +717,238 @@ class CommonRepository(private val context: Context) {
             Result.failure(e)
         }
     }
+
+
+//    Ajit Ranjan TL LAB
+
+
+
+
+    //TL LAB basic info
+    suspend fun submitDesriptionAcademicNonDataToServer(
+        request: AcademicNonAcademicArea,
+        token: String
+    ): Result<AcademicNonAcademicResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.getTcAcademicNonAcademic(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+    //TL LAB basic info
+    suspend fun submitITLabDataToServer(
+        request: ITLabDetailsRequest,
+        token: String
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.insertITLabBasicInfo(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+
+    //    Office Cum(Counselling room)    Ajit Ranjan
+    suspend fun submitOfficeCumCounsellingroomDataToServer(
+        request: SubmitOfficeCumCounsellingRoomDetailsRequest,
+        token: String
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.insertOfficeCumCounsellingroomBasicInfo(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+
+
+
+    //    ReceptionArea    Ajit Ranjan
+    suspend fun submitReceptionAreaDataToServer(
+        request: ReceptionAreaRoomDetailsRequest,
+        token: String
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.insertReceptionAreaBasicInfo(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+
+
+
+
+
+
+    //    Office room    Ajit Ranjan
+    suspend fun submitOfficeRoomDataToServer(
+        request: OfficeRoomDetailsRequest,
+        token: String
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.insertOfficeroomBasicInfo(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+
+    //    IItComeDomainlab    Ajit Ranjan
+    suspend fun submitItComeDomainlabToServer(
+        request: ITComeDomainLabDetailsRequest,
+        token: String
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.insertItComeDomainlabBasicInfo(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+//    Theory Cum IT Lab Lab
+
+
+    suspend fun submitTheoryCumITLabToServer(
+        request: TCITLDomainLabDetailsRequest,
+        token: String
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.inserttheorycumitlabBasicInfo(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+
+    //    Theory Cum Domain Lab Lab
+    suspend fun submitTheoryCumDomainLabToServer(
+        request: TCDLRequest,
+        token: String
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.inserttheorycumdomainlabBasicInfo(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+
+
+
+
+    //    Domain Lab
+    suspend fun submitDomainLabToServer(
+        request: DLRequest,
+        token: String
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.insertDomainLabBasicInfo(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+    //    Theory Class Room
+    suspend fun submitTheoryClassRoomToServer(
+        request: TCRRequest,
+        token: String
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.inserttheoryClassroomBasicInfo(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
 
 }

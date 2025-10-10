@@ -3,16 +3,26 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
+import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
+import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
+import com.deendayalproject.model.request.ITLabDetailsRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
+import com.deendayalproject.model.request.OfficeRoomDetailsRequest
+import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.StateRequest
+import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
+import com.deendayalproject.model.request.TCDLRequest
+import com.deendayalproject.model.request.TCITLDomainLabDetailsRequest
+import com.deendayalproject.model.request.TCRRequest
 import com.deendayalproject.model.request.TcAvailabilitySupportInfraRequest
 import com.deendayalproject.model.request.TcBasicInfoRequest
 import com.deendayalproject.model.request.TcCommonEquipmentRequest
@@ -22,6 +32,7 @@ import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
@@ -33,6 +44,7 @@ import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GpResponse
+import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
@@ -153,6 +165,64 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
 
     }
+
+
+
+
+    //itLab
+    private val _insertITTabDtails = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val insertITTabDtails: LiveData<Result<ITLAbDetailsErrorResponse>> = _insertITTabDtails
+
+
+    private val _AcademicNonAcademicResponse =
+        MutableLiveData<Result<AcademicNonAcademicResponse>>()
+    val AcademicNonAcademicResponse: LiveData<Result<AcademicNonAcademicResponse>> = _AcademicNonAcademicResponse
+
+
+
+
+
+    //Office Cum(Counselling room)
+    private val _OfficeCumCounsellingroom = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val OfficeCumCounsellingroom: LiveData<Result<ITLAbDetailsErrorResponse>> =
+        _OfficeCumCounsellingroom
+
+    //    ReceptionArea    Ajit Ranjan
+    private val _ReceptionAreaServices = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val ReceptionAreaServices: LiveData<Result<ITLAbDetailsErrorResponse>> = _ReceptionAreaServices
+
+
+
+    //Office  room
+    private val _Officeroom = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val Officeroom: LiveData<Result<ITLAbDetailsErrorResponse>> = _Officeroom
+
+    //IT Come Domain Lab
+    private val _ITComeDomainLab = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val ITComeDomainLab: LiveData<Result<ITLAbDetailsErrorResponse>> = _ITComeDomainLab
+
+
+    //   TheoryCumITLab
+    private val _TheoryCumITLab = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val TheoryCumITLab: LiveData<Result<ITLAbDetailsErrorResponse>> = _TheoryCumITLab
+
+    //    TheoryCumDomainLab
+    private val _TheoryCumDomainLab = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val TheoryCumDomainLab: LiveData<Result<ITLAbDetailsErrorResponse>> = _TheoryCumDomainLab
+
+
+
+    //    DomainLab
+    private val _DomainLab = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val DomainLab: LiveData<Result<ITLAbDetailsErrorResponse>> = _DomainLab
+
+    //    Theory Class Room
+    private val _TheoryClassRoom = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val TheoryClassRoom: LiveData<Result<ITLAbDetailsErrorResponse>> = _TheoryClassRoom
+    // Login API call
+
+
+
 
 
 
@@ -705,6 +775,156 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _gpList.postValue(result)
             _loading.postValue(false)
         }
+    }
+
+
+
+
+
+//    Ajit Ranjan (RecyclerView)
+
+
+    fun DesriptionAcademicNonList(request: AcademicNonAcademicArea, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitDesriptionAcademicNonDataToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _AcademicNonAcademicResponse.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    //    Ajit Ranjan (IT LAB)
+    //
+    fun SubmitITLABDataToServer(request: ITLabDetailsRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitITLabDataToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertITTabDtails.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    //    Office Cum(Counselling room)    Ajit Ranjan
+    fun SubmitOfficeCumCounsellingRoomDataToServer(
+        request: SubmitOfficeCumCounsellingRoomDetailsRequest,
+        token: String
+    ) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitOfficeCumCounsellingroomDataToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _OfficeCumCounsellingroom.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    //    ReceptionArea    Ajit Ranjan
+    fun SubmitReceptionAreaDataToServer(request: ReceptionAreaRoomDetailsRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitReceptionAreaDataToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _ReceptionAreaServices.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    //    Office Room   Ajit Ranjan
+    fun SubmitOfficeRoomDataToServer(request: OfficeRoomDetailsRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitOfficeRoomDataToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _Officeroom.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    //    IT Come Domain Lab   Ajit Ranjan
+    fun SubmitITComeDomainLabDataToServer(request: ITComeDomainLabDetailsRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitItComeDomainlabToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _ITComeDomainLab.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    //    Theory Cum IT Lab Lab
+    fun SubmitTheoryComeItLabDataToServer(request: TCITLDomainLabDetailsRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitTheoryCumITLabToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _TheoryCumITLab.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    //    Theory Cum Domain Lab Lab
+    fun SubmitTCDLDataToServer(request: TCDLRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitTheoryCumDomainLabToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _TheoryCumDomainLab.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    //    Domain Lab
+    fun SubmitDLDataToServer(request: DLRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitDomainLabToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _DomainLab.postValue(result)
+            _loading.postValue(false)
+        }
+
+    }
+
+
+
+    //    Theory Class Room
+    fun SubmitTheoryClassRoomDataToServer(request: TCRRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitTheoryClassRoomToServer(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _DomainLab.postValue(result)
+            _loading.postValue(false)
+        }
+
     }
 
 

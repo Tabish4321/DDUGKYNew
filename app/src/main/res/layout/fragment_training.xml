@@ -2329,12 +2329,7 @@
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
-                      <!--  android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:layout_margin="@dimen/dp_4"
-                        android:text="Upload photos" />-->
+
 
                     <ImageView
                         android:id="@+id/ivSafeDrinkingWaterPreview"
@@ -2378,12 +2373,7 @@
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
-                       <!-- android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:layout_margin="@dimen/dp_4"
-                        android:text="Upload photos" />-->
+
 
                     <ImageView
                         android:id="@+id/ivFireFightingEquipmentPreview"
@@ -2417,13 +2407,7 @@
                         android:background="@drawable/bg_upload_button"
                         android:text="Upload"
                         android:textSize="12sp" />
-                      <!--  android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_5"
-                        android:layout_marginEnd="@dimen/dp_5"
-                        android:layout_margin="@dimen/dp_4"
-                        android:text="Upload photos" />
--->
+
                     <ImageView
                         android:id="@+id/ivFirstAidKitPreview"
                         android:layout_width="match_parent"
@@ -2449,7 +2433,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!--Description of other areas12-->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardDescriptionOtherAreas"
             android:layout_width="match_parent"
@@ -2816,6 +2799,476 @@
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
+
+        <!--        Ajit Ranjan PMAY-G-->
+
+        <!--                description_of_academic_non_academic_areas-->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardDescriptionOfAcademic_NonAcademicAreas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="8dp"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/layoutdescription_of_academicContent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Header: Click to expand/collapse -->
+                <LinearLayout
+                    android:id="@+id/headerDescriptionOfAcademic_NonAcademicAreas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="12dp"
+                    android:paddingTop="20dp"
+                    android:background="?attr/selectableItemBackground">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/description_of_academic_non_academic_areas"
+                        android:drawableStart="@drawable/ic_training"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary" />
+
+
+
+
+                    <ImageView
+                        android:id="@+id/ivToggleDescriptionOfAcademic_NonAcademicAreas"
+                        android:layout_width="20dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_dropdown_arrow" />
+                </LinearLayout>
+
+                <!-- Content: All your fields inside this layout -->
+
+
+                <!--                description_of_academic_non_it_lab-->
+
+                <LinearLayout
+                    android:id="@+id/layoutDescriptionOfAcademic_NonAcademicAreas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+
+                        android:id="@+id/RecyclerViewData"
+                        android:layout_height="match_parent">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@+id/cardBeneficiaryDetails"
+                            android:id="@+id/RelativeLayout1"
+                            android:background="#554B49">
+
+
+                            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:padding="1dp"
+                                android:gravity="center"
+                                android:weightSum="4">
+
+                                <!-- Panchayat Name -->
+                                <TextView
+                                    android:id="@+id/textPanchayatName"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@string/roomtype"
+                                    android:textColor="@color/white" />
+
+                                <!-- Divider View -->
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="50dp"
+                                    android:background="#DCDCDC" />
+
+                                <!-- PMAYG ID -->
+                                <TextView
+                                    android:id="@+id/textPMAYGID"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@string/roomno"
+                                    android:textColor="@color/white" />
+
+                                <!-- Divider View -->
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="50dp"
+                                    android:background="#DCDCDC" />
+
+                                <!-- Beneficiary Name -->
+                                <TextView
+                                    android:id="@+id/textBeneficiaryName"
+                                    android:layout_width="0dp"
+                                    android:visibility="gone"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@string/roomlength"
+                                    android:textColor="@color/white" />
+
+                                <!-- Divider View -->
+                                <View
+                                    android:layout_width="1dp"
+                                    android:visibility="gone"
+                                    android:layout_height="50dp"
+                                    android:background="#DCDCDC" />
+                                <!--                                            android:background="?android:attr/dividerHorizontal"-->
+
+                                <!-- Priority -->
+                                <TextView
+                                    android:id="@+id/textPriority"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@string/roomarea"
+                                    android:textColor="@color/white" />
+
+
+
+
+
+                                <!-- Divider View -->
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="50dp"
+                                    android:background="#DCDCDC" />
+                                <!--                                            android:background="?android:attr/dividerHorizontal"-->
+
+                                <!-- Priority -->
+                                <TextView
+                                    android:id="@+id/TextViewDelete"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="Delete"
+                                    android:textColor="@color/white" />
+
+
+                            </LinearLayout>
+
+
+
+                        </RelativeLayout>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView"
+                            android:layout_marginTop="5dp"
+                            android:background="@color/white"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+
+                            />
+
+
+                    </LinearLayout>
+
+
+
+                    <Button
+                        android:id="@+id/btnSubmitAdddMore"
+                        android:layout_width="150dp"
+
+                        android:layout_gravity="right"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_5"
+                        android:layout_marginEnd="@dimen/dp_5"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="8dp"
+                        android:backgroundTint="?attr/colorPrimary"
+                        android:text="@string/add_more"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
+
+
+
+
+
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:id="@+id/LayoutLinear"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"/>
+
+                        <Spinner
+                            android:id="@+id/AcsdemicSpinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"/>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:hint="Room Type"
+                            android:paddingTop="8dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etroomType"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:hint="@string/length"
+                            android:paddingTop="8dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etLength"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:hint="@string/width"
+                            android:paddingTop="8dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etWidth"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:hint="@string/area"
+                            android:paddingTop="8dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/tvArea"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:id="@+id/lin_itlab"
+                            android:visibility="gone"
+                            android:layout_height="wrap_content">
+                            <include
+                                layout="@layout/description_of_academic_non_it_lab"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_16" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:id="@+id/lin_office_counselling_room"
+                            android:visibility="gone"
+                            android:layout_height="wrap_content">
+                            <include
+                                layout="@layout/description_of_academic_office_counselling_room"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_16" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:id="@+id/lin_non_reception"
+                            android:visibility="gone"
+                            android:layout_height="wrap_content">
+                            <include
+                                layout="@layout/description_of_academic_non_reception_area"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_16" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:id="@+id/lin_office_room"
+                            android:visibility="gone"
+                            android:layout_height="wrap_content">
+                            <include
+                                layout="@layout/description_of_academic_office_room"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_16" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:id="@+id/lin_theory_cum_it_lab"
+                            android:visibility="gone"
+                            android:layout_height="wrap_content">
+                            <include
+                                layout="@layout/ddescription_of_academic_non_theory_cum_it_lab"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_16" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:id="@+id/lin_theory_cum_domain_lab"
+                            android:visibility="gone"
+                            android:layout_height="wrap_content">
+                            <include
+                                layout="@layout/description_of_academic_non_theory_cum_domain_lab"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_16" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:id="@+id/lin_domain_lab"
+                            android:layout_height="wrap_content">
+                            <include
+                                layout="@layout/description_of_academic_non_domain_lab"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_16" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:id="@+id/lin_tcum_domain_lab"
+                            android:layout_height="wrap_content">
+                            <include
+                                layout="@layout/description_of_academic_non_it_cum_domain_lab"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_16" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:id="@+id/lin_theory_class_room"
+                            android:layout_height="wrap_content">
+                            <include
+                                layout="@layout/description_of_academic_non_theory_class_room"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_16" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:id="@+id/lin_counselling_room"
+                            android:visibility="gone"
+                            android:layout_height="wrap_content">
+                            <include
+                                layout="@layout/description_of_academic_non_counselling_room"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_16" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+
+
+
+
+
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+
+
 
         <Button
             android:id="@+id/btnSubmitFinal"

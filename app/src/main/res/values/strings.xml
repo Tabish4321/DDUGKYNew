@@ -411,14 +411,14 @@
 
     <string name="sf_4_5a_daily_distribution_of_tablets">SF 4.5A : Daily Distribution of Tablets</string>
 
-    <string name="sf_5_1a2_training_center_name_board">SF 5.1A2 : Training Center Name Board</string>
+    <string name="sf_5_1a2_training_center_name_board">SF 4.2O: (Dully filled and signed form along with proofs)</string>
 
-    <string name="sf_5_1b1_activity_summary_and_achievement_board">SF 5.1B1 : Activity Summary and Achievement Board</string>
+    <string name="sf_5_1b1_activity_summary_and_achievement_board">SF 4.2P: (Dully filled and signed form along with proofs) if applicable</string>
 
 
     <string name="sf_5_1b2_contact_details_of_important_people">SF 5.1B2 : Contact Details of Important People</string>
     <!-- SF 5.1C1 – SF 5.1C3 -->
-    <string name="sf_5_1c1_student_entitlement_banner">SF 5.1C1 : Student Entitlement Banner</string>
+    <string name="sf_5_1c1_student_entitlement_banner">SF 4.2N: Student Attendance and Entitlement Summary Information</string>
     <string name="sf_5_1c2_welcome_kit_to_trainees">SF 5.1C2 : Welcome Kit to Trainees</string>
     <string name="sf_5_1c3_first_aid_kit">SF 5.1C3 : First Aid Kit</string>
 
@@ -495,7 +495,7 @@
     <string name="sf_51o2_training_completion_certificate">SF 5.1O2 : Training Completion Certificate Distribution Record</string>
     <string name="sf_51q_equipment_accommodation">SF 5.1Q : List of Equipment in the Trainees Accommodation Facilities (Applicable for Residential Training only)</string>
     <string name="sf_51r_opening_hybrid_centres">SF 5.1R : Instructions for Opening Hybrid Training Centres</string>
-    <string name="sf_52b_cctv_specifications">SF 5.2B : CCTV- Specifications, Location and Recording, Review and Storage</string>
+    <string name="sf_52b_cctv_specifications">SF 4.2AH: IP Enabled Camera</string>
 
 
     <string name="sf_54a_assessment_certification">SF 5.4A : Assessment and Certification of Candidates</string>
@@ -505,7 +505,7 @@
     <string name="sf_62a1_overview_aptitude_test">SF 6.2A1 : Overview of Aptitude Test</string>
     <string name="sf_62a2_counselling_content">SF 6.2A2 : Content for Counselling for Each Trade</string>
     <string name="sf_62a3_candidate_application">SF 6.2A3 : Candidate Application Form</string>
-    <string name="sf_62a4_list_admitted_candidates">SF 6.2A4 : List of Candidates Who Were Admitted</string>
+    <string name="sf_62a4_list_admitted_candidates">SF 6.2A4 : List of Candidates Who Were Enrolled</string>
     <string name="sf_62b_final_batch_list">SF 6.2B : List of Candidates in the Final Batch</string>
     <string name="sf_63a1_batch_details">SF 6.3A1 : Batch Details</string>
     <string name="sf_63a2_batch_enrollment_summary">SF 6.3A2 : Batch Enrollment Summary</string>
@@ -528,10 +528,107 @@
     <string name="sf_62b_list_final_batch">SF 6.2B : List of Candidates in the Final Batch</string>
     <string name="sf_63a6_candidates_after_freezing">SF 6.3A6 : List of Candidates After Freezing of the Batch</string>
     <string name="sf_63a7_candidates_after_completion">SF 6.3A7 : List of Candidates After Completion of Training of the Batch</string>
-    <string name="submit">Submit</string>
+<!--    <string name="submit">Submit</string>-->
     <string name="switch_boards_and_panel_boards">Switch Boards and Panel Boards</string>
     <string name="storage_facility_to_keep_recording_till_project_closure">Storage Facility to keep recording till project closure</string>
     <string name="central_monitor_accessible_to_centre_incharge">Central Monitor accessible to Centre Incharge</string>
+    <string name="sf_4_3n_performance_evaluation_plan_for_candidates">SF 4.3N Performance Evaluation Plan for Candidates</string>
+    <string name="sf_4_3o_performance_evaluation_plan_for_trainers">SF 4.3O Performance Evaluation Plan for Trainers</string>
+    <string name="sf_4_3d_list_of_candidates_after_freezing_of_the_batch">SF 4.3D List of candidates after freezing of the batch</string>
+
+
+
+
+
+
+
+
+    <!--    AJIT RANJAN PMAY-G-->
+    <string name="submit">Submit</string>
+    <string name="add_more">Add More</string>
+    <string name="does_the_room_has_air_conditioning">Does the room has Air Conditioning ?</string>
+    <!--    <string name="it_lab_photograph">IT Lab Photogragh</string>-->
+    <string name="electrica_power_back_up_for_the_room">Electrical Power Back up for the Room</string>
+    <!--    <string name="fans">Fans (In No.)</string>-->
+    <!--    <string name="lights">Lights (In No.)</string>-->
+    <!--    <string name="trainer_table">Trainer Table</string>-->
+    <!--    <string name="trainer_chair">Trainer Chair</string>-->
+    <string name="stools_chairs">Stools/Chairs (In No.)</string>
+    <string name="tablets">Tablets (In No.)</string>
+    <!--    <string name="do_all_computers_have_typing_tutor">Do all Computers have Typing Tutor</string>-->
+    <!--    <string name="internet_connections">Internet Connections</string>-->
+    <string name="lan_enabled_computers">LAN Enabled Computers (In No.)</string>
+    <string name="cctc_cameras_with_audio_facility">CCTV Cameras with Audio Facility</string>
+    <!--    <string name="internal_signage">Internal Signage</string>-->
+    <!--    <string name="academic_room_information_board">Academic Room Information Board</string>-->
+    <string name="whether_all_the_academic_centres">Whether all the Academic Centres have been Sound Proofed with Air Conditioning</string>
+    <string name="sound_level">Sound level (In dB)</string>
+    <string name="sound_level_as_per_specifications">Sound level as per Specifications</string>
+    <string name="ventilation_area">Ventilation Area (In Sq. ft)</string>
+    <string name="height_of_ceiling">Height of Ceiling(In ft)</string>
+    <!--    <string name="false_ceiling_provided">False Ceiling Provided</string>-->
+    <string name="typeofroof_academic">Type of Roof</string>
+
+    <string name="description_of_academic_non_academic_areass">Description of Academic/Non-Academic Areas</string>
+    <string name="description_of_academic_non_academic_areas_length">Description of Academic/Non-Academic Areas/Length (In Ft.)</string>
+    <string name="description_of_academic_non_academic_areas_width">Description of Academic/Non-Academic Areas/Width (In Ft.)</string>
+    <string name="description_of_academic_non_academic_areas_area">Calculate Areas</string>
+    <string name="electrical_power_backup_for_the_office_room">Electrical Power Back up for Office Room</string>
+
+    <!--     Prrof of IT LAB -->
+
+    <string name="proof_of_type_of_roof">Proof of Type of Roof</string>
+    <string name="proof_of_false_celling">Proof of False Celling </string>
+    <string name="proof_of_height_celling_in_ft">Proof of False Celling </string>
+    <string name="proof_of_ventilation_area_sq_ft">Proof of Ventilation Area (In Sq.ft) Celling </string>
+    <string name="proof_of_sound_level_as_per_specifications">Proof of Sound Level As per Specifications</string>
+    <string name="proof_of_sound_level_in_db">Proof of Sound Level (In dB)</string>
+    <string name="proof_of_whether_all">Proof of Whether all the Academic Centres have been Sound Proofed with Air Conditioning</string>
+    <string name="proof_of_academic_room_information_board">Proof of Academic Room Information Board</string>
+    <string name="proof_of_internal_signage">Proof of Internal Signage</string>
+    <string name="proof_of_cctc_cameras_audio_facility">Proof of CCTV Cameras Audio Facility</string>
+    <string name="proof_of_lan_enabled_in_no">Proof of LAN Enabled (In No.)</string>
+    <string name="proof_of_lan_internet_conncetion">Proof of Internet Connection</string>
+    <string name="proof_of_tablets">Proof of Tablets</string>
+    <string name="proof_of_lan_do_all_computers_have_typing_tutor">Proof of Do all Computers have Typing Tutor</string>
+    <string name="proof_of_lan_tablets_in_no">Proof of Tablets(In No.)</string>
+    <string name="proof_of_stools_chairs_in_no">Proof of Stools/Chairs (In No.)</string>
+    <string name="proof_of_triner_chairs">Proof of Trainer Chair</string>
+    <string name="proof_of_triner_table">Proof of Trainer Table</string>
+    <string name="proof_of_lights_in_no">Proof of Lights(In No.)</string>
+    <string name="proof_of_writing_board_in_no">Proof of Writing Board(In No.)</string>
+    <string name="proof_of_fans_in_no">Proof of Fans(In No.)</string>
+    <string name="proof_of_writing_board">Proof of Writing Board</string>
+    <string name="proof_of_theory_class_room_photograph">Proof of Theory Class Room Photograph</string>
+    <string name="proof_of_theory_cum_domain_lab">Proof of Theory Cum Domain Lab Photograph</string>
+    <string name="proof_of_doman_lab_photograph">Proof of Domain Lab Photograph</string>
+    <string name="proof_of_chair_for_candidates">Proof of Chair for Candidates (In No.)</string>
+    <string name="proof_of_lcd_digital_projector">Proof of LCD/Digital Projector</string>
+    <string name="proof_of_theory_cum_it_Lab_photograph">Proof of Theory Cum IT Lab Photograph</string>
+    <string name="proof_of_electrical_power_backup_for_the_room">Proof of Electrical Power Backup for the Room</string>
+    <string name="proof_of_it_lab_photograph">Proof of IT Lab Photograph</string>
+    <string name="proof_of_it_list_of_domain">Proof of List of Domain Related Equipment as per Specifications given by Certifying Agency (In No.)</string>
+
+    <!--     Office Cum Counselling room -->
+
+    <string name="office_cum_proof_of_does_the_room_has_air_conditioning">Proof of Does the room has Air Conditioning ?</string>
+    <string name="office_cum_proof_of_office_room_photogragh">Proof of Office Room Photogragh</string>
+    <string name="office_cum_proof_of_type_of_roof">Proof of Type of Roof</string>
+    <string name="office_cum_proof_of_an_office_table_no">Proof of An Office Table (In No.)</string>
+    <string name="office_cum_proof_of_storage_place_for">Proof of Storage Place for Securing Documents</string>
+    <string name="office_cum_proof_of_chairs_in_no">Proof of Chairs (In No.)</string>
+    <string name="office_cum_proof_of_table_for_office_computer">Proof of Table for Office Computer</string>
+    <string name="office_cum_proof_of_printer_cum_scanner">Proof of Printer Cum Scanner (In No.)</string>
+    <string name="office_cum_proof_of_digital_camera_in_no">Proof of Digital Camera (In No.)</string>
+    <string name="office_cum_proof_of_electrical_power_back_up_for_the_room">Proof of Electrical Power Back up for the Room</string>
+
+    <!--     Reception Area Photogragh -->
+
+    <string name="proof_of_reception_area">Proof of Reception Area Photogragh </string>
+    <string name="roomtype">RoomType</string>
+    <string name="roomno">RoomNo</string>
+    <string name="roomlength">RoomLength</string>
+    <string name="roomarea">RoomArea</string>
 
 
 </resources>

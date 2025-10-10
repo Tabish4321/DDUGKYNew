@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:background="@drawable/border_gray"
+
+    android:weightSum="4">
+    <!-- Panchayat Name -->
+   <TextView
+        android:id="@+id/roomtype"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/roomtype"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_weight="1" />
+
+    <!-- Divider View -->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#DCDCDC"/>
+
+    <!-- PMAYG ID -->
+    <TextView
+        android:id="@+id/roomno"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/roomno"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_weight="1" />
+
+    <!-- Divider View -->
+    <View
+        android:layout_width="1dp"
+        android:visibility="gone"
+        android:layout_height="match_parent"
+        android:background="#DCDCDC"  />
+
+    <!-- Beneficiary Name -->
+    <TextView
+        android:id="@+id/roomlength"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/roomlength"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_weight="1" />
+
+    <!-- Divider View -->
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#DCDCDC" />
+    <!--                                            android:background="?android:attr/dividerHorizontal"-->
+
+    <!-- Priority -->
+    <TextView
+        android:id="@+id/roomarea"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/roomarea"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_weight="1" />
+
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="50dp"
+        android:background="#DCDCDC" />
+    <!--                                            android:background="?android:attr/dividerHorizontal"-->
+
+    <!-- Priority -->
+    <ImageView
+        android:id="@+id/ImageViewDelete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:src="@drawable/baseline_delete_24"
+        android:textColor="@color/white" />
+
+
+</LinearLayout>

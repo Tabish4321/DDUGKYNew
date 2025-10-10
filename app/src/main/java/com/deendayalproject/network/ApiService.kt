@@ -1,15 +1,25 @@
 package com.deendayalproject.network
 
+import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
+import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
+import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
+import com.deendayalproject.model.request.ITLabDetailsRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
+import com.deendayalproject.model.request.OfficeRoomDetailsRequest
+import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.StateRequest
+import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
+import com.deendayalproject.model.request.TCDLRequest
+import com.deendayalproject.model.request.TCITLDomainLabDetailsRequest
+import com.deendayalproject.model.request.TCRRequest
 import com.deendayalproject.model.request.TcAvailabilitySupportInfraRequest
 import com.deendayalproject.model.request.TcBasicInfoRequest
 import com.deendayalproject.model.request.TcCommonEquipmentRequest
@@ -19,6 +29,7 @@ import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
@@ -30,6 +41,7 @@ import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GpResponse
+import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
@@ -189,7 +201,7 @@ interface ApiService {
     suspend fun insertQTeamVerification(@Body request: TcQTeamInsertReq) : Response<InsertTcGeneralDetailsResponse>
 
 
-    @POST(value ="insertSrlmVerification")
+    @POST(value ="insertQTeamVerification")
     suspend fun insertSrlmVerification(@Body request: TcQTeamInsertReq) : Response<InsertTcGeneralDetailsResponse>
 
     @POST(value ="trainingCenterFinalInsert")
@@ -210,7 +222,71 @@ interface ApiService {
     @POST("getGPList")
     suspend fun getGPList(@Body request: GpRequest): Response<GpResponse>
 
+
+
+
+    //    Ajit Ranjan TcAcademicNonAcademicArea
+//      @POST("deleteAcademicRoom")
+//
+////    suspend fun deleteRoom(@Body request: DeleteRoomRequest) : Response<DeleteRoomResponse>
+//
+//     fun deleteRoom(@Body request: DeleteRoomRequest): Call<DeleteRoomResponse>
+    @POST(value = "getTcAcademicNonAcademicArea")
+    suspend fun getTcAcademicNonAcademic(@Body request: AcademicNonAcademicArea) : Response<AcademicNonAcademicResponse>
+
+
+// Ajit Ranjan ITLAB
+
+
+    @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
+    suspend fun insertITLabBasicInfo(@Body request: ITLabDetailsRequest) : Response<ITLAbDetailsErrorResponse>
+
+    //    Ajit Ranjan  Office Cum(Counselling room)
+    @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
+    suspend fun insertOfficeCumCounsellingroomBasicInfo(@Body request: SubmitOfficeCumCounsellingRoomDetailsRequest) : Response<ITLAbDetailsErrorResponse>
+
+
+
+
+    //    Ajit Ranjan  ReceptionArea
+    @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
+    suspend fun insertReceptionAreaBasicInfo(@Body request: ReceptionAreaRoomDetailsRequest) : Response<ITLAbDetailsErrorResponse>
+
+
+
+
+    //    Ajit Ranjan  OfficeRoom
+    @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
+    suspend fun insertOfficeroomBasicInfo(@Body request: OfficeRoomDetailsRequest) : Response<ITLAbDetailsErrorResponse>
+
+
+    //    Ajit Ranjan  ItComeDomainlab
+    @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
+    suspend fun insertItComeDomainlabBasicInfo(@Body request: ITComeDomainLabDetailsRequest) : Response<ITLAbDetailsErrorResponse>
+
+
+//    Theory Cum IT Lab
+
+    @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
+    suspend fun inserttheorycumitlabBasicInfo(@Body request: TCITLDomainLabDetailsRequest) : Response<ITLAbDetailsErrorResponse>
+
+
+
+
+//    Theory Cum Domain Lab
+
+    @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
+    suspend fun inserttheorycumdomainlabBasicInfo(@Body request: TCDLRequest) : Response<ITLAbDetailsErrorResponse>
+
+
+
+//    Theory Cum Domain Lab
+
+    @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
+    suspend fun insertDomainLabBasicInfo(@Body request: DLRequest) : Response<ITLAbDetailsErrorResponse>
+    //    Theory Class Room
+    @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
+    suspend fun inserttheoryClassroomBasicInfo(@Body request: TCRRequest) : Response<ITLAbDetailsErrorResponse>
+
+
 }
-
-
-

@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.R
 import com.deendayalproject.model.request.TrainingCenter
+import com.deendayalproject.util.AppUtil
 
 
 class CenterAdapter(
@@ -34,6 +35,7 @@ class CenterAdapter(
         holder.order.text = "Sanction Order: ${center.senctionOrder}"
         holder.district.text="District Name: ${center.districtName}"
         holder.itemView.setOnClickListener {
+            AppUtil.savesanctionOrderPreference(holder.itemView.context, center.senctionOrder)
             onItemClick(center)
         }
     }

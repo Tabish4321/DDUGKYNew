@@ -120,6 +120,62 @@ object AppUtil {
         isSessionDialogShown = false // Reset flag after navigation
     }
 
+
+
+//    Ajit Ranjan
+
+    fun savetopValuePreference(context: Context, tokenCode: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("topValue", tokenCode).apply()
+    }
+
+    fun gettopValuePreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("topValue", "") ?: ""
+    }
+    fun savesanctionOrderPreference(context: Context, sanctionOrder: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("sanctionOrder", sanctionOrder).apply()
+    }
+    fun savecenterIdPreference(context: Context, sanctionOrder: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("centerId", sanctionOrder).apply()
+    }
+
+    fun getcenterIdPreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("centerId", "") ?: ""
+    }
+    fun getsanctionOrderPreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("sanctionOrder", "") ?: ""
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     fun sha512Hash(input: String): String {
         val digest = MessageDigest.getInstance("SHA-512")
         val hashBytes = digest.digest(input.toByteArray(Charsets.UTF_8))
