@@ -716,7 +716,7 @@ class TrainingFragment : Fragment() {
     private lateinit var ivStoragePreview: ImageView
     private lateinit var ivDVRPreview: ImageView
 
-///////////////////////// WashBasin
+    ///////////////////////// WashBasin
     private lateinit var etMaleToilets: TextInputEditText
     private lateinit var btnUploadProofMaleToilets: Button
     private lateinit var ivPreviewMaleToiletsProof: ImageView
@@ -1607,7 +1607,7 @@ class TrainingFragment : Fragment() {
                             // Consider renaming base64penSpaceProofImage to base64OpenSpaceProofImage for clarity
                         }
 
-                        "parkingProof" -> {
+                        "parking" -> {
                             ivParkingProofPreview.setImageURI(photoUri)
                             ivParkingProofPreview.visibility = View.VISIBLE
                             base64ParkingSpaceProofImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
@@ -2470,10 +2470,10 @@ class TrainingFragment : Fragment() {
         setupExpandableSections(view)
         setupPhotoUploadButtons(view)
 
-         centerId = arguments?.getString("centerId").toString()
-         sanctionOrder = arguments?.getString("sanctionOrder").toString()
-         status = arguments?.getString("status")
-         remarks = arguments?.getString("remarks")
+        centerId = arguments?.getString("centerId").toString()
+        sanctionOrder = arguments?.getString("sanctionOrder").toString()
+        status = arguments?.getString("status")
+        remarks = arguments?.getString("remarks")
         RecyClerViewUI()
         if (status == STATUS_QM || status == STATUS_SM) {
             AlertDialog.Builder(requireContext())
@@ -3063,7 +3063,7 @@ class TrainingFragment : Fragment() {
         actvTypeOfFlooring.setAdapter(flooringAdapter)
 
         // Setup CCTV & Electrical Spinners& upport infra spinners
-           val spinners = listOf(
+        val spinners = listOf(
             R.id.spinnerMonitorAccessible, R.id.spinnerConformance, R.id.spinnerStorage,
             R.id.spinnerDVRStaticIP, R.id.spinnerIPEnabled, R.id.spinnerResolution,
             R.id.spinnerVideoStream, R.id.spinnerRemoteAccessBrowser, R.id.spinnerSimultaneousAccess,
@@ -3072,90 +3072,90 @@ class TrainingFragment : Fragment() {
 
 
 //               IT LAB
-                      , R.id.spinnerITLepbftr,R.id.spinnerITLFalseCellingProvide,R.id.spinnerITLAcademicRoomInformationBoard
-               ,R.id.spinnerITLInternalSignage,R.id.spinnerITLCctcCamerasWithAudioFacility,R.id.spinnerITLabInternetConnections
-               ,R.id.spinnerITLDoAllComputersHaveTypingTutor,R.id.spinnerITLTrainerChair,R.id.spinnerITLTrainerTable
-               ,R.id.spinnerITLtLabPhotograph,R.id.spinnerITLDoes_the_room_has,
+            , R.id.spinnerITLepbftr,R.id.spinnerITLFalseCellingProvide,R.id.spinnerITLAcademicRoomInformationBoard
+            ,R.id.spinnerITLInternalSignage,R.id.spinnerITLCctcCamerasWithAudioFacility,R.id.spinnerITLabInternetConnections
+            ,R.id.spinnerITLDoAllComputersHaveTypingTutor,R.id.spinnerITLTrainerChair,R.id.spinnerITLTrainerTable
+            ,R.id.spinnerITLtLabPhotograph,R.id.spinnerITLDoes_the_room_has,
 
 
 
 //           OfficeCum
-               R.id.spinnerOfficeCumFalseCellingProvide,R.id.spinnerOfficeCumLepbftr,R.id.spinnerOfficeCumTableOfofficeCumpter,
+            R.id.spinnerOfficeCumFalseCellingProvide,R.id.spinnerOfficeCumLepbftr,R.id.spinnerOfficeCumTableOfofficeCumpter,
 
 //               OfficeCum
-               R.id.spinnerReceptionAreaEPBR,
+            R.id.spinnerReceptionAreaEPBR,
 //               CounsellingRoomArea
 
-               R.id.spinnerCounsellingRoomAreaPhotograph,
+            R.id.spinnerCounsellingRoomAreaPhotograph,
 
 //               Office Room
-               R.id.spinnerORFalseCellingProvide,
-               R.id.spinnerORTableOfofficeCumpter,
-               R.id.spinnerORPOEPBFTR,
+            R.id.spinnerORFalseCellingProvide,
+            R.id.spinnerORTableOfofficeCumpter,
+            R.id.spinnerORPOEPBFTR,
 
 
 
 //               IT Come Domain Lab
 
 
-               R.id.spinnerITCDLwhether_all_the_academic,
-               R.id.spinnerITCDLAcademicRoomInformationBoard,
-               R.id.spinnerITCDLInternalSignage,
-               R.id.spinnerITCDLCctcCamerasWithAudioFacility,
-               R.id.spinnerITCDLInternetConnections,
-               R.id.spinnerITCDLDoAllComputersHaveTypingTutor,
-               R.id.spinnerITCDLTrainerChair,
-               R.id.spinnerITCDLTrainerTable,
-               R.id.spinnerITCDLElectricaPowerBackUp,
-               R.id.spinnerITCDLDoes_the_room_has,
+            R.id.spinnerITCDLwhether_all_the_academic,
+            R.id.spinnerITCDLAcademicRoomInformationBoard,
+            R.id.spinnerITCDLInternalSignage,
+            R.id.spinnerITCDLCctcCamerasWithAudioFacility,
+            R.id.spinnerITCDLInternetConnections,
+            R.id.spinnerITCDLDoAllComputersHaveTypingTutor,
+            R.id.spinnerITCDLTrainerChair,
+            R.id.spinnerITCDLTrainerTable,
+            R.id.spinnerITCDLElectricaPowerBackUp,
+            R.id.spinnerITCDLDoes_the_room_has,
 
 //               Theory Cum IT Lab Ajit Ranjan Spinner's Id
 
-               R.id.spinnerTCILwhether_all_the_academic,
-               R.id.spinnerTCILLAcademicRoomInformationBoard,
-               R.id.spinnerTCILInternalSignage,
-               R.id.spinnerTCILCctcCamerasWithAudioFacility,
-               R.id.spinnerTCILInternetConnections,
-               R.id.spinnerTCILDLDoAllComputersHaveTypingTutor,
-               R.id.spinnerTCILIPowerBackup,
-               R.id.spinnerTCILDLDoes_the_room_has,
+            R.id.spinnerTCILwhether_all_the_academic,
+            R.id.spinnerTCILLAcademicRoomInformationBoard,
+            R.id.spinnerTCILInternalSignage,
+            R.id.spinnerTCILCctcCamerasWithAudioFacility,
+            R.id.spinnerTCILInternetConnections,
+            R.id.spinnerTCILDLDoAllComputersHaveTypingTutor,
+            R.id.spinnerTCILIPowerBackup,
+            R.id.spinnerTCILDLDoes_the_room_has,
 
 //               Theory Cum Domain Lab Ajit Ranjan Spinner's Id
 
-               R.id.spinnerTCDLwhether_all_the_academic,
-               R.id.spinnerTCDLAcademicRoomInformationBoard,
-               R.id.spinnerTCDLInternalSignage,
-               R.id.spinnerTCDLCctcCamerasWithAudioFacility,
-               R.id.spinnerTCDLPowerBackup,
-               R.id.spinnerTCDLDoes_the_room_has,
+            R.id.spinnerTCDLwhether_all_the_academic,
+            R.id.spinnerTCDLAcademicRoomInformationBoard,
+            R.id.spinnerTCDLInternalSignage,
+            R.id.spinnerTCDLCctcCamerasWithAudioFacility,
+            R.id.spinnerTCDLPowerBackup,
+            R.id.spinnerTCDLDoes_the_room_has,
 
 
 //               Domain Lab Ajit Ranjan Spinner's Id
 
-               R.id.spinnerDLAcademicRoomInformationBoard,
-               R.id.spinnerDLInternalSignage,
-               R.id.spinnerDLCctcCamerasWithAudioFacility,
+            R.id.spinnerDLAcademicRoomInformationBoard,
+            R.id.spinnerDLInternalSignage,
+            R.id.spinnerDLCctcCamerasWithAudioFacility,
 
-               R.id.spinnerDLElectricaPowerBackUp,
-               R.id.spinnerDLwhether_all_the_academic,
-               R.id.spinnerDLListofDomain,
-               R.id.spinnerDLDoes_the_room_has,
+            R.id.spinnerDLElectricaPowerBackUp,
+            R.id.spinnerDLwhether_all_the_academic,
+            R.id.spinnerDLListofDomain,
+            R.id.spinnerDLDoes_the_room_has,
 
 
 //                  TCR
-               R.id.spinnerTCRwhether_all_the_academic,
-               R.id.spinnerTCRAcademicRoomInformationBoard,
-               R.id.spinnerTCRInternalSignage,
-               R.id.spinnerTCRCctcCamerasWithAudioFacility,
-               R.id.spinnerTCRDoes_the_room_has,
-               R.id.spinnerTCRPowerBackup,
+            R.id.spinnerTCRwhether_all_the_academic,
+            R.id.spinnerTCRAcademicRoomInformationBoard,
+            R.id.spinnerTCRInternalSignage,
+            R.id.spinnerTCRCctcCamerasWithAudioFacility,
+            R.id.spinnerTCRDoes_the_room_has,
+            R.id.spinnerTCRPowerBackup,
 
 
 
 
 
 
-               )
+            )
 
 
 
@@ -3195,98 +3195,98 @@ class TrainingFragment : Fragment() {
 
 
 //                    It Lab  Ajit Ranjan
-       Pair(view.findViewById<Spinner>(R.id.spinnerITLepbftr), view.findViewById<Button>(R.id.btnITLElectricaPowerBackUpForThRoom)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITLFalseCellingProvide), view.findViewById<Button>(R.id.btnITLFalseCellingProvide)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITLAcademicRoomInformationBoard)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITLInternalSignage), view.findViewById<Button>(R.id.btnITLInternalSignage)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnITLCctcCamerasWithAudioFacility)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITLabInternetConnections), view.findViewById<Button>(R.id.btnITLInternetConnections)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITLDoAllComputersHaveTypingTutor), view.findViewById<Button>(R.id.btnITLDoAllComputersHaveTypingTutor)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITLTrainerChair), view.findViewById<Button>(R.id.btnITLTrainerChair)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITLTrainerTable), view.findViewById<Button>(R.id.btnITLTrainerTable)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITLtLabPhotograph), view.findViewById<Button>(R.id.btnITLItLabPhotograph)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITLDoes_the_room_has), view.findViewById<Button>(R.id.btnITLLDoes_the_room_has)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLepbftr), view.findViewById<Button>(R.id.btnITLElectricaPowerBackUpForThRoom)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLFalseCellingProvide), view.findViewById<Button>(R.id.btnITLFalseCellingProvide)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITLAcademicRoomInformationBoard)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLInternalSignage), view.findViewById<Button>(R.id.btnITLInternalSignage)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnITLCctcCamerasWithAudioFacility)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLabInternetConnections), view.findViewById<Button>(R.id.btnITLInternetConnections)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLDoAllComputersHaveTypingTutor), view.findViewById<Button>(R.id.btnITLDoAllComputersHaveTypingTutor)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLTrainerChair), view.findViewById<Button>(R.id.btnITLTrainerChair)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLTrainerTable), view.findViewById<Button>(R.id.btnITLTrainerTable)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLtLabPhotograph), view.findViewById<Button>(R.id.btnITLItLabPhotograph)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLDoes_the_room_has), view.findViewById<Button>(R.id.btnITLLDoes_the_room_has)),
 
 //                    Office Cum(Counselling room)   Ajit Ranjan
 
-        Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumFalseCellingProvide), view.findViewById<Button>(R.id.btnOfficeCumFalseCellingProvide)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumLepbftr), view.findViewById<Button>(R.id.btnOfficeCumElectricialPowerBackup)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumTableOfofficeCumpter), view.findViewById<Button>(R.id.btnOfficeCumTableOfofficeCumpter)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumFalseCellingProvide), view.findViewById<Button>(R.id.btnOfficeCumFalseCellingProvide)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumLepbftr), view.findViewById<Button>(R.id.btnOfficeCumElectricialPowerBackup)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumTableOfofficeCumpter), view.findViewById<Button>(R.id.btnOfficeCumTableOfofficeCumpter)),
 
 //            ReceptionArea
 
-        Pair(view.findViewById<Spinner>(R.id.spinnerReceptionAreaEPBR), view.findViewById<Button>(R.id.btnReceptionAreaPhotogragh)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerReceptionAreaEPBR), view.findViewById<Button>(R.id.btnReceptionAreaPhotogragh)),
 
 
 
-        Pair(view.findViewById<Spinner>(R.id.spinnerCounsellingRoomAreaPhotograph), view.findViewById<Button>(R.id.btnCounsellingRoomAreaPhotograph)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerCounsellingRoomAreaPhotograph), view.findViewById<Button>(R.id.btnCounsellingRoomAreaPhotograph)),
 
 //            Office Room
-        Pair(view.findViewById<Spinner>(R.id.spinnerORFalseCellingProvide), view.findViewById<Button>(R.id.btnORFalseCellingProvide)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerORTableOfofficeCumpter), view.findViewById<Button>(R.id.btnORTableOfofficeCumpter)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerORPOEPBFTR), view.findViewById<Button>(R.id.btnORElectricialPowerBackup)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerORFalseCellingProvide), view.findViewById<Button>(R.id.btnORFalseCellingProvide)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerORTableOfofficeCumpter), view.findViewById<Button>(R.id.btnORTableOfofficeCumpter)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerORPOEPBFTR), view.findViewById<Button>(R.id.btnORElectricialPowerBackup)),
 
 //            IT Come Domain Lab
 
-        Pair(view.findViewById<Spinner>(R.id.spinnerITCDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnITDLwhether_all_the_academic)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITCDLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITCDLAcademicRoomInformationBoard)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITCDLInternalSignage), view.findViewById<Button>(R.id.btnITCDLInternalSignage)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITCDLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnITCDLCctcCamerasWithAudioFacility)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITCDLInternetConnections), view.findViewById<Button>(R.id.btnITCDLInternetConnections)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITCDLDoAllComputersHaveTypingTutor), view.findViewById<Button>(R.id.btnITCDLDoAllComputersHaveTypingTutor)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTrainerChair), view.findViewById<Button>(R.id.btnITCDLTrainerChair)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTrainerTable), view.findViewById<Button>(R.id.btnITCDLTrainerTable)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITCDLElectricaPowerBackUp), view.findViewById<Button>(R.id.btnITCDLElectricaPowerBackUpForThRoom)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITCDLDoes_the_room_has), view.findViewById<Button>(R.id.btnITCDLDoes_the_room_has)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnITDLwhether_all_the_academic)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITCDLAcademicRoomInformationBoard)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLInternalSignage), view.findViewById<Button>(R.id.btnITCDLInternalSignage)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnITCDLCctcCamerasWithAudioFacility)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLInternetConnections), view.findViewById<Button>(R.id.btnITCDLInternetConnections)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLDoAllComputersHaveTypingTutor), view.findViewById<Button>(R.id.btnITCDLDoAllComputersHaveTypingTutor)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTrainerChair), view.findViewById<Button>(R.id.btnITCDLTrainerChair)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTrainerTable), view.findViewById<Button>(R.id.btnITCDLTrainerTable)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLElectricaPowerBackUp), view.findViewById<Button>(R.id.btnITCDLElectricaPowerBackUpForThRoom)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLDoes_the_room_has), view.findViewById<Button>(R.id.btnITCDLDoes_the_room_has)),
 
 //                    Theory Cum IT Lab Ajit Ranjan Spinner set adapter
 
 
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCILwhether_all_the_academic), view.findViewById<Button>(R.id.btnITDLwhether_all_the_academic)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCILLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITCDLAcademicRoomInformationBoard)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCILInternalSignage), view.findViewById<Button>(R.id.btnITCDLInternalSignage)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCILCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnITCDLCctcCamerasWithAudioFacility)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCILInternetConnections), view.findViewById<Button>(R.id.btnITCDLInternetConnections)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCILIPowerBackup), view.findViewById<Button>(R.id.btnTCILElectricaPowerBackUpForThRoom)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCILDLDoAllComputersHaveTypingTutor), view.findViewById<Button>(R.id.btnITCDLDoAllComputersHaveTypingTutor)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTrainerChair), view.findViewById<Button>(R.id.btnITCDLTrainerChair)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCILDLDoes_the_room_has), view.findViewById<Button>(R.id.btnITCDLTrainerTable)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILwhether_all_the_academic), view.findViewById<Button>(R.id.btnITDLwhether_all_the_academic)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITCDLAcademicRoomInformationBoard)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILInternalSignage), view.findViewById<Button>(R.id.btnITCDLInternalSignage)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnITCDLCctcCamerasWithAudioFacility)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILInternetConnections), view.findViewById<Button>(R.id.btnITCDLInternetConnections)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILIPowerBackup), view.findViewById<Button>(R.id.btnTCILElectricaPowerBackUpForThRoom)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILDLDoAllComputersHaveTypingTutor), view.findViewById<Button>(R.id.btnITCDLDoAllComputersHaveTypingTutor)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTrainerChair), view.findViewById<Button>(R.id.btnITCDLTrainerChair)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILDLDoes_the_room_has), view.findViewById<Button>(R.id.btnITCDLTrainerTable)),
 //                    Theory Cum Domain Lab Ajit Ranjan Spinner set adapter
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnTCDLwhether_all_the_academic)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCDLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnTCDLAcademicRoomInformationBoard)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCDLInternalSignage), view.findViewById<Button>(R.id.btnTCDLInternalSignage)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCDLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnTCDLCctcCamerasWithAudioFacility)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCDLPowerBackup), view.findViewById<Button>(R.id.btnTCDLElectricaPowerBackUpForThRoom)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCDLDoes_the_room_has), view.findViewById<Button>(R.id.btnTCDLDoes_the_room_has)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnTCDLwhether_all_the_academic)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnTCDLAcademicRoomInformationBoard)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLInternalSignage), view.findViewById<Button>(R.id.btnTCDLInternalSignage)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnTCDLCctcCamerasWithAudioFacility)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLPowerBackup), view.findViewById<Button>(R.id.btnTCDLElectricaPowerBackUpForThRoom)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLDoes_the_room_has), view.findViewById<Button>(R.id.btnTCDLDoes_the_room_has)),
 
 
 
-        //                    Domain Lab Ajit Ranjan Spinner set adapter
-        Pair(view.findViewById<Spinner>(R.id.spinnerDLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnDLAcademicRoomInformationBoard)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerDLInternalSignage), view.findViewById<Button>(R.id.btnDLInternalSignage)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerDLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnDLCctcCamerasWithAudioFacility)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerDLElectricaPowerBackUp), view.findViewById<Button>(R.id.btnDLElectricaPowerBackUpForThRoom)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnDLwhether_all_the_academic)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerDLListofDomain), view.findViewById<Button>(R.id.btnDLILListofDomain)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerDLDoes_the_room_has), view.findViewById<Button>(R.id.btnDLDoes_the_room_has)),
+            //                    Domain Lab Ajit Ranjan Spinner set adapter
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnDLAcademicRoomInformationBoard)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLInternalSignage), view.findViewById<Button>(R.id.btnDLInternalSignage)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnDLCctcCamerasWithAudioFacility)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLElectricaPowerBackUp), view.findViewById<Button>(R.id.btnDLElectricaPowerBackUpForThRoom)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnDLwhether_all_the_academic)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLListofDomain), view.findViewById<Button>(R.id.btnDLILListofDomain)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLDoes_the_room_has), view.findViewById<Button>(R.id.btnDLDoes_the_room_has)),
 
 
 
 //                TCR
 
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCRwhether_all_the_academic), view.findViewById<Button>(R.id.btnTCRwhether_all_the_academic)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCRAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnTCRAcademicRoomInformationBoard)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCRInternalSignage), view.findViewById<Button>(R.id.btnTCRInternalSignage)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCRCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnTCRCctcCamerasWithAudioFacility)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCRDoes_the_room_has), view.findViewById<Button>(R.id.btnTCRDoes_the_room_has)),
-        Pair(view.findViewById<Spinner>(R.id.spinnerTCRPowerBackup), view.findViewById<Button>(R.id.btnTCRElectricaPowerBackUpForThRoom)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRwhether_all_the_academic), view.findViewById<Button>(R.id.btnTCRwhether_all_the_academic)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnTCRAcademicRoomInformationBoard)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRInternalSignage), view.findViewById<Button>(R.id.btnTCRInternalSignage)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnTCRCctcCamerasWithAudioFacility)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRDoes_the_room_has), view.findViewById<Button>(R.id.btnTCRDoes_the_room_has)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRPowerBackup), view.findViewById<Button>(R.id.btnTCRElectricaPowerBackUpForThRoom)),
 
 
 
 
 
 
-        )
+            )
 
         spinnersWithButtons.forEach { (spinner, button) ->
             spinner.adapter = yesNoAdapter
@@ -3513,193 +3513,193 @@ class TrainingFragment : Fragment() {
         spinnerCodeConductBoard.adapter = yesNoAdapter
         spinnerStudentAttendanceBoard.adapter = yesNoAdapter
 
-/*
+        /*
 
-        // CCTV Photo Upload Buttons
-        view.findViewById<Button>(R.id.btnUploadMonitorPhoto).setOnClickListener {
-            currentPhotoTarget = "monitor"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadConformancePhoto).setOnClickListener {
-            currentPhotoTarget = "conformance"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadStoragePhoto).setOnClickListener {
-            currentPhotoTarget = "storage"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadDVRPhoto).setOnClickListener {
-            currentPhotoTarget = "dvr"
-            checkAndLaunchCamera()
-        }
+                // CCTV Photo Upload Buttons
+                view.findViewById<Button>(R.id.btnUploadMonitorPhoto).setOnClickListener {
+                    currentPhotoTarget = "monitor"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadConformancePhoto).setOnClickListener {
+                    currentPhotoTarget = "conformance"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadStoragePhoto).setOnClickListener {
+                    currentPhotoTarget = "storage"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadDVRPhoto).setOnClickListener {
+                    currentPhotoTarget = "dvr"
+                    checkAndLaunchCamera()
+                }
 
-        // Electrical Photo Upload Buttons
-        view.findViewById<Button>(R.id.btnUploadSwitchBoards).setOnClickListener {
-            currentPhotoTarget = "switchBoard"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadSecuringWires).setOnClickListener {
-            currentPhotoTarget = "WireSecurity"
-            checkAndLaunchCamera()
-        }
+                // Electrical Photo Upload Buttons
+                view.findViewById<Button>(R.id.btnUploadSwitchBoards).setOnClickListener {
+                    currentPhotoTarget = "switchBoard"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadSecuringWires).setOnClickListener {
+                    currentPhotoTarget = "WireSecurity"
+                    checkAndLaunchCamera()
+                }
 
-        // General Photo Upload Buttons
-        view.findViewById<Button>(R.id.btnUploadLeakageProof).setOnClickListener {
-            currentPhotoTarget = "leakage"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadProtectionStairs).setOnClickListener {
-            currentPhotoTarget = "stairs"
-            checkAndLaunchCamera()
-        }
+                // General Photo Upload Buttons
+                view.findViewById<Button>(R.id.btnUploadLeakageProof).setOnClickListener {
+                    currentPhotoTarget = "leakage"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadProtectionStairs).setOnClickListener {
+                    currentPhotoTarget = "stairs"
+                    checkAndLaunchCamera()
+                }
 
-        // Button click listeners to upload photos (you must define buttons in XML accordingly)
-        // signages info boards
-        view.findViewById<Button>(R.id.btnUploadTrainingCentreNameBoard).setOnClickListener {
-            currentPhotoTarget = "tcNameBoard"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadActivitySummaryBoard).setOnClickListener {
-            currentPhotoTarget = "activityAchievementBoard"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadEntitlementBoard).setOnClickListener {
-            currentPhotoTarget = "studentEntitlementBoard"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadImportantContacts).setOnClickListener {
-            currentPhotoTarget = "contactDetailBoard"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadBasicInfoBoard).setOnClickListener {
-            currentPhotoTarget = "basicInfoBoard"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadCodeOfConductBoard).setOnClickListener {
-            currentPhotoTarget = "codeConductBoard"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadAttendanceSummaryBoard).setOnClickListener {
-            currentPhotoTarget = "studentAttendanceBoard"
-            checkAndLaunchCamera()
-        }
-        //support infra
-        view.findViewById<Button>(R.id.btnUploadFirstAidKit).setOnClickListener {
-            currentPhotoTarget = "FirstAidKit"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadFireFightingEquipment).setOnClickListener {
-            currentPhotoTarget = "FireFightingEquipment"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadSafeDrinkingWater).setOnClickListener {
-            currentPhotoTarget = "SafeDrinkingWater"
-            checkAndLaunchCamera()
-        }
+                // Button click listeners to upload photos (you must define buttons in XML accordingly)
+                // signages info boards
+                view.findViewById<Button>(R.id.btnUploadTrainingCentreNameBoard).setOnClickListener {
+                    currentPhotoTarget = "tcNameBoard"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadActivitySummaryBoard).setOnClickListener {
+                    currentPhotoTarget = "activityAchievementBoard"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadEntitlementBoard).setOnClickListener {
+                    currentPhotoTarget = "studentEntitlementBoard"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadImportantContacts).setOnClickListener {
+                    currentPhotoTarget = "contactDetailBoard"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadBasicInfoBoard).setOnClickListener {
+                    currentPhotoTarget = "basicInfoBoard"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadCodeOfConductBoard).setOnClickListener {
+                    currentPhotoTarget = "codeConductBoard"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadAttendanceSummaryBoard).setOnClickListener {
+                    currentPhotoTarget = "studentAttendanceBoard"
+                    checkAndLaunchCamera()
+                }
+                //support infra
+                view.findViewById<Button>(R.id.btnUploadFirstAidKit).setOnClickListener {
+                    currentPhotoTarget = "FirstAidKit"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadFireFightingEquipment).setOnClickListener {
+                    currentPhotoTarget = "FireFightingEquipment"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadSafeDrinkingWater).setOnClickListener {
+                    currentPhotoTarget = "SafeDrinkingWater"
+                    checkAndLaunchCamera()
+                }
 
-        // desc of other areas
-        view.findViewById<Button>(R.id.btnUploadProof).setOnClickListener {
-            currentPhotoTarget = "proof"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadCirculationProof).setOnClickListener {
-            currentPhotoTarget = "circulationProof"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadParkingProof).setOnClickListener {
-            currentPhotoTarget = "parking"
-            checkAndLaunchCamera()
-        }
-        view.findViewById<Button>(R.id.btnUploadOpenSpaceProof).setOnClickListener {
-            currentPhotoTarget = "openSpaceProof"
-            checkAndLaunchCamera()
-        }
-        // Common Equipment Upload Buttons
-        view.findViewById<Button>(R.id.btnUploadPowerBackup).setOnClickListener {
-            currentPhotoTarget = "powerBackup"
-            checkAndLaunchCamera()
-        }
+                // desc of other areas
+                view.findViewById<Button>(R.id.btnUploadProof).setOnClickListener {
+                    currentPhotoTarget = "proof"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadCirculationProof).setOnClickListener {
+                    currentPhotoTarget = "circulationProof"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadParkingProof).setOnClickListener {
+                    currentPhotoTarget = "parking"
+                    checkAndLaunchCamera()
+                }
+                view.findViewById<Button>(R.id.btnUploadOpenSpaceProof).setOnClickListener {
+                    currentPhotoTarget = "openSpaceProof"
+                    checkAndLaunchCamera()
+                }
+                // Common Equipment Upload Buttons
+                view.findViewById<Button>(R.id.btnUploadPowerBackup).setOnClickListener {
+                    currentPhotoTarget = "powerBackup"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadBiometricDevices).setOnClickListener {
-            currentPhotoTarget = "biometricDevices"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadBiometricDevices).setOnClickListener {
+                    currentPhotoTarget = "biometricDevices"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadCCTV).setOnClickListener {
-            currentPhotoTarget = "cctv"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadCCTV).setOnClickListener {
+                    currentPhotoTarget = "cctv"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadDocumentStorage).setOnClickListener {
-            currentPhotoTarget = "documentStorage"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadDocumentStorage).setOnClickListener {
+                    currentPhotoTarget = "documentStorage"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadPrinterScanner).setOnClickListener {
-            currentPhotoTarget = "printerScanner"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadPrinterScanner).setOnClickListener {
+                    currentPhotoTarget = "printerScanner"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadDigitalCamera).setOnClickListener {
-            currentPhotoTarget = "digitalCamera"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadDigitalCamera).setOnClickListener {
+                    currentPhotoTarget = "digitalCamera"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadGrievanceRegister).setOnClickListener {
-            currentPhotoTarget = "grievanceRegister"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadGrievanceRegister).setOnClickListener {
+                    currentPhotoTarget = "grievanceRegister"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadMinimumEquipment).setOnClickListener {
-            currentPhotoTarget = "minimumEquipment"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadMinimumEquipment).setOnClickListener {
+                    currentPhotoTarget = "minimumEquipment"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadDirectionBoards).setOnClickListener {
-            currentPhotoTarget = "irectionBoards"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadDirectionBoards).setOnClickListener {
+                    currentPhotoTarget = "irectionBoards"
+                    checkAndLaunchCamera()
+                }
 
-        // wash basin upload buttons
-        view.findViewById<Button>(R.id.btnUploadProofMaleToilets).setOnClickListener {
-            currentPhotoTarget = "proofMaleToilets"
-            checkAndLaunchCamera()
-        }
+                // wash basin upload buttons
+                view.findViewById<Button>(R.id.btnUploadProofMaleToilets).setOnClickListener {
+                    currentPhotoTarget = "proofMaleToilets"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadProofMaleToiletsSignage).setOnClickListener {
-            currentPhotoTarget = "proofMaleToiletsSignage"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadProofMaleToiletsSignage).setOnClickListener {
+                    currentPhotoTarget = "proofMaleToiletsSignage"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadProofFemaleToilets).setOnClickListener {
-            currentPhotoTarget = "proofFemaleToilets"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadProofFemaleToilets).setOnClickListener {
+                    currentPhotoTarget = "proofFemaleToilets"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadProofFemaleToiletsSignage).setOnClickListener {
-            currentPhotoTarget = "proofFemaleToiletsSignage"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadProofFemaleToiletsSignage).setOnClickListener {
+                    currentPhotoTarget = "proofFemaleToiletsSignage"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadProofMaleUrinals).setOnClickListener {
-            currentPhotoTarget = "proofMaleUrinals"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadProofMaleUrinals).setOnClickListener {
+                    currentPhotoTarget = "proofMaleUrinals"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadProofMaleWashBasins).setOnClickListener {
-            currentPhotoTarget = "proofMaleWashBasins"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadProofMaleWashBasins).setOnClickListener {
+                    currentPhotoTarget = "proofMaleWashBasins"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadProofFemaleWashBasins).setOnClickListener {
-            currentPhotoTarget = "proofFemaleWashBasins"
-            checkAndLaunchCamera()
-        }
+                view.findViewById<Button>(R.id.btnUploadProofFemaleWashBasins).setOnClickListener {
+                    currentPhotoTarget = "proofFemaleWashBasins"
+                    checkAndLaunchCamera()
+                }
 
-        view.findViewById<Button>(R.id.btnUploadProofOverheadTanks).setOnClickListener {
-            currentPhotoTarget = "proofOverheadTanks"
-            checkAndLaunchCamera()
-        }*/
+                view.findViewById<Button>(R.id.btnUploadProofOverheadTanks).setOnClickListener {
+                    currentPhotoTarget = "proofOverheadTanks"
+                    checkAndLaunchCamera()
+                }*/
 
 
 
@@ -4711,8 +4711,8 @@ class TrainingFragment : Fragment() {
                 val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutGeneralDetailsContent)
                 otherAreaSection?.let { AppUtil.clearAllInputs(it) }
 
-               base64LeakageImage = null
-               base64StairsImage = null
+                base64LeakageImage = null
+                base64StairsImage = null
             }
             result.onFailure {
                 Toast.makeText(
@@ -4752,11 +4752,11 @@ class TrainingFragment : Fragment() {
                 otherAreaSection?.let { AppUtil.clearAllInputs(it) }
                 base64TcNameBoardImage= null
                 base64ActivityAchievementBoardImage = null
-               base64StudentEntitlementBoardImage = null
+                base64StudentEntitlementBoardImage = null
                 base64ContactDetailBoardImage = null
-               base64BasicInfoBoardImage = null
+                base64BasicInfoBoardImage = null
                 base64CodeConductBoardImage = null
-              base64StudentAttendanceBoardImage = null
+                base64StudentAttendanceBoardImage = null
 
             }
             result.onFailure {
@@ -4800,15 +4800,15 @@ class TrainingFragment : Fragment() {
                 ).show()
                 val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutCommonEquipmentContent)
                 otherAreaSection?.let { AppUtil.clearAllInputs(it) }
-             base64PowerBackupImage = null
+                base64PowerBackupImage = null
                 base64BiometricDevices = null
                 base64CCTVImage= null
-                 base64DocumentStorageImage = null
-                 base64PrinterScanner = null
-                 base64DigitalCamera = null
-                 base64GrievanceRegisterImage = null
-                 base64MinimumEquipmentImage = null
-                 base64DirectionBoardsImage = null
+                base64DocumentStorageImage = null
+                base64PrinterScanner = null
+                base64DigitalCamera = null
+                base64GrievanceRegisterImage = null
+                base64MinimumEquipmentImage = null
+                base64DirectionBoardsImage = null
 
 
             }
@@ -4830,8 +4830,8 @@ class TrainingFragment : Fragment() {
                 ).show()
                 val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutDescriptionOtherAreasContent)
                 otherAreaSection?.let { AppUtil.clearAllInputs(it) }
-                 base64ProofUploadImage = null
-                 base64CirculationProofImage = null
+                base64ProofUploadImage = null
+                base64CirculationProofImage = null
                 base64penSpaceProofImage = null
                 base64ParkingSpaceProofImage = null
 
@@ -4856,22 +4856,22 @@ class TrainingFragment : Fragment() {
                 val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutToiletsWashBasinsContent)
                 otherAreaSection?.let { AppUtil.clearAllInputs(it) }
 
-             base64ProofMaleToilets = null
+                base64ProofMaleToilets = null
 
-             base64ProofMaleToiletsSignage = null
+                base64ProofMaleToiletsSignage = null
 
-             base64ProofFemaleToilets = null
+                base64ProofFemaleToilets = null
 
-               base64ProofFemaleToiletsSignage = null
+                base64ProofFemaleToiletsSignage = null
 
-               base64ProofMaleUrinals = null
+                base64ProofMaleUrinals = null
 
-              base64ProofMaleWashBasins = null
+                base64ProofMaleWashBasins = null
 
                 base64ProofFemaleWashBasins = null
 
-                 base64ProofOverheadTanks = null
-                 base64ProofFlooring = null
+                base64ProofOverheadTanks = null
+                base64ProofFlooring = null
 
             }
             result.onFailure {
@@ -4917,11 +4917,11 @@ class TrainingFragment : Fragment() {
                 R.id.layoutSignagesInfoBoardsContent,
                 R.id.ivToggleSignagesInfoBoards
             ),
-           /* Triple(
-                R.id.headerAvailableTrainers,
-                R.id.layoutAvailableTrainersContent,
-                R.id.ivToggleAvailableTrainers
-            ),*/
+            /* Triple(
+                 R.id.headerAvailableTrainers,
+                 R.id.layoutAvailableTrainersContent,
+                 R.id.ivToggleAvailableTrainers
+             ),*/
             /*Triple(
                 R.id.headerTeachingLearningMaterials,
                 R.id.layoutTeachingLearningMaterialsContent,
@@ -4966,7 +4966,27 @@ class TrainingFragment : Fragment() {
 
                 if (!expansionStates[index]) {
                     content.visibility = View.GONE
-                    icon.setImageResource(R.drawable.ic_dropdown_arrow)
+
+                    val sectionCount = when (index) {
+                        0 -> sectionsStatus.infoSection
+                        1 -> sectionsStatus.careraSection
+                        2 -> sectionsStatus.wiringSection
+                        3 -> sectionsStatus.generalDetailsSection
+                        5 -> sectionsStatus.signageSection
+                        6 -> sectionsStatus.descOtherAreaSection
+                        7 -> sectionsStatus.toiletWashBasinSection
+                        8 -> sectionsStatus.supportInfraSection
+                        9 -> sectionsStatus.commonEquipSection
+                        else -> 0
+                    }
+
+                    val iconRes = if (sectionCount > 0) {
+                        R.drawable.ic_verified
+                    } else {
+                        R.drawable.ic_dropdown_arrow
+                    }
+
+                    icon.setImageResource(iconRes)
                     return@setOnClickListener
                 }
 
@@ -5124,10 +5144,15 @@ class TrainingFragment : Fragment() {
                             spinnerDetailsMap[R.id.spinnerStorage] = x.cctvStorage
                             spinnerDetailsMap[R.id.spinnerDVRStaticIP] = x.dvrStaticIp
 
-                            imagesMap[ivMonitorPreview] = x.centralMonitorImagePath.toString()
-                            imagesMap[ivConformancePreview] = x.cctvConformanceImagePath.toString()
-                            imagesMap[ivStoragePreview] = x.cctvStorageImagePath.toString()
-                            imagesMap[ivDVRPreview] = x.dvrStaticIpImagePath.toString()
+                            base64MonitorFile = x.centralMonitorImagePath.toString()
+                            base64ConformanceFile = x.cctvConformanceImagePath.toString()
+                            base64StorageFile = x.cctvStorageImagePath.toString()
+                            base64DVRFile = x.dvrStaticIpImagePath.toString()
+
+                            imagesMap[ivMonitorPreview] = base64MonitorFile
+                            imagesMap[ivConformancePreview] = base64ConformanceFile
+                            imagesMap[ivStoragePreview] = base64StorageFile
+                            imagesMap[ivDVRPreview] = base64DVRFile
 
                             updateSpinner(spinnerDetailsMap)
                             showBase64Image(imagesMap)
@@ -5181,15 +5206,25 @@ class TrainingFragment : Fragment() {
                             actvOverheadTanks.setText(x.overheadTanks, false)
                             actvTypeOfFlooring.setText(x.flooringType, false)
 
-                            imagesMap[ivPreviewMaleToiletsProof] = x.maleToiletImage
-                            imagesMap[ivPreviewMaleToiletsSignageProof] = x.maleToiletSignageImage
-                            imagesMap[ivPreviewFemaleToiletsProof] = x.femaleToiletImage
-                            imagesMap[ivPreviewFemaleToiletsSignageProof] = x.femaleToiletSignageImage
-                            imagesMap[ivPreviewMaleUrinalsProof] = x.maleUrinalImage
-                            imagesMap[ivPreviewMaleWashBasinsProof] = x.maleWashBasinImage
-                            imagesMap[ivPreviewFemaleWashBasinsProof] = x.femaleWashBasinImage
-                            imagesMap[ivPreviewOverheadTanksProof] = x.overheadTankImage
-                            imagesMap[ivPreviewFlooringProof] = x.flooringTypeImage
+                            base64ProofMaleToilets = x.maleToiletImage
+                            base64ProofMaleToiletsSignage = x.maleToiletSignageImage
+                            base64ProofFemaleToilets = x.femaleToiletImage
+                            base64ProofFemaleToiletsSignage = x.femaleToiletSignageImage
+                            base64ProofMaleUrinals = x.maleUrinalImage
+                            base64ProofMaleWashBasins = x.maleWashBasinImage
+                            base64ProofFemaleWashBasins = x.femaleWashBasinImage
+                            base64ProofOverheadTanks = x.overheadTankImage
+                            base64ProofFlooring = x.flooringTypeImage
+
+                            imagesMap[ivPreviewMaleToiletsProof] = base64ProofMaleToilets
+                            imagesMap[ivPreviewMaleToiletsSignageProof] = base64ProofMaleToiletsSignage
+                            imagesMap[ivPreviewFemaleToiletsProof] = base64ProofFemaleToilets
+                            imagesMap[ivPreviewFemaleToiletsSignageProof] = base64ProofFemaleToiletsSignage
+                            imagesMap[ivPreviewMaleUrinalsProof] = base64ProofMaleUrinals
+                            imagesMap[ivPreviewMaleWashBasinsProof] = base64ProofMaleWashBasins
+                            imagesMap[ivPreviewFemaleWashBasinsProof] = base64ProofFemaleWashBasins
+                            imagesMap[ivPreviewOverheadTanksProof] = base64ProofOverheadTanks
+                            imagesMap[ivPreviewFlooringProof] = base64ProofFlooring
 
                             showBase64Image(imagesMap)
                         }
@@ -5246,15 +5281,25 @@ class TrainingFragment : Fragment() {
                             spinnerDetailsMap[spinnerMinimumEquipment] = x.minimumEquipment.toString()
                             spinnerDetailsMap[spinnerDirectionBoards] = x.directionBoard.toString()
 
-                            imagesMap[ivPowerBackupPreview] = x.ecPowerBackupImage.toString()
-                            imagesMap[ivBiometricDevicesPreview] =  x.biomatricDeviceInstallationImage.toString()
-                            imagesMap[ivCCTVPreview] = x.cctvMoniotrInstallImage.toString()
-                            imagesMap[ivDocumentStoragePreview] = x.storageSecuringImage.toString()
-                            imagesMap[ivPrinterScannerPreview] = x.printerScannerImage.toString()
-                            imagesMap[ivDigitalCameraPreview] = x.digitalCameraImage.toString()
-                            imagesMap[ivGrievanceRegisterPreview] = x.grievanceRegisterImage.toString()
-                            imagesMap[ivMinimumEquipmentPreview] = x.minimumEquipmentImage.toString()
-                            imagesMap[ivDirectionBoardsPreview] =x.directionBoardImage.toString()
+                            base64PowerBackupImage = x.ecPowerBackupImage.toString()
+                            base64BiometricDevices = x.biomatricDeviceInstallationImage.toString()
+                            base64CCTVImage = x.cctvMoniotrInstallImage.toString()
+                            base64DocumentStorageImage = x.storageSecuringImage.toString()
+                            base64PrinterScanner = x.printerScannerImage.toString()
+                            base64DigitalCamera = x.digitalCameraImage.toString()
+                            base64GrievanceRegisterImage = x.grievanceRegisterImage.toString()
+                            base64MinimumEquipmentImage = x.minimumEquipmentImage.toString()
+                            base64DirectionBoardsImage = x.directionBoardImage.toString()
+
+                            imagesMap[ivPowerBackupPreview] = base64PowerBackupImage
+                            imagesMap[ivBiometricDevicesPreview] = base64BiometricDevices
+                            imagesMap[ivCCTVPreview] = base64CCTVImage
+                            imagesMap[ivDocumentStoragePreview] = base64DocumentStorageImage
+                            imagesMap[ivPrinterScannerPreview] = base64PrinterScanner
+                            imagesMap[ivDigitalCameraPreview] = base64DigitalCamera
+                            imagesMap[ivGrievanceRegisterPreview] = base64GrievanceRegisterImage
+                            imagesMap[ivMinimumEquipmentPreview] = base64MinimumEquipmentImage
+                            imagesMap[ivDirectionBoardsPreview] = base64DirectionBoardsImage
 
                             showBase64Image(imagesMap)
                             updateSpinner(spinnerDetailsMap)
@@ -5309,13 +5354,21 @@ class TrainingFragment : Fragment() {
                             spinnerDetailsMap[spinnerCodeConductBoard] = x.codeConductImage.toString()
                             spinnerDetailsMap[spinnerStudentAttendanceBoard] = x.studentsAttendanceImage.toString()
 
-                            imagesMap[ivTcNameBoardPreview] = x.tcName
-                            imagesMap[ivActivityAchievementBoardPreview] = x.activityAchivement
-                            imagesMap[ivStudentEntitlementBoardPreview] =  x.studentEntitlement
-                            imagesMap[ivContactDetailBoardPreview] = x.contactDetails
-                            imagesMap[ivBasicInfoBoardPreview] = x.basicInfo
-                            imagesMap[ivCodeConductBoardPreview] = x.codeConduct
-                            imagesMap[ivStudentAttendanceBoardPreview] = x.studentsAttendance
+                            base64TcNameBoardImage = x.tcName
+                            base64ActivityAchievementBoardImage = x.activityAchivement
+                            base64StudentEntitlementBoardImage = x.studentEntitlement
+                            base64ContactDetailBoardImage = x.contactDetails
+                            base64BasicInfoBoardImage = x.basicInfo
+                            base64CodeConductBoardImage = x.codeConduct
+                            base64StudentAttendanceBoardImage = x.studentsAttendance
+
+                            imagesMap[ivTcNameBoardPreview] = base64TcNameBoardImage
+                            imagesMap[ivActivityAchievementBoardPreview] = base64ActivityAchievementBoardImage
+                            imagesMap[ivStudentEntitlementBoardPreview] = base64StudentEntitlementBoardImage
+                            imagesMap[ivContactDetailBoardPreview] = base64ContactDetailBoardImage
+                            imagesMap[ivBasicInfoBoardPreview] = base64BasicInfoBoardImage
+                            imagesMap[ivCodeConductBoardPreview] = base64CodeConductBoardImage
+                            imagesMap[ivStudentAttendanceBoardPreview] = base64StudentAttendanceBoardImage
 
                             updateSpinner(spinnerDetailsMap)
                             showBase64Image(imagesMap)
@@ -5367,8 +5420,11 @@ class TrainingFragment : Fragment() {
                             spinnerDetailsMap[spinnerDDUConformance] = x.ddugkyConfrence
                             spinnerDetailsMap[spinnerCandidateSafety] = x.centerSafty
 
-                            imagesMap[ivLeakagePreview] = x.signLeakageImage
-                            imagesMap[ivStairsPreview] = x.stairsProtectionImage
+                            base64LeakageImage = x.signLeakageImage
+                            base64StairsImage = x.stairsProtectionImage
+
+                            imagesMap[ivLeakagePreview] = base64LeakageImage
+                            imagesMap[ivStairsPreview] = base64StairsImage
 
                             updateSpinner(spinnerDetailsMap)
                             showBase64Image(imagesMap)
@@ -5418,8 +5474,11 @@ class TrainingFragment : Fragment() {
                             spinnerDetailsMap[R.id.spinnerSecure] = x.wireSecurity
                             spinnerDetailsMap[R.id.spinnerSwitchBoards] = x.switchBoard
 
-                            imagesMap[ivSwitchBoardPreview] = x.wireSecurityImage.toString()
-                            imagesMap[ivWireSecurityPreview] = x.switchBoardImage.toString()
+                            base64SwitchBoardImage = x.switchBoardImage.toString()
+                            base64WireSecurityImage = x.wireSecurityImage.toString()
+
+                            imagesMap[ivSwitchBoardPreview] = base64SwitchBoardImage
+                            imagesMap[ivWireSecurityPreview] = base64WireSecurityImage
 
                             updateSpinner(spinnerDetailsMap)
                             showBase64Image(imagesMap)
@@ -5471,9 +5530,13 @@ class TrainingFragment : Fragment() {
                             spinnerDetailsMap[spinnerSafeDrinkingWater] = x.drinkingWater
                             spinnerDetailsMap[spinnerFirstAidKit] = x.firstAidKit
 
-                            imagesMap[ivSafeDrinkingWaterPreview] = x.drinkingWaterImage.toString()
-                            imagesMap[ivFireFightingEquipmentPreview] = x.fireFighterEquipImage.toString()
-                            imagesMap[ivFirstAidKitPreview] = x.firstAidKitImage.toString()
+                            base64SafeDrinkingWater = x.drinkingWaterImage.toString()
+                            base64FireFightingEquipment = x.fireFighterEquipImage.toString()
+                            base64FirstAidKit = x.firstAidKitImage.toString()
+
+                            imagesMap[ivSafeDrinkingWaterPreview] = base64SafeDrinkingWater
+                            imagesMap[ivFireFightingEquipmentPreview] = base64FireFightingEquipment
+                            imagesMap[ivFirstAidKitPreview] = base64FirstAidKit
 
                             updateSpinner(spinnerDetailsMap)
                             showBase64Image(imagesMap)
@@ -5529,10 +5592,15 @@ class TrainingFragment : Fragment() {
                             etOpenSpace.setText(x.openSpace)
                             etExclusiveParkingSpace.setText(x.parkingSpace)
 
-                            imagesMap[ivProofPreview] = x.descProofImagePath.toString()
-                            imagesMap[ivCirculationProofPreview] = x.circulationAreaImagePath.toString()
-                            imagesMap[ivOpenSpaceProofPreview] = x.openSpaceImagePath.toString()
-                            imagesMap[ivParkingProofPreview] = x.parkingSpaceImagePath.toString()
+                            base64ProofUploadImage = x.descProofImagePath.toString()
+                            base64CirculationProofImage = x.circulationAreaImagePath.toString()
+                            base64penSpaceProofImage = x.openSpaceImagePath.toString()
+                            base64ParkingSpaceProofImage = x.parkingSpaceImagePath.toString()
+
+                            imagesMap[ivProofPreview] = base64ProofUploadImage
+                            imagesMap[ivCirculationProofPreview] = base64CirculationProofImage
+                            imagesMap[ivOpenSpaceProofPreview] = base64penSpaceProofImage
+                            imagesMap[ivParkingProofPreview] = base64ParkingSpaceProofImage
 
                             showBase64Image(imagesMap)
                         }
@@ -5654,7 +5722,7 @@ class TrainingFragment : Fragment() {
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> {
-                         sectionsStatus = it.wrappedList?.get(0)!!
+                        sectionsStatus = it.wrappedList?.get(0)!!
 
                         if (sectionsStatus.infoSection > 0) {
                             binding.ivToggleTCBasicInfo.setImageResource(R.drawable.ic_verified)
@@ -6100,7 +6168,28 @@ class TrainingFragment : Fragment() {
         viewModel.submitElectricalData(request, token)
     }
 
-/*
+    /*
+        private fun submitGeneralDetails() {
+            val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
+                .getString("ACCESS_TOKEN", "") ?: ""
+
+            val request = InsertTcGeneralDetailsRequest(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                signLeakages = dropdownLeakageCheck.selectedItem.toString(),
+                signLeakagesImage = base64LeakageImage ?: "",
+                stairsProtection = dropdownProtectionStairs.selectedItem.toString(),
+                stairsProtectionImage = base64StairsImage ?: "",
+                dduConformance = dropdownDDUConformance.selectedItem.toString(),
+                centerSafety = dropdownCandidateSafety.selectedItem.toString(),
+                tcId = centerId,
+                sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext())
+            )
+            viewModel.submitGeneralDetails(request, token)
+
+        }
+    */
     private fun submitGeneralDetails() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -6109,38 +6198,17 @@ class TrainingFragment : Fragment() {
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
-            signLeakages = dropdownLeakageCheck.selectedItem.toString(),
+            signLeakages = spinnerLeakageCheck.selectedItem.toString(),
             signLeakagesImage = base64LeakageImage ?: "",
-            stairsProtection = dropdownProtectionStairs.selectedItem.toString(),
+            stairsProtection = spinnerProtectionStairs.selectedItem.toString(),
             stairsProtectionImage = base64StairsImage ?: "",
-            dduConformance = dropdownDDUConformance.selectedItem.toString(),
-            centerSafety = dropdownCandidateSafety.selectedItem.toString(),
+            dduConformance = spinnerDDUConformance.selectedItem.toString(),
+            centerSafety = spinnerCandidateSafety.selectedItem.toString(),
             tcId = centerId,
-            sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext())
+            sanctionOrder = sanctionOrder
         )
         viewModel.submitGeneralDetails(request, token)
-
     }
-*/
-private fun submitGeneralDetails() {
-    val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
-        .getString("ACCESS_TOKEN", "") ?: ""
-
-    val request = InsertTcGeneralDetailsRequest(
-        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-        imeiNo = AppUtil.getAndroidId(requireContext()),
-        appVersion = BuildConfig.VERSION_NAME,
-        signLeakages = spinnerLeakageCheck.selectedItem.toString(),
-        signLeakagesImage = base64LeakageImage ?: "",
-        stairsProtection = spinnerProtectionStairs.selectedItem.toString(),
-        stairsProtectionImage = base64StairsImage ?: "",
-        dduConformance = spinnerDDUConformance.selectedItem.toString(),
-        centerSafety = spinnerCandidateSafety.selectedItem.toString(),
-        tcId = centerId,
-        sanctionOrder = sanctionOrder
-    )
-    viewModel.submitGeneralDetails(request, token)
-}
 
     private fun submitTCInfoDeatails() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)

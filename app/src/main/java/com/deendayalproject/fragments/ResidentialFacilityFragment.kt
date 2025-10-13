@@ -1433,7 +1433,7 @@ class ResidentialFacilityFragment : Fragment() {
         }
         photoUri = FileProvider.getUriForFile(
             requireContext(),
-            "${requireContext().packageName}.fileprovider",
+            "${requireContext().packageName}.provider",
             photoFile
         )
         cameraLauncher.launch(photoUri)
