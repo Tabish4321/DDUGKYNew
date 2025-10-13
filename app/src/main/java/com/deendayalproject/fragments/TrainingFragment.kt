@@ -1129,7 +1129,198 @@ class TrainingFragment : Fragment() {
         R.id.btnUploadProofMaleWashBasins to "maleWashBasinsProof",
         R.id.btnUploadProofFemaleWashBasins to "femaleWashBasinsProof",
         R.id.btnUploadProofOverheadTanks to "overheadTanksProof",
-        R.id.btnUploadProofFlooring to "flooringProof"
+        R.id.btnUploadProofFlooring to "flooringProof",
+
+
+//        ITLAB
+        (R.id.btnITLTypeofRoofItLab to "itltypeofroofitlab"),
+        (R.id.btnITLFalseCellingProvide to "itlfalsecellingprovide"),
+        (R.id.btnITLHeightOfCelling to "itlheightofcelling"),
+        (R.id.btnITLVentilationAreaInSqFt to "itlventilationareainsqft"),
+        (R.id.btnITLSoundLevelAsPerSpecifications to "itlsoundlevelasperspecifications"),
+        (R.id.btnITLSoundLevelInDb to "itlsoundlevelindb"),
+        (R.id.btnITLwhether_all_the_academic to "itlwhether_all_the_academic"),
+        (R.id.btnITLAcademicRoomInformationBoard to "itlacadmicroominformationboard"),
+        (R.id.btnITLInternalSignage to "itlinternalsignage"),
+        (R.id.btnITLCctcCamerasWithAudioFacility to "itlcctccameraswithaudiofacility"),
+        (R.id.btnITLLanEnabledComputersInNo to "itllanenabledcomputersinno"),
+        (R.id.btnITLInternetConnections to "itlinternetconnections"),
+        (R.id.btnITLDoAllComputersHaveTypingTutor to "itldoallcomputershavetypingtutor"),
+        (R.id.btnITLTablets to "itltablets"),
+        (R.id.btnITLStoolsChairs to "itlstoolschairs"),
+        (R.id.btnITLTrainerChair to "itltrainerchair"),
+        (R.id.btnITLTrainerTable to "itltrainertable"),
+        (R.id.btnITLLightsInNo to "itllightsinno"),
+        (R.id.btnITLFansInNo to "itlfansinno"),
+        (R.id.btnITLElectricaPowerBackUpForThRoom to "itlelectricapowerbackupforthroom"),
+        (R.id.btnITLItLabPhotograph to "itlitlabphotograph"),
+        (R.id.btnITLLDoes_the_room_has to "itlldoes_the_room_has"),
+
+//        Office Cum(Counselling room)  Ajit Ranjan
+        (R.id.btnUploadOfficeRoomPhotograph to "btnuploadofficeroomphotograph"),
+        (R.id.btnUploadOfficeCumTypeofRoofItLab to "btnuploadofficecumtypeofroofitlab"),
+        (R.id.btnOfficeCumFalseCellingProvide to "btnofficecumfalsecellingprovide"),
+        (R.id.btnOfficeCumHeightOfCelling to "btnofficecumheightofcelling"),
+        (R.id.btnOfficeCumSplaceforSecuringDoc to "btnofficecumsplaceforsecuringdoc"),
+        (R.id.btnOfficeCumAnOfficeTableNo to "btnofficecumanofficetableno"),
+        (R.id.btnOfficeCumChairs to "btnofficecumchairs"),
+        (R.id.btnOfficeCumTableOfofficeCumpter to "btnofficecumtableofofficecumpter"),
+        (R.id.btnOfficeCumPrinterCumScannerInNo to "btnofficecumprintercumscannerinno"),
+        (R.id.btnOfficeCumDigitalCameraInNo to "btnofficecumdigitalcamerainno"),
+        (R.id.btnOfficeCumElectricialPowerBackup to "btnofficecumelectricialpowerbackup"),
+
+//        Reception Area   Ajit Ranjan
+        (R.id.btnReceptionAreaPhotogragh to "btnReceptionAreaPhotogragh"),
+
+
+
+        (R.id.btnCounsellingRoomAreaPhotograph to "btnCounsellingRoomAreaPhotograph"),
+
+
+
+
+
+
+//        Office  Room  Ajit Ranjan
+
+        (R.id.btnOROfficeRoomPhotograph to "btnOROfficeRoomPhotograph"),
+        (R.id.btnORTypeofRoofItLab to "btnORTypeofRoofItLab"),
+        (R.id.btnORFalseCellingProvide to "btnORFalseCellingProvide"),
+        (R.id.btnORHeightOfCelling to "btnORHeightOfCelling"),
+        (R.id.btnORSplaceforSecuringDoc to "btnORSplaceforSecuringDoc"),
+        (R.id.btnORAnOfficeTableNo to "btnORAnOfficeTableNo"),
+        (R.id.btnORChairs to "btnORChairs"),
+        (R.id.btnORTableOfofficeCumpter to "btnORTableOfofficeCumpter"),
+        (R.id.btnORPrinterCumScannerInNo to "btnORPrinterCumScannerInNo"),
+        (R.id.btnORDigitalCameraInNo to "btnORDigitalCameraInNo"),
+        (R.id.btnORElectricialPowerBackup to "btnORElectricialPowerBackup"),
+
+
+//        IT Come Domain Lab Ajit Ranjan
+
+        (R.id.btnITCDLTypeofRoofItLab to "btnITCDLTypeofRoofItLab"),
+        (R.id.btnITCDLFalseCellingProvide to "btnITCDLFalseCellingProvide"),
+        (R.id.btnITCDLHeightOfCelling to "btnITCDLHeightOfCelling"),
+        (R.id.btnITCDLVentilationAreaInSqFt to "btnITCDLVentilationAreaInSqFt"),
+        (R.id.btnITCDLabSoundLevelAsPerSpecifications to "btnITCDLabSoundLevelAsPerSpecifications"),
+        (R.id.btnITCDLabSoundLevelInDb to "btnITCDLabSoundLevelInDb"),
+        (R.id.btnITDLwhether_all_the_academic to "btnITDLwhether_all_the_academic"),
+        (R.id.btnITCDLAcademicRoomInformationBoard to "btnITCDLAcademicRoomInformationBoard"),
+        (R.id.btnITCDLInternalSignage to "btnITCDLInternalSignage"),
+        (R.id.btnITCDLCctcCamerasWithAudioFacility to "btnITCDLCctcCamerasWithAudioFacility"),
+        (R.id.btnITCDLLanEnabledComputersInNo to "btnITCDLLanEnabledComputersInNo"),
+        (R.id.btnITCDLInternetConnections to "btnITCDLInternetConnections"),
+        (R.id.btnITCDLTrainerChair to "btnITCDLTrainerChair"),
+        (R.id.btnITCDLTablets to "btnITCDLTablets"),
+        (R.id.btnITCDLTrainerTable to "btnITCDLTrainerTable"),
+        (R.id.btnITCDLLightsInNo to "btnITCDLLightsInNo"),
+        (R.id.btnITCDLFansInNo to "btnITCDLFansInNo"),
+        (R.id.btnITCDLElectricaPowerBackUpForThRoom to "btnITCDLElectricaPowerBackUpForThRoom"),
+        (R.id.btnITCDLItLabPhotograph to "btnITCDLItLabPhotograph"),
+        (R.id.btnITCDLListofDomain to "btnITCDLListofDomain"),
+        (R.id.btnITCDLDoes_the_room_has to "btnITCDLDoes_the_room_has"),
+        (R.id.btnITCDLDoAllComputersHaveTypingTutor to "btnITCDLDoAllComputersHaveTypingTutor"),
+        (R.id.btnITCDLStoolsChairs to "btnITCDLStoolsChairs"),
+
+//        Theory Cum IT Lab Ajit Ranjan Click On Button
+        (R.id.btnTCILListofDomain to "btnTCILListofDomain"),
+        (R.id.btnTCILTypeofRoofItLab to "btnTCILTypeofRoofItLab"),
+        (R.id.btnTCILFalseCellingProvide to "btnTCILFalseCellingProvide"),
+        (R.id.btnTCILHeightOfCelling to "btnTCILHeightOfCelling"),
+        (R.id.btnTCILVentilationAreaInSqFt to "btnTCILVentilationAreaInSqFt"),
+        (R.id.btnTCILSoundLevelAsPerSpecifications to "btnTCILSoundLevelAsPerSpecifications"),
+        (R.id.btnTCILSoundLevelInDb to "btnTCILSoundLevelInDb"),
+        (R.id.btnTCILwhether_all_the_academic to "btnTCILwhether_all_the_academic"),
+        (R.id.btnTCILAcademicRoomInformationBoard to "btnTCILAcademicRoomInformationBoard"),
+        (R.id.btnTCILInternalSignage to "btnTCILInternalSignage"),
+        (R.id.btnTCILCctcCamerasWithAudioFacility to "btnTCILCctcCamerasWithAudioFacility"),
+        (R.id.btnTCILLanEnabledComputersInNo to "btnTCILLanEnabledComputersInNo"),
+        (R.id.btnTCILInternetConnections to "btnTCILInternetConnections"),
+        (R.id.btnTCILDoAllComputersHaveTypingTutor to "btnTCILDoAllComputersHaveTypingTutor"),
+        (R.id.btnTCILTablets to "btnTCILTablets"),
+        (R.id.btnTCILStoolsChairs to "btnTCILStoolsChairs"),
+        (R.id.btnTCILTrainerChair to "btnTCILTrainerChair"),
+        (R.id.btnTCILTrainerTable to "btnTCILTrainerTable"),
+        (R.id.btnTCILLightsInNo to "btnTCILLightsInNo"),
+        (R.id.btnTCILFansInNo to "btnTCILFansInNo"),
+        (R.id.btnTCILElectricaPowerBackUpForThRoom to "btnTCILElectricaPowerBackUpForThRoom"),
+        (R.id.btnTCILTheoryCumItLabPhotogragh to "btnTCILTheoryCumItLabPhotogragh"),
+        (R.id.btnTCILDoes_the_room_has to "btnTCILDoes_the_room_has"),
+
+//        Theory Cum Domain Lab Ajit Ranjan Click On Button
+        (R.id.btnTCDLTypeofRoofItLab to "btnTCDLTypeofRoofItLab"),
+        (R.id.btnTCDLFalseCellingProvide to "btnTCDLFalseCellingProvide"),
+        (R.id.btnTCDLHeightOfCelling to "btnTCDLHeightOfCelling"),
+        (R.id.btnTCDLVentilationAreaInSqFt to "btnTCDLVentilationAreaInSqFt"),
+        (R.id.btnTCDLSoundLevelInDb to "btnTCDLSoundLevelInDb"),
+        (R.id.btnTCDLwhether_all_the_academic to "btnTCDLwhether_all_the_academic"),
+        (R.id.btnTCDLAcademicRoomInformationBoard to "btnTCDLAcademicRoomInformationBoard"),
+        (R.id.btnTCDLInternalSignage to "btnTCDLInternalSignage"),
+        (R.id.btnTCDLCctcCamerasWithAudioFacility to "btnTCDLCctcCamerasWithAudioFacility"),
+        (R.id.btnTCDLLcdDigitalProjector to "btnTCDLLcdDigitalProjector"),
+        (R.id.btnTCDLChairForCandidatesInNo to "btnTCDLChairForCandidatesInNo"),
+        (R.id.btnTCDLUploaadTrainerChair to "btnTCDLUploaadTrainerChair"),
+        (R.id.btnTCDLTrainerTable to "btnTCDLTrainerTable"),
+        (R.id.btnTCDLWritingBoard to "btnTCDLWritingBoard"),
+        (R.id.btnTCDLLightsInNo to "btnTCDLLightsInNo"),
+        (R.id.btnTCDLFansInNo to "btnTCDLFansInNo"),
+        (R.id.btnTCDLElectricaPowerBackUpForThRoom to "btnTCDLElectricaPowerBackUpForThRoom"),
+        (R.id.btnTCDLListofDomain to "btnTCDLListofDomain"),
+        (R.id.btnTCDLDomainLabPhotogragh to "btnTCDLDomainLabPhotogragh"),
+        (R.id.btnTCDLDoes_the_room_has to "btnTCDLDoes_the_room_has"),
+
+//        Domain Lab Ajit Ranjan Click On Button
+        (R.id.btnDLTypeofRoofItLab to "btnDLTypeofRoofItLab"),
+        (R.id.btnDLFalseCellingProvide to "btnDLFalseCellingProvide"),
+        (R.id.btnDLHeightOfCelling to "btnDLHeightOfCelling"),
+        (R.id.btnDLVentilationAreaInSqFt to "btnDLVentilationAreaInSqFt"),
+        (R.id.btnDLSoundLevelAsPerSpecifications to "btnDLSoundLevelAsPerSpecifications"),
+        (R.id.btnDLSoundLevelInDb to "btnDLSoundLevelInDb"),
+        (R.id.btnDLwhether_all_the_academic to "btnDLwhether_all_the_academic"),
+        (R.id.btnDLAcademicRoomInformationBoard to "btnDLAcademicRoomInformationBoard"),
+        (R.id.btnDLInternalSignage to "btnDLInternalSignage"),
+        (R.id.btnDLCctcCamerasWithAudioFacility to "btnDLCctcCamerasWithAudioFacility"),
+        (R.id.btnDLLcdDigitalProjector to "btnDLLcdDigitalProjector"),
+        (R.id.btnDLChairForCandidatesInNo to "btnDLChairForCandidatesInNo"),
+        (R.id.btnDLUploaadTrainerChair to "btnDLUploaadTrainerChair"),
+        (R.id.btnDLTrainerTable to "btnDLTrainerTable"),
+        (R.id.btnDLWritingBoard to "btnDLWritingBoard"),
+        (R.id.btnDLLightsInNo to "btnDLLightsInNo"),
+        (R.id.btnDLFansInNo to "btnDLFansInNo"),
+        (R.id.btnDLElectricaPowerBackUpForThRoom to "btnDLElectricaPowerBackUpForThRoom"),
+        (R.id.btnDLILListofDomain to "btnDLILListofDomain"),
+        (R.id.btnDLDomainLabPhotogragh to "btnDLDomainLabPhotogragh"),
+        (R.id.btnDLDoes_the_room_has to "btnDLDoes_the_room_has"),
+
+
+
+
+
+
+        (R.id.btnTCRTypeofRoofItLab to "btnTCRTypeofRoofItLab"),
+        (R.id.btnTCRFalseCellingProvide to "btnTCRFalseCellingProvide"),
+        (R.id.btnTCRHeightOfCelling to "btnTCRHeightOfCelling"),
+        (R.id.btnTCRVentilationAreaInSqFt to "btnTCRVentilationAreaInSqFt"),
+        (R.id.btnTCRSoundLevelInDb to "btnTCRSoundLevelInDb"),
+        (R.id.btnTCRwhether_all_the_academic to "btnTCRwhether_all_the_academic"),
+        (R.id.btnTCRAcademicRoomInformationBoard to "btnTCRAcademicRoomInformationBoard"),
+        (R.id.btnTCRCctcCamerasWithAudioFacility to "btnTCRCctcCamerasWithAudioFacility"),
+
+        (R.id.btnTCRLcdDigitalProjector to "btnTCRLcdDigitalProjector"),
+        (R.id.btnTCRChairForCandidatesInNo to "btnTCRChairForCandidatesInNo"),
+        (R.id.btnTCRTrainerChair to "btnTCRTrainerChair"),
+        (R.id.btnTCRTrainerTable to "btnTCRTrainerTable"),
+        (R.id.btnTCRWritingBoard to "btnTCRWritingBoard"),
+        (R.id.btnTCRLightsInNo to "btnTCRLightsInNo"),
+        (R.id.btnTCRFansInNo to "btnTCRFansInNo"),
+        (R.id.btnTCRElectricaPowerBackUpForThRoom to "btnTCRElectricaPowerBackUpForThRoom"),
+        (R.id.btnTCRDomainLabPhotogragh to "btnTCRDomainLabPhotogragh"),
+        (R.id.btnTCRDoes_the_room_has to "btnTCRDoes_the_room_has"),
+        (R.id.btnTCRInternalSignage to "btnTCRInternalSignage"),
+
+
+
+
         )
 
     // Final Submit Button
@@ -2187,6 +2378,8 @@ class TrainingFragment : Fragment() {
                             ivPreviewTCRCctcCamerasWithAudioFacility.visibility = View.VISIBLE
                             base64ProofPreviewTCRCctcCamerasWithAudioFacility= AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
+
+
                         "btnTCRLcdDigitalProjector" -> {
                             ivPreviewTCRLcdDigitalProjector.setImageURI(photoUri)
                             ivPreviewTCRLcdDigitalProjector.visibility = View.VISIBLE
@@ -2744,6 +2937,7 @@ class TrainingFragment : Fragment() {
         ivPreviewDLwhether_all_the_academic = view.findViewById(R.id.ivPreviewDLwhether_all_the_academic)
         ivPreviewDLAcademicRoomInformationBoard = view.findViewById(R.id.ivPreviewDLAcademicRoomInformationBoard)
         ivPreviewDLInternalSignage = view.findViewById(R.id.ivPreviewDLInternalSignage)
+        ivPreviewDLCctcCamerasWithAudioFacility = view.findViewById(R.id.ivPreviewDLCctcCamerasWithAudioFacility)
         ivPreviewDLLcdDigitalProjector = view.findViewById(R.id.ivPreviewDLLcdDigitalProjector)
         ivPreviewDLChairForCandidatesInNo = view.findViewById(R.id.ivPreviewDLChairForCandidatesInNo)
         ivPreviewDLTrainerChair = view.findViewById(R.id.ivPreviewDLTrainerChair)
