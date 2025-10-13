@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         FullScreenHelper.enableFullScreen(this)
-        setContentView(R.layout.activity_main) // ✅ Load the correct activity layout
+        setContentView(R.layout.activity_main) // ✅ Ajit Check Now this project
 
     }
 }
