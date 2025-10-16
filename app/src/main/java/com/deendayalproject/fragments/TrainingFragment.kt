@@ -1355,6 +1355,11 @@ class TrainingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
+
+
+
         cameraLauncher =
             registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
                 if (success) {
@@ -2469,6 +2474,8 @@ class TrainingFragment : Fragment() {
         binding = FragmentTrainingBinding.bind(view)
         setupExpandableSections(view)
         setupPhotoUploadButtons(view)
+        collectSectionStatus()
+        collectFinalSubmitData()
 
         centerId = arguments?.getString("centerId").toString()
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
@@ -2494,7 +2501,6 @@ class TrainingFragment : Fragment() {
         )
 
         viewModel.getSectionsStatusData(requestTcInfraReq)
-        collectSectionStatus()
 
         // Initialize Training center information views
         etLatitude = view.bindView(R.id.etLatitude)
@@ -2502,16 +2508,7 @@ class TrainingFragment : Fragment() {
 
 
 
-
-
         //RecyClerViewUI()
-
-
-
-
-
-
-
 
 //         Initilize  IT LAB  AJIT PMAYG Crate ID
 
@@ -4148,7 +4145,6 @@ class TrainingFragment : Fragment() {
             )
             viewModel.getFinalSubmitData(requestTcInfraReq)
 
-            collectFinalSubmitData()
         }
 
         // Observers
@@ -4660,7 +4656,7 @@ class TrainingFragment : Fragment() {
                 Toast.makeText(
                     requireContext(),
                     "CCTV data submitted successfully!",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
                 val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutCCTVComplianceContent)
                 otherAreaSection?.let { AppUtil.clearAllInputs(it) }
@@ -5015,7 +5011,6 @@ class TrainingFragment : Fragment() {
                     }),
                     3 to SectionHandler(sectionsStatus.generalDetailsSection, {
                         viewModel.getGeneralDetails(request)
-                        collectTCGeneral(content, icon)
                     }),
                     5 to SectionHandler(sectionsStatus.signageSection, {
                         viewModel.getSignagesAndInfoBoard(request)
@@ -5689,6 +5684,7 @@ class TrainingFragment : Fragment() {
                             "Details sent successfully to Q-Team",
                             Toast.LENGTH_SHORT
                         ).show()
+                        findNavController().navigateUp()
                     }
 
                     202 -> Toast.makeText(
@@ -5800,11 +5796,7 @@ class TrainingFragment : Fragment() {
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
                 if (location != null) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Lat: ${location.latitude}, Lng: ${location.longitude}",
-                        Toast.LENGTH_LONG
-                    ).show()
+
 
                     etLatitude.setText(location.latitude.toString())
                     etLongitude.setText(location.longitude.toString())

@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -26,6 +28,8 @@ import com.deendayalproject.adapter.BlockAdapter
 import com.deendayalproject.adapter.DistrictAdapter
 import com.deendayalproject.adapter.PanchayatAdapter
 import com.deendayalproject.adapter.StateAdapter
+import com.deendayalproject.databinding.FragmentQTeamFormBinding
+import com.deendayalproject.databinding.FragmentResidentialBinding
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.GpRequest
@@ -36,6 +40,9 @@ import com.deendayalproject.model.response.DistrictModel
 import com.deendayalproject.model.response.GpModel
 import com.deendayalproject.model.response.StateModel
 import com.deendayalproject.util.AppUtil
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.android.material.textfield.TextInputEditText
 import java.io.File
 import java.io.IOException
@@ -47,12 +54,14 @@ import kotlin.String
 
 class ResidentialFacilityFragment : Fragment() {
 
-    //private val viewModel: SharedViewModel by activityViewModels()
+    private var _binding: FragmentResidentialBinding? = null
+    private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
     private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private lateinit var photoUri: Uri
     private var currentPhotoTarget: String = ""
+    private var latLangValue: String = ""
     private var base64PVDocFile: String? = null
     private var base64ALDocFile: String? = null
     private var base64OwnerBuildingDocFile: String? = null
@@ -72,6 +81,12 @@ class ResidentialFacilityFragment : Fragment() {
     private var base64TypeLivingRoofDocFile: String? = null
     private var base64CeilingDocFile: String? = null
     private var base64AirConditioningDocFile: String? = null
+    private var base64CotDocFile: String? = null
+    private var base64MattressDocFile: String? = null
+    private var base64BedSheetDocFile: String? = null
+    private var base64CupBoardDocFile: String? = null
+    private var base64LightsDocFile: String? = null
+    private var base64FansDocFile: String? = null
     private var base64LivingAreaInfoBoardDocFile: String? = null
     private var base64LightsInToiletDocFile: String? = null
     private var base64ToiletFlooringDocFile: String? = null
@@ -183,7 +198,7 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var etHeightOfCeiling: TextInputEditText
     private lateinit var etRoomLength: TextInputEditText
     private lateinit var etRoomWidth: TextInputEditText
-    private lateinit var etRoomArea: TextInputEditText
+    private lateinit var etRoomArea: TextView
     private lateinit var etRoomWindowArea: TextInputEditText
     private lateinit var etCot: TextInputEditText
     private lateinit var etMattress: TextInputEditText
@@ -234,11 +249,26 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var spinnerBiometricDeviceAvailable: Spinner
     private lateinit var spinnerElectricalPowerBackupAvailable: Spinner
     private lateinit var spinnerGrievanceRegisterAvailable: Spinner
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     var selectedStateCode ="0";
     var selectedDistrictCode ="0";
     var selectedBlockCode ="0";
     var selectedGpCode ="0";
+
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val fineLocationGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
+            val coarseLocationGranted = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
+
+            if (fineLocationGranted || coarseLocationGranted) {
+                getCurrentLocation()
+            } else {
+                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -344,6 +374,41 @@ class ResidentialFacilityFragment : Fragment() {
                             ivAirConditioningPreview.visibility = View.VISIBLE
                             base64AirConditioningDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
+
+                            "COT" -> {
+                        binding.ivCotPreview.setImageURI(photoUri)
+                        binding.ivCotPreview.visibility = View.VISIBLE
+                        base64CotDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                    }
+
+
+                        "Mattress" -> {
+                            binding.ivMattressPreview.setImageURI(photoUri)
+                            binding.ivMattressPreview.visibility = View.VISIBLE
+                            base64MattressDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+                        "BedSheet" -> {
+                            binding.ivBedSheetPreview.setImageURI(photoUri)
+                            binding.ivBedSheetPreview.visibility = View.VISIBLE
+                            base64BedSheetDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+                        "Cupboard" -> {
+                            binding.ivCupboardPreview.setImageURI(photoUri)
+                            binding.ivCupboardPreview.visibility = View.VISIBLE
+                            base64CupBoardDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+                        "LivingAreaLights" -> {
+                            binding.ivLivingAreaLightsPreview.setImageURI(photoUri)
+                            binding.ivLivingAreaLightsPreview.visibility = View.VISIBLE
+                            base64LightsDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+                        "LivingAreaFans" -> {
+                            binding.ivLivingAreaFansPreview.setImageURI(photoUri)
+                            binding.ivLivingAreaFansPreview.visibility = View.VISIBLE
+                            base64FansDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+
                         "LivingAreaInfoBoard" -> {
                             ivLivingAreaInfoBoardPreview.setImageURI(photoUri)
                             ivLivingAreaInfoBoardPreview.visibility = View.VISIBLE
@@ -446,7 +511,11 @@ class ResidentialFacilityFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_residential, container, false)
+
+
+        _binding = FragmentResidentialBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -455,6 +524,18 @@ class ResidentialFacilityFragment : Fragment() {
         findById(view)
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
         observeViewModel()
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+
+        if (hasLocationPermission()) {
+            getCurrentLocation()
+        } else {
+            requestLocationPermission()
+        }
+
+
+
 
         val request = StateRequest(
             appVersion = BuildConfig.VERSION_NAME,
@@ -548,6 +629,15 @@ class ResidentialFacilityFragment : Fragment() {
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
         })
 
+        etRoomWidth.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                calculateAndShowArea()  // run only when Width changes
+            }
+        })
 
 
         // Setup Yes/No adapter
@@ -583,6 +673,17 @@ class ResidentialFacilityFragment : Fragment() {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
         spinnerTypeOfArea.adapter=areaTypeAdapter
+
+
+        val categoryOfTcAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            listOf("--Select--", "X", "Y", "Z", "Others")
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        spinnerCatOfTCLocation.adapter=categoryOfTcAdapter
+
 
         val genderAdapter = ArrayAdapter(
             requireContext(),
@@ -730,8 +831,41 @@ class ResidentialFacilityFragment : Fragment() {
         view.findViewById<Button>(R.id.btnUploadAirConditioning).setOnClickListener {
             currentPhotoTarget = "AirConditioning"
             checkAndLaunchCamera()
-
         }
+
+
+
+
+
+
+        view.findViewById<Button>(R.id.btnUploadCot).setOnClickListener {
+            currentPhotoTarget = "COT"
+            checkAndLaunchCamera()
+        }
+        view.findViewById<Button>(R.id.btnUploadMattress).setOnClickListener {
+            currentPhotoTarget = "Mattress"
+            checkAndLaunchCamera()
+        }
+        view.findViewById<Button>(R.id.btnUploadBedSheet).setOnClickListener {
+            currentPhotoTarget = "BedSheet"
+            checkAndLaunchCamera()
+        }
+        view.findViewById<Button>(R.id.btnCupboard).setOnClickListener {
+            currentPhotoTarget = "Cupboard"
+            checkAndLaunchCamera()
+        }
+        view.findViewById<Button>(R.id.btnLivingAreaLights).setOnClickListener {
+            currentPhotoTarget = "LivingAreaLights"
+            checkAndLaunchCamera()
+        }
+        view.findViewById<Button>(R.id.btnLivingAreaFans).setOnClickListener {
+            currentPhotoTarget = "LivingAreaFans"
+            checkAndLaunchCamera()
+        }
+
+
+
+
         view.findViewById<Button>(R.id.btnUploadLivingAreaInfoBoard).setOnClickListener {
             currentPhotoTarget = "LivingAreaInfoBoard"
             checkAndLaunchCamera()
@@ -1475,14 +1609,14 @@ class ResidentialFacilityFragment : Fragment() {
        }
 
        // Validate all required Spinners
-       if (!checkSpinner(spinnerState, "Electrical Power Backup")) isValid = false
-       if (!checkSpinner(spinnerDistrict, "Installation of CCTV Monitor")) isValid = false
-       if (!checkSpinner(spinnerBlock, "Storage Place for Securing Documents")) isValid = false
-       if (!checkSpinner(spinnerGp, "Grievance Register")) isValid = false
-       if (!checkSpinner(spinnerTypeOfArea, "Minimum Equipment as per SF 5.1P")) isValid = false
-       if (!checkSpinner(spinnerCatOfTCLocation, "Direction Boards")) isValid = false
-       if (!checkSpinner(spinnerPickupAndDropFacility, "Direction Boards")) isValid = false
-       if (!checkSpinner(spinnerWardenGender, "Direction Boards")) isValid = false
+       if (!checkSpinner(spinnerState, "State")) isValid = false
+       if (!checkSpinner(spinnerDistrict, "District")) isValid = false
+       if (!checkSpinner(spinnerBlock, "Block")) isValid = false
+       if (!checkSpinner(spinnerGp, "Gp")) isValid = false
+       if (!checkSpinner(spinnerTypeOfArea, "TypeOfArea")) isValid = false
+       if (!checkSpinner(spinnerCatOfTCLocation, "Category Of Location")) isValid = false
+       if (!checkSpinner(spinnerPickupAndDropFacility, "PickupAndDropFacility")) isValid = false
+       if (!checkSpinner(spinnerWardenGender, "Warden Gender")) isValid = false
 
        // Validate required TextInputEditTexts
        if (!checkTextInput(etFacilityName, "Residential Facility Name")) isValid = false
@@ -1491,7 +1625,7 @@ class ResidentialFacilityFragment : Fragment() {
        if (!checkTextInput(etStreet, "Street")) isValid = false
        if (!checkTextInput(etLandmark, "Landmark")) isValid = false
        if (!checkTextInput(etVillage, "Village/Ward No.")) isValid = false
-       if (!checkTextInput(etPinCode, "Pincode")) isValid = false
+       if (!checkTextInput(etPinCode, "Pin code")) isValid = false
        if (!checkTextInput(etMobile, "Mobile No.")) isValid = false
        if (!checkTextInput(etPhone, "Residential Facility Phone No. with STD Code")) isValid = false
        if (!checkTextInput(etEmail, "Email Id")) isValid = false
@@ -1554,6 +1688,10 @@ class ResidentialFacilityFragment : Fragment() {
        if (!checkTextInput(etAreaOfBuilding, "Area of the Building (Sq. Ft.) (Include Corridors but Exclude Open to Sky Spaces Like Court Yards etc)")) isValid = false
        if (!checkTextInput(etCirculatingArea, "Circulating Area")) isValid = false
        if (!checkTextInput(etAreaForOutDoorGames, "Area (In Sq ft.)")) isValid = false
+       if(base64OwnerBuildingDocFile == null || base64RoofOfBuildingDocFile == null||base64WhetherStructurallySoundDocFile == null || base64SignOfLeakageDocFile == null
+           || base64ConformanceDDUGKYDocFile == null || base64ProtectionofStairsDocFile == null||base64CorridorDocFile == null || base64SecuringWiresDocFile == null
+           || base64SwitchBoardsDocFile == null || base64HostelNameBoardDocFile == null||base64EntitlementBoardDocFile == null || base64ContactDetailDocFile == null
+           ||base64FoodSpecificationBoardDocFile==null) isValid = false
 
        return isValid
 
@@ -1593,7 +1731,6 @@ class ResidentialFacilityFragment : Fragment() {
        if (!checkTextInput(etHeightOfCeiling, "Height of Ceiling(In ft)")) isValid = false
        if (!checkTextInput(etRoomLength, "Length (In ft)")) isValid = false
        if (!checkTextInput(etRoomWidth, "Width (In ft)")) isValid = false
-       if (!checkTextInput(etRoomArea, "Area (In Sq. ft)")) isValid = false
        if (!checkTextInput(etRoomWindowArea, "Window Area (In Sq. ft)")) isValid = false
        if (!checkTextInput(etCot, "Cot (In No.)")) isValid = false
        if (!checkTextInput(etMattress, "Mattress (In No.)")) isValid = false
@@ -1602,6 +1739,10 @@ class ResidentialFacilityFragment : Fragment() {
        if (!checkTextInput(etStudentsPermitted, "Number of Students Permitted")) isValid = false
        if (!checkTextInput(etLivingAreaLights, "Lights")) isValid = false
        if (!checkTextInput(etLivingAreaFans, "Fans")) isValid = false
+       if(base64TypeLivingRoofDocFile == null || base64CeilingDocFile == null ||base64AirConditioningDocFile == null || base64LivingAreaInfoBoardDocFile == null
+           || base64CotDocFile == null || base64MattressDocFile == null ||base64BedSheetDocFile == null || base64CupBoardDocFile == null
+           || base64LightsDocFile == null || base64FansDocFile == null) isValid = false
+
 
        return isValid
 
@@ -1643,6 +1784,9 @@ class ResidentialFacilityFragment : Fragment() {
        if (!checkTextInput(etFemaleUrinal, "Female Urinals")) isValid = false
        if (!checkTextInput(etFemaleWashbasins, "Female Washbasins")) isValid = false
        if (!checkTextInput(etCandidatesPermissible, "Maximum No. of Candidates Permissible")) isValid = false
+
+       if(base64LightsInToiletDocFile == null || base64ToiletFlooringDocFile == null ) isValid = false
+
 
 
        return isValid
@@ -1806,6 +1950,55 @@ class ResidentialFacilityFragment : Fragment() {
 
     }
 
+    private fun calculateAndShowArea() {
+
+        val lengthStr = etRoomLength.text.toString().trim()
+        val widthStr = etRoomWidth.text.toString().trim()
+
+        val length = lengthStr.toDoubleOrNull() ?: 0.0
+        val width = widthStr.toDoubleOrNull() ?: 0.0
+
+        val area = length * width
+        etRoomArea.text = "$area"
+    }
+
+
+    private fun hasLocationPermission(): Boolean {
+        val fineLocation = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        val coarseLocation = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
+        return fineLocation == PackageManager.PERMISSION_GRANTED ||
+                coarseLocation == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestLocationPermission() {
+        requestPermissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
+    }
+
+
+    @SuppressLint("MissingPermission", "SetTextI18n")
+    private fun getCurrentLocation() {
+        // Uses high accuracy priority for precise location
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener { location ->
+                if (location != null) {
+
+
+                    binding.tvLatLang.text= location.latitude.toString()+","+location.longitude.toString()
+                    latLangValue = location.latitude.toString()+","+location.longitude.toString()
+                } else {
+                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to get location: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
     private fun submitBasicInfoForm(view: View) {
       /*  val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -1833,4 +2026,6 @@ class ResidentialFacilityFragment : Fragment() {
         )
         viewModel.submitBasicInfoFormToServer(request, token)*/
     }
+
+
 }

@@ -1,11 +1,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white">
 
         <include
             layout="@layout/toolbar_layout"
@@ -27,7 +29,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@color/white"
+                >
                 <LinearLayout
                     android:id="@+id/headerTCBasicInfo"
                     android:layout_width="match_parent"
@@ -44,8 +48,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Basic Information"
-                        android:drawableStart="@drawable/ic_training"
+                        android:text="@string/basic_information"
+                        android:drawableStart="@drawable/baseline_info_24"
                         android:gravity="center"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -58,38 +62,64 @@
                         android:src="@drawable/ic_dropdown_arrow" />
                 </LinearLayout>
 
-                <!-- Content: All your fields inside this layout -->
                 <LinearLayout
                     android:id="@+id/layoutTCBasicInfoContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:background="@color/white"
+                    android:layout_marginEnd="@dimen/dp_10"
                     android:visibility="gone"
                     android:paddingTop="8dp">
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/residential_facility_name"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16" />
+
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Residential Facility Name"
-                        android:paddingTop="8dp">
+                        android:hint="@string/residential_facility_name">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etFacilityName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
                             android:inputType="text" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Approximate Distance from an Auto Stand (In Mtrs) -->
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/residential_facility_type"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Residential Facility type"
-                        android:paddingTop="8dp">
+                        android:hint="@string/residential_facility_type">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etFacilityType"
@@ -98,14 +128,25 @@
                             android:inputType="text" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Approximate Distance from a Railway Station (In Mtrs) -->
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/house_no"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="House No."
-                        android:paddingTop="8dp">
+                        android:hint="@string/house_no">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etHouseNo"
@@ -114,14 +155,24 @@
                             />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Latitude -->
-                    <com.google.android.material.textfield.TextInputLayout
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/street"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                   <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Street"
-                        android:paddingTop="8dp">
+                        android:hint="@string/street">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etStreet"
@@ -130,14 +181,25 @@
                             />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Longitude -->
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/landmark"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Landmark"
-                        android:paddingTop="8dp">
+                        android:hint="@string/landmark">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etLandmark"
@@ -146,83 +208,184 @@
                             />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="State/UT(TC)"
-                            android:textStyle="bold" />
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/state_ut_tc_label"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerState"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green" />
+                    </RelativeLayout>
+
+
+
+
+
+                    <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="District(TC)"
-                            android:textStyle="bold" />
+                            android:layout_height="match_parent"
+                            android:id="@+id/tvTrainDescAcademia"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/district_tc"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerDistrict"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green" />
+                    </RelativeLayout>
+
+
+
+
+
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Block"
-                            android:textStyle="bold" />
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/block"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerBlock"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green" />
+                    </RelativeLayout>
+
+
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Gram Panchayat"
-                            android:textStyle="bold" />
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/gram_panchayat"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerGp"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green" />
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/village_ward_no"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Village/Ward No."
-                        android:paddingTop="8dp">
+                        android:hint="@string/village_ward_no">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etVillage"
@@ -230,13 +393,49 @@
                             android:layout_height="wrap_content"
                             />
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/police_station"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Pincode"
-                        android:paddingTop="8dp">
+                        android:hint="@string/police_station">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPoliceStation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLength="6"
+                            android:inputType="number" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/pincode"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        android:hint="@string/pincode">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPinCode"
@@ -245,13 +444,44 @@
                             android:maxLength="6"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/latitude_and_longitude"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"/>
+
+                    <TextView
+                        android:id="@+id/tvLatLang"
+                        style="@style/EditText"
+                        android:text="@string/latitude_and_longitude"
+                        android:background="@drawable/edittext_background"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/mobile_no"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"/>
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Mobile No."
-                        android:paddingTop="8dp">
+                        android:hint="@string/mobile_no">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etMobile"
@@ -260,14 +490,23 @@
                             android:maxLength="10"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/residential_facility_phone_no_with_std_code"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Residential Facility Phone No. with STD Code"
-                        android:paddingTop="8dp">
+                        android:hint="@string/residential_facility_phone_no_with_std_code"
+                        >
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etPhone"
@@ -275,13 +514,22 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/email_id"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"/>
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Email Id"
-                        android:paddingTop="8dp">
+                        android:hint="@string/email_id"
+                       >
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etEmail"
@@ -290,88 +538,101 @@
                             />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Type of Area"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerTypeOfArea"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
 
-                    <!--  <LinearLayout
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="@dimen/dp_4"
-                          android:layout_marginEnd="@dimen/dp_4"
-                          android:layout_marginTop="@dimen/dp_4"
-                          android:orientation="vertical">
-                          <TextView
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:text="Latitude"
-                              android:textStyle="bold" />
-                      </LinearLayout>
-                   <LinearLayout
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="@dimen/dp_4"
-                          android:layout_marginEnd="@dimen/dp_4"
-                          android:layout_marginTop="@dimen/dp_4"
-                          android:orientation="vertical">
-                          <TextView
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:text="Longitude"
-                              android:textStyle="bold" />
-                      </LinearLayout>
-                      <LinearLayout
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_marginStart="@dimen/dp_4"
-                          android:layout_marginEnd="@dimen/dp_4"
-                          android:layout_marginTop="@dimen/dp_4"
-                          android:orientation="vertical">
-                          <TextView
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:text="Geo Address:"
-                              android:textStyle="bold" />
-                      </LinearLayout>-->
-                    <LinearLayout
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/type_of_area1"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Category of TC location X / Y / Z /Any other area"
-                            android:textStyle="bold" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerTypeOfArea"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green" />
+                        </RelativeLayout>
+
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/category_of_tc_location_x_y_z_any_other_area"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerCatOfTCLocation"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green" />
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/approximate_distance_from_a_prominent_bus_stand_in_mtrs"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Approximate Distance from a Prominent Bus Stand (In Mtrs.)"
-                        android:paddingTop="8dp">
+                        android:hint="@string/approximate_distance_from_a_prominent_bus_stand_in_mtrs"
+                        >
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etDistanceFromBusStand"
@@ -379,12 +640,24 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/approximate_distance_from_an_auto_stand_in_mtrs"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Approximate Distance from an Auto Stand (In Mtrs.)"
+                        android:hint="@string/approximate_distance_from_an_auto_stand_in_mtrs"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -394,12 +667,24 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/approximate_distance_from_a_prominent_railway_station_in_mtrs"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Approximate Distance from a Prominent Railway Station (In Mtrs.)"
+                        android:hint="@string/approximate_distance_from_a_prominent_railway_station_in_mtrs"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -408,12 +693,25 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/distance_from_the_training_centre_to_residential_centre_in_kms"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Distance from the Training Centre to Residential Centre (In Kms.)"
+                        android:hint="@string/distance_from_the_training_centre_to_residential_centre_in_kms"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -423,23 +721,42 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <LinearLayout
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/availability_of_pick_up_and_drop_facility"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Availability of Pick-up and Drop Facility"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerPickupAndDropFacility"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green" />
+                    </RelativeLayout>
+
 
                     <TextView
                         android:layout_width="match_parent"
@@ -451,13 +768,24 @@
                         android:textStyle="bold"
                         android:textColor="@color/teal" />
 
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/warden_s_name"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Warden's Name"
-                        android:paddingTop="8dp">
+                        android:hint="@string/warden_s_name">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etWardenName"
@@ -466,69 +794,143 @@
                             android:inputType="text" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <LinearLayout
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/warden_gender"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Warden's Gender"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerWardenGender"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green" />
+                    </RelativeLayout>
+
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/warden_employee_id"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Warden's Employee ID"
-                        android:paddingTop="8dp">
+                        android:hint="@string/warden_employee_id"
+                        >
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etWardenEmpID"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             />
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/warden_address"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Warden's Address"
-                        android:paddingTop="8dp">
+                        android:hint="@string/warden_address">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etWardenAddress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/warden_email_id"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Warden's Email Id"
-                        android:paddingTop="8dp">
+                        android:hint="@string/warden_email_id">
+
+
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etWardenEmailId"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             />
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/warden_mobile_no"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Warden's Mobile No."
-                        android:paddingTop="8dp">
+                        android:hint="@string/warden_mobile_no">
+
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etWardenMobile"
                             android:layout_width="match_parent"
@@ -542,16 +944,21 @@
                         android:layout_marginEnd="@dimen/dp_4"
                         android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical">
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Police Verification Status"
-                            android:textStyle="bold" />
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/police_verification_status"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"/>
                         <Button
                             android:id="@+id/btnUploadPoliceVerificationDoc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upload " />
+                            android:text="Upload"/>
                         <ImageView
                             android:id="@+id/ivPoliceVerificationDocPreview"
                             android:layout_width="100dp"
@@ -567,11 +974,17 @@
                         android:layout_marginEnd="@dimen/dp_4"
                         android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical">
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Appointment Letter"
-                            android:textStyle="bold" />
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/appointment_letter"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"/>
                         <Button
                             android:id="@+id/btnUploadAppointmentLetterDoc"
                             android:layout_width="wrap_content"
@@ -617,9 +1030,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="vertical">
 
-                <!-- Header -->
                 <LinearLayout
                     android:id="@+id/headerInfraDetailCompliance"
                     android:layout_width="match_parent"
@@ -635,12 +1048,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableStart="@drawable/ic_cctvcom"
                         android:gravity="center"
-                        android:text="Infrastructure Details and Compliances"
+                        android:text="@string/infrastructure_details_and_compliances"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:drawableStartCompat="@drawable/infrastructure" />
 
                     <ImageView
                         android:id="@+id/ivToggleInfraDetailCompliance"
@@ -655,25 +1068,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
+                   android:layout_margin="@dimen/dp_10"
                     android:visibility="gone">
-                    <LinearLayout
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/ownership_of_building"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Ownership of Building"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerOwnerBuilding"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green" />
+                    </RelativeLayout>
+
+
                         <Button
                             android:id="@+id/btnUploadOwnerBuilding"
                             android:layout_width="wrap_content"
@@ -686,8 +1119,17 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/area_of_the_building_sq_ft_include_corridors_but_exclude_open_to_sky_spaces_like_court_yards_etc"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
 
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -695,8 +1137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Area of the Building (Sq. Ft.) (Include Corridors but Exclude Open to Sky Spaces Like Court Yards etc)"
-                        android:paddingTop="8dp">
+                        android:hint="@string/area_of_the_building_sq_ft_include_corridors_but_exclude_open_to_sky_spaces_like_court_yards_etc">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etAreaOfBuilding"
@@ -712,15 +1153,46 @@
                         android:layout_marginEnd="@dimen/dp_4"
                         android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical">
+
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Roof of the Building"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerRoofOfBuilding"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/roof_of_the_building"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerRoofOfBuilding"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green" />
+                        </RelativeLayout>
+
+
+
                         <Button
                             android:id="@+id/btnUploadRoofOfBuilding"
                             android:layout_width="wrap_content"
@@ -743,14 +1215,43 @@
                         android:layout_marginEnd="@dimen/dp_4"
                         android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical">
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Whether it is Structurally Sound on Visual Inspection Plastering and Painting of Internal and External Walls and Ceiling" android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerWhetherStructurallySound"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/whether_it_is_structurally_sound_on_visual_inspection_plastering_and_painting_of_internal_and_external_walls_and_ceiling"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerWhetherStructurallySound"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green" />
+                        </RelativeLayout>
+
                         <Button
                             android:id="@+id/btnUploadWhetherStructurallySound"
                             android:layout_width="wrap_content"
@@ -780,15 +1281,44 @@
                         android:layout_marginEnd="@dimen/dp_4"
                         android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical">
+
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Visible Signs of Leakages from Walls and Roof Applicable for both RCC and Non RCC Structures"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerVisibleSignOfLeakage"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/visible_signs_of_leakages_from_walls_and_roof_applicable_for_both_rcc_and_non_rcc_structures"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerVisibleSignOfLeakage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green" />
+                        </RelativeLayout>
+
                         <Button
                             android:id="@+id/btnUploadSignOfLeakage"
                             android:layout_width="wrap_content"
@@ -809,15 +1339,45 @@
                         android:layout_marginEnd="@dimen/dp_4"
                         android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical">
+
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Conformance to DDU-GKY look and feel Standards as per sub section 5.1.1"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerConformanceDDUGKY"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/conformance_to_ddu_gky_look_and_feel_standards_as_per_sub_section_5_1_1"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerConformanceDDUGKY"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green" />
+                        </RelativeLayout>
+
+
                         <Button
                             android:id="@+id/btnUploadConformanceDDUGKY"
                             android:layout_width="wrap_content"
@@ -839,15 +1399,46 @@
                         android:layout_marginEnd="@dimen/dp_4"
                         android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical">
+
+
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Protection of Stairs, Balconies, and Other Locations"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerProtectionofStairs"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/protection_of_stairs_balconies_and_other_locations"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerProtectionofStairs"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green" />
+                        </RelativeLayout>
+
+
                         <Button
                             android:id="@+id/btnUploadProtectionofStairs"
                             android:layout_width="wrap_content"
@@ -861,12 +1452,24 @@
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/circulating_area"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Circulating Area"
+                        android:hint="@string/circulating_area"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -885,15 +1488,43 @@
                         android:layout_marginEnd="@dimen/dp_4"
                         android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical">
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Corridor"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerCorridor"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/corridor"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerCorridor"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green" />
+                        </RelativeLayout>
+
                         <Button
                             android:id="@+id/btnUploadCorridor"
                             android:layout_width="wrap_content"
@@ -924,15 +1555,43 @@
                         android:layout_marginEnd="@dimen/dp_4"
                         android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical">
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Securing of Wires Done"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerSecuringWires"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/securing_of_wires_done"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerSecuringWires"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green" />
+                        </RelativeLayout>
+
                         <Button
                             android:id="@+id/btnUploadSecuringWires"
                             android:layout_width="wrap_content"
@@ -953,15 +1612,43 @@
                         android:layout_marginEnd="@dimen/dp_4"
                         android:layout_marginTop="@dimen/dp_4"
                         android:orientation="vertical">
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Switch Boards and Panel Boards"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerSwitchBoards"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/switch_boards_and_panel_boards"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerSwitchBoards"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green" />
+                        </RelativeLayout>
+
                         <Button
                             android:id="@+id/btnUploadSwitchBoards"
                             android:layout_width="wrap_content"
@@ -979,27 +1666,50 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Residential Signages and Information Boards"
+                        android:text="@string/residential_signages_and_information_boards"
                         android:gravity="center_horizontal"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/teal" />
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+
+                        
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Hostel Name Board"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerHostelNameBoard"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/hostel_name_board"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerHostelNameBoard"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green" />
+                        </RelativeLayout>
+
+
+
                         <Button
                             android:id="@+id/btnUploadHostelNameBoard"
                             android:layout_width="wrap_content"
@@ -1012,25 +1722,53 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
 
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+
+
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Student Entitlement Board and Responsibilities Board"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerEntitlementBoard"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/student_entitlement_board_and_responsibilities_board"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerEntitlementBoard"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green"
+                                tools:ignore="UseAppTint" />
+                        </RelativeLayout>
+
+
+
+
+
+
                         <Button
                             android:id="@+id/btnUploadEntitlementBoard"
                             android:layout_width="wrap_content"
@@ -1043,24 +1781,44 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Contact Detail of Important People"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerContactDetail"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/contact_detail_of_important_people"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerContactDetail"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green"
+                                tools:ignore="UseAppTint" />
+                        </RelativeLayout>
+
+
                         <Button
                             android:id="@+id/btnUploadContactDetail"
                             android:layout_width="wrap_content"
@@ -1073,23 +1831,44 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Basic Information Board"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerBasicInfoBoard"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/basic_information_board"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerBasicInfoBoard"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green"
+                                tools:ignore="UseAppTint" />
+                        </RelativeLayout>
                         <Button
                             android:id="@+id/btnUploadBasicInfoBoard"
                             android:layout_width="wrap_content"
@@ -1102,24 +1881,46 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+
+
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Food Specification Board"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerFoodSpecificationBoard"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/food_specification_board"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerFoodSpecificationBoard"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green"
+                                tools:ignore="UseAppTint" />
+                        </RelativeLayout>
                         <Button
                             android:id="@+id/btnUploadFoodSpecificationBoard"
                             android:layout_width="wrap_content"
@@ -1132,14 +1933,26 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/area_in_sq_ft"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Area (In Sq ft.)"
-                        android:paddingTop="8dp">
+                        android:hint="@string/area_in_sq_ft">
+
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etAreaForOutDoorGames"
                             android:layout_width="match_parent"
@@ -1161,10 +1974,9 @@
 
                 </LinearLayout>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>`
 
+        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Living Area Information -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -1178,6 +1990,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <!-- Header: Infrastructure -->
@@ -1197,10 +2010,11 @@
                         android:layout_weight="1"
                         android:drawableStart="@drawable/ic_property"
                         android:gravity="center"
-                        android:text="Living Area Information"
+                        android:text="@string/living_area_information"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="UseCompatTextViewDrawableXml" />
 
                     <ImageView
                         android:id="@+id/ivToggleLivingAreaInfo"
@@ -1217,33 +2031,56 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:visibility="gone">
+                    android:layout_margin="@dimen/dp_10"
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Residential Areas"
+                        android:text="@string/residential_areas"
                         android:gravity="center_horizontal"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/teal" />
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Type of Roof(RCC/Non RCC)"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerTypeLivingRoof"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/type_of_roof_rcc_non_rcc"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerTypeLivingRoof"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green"
+                                tools:ignore="UseAppTint" />
+                        </RelativeLayout>
                         <Button
                             android:id="@+id/btnUploadTypeLivingRoof"
                             android:layout_width="wrap_content"
@@ -1256,24 +2093,45 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="False Ceiling Provided"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerCeiling"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/false_ceiling_provided"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerCeiling"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green"
+                                tools:ignore="UseAppTint" />
+                        </RelativeLayout>
+
                         <Button
                             android:id="@+id/btnUploadCeiling"
                             android:layout_width="wrap_content"
@@ -1286,15 +2144,26 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
 
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/height_of_ceiling_in_ft"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Height of Ceiling(In ft)"
-                        android:paddingTop="8dp">
+                        android:hint="@string/height_of_ceiling_in_ft"
+                        android:paddingTop="8dp"
+                        tools:ignore="HardcodedText">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etHeightOfCeiling"
@@ -1303,12 +2172,23 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/length_in_ft"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Length (In ft)"
+                        android:hint="@string/length_in_ft"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -1318,12 +2198,24 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/width_in_ft"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Width (In ft)"
+                        android:hint="@string/width_in_ft"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -1332,27 +2224,46 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Area (In Sq. ft)"
-                        android:paddingTop="8dp">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etRoomArea"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/area_in_sq_ft"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/etRoomArea"
+                        style="@style/EditText"
+                        android:text="@string/area_in_sq_ft"
+                        android:background="@drawable/edittext_background"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/window_area_in_sq_ft"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Window Area (In Sq. ft)"
-                        android:paddingTop="8dp">
+                        android:hint="@string/window_area_in_sq_ft">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etRoomWindowArea"
@@ -1361,22 +2272,46 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Does the room has Air Conditioning ?"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerAirConditioning"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/does_the_room_has_air_conditioning"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerAirConditioning"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green"
+                                tools:ignore="UseAppTint" />
+                        </RelativeLayout>
+
+
+
                         <Button
                             android:id="@+id/btnUploadAirConditioning"
                             android:layout_width="wrap_content"
@@ -1389,23 +2324,34 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Sleeping and Storing Material"
+                        android:text="@string/sleeping_and_storing_material"
                         android:gravity="center_horizontal"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/teal" />
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/cot_in_no"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Cot (In No.)"
-                        android:paddingTop="8dp">
+                        android:hint="@string/cot_in_no">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etCot"
@@ -1414,13 +2360,36 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <Button
+                        android:id="@+id/btnUploadCot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload " />
+                    <ImageView
+                        android:id="@+id/ivCotPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/mattress_in_no"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Mattress (In No.)"
-                        android:paddingTop="8dp">
+                        android:hint="@string/mattress_in_no">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etMattress"
@@ -1428,13 +2397,37 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnUploadMattress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload " />
+                    <ImageView
+                        android:id="@+id/ivMattressPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/bed_sheet_in_no"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Bed Sheet (In No.)"
-                        android:paddingTop="8dp">
+                        android:hint="@string/bed_sheet_in_no">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etBedSheet"
@@ -1442,13 +2435,36 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnUploadBedSheet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload"/>
+                    <ImageView
+                        android:id="@+id/ivBedSheetPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/cupboard_almirah_trunk_with_locking_arrangements_in_no"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Cupboard / Almirah / Trunk with Locking Arrangements (In No.)"
-                        android:paddingTop="8dp">
+                        android:hint="@string/cupboard_almirah_trunk_with_locking_arrangements_in_no">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etCupboard"
@@ -1457,23 +2473,56 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Painting & Plastering -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
+
+                    <Button
+                        android:id="@+id/btnCupboard"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+                        android:text="Upload"/>
+                    <ImageView
+                        android:id="@+id/ivCupboardPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Living Area Information Board as per SF 5.1 B4"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerLivingAreaInfoBoard"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/living_area_information_board_as_per_sf_5_1_b4"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerLivingAreaInfoBoard"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green"
+                                tools:ignore="UseAppTint" />
+                        </RelativeLayout>
+
                         <Button
                             android:id="@+id/btnUploadLivingAreaInfoBoard"
                             android:layout_width="wrap_content"
@@ -1486,14 +2535,24 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/number_of_students_permitted"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Number of Students Permitted"
-                        android:paddingTop="8dp">
+                        android:hint="@string/number_of_students_permitted">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etStudentsPermitted"
@@ -1501,29 +2560,65 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/lights_in_no"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Lights"
-                        android:paddingTop="8dp">
+                        android:hint="@string/lights_in_no">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etLivingAreaLights"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="number"/>
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                    <Button
+                        android:id="@+id/btnLivingAreaLights"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload"/>
+                    <ImageView
+                        android:id="@+id/ivLivingAreaLightsPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/fans_in_no"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Fans"
-                        android:paddingTop="8dp">
+                        android:hint="@string/fans_in_no">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etLivingAreaFans"
@@ -1531,6 +2626,21 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <Button
+                        android:id="@+id/btnLivingAreaFans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload"/>
+                    <ImageView
+                        android:id="@+id/ivLivingAreaFansPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
 
                     <Button
                         android:id="@+id/btnSubmitLivingAreaInfo"
@@ -1560,6 +2670,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <!-- Header -->
@@ -1578,12 +2689,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableStart="@drawable/ic_trainner"
                         android:gravity="center"
-                        android:text="Toilets"
+                        android:text="@string/toilets"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:drawableStartCompat="@drawable/toilet" />
 
                     <ImageView
                         android:id="@+id/ivToggleToilets"
@@ -1598,34 +2709,67 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_margin="@dimen/dp_10"
                     android:paddingTop="8dp"
                     android:visibility="gone">
 
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Toilet Type"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerToiletType"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/toilet_type"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerToiletType"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green"
+                                tools:ignore="UseAppTint" />
+                        </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/lights_in_no"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Lights (In No.)"
-                        android:paddingTop="8dp">
+                        android:hint="@string/lights_in_no">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etLightsInToilet"
@@ -1645,22 +2789,45 @@
                         android:layout_marginTop="8dp"
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Type of Flooring"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerToiletFlooringType"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/type_of_flooring"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerToiletFlooringType"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green"
+                                tools:ignore="UseAppTint" />
+                        </RelativeLayout>
+
                         <Button
                             android:id="@+id/btnUploadToiletFlooring"
                             android:layout_width="wrap_content"
@@ -1673,32 +2840,61 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
-                    <LinearLayout
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/connection_to_running_water"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Connection To Running Water"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerConnectionToRunningWater"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/female_urinals"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Female Urinals"
-                        android:paddingTop="8dp">
+                        android:hint="@string/female_urinals">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etFemaleUrinal"
@@ -1706,13 +2902,23 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/female_washbasins"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Female Washbasins"
-                        android:paddingTop="8dp">
+                        android:hint="@string/female_washbasins">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etFemaleWashbasins"
@@ -1720,29 +2926,62 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
-                    <LinearLayout
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/overhead_tanks"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Overhead Tanks"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerOverheadTanks"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/maximum_no_of_candidates_permissible"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Maximum No. of Candidates Permissible"
+                        android:hint="@string/maximum_no_of_candidates_permissible"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -1799,7 +3038,7 @@
                         android:layout_weight="1"
                         android:drawableStart="@drawable/ic_class"
                         android:gravity="center"
-                        android:text="Non-Living Areas"
+                        android:text="@string/non_living_areas"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -2147,12 +3386,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableStart="@drawable/ic_property"
-                        android:text="Indoor Game Details"
+                        android:text="@string/indoor_game_details"
                         android:gravity="center"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:drawableStartCompat="@drawable/tabletennis"
+                        tools:ignore="HardcodedText" />
 
                     <ImageView
                         android:id="@+id/ivToggleIndoorGameDetail"

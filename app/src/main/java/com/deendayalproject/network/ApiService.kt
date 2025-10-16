@@ -29,6 +29,7 @@ import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.BlockResponse
@@ -287,6 +288,13 @@ interface ApiService {
     //    Theory Class Room
     @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
     suspend fun inserttheoryClassroomBasicInfo(@Body request: TCRRequest) : Response<ITLAbDetailsErrorResponse>
+
+
+
+
+    @POST(value = "insertRfBasicInformation")
+    suspend fun insertRfBasicInformation(@Body request: insertRfBasicInfoReq) : Response<ElectricalWireRes>
+
 
 
 }

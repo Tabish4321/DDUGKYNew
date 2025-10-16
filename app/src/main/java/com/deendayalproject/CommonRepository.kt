@@ -31,6 +31,7 @@ import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.BlockResponse
@@ -931,13 +932,13 @@ class CommonRepository(private val context: Context) {
 
     }
     //    Theory Class Room
-    suspend fun submitTheoryClassRoomToServer(
-        request: TCRRequest,
+    suspend fun insertRfBasicInformation(
+        request: insertRfBasicInfoReq,
         token: String
-    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+    ): Result<ElectricalWireRes> = withContext(Dispatchers.IO)  {
         try {
             "Bearer $token"
-            val response = apiService.inserttheoryClassroomBasicInfo(request)
+            val response = apiService.insertRfBasicInformation(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
                     ?: Result.failure(Exception("Empty response"))
@@ -949,6 +950,11 @@ class CommonRepository(private val context: Context) {
         }
 
     }
+
+
+
+
+
 
 
 }
