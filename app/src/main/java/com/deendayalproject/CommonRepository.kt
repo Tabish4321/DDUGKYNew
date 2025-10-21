@@ -31,6 +31,7 @@ import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AllRoomDetailResponse
@@ -67,6 +68,7 @@ import com.deendayalproject.model.response.TeachingLearningRes
 import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
+import com.deendayalproject.model.response.VillageRes
 import com.deendayalproject.util.AppUtil
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -718,6 +720,27 @@ class CommonRepository(private val context: Context) {
             Result.failure(e)
         }
     }
+
+
+
+    suspend fun getVillageList(
+        request: VillageReq,
+        token: String
+    ): Result<VillageRes> {
+        return try {
+            val response = apiService.getVillageList(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
 
 
 //    Ajit Ranjan TL LAB

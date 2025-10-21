@@ -29,6 +29,7 @@ import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AllRoomDetailResponse
@@ -65,6 +66,7 @@ import com.deendayalproject.model.response.TeachingLearningRes
 import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.TrainingCenterInfoRes
 import com.deendayalproject.model.response.TrainingCenterResponse
+import com.deendayalproject.model.response.VillageRes
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -222,6 +224,9 @@ interface ApiService {
 
     @POST("getGPList")
     suspend fun getGPList(@Body request: GpRequest): Response<GpResponse>
+
+    @POST("getVillageList")
+    suspend fun getVillageList(@Body request: VillageReq): Response<VillageRes>
 
 
 

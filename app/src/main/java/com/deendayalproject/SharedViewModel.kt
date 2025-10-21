@@ -32,6 +32,7 @@ import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.BlockResponse
@@ -67,6 +68,7 @@ import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.TeachingLearningRes
 import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.TrainingCenterResponse
+import com.deendayalproject.model.response.VillageRes
 
 import kotlinx.coroutines.launch
 
@@ -152,6 +154,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _gpList = MutableLiveData<Result<GpResponse>>()
     val gpList: LiveData<Result<GpResponse>> = _gpList
+
+    private val _villageList = MutableLiveData<Result<VillageRes>>()
+    val villageList: LiveData<Result<VillageRes>> = _villageList
+
 
     fun submitElectricalData(request: ElectricalWiringRequest, token: String) {
         _loading.postValue(true)
@@ -776,6 +782,20 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _loading.postValue(false)
         }
     }
+
+    fun getVillageList(request: VillageReq, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getVillageList(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _villageList.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
 
 
 

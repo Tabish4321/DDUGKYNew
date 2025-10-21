@@ -70,7 +70,7 @@
                     android:layout_marginStart="@dimen/dp_10"
                     android:background="@color/white"
                     android:layout_marginEnd="@dimen/dp_10"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:paddingTop="8dp">
                     android:orientation="vertical">
 
@@ -380,19 +380,31 @@
                         android:textSize="@dimen/sp_16"
                         />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="@string/village_ward_no">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etVillage"
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
+                        <Spinner
+                            android:id="@+id/spinnerVillage"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green" />
+                    </RelativeLayout>
+
 
                     <TextView
                         android:layout_width="match_parent"

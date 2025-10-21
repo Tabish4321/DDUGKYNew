@@ -28,6 +28,7 @@ import com.deendayalproject.adapter.BlockAdapter
 import com.deendayalproject.adapter.DistrictAdapter
 import com.deendayalproject.adapter.PanchayatAdapter
 import com.deendayalproject.adapter.StateAdapter
+import com.deendayalproject.adapter.VillageAdapter
 import com.deendayalproject.databinding.FragmentQTeamFormBinding
 import com.deendayalproject.databinding.FragmentResidentialBinding
 import com.deendayalproject.model.request.BlockRequest
@@ -35,10 +36,12 @@ import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.response.BlockModel
 import com.deendayalproject.model.response.DistrictModel
 import com.deendayalproject.model.response.GpModel
 import com.deendayalproject.model.response.StateModel
+import com.deendayalproject.model.response.VillageModel
 import com.deendayalproject.util.AppUtil
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -146,7 +149,6 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var etHouseNo: TextInputEditText
     private lateinit var etStreet: TextInputEditText
     private lateinit var etLandmark: TextInputEditText
-    private lateinit var etVillage: TextInputEditText
     private lateinit var etPinCode: TextInputEditText
     private lateinit var etMobile: TextInputEditText
     private lateinit var etPhone: TextInputEditText
@@ -164,6 +166,7 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var spinnerDistrict: Spinner
     private lateinit var spinnerBlock: Spinner
     private lateinit var spinnerGp: Spinner
+    private lateinit var spinnerVillage: Spinner
     private lateinit var spinnerTypeOfArea: Spinner
     private lateinit var spinnerCatOfTCLocation: Spinner
     private lateinit var spinnerPickupAndDropFacility: Spinner
@@ -256,6 +259,7 @@ class ResidentialFacilityFragment : Fragment() {
     var selectedDistrictCode ="0";
     var selectedBlockCode ="0";
     var selectedGpCode ="0";
+    var selectedVillageCode ="0";
 
 
     private val requestPermissionLauncher =
@@ -549,9 +553,12 @@ class ResidentialFacilityFragment : Fragment() {
                     selectedDistrictCode = "0"
                     selectedBlockCode = "0"
                     selectedGpCode = "0"
+                    selectedVillageCode = "0"
+                    spinnerVillage.setSelection(0)
                     spinnerDistrict.setSelection(0)
                     spinnerBlock.setSelection(0)
                     spinnerGp.setSelection(0)
+
                 } else {
                     val stateModel = (spinnerState.getAdapter() as StateAdapter).getItem(position)
                     selectedStateCode = stateModel!!.stateCode
@@ -574,6 +581,8 @@ class ResidentialFacilityFragment : Fragment() {
                     selectedDistrictCode = "0"
                     selectedBlockCode = "0"
                     selectedGpCode = "0"
+                    selectedVillageCode = "0"
+                    spinnerVillage.setSelection(0)
                     spinnerBlock.setSelection(0)
                     spinnerGp.setSelection(0)
                 } else {
@@ -597,6 +606,8 @@ class ResidentialFacilityFragment : Fragment() {
                 if (position == 0) {
                     selectedBlockCode = "0"
                     selectedGpCode = "0"
+                    selectedVillageCode = "0"
+                    spinnerVillage.setSelection(0)
                     spinnerGp.setSelection(0)
                 } else {
                     val blockModel = (spinnerBlock.getAdapter() as BlockAdapter).getItem(position)
@@ -618,9 +629,36 @@ class ResidentialFacilityFragment : Fragment() {
             override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View, position: Int, id: Long) {
                 if (position == 0) {
                     selectedGpCode = "0"
+                    selectedVillageCode = "0"
+                    spinnerVillage.setSelection(0)
                 } else {
                     val gpModel = (spinnerGp.getAdapter() as PanchayatAdapter).getItem(position)
                     selectedGpCode = gpModel!!.gpCode
+
+
+                    val requestVill = VillageReq(
+                        appVersion = BuildConfig.VERSION_NAME,
+                        gpCode = selectedGpCode,
+                    )
+                    viewModel.getVillageList(requestVill, AppUtil.getSavedTokenPreference(requireContext()))
+
+                }
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>?) {}
+        })
+
+
+        spinnerVillage.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            @SuppressLint("SetTextI18n")
+            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View, position: Int, id: Long) {
+                if (position == 0) {
+
+                    selectedVillageCode = "0"
+
+                } else {
+                    val villageModel = (spinnerVillage.getAdapter() as VillageAdapter).getItem(position)
+                    selectedVillageCode = villageModel!!.villageCode
 
 
                 }
@@ -628,6 +666,7 @@ class ResidentialFacilityFragment : Fragment() {
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
         })
+
 
         etRoomWidth.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -1296,6 +1335,28 @@ class ResidentialFacilityFragment : Fragment() {
             // binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
 
+
+
+        viewModel.villageList.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 ->populateSpinnerVillage((it.wrappedList ?: emptyList()) as ArrayList<VillageModel?>,spinnerVillage) //adapter.updateData(it.wrappedList ?: emptyList())
+                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            // binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+
+
+
+
     }
     private fun populateSpinnerState(alStateModel: java.util.ArrayList<StateModel?>, sp: Spinner) {
         if (!alStateModel.isEmpty() && alStateModel.size > 0) {
@@ -1333,6 +1394,21 @@ class ResidentialFacilityFragment : Fragment() {
             sp.adapter = dbAdapter
         }
     }
+
+
+
+
+    private fun populateSpinnerVillage(alStateModel: java.util.ArrayList<VillageModel?>, sp: Spinner) {
+        if (!alStateModel.isEmpty() && alStateModel.size > 0) {
+            alStateModel!!.add(0, VillageModel("--Select--","0"))
+            val dbAdapter = VillageAdapter(requireContext(), android.R.layout.simple_spinner_item, alStateModel
+            )
+            dbAdapter.notifyDataSetChanged()
+            sp.adapter = dbAdapter
+        }
+    }
+
+
     private fun findById(view: View) {
         /////////////////////////Basic Info Section////////////
         etFacilityName= view.findViewById(R.id.etFacilityName)
@@ -1340,7 +1416,6 @@ class ResidentialFacilityFragment : Fragment() {
         etHouseNo= view.findViewById(R.id.etHouseNo)
         etStreet= view.findViewById(R.id.etStreet)
         etLandmark= view.findViewById(R.id.etLandmark)
-        etVillage= view.findViewById(R.id.etVillage)
         etPinCode= view.findViewById(R.id.etPinCode)
         etMobile= view.findViewById(R.id.etMobile)
         etPhone= view.findViewById(R.id.etPhone)
@@ -1358,6 +1433,7 @@ class ResidentialFacilityFragment : Fragment() {
         spinnerDistrict= view.findViewById(R.id.spinnerDistrict)
         spinnerBlock= view.findViewById(R.id.spinnerBlock)
         spinnerGp= view.findViewById(R.id.spinnerGp)
+        spinnerVillage= view.findViewById(R.id.spinnerVillage)
         spinnerTypeOfArea= view.findViewById(R.id.spinnerTypeOfArea)
         spinnerCatOfTCLocation= view.findViewById(R.id.spinnerCatOfTCLocation)
         spinnerPickupAndDropFacility= view.findViewById<Spinner>(R.id.spinnerPickupAndDropFacility)
@@ -1613,6 +1689,7 @@ class ResidentialFacilityFragment : Fragment() {
        if (!checkSpinner(spinnerDistrict, "District")) isValid = false
        if (!checkSpinner(spinnerBlock, "Block")) isValid = false
        if (!checkSpinner(spinnerGp, "Gp")) isValid = false
+       if (!checkSpinner(spinnerVillage, "Village")) isValid = false
        if (!checkSpinner(spinnerTypeOfArea, "TypeOfArea")) isValid = false
        if (!checkSpinner(spinnerCatOfTCLocation, "Category Of Location")) isValid = false
        if (!checkSpinner(spinnerPickupAndDropFacility, "PickupAndDropFacility")) isValid = false
@@ -1624,7 +1701,6 @@ class ResidentialFacilityFragment : Fragment() {
        if (!checkTextInput(etHouseNo, "House No.")) isValid = false
        if (!checkTextInput(etStreet, "Street")) isValid = false
        if (!checkTextInput(etLandmark, "Landmark")) isValid = false
-       if (!checkTextInput(etVillage, "Village/Ward No.")) isValid = false
        if (!checkTextInput(etPinCode, "Pin code")) isValid = false
        if (!checkTextInput(etMobile, "Mobile No.")) isValid = false
        if (!checkTextInput(etPhone, "Residential Facility Phone No. with STD Code")) isValid = false
