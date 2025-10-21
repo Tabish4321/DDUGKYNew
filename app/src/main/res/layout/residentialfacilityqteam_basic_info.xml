@@ -1,0 +1,988 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:id="@+id/llTopInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_background_light_grey"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tvTrainInfo"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/basic_information"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintEnd_toStartOf="@+id/ivSeccArrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/viewRFQTInfo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="#F7F7F7"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llTopInfo"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/RFQTInfoExpand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:elevation="@dimen/dp_2"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/llTopInfo"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <TextView
+            android:id="@+id/sanctionNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sanction_letter_no_and_date"
+            android:layout_marginTop="@dimen/dp_12"
+            android:textColor="@color/color_dark_green"
+            android:drawablePadding="@dimen/dp_10"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/training_center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/tvssanctionNumbere"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sanction_letter_no_and_date1"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sanctionNumber"
+            />
+
+        <TextView
+            android:id="@+id/schemeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scheme_name"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/ic_scheme"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvssanctionNumbere"
+            />
+        <TextView
+            android:id="@+id/tvSchemeName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scheme_name"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/schemeName"
+            />
+        <TextView
+            android:id="@+id/traningCentreName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/training_center_name"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/ic_location"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSchemeName"
+            />
+
+        <TextView
+            android:id="@+id/tvtraningCentreName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/training_center_name"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/traningCentreName"
+            />
+
+
+
+
+        <TextView
+            android:id="@+id/residentialFacilitytype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/residential_facility_type"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/ic_location"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvtraningCentreName"
+            />
+
+        <TextView
+            android:id="@+id/tvresidentialFacilitytype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Residential Facility type"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/residentialFacilitytype"
+            />
+
+
+        <TextView
+            android:id="@+id/location_of_rc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location of the Residential Centre (State Head Quarters, District Head Quarters, Others) Instruction: For location please refer to s.no 9 of the Annexure – III."
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/ic_location"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvresidentialFacilitytype"
+            />
+
+        <TextView
+            android:id="@+id/tvllocation_of_rc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location of the Residential Centre (State Head Quarters, District Head Quarters, Others) Instruction: For location please refer to s.no 9 of the Annexure – III"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/location_of_rc"
+            />
+
+
+
+
+
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/houseNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="House No."
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/ic_location"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvllocation_of_rc"
+            />
+
+        <TextView
+            android:id="@+id/tvhouseNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="House No."
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/houseNo"
+            />
+
+
+        <TextView
+            android:id="@+id/Street"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Street"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/ic_location"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/houseNo"
+            />
+
+        <TextView
+            android:id="@+id/tvStreet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Street"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Street"
+            />
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/distanceBus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Street 2"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/ic_location"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStreet"
+            />
+
+        <TextView
+            android:id="@+id/tvStreet2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Street 2"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/distanceBus"
+            />
+
+
+
+
+
+        <TextView
+            android:id="@+id/state_ui"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="State/UT(TC)"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/ic_location"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStreet2"
+            />
+
+        <TextView
+            android:id="@+id/tvstate_ui"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="State/UT(TC)"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/state_ui"
+            />
+
+
+
+        <TextView
+            android:id="@+id/block"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Block"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/sanction"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvstate_ui"
+            />
+
+        <TextView
+            android:id="@+id/tvblock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Block"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/block"
+            />
+
+        <TextView
+            android:id="@+id/Village_Ward_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Village/Ward No."
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/training_center"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvblock"
+            />
+
+        <TextView
+            android:id="@+id/tvVillage_Ward_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Village/Ward No."
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Village_Ward_no"
+            />
+
+
+
+        <TextView
+            android:id="@+id/pincode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pincode"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/nature_of_tr"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvVillage_Ward_no"
+            />
+
+        <TextView
+            android:id="@+id/tvpincode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pincode"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pincode"
+            />
+
+
+        <TextView
+            android:id="@+id/residentialFacilityPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Residential Facility Phone No. with STD Code"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/ic_special"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvpincode"
+            />
+
+        <TextView
+            android:id="@+id/tvresidentialFacilityPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Residential Facility Phone No. with STD Code"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/residentialFacilityPhone"
+            />
+
+
+        <TextView
+            android:id="@+id/Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/ic_location"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvresidentialFacilityPhone"
+            />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Email"
+            />
+
+
+
+
+
+        <TextView
+            android:id="@+id/TypeofArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type of Area"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/ic_location"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvEmail"
+            />
+
+        <TextView
+            android:id="@+id/tvTrainingCenterAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type of Area"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TypeofArea"
+            />
+
+
+
+        <TextView
+            android:id="@+id/Longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Longitude"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            app:drawableStartCompat="@drawable/ic_email"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTrainingCenterAddress"
+            />
+
+        <TextView
+            android:id="@+id/tvLongitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Longitude"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Longitude"
+            />
+
+
+<!--        Geo Address:-->
+        <TextView
+            android:id="@+id/GeoAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Geo Address"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/ic_phone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvLongitude" />
+
+        <!-- Value: Mobile Number -->
+        <TextView
+            android:id="@+id/tvGeoAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Geo Address"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/GeoAddress" />
+
+
+
+
+
+        <!-- Label: Training Center Mobile Number -->
+        <TextView
+            android:id="@+id/CategoryofTClocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category of TC location X / Y / Z /Any other area"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/ic_phone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvGeoAddress" />
+
+        <!-- Value: Mobile Number -->
+        <TextView
+            android:id="@+id/tvCategoryofTClocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category of TC location X / Y / Z /Any other area"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/CategoryofTClocation" />
+
+        <!-- Label: Training Center Landline Number -->
+        <TextView
+            android:id="@+id/ApproximateDistancefroma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Approximate Distance from a"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_local_phone_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCategoryofTClocation" />
+
+        <!-- Value: Landline Number -->
+        <TextView
+            android:id="@+id/tvApproximateDistancefroma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Approximate Distance from a"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ApproximateDistancefroma" />
+
+
+
+
+        <!-- Label: Parliamentary Constituency -->
+        <TextView
+            android:id="@+id/adfaprs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Approximate Distance from a Prominent Railway Station"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/ic_constituency_new"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvApproximateDistancefroma" />
+
+
+        <TextView
+            android:id="@+id/tvParliamentaryConstituency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Approximate Distance from a Prominent Railway Station"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/adfaprs" />
+
+
+        <TextView
+            android:id="@+id/DistanceFromTheTraining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distance from the Training"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/ic_constituency_new"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvParliamentaryConstituency" />
+
+
+        <TextView
+            android:id="@+id/tvDistanceFromTheTraining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distance from the Training"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/DistanceFromTheTraining" />
+
+
+        <TextView
+            android:id="@+id/CentretoResidential"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Centre to Residential Centre (In Kms.)"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_person_2_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDistanceFromTheTraining" />
+
+        <!-- Value: Center Incharge -->
+        <TextView
+            android:id="@+id/tvCentretoResidentiale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Centre to Residential Centre (In Kms.)"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/CentretoResidential" />
+
+        <!-- Label: Center Incharge Mobile No -->
+        <TextView
+            android:id="@+id/AvailabilityofPick_up_and_Drop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Availability of Pick-up and Drop"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/ic_phone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCentretoResidentiale"/>
+
+        <!-- Value: Center Incharge Mobile No -->
+        <TextView
+            android:id="@+id/tvAvailabilityofPick_up_and_Drop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Availability of Pick-up and Drop"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/AvailabilityofPick_up_and_Drop" />
+
+
+        <TextView
+            android:id="@+id/Facility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Facility"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAvailabilityofPick_up_and_Drop" />
+        <TextView
+            android:id="@+id/tvFacility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Facility"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_person_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Facility" />
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/Gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFacility" />
+        <TextView
+            android:id="@+id/tvGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_person_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Gender" />
+
+
+
+
+
+        <!-- Label: Center Incharge Email ID -->
+        <TextView
+            android:id="@+id/EmployeeID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EmployeeID"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/ic_email"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvGender" />
+
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/tvEmployeeID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EmployeeID"
+            android:textColor="@color/color_dark_green"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EmployeeID" />
+        <TextView
+            android:id="@+id/MobileNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mobile No."
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_person_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvEmployeeID" />
+
+        <TextView
+            android:id="@+id/tvMobileNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mobile No."
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/MobileNo" />
+
+
+        <TextView
+            android:id="@+id/PoliceVerificationStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Police Verification Status"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_person_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMobileNo" />
+
+        <TextView
+            android:id="@+id/tvPoliceVerificationStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Police Verification Status"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/PoliceVerificationStatus" />
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/AppointmentLetter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Appointment Letter"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_person_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPoliceVerificationStatus" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvAppointmentLetter"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Appointment Letter"-->
+<!--            android:textColor="@color/color_dark_blue"-->
+<!--            android:layout_marginStart="@dimen/dp_35"-->
+<!--            android:fontFamily="@font/avenir_next_semi_bold"-->
+<!--            android:textSize="@dimen/sp_16"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/AppointmentLetter" />-->
+
+
+<!--        <ImageView-->
+<!--            android:id="@+id/imageViewppointmentLetter"-->
+<!--            android:layout_width="200dp"-->
+<!--            android:layout_height="200dp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/AppointmentLetter"/>-->
+        <TextView
+            android:id="@+id/valueRFQTInfoPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/AppointmentLetter"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="2dp"/>
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/llApproval"
+            android:text="@string/select_approvals"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/AppointmentLetter"/>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_next_demi_bold"
+            android:hint="@string/select_approval"
+            android:id="@+id/llTcInfo"
+            android:layout_marginStart="@dimen/dp_3"
+            android:textColorHint="@color/color_dark_green"
+            app:boxStrokeColor="@color/color_dark_green"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llApproval">
+
+            <AutoCompleteTextView
+                android:id="@+id/SpinnerTcInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="none"
+                android:textColor="@color/color_dark_green"
+                android:textSize="15sp"
+                tools:ignore="LabelFor"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewRFQTInfoRemarks"
+            android:visibility="gone"
+            android:text="@string/remarkss"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llTcInfo"/>
+
+        <EditText
+            android:id="@+id/etRFQTInfoRemarks"
+            android:visibility="gone"
+            style="@style/EditText"
+            android:hint="@string/remarks"
+            android:background="@drawable/edittext_background"
+            android:padding="12dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewRFQTInfoRemarks"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:text="@string/save_and_next"
+            android:id="@+id/btnRFQTInfoNext"
+            android:textColor="@color/white"
+            android:elevation="4dp"
+            android:textSize="@dimen/sp_16"
+            android:background="@drawable/card_background"
+            android:layout_margin="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@+id/etRFQTInfoRemarks" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@ import com.deendayalproject.BuildConfig
 import com.deendayalproject.adapter.RfQAdapter
 import com.deendayalproject.adapter.RfSrlmAdapter
 import com.deendayalproject.databinding.RfQteamListFragmentBinding
+import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.util.AppUtil
 
@@ -22,6 +23,10 @@ class RFQTeamListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: RfQAdapter
+
+
+    private var centerId: String = ""
+    private var sanctionOrder: String = ""
 
 
     override fun onCreateView(
@@ -57,17 +62,16 @@ class RFQTeamListFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
-
+        centerId = arguments?.getString("centerId").toString()
+        sanctionOrder = arguments?.getString("sanctionOrder").toString()
         observeViewModel()
 
-        val request = TrainingCenterRequest(
-            appVersion = BuildConfig.VERSION_NAME,
+        val request = ResidentialFacilityQTeamRequest(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
-        viewModel.fetchSrlmTeamTrainingList(
-            request,
-            AppUtil.getSavedTokenPreference(requireContext())
+        viewModel.fetchResidentialFacilityQTeamList(request,AppUtil.getSavedTokenPreference(requireContext())
         )
 
     }

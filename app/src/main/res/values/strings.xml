@@ -693,6 +693,8 @@
     <string name="female_urinals">Female Urinals</string>
     <string name="female_washbasins">Female Washbasins</string>
     <string name="maximum_no_of_candidates_permissible">Maximum No. of Candidates Permissible</string>
+    <string name="sanction_letter_no_and_date">Sanction letter No. and date</string>
+    <string name="sanction_letter_no_and_date1">Sanction letter No. and date</string>
 
 
 </resources>

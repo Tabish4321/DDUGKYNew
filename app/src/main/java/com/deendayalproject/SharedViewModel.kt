@@ -7,6 +7,7 @@ import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
+import com.deendayalproject.model.request.CompliancesRFQTReq
 import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
@@ -18,6 +19,7 @@ import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
+import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
@@ -47,11 +49,13 @@ import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
+import com.deendayalproject.model.response.InfrastructureDetailsandCompliancesRFQT
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
@@ -971,4 +975,59 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
 
 
+//    ResidentialFacilityQTeamRequest Ajit Ranjan  16/10/2025
+
+
+    fun fetchResidentialFacilityQTeamList(request: ResidentialFacilityQTeamRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.fetchResidentialFacilityQTeamist(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _trainingCenters.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+//    GetRfBasicInformation AjitRanjan 17/10/2025
+
+
+
+
+    //ResidentialFacilityQTeam
+    private val _ResidentialFacilityQTeam = MutableLiveData<Result<ResidentialFacilityQTeam>>()
+    val ResidentialFacilityQTeam: LiveData<Result<ResidentialFacilityQTeam>> = _ResidentialFacilityQTeam
+
+    fun getRfBasicInformationrInfo(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getTRfBasicInfo(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _ResidentialFacilityQTeam.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+//    Ajit Ranjan create 21/October/2026  CompliancesRFQTReqRFQT
+
+    private val _CompliancesRFQTReqRFQT = MutableLiveData<Result<InfrastructureDetailsandCompliancesRFQT>>()
+    val CompliancesRFQTReqRFQT: LiveData<Result<InfrastructureDetailsandCompliancesRFQT>> = _CompliancesRFQTReqRFQT
+
+
+    fun getCompliancesRFQTReqRFQT(request: CompliancesRFQTReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getCompliancesRFQTReqRFQT(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _CompliancesRFQTReqRFQT.postValue(result)
+            _loading.postValue(false)
+        }
+    }
 }
