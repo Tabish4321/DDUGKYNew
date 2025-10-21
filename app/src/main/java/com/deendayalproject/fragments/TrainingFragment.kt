@@ -8161,7 +8161,7 @@ class TrainingFragment : Fragment() {
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId,
             sanctionOrder=AppUtil.getsanctionOrderPreference(requireContext()),
-            roomType = RoomType.toString(),
+            roomType = RoomType,
             roomLength = Length,
             roomWidth = Width,
             roomArea = Area,

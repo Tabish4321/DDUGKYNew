@@ -954,11 +954,37 @@ class CommonRepository(private val context: Context) {
         }
 
     }
+
+
+
+    //    THEORY cLASS Lab
+    suspend fun submitTheoryClassRoomToServer(
+        request: TCRRequest,
+        token: String
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.inserttheoryClassroomBasicInfo(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+
+
+
     //    Theory Class Room
     suspend fun insertRfBasicInformation(
         request: insertRfBasicInfoReq,
         token: String
-    ): Result<ElectricalWireRes> = withContext(Dispatchers.IO)  {
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
         try {
             "Bearer $token"
             val response = apiService.insertRfBasicInformation(request)

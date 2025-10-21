@@ -298,7 +298,7 @@ interface ApiService {
 
 
     @POST(value = "insertRfBasicInformation")
-    suspend fun insertRfBasicInformation(@Body request: insertRfBasicInfoReq) : Response<ElectricalWireRes>
+    suspend fun insertRfBasicInformation(@Body request: insertRfBasicInfoReq) : Response<ITLAbDetailsErrorResponse>
 
 
 

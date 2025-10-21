@@ -37,6 +37,7 @@ import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.VillageReq
+import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.BlockModel
 import com.deendayalproject.model.response.DistrictModel
 import com.deendayalproject.model.response.GpModel
@@ -1049,220 +1050,6 @@ class ResidentialFacilityFragment : Fragment() {
         }
 
 
-
-        // Observers
-       /* viewModel.insertCCTVdata.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                Toast.makeText(
-                    requireContext(),
-                    "CCTV data submitted successfully!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "CCTV submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-
-        viewModel.insertIpenabledata.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                Toast.makeText(
-                    requireContext(),
-                    "Electrical data submitted successfully!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "Electrical submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-
-        viewModel.insertGeneralDetails.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                Toast.makeText(
-                    requireContext(),
-                    "General details submitted successfully!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "General details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-        viewModel.insertTCInfoDetails.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                Toast.makeText(
-                    requireContext(),
-                    "Training details submitted successfully!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "Training details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-        viewModel.insertSignagesInfoBoardsDetails.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                Toast.makeText(
-                    requireContext(),
-                    "Signages&InfoBoards details submitted successfully!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "Signages&InfoBoards details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-        viewModel.insertSupportInfraDetails.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                Toast.makeText(
-                    requireContext(),
-                    "Support Infrastructure details submitted successfully!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "Support Infrastructure details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-
-            }
-        }*/
-
-
-        /*  val spinnersWithButtons = listOf(
-                  *//* Pair(
-                view.findViewById<Spinner>(R.id.spinnerMonitorAccessible),
-                view.findViewById<Button>(R.id.btnUploadMonitorPhoto)
-            ),*//*
-           *//* Pair(
-                view.findViewById<Spinner>(R.id.spinnerConformance),
-                view.findViewById<Button>(R.id.btnUploadConformancePhoto)
-            ),*//*
-          *//*  Pair(
-                view.findViewById<Spinner>(R.id.spinnerStorage),
-                view.findViewById<Button>(R.id.btnUploadStoragePhoto)
-            ),*//*
-           *//* Pair(
-                view.findViewById<Spinner>(R.id.spinnerDVRStaticIP),
-                view.findViewById<Button>(R.id.btnUploadDVRPhoto)
-            ),*//*
-         *//*   Pair(
-                view.findViewById<Spinner>(R.id.spinnerSwitchBoards),
-                view.findViewById<Button>(R.id.btnUploadSwitchBoards)
-            ),*//*
-         *//*   Pair(
-                view.findViewById<Spinner>(R.id.spinnerSecuringWires),
-                view.findViewById<Button>(R.id.btnUploadSecuringWires)
-            ),*//*
-          *//*  Pair(
-                view.findViewById<Spinner>(R.id.spinnerLeakageCheck),
-                view.findViewById<Button>(R.id.btnUploadLeakageProof)
-            ),*//*
-           *//* Pair(
-                view.findViewById<Spinner>(R.id.spinnerProtectionStairs),
-                view.findViewById<Button>(R.id.btnUploadProtectionStairs)
-            ),*//*
-         *//*   Pair(
-                view.findViewById<Spinner>(R.id.spinnerTrainingCentreNameBoard),
-                view.findViewById<Button>(R.id.btnUploadTrainingCentreNameBoard)
-            ),*//*
-         *//*   Pair(
-                view.findViewById<Spinner>(R.id.spinnerActivitySummaryBoard),
-                view.findViewById<Button>(R.id.btnUploadActivitySummaryBoard)
-            ),*//*
-           *//* Pair(
-                view.findViewById<Spinner>(R.id.spinnerEntitlementBoard),
-                view.findViewById<Button>(R.id.btnUploadEntitlementBoard)
-            ),*//*
-         *//*   Pair(
-                view.findViewById<Spinner>(R.id.spinnerImportantContacts),
-                view.findViewById<Button>(R.id.btnUploadImportantContacts)
-            ),*//*
-          *//*  Pair(
-                view.findViewById<Spinner>(R.id.spinnerBasicInfoBoard),
-                view.findViewById<Button>(R.id.btnUploadBasicInfoBoard)
-            ),*//*
-          *//*  Pair(
-                view.findViewById<Spinner>(R.id.spinnerCodeOfConductBoard),
-                view.findViewById<Button>(R.id.btnUploadCodeOfConductBoard)
-            ),*//*
-          *//*  Pair(
-                view.findViewById<Spinner>(R.id.spinnerAttendanceSummaryBoard),
-                view.findViewById<Button>(R.id.btnUploadAttendanceSummaryBoard)
-            ),*//*
-         *//*   Pair(
-                view.findViewById<Spinner>(R.id.spinnerFirstAidKit),
-                view.findViewById<Button>(R.id.btnUploadFirstAidKit)
-            ),*//*
-         *//*   Pair(
-                view.findViewById<Spinner>(R.id.spinnerSafeDrinkingWater),
-                view.findViewById<Button>(R.id.btnUploadSafeDrinkingWater)
-            ),*//*
-           *//* Pair(
-                view.findViewById<Spinner>(R.id.spinnerPowerBackup),
-                view.findViewById<Button>(R.id.btnUploadPowerBackup)
-            ),*//*
-          *//*  Pair(
-                view.findViewById<Spinner>(R.id.spinnerCCTV),
-                view.findViewById<Button>(R.id.btnUploadPowerBackup)
-            ),*//*
-          *//*  Pair(
-                view.findViewById<Spinner>(R.id.spinnerDocumentStorage),
-                view.findViewById<Button>(R.id.btnUploadDocumentStorage)
-            ),*//*
-          *//*  Pair(
-                view.findViewById<Spinner>(R.id.spinnerGrievanceRegister),
-                view.findViewById<Button>(R.id.btnSubmitGeneralDetails)
-            ),*//*
-          *//*  Pair(
-                view.findViewById<Spinner>(R.id.spinnerMinimumEquipment),
-                view.findViewById<Button>(R.id.btnUploadMinimumEquipment)
-            ),*//*
-         *//*   Pair(
-                view.findViewById<Spinner>(R.id.spinnerDirectionBoards),
-                view.findViewById<Button>(R.id.btnUploadDirectionBoards)
-            ),*//*
-        )*/
-
-        /*  spinnersWithButtons.forEach { (spinner, button) ->
-              spinner.adapter = yesNoAdapter
-              spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                  override fun onItemSelected(
-                      parent: AdapterView<*>,
-                      view: View?,
-                      position: Int,
-                      id: Long
-                  ) {
-                      val selected = parent.getItemAtPosition(position).toString()
-                      button.visibility = if (selected == "No") View.GONE else View.VISIBLE
-                  }
-
-                  override fun onNothingSelected(parent: AdapterView<*>) {}
-              }
-          }*/
     }
 
     private fun observeViewModel() {
@@ -2074,6 +1861,23 @@ class ResidentialFacilityFragment : Fragment() {
                 Toast.makeText(requireContext(), "Failed to get location: ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
+
+/*    private fun submitRFBasicInfoForm(view: View) {
+          val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
+              .getString("ACCESS_TOKEN", "") ?: ""
+
+          val request = insertRfBasicInfoReq(
+              sanctionOrder = sa,
+              loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+              imeiNo = AppUtil.getAndroidId(requireContext()),
+              appVersion = BuildConfig.VERSION_NAME,
+
+          )
+          viewModel.submitBasicInfoFormToServer(request, token)
+    }*/
+
+
 
     private fun submitBasicInfoForm(view: View) {
       /*  val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)

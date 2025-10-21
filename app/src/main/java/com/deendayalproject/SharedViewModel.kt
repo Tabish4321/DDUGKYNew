@@ -33,6 +33,7 @@ import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.VillageReq
+import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.BlockResponse
@@ -946,6 +947,28 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
 
     }
+
+
+    //    DomainLab
+    private val _RfBasicInfo = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val RfBasicInfo: LiveData<Result<ITLAbDetailsErrorResponse>> = _RfBasicInfo
+
+
+    fun SubmitRfBasicInformationToServer(request: insertRfBasicInfoReq, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.insertRfBasicInformation(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _RfBasicInfo.postValue(result)
+            _loading.postValue(false)
+        }
+
+    }
+
+
+
 
 
 }
