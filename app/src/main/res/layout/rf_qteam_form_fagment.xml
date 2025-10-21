@@ -1,6 +1,2672 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/scroll"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:background="@color/color_light_grey">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/dp_100"
+        android:clipToPadding="false"
+        android:clipChildren="false">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100"
+            android:background="@color/color_dark_blue"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/backButton"
+                android:layout_marginStart="@dimen/dp_20"
+                android:padding="@dimen/dp_5"
+                android:scaleType="fitCenter"
+                android:src="@drawable/back_arrow"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/residential_facility_qteam"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"/>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="150dp"
+                android:layout_height="@dimen/dp_60"
+                android:layout_gravity="end"
+                android:id="@+id/logo"
+                android:background="@color/white"
+                android:padding="@dimen/dp_5"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ddy_logo"
+                app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
+
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tvTrainingInfo"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
+
+            <include
+                android:id="@+id/residentialfacilityqteamInfoLayout"
+                layout="@layout/residentialfacilityqteam_basic_info"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainInfra"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTrainingInfo">
+
+
+            <LinearLayout
+                android:id="@+id/llTopInfra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvTrainInfra"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/training_center_infrastructure"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewInfra"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopInfra"/>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/trainingInfraExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/llTopInfra"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <!-- Ownership of Building Label -->
+                <TextView
+                    android:id="@+id/ownershipOfBuilding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ownership_of_building"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/ic_special"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/tvOwnershipOfBuilding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Owned by XYZ"
+                    android:textColor="@color/color_dark_green"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ownershipOfBuilding" />
+
+                <!-- Area of the Building Label -->
+                <TextView
+                    android:id="@+id/areaOfBuilding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/area_of_the_building_sq_ft"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/ic_square_feet"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvOwnershipOfBuilding" />
+
+                <!-- Area of the Building Value -->
+                <TextView
+                    android:id="@+id/tvAreaOfBuilding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5000 Sq.ft"
+                    android:textColor="@color/color_dark_green"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/areaOfBuilding" />
+
+                <!-- Roof of the Building Label -->
+                <TextView
+                    android:id="@+id/roofOfBuilding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/roof_of_the_building"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/ic_roof"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAreaOfBuilding" />
+
+                <!-- Roof of the Building Value -->
+                <TextView
+                    android:id="@+id/tvRoofOfBuilding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Concrete"
+                    android:textColor="@color/color_dark_green"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/roofOfBuilding" />
+
+                <!-- Plastering & Painting Label -->
+                <TextView
+                    android:id="@+id/plasteringPainting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/plastering_painting_internal_external"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/ic_plastering"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRoofOfBuilding" />
+
+                <!-- Plastering & Painting Value -->
+                <TextView
+                    android:id="@+id/tvPlasteringPainting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Completed"
+                    android:textColor="@color/color_dark_green"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/plasteringPainting" />
+
+                <!-- Self-declaration statement (PDF) Label -->
+                <TextView
+                    android:id="@+id/selfDeclarationPdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/self_declaration_statement_pdf"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/ic_selfn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPlasteringPainting" />
+
+                <!-- Self-declaration PDF Value -->
+                <TextView
+                    android:id="@+id/tvSelfDeclarationPdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/selfDeclarationPdf" />
+
+                <!-- Photos of Building, Ceiling and Roof (PDF) Label -->
+                <TextView
+                    android:id="@+id/photosOfBuildingPdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/photos_of_building_ceiling_and_roof_pdf"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/ic_roof"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSelfDeclarationPdf" />
+
+                <!-- Photos of Building PDF Value -->
+                <TextView
+                    android:id="@+id/tvPhotosOfBuildingPdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/photosOfBuildingPdf" />
+
+                <!-- Schematic Building Plan (PDF) Label -->
+                <TextView
+                    android:id="@+id/schematicBuildingPlanPdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/schematic_building_plan_pdf"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/ic_special"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPhotosOfBuildingPdf" />
+
+                <!-- Schematic Building Plan PDF Value -->
+                <TextView
+                    android:id="@+id/tvSchematicBuildingPlanPdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/schematicBuildingPlanPdf" />
+
+                <!-- Photos of Internal/External Walls and Ceiling (PDF) Label -->
+                <TextView
+                    android:id="@+id/internalExternalWallsPdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/photos_of_internal_external_walls_and_ceiling_pdf"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/ic_walls"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSchematicBuildingPlanPdf" />
+
+                <!-- Internal/External Walls PDF Value -->
+                <TextView
+                    android:id="@+id/tvInternalExternalWallsPdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/internalExternalWallsPdf" />
+
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/llInfraApproval"
+                    android:text="@string/select_approvals"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvInternalExternalWallsPdf"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:hint="@string/select_approval"
+                    android:id="@+id/llTcInfra"
+                    android:layout_marginStart="@dimen/dp_3"
+                    android:textColorHint="@color/color_dark_green"
+                    app:boxStrokeColor="@color/color_dark_green"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/llInfraApproval">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/SpinnerTcInfra"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:inputType="none"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp"
+                        tools:ignore="LabelFor"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/InfraRemarks"
+                    android:visibility="gone"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/llTcInfra"/>
+
+                <EditText
+                    android:id="@+id/etInfraRemarks"
+                    android:visibility="gone"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/InfraRemarks"
+                    />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/llBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etInfraRemarks">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnInfraPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/save_and_next"
+                        android:gravity="center"
+                        android:id="@+id/btnInfraNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainDescAcademia"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainInfra">
+
+
+            <LinearLayout
+                android:id="@+id/llTopDescAcademia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvTrainDescAcademia"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/description_of_academic_non_academic_areas"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewDescAcademia"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopDescAcademia"/>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/trainingDescAcademiaExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/llTopDescAcademia"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <!-- Header row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="#DDDDDD"
+                        android:padding="8dp">
+
+                        <!-- <TextView
+                             android:layout_width="0dp"
+                             android:layout_height="wrap_content"
+                             android:layout_weight="1"
+                             android:gravity="center"
+                             android:text="Room No."
+                             android:textStyle="bold" />-->
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:gravity="center"
+                            android:text="Room Type"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:gravity="center"
+                            android:text="Max Candidate"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Length (Ft.)"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Width (Ft.)"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Area (SqFt.)"
+                            android:textStyle="bold" />
+
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="View"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- RecyclerView for listing rooms -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:dividerHeight="1dp"
+                        android:scrollbars="vertical"/>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/llDescAcademiaApproval"
+                        android:text="@string/select_approvals"
+                        android:layout_marginTop="@dimen/dp_20"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_next_demi_bold"
+                        android:hint="@string/select_approval"
+                        android:id="@+id/llTcDescAcademia"
+                        android:layout_marginStart="@dimen/dp_3"
+                        android:textColorHint="@color/color_dark_green"
+                        app:boxStrokeColor="@color/color_dark_green"
+                        >
+
+                        <AutoCompleteTextView
+                            android:id="@+id/SpinnerDescAcademia"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:inputType="none"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="15sp"
+                            tools:ignore="LabelFor"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/DescAcademiaRemarks"
+                        android:visibility="gone"
+                        android:text="@string/remarkss"
+                        android:layout_marginTop="@dimen/dp_20"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+                    <EditText
+                        android:id="@+id/etDescAcademiaRemarks"
+                        android:visibility="gone"
+                        style="@style/EditText"
+                        android:hint="@string/remarks"
+                        android:background="@drawable/edittext_background"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        />
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:id="@+id/llDescAcademiaBtn"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/etInfraRemarks">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:id="@+id/btnDescAcademiaPrevious"
+                            android:elevation="4dp"
+                            android:text="@string/previous"
+                            android:textColor="@color/color_dark_blue"
+                            android:textSize="@dimen/sp_16"
+                            android:background="@drawable/backgroung_overlay"
+                            android:layout_margin="8dp" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:text="@string/save_and_next"
+                            android:gravity="center"
+                            android:id="@+id/btnDescAcademiaNext"
+                            android:textColor="@color/white"
+                            android:elevation="4dp"
+                            android:textSize="@dimen/sp_16"
+                            android:background="@drawable/card_background"
+                            android:layout_margin="8dp" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainToilet"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainDescAcademia">
+
+
+            <LinearLayout
+                android:id="@+id/llTopToilet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvTrainToilet"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/toilets_and_wash_basins"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewToilet"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopToilet"/>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/trainingToiletExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/llTopToilet"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+
+                <TextView
+                    android:id="@+id/labelMaleToilet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/male_toilets_in_no"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/toilet"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoMaleToilet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelMaleToilet"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueMaleToilet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoMaleToilet"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <TextView
+                    android:id="@+id/labelProofMaleSignageToilet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/proof_of_male_toilets_signage"
+                    android:textColor="@color/color_dark_green"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/toilet"
+                    app:layout_constraintTop_toBottomOf="@+id/valueMaleToilet"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+                <TextView
+                    android:id="@+id/valueProofMaleSignageToilet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelProofMaleSignageToilet"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+
+
+
+                <TextView
+                    android:id="@+id/labelMaleUrinals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/male_urinals_in_no"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/toilet"
+                    app:layout_constraintTop_toBottomOf="@+id/valueProofMaleSignageToilet"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoMaleUrinals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelMaleUrinals"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueMaleUrinals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoMaleUrinals"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+                <TextView
+                    android:id="@+id/labelMaleWashBasin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/male_wash_basins_in_no"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/toilet"
+                    app:layout_constraintTop_toBottomOf="@+id/valueMaleUrinals"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoMaleWashBasin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelMaleWashBasin"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueMaleWashBasin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoMaleWashBasin"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+
+
+
+
+
+
+
+                <TextView
+                    android:id="@+id/labelFemaleToilet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/female_toilets_in_no"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/toilet"
+                    app:layout_constraintTop_toBottomOf="@+id/valueMaleWashBasin"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoFemaleToilet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelFemaleToilet"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueFemaleToilet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoFemaleToilet"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <TextView
+                    android:id="@+id/labelProofFemaleSignageToilet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/proof_of_female_toilets_signage"
+                    android:textColor="@color/color_dark_green"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/toilet"
+                    app:layout_constraintTop_toBottomOf="@+id/valueFemaleToilet"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+                <TextView
+                    android:id="@+id/valueProofFemaleSignageToilet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelProofFemaleSignageToilet"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+
+
+                <TextView
+                    android:id="@+id/labelFemaleWashBasin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/female_wash_basins_in_no"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/toilet"
+                    app:layout_constraintTop_toBottomOf="@+id/valueProofFemaleSignageToilet"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoFemaleWashBasin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelFemaleWashBasin"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueFemaleWashBasin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoFemaleWashBasin"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+                <TextView
+                    android:id="@+id/labelOverheadTank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/overhead_tanks"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/overhead"
+                    app:layout_constraintTop_toBottomOf="@+id/valueFemaleWashBasin"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoOverheadTank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelOverheadTank"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueOverheadTank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoOverheadTank"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+                <TextView
+                    android:id="@+id/labelTypeOfFlooring"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/type_of_flooring"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/flooring"
+                    app:layout_constraintTop_toBottomOf="@+id/valueOverheadTank"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoTypeOfFlooring"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelTypeOfFlooring"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueTypeOfFlooring"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoTypeOfFlooring"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/llBasinApproval"
+                    android:text="@string/select_approvals"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintTop_toBottomOf="@id/valueTypeOfFlooring"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:hint="@string/select_approval"
+                    android:id="@+id/llTcBasin"
+                    android:layout_marginStart="@dimen/dp_3"
+                    android:textColorHint="@color/color_dark_green"
+                    app:boxStrokeColor="@color/color_dark_green"
+                    app:layout_constraintTop_toBottomOf="@id/llBasinApproval"
+                    app:layout_constraintStart_toStartOf="parent"
+                    >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/SpinnerBasin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:inputType="none"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp"
+                        tools:ignore="LabelFor"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/BasinRemarks"
+                    android:visibility="gone"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintTop_toBottomOf="@id/llTcBasin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <EditText
+                    android:id="@+id/etBasinRemarks"
+                    android:visibility="gone"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/BasinRemarks"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/llBasinBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etBasinRemarks">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnBasinPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/save_and_next"
+                        android:gravity="center"
+                        android:id="@+id/btnBasinNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainDescOfOtherArea"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainToilet">
+
+
+            <LinearLayout
+                android:id="@+id/llTopDescOfOtherArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvTrainDescOfOtherArea"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/description_of_other_areas"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewDescOfOtherArea"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopDescOfOtherArea"/>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/trainingDescOfOtherAreaExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/llTopDescOfOtherArea"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <TextView
+                    android:id="@+id/labelCorridorNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/corridor_no"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/ic_walls"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueCorridorNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelCorridorNo"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <TextView
+                    android:id="@+id/labelLenghth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/length_in_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/length"
+                    app:layout_constraintTop_toBottomOf="@+id/valueCorridorNo"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueLenghth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelLenghth"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/labelWidth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/width_in_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/width"
+                    app:layout_constraintTop_toBottomOf="@+id/valueLenghth"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueWidth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelWidth"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <TextView
+                    android:id="@+id/labelArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/area_in_sq_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/area"
+                    app:layout_constraintTop_toBottomOf="@+id/valueWidth"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelArea"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/labelLights"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lights"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/light"
+                    app:layout_constraintTop_toBottomOf="@+id/valueArea"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueLights"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelLights"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <TextView
+                    android:id="@+id/labelFans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fans_in_no"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:layout_marginTop="16dp"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/fan"
+                    app:layout_constraintTop_toBottomOf="@id/valueLights"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/yesNoFans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelFans"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/valueFans"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoFans"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/labelCirculationArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/circulation_area_in_sq_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/area"
+                    app:layout_constraintTop_toBottomOf="@+id/valueFans"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoCirculationArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelCirculationArea"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueCirculationArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoCirculationArea"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+
+                <TextView
+                    android:id="@+id/labelOpenSpace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/open_space_for_people_to_gather_and_interact_in_sq_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/area"
+                    app:layout_constraintTop_toBottomOf="@+id/valueCirculationArea"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoOpenSpace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelOpenSpace"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueOpenSpace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoOpenSpace"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/labelParking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/exclusive_parking_space_no_in_terms_of_bicycle_parking_slots"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/parking"
+                    app:layout_constraintTop_toBottomOf="@+id/valueOpenSpace"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoParking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelParking"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueParking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoParking"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/llDescOtherArea"
+                    android:text="@string/select_approvals"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintTop_toBottomOf="@id/valueParking"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:hint="@string/select_approval"
+                    android:id="@+id/llTcDescOtherArea"
+                    android:layout_marginStart="@dimen/dp_3"
+                    android:textColorHint="@color/color_dark_green"
+                    app:boxStrokeColor="@color/color_dark_green"
+                    app:layout_constraintTop_toBottomOf="@id/llDescOtherArea"
+                    app:layout_constraintStart_toStartOf="parent"
+                    >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/SpinnerDescOtherArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:inputType="none"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp"
+                        tools:ignore="LabelFor"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/DescOtherAreaRemarks"
+                    android:visibility="gone"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintTop_toBottomOf="@id/llTcDescOtherArea"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <EditText
+                    android:id="@+id/etDescOtherAreaRemarks"
+                    android:visibility="gone"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/DescOtherAreaRemarks"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/llDescOtherAreaBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etDescOtherAreaRemarks">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnDescOtherAreaPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/save_and_next"
+                        android:gravity="center"
+                        android:id="@+id/btnDescOtherAreaNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainTeaching"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainDescOfOtherArea">
+
+
+            <LinearLayout
+                android:id="@+id/llTopTeaching"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvTrainTeaching"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/availability_of_teaching_learning_materials"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewTeaching"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopTeaching"/>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/trainingTeachingExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/llTopTeaching"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+
+                <TextView
+                    android:id="@+id/labelTrade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/trade"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/internet"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoTrade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelTrade"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <TextView
+                    android:id="@+id/labelNatureofTraining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nature_of_training_proposed"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/training_center"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoTrade"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoNatureofTraining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelNatureofTraining"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <TextView
+                    android:id="@+id/labelTradeAsPerProject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/is_the_available_trades_as_per_project_execution_readiness_assessment_at_project_hq_s"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/internet"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoNatureofTraining"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoTradeAsPerProject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelTradeAsPerProject"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/labelIsTrainingPlanAvail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/is_training_plan_available_as_per_sf_4_1a"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/ic_available"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoTradeAsPerProject"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoIsTrainingPlanAvail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelIsTrainingPlanAvail"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+                <TextView
+                    android:id="@+id/labelIsDomainCirAvail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/is_domain_curriculum_available_as_per_sf_4_2a"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/ic_available"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoIsTrainingPlanAvail"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoIsDomainCirAvail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelIsDomainCirAvail"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <TextView
+                    android:id="@+id/labelIsActivityCumLess"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/is_activity_cum_lesson_planner_available_as_per_sf_4_5a"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/ic_available"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoIsDomainCirAvail"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoIsActivityCumLess"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelIsActivityCumLess"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+                <TextView
+                    android:id="@+id/labelIsWelcomeKitAvail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/is_welcome_kit_available_as_per_sf_5_1c2"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/wellcome_kit"
+                    app:layout_constraintTop_toBottomOf="@+id/yesNoIsActivityCumLess"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoIsWelcomeKitAvail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelIsWelcomeKitAvail"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueIsWelcomeKitAvail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoIsWelcomeKitAvail"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/labelNameOfCertifyingAg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name_of_certifying_agency"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/ic_lab"
+                    app:layout_constraintTop_toBottomOf="@id/valueIsWelcomeKitAvail"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoNameOfCertifyingAg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelNameOfCertifyingAg"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+                <TextView
+                    android:id="@+id/labelAssessmentMaterial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/assessment_material_availability"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="@dimen/dp_15"
+                    app:drawableStartCompat="@drawable/area"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoNameOfCertifyingAg"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoAssessmentMaterial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelAssessmentMaterial"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/llTeaching"
+                    android:text="@string/select_approvals"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoAssessmentMaterial"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:hint="@string/select_approval"
+                    android:id="@+id/llTcTeaching"
+                    android:layout_marginStart="@dimen/dp_3"
+                    android:textColorHint="@color/color_dark_green"
+                    app:boxStrokeColor="@color/color_dark_green"
+                    app:layout_constraintTop_toBottomOf="@id/llTeaching"
+                    app:layout_constraintStart_toStartOf="parent"
+                    >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/SpinnerTeaching"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:inputType="none"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp"
+                        tools:ignore="LabelFor"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/TeachingRemarks"
+                    android:visibility="gone"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintTop_toBottomOf="@id/llTcTeaching"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <EditText
+                    android:id="@+id/etTeachingRemarks"
+                    android:visibility="gone"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/TeachingRemarks"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/llTeachingBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etTeachingRemarks">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnTeachingPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/save_and_next"
+                        android:gravity="center"
+                        android:id="@+id/btnTeachingNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainGeneralDetails"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainTeaching">
+
+
+            <LinearLayout
+                android:id="@+id/llTopGeneralDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvTrainGeneralDetails"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/general_details"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewGeneralDetails"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopGeneralDetails"/>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/trainingGeneralDetailsExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/viewGeneralDetails"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+
+                <TextView
+                    android:id="@+id/labelSignOfLiakage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/visible_signs_of_leakages_from_walls_and_roof_applicable_for_both_rcc_and_non_rcc_structures"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/ic_walls"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoSignOfLiakage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelSignOfLiakage"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueSignOfLiakage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoSignOfLiakage"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+                <TextView
+                    android:id="@+id/labelProtectionOfStairs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/protection_of_stairs_balconies_and_other_locations"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/stairs"
+                    app:layout_constraintTop_toBottomOf="@+id/valueSignOfLiakage"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoProtectionOfStairs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelProtectionOfStairs"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueProtectionOfStairs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoProtectionOfStairs"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+                <TextView
+                    android:id="@+id/labelconformanceDDUGKY"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/conformance_to_ddu_gky_look_and_feel_standards_as_per_sub_section_4_2_1"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/ic_verified"
+                    app:layout_constraintTop_toBottomOf="@+id/valueProtectionOfStairs"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoconformanceDDUGKY"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelconformanceDDUGKY"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <TextView
+                    android:id="@+id/labelCandidateComeSafely"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:drawablePadding="8dp"
+                    android:text="@string/can_the_candidates_safely_come_to_the_centre_when_training_is_conducted"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/baseline_safety_check_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/yesNoconformanceDDUGKY" />
+
+                <TextView
+                    android:id="@+id/yesNoCandidateComeSafely"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelCandidateComeSafely"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/llGeneral"
+                    android:text="@string/select_approvals"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoCandidateComeSafely"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:hint="@string/select_approval"
+                    android:id="@+id/llTcGeneral"
+                    android:layout_marginStart="@dimen/dp_3"
+                    android:textColorHint="@color/color_dark_green"
+                    app:boxStrokeColor="@color/color_dark_green"
+                    app:layout_constraintTop_toBottomOf="@id/llGeneral"
+                    app:layout_constraintStart_toStartOf="parent"
+                    >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/SpinnerGeneral"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:inputType="none"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp"
+                        tools:ignore="LabelFor"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/GeneralRemarks"
+                    android:visibility="gone"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintTop_toBottomOf="@id/llTcGeneral"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <EditText
+                    android:id="@+id/etGeneralRemarks"
+                    android:visibility="gone"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/GeneralRemarks"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/llGeneralBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etGeneralRemarks">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnGeneralPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/save_and_next"
+                        android:gravity="center"
+                        android:id="@+id/btnGeneralNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainElectricalDetails"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainGeneralDetails">
+
+
+            <LinearLayout
+                android:id="@+id/llTopElectricalDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvTrainElectricalDetails"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/electrical_wiring_and_standards"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewElectricalDetails"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopElectricalDetails"/>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/trainingElectricalDetailsExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/viewElectricalDetails"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+
+                <TextView
+                    android:id="@+id/labelSecuringWire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/securing_of_wires"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/ic_walls"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoSecuringWire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelSecuringWire"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueSecuringWire"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoSecuringWire"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+                <TextView
+                    android:id="@+id/labelSwitchBoard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/switch_boards_and_panel_boards"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    app:drawableStartCompat="@drawable/stairs"
+                    app:layout_constraintTop_toBottomOf="@+id/valueSecuringWire"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/yesNoSwitchBoard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/n_a"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/labelSwitchBoard"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/valueSwitchBoard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/yesNoSwitchBoard"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/llElectrical"
+                    android:text="@string/select_approvals"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintTop_toBottomOf="@id/valueSwitchBoard"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:hint="@string/select_approval"
+                    android:id="@+id/llTcElectrical"
+                    android:layout_marginStart="@dimen/dp_3"
+                    android:textColorHint="@color/color_dark_green"
+                    app:boxStrokeColor="@color/color_dark_green"
+                    app:layout_constraintTop_toBottomOf="@id/llElectrical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/SpinnerElectrical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:inputType="none"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp"
+                        tools:ignore="LabelFor"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ElectricalRemarks"
+                    android:visibility="gone"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintTop_toBottomOf="@id/llTcElectrical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <EditText
+                    android:id="@+id/etElectricalRemarks"
+                    android:visibility="gone"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/ElectricalRemarks"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/llElectricalBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etElectricalRemarks">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnElectricalPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/save_and_next"
+                        android:gravity="center"
+                        android:id="@+id/btnElectricalNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainSignageBoardDetails"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainElectricalDetails">
+
+            <include
+                android:id="@+id/signageLayout"
+                layout="@layout/signage_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainIPEnableCameraDetails"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainSignageBoardDetails">
+
+
+            <include
+                android:id="@+id/ipCameraLayout"
+                layout="@layout/ip_enable_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainCommonEquipmentDetails"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainIPEnableCameraDetails">
+
+
+            <include
+                android:id="@+id/commonEquipmentLayout"
+                layout="@layout/common_equipment_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainAvailSupportInfra"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainCommonEquipmentDetails">
+
+
+            <include
+                android:id="@+id/availSupportInfraLayout"
+                layout="@layout/availiblity_of_support_infra"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainAvailOfStandardForms"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mainAvailSupportInfra">
+
+
+            <include
+                android:id="@+id/availOfStandardFormsLayout"
+                layout="@layout/availiblity_of_standard_forms"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -6,6 +6,7 @@ import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
+import com.deendayalproject.model.request.CompliancesRFQTReq
 import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
@@ -17,6 +18,7 @@ import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
+import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
@@ -46,11 +48,13 @@ import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
+import com.deendayalproject.model.response.InfrastructureDetailsandCompliancesRFQT
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
@@ -1005,5 +1009,59 @@ class CommonRepository(private val context: Context) {
 
 
 
+
+    //    ResidentialFacilityQTeamRequest Ajit Ranjan  16/10/2025
+    suspend fun fetchResidentialFacilityQTeamist(request: ResidentialFacilityQTeamRequest, token: String): Result<TrainingCenterResponse> {
+        return try {
+            val response = apiService.getRFQteamVerificationList(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                if (response.code() == 202) {
+                    Result.failure(HttpException(response))
+                } else {
+                    Result.failure(HttpException(response))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+//    GetRfBasicInformation AjitRanjan 17/10/2025
+
+    suspend fun getTRfBasicInfo(request: TrainingCenterInfo) : Result<ResidentialFacilityQTeam>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getRfBasicInfoo(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+//    Ajit Ranjan create 21/October/2026  CompliancesRFQTReqRFQT
+
+    suspend fun getCompliancesRFQTReqRFQT(request: CompliancesRFQTReq) : Result<InfrastructureDetailsandCompliancesRFQT>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getgetCompliancesRFQTReqRFQT(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
 }

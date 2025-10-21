@@ -4,6 +4,7 @@ import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
+import com.deendayalproject.model.request.CompliancesRFQTReq
 import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
@@ -15,6 +16,7 @@ import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
+import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
@@ -44,11 +46,13 @@ import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
+import com.deendayalproject.model.response.InfrastructureDetailsandCompliancesRFQT
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
@@ -299,6 +303,26 @@ interface ApiService {
 
     @POST(value = "insertRfBasicInformation")
     suspend fun insertRfBasicInformation(@Body request: insertRfBasicInfoReq) : Response<ITLAbDetailsErrorResponse>
+
+
+
+
+    //    ResidentialFacilityQTeamRequest Ajit Ranjan  16/10/2025
+    @POST(value ="getRFQteamVerificationList")
+    suspend fun getRFQteamVerificationList(@Body request: ResidentialFacilityQTeamRequest) : Response<TrainingCenterResponse>
+
+
+
+    //    GetRfBasicInformation AjitRanjan 17/10/2025
+    @POST(value ="getRfBasicInformation")
+    suspend fun getRfBasicInfoo(@Body request: TrainingCenterInfo) : Response<ResidentialFacilityQTeam>
+
+
+//    Ajit Ranjan create 21/October/2026  CompliancesRFQTReqRFQT
+
+
+    @POST(value ="getRfInfraDetailsAndComliance")
+    suspend fun getgetCompliancesRFQTReqRFQT(@Body request: CompliancesRFQTReq) : Response<InfrastructureDetailsandCompliancesRFQT>
 
 
 
