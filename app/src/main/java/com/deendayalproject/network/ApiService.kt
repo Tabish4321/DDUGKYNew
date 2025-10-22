@@ -11,6 +11,7 @@ import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
+import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
@@ -53,6 +54,7 @@ import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
+import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
@@ -96,6 +98,11 @@ interface ApiService {
 
     @POST(value ="getTrainingCenterVerificationSRLM")
     suspend fun getTrainingCenterVerificationSRLM(@Body request: TrainingCenterRequest) : Response<TrainingCenterResponse>
+
+
+
+    @POST(value ="getResidentialFacilitiesList")
+    suspend fun getResidentialFacilitiesList(@Body request: TrainingCenterRequest) : Response<RfListResponse>
 
 
 
@@ -303,6 +310,11 @@ interface ApiService {
 
     @POST(value = "insertRfBasicInformation")
     suspend fun insertRfBasicInformation(@Body request: insertRfBasicInfoReq) : Response<ITLAbDetailsErrorResponse>
+
+
+
+    @POST(value = "insertRfInfraDetailsAndComliance")
+    suspend fun insertRfInfraDetailsAndComliance(@Body request: InsertRfInfraDetaiReq) : Response<ITLAbDetailsErrorResponse>
 
 
 

@@ -14,6 +14,7 @@ import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
+import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
@@ -56,6 +57,7 @@ import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
+import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
@@ -102,6 +104,12 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _trainingCenters = MutableLiveData<Result<TrainingCenterResponse>>()
     val trainingCenters: LiveData<Result<TrainingCenterResponse>> = _trainingCenters
+
+
+
+    private val _rfTrainingCenters = MutableLiveData<Result<RfListResponse>>()
+    val rfTrainingCenters: LiveData<Result<RfListResponse>> = _rfTrainingCenters
+
 
 
     // insert cctv section
@@ -315,6 +323,20 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 _errorMessage.postValue(it.message ?: "Unknown error")
             }
             _trainingCenters.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+    fun fetchRfList(request: TrainingCenterRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.fetchRfList(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _rfTrainingCenters.postValue(result)
             _loading.postValue(false)
         }
     }
@@ -966,6 +988,25 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 _errorMessage.postValue(it.message ?: "Unknown error")
             }
             _RfBasicInfo.postValue(result)
+            _loading.postValue(false)
+        }
+
+    }
+
+
+
+    private val _RfInfra = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val RfInfra: LiveData<Result<ITLAbDetailsErrorResponse>> = _RfInfra
+
+
+    fun SubmitRfInfraDetailsAndComlianceToServer(request: InsertRfInfraDetaiReq, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.insertRfInfraDetailsAndComliance(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _RfInfra.postValue(result)
             _loading.postValue(false)
         }
 

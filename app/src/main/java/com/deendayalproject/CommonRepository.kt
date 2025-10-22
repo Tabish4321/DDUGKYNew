@@ -13,6 +13,7 @@ import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
+import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
@@ -55,6 +56,7 @@ import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
+import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
@@ -177,6 +179,30 @@ class CommonRepository(private val context: Context) {
             Result.failure(e)
         }
     }
+
+
+
+    suspend fun fetchRfList(request: TrainingCenterRequest, token: String): Result<RfListResponse> {
+        return try {
+            val response = apiService.getResidentialFacilitiesList(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                if (response.code() == 202) {
+                    Result.failure(HttpException(response))
+                } else {
+                    Result.failure(HttpException(response))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+
     suspend fun submitCCTVDataToServer(request: CCTVComplianceRequest, token: String): Result<CCTVComplianceResponse>   = withContext(Dispatchers.IO) {
         try {
             "Bearer $token"
@@ -1004,6 +1030,24 @@ class CommonRepository(private val context: Context) {
 
     }
 
+    suspend fun insertRfInfraDetailsAndComliance(
+        request: InsertRfInfraDetaiReq,
+        token: String
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.insertRfInfraDetailsAndComliance(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
 
 
 

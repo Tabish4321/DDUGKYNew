@@ -22,7 +22,9 @@ import java.util.TimeZone
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.preference.PreferenceManager
 import android.provider.Settings
@@ -46,6 +48,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.deendayalproject.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -333,6 +336,15 @@ object AppUtil {
             capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> return true
         }
         return false
+    }
+
+    fun getProgressDialog(context: Context?): AlertDialog? {
+        if (context == null) return null
+        return MaterialAlertDialogBuilder(context)
+            .setView(R.layout.layout_progress)
+            .setBackground(ColorDrawable(Color.TRANSPARENT))
+            .setCancelable(false)
+            .create()
     }
 
     fun saveLanguagePreference(context: Context, languageCode: String) {

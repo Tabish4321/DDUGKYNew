@@ -15,6 +15,7 @@ import android.view.*
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -42,12 +43,14 @@ import com.deendayalproject.model.response.BlockModel
 import com.deendayalproject.model.response.DistrictModel
 import com.deendayalproject.model.response.GpModel
 import com.deendayalproject.model.response.StateModel
+import com.deendayalproject.model.response.TrainingCenterItem
 import com.deendayalproject.model.response.VillageModel
 import com.deendayalproject.util.AppUtil
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -65,7 +68,8 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private lateinit var photoUri: Uri
     private var currentPhotoTarget: String = ""
-    private var latLangValue: String = ""
+    private var latValue: String = ""
+    private var langValue: String = ""
     private var base64PVDocFile: String? = null
     private var base64ALDocFile: String? = null
     private var base64OwnerBuildingDocFile: String? = null
@@ -107,6 +111,9 @@ class ResidentialFacilityFragment : Fragment() {
     private var base64BiometricDeviceDocFile: String? = null
     private var base64ElectricalPowerDocFile: String? = null
     private var base64GrievanceRegisterDocFile: String? = null
+    private val progress: AlertDialog? by lazy {
+        AppUtil.getProgressDialog(context)
+    }
 
     private lateinit var ivPoliceVerificationDocPreview: ImageView
     private lateinit var ivAppointmentLetterDocPreview: ImageView
@@ -149,6 +156,7 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var etFacilityType: TextInputEditText
     private lateinit var etHouseNo: TextInputEditText
     private lateinit var etStreet: TextInputEditText
+    private lateinit var etPoliceStation: TextInputEditText
     private lateinit var etLandmark: TextInputEditText
     private lateinit var etPinCode: TextInputEditText
     private lateinit var etMobile: TextInputEditText
@@ -261,6 +269,7 @@ class ResidentialFacilityFragment : Fragment() {
     var selectedBlockCode ="0";
     var selectedGpCode ="0";
     var selectedVillageCode ="0";
+    private var centerItem: TrainingCenterItem? = null
 
 
     private val requestPermissionLauncher =
@@ -533,11 +542,44 @@ class ResidentialFacilityFragment : Fragment() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
 
+         centerItem = arguments?.getSerializable("centerItem") as? TrainingCenterItem
+
+
+
+
         if (hasLocationPermission()) {
             getCurrentLocation()
         } else {
             requestLocationPermission()
         }
+
+
+        // All submit response
+
+
+        viewModel.RfBasicInfo.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                Toast.makeText(
+                    requireContext(),
+                    "Basic Info data submitted successfully!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+
+                binding.layoutTCBasicInfoContent.gone()
+
+            }
+            result.onFailure {
+                Toast.makeText(
+                    requireContext(),
+                    "Basic Info submission failed: ${it.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+
+
 
 
 
@@ -985,7 +1027,13 @@ class ResidentialFacilityFragment : Fragment() {
 
         //Form Submission Section
         view.findViewById<Button>(R.id.btnSubmitBasicInfo).setOnClickListener {
-            if (validateBasicInfoForm(view)) submitBasicInfoForm(view)
+            if (validateBasicInfoForm(view))
+            {
+                submitRFBasicInfoForm(view)
+
+            }
+
+
             else Toast.makeText(
                 requireContext(),
                 "Complete all Basic Information  fields and photos.",
@@ -1202,6 +1250,7 @@ class ResidentialFacilityFragment : Fragment() {
         etFacilityType= view.findViewById(R.id.etFacilityType)
         etHouseNo= view.findViewById(R.id.etHouseNo)
         etStreet= view.findViewById(R.id.etStreet)
+        etPoliceStation= view.findViewById(R.id.etPoliceStation)
         etLandmark= view.findViewById(R.id.etLandmark)
         etPinCode= view.findViewById(R.id.etPinCode)
         etMobile= view.findViewById(R.id.etMobile)
@@ -1487,6 +1536,7 @@ class ResidentialFacilityFragment : Fragment() {
        if (!checkTextInput(etFacilityType, "Residential Facility type")) isValid = false
        if (!checkTextInput(etHouseNo, "House No.")) isValid = false
        if (!checkTextInput(etStreet, "Street")) isValid = false
+       if (!checkTextInput(etPoliceStation, "PoliceStation")) isValid = false
        if (!checkTextInput(etLandmark, "Landmark")) isValid = false
        if (!checkTextInput(etPinCode, "Pin code")) isValid = false
        if (!checkTextInput(etMobile, "Mobile No.")) isValid = false
@@ -1852,7 +1902,8 @@ class ResidentialFacilityFragment : Fragment() {
 
 
                     binding.tvLatLang.text= location.latitude.toString()+","+location.longitude.toString()
-                    latLangValue = location.latitude.toString()+","+location.longitude.toString()
+                    latValue = location.latitude.toString()
+                    langValue =location.longitude.toString()
                 } else {
                     Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT).show()
                 }
@@ -1863,19 +1914,58 @@ class ResidentialFacilityFragment : Fragment() {
     }
 
 
-/*    private fun submitRFBasicInfoForm(view: View) {
+    private fun submitRFBasicInfoForm(view: View) {
           val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
               .getString("ACCESS_TOKEN", "") ?: ""
 
-          val request = insertRfBasicInfoReq(
-              sanctionOrder = sa,
-              loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-              imeiNo = AppUtil.getAndroidId(requireContext()),
-              appVersion = BuildConfig.VERSION_NAME,
+          val request =
+              insertRfBasicInfoReq(
+                  sanctionOrder = centerItem!!.senctionOrder,
+                  schemeName = centerItem!!.schemeName,
+                  trainingCentre = centerItem!!.trainingCenterId,
+                  residentialFacilityName = etFacilityName.text.toString(),
+                  residentialType = etFacilityType.text.toString(),
+                  residentialCenterLocation = centerItem!!.stateName,
+                  houseNo = etHouseNo.text.toString(),
+                  streetNo1 = etStreet.text.toString(),
+                  streetNo2 = "",
+                  landMark = etLandmark.text.toString(),
+                  stateCode = selectedStateCode,
+                  districtCode = selectedDistrictCode,
+                  blockCode = selectedBlockCode,
+                  gpCode = selectedGpCode,
+                  villageCode = selectedVillageCode,
+                  policeStation = etPoliceStation.text.toString(),
+                  pincode = etPinCode.text.toString(),
+                  mobile = etMobile.text.toString(),
+                  residentialFacilityPhoneNo = etPhone.text.toString(),
+                  email = etEmail.text.toString(),
+                  typeOfArea = spinnerTypeOfArea.selectedItem.toString(),
+                  latitude = latValue,
+                  longitude = langValue,
+                  geoAddress = "",
+                  categoryOfTC = spinnerCatOfTCLocation.selectedItem.toString(),
+                  distBusStand = etDistanceFromBusStand.text.toString(),
+                  distAutoStand = etDistanceFromAutoStand.text.toString(),
+                  distRailStand = etDistanceFromRailwayStand.text.toString(),
+                  distfromTC = etDistanceFromTrainingToResidentialCentre.text.toString(),
+                  pickUpDrop = spinnerPickupAndDropFacility.selectedItem.toString(),
+                  wardName = etWardenName.text.toString(),
+                  wardGender = spinnerWardenGender.selectedItem.toString(),
+                  wardEmployeeId = etWardenEmpID.text.toString(),
+                  wardAddress = etWardenAddress.text.toString(),
+                  wardEmail = etWardenEmailId.text.toString(),
+                  wardMobile = etWardenMobile.text.toString(),
+                  empLetterFile = base64ALDocFile!!,
+                  policeVerificationFile = base64PVDocFile!!,
+                  loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                  appVersion = BuildConfig.VERSION_NAME,
+                  imeiNo = AppUtil.getAndroidId(requireContext()),
+                  resFacilityId = 0
+                  )
 
-          )
-          viewModel.submitBasicInfoFormToServer(request, token)
-    }*/
+          viewModel.SubmitRfBasicInformationToServer(request, token)
+    }
 
 
 
@@ -1907,5 +1997,16 @@ class ResidentialFacilityFragment : Fragment() {
         viewModel.submitBasicInfoFormToServer(request, token)*/
     }
 
-// hi
+    fun View.gone() {
+        this.visibility = View.GONE
+    }
+
+    fun View.visible() {
+        this.visibility = View.VISIBLE
+    }
+
+    fun View.invisible() {
+        this.visibility = View.INVISIBLE
+    }
+
 }
