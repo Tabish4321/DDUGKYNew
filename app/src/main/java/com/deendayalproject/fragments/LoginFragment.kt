@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -20,6 +21,10 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
+
+    private val progress: AlertDialog? by lazy {
+        AppUtil.getProgressDialog(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +50,7 @@ class LoginFragment : Fragment() {
     }
     private fun setupListeners() {
         binding.btnLogin.setOnClickListener {
+            showProgressBar()
             val request = LoginRequest(
                 loginId = binding.etUserId.text.toString().trim().uppercase(),
                 password = AppUtil.sha512Hash(binding.etPassword.text.toString()),
@@ -60,6 +66,7 @@ class LoginFragment : Fragment() {
         viewModel.loginResult.observe(viewLifecycleOwner) { result ->
 
             result.onSuccess {
+                hideProgressBar()
 
 
                 when (it.responseCode) {
@@ -79,6 +86,8 @@ class LoginFragment : Fragment() {
             }
 
             result.onFailure {
+                hideProgressBar()
+
                 AppUtil.clearPreferences(requireContext())
                 Toast.makeText(requireContext(), "Login Failed: ${it.message}", Toast.LENGTH_LONG).show()
             }
@@ -96,5 +105,19 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+
+    fun showProgressBar() {
+        if (context != null && isAdded && progress?.isShowing == false) {
+            progress?.show()
+        }
+    }
+
+    fun hideProgressBar() {
+        if (progress?.isShowing == true) {
+            progress?.dismiss()
+        }
     }
 }

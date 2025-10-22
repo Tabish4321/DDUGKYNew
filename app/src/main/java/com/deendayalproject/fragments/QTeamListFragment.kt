@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -36,6 +37,9 @@ class QTeamListFragment : Fragment() {
     private var latitude = 26.2153
     private var longitude = 84.3588
     private var radius = 500000000f
+    private val progress: AlertDialog? by lazy {
+        AppUtil.getProgressDialog(context)
+    }
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 

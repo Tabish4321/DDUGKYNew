@@ -196,7 +196,14 @@
         android:label="ResidentialCenterFragment" >
         <action
             android:id="@+id/action_rfcenterFragment_to_fragment_residential_facility"
-            app:destination="@id/fragment_residential_facility" />
+            app:destination="@id/fragment_residential_facility" >
+
+
+            <argument
+                android:name="centerItem"
+                app:argType="com.deendayalproject.model.response.TrainingCenterItem" />
+
+        </action>
     </fragment>
     <!-- Residential Facility Fragment -->
     <fragment

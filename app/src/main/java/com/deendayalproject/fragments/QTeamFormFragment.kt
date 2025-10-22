@@ -59,6 +59,9 @@ class QTeamFormFragment : Fragment() {
     private lateinit var viewModel: SharedViewModel
     var dataStaffList: MutableList<Trainer> = mutableListOf()
     var academiaList: MutableList<RoomItem> = mutableListOf()
+    private val progress: androidx.appcompat.app.AlertDialog? by lazy {
+        AppUtil.getProgressDialog(context)
+    }
 
 
     private val approvalList = listOf("Approved", "Send for modification")

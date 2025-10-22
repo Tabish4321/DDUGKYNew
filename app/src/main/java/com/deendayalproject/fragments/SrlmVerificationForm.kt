@@ -52,6 +52,9 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class SrlmVerificationForm : Fragment() {
+    private val progress: androidx.appcompat.app.AlertDialog? by lazy {
+        AppUtil.getProgressDialog(context)
+    }
 
     private var _binding: FragmentSrlmverificatiomFormBinding? = null
     private val binding get() = _binding!!

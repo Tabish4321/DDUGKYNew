@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -29,6 +30,9 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: ModuleAdapter
+    private val progress: AlertDialog? by lazy {
+        AppUtil.getProgressDialog(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
