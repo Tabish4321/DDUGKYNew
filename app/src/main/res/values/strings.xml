@@ -559,6 +559,7 @@
     <!--    <string name="internet_connections">Internet Connections</string>-->
     <string name="lan_enabled_computers">LAN Enabled Computers (In No.)</string>
     <string name="cctc_cameras_with_audio_facility">CCTV Cameras with Audio Facility</string>
+    <string name="residential_facility_qteam">Residential Facility QTeam</string>
     <!--    <string name="internal_signage">Internal Signage</string>-->
     <!--    <string name="academic_room_information_board">Academic Room Information Board</string>-->
     <string name="whether_all_the_academic_centres">Whether all the Academic Centres have been Sound Proofed with Air Conditioning</string>
@@ -695,6 +696,9 @@
     <string name="maximum_no_of_candidates_permissible">Maximum No. of Candidates Permissible</string>
     <string name="sanction_letter_no_and_date">Sanction letter No. and date</string>
     <string name="sanction_letter_no_and_date1">Sanction letter No. and date</string>
+    <string name="infrastructure_details_and_compliances2">Infrastructure Details and Compliances</string>
+    <string name="onwership_of_bulding">Onwership of Bulding</string>
+    <string name="label_area">Label Area</string>
 
 
 </resources>
