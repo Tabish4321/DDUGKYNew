@@ -696,6 +696,26 @@
     <string name="sanction_letter_no_and_date">Sanction letter No. and date</string>
     <string name="sanction_letter_no_and_date1">Sanction letter No. and date</string>
     <string name="residential_facility_q_team">Residential Facility Q Team</string>
+    <string name="whether_food_for_the_candidates_is_being_prepared_in_the_premises_of_the_training_center">Whether Food for the Candidates is being Prepared in the Premises of the Training Center?</string>
+    <string name="recreation_and_dining_areas">Recreation and Dining Areas</string>
+    <string name="kitchen">Kitchen</string>
+    <string name="are_the_dining_and_recreation_area_separate">Are the Dining and Recreation Area Separate?</string>
+    <string name="no_of_stools_chairs_benches">No.of Stools/Chairs/Benches</string>
+    <string name="wash_area">Wash Area</string>
+    <string name="whether_tv_with_a_cable_or_satellite_connection_is_available_for_viewing">Whether TV with a Cable or Satellite Connection is Available for Viewing?</string>
+    <string name="dining_area">Dining Area</string>
+    <string name="recreation_area">Recreation Area</string>
+    <string name="indoor_game_name">Indoor Game Name</string>
+    <string name="add_more_game">+ Add Game</string>
+    <string name="residential_facilities_available">Residential Facilities Available</string>
+    <string name="whether_hostels_for_male_and_female_candidates_separated">Whether Hostels for Male and Female Candidates Separated?</string>
+    <string name="warden_care_taker_for_hostels_where_males_stay">Warden/care taker for hostels where males stay?</string>
+    <string name="lady_warden_caretaker_for_hostels_where_females_stay">Lady warden/caretaker for hostels where females stay?</string>
+    <string name="are_security_gaurds_available">Are Security Gaurds Available ?</string>
+    <string name="whether_female_doctor_on_call_is_available_or_not">Whether Female Doctor on call is Available or Not ?</string>
+    <string name="whether_male_doctor_on_call_is_available_or_not">Whether Male Doctor on call is Available or Not?</string>
+    <string name="safe_driniking_available">Safe Driniking Available ?</string>
+    <string name="biometric_device">Biometric Device?</string>
 
 
 </resources>

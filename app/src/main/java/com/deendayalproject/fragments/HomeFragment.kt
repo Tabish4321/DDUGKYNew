@@ -128,7 +128,6 @@ class HomeFragment : Fragment() {
         binding.rvModules.layoutManager = LinearLayoutManager(requireContext())
         binding.rvModules.adapter = adapter
 
-        //viewModel.triggerSesionExpired()
         observeViewModel()
 
         val modulesRequest = ModulesRequest(
@@ -144,10 +143,12 @@ class HomeFragment : Fragment() {
             modulesRequest,
             "Bearer ${AppUtil.getSavedTokenPreference(requireContext())}"
         )
+        showProgressBar()
     }
     private fun observeViewModel() {
         viewModel.modules.observe(viewLifecycleOwner) { response ->
             response.onSuccess {
+                hideProgressBar()
 
 
                 when (it.responseCode) {
@@ -171,6 +172,7 @@ class HomeFragment : Fragment() {
             }
             response.onFailure {
 
+                hideProgressBar()
                 if (it is retrofit2.HttpException && it.code() == 401) {
                     AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
@@ -205,5 +207,16 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    fun showProgressBar() {
+        if (context != null && isAdded && progress?.isShowing == false) {
+            progress?.show()
+        }
+    }
+
+    fun hideProgressBar() {
+        if (progress?.isShowing == true) {
+            progress?.dismiss()
+        }
     }
 }

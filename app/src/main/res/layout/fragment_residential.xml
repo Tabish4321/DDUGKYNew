@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
         android:layout_width="match_parent"
@@ -2050,7 +2051,7 @@
                     android:orientation="vertical"
                     android:paddingTop="8dp"
                     android:layout_margin="@dimen/dp_10"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -2982,32 +2983,7 @@
                             tools:ignore="UseAppTint" />
                     </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/avenir_next_semi_bold"
-                        android:text="@string/maximum_no_of_candidates_permissible"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:textColor="@color/color_dark_green"
-                        android:textSize="@dimen/sp_16"
-                        />
 
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="@string/maximum_no_of_candidates_permissible"
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etCandidatesPermissible"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
                     <Button
                         android:id="@+id/btnSubmitToiletInfo"
                         android:layout_width="match_parent"
@@ -3036,6 +3012,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <!-- Header -->
@@ -3074,26 +3051,61 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_margin="@dimen/dp_10"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
 
-                    <LinearLayout
+
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/kitchen"
+                        android:gravity="center_horizontal"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/teal" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/whether_food_for_the_candidates_is_being_prepared_in_the_premises_of_the_training_center"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Whether Food for the Candidates is being Prepared in the Premises of the Training Center?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerFoodPreparedTrainingCenter"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
+
+
                         <Button
                             android:id="@+id/btnUploadFoodPreparedTraining"
                             android:layout_width="wrap_content"
@@ -3106,14 +3118,32 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
+
+
+
+
+
+
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/length_in_ft"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Length (In ft)"
+                        android:hint="@string/length_in_ft"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -3122,12 +3152,25 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/width_in_ft"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Width (In ft)"
+                        android:hint="@string/width_in_ft"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -3137,53 +3180,100 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/area_in_sq_ft"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Area"
-                        android:paddingTop="8dp">
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etKitchenArea"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
-                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/etKitchenArea"
+                        style="@style/EditText"
+                        android:text="@string/area_in_sq_ft"
+                        android:background="@drawable/edittext_background"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        />
+
+
+
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Recreation and Dining Areas"
+                        android:text="@string/recreation_and_dining_areas"
                         android:gravity="center_horizontal"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/teal" />
 
-                    <LinearLayout
+
+
+
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/are_the_dining_and_recreation_area_separate"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Are the Dining and Recreation Area Separate?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerDiningRecreationAreaSeparate"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/no_of_stools_chairs_benches"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="No.of Stools/Chairs/Benches"
+                        android:hint="@string/no_of_stools_chairs_benches"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -3192,12 +3282,25 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/wash_area"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Wash Area"
+                        android:hint="@string/wash_area"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -3207,38 +3310,76 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <LinearLayout
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/whether_tv_with_a_cable_or_satellite_connection_is_available_for_viewing"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Whether TV with a Cable or Satellite Connection is Available for Viewing?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerTvAvailable"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
+
+
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Dining Area"
+                        android:text="@string/dining_area"
                         android:gravity="center_horizontal"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/teal" />
+
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/length_in_ft"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Length (in ft)"
+                        android:hint="@string/length_in_ft"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -3247,12 +3388,25 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/width_in_ft"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Width (in ft)"
+                        android:hint="@string/width_in_ft"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -3262,35 +3416,73 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/area_in_sq_ft"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Area"
-                        android:paddingTop="8dp">
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etDiningArea"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
-                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/etDiningArea"
+                        style="@style/EditText"
+                        android:text="@string/area_in_sq_ft"
+                        android:background="@drawable/edittext_background"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        />
+
+                    <Button
+                        android:id="@+id/btnUploadDiningArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload " />
+
+                    <ImageView
+                        android:id="@+id/ivDiningAreaPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Recreation Area"
+                        android:text="@string/recreation_area"
                         android:gravity="center_horizontal"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/teal" />
+
+
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/length_in_ft"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Length (in ft)"
+                        android:hint="@string/length_in_ft"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -3299,12 +3491,25 @@
                             android:layout_height="wrap_content"
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/width_in_ft"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Width (in ft)"
+                        android:hint="@string/width_in_ft"
                         android:paddingTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -3314,41 +3519,36 @@
                             android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/area_in_sq_ft"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Area"
-                        android:paddingTop="8dp">
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etRecreationArea"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Is reception area available?"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerReceptionAreaAvailable"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/etRecreationArea"
+                        style="@style/EditText"
+                        android:text="@string/area_in_sq_ft"
+                        android:background="@drawable/edittext_background"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        />
+
+
+
                         <Button
                             android:id="@+id/btnUploadReceptionArea"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Upload " />
+
                         <ImageView
                             android:id="@+id/ivReceptionAreaPreview"
                             android:layout_width="100dp"
@@ -3356,7 +3556,6 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
 
                     <Button
                         android:id="@+id/btnSubmitNonLivingAreaInfo"
@@ -3386,6 +3585,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <!-- Header -->
@@ -3424,24 +3624,99 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_margin="@dimen/dp_10"
                     android:paddingTop="8dp"
                     android:visibility="gone">
 
-
-                    <com.google.android.material.textfield.TextInputLayout
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="Indoor Game Name"
-                        android:paddingTop="8dp">
+                        android:id="@id/recyclerView"/>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etIndoorGameName"
+
+
+                       <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                           android:id="@+id/indooGameUiHide"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/indoor_game_name"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:hint="@string/indoor_game_name">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etIndoorGameName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                               />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                           <LinearLayout
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:orientation="horizontal"
+                               android:weightSum="2"
+                               android:id="@+id/llSignageBtn"
+                               app:layout_constraintStart_toStartOf="parent"
+                               app:layout_constraintEnd_toEndOf="parent"
+                               app:layout_constraintTop_toBottomOf="@+id/etSignageRemarks">
+
+                               <TextView
+                                   android:layout_width="0dp"
+                                   android:layout_height="40dp"
+                                   android:layout_weight="1"
+                                   android:gravity="center"
+                                   android:id="@+id/btnUploadIndoorGame"
+                                   android:elevation="4dp"
+                                   android:text="@string/upload"
+                                   android:textColor="@color/color_dark_blue"
+                                   android:textSize="@dimen/sp_16"
+                                   android:background="@drawable/backgroung_overlay"
+                                   android:layout_margin="8dp" />
+                               <TextView
+                                   android:layout_width="0dp"
+                                   android:layout_height="40dp"
+                                   android:layout_weight="1"
+                                   android:text="@string/add_more_game"
+                                   android:gravity="center"
+                                   android:id="@+id/btnAddMoreGame"
+                                   android:textColor="@color/white"
+                                   android:elevation="4dp"
+                                   android:textSize="@dimen/sp_16"
+                                   android:background="@drawable/card_background"
+                                   android:layout_margin="8dp" />
+
+
+                           </LinearLayout>
+
+
+                        <ImageView
+                            android:id="@+id/ivIndoorGamePreview"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="8dp"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+
+
 
                     <Button
                         android:id="@+id/btnSubmitInDoorGameInfo"
@@ -3472,6 +3747,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <!-- Header -->
@@ -3492,7 +3768,7 @@
                         android:layout_weight="1"
                         android:drawableStart="@drawable/ic_equipment"
                         android:gravity="center"
-                        android:text="Residential Facilities Available"
+                        android:text="@string/residential_facilities_available"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -3511,25 +3787,50 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
+                    android:layout_margin="@dimen/dp_10"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
-                    <LinearLayout
+
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/whether_hostels_for_male_and_female_candidates_separated"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Whether Hostels for Male and Female Candidates Separated?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerWhetherHostelsSeparated"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                        <Button
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
+
+
+                    <Button
                             android:id="@+id/btnUploadWhetherHostelsSeparated"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -3541,28 +3842,54 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
-                    <LinearLayout
+
+
+
+
+
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/warden_care_taker_for_hostels_where_males_stay"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Warden/care taker for hostels where males stay?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerWardenWhereMalesStay"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                        <Button
-                            android:id="@+id/btnUploadWardenWhereMalesStay"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Upload " />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
+
+                    <Button
+                        android:id="@+id/btnUploadWardenWhereMalesStay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload " />
                         <ImageView
                             android:id="@+id/ivWardenWhereMalesStayPreview"
                             android:layout_width="100dp"
@@ -3570,23 +3897,43 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
-                    <LinearLayout
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/lady_warden_caretaker_for_hostels_where_females_stay"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Lady warden/caretaker for hostels where females stay?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerWardenWhereLadyStay"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
                         <Button
                             android:id="@+id/btnUploadWardenWhereLadyStay"
                             android:layout_width="wrap_content"
@@ -3599,23 +3946,44 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
-                    <LinearLayout
+
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/are_security_gaurds_available"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Are Security Gaurds Available ?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerSecurityGaurdsAvailable"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
                         <Button
                             android:id="@+id/btnUploadSecurityGaurds"
                             android:layout_width="wrap_content"
@@ -3628,23 +3996,46 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
-                    <LinearLayout
+
+
+
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/whether_female_doctor_on_call_is_available_or_not"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Whether Female Doctor on call is Available or Not ?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerWhetherFemaleDoctorAvailable"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
                         <Button
                             android:id="@+id/btnUploadWhetherFemaleDoctor"
                             android:layout_width="wrap_content"
@@ -3657,24 +4048,45 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
-                    <LinearLayout
+
+
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/whether_male_doctor_on_call_is_available_or_not"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Whether Male Doctor on call is Available or Not?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerWhetherMaleDoctorAvailable"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
                     <Button
                         android:id="@+id/btnResidentialFacilitiesInfo"
                         android:layout_width="match_parent"
@@ -3706,6 +4118,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <!-- Header -->
@@ -3744,25 +4157,50 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_margin="@dimen/dp_10"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
-                    <LinearLayout
+
+
+
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/safe_driniking_available"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Safe Driniking Available ?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerSafeDrinikingAvailable"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
                         <Button
                             android:id="@+id/btnUploadSafeDrinking"
                             android:layout_width="wrap_content"
@@ -3775,23 +4213,45 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
-                    <LinearLayout
+
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/first_aid_kit"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="First Aid Kit?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerFirstAidKitAvailable"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
+
                         <Button
                             android:id="@+id/btnUploadFirstAidKit"
                             android:layout_width="wrap_content"
@@ -3804,23 +4264,44 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
-                    <LinearLayout
+
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/fire_fighting_equipment"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Fire-fighting Equipment?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerFireFightingEquipmentAvailable"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
                         <Button
                             android:id="@+id/btnUploadFireFightingEquipment"
                             android:layout_width="wrap_content"
@@ -3833,23 +4314,43 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Biometric Device?"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerBiometricDeviceAvailable"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/biometric_device"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerBiometricDeviceAvailable"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green"
+                                tools:ignore="UseAppTint" />
+                        </RelativeLayout>
                         <Button
                             android:id="@+id/btnUploadBiometricDevice"
                             android:layout_width="wrap_content"
@@ -3862,23 +4363,44 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
+
+
+
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Electrical Power Backup?"
-                            android:textStyle="bold" />
-                        <Spinner
-                            android:id="@+id/spinnerElectricalPowerBackupAvailable"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/electrical_power_backup"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="55dp">
+                            <Spinner
+                                android:id="@+id/spinnerElectricalPowerBackupAvailable"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/edittext_background"
+                                android:paddingStart="12dp"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/white"
+                                android:textColor="@color/color_dark_green" />
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/ic_dropdown_arrow"
+                                app:tint="@color/color_dark_green"
+                                tools:ignore="UseAppTint" />
+                        </RelativeLayout>
                         <Button
                             android:id="@+id/btnUploadElectricalPower"
                             android:layout_width="wrap_content"
@@ -3891,23 +4413,43 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
-                    <LinearLayout
+
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/grievance_register"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Grievance Register?"
-                            android:textStyle="bold" />
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="@dimen/sp_16"
+                        />
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
                         <Spinner
                             android:id="@+id/spinnerGrievanceRegisterAvailable"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
                         <Button
                             android:id="@+id/btnUploadGrievanceRegister"
                             android:layout_width="wrap_content"
@@ -3920,7 +4462,6 @@
                             android:layout_marginTop="8dp"
                             android:scaleType="centerCrop"
                             android:visibility="gone" />
-                    </LinearLayout>
                     <Button
                         android:id="@+id/btnSupportFacilityInfo"
                         android:layout_width="match_parent"
