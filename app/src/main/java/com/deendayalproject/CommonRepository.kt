@@ -13,6 +13,7 @@ import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
+import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
@@ -1051,7 +1052,24 @@ class CommonRepository(private val context: Context) {
 
     }
 
+    suspend fun insertRfLivingAreaInformation(
+        request: InsertLivingAreaReq,
+        token: String
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            "Bearer $token"
+            val response = apiService.insertRfLivingAreaInformation(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
 
+    }
 
 
 

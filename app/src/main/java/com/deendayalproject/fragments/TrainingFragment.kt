@@ -2508,6 +2508,12 @@ class TrainingFragment : Fragment() {
 
 
 
+        binding.backButton.setOnClickListener {
+
+            findNavController().navigateUp()
+        }
+
+
         //RecyClerViewUI()
 
 //         Initilize  IT LAB  AJIT PMAYG Crate ID
@@ -3510,193 +3516,7 @@ class TrainingFragment : Fragment() {
         spinnerCodeConductBoard.adapter = yesNoAdapter
         spinnerStudentAttendanceBoard.adapter = yesNoAdapter
 
-        /*
 
-                // CCTV Photo Upload Buttons
-                view.findViewById<Button>(R.id.btnUploadMonitorPhoto).setOnClickListener {
-                    currentPhotoTarget = "monitor"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadConformancePhoto).setOnClickListener {
-                    currentPhotoTarget = "conformance"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadStoragePhoto).setOnClickListener {
-                    currentPhotoTarget = "storage"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadDVRPhoto).setOnClickListener {
-                    currentPhotoTarget = "dvr"
-                    checkAndLaunchCamera()
-                }
-
-                // Electrical Photo Upload Buttons
-                view.findViewById<Button>(R.id.btnUploadSwitchBoards).setOnClickListener {
-                    currentPhotoTarget = "switchBoard"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadSecuringWires).setOnClickListener {
-                    currentPhotoTarget = "WireSecurity"
-                    checkAndLaunchCamera()
-                }
-
-                // General Photo Upload Buttons
-                view.findViewById<Button>(R.id.btnUploadLeakageProof).setOnClickListener {
-                    currentPhotoTarget = "leakage"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadProtectionStairs).setOnClickListener {
-                    currentPhotoTarget = "stairs"
-                    checkAndLaunchCamera()
-                }
-
-                // Button click listeners to upload photos (you must define buttons in XML accordingly)
-                // signages info boards
-                view.findViewById<Button>(R.id.btnUploadTrainingCentreNameBoard).setOnClickListener {
-                    currentPhotoTarget = "tcNameBoard"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadActivitySummaryBoard).setOnClickListener {
-                    currentPhotoTarget = "activityAchievementBoard"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadEntitlementBoard).setOnClickListener {
-                    currentPhotoTarget = "studentEntitlementBoard"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadImportantContacts).setOnClickListener {
-                    currentPhotoTarget = "contactDetailBoard"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadBasicInfoBoard).setOnClickListener {
-                    currentPhotoTarget = "basicInfoBoard"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadCodeOfConductBoard).setOnClickListener {
-                    currentPhotoTarget = "codeConductBoard"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadAttendanceSummaryBoard).setOnClickListener {
-                    currentPhotoTarget = "studentAttendanceBoard"
-                    checkAndLaunchCamera()
-                }
-                //support infra
-                view.findViewById<Button>(R.id.btnUploadFirstAidKit).setOnClickListener {
-                    currentPhotoTarget = "FirstAidKit"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadFireFightingEquipment).setOnClickListener {
-                    currentPhotoTarget = "FireFightingEquipment"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadSafeDrinkingWater).setOnClickListener {
-                    currentPhotoTarget = "SafeDrinkingWater"
-                    checkAndLaunchCamera()
-                }
-
-                // desc of other areas
-                view.findViewById<Button>(R.id.btnUploadProof).setOnClickListener {
-                    currentPhotoTarget = "proof"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadCirculationProof).setOnClickListener {
-                    currentPhotoTarget = "circulationProof"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadParkingProof).setOnClickListener {
-                    currentPhotoTarget = "parking"
-                    checkAndLaunchCamera()
-                }
-                view.findViewById<Button>(R.id.btnUploadOpenSpaceProof).setOnClickListener {
-                    currentPhotoTarget = "openSpaceProof"
-                    checkAndLaunchCamera()
-                }
-                // Common Equipment Upload Buttons
-                view.findViewById<Button>(R.id.btnUploadPowerBackup).setOnClickListener {
-                    currentPhotoTarget = "powerBackup"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadBiometricDevices).setOnClickListener {
-                    currentPhotoTarget = "biometricDevices"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadCCTV).setOnClickListener {
-                    currentPhotoTarget = "cctv"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadDocumentStorage).setOnClickListener {
-                    currentPhotoTarget = "documentStorage"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadPrinterScanner).setOnClickListener {
-                    currentPhotoTarget = "printerScanner"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadDigitalCamera).setOnClickListener {
-                    currentPhotoTarget = "digitalCamera"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadGrievanceRegister).setOnClickListener {
-                    currentPhotoTarget = "grievanceRegister"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadMinimumEquipment).setOnClickListener {
-                    currentPhotoTarget = "minimumEquipment"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadDirectionBoards).setOnClickListener {
-                    currentPhotoTarget = "irectionBoards"
-                    checkAndLaunchCamera()
-                }
-
-                // wash basin upload buttons
-                view.findViewById<Button>(R.id.btnUploadProofMaleToilets).setOnClickListener {
-                    currentPhotoTarget = "proofMaleToilets"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadProofMaleToiletsSignage).setOnClickListener {
-                    currentPhotoTarget = "proofMaleToiletsSignage"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadProofFemaleToilets).setOnClickListener {
-                    currentPhotoTarget = "proofFemaleToilets"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadProofFemaleToiletsSignage).setOnClickListener {
-                    currentPhotoTarget = "proofFemaleToiletsSignage"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadProofMaleUrinals).setOnClickListener {
-                    currentPhotoTarget = "proofMaleUrinals"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadProofMaleWashBasins).setOnClickListener {
-                    currentPhotoTarget = "proofMaleWashBasins"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadProofFemaleWashBasins).setOnClickListener {
-                    currentPhotoTarget = "proofFemaleWashBasins"
-                    checkAndLaunchCamera()
-                }
-
-                view.findViewById<Button>(R.id.btnUploadProofOverheadTanks).setOnClickListener {
-                    currentPhotoTarget = "proofOverheadTanks"
-                    checkAndLaunchCamera()
-                }*/
 
 
 
@@ -4658,7 +4478,7 @@ class TrainingFragment : Fragment() {
                     "CCTV data submitted successfully!",
                     Toast.LENGTH_LONG
                 ).show()
-
+                binding.layoutCCTVComplianceContent.gone()
                 val requestTcInfraReq = TrainingCenterInfo(
                     appVersion = BuildConfig.VERSION_NAME,
                     loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -4688,6 +4508,8 @@ class TrainingFragment : Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
 
+                binding.layoutElectricalWiringContent.gone()
+
                 val requestTcInfraReq = TrainingCenterInfo(
                     appVersion = BuildConfig.VERSION_NAME,
                     loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -4714,6 +4536,8 @@ class TrainingFragment : Fragment() {
                     "General details submitted successfully!",
                     Toast.LENGTH_LONG
                 ).show()
+                binding.layoutGeneralDetailsContent.gone()
+
                 val requestTcInfraReq = TrainingCenterInfo(
                     appVersion = BuildConfig.VERSION_NAME,
                     loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -4740,6 +4564,8 @@ class TrainingFragment : Fragment() {
                     "Training details submitted successfully!",
                     Toast.LENGTH_LONG
                 ).show()
+
+                binding.layoutTCBasicInfoContent.gone()
                 val requestTcInfraReq = TrainingCenterInfo(
                     appVersion = BuildConfig.VERSION_NAME,
                     loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -4765,6 +4591,7 @@ class TrainingFragment : Fragment() {
                     "Signages&InfoBoards details submitted successfully!",
                     Toast.LENGTH_LONG
                 ).show()
+                binding.layoutSignagesInfoBoardsContent.gone()
 
                 val requestTcInfraReq = TrainingCenterInfo(
                     appVersion = BuildConfig.VERSION_NAME,
@@ -4792,6 +4619,9 @@ class TrainingFragment : Fragment() {
                     "Support Infrastructure details submitted successfully!",
                     Toast.LENGTH_LONG
                 ).show()
+
+
+                binding.layoutSupportInfrastructureContent.gone()
                 val requestTcInfraReq = TrainingCenterInfo(
                     appVersion = BuildConfig.VERSION_NAME,
                     loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -4819,6 +4649,9 @@ class TrainingFragment : Fragment() {
                     "Common equipment details submitted successfully!",
                     Toast.LENGTH_LONG
                 ).show()
+
+                binding.layoutCommonEquipmentContent.gone()
+
                 val requestTcInfraReq = TrainingCenterInfo(
                     appVersion = BuildConfig.VERSION_NAME,
                     loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -4847,6 +4680,7 @@ class TrainingFragment : Fragment() {
                     "Description of other area details submitted successfully!",
                     Toast.LENGTH_LONG
                 ).show()
+                binding.layoutDescriptionOtherAreasContent.gone()
                 val requestTcInfraReq = TrainingCenterInfo(
                     appVersion = BuildConfig.VERSION_NAME,
                     loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -4875,6 +4709,9 @@ class TrainingFragment : Fragment() {
                     "Toilet & WashBasin details submitted successfully!",
                     Toast.LENGTH_LONG
                 ).show()
+
+                binding.layoutToiletsWashBasinsContent.gone()
+
                 val requestTcInfraReq = TrainingCenterInfo(
                     appVersion = BuildConfig.VERSION_NAME,
                     loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -4962,7 +4799,7 @@ class TrainingFragment : Fragment() {
             Triple(
                 R.id.headerDescriptionOfAcademic_NonAcademicAreas,
                 R.id.layoutDescriptionOfAcademic_NonAcademicAreas,
-                R.id.ivToggleDescriptionOfAcademic_NonAcademicAreas
+                R.id.ivToggleDescriptionOfAcademicNonAcademicAreas
             ),
 
             )
@@ -4989,12 +4826,14 @@ class TrainingFragment : Fragment() {
                         7 -> sectionsStatus.toiletWashBasinSection
                         8 -> sectionsStatus.supportInfraSection
                         9 -> sectionsStatus.commonEquipSection
+                        10 -> sectionsStatus.academicSection
                         else -> 0
                     }
 
                     val iconRes = if (sectionCount > 0) {
                         R.drawable.ic_verified
-                    } else {
+                    }
+                    else {
                         R.drawable.ic_dropdown_arrow
                     }
 
@@ -5761,6 +5600,10 @@ class TrainingFragment : Fragment() {
                             binding.ivToggleSupportInfrastructure.setImageResource(R.drawable.ic_verified)
                         }
                         if (sectionsStatus.descOtherAreaSection > 0) {
+                            binding.ivToggleDescriptionOtherAreas.setImageResource(R.drawable.ic_verified)
+                        }
+
+                        if (sectionsStatus.academicSection > 0) {
                             binding.ivToggleDescriptionOtherAreas.setImageResource(R.drawable.ic_verified)
                         }
                     }
@@ -8370,5 +8213,13 @@ class TrainingFragment : Fragment() {
 
         val area = length * width
         tvArea.text = "$area"
+    }
+
+    fun View.gone() {
+        this.visibility = View.GONE
+    }
+
+    fun View.visible() {
+        this.visibility = View.VISIBLE
     }
 }

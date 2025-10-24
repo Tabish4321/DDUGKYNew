@@ -51,10 +51,17 @@ class RfCenterFragment : Fragment() {
         }
 
 
+
+
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
         observeViewModel()
+
+
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         val request = TrainingCenterRequest(
             appVersion = BuildConfig.VERSION_NAME,

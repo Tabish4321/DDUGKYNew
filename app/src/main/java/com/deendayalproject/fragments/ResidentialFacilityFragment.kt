@@ -38,6 +38,7 @@ import com.deendayalproject.model.IndoorGame
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.GpRequest
+import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
@@ -269,6 +270,16 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var spinnerElectricalPowerBackupAvailable: Spinner
     private lateinit var spinnerGrievanceRegisterAvailable: Spinner
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+
+    private var isBasicInfoVisible = true
+    private var isInfraVisible = true
+    private var isLivingAreaVisible = true
+    private var isToiletsVisible = true
+    private var isNonLivingVisible = true
+    private var isIndoorGameVisible = true
+    private var isResidentialFaVisible = true
+    private var isSupportFaVisible = true
 
     private lateinit var adapterGame: IndoorGameAdapter
     private val indoorGamesList = mutableListOf<IndoorGame>()
@@ -562,7 +573,7 @@ class ResidentialFacilityFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View     {
 
 
         _binding = FragmentResidentialBinding.inflate(inflater, container, false)
@@ -572,15 +583,171 @@ class ResidentialFacilityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupExpandableSections(view)
         findById(view)
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
         observeViewModel()
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
+        binding.backButton.setOnClickListener {
 
-         centerItem = arguments?.getSerializable("centerItem") as? TrainingCenterItem
+            findNavController().navigateUp()
+        }
+
+        // Expand all section
+
+
+        binding.headerTCBasicInfo.setOnClickListener {
+
+
+            if (isBasicInfoVisible){
+                binding.layoutTCBasicInfoContent.visible()
+                binding.ivToggleTCBasicInfo.setImageResource(R.drawable.outline_arrow_upward_24)
+
+                isBasicInfoVisible= false
+            }
+            else{
+                binding.layoutTCBasicInfoContent.gone()
+                binding.ivToggleTCBasicInfo.setImageResource(R.drawable.ic_dropdown_arrow)
+                isBasicInfoVisible= true
+            }
+
+        }
+
+
+        binding.headerInfraDetailCompliance.setOnClickListener {
+
+
+            if (isInfraVisible){
+                binding.layoutInfraDetailComplianceContent.visible()
+                binding.ivToggleInfraDetailCompliance.setImageResource(R.drawable.outline_arrow_upward_24)
+
+                isInfraVisible= false
+            }
+            else{
+                binding.layoutInfraDetailComplianceContent.gone()
+                binding.ivToggleInfraDetailCompliance.setImageResource(R.drawable.ic_dropdown_arrow)
+                isInfraVisible= true
+            }
+
+        }
+
+
+        binding.headerLivingAreaInfo.setOnClickListener {
+
+
+            if (isLivingAreaVisible){
+                binding.hideRectcler.visible()
+                binding.ivToggleLivingAreaInfo.setImageResource(R.drawable.outline_arrow_upward_24)
+                isLivingAreaVisible= false
+            }
+            else{
+                binding.hideRectcler.gone()
+                binding.layoutLivingAreaInfoContent.gone()
+                binding.ivToggleLivingAreaInfo.setImageResource(R.drawable.ic_dropdown_arrow)
+                isLivingAreaVisible= true
+            }
+
+        }
+
+        binding.btnAddLivingArea.setOnClickListener {
+            binding.layoutLivingAreaInfoContent.visible()
+
+        }
+
+        binding.headerToilets.setOnClickListener {
+
+
+            if (isToiletsVisible){
+                binding.layoutToiletsContent.visible()
+                binding.ivToggleToilets.setImageResource(R.drawable.outline_arrow_upward_24)
+                isToiletsVisible= false
+            }
+            else{
+                binding.layoutToiletsContent.gone()
+                binding.ivToggleToilets.setImageResource(R.drawable.ic_dropdown_arrow)
+                isToiletsVisible= true
+            }
+
+        }
+
+        binding.headerNonLivingArea.setOnClickListener {
+
+
+            if (isNonLivingVisible){
+                binding.layoutNonLivingAreaContent.visible()
+                binding.ivToggleNonLivingArea.setImageResource(R.drawable.outline_arrow_upward_24)
+                isNonLivingVisible= false
+            }
+            else{
+                binding.layoutNonLivingAreaContent.gone()
+                binding.ivToggleNonLivingArea.setImageResource(R.drawable.ic_dropdown_arrow)
+                isNonLivingVisible= true
+            }
+
+        }
+
+
+        binding.headerIndoorGameDetail.setOnClickListener {
+
+
+            if (isIndoorGameVisible){
+                binding.layoutIndoorGameDetailContent.visible()
+                binding.ivToggleIndoorGameDetail.setImageResource(R.drawable.outline_arrow_upward_24)
+                isIndoorGameVisible= false
+            }
+            else{
+                binding.layoutIndoorGameDetailContent.gone()
+                binding.ivToggleIndoorGameDetail.setImageResource(R.drawable.ic_dropdown_arrow)
+                isIndoorGameVisible= true
+            }
+
+        }
+
+        binding.headerRfAvailable.setOnClickListener {
+
+
+            if (isResidentialFaVisible){
+                binding.layoutRfAvailableContent.visible()
+                binding.ivToggleRfAvailable.setImageResource(R.drawable.outline_arrow_upward_24)
+                isResidentialFaVisible= false
+            }
+            else{
+                binding.layoutRfAvailableContent.gone()
+                binding.ivToggleRfAvailable.setImageResource(R.drawable.ic_dropdown_arrow)
+                isResidentialFaVisible= true
+            }
+
+        }
+
+        binding.headerSfAvailable.setOnClickListener {
+
+
+            if (isSupportFaVisible){
+                binding.layoutSfAvailableContent.visible()
+                binding.ivToggleSfAvailable.setImageResource(R.drawable.outline_arrow_upward_24)
+                isSupportFaVisible= false
+            }
+            else{
+                binding.layoutSfAvailableContent.gone()
+                binding.ivToggleSfAvailable.setImageResource(R.drawable.ic_dropdown_arrow)
+                isSupportFaVisible= true
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        centerItem = arguments?.getSerializable("centerItem") as? TrainingCenterItem
 
 
 
@@ -811,16 +978,7 @@ class ResidentialFacilityFragment : Fragment() {
         })
 
 
-       /* etRoomWidth.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                calculateAndShowArea()  // run only when Width changes
-            }
-        })
-*/
 
         setupAutoAreaCalculation(binding.etRoomLength, binding.etRoomWidth, binding.etRoomArea)
 
@@ -1090,19 +1248,14 @@ class ResidentialFacilityFragment : Fragment() {
             currentPhotoTarget = "ReceptionArea"
             checkAndLaunchCamera()
         }
-
-
         view.findViewById<Button>(R.id.btnUploadDiningArea).setOnClickListener {
             currentPhotoTarget = "DiningArea"
             checkAndLaunchCamera()
         }
-
         view.findViewById<TextView>(R.id.btnUploadIndoorGame).setOnClickListener {
             currentPhotoTarget = "IndoorGame"
             checkAndLaunchCamera()
         }
-
-
         view.findViewById<Button>(R.id.btnUploadWhetherHostelsSeparated).setOnClickListener {
             currentPhotoTarget = "WhetherHostelsSeparated"
             checkAndLaunchCamera()
@@ -1184,7 +1337,7 @@ class ResidentialFacilityFragment : Fragment() {
             ).show()
         }
         view.findViewById<Button>(R.id.btnSubmitLivingAreaInfo).setOnClickListener {
-            if (validateLivingAreaInfoForm(view)) submitBasicInfoForm(view)
+            if (validateLivingAreaInfoForm(view)) submitRFLivingAreaForm(view)
             else Toast.makeText(
                 requireContext(),
                 "Complete all Living Area Information  fields and photos.",
@@ -1529,72 +1682,6 @@ class ResidentialFacilityFragment : Fragment() {
 
     }
 
-    private fun setupExpandableSections(view: View) {
-        val sections = listOf(
-            Triple(
-                R.id.headerTCBasicInfo,
-                R.id.layoutTCBasicInfoContent,
-                R.id.ivToggleTCBasicInfo),
-            Triple(
-                R.id.headerInfraDetailCompliance,
-                R.id.layoutInfraDetailComplianceContent,
-                R.id.ivToggleInfraDetailCompliance
-            ),
-            Triple(
-                R.id.headerLivingAreaInfo,
-                R.id.layoutLivingAreaInfoContent,
-                R.id.ivToggleLivingAreaInfo
-            ),
-            Triple(
-                R.id.headerToilets,
-                R.id.layoutToiletsContent,
-                R.id.ivToggleToilets
-            ),
-            Triple(
-                R.id.headerToilets,
-                R.id.layoutToiletsContent,
-                R.id.ivToggleToilets
-            ),
-            Triple(
-                R.id.headerNonLivingArea,
-                R.id.layoutNonLivingAreaContent,
-                R.id.ivToggleNonLivingArea
-            ),
-            Triple(
-                R.id.headerIndoorGameDetail,
-                R.id.layoutIndoorGameDetailContent,
-                R.id.ivToggleIndoorGameDetail
-            ),
-            Triple(
-                R.id.headerRfAvailable,
-                R.id.layoutRfAvailableContent,
-                R.id.ivToggleRfAvailable
-            ),
-            Triple(
-                R.id.headerSfAvailable,
-                R.id.layoutSfAvailableContent,
-                R.id.ivToggleSfAvailable
-            ),
-
-
-            )
-        val expansionStates = MutableList(sections.size) { false }
-
-        sections.forEachIndexed { index, (headerId, contentId, iconId) ->
-            val header = view.findViewById<LinearLayout>(headerId)
-            val content = view.findViewById<LinearLayout>(contentId)
-            val icon = view.findViewById<ImageView>(iconId)
-
-            header.setOnClickListener {
-                expansionStates[index] = !expansionStates[index]
-                content.visibility = if (expansionStates[index]) View.VISIBLE else View.GONE
-                icon.setImageResource(
-                    if (expansionStates[index]) R.drawable.outline_arrow_upward_24
-                    else R.drawable.ic_dropdown_arrow
-                )
-            }
-        }
-    }
 
     private fun checkAndLaunchCamera() {
         if (ContextCompat.checkSelfPermission(
@@ -2192,6 +2279,60 @@ class ResidentialFacilityFragment : Fragment() {
         viewModel.SubmitRfInfraDetailsAndComlianceToServer(request, token)
         showProgressBar()
     }
+
+
+    private fun submitRFLivingAreaForm(view: View) {
+        val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
+            .getString("ACCESS_TOKEN", "") ?: ""
+
+     /*   val request =
+            InsertLivingAreaReq(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                trainingCentre = centerItem!!.trainingCenterId,
+                sanctionOrder = centerItem!!.senctionOrder,
+                facilityId = 0,
+                roofType = spinnerTypeLivingRoof.selectedItem.toString(),
+                typeOfRoofFilePath = base64TypeLivingRoofDocFile!!,
+                falseCeiling = spinnerCeiling.selectedItem.toString(),
+                falseCeilingFilePath = base64CeilingDocFile!!,
+                ceilingHeight = etHeightOfCeiling.text.toString(),
+                length = etRoomLength.text.toString(),
+                width = etRoomWidth.text.toString(),
+                area = etRoomArea.text.toString(),
+                windowArea = etRoomWindowArea.text.toString(),
+                airConditioning = spinnerAirConditioning.selectedItem.toString(),
+                airConditioningFilePath = base64AirConditioningDocFile!!,
+                circulatingArea = etCirculatingArea.text.toString(),
+                corridor = spinnerCorridor.selectedItem.toString(),
+                securingWiresDone = spinnerSecuringWires.selectedItem.toString(),
+                switchBoardsPanelBoards = spinnerSwitchBoards.selectedItem.toString(),
+                hostelNameBoard = spinnerHostelNameBoard.selectedItem.toString(),
+                studentEntitlementBoard = spinnerEntitlementBoard.selectedItem.toString(),
+                contactDetailImportantPeople = spinnerContactDetail.selectedItem.toString(),
+                basicInformationBoard = spinnerBasicInfoBoard.selectedItem.toString(),
+                foodSpecificationBoard = spinnerFoodSpecificationBoard.selectedItem.toString(),
+                openSpaceArea = etAreaForOutDoorGames.text.toString(),
+                leakagesProof = base64SignOfLeakageDocFile!!,
+                conformanceDDUProof = base64ConformanceDDUGKYDocFile!!,
+                protectionStairsProof = base64ProtectionofStairsDocFile!!,
+                circulatingAreaProof =base64CirculatingAreaProof!! ,
+                corridorProof = base64CorridorDocFile!!,
+                securingWiresDoneProof = base64SecuringWiresDocFile!!,
+                switchBoardsPanelBoardsProof = base64SwitchBoardsDocFile!!,
+                hostelNameBoardProof = base64HostelNameBoardDocFile!!,
+                studentEntitlementBoardProof = base64EntitlementBoardDocFile!!,
+                contactDetailImportantPeopleproof = base64ContactDetailDocFile!!,
+                basicInformationBoardproof = base64BasicInfoBoardDocFile!!,
+                foodSpecificationBoardproof = base64FoodSpecificationBoardDocFile!!
+
+            )
+
+        viewModel.SubmitRfLivingAreaInformationToServer(request, token)*/
+        showProgressBar()
+    }
+
 
 
 

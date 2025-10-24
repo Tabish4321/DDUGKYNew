@@ -718,6 +718,8 @@
     <string name="safe_driniking_available">Safe Driniking Available ?</string>
     <string name="biometric_device">Biometric Device?</string>
     <string name="open_space_area">Open Space Area</string>
+    <string name="residential_facility">Residential Facility</string>
+    <string name="add_living_area">+Add Living Area</string>
 
 
 </resources>

@@ -14,6 +14,7 @@ import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
+import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
@@ -1009,6 +1010,27 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 _errorMessage.postValue(it.message ?: "Unknown error")
             }
             _RfInfra.postValue(result)
+            _loading.postValue(false)
+        }
+
+    }
+
+
+
+
+
+    private val _RfLivingArea = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val RfLivingArea: LiveData<Result<ITLAbDetailsErrorResponse>> = _RfLivingArea
+
+
+    fun SubmitRfLivingAreaInformationToServer(request: InsertLivingAreaReq, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.insertRfLivingAreaInformation(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _RfLivingArea.postValue(result)
             _loading.postValue(false)
         }
 

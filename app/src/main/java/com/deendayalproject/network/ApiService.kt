@@ -11,6 +11,7 @@ import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
+import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LoginRequest
@@ -319,7 +320,8 @@ interface ApiService {
     suspend fun insertRfInfraDetailsAndComliance(@Body request: InsertRfInfraDetaiReq) : Response<ITLAbDetailsErrorResponse>
 
 
-
+    @POST(value = "insertRfLivingAreaInformation")
+    suspend fun insertRfLivingAreaInformation(@Body request: InsertLivingAreaReq) : Response<ITLAbDetailsErrorResponse>
 
     //    ResidentialFacilityQTeamRequest Ajit Ranjan  16/10/2025
     @POST(value ="getRFQteamVerificationList")
