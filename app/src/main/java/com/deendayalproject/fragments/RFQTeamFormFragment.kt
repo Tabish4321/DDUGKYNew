@@ -25,6 +25,7 @@ import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.databinding.RfQteamFormFagmentBinding
 import com.deendayalproject.model.request.CompliancesRFQTReq
+import com.deendayalproject.model.request.RfLivingAreaInformationResponseRQ
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.response.RoomDetail
 import com.deendayalproject.model.response.RoomItem
@@ -61,8 +62,27 @@ class RFQTeamFormFragment : Fragment() {
 
     private lateinit var tcBasinAdapter: ArrayAdapter<String>
     private var selectedRFQTApproval = ""
+    private var selectedIDCApproval = ""
     private var RFQTresFacilityId = ""
+    private var RFQInfraDetailsbuildingPlanFile = ""
+    private var RFQInfraDetailprotectionStairsProofFile = ""
+    private var RFQInfraDetailhostelNameBoardProofFile = ""
+    private var RFQInfraDetailfoodSpecificationBoardFile = ""
+    private var RFQInfraDetailbasicInformationBoardproofFile = ""
+    private var RFQInfraDetailbasicsecuringWiresDoneProofFile = ""
+    private var RFQInfraDetailcorridorProofFile = ""
+    private var RFQInfraDetailcirculatingAreaProofFile = ""
+    private var RFQInfraDetailbuildingPhotosFile = ""
+    private var RFQInfraDetailleakagesProofFile = ""
+    private var RFQInfraDetailconformanceDduProofFile= ""
+    private var RFQInfraDetailswitchBoardsPanelBoardsProofFile= ""
+    private var RFQInfraDetailcontactDetailImportantPeopleproofFile= ""
+    private var RFQInfraDetailstudentEntitlementBoardProofFile= ""
+
+
+
     private var selectedRFQTRemarks = ""
+    private var selectedIDCRemarks = ""
 
 
     private lateinit var tcDescOtherAreaAdapter: ArrayAdapter<String>
@@ -255,6 +275,73 @@ class RFQTeamFormFragment : Fragment() {
         centerId = arguments?.getString("centerId").toString()
         centerName = arguments?.getString("centerName").toString()
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
+        val token = AppUtil.getSavedTokenPreference(requireContext())
+
+
+        val TokeValue=token
+
+
+
+
+//        ImageView Click View file all use in Infrastcture Details and Complains
+        binding.infrastructureDetailsAndCompliancesLayout.BuildingPlanFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailsbuildingPlanFile, "RFQInfraDetailsbuildingPlanFile")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+        }
+
+
+        binding.infrastructureDetailsAndCompliancesLayout.ProtectionOfStairsFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailprotectionStairsProofFile, "RFQInfraDetailprotectionStairsProofFile")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+        }
+
+        binding.infrastructureDetailsAndCompliancesLayout.HostelNameBoardFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailhostelNameBoardProofFile, "RFQInfraDetailhostelNameBoardProofFile")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+        }
+        binding.infrastructureDetailsAndCompliancesLayout.SpecificationBoardFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailfoodSpecificationBoardFile, "RFQInfraDetailfoodSpecificationBoardFileo")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+        }
+        binding.infrastructureDetailsAndCompliancesLayout.BasicInformationBoardFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailbasicInformationBoardproofFile, "RFQInfraDetailbasicInformationBoardproofFile")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+        }
+        binding.infrastructureDetailsAndCompliancesLayout.SecuringWiresDoneFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailbasicsecuringWiresDoneProofFile, "RFQInfraDetailbasicsecuringWiresDoneProofFile")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+        }
+        binding.infrastructureDetailsAndCompliancesLayout.CorridorFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailcorridorProofFile, "RFQInfraDetailcorridorProofFile")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+        }
+        binding.infrastructureDetailsAndCompliancesLayout.circulatingAreaProofFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailcirculatingAreaProofFile, "RFQInfraDetailcirculatingAreaProofFile")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+        }
+        binding.infrastructureDetailsAndCompliancesLayout.OnwershipOfBuldingFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailbuildingPhotosFile, "RFQInfraDetailbuildingPhotosFile")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+        }
+        binding.infrastructureDetailsAndCompliancesLayout.VisibleSignsLeakagesFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailleakagesProofFile, "RFQInfraDetailleakagesProofFile")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+        }
+        binding.infrastructureDetailsAndCompliancesLayout.ConformanceToDduGkyFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailconformanceDduProofFile, "RFQInfraDetailconformanceDduProofFile")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+
+
+        }
+        binding.infrastructureDetailsAndCompliancesLayout.SwitchBoardsAndPanelBoards.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailswitchBoardsPanelBoardsProofFile, "RFQInfraDetailswitchBoardsPanelBoardsProofFile")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+
+
+
+        }
+
+
 
         // TrainingCenterInfo API
         val requestTcInfo = TrainingCenterInfo(
@@ -382,6 +469,11 @@ class RFQTeamFormFragment : Fragment() {
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
+
+
+
+
+
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
@@ -424,8 +516,15 @@ class RFQTeamFormFragment : Fragment() {
 //            return@setOnClickListener
             binding.residentialfacilityqteamInfoLayout.viewRFQTInfo.visibility = View.GONE
             binding.residentialfacilityqteamInfoLayout.RFQTInfoExpand.visibility = View.GONE
+            binding.infrastructureDetailsAndCompliancesLayout.IDetailsComplainExpand.visibility = View.VISIBLE
+            binding.tvinfrastructureDetailsAndCompliances.visibility = View.VISIBLE
+            binding.infrastructureDetailsAndCompliancesLayout.viewIDC.visibility = View.VISIBLE
 //            binding.mainDescAcademia.visibility = View.GONE
 //            binding.viewDescAcademia.visibility = View.GONE
+//            viewIDC
+//    IDetailsComplainExpand
+//    llTopIDC
+//    tvIDC
 
 
             binding.residentialfacilityqteamInfoLayout.tvTrainInfo.setCompoundDrawablesWithIntrinsicBounds(
@@ -455,18 +554,166 @@ class RFQTeamFormFragment : Fragment() {
             val requestCompliancesRFQT = CompliancesRFQTReq(
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                facilityId = RFQTresFacilityId,
+                facilityId = "1",
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
 
             viewModel.getCompliancesRFQTReqRFQT(requestCompliancesRFQT)
-            RFQTresFacilityId
+            collectInsfrastructureDetailsAndComplains()
         }
 
 
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun collectInsfrastructureDetailsAndComplains() {
+        viewModel.CompliancesRFQTReqRFQT.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
 
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+                            binding.infrastructureDetailsAndCompliancesLayout.onwershipOfBulding.text=x.ownership
+                            binding.infrastructureDetailsAndCompliancesLayout.areaOfTheBuilding.text = x.buildingArea
+                            binding.infrastructureDetailsAndCompliancesLayout.HostelNameBoard.text = x.hostelNameBoard
+                            binding.infrastructureDetailsAndCompliancesLayout.BasicInformationBoard.text = x.basicInformationBoard
+                            binding.infrastructureDetailsAndCompliancesLayout.SecuringWiresDone.text = x.securingWiresDone
+                            binding.infrastructureDetailsAndCompliancesLayout.roofBuildingLabel.text = x.roof
+//                            binding.infrastructureDetailsAndCompliancesLayout.WhetherItIsStructurally.text = x.roof
+                            binding.infrastructureDetailsAndCompliancesLayout.visibleSignsOfLeakages.text = x.leakage
+                            binding.infrastructureDetailsAndCompliancesLayout.ConformanceToDduGky.text = x.conformanceDdu
+                            binding.infrastructureDetailsAndCompliancesLayout.ProtectionOfStairs.text = x.protectionStairs
+                            binding.infrastructureDetailsAndCompliancesLayout.CirculatingArea.text = x.circulatingArea
+                            binding.infrastructureDetailsAndCompliancesLayout.Corridor.text = x.corridor
+//                            binding.infrastructureDetailsAndCompliancesLayout.ElectricalWiringAndStandards.text = x.corridor
+                            binding.infrastructureDetailsAndCompliancesLayout.SwitchBoardsAndPanelBoards.text = x.switchBoardsPanelBoards
+                            binding.infrastructureDetailsAndCompliancesLayout.StudentEntitlementBoard.text = x.studentEntitlementBoard
+                            binding.infrastructureDetailsAndCompliancesLayout.FoodSpecificationBoard.text = x.foodSpecificationBoard
+                            binding.infrastructureDetailsAndCompliancesLayout.Area.text = x.openSpaceArea
+
+
+
+                           RFQInfraDetailsbuildingPlanFile = x.buildingPlanFile.toString()
+                            RFQInfraDetailprotectionStairsProofFile =x.protectionStairsProofFile.toString()
+                            RFQInfraDetailhostelNameBoardProofFile = x.hostelNameBoardProofFile.toString()
+                             RFQInfraDetailfoodSpecificationBoardFile = x.foodSpecificationBoardFile.toString()
+                             RFQInfraDetailbasicInformationBoardproofFile = x.basicInformationBoardproofFile.toString()
+                             RFQInfraDetailbasicsecuringWiresDoneProofFile = x.securingWiresDoneProofFile.toString()
+                            RFQInfraDetailcorridorProofFile =x.corridorProofFile.toString()
+                            RFQInfraDetailcirculatingAreaProofFile = x.circulatingAreaProofFile.toString()
+                            RFQInfraDetailbuildingPhotosFile = x.buildingPhotosFile.toString()
+                           RFQInfraDetailleakagesProofFile =x.leakagesProofFile.toString()
+                            RFQInfraDetailconformanceDduProofFile= x.conformanceDduProofFile.toString()
+                           RFQInfraDetailswitchBoardsPanelBoardsProofFile= x.switchBoardsPanelBoardsProofFile.toString()
+                            RFQInfraDetailcontactDetailImportantPeopleproofFile= x.contactDetailImportantPeopleproofFile.toString()
+                           RFQInfraDetailstudentEntitlementBoardProofFile= x.studentEntitlementBoardProofFile.toString()
+
+
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+
+        //Adapter Electrical
+        tcElectricalAdapter = ArrayAdapter(
+            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
+        )
+        binding.infrastructureDetailsAndCompliancesLayout.SpinnerIDC.setAdapter(tcElectricalAdapter)
+
+        binding.infrastructureDetailsAndCompliancesLayout.SpinnerIDC.setOnItemClickListener { parent, view, position, id ->
+            selectedIDCApproval = parent.getItemAtPosition(position).toString()
+            if (selectedIDCApproval == "Send for modification") {
+                binding.infrastructureDetailsAndCompliancesLayout.tvSelectApprovalIDC.visibility =
+                    View.VISIBLE
+                binding.infrastructureDetailsAndCompliancesLayout.etIDCRemarks.visibility =
+                    View.VISIBLE
+
+
+            } else {
+
+                binding.infrastructureDetailsAndCompliancesLayout.etIDCRemarks.visibility = View.GONE
+                binding.infrastructureDetailsAndCompliancesLayout.tvSelectApprovalIDC.visibility =
+                    View.GONE
+
+            }
+//
+        }
+//        binding.infrastructureDetailsAndCompliancesLayout.IDetailsComplainExpand.visibility = View.GONE
+
+
+        binding.infrastructureDetailsAndCompliancesLayout.btnIDCPrevious.setOnClickListener {
+            binding.tvinfrastructureDetailsAndCompliances.visibility= View.GONE
+            binding.residentialfacilityqteamInfoLayout.RFQTInfoExpand.visibility= View.VISIBLE
+        }
+        binding.infrastructureDetailsAndCompliancesLayout.btnIDCNext.setOnClickListener {
+
+
+            if (selectedIDCApproval.isEmpty()) {
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+
+            }
+//            return@setOnClickListener
+            binding.infrastructureDetailsAndCompliancesLayout.viewIDC.visibility = View.GONE
+            binding.infrastructureDetailsAndCompliancesLayout.IDetailsComplainExpand.visibility = View.GONE
+            binding.infrastructureDetailsAndCompliancesLayout.tvIDC.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
+
+            binding.scroll.post {
+                binding.scroll.smoothScrollTo(0, 0)
+            }
+            if (selectedIDCApproval == "Send for modification") {
+                selectedIDCRemarks = binding.infrastructureDetailsAndCompliancesLayout.etIDCRemarks.text.toString()
+                if (selectedIDCRemarks.isEmpty()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+//                return@setOnClickListener
+            } else selectedIDCRemarks = ""
+
+//            Ajit Ranjan create 24/October/2026  CompliancesRFQTReqRFQT
+            val rfLAreaInformationResponserq = RfLivingAreaInformationResponseRQ(
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
+            )
+
+            viewModel.getRfLivingAreaInformation(rfLAreaInformationResponserq)
+        }
+
+
+    }
 
 
     private fun openBase64Pdf(context: Context, base64: String) {

@@ -20,6 +20,7 @@ import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
+import com.deendayalproject.model.request.RfLivingAreaInformationResponseRQ
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
@@ -57,6 +58,7 @@ import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfListResponse
+import com.deendayalproject.model.response.RfLivingAreaInformationResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
@@ -1107,5 +1109,19 @@ class CommonRepository(private val context: Context) {
             Result.failure(e)
         }
     }
-
+//    Ajit Ranjan create 24/October/2026  getRfLivingAreaInformation
+suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationResponseRQ) : Result<RfLivingAreaInformationResponse>{
+    return try {
+        // val bearerToken = "Bearer $token"
+        val response = apiService.getRfLivingAreaInformation(request)
+        if (response.isSuccessful){
+            response.body()?.let { Result.success(it) }
+                ?: Result.failure(Exception("Empty response"))
+        } else {
+            Result.failure(Exception("Error code: ${response.code()}"))
+        }
+    } catch (e: Exception) {
+        Result.failure(e)
+    }
+}
 }

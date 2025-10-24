@@ -1,0 +1,800 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <LinearLayout
+        android:id="@+id/llTopIDC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_background_light_grey"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tvIDC"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/infrastructure_details_and_compliances"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintEnd_toStartOf="@+id/ivSeccArrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/viewIDC"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginTop="@dimen/dp_8"
+        android:background="#F7F7F7"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llTopIDC"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/IDetailsComplainExpand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:elevation="@dimen/dp_2"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/llTopIDC"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+
+        <TextView
+            android:id="@+id/labelonwership_of_bulding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ownership_of_building"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/baseline_monitor_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/onwership_of_bulding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelonwership_of_bulding"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/OnwershipOfBuldingFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/onwership_of_bulding"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/labelarea_of_the_building"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/area_of_the_building_sq_ft_include_corridors_but_exclude_open_to_sky_spaces_like_court_yards_etc"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/cctv"
+            app:layout_constraintTop_toBottomOf="@id/OnwershipOfBuldingFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/area_of_the_building"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelarea_of_the_building"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/BuildingPlanFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/area_of_the_building"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/labehostelNameBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hostel_name_board"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/cctv"
+            app:layout_constraintTop_toBottomOf="@id/BuildingPlanFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/HostelNameBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labehostelNameBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/HostelNameBoardFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/HostelNameBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/valueConformanceCCTV"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/view"-->
+<!--            android:textColor="@color/color_dark_blue"-->
+<!--            android:layout_marginStart="@dimen/dp_35"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/yesNoConformanceCCTV"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+
+        <TextView
+            android:id="@+id/labelroof_building_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/roof_building_label"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/cctv"
+            app:layout_constraintTop_toBottomOf="@id/HostelNameBoardFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/roof_building_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelroof_building_label"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+<!--        <TextView-->
+<!--            android:id="@+id/valueStorageCCTV"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/view"-->
+<!--            android:textColor="@color/color_dark_blue"-->
+<!--            android:layout_marginStart="@dimen/dp_35"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/roof_building_label"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+
+        <TextView
+            android:id="@+id/labelwhether_it_is_structurally"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/whether_it_is_structurally_sound_on_visual_inspection_plastering_and_painting_of_internal_and_external_walls_and_ceiling"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/lan"
+            app:layout_constraintTop_toBottomOf="@id/roof_building_label"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/WhetherItIsStructurally"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelwhether_it_is_structurally"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+<!--        <TextView-->
+<!--            android:id="@+id/valueDvrStaticIP"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/view"-->
+<!--            android:textColor="@color/color_dark_blue"-->
+<!--            android:layout_marginStart="@dimen/dp_35"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/yesNoDvrStaticIP"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+
+
+
+        <!-- 1. IP Enabled -->
+        <TextView
+            android:id="@+id/labelvisible_signs_of_leakages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/visible_signs_of_leakages_from_walls_and_roof_applicable_for_both_rcc_and_non_rcc_structures"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/lan"
+            app:layout_constraintTop_toBottomOf="@id/WhetherItIsStructurally"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/visible_signs_of_leakages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelvisible_signs_of_leakages"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+                <TextView
+                    android:id="@+id/VisibleSignsLeakagesFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/visible_signs_of_leakages"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- 2. Resolution -->
+        <TextView
+            android:id="@+id/labelConformanceToDduGky"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/conformance_to_ddu_gky_look_and_feel_standards_as_per_sub_section_5_1_1"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/cctv"
+            app:layout_constraintTop_toBottomOf="@id/VisibleSignsLeakagesFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/ConformanceToDduGky"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelConformanceToDduGky"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+        <TextView
+            android:id="@+id/ConformanceToDduGkyFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/ConformanceToDduGky"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <!-- 3. Video Stream -->
+        <TextView
+            android:id="@+id/labelProtectionOfStairs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/protection_of_stairs_balconies_and_other_locations"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/baseline_videostream"
+            app:layout_constraintTop_toBottomOf="@id/ConformanceToDduGkyFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/ProtectionOfStairs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelProtectionOfStairs"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/ProtectionOfStairsFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/ProtectionOfStairs"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+        <!-- 4. Remote Access (Web) -->
+        <TextView
+            android:id="@+id/labelCirculatingArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/circulating_area"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/internet"
+            app:layout_constraintTop_toBottomOf="@id/ProtectionOfStairsFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/CirculatingArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelCirculatingArea"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/circulatingAreaProofFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/CirculatingArea"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+        <!-- 5. Remote Access (10 users) -->
+        <TextView
+            android:id="@+id/labelcorridor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/corridor"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/office_room"
+            app:layout_constraintTop_toBottomOf="@id/circulatingAreaProofFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/Corridor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelcorridor"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/CorridorFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/Corridor"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/labelElectricalWiringAndStandards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/electrical_wiring_and_standards"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+           android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/CorridorFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- 6. Supported Protocols -->
+<!--        <TextView-->
+<!--            android:id="@+id/ElectricalWiringAndStandards"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/securing_of_wires_done"-->
+<!--            android:textColor="@color/color_dark_green"-->
+<!--            android:textSize="@dimen/sp_18"-->
+<!--            android:layout_marginTop="@dimen/dp_15"-->
+<!--            android:drawablePadding="8dp"-->
+<!--            app:drawableStartCompat="@drawable/cctv"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/labelElectricalWiringAndStandards"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+
+        <TextView
+            android:id="@+id/ElectricalWiringAndStandards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelElectricalWiringAndStandards"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <!-- 7. Color video with audio -->
+        <TextView
+            android:id="@+id/labelSwitchBoardsAndPanelBoards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/switch_boards_and_panel_boards"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/audio"
+            app:layout_constraintTop_toBottomOf="@id/ElectricalWiringAndStandards"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/SwitchBoardsAndPanelBoards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelSwitchBoardsAndPanelBoards"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/SwitchBoardsAndPanelBoardsFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/SwitchBoardsAndPanelBoards"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/ResidentialSignages_Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/residential_signages_and_information_boards"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/SwitchBoardsAndPanelBoardsFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <!-- 8. Storage Facility -->
+        <TextView
+            android:id="@+id/StudentEntitlementBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/student_entitlement_board_and_responsibilities_board"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/backup"
+            app:layout_constraintTop_toBottomOf="@id/ResidentialSignages_Title"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/StudentEntitlement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/StudentEntitlementBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/StudentEntitlementFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/StudentEntitlement"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+        <TextView
+            android:id="@+id/labelFoodSpecificationBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/food_specification_board"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/backup"
+            app:layout_constraintTop_toBottomOf="@id/StudentEntitlementFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/FoodSpecificationBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelFoodSpecificationBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/SpecificationBoardFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/FoodSpecificationBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+        <TextView
+            android:id="@+id/labelBasicInformationBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/basic_information_board"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/backup"
+            app:layout_constraintTop_toBottomOf="@id/SpecificationBoardFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/BasicInformationBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelBasicInformationBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/BasicInformationBoardFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/BasicInformationBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+        <TextView
+            android:id="@+id/labelSecuringWiresDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/basic_information_board"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/backup"
+            app:layout_constraintTop_toBottomOf="@id/BasicInformationBoardFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/SecuringWiresDone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelSecuringWiresDone"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/SecuringWiresDoneFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/BasicInformationBoard"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+        <TextView
+            android:id="@+id/labelArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lable_area"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            app:drawableStartCompat="@drawable/backup"
+            app:layout_constraintTop_toBottomOf="@id/SecuringWiresDoneFile"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/Area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/n_a"
+            android:layout_marginStart="@dimen/dp_35"
+            app:layout_constraintTop_toBottomOf="@id/labelArea"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvSelectApprovalIDC"
+            android:text="@string/select_approvals"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintTop_toBottomOf="@id/Area"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_next_demi_bold"
+            android:hint="@string/select_approval"
+            android:id="@+id/llTcIDC"
+            android:layout_marginStart="@dimen/dp_3"
+            android:textColorHint="@color/color_dark_green"
+            app:boxStrokeColor="@color/color_dark_green"
+            app:layout_constraintTop_toBottomOf="@id/tvSelectApprovalIDC"
+            app:layout_constraintStart_toStartOf="parent"
+            >
+
+            <AutoCompleteTextView
+                android:id="@+id/SpinnerIDC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="none"
+                android:textColor="@color/color_dark_green"
+                android:textSize="15sp"
+                tools:ignore="LabelFor"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/IDCRemarks"
+            android:visibility="gone"
+            android:text="@string/remarkss"
+            android:layout_marginTop="@dimen/dp_20"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintTop_toBottomOf="@id/llTcIDC"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <EditText
+            android:id="@+id/etIDCRemarks"
+            android:visibility="gone"
+            style="@style/EditText"
+            android:hint="@string/remarks"
+            android:background="@drawable/edittext_background"
+            android:padding="12dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/IDCRemarks"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:id="@+id/llIpIDCBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etIDCRemarks">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/btnIDCPrevious"
+                android:elevation="4dp"
+                android:text="@string/previous"
+                android:textColor="@color/color_dark_blue"
+                android:textSize="@dimen/sp_16"
+                android:background="@drawable/backgroung_overlay"
+                android:layout_margin="8dp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="@string/save_and_next"
+                android:gravity="center"
+                android:id="@+id/btnIDCNext"
+                android:textColor="@color/white"
+                android:elevation="4dp"
+                android:textSize="@dimen/sp_16"
+                android:background="@drawable/card_background"
+                android:layout_margin="8dp" />
+
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
