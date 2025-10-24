@@ -77,11 +77,13 @@ class ResidentialFacilityFragment : Fragment() {
     private var base64PVDocFile: String? = null
     private var base64ALDocFile: String? = null
     private var base64OwnerBuildingDocFile: String? = null
+    private var base64BuildingAreaDocFile: String? = null
     private var base64RoofOfBuildingDocFile: String? = null
     private var base64WhetherStructurallySoundDocFile: String? = null
     private var base64SignOfLeakageDocFile: String? = null
     private var base64ConformanceDDUGKYDocFile: String? = null
     private var base64ProtectionofStairsDocFile: String? = null
+    private var base64CirculatingAreaProof: String? = null
     private var base64CorridorDocFile: String? = null
     private var base64SecuringWiresDocFile: String? = null
     private var base64SwitchBoardsDocFile: String? = null
@@ -340,6 +342,19 @@ class ResidentialFacilityFragment : Fragment() {
                             ivProtectionofStairsPreview.visibility = View.VISIBLE
                             base64ProtectionofStairsDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
+
+                        "AreaOfBuilding" -> {
+                            binding.ivAreaOfBuildingDocPreview.setImageURI(photoUri)
+                            binding.ivAreaOfBuildingDocPreview.visibility = View.VISIBLE
+                            base64BuildingAreaDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+                        "CirculationArea" -> {
+                            binding.ivCirculationAreaDocPreview.setImageURI(photoUri)
+                            binding.ivCirculationAreaDocPreview.visibility = View.VISIBLE
+                            base64CirculatingAreaProof = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+
                         "Corridor" -> {
                             ivCorridorPreview.setImageURI(photoUri)
                             ivCorridorPreview.visibility = View.VISIBLE
@@ -639,6 +654,31 @@ class ResidentialFacilityFragment : Fragment() {
         }
 
 
+        viewModel.RfInfra.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                Toast.makeText(
+                    requireContext(),
+                    "Infra Detail submitted successfully!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                binding.layoutInfraDetailComplianceContent.gone()
+
+            }
+            result.onFailure {
+                hideProgressBar()
+
+                Toast.makeText(
+                    requireContext(),
+                    "Infra Detail submission failed: ${it.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
+
+
 
 
 
@@ -929,6 +969,20 @@ class ResidentialFacilityFragment : Fragment() {
             checkAndLaunchCamera()
 
         }
+
+        view.findViewById<Button>(R.id.btnUploadAreaOfBuilding).setOnClickListener {
+            currentPhotoTarget = "AreaOfBuilding"
+            checkAndLaunchCamera()
+
+        }
+
+        view.findViewById<Button>(R.id.btnUploadCirculationArea).setOnClickListener {
+            currentPhotoTarget = "CirculationArea"
+            checkAndLaunchCamera()
+
+        }
+
+
         view.findViewById<Button>(R.id.btnUploadCorridor).setOnClickListener {
             currentPhotoTarget = "Corridor"
             checkAndLaunchCamera()
@@ -1122,7 +1176,7 @@ class ResidentialFacilityFragment : Fragment() {
 
 
         view.findViewById<Button>(R.id.btnSubmitInfraInfo).setOnClickListener {
-            if (validateInfraInfoForm(view)) submitBasicInfoForm(view)
+            if (validateInfraInfoForm(view)) submitRFInfraForm(view)
             else Toast.makeText(
                 requireContext(),
                 "Complete all Infrastructure Details and Compliances  fields and photos.",
@@ -1686,7 +1740,8 @@ class ResidentialFacilityFragment : Fragment() {
        if(base64OwnerBuildingDocFile == null || base64RoofOfBuildingDocFile == null||base64WhetherStructurallySoundDocFile == null || base64SignOfLeakageDocFile == null
            || base64ConformanceDDUGKYDocFile == null || base64ProtectionofStairsDocFile == null||base64CorridorDocFile == null || base64SecuringWiresDocFile == null
            || base64SwitchBoardsDocFile == null || base64HostelNameBoardDocFile == null||base64EntitlementBoardDocFile == null || base64ContactDetailDocFile == null
-           ||base64FoodSpecificationBoardDocFile==null) isValid = false
+           ||base64FoodSpecificationBoardDocFile==null || base64BuildingAreaDocFile == null
+           ||base64CirculatingAreaProof==null) isValid = false
 
        return isValid
 
@@ -2086,7 +2141,6 @@ class ResidentialFacilityFragment : Fragment() {
     }
 
 
-/*
     private fun submitRFInfraForm(view: View) {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -2098,49 +2152,46 @@ class ResidentialFacilityFragment : Fragment() {
                 imeiNo = AppUtil.getAndroidId(requireContext()),
                 trainingCentre = centerItem!!.trainingCenterId,
                 sanctionOrder = centerItem!!.senctionOrder,
-                schemeName = centerItem!!.schemeName,
-                residentialFacilityName = etFacilityName.text.toString(),
-                residentialType = etFacilityType.text.toString(),
-                residentialCenterLocation = centerItem!!.stateName,
-                houseNo = etHouseNo.text.toString(),
-                streetNo1 = etStreet.text.toString(),
-                streetNo2 = "",
-                landMark = etLandmark.text.toString(),
-                stateCode = selectedStateCode,
-                districtCode = selectedDistrictCode,
-                blockCode = selectedBlockCode,
-                gpCode = selectedGpCode,
-                villageCode = selectedVillageCode,
-                policeStation = etPoliceStation.text.toString(),
-                pincode = etPinCode.text.toString(),
-                mobile = etMobile.text.toString(),
-                residentialFacilityPhoneNo = etPhone.text.toString(),
-                email = etEmail.text.toString(),
-                typeOfArea = spinnerTypeOfArea.selectedItem.toString(),
-                latitude = latValue,
-                longitude = langValue,
-                geoAddress = "",
-                categoryOfTC = spinnerCatOfTCLocation.selectedItem.toString(),
-                distBusStand = etDistanceFromBusStand.text.toString(),
-                distAutoStand = etDistanceFromAutoStand.text.toString(),
-                distRailStand = etDistanceFromRailwayStand.text.toString(),
-                distfromTC = etDistanceFromTrainingToResidentialCentre.text.toString(),
-                pickUpDrop = spinnerPickupAndDropFacility.selectedItem.toString(),
-                wardName = etWardenName.text.toString(),
-                wardGender = spinnerWardenGender.selectedItem.toString(),
-                wardEmployeeId = etWardenEmpID.text.toString(),
-                wardAddress = etWardenAddress.text.toString(),
-                wardEmail = etWardenEmailId.text.toString(),
-                wardMobile = etWardenMobile.text.toString(),
-                empLetterFile = base64ALDocFile!!,
-                policeVerificationFile = base64PVDocFile!!,
-                resFacilityId = 0
+                facilityId = 0,
+                ownership = spinnerOwnerBuilding.selectedItem.toString(),
+                buildingArea = etAreaOfBuilding.text.toString(),
+                roof = spinnerRoofOfBuilding.selectedItem.toString(),
+                plastering = spinnerWhetherStructurallySound.selectedItem.toString(),
+                empLetterFile = base64OwnerBuildingDocFile!!,
+                buildingPlan = base64BuildingAreaDocFile!!,
+                photosBuilding = base64RoofOfBuildingDocFile!!,
+                photosWalls = base64WhetherStructurallySoundDocFile!!,
+                leakages = spinnerVisibleSignOfLeakage.selectedItem.toString(),
+                conformanceDDU = spinnerConformanceDDUGKY.selectedItem.toString(),
+                protectionStairs = spinnerProtectionofStairs.selectedItem.toString(),
+                circulatingArea = etCirculatingArea.text.toString(),
+                corridor = spinnerCorridor.selectedItem.toString(),
+                securingWiresDone = spinnerSecuringWires.selectedItem.toString(),
+                switchBoardsPanelBoards = spinnerSwitchBoards.selectedItem.toString(),
+                hostelNameBoard = spinnerHostelNameBoard.selectedItem.toString(),
+                studentEntitlementBoard = spinnerEntitlementBoard.selectedItem.toString(),
+                contactDetailImportantPeople = spinnerContactDetail.selectedItem.toString(),
+                basicInformationBoard = spinnerBasicInfoBoard.selectedItem.toString(),
+                foodSpecificationBoard = spinnerFoodSpecificationBoard.selectedItem.toString(),
+                openSpaceArea = etAreaForOutDoorGames.text.toString(),
+                leakagesProof = base64SignOfLeakageDocFile!!,
+                conformanceDDUProof = base64ConformanceDDUGKYDocFile!!,
+                protectionStairsProof = base64ProtectionofStairsDocFile!!,
+                circulatingAreaProof =base64CirculatingAreaProof!! ,
+                corridorProof = base64CorridorDocFile!!,
+                securingWiresDoneProof = base64SecuringWiresDocFile!!,
+                switchBoardsPanelBoardsProof = base64SwitchBoardsDocFile!!,
+                hostelNameBoardProof = base64HostelNameBoardDocFile!!,
+                studentEntitlementBoardProof = base64EntitlementBoardDocFile!!,
+                contactDetailImportantPeopleproof = base64ContactDetailDocFile!!,
+                basicInformationBoardproof = base64BasicInfoBoardDocFile!!,
+                foodSpecificationBoardproof = base64FoodSpecificationBoardDocFile!!
+
             )
 
-        viewModel.SubmitRfBasicInformationToServer(request, token)
+        viewModel.SubmitRfInfraDetailsAndComlianceToServer(request, token)
         showProgressBar()
     }
-*/
 
 
 

@@ -6,7 +6,7 @@ data class InsertRfInfraDetaiReq(
     val imeiNo: String,
     val trainingCentre: Int,
     val sanctionOrder: String,
-    val facilityId: String,
+    val facilityId: Int,
     val ownership: String,
     val buildingArea: String,
     val roof: String,

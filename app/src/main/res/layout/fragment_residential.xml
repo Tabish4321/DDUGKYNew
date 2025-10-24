@@ -1165,6 +1165,19 @@
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <Button
+                        android:id="@+id/btnUploadAreaOfBuilding"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload " />
+                    <ImageView
+                        android:id="@+id/ivAreaOfBuildingDocPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1497,6 +1510,20 @@
                             android:layout_height="wrap_content"
                             android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <Button
+                        android:id="@+id/btnUploadCirculationArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload " />
+                    <ImageView
+                        android:id="@+id/ivCirculationAreaDocPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
 
                     <!-- Supported Protocols -->
 
@@ -1958,7 +1985,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/avenir_next_semi_bold"
-                        android:text="@string/area_in_sq_ft"
+                        android:text="@string/open_space_area"
                         android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
                         android:textColor="@color/color_dark_green"
@@ -1970,7 +1997,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="@string/area_in_sq_ft">
+                        android:hint="@string/open_space_area">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etAreaForOutDoorGames"

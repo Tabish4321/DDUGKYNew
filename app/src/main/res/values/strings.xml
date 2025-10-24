@@ -716,6 +716,7 @@
     <string name="whether_male_doctor_on_call_is_available_or_not">Whether Male Doctor on call is Available or Not?</string>
     <string name="safe_driniking_available">Safe Driniking Available ?</string>
     <string name="biometric_device">Biometric Device?</string>
+    <string name="open_space_area">Open Space Area</string>
 
 
 </resources>
