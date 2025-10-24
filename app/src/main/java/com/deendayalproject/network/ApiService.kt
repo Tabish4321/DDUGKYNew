@@ -18,6 +18,7 @@ import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
+import com.deendayalproject.model.request.RfLivingAreaInformationResponseRQ
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
@@ -55,6 +56,7 @@ import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfListResponse
+import com.deendayalproject.model.response.RfLivingAreaInformationResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
@@ -336,6 +338,9 @@ interface ApiService {
     @POST(value ="getRfInfraDetailsAndComliance")
     suspend fun getgetCompliancesRFQTReqRFQT(@Body request: CompliancesRFQTReq) : Response<InfrastructureDetailsandCompliancesRFQT>
 
+//    Ajit Ranjan create 24/October/2026  getRfLivingAreaInformation
+    @POST(value ="getRfLivingAreaInformation")
+    suspend fun getRfLivingAreaInformation(@Body request: RfLivingAreaInformationResponseRQ) : Response<RfLivingAreaInformationResponse>
 
 
 }

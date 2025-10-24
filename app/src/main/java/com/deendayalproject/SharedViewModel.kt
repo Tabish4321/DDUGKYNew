@@ -21,6 +21,7 @@ import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
+import com.deendayalproject.model.request.RfLivingAreaInformationResponseRQ
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
@@ -58,6 +59,7 @@ import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfListResponse
+import com.deendayalproject.model.response.RfLivingAreaInformationResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
@@ -1060,6 +1062,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     val CompliancesRFQTReqRFQT: LiveData<Result<InfrastructureDetailsandCompliancesRFQT>> = _CompliancesRFQTReqRFQT
 
 
+    private val _fLivingAreaInformation = MutableLiveData<Result<RfLivingAreaInformationResponse>>()
+    val fLivingAreaInformation: LiveData<Result<RfLivingAreaInformationResponse>> = _fLivingAreaInformation
+
+
     fun getCompliancesRFQTReqRFQT(request: CompliancesRFQTReq) {
         _loading.postValue(true)
         viewModelScope.launch {
@@ -1071,4 +1077,16 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _loading.postValue(false)
         }
     }
+//    Ajit Ranjan create 24/October/2026  getRfLivingAreaInformation
+fun getRfLivingAreaInformation(request: RfLivingAreaInformationResponseRQ) {
+    _loading.postValue(true)
+    viewModelScope.launch {
+        val result = repository.getRfLivingAreaInformation(request)
+        result.onFailure {
+            _errorMessage.postValue(it.message ?: "Unknown error")
+        }
+        _fLivingAreaInformation.postValue(result)
+        _loading.postValue(false)
+    }
+}
 }

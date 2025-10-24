@@ -116,7 +116,29 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+        <!--        Living Area Information -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tvlivingareainformation"
+            style="@style/editTextHome"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTrainingInfo">
 
+
+
+            <include
+                android:id="@+id/livingareainformationLayout"
+                layout="@layout/livingareainformationlayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
