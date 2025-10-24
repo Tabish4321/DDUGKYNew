@@ -603,7 +603,7 @@
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/backup"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/BasicInformationBoardFile" />
+            app:layout_constraintTop_toBottomOf="@id/BasicInformationBoard" />
 
         <TextView
             android:id="@+id/SecuringWiresDone"
