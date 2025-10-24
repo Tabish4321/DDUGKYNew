@@ -339,7 +339,6 @@ class QTeamFormFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = DescriptionAcademiaAdapter(academiaList) { room ->
 
-
             when (room.roomType) {
 
                 "Theory Class Room" -> {
@@ -360,7 +359,7 @@ class QTeamFormFragment : Fragment() {
                     )
 
                     // Show progress bar
-                    binding.progressBar.visibility = View.VISIBLE
+                   showProgressBar()
 
 
                     viewLifecycleOwner.lifecycleScope.launch {
@@ -371,7 +370,7 @@ class QTeamFormFragment : Fragment() {
                         delay(2000L)
 
                         // Hide progress bar
-                        binding.progressBar.visibility = View.GONE
+                        hideProgressBar()
 
 
                         // Now set data to TextViews
@@ -506,8 +505,9 @@ class QTeamFormFragment : Fragment() {
                         // Call API
                         viewModel.getAcademicRoomDetails(requestTcRoomDetails)
 
-                        // Wait for 2 seconds
+                       showProgressBar()
                         delay(2000L)
+                        hideProgressBar()
 
 
                         // Set data to TextViews (from variables set after API call)
@@ -586,8 +586,10 @@ class QTeamFormFragment : Fragment() {
                         viewModel.getAcademicRoomDetails(requestTcRoomDetails)
 
                         // Wait for 2 seconds
+                        showProgressBar()
                         delay(2000L)
 
+                        hideProgressBar()
                         // Hide progress bar
 
                         // Set data to TextViews (from variables set after API call)
@@ -624,10 +626,10 @@ class QTeamFormFragment : Fragment() {
                         // Call API
                         viewModel.getAcademicRoomDetails(requestTcRoomDetails)
 
-                        // Wait for 2 seconds (simulate API loading)
+                        showProgressBar()
                         delay(2000L)
 
-                        // Hide progress bar
+                        hideProgressBar()
 
                         // Set data to TextViews
                         binding.yesNoCounsellingAreaPhoto.text = safeText(roomsPhotographs)
@@ -668,9 +670,10 @@ class QTeamFormFragment : Fragment() {
                         // Call API
                         viewModel.getAcademicRoomDetails(requestTcRoomDetails)
 
-                        // Wait for 2 seconds to simulate loading
+                        showProgressBar()
                         delay(2000L)
 
+                        hideProgressBar()
 
                         // Set data to TextViews
                         binding.yesNoOfficeRoomPhoto.text = safeText(roomsPhotographs)
@@ -743,8 +746,10 @@ class QTeamFormFragment : Fragment() {
 
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-                        delay(2000L) // simulate API loading
+                        showProgressBar()
+                        delay(2000L)
 
+                        hideProgressBar()
                         // Set yes/no values
                         binding.yesNoTypeOfRoof.text = safeText(roofType)
                         binding.yesNoFalseCeiling.text = safeText(falseCeiling)
@@ -816,7 +821,10 @@ class QTeamFormFragment : Fragment() {
 
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+                        showProgressBar()
                         delay(2000L)
+
+                        hideProgressBar()
 
 
                     binding.yesNoTypeOfRoof.text = safeText(roofType)
@@ -910,8 +918,10 @@ class QTeamFormFragment : Fragment() {
                     binding.backButton.setOnClickListener { dialog.dismiss() }
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+                        showProgressBar()
                         delay(2000L)
-                        // ---------------------- Set all fields ----------------------
+
+                        hideProgressBar()                        // ---------------------- Set all fields ----------------------
                         binding.yesNoTypeOfRoof.text = safeText(roofType)
                         binding.valueTypeOfRoof.setOnClickListener {
                             showBase64ImageDialog(
@@ -1134,8 +1144,10 @@ class QTeamFormFragment : Fragment() {
                     binding.backButton.setOnClickListener { dialog.dismiss() }
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+                        showProgressBar()
                         delay(2000L)
-                        // Populate fields
+
+                        hideProgressBar()                        // Populate fields
                         binding.yesNoTypeOfRoof.text = safeText(roofType)
                         binding.valueTypeOfRoof.setOnClickListener {
                             showBase64ImageDialog(requireContext(), roofTypeImage, "Type of Roof")
@@ -1330,8 +1342,10 @@ class QTeamFormFragment : Fragment() {
                     binding.backButton.setOnClickListener { dialog.dismiss() }
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+                        showProgressBar()
                         delay(2000L)
-                        // 1. Type of Roof
+
+                        hideProgressBar()                        // 1. Type of Roof
                         binding.yesNoTypeOfRoof.text = safeText(roofType)
                         binding.valueTypeOfRoof.setOnClickListener {
                             showBase64ImageDialog(requireContext(), roofTypeImage, "Type of Roof")
@@ -3003,7 +3017,7 @@ class QTeamFormFragment : Fragment() {
                     )
 
                     // Show progress bar
-                    binding.progressBar.visibility = View.VISIBLE
+                  showProgressBar()
 
 
                     viewLifecycleOwner.lifecycleScope.launch {
@@ -3931,6 +3945,7 @@ class QTeamFormFragment : Fragment() {
 
         viewModel.insertQTeamVerification.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
+                hideProgressBar()
                 when (it.responseCode) {
                     200 -> {
 
@@ -3961,6 +3976,7 @@ class QTeamFormFragment : Fragment() {
                 }
             }
             result.onFailure {
+                hideProgressBar()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -4070,6 +4086,19 @@ class QTeamFormFragment : Fragment() {
             else -> "" // default or handle as needed
         }
     }
+
+    fun showProgressBar() {
+        if (context != null && isAdded && progress?.isShowing == false) {
+            progress?.show()
+        }
+    }
+
+    fun hideProgressBar() {
+        if (progress?.isShowing == true) {
+            progress?.dismiss()
+        }
+    }
+
 }
 
 

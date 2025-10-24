@@ -22,19 +22,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.adapter.BlockAdapter
 import com.deendayalproject.adapter.DistrictAdapter
+import com.deendayalproject.adapter.IndoorGameAdapter
 import com.deendayalproject.adapter.PanchayatAdapter
 import com.deendayalproject.adapter.StateAdapter
 import com.deendayalproject.adapter.VillageAdapter
 import com.deendayalproject.databinding.FragmentQTeamFormBinding
 import com.deendayalproject.databinding.FragmentResidentialBinding
+import com.deendayalproject.model.IndoorGame
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.GpRequest
+import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.VillageReq
@@ -73,11 +77,13 @@ class ResidentialFacilityFragment : Fragment() {
     private var base64PVDocFile: String? = null
     private var base64ALDocFile: String? = null
     private var base64OwnerBuildingDocFile: String? = null
+    private var base64BuildingAreaDocFile: String? = null
     private var base64RoofOfBuildingDocFile: String? = null
     private var base64WhetherStructurallySoundDocFile: String? = null
     private var base64SignOfLeakageDocFile: String? = null
     private var base64ConformanceDDUGKYDocFile: String? = null
     private var base64ProtectionofStairsDocFile: String? = null
+    private var base64CirculatingAreaProof: String? = null
     private var base64CorridorDocFile: String? = null
     private var base64SecuringWiresDocFile: String? = null
     private var base64SwitchBoardsDocFile: String? = null
@@ -99,7 +105,9 @@ class ResidentialFacilityFragment : Fragment() {
     private var base64LightsInToiletDocFile: String? = null
     private var base64ToiletFlooringDocFile: String? = null
     private var base64FoodPreparedTrainingDocFile: String? = null
+    private var base64IndoorGameDocFile: String = ""
     private var base64ReceptionAreaDocFile: String? = null
+    private var base64DiningAreaDocFile: String? = null
     private var base64WhetherHostelsSeparatedDocFile: String? = null
     private var base64WardenWhereMalesStayDocFile: String? = null
     private var base64WardenWhereLadyStayDocFile: String? = null
@@ -139,6 +147,7 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var ivToiletFlooringPreview: ImageView
     private lateinit var ivFoodPreparedTrainingPreview: ImageView
     private lateinit var ivReceptionAreaPreview: ImageView
+    private lateinit var ivDiningAreaPreview: ImageView
     private lateinit var ivWhetherHostelsSeparatedPreview: ImageView
     private lateinit var ivWardenWhereMalesStayPreview: ImageView
     private lateinit var ivWardenWhereLadyStayPreview: ImageView
@@ -227,23 +236,21 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var etLightsInToilet: TextInputEditText
     private lateinit var etFemaleUrinal: TextInputEditText
     private lateinit var etFemaleWashbasins: TextInputEditText
-    private lateinit var etCandidatesPermissible: TextInputEditText
     /////////////////////////Non-Living Areas Section////////////
     private lateinit var spinnerFoodPreparedTrainingCenter: Spinner
     private lateinit var spinnerDiningRecreationAreaSeparate: Spinner
     private lateinit var spinnerTvAvailable: Spinner
-    private lateinit var spinnerReceptionAreaAvailable: Spinner
     private lateinit var etKitchenLength: TextInputEditText
     private lateinit var etKitchenWidth: TextInputEditText
-    private lateinit var etKitchenArea: TextInputEditText
+    private lateinit var etKitchenArea: TextView
     private lateinit var etStoolsChairsBenches: TextInputEditText
     private lateinit var etWashArea: TextInputEditText
     private lateinit var etDiningLength: TextInputEditText
     private lateinit var etDiningWidth: TextInputEditText
-    private lateinit var etDiningArea: TextInputEditText
+    private lateinit var etDiningArea: TextView
     private lateinit var etRecreationLength: TextInputEditText
     private lateinit var etRecreationWidth: TextInputEditText
-    private lateinit var etRecreationArea: TextInputEditText
+    private lateinit var etRecreationArea: TextView
 
     /////////////////////////Indoor Game Section////////////
     private lateinit var etIndoorGameName: TextInputEditText
@@ -263,7 +270,9 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var spinnerGrievanceRegisterAvailable: Spinner
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-
+    private lateinit var adapterGame: IndoorGameAdapter
+    private val indoorGamesList = mutableListOf<IndoorGame>()
+    private var gameCounter = 1
     var selectedStateCode ="0";
     var selectedDistrictCode ="0";
     var selectedBlockCode ="0";
@@ -333,6 +342,19 @@ class ResidentialFacilityFragment : Fragment() {
                             ivProtectionofStairsPreview.visibility = View.VISIBLE
                             base64ProtectionofStairsDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
+
+                        "AreaOfBuilding" -> {
+                            binding.ivAreaOfBuildingDocPreview.setImageURI(photoUri)
+                            binding.ivAreaOfBuildingDocPreview.visibility = View.VISIBLE
+                            base64BuildingAreaDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+                        "CirculationArea" -> {
+                            binding.ivCirculationAreaDocPreview.setImageURI(photoUri)
+                            binding.ivCirculationAreaDocPreview.visibility = View.VISIBLE
+                            base64CirculatingAreaProof = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+
                         "Corridor" -> {
                             ivCorridorPreview.setImageURI(photoUri)
                             ivCorridorPreview.visibility = View.VISIBLE
@@ -448,6 +470,22 @@ class ResidentialFacilityFragment : Fragment() {
                             ivReceptionAreaPreview.visibility = View.VISIBLE
                             base64ReceptionAreaDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
+
+
+
+                        "DiningArea" -> {
+                            ivDiningAreaPreview.setImageURI(photoUri)
+                            ivDiningAreaPreview.visibility = View.VISIBLE
+                            base64DiningAreaDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+                        "IndoorGame" -> {
+                            binding.ivIndoorGamePreview.setImageURI(photoUri)
+                            binding.ivIndoorGamePreview.visibility = View.VISIBLE
+                            base64IndoorGameDocFile =
+                                AppUtil.imageUriToBase64(requireContext(), photoUri).toString()
+                        }
+
                         "WhetherHostelsSeparated" -> {
                             ivWhetherHostelsSeparatedPreview.setImageURI(photoUri)
                             ivWhetherHostelsSeparatedPreview.visibility = View.VISIBLE
@@ -546,6 +584,41 @@ class ResidentialFacilityFragment : Fragment() {
 
 
 
+        adapterGame = IndoorGameAdapter(indoorGamesList) { game ->
+            removeGame(game)
+        }
+        binding.recyclerView.adapter = adapterGame
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+
+        binding.btnAddMoreGame.setOnClickListener {
+            val gameName = binding.etIndoorGameName.text.toString().trim()
+
+            if (gameName.isEmpty() || base64IndoorGameDocFile=="")  {
+                Toast.makeText(requireContext(), "Please enter game name and Upload Pic", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val newGame = IndoorGame(gameCounter++, gameName,base64IndoorGameDocFile)
+            indoorGamesList.add(newGame)
+            adapterGame.notifyItemInserted(indoorGamesList.size - 1)
+
+            binding.etIndoorGameName.text?.clear()
+            base64IndoorGameDocFile= ""
+
+            binding.ivIndoorGamePreview.visibility = View.GONE
+
+        }
+
+
+        binding.btnSubmitInDoorGameInfo.setOnClickListener {
+            if (indoorGamesList.size < 8) {
+                Toast.makeText(requireContext(), "Please add at least 8 indoor games before submitting", Toast.LENGTH_SHORT).show()
+            } else {
+                // Hit The API
+            }
+        }
+
 
         if (hasLocationPermission()) {
             getCurrentLocation()
@@ -559,17 +632,19 @@ class ResidentialFacilityFragment : Fragment() {
 
         viewModel.RfBasicInfo.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
+                hideProgressBar()
                 Toast.makeText(
                     requireContext(),
                     "Basic Info data submitted successfully!",
                     Toast.LENGTH_SHORT
                 ).show()
 
-
                 binding.layoutTCBasicInfoContent.gone()
 
             }
             result.onFailure {
+                hideProgressBar()
+
                 Toast.makeText(
                     requireContext(),
                     "Basic Info submission failed: ${it.message}",
@@ -577,6 +652,31 @@ class ResidentialFacilityFragment : Fragment() {
                 ).show()
             }
         }
+
+
+        viewModel.RfInfra.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                Toast.makeText(
+                    requireContext(),
+                    "Infra Detail submitted successfully!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                binding.layoutInfraDetailComplianceContent.gone()
+
+            }
+            result.onFailure {
+                hideProgressBar()
+
+                Toast.makeText(
+                    requireContext(),
+                    "Infra Detail submission failed: ${it.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
 
 
 
@@ -711,7 +811,7 @@ class ResidentialFacilityFragment : Fragment() {
         })
 
 
-        etRoomWidth.addTextChangedListener(object : TextWatcher {
+       /* etRoomWidth.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -720,6 +820,17 @@ class ResidentialFacilityFragment : Fragment() {
                 calculateAndShowArea()  // run only when Width changes
             }
         })
+*/
+
+        setupAutoAreaCalculation(binding.etRoomLength, binding.etRoomWidth, binding.etRoomArea)
+
+
+        setupAutoAreaCalculation(binding.etKitchenLength, binding.etKitchenWidth, binding.etKitchenArea)
+
+        setupAutoAreaCalculation(binding.etDiningLength, binding.etDiningWidth, binding.etDiningArea)
+        setupAutoAreaCalculation(binding.etRecreationLength, binding.etRecreationWidth, binding.etRecreationArea)
+
+
 
 
         // Setup Yes/No adapter
@@ -736,8 +847,7 @@ class ResidentialFacilityFragment : Fragment() {
             R.id.spinnerProtectionofStairs,R.id.spinnerCorridor,R.id.spinnerSecuringWires,R.id.spinnerSwitchBoards,R.id.spinnerHostelNameBoard,
             R.id.spinnerEntitlementBoard,R.id.spinnerContactDetail,R.id.spinnerBasicInfoBoard,R.id.spinnerFoodSpecificationBoard,
             R.id.spinnerAirConditioning,R.id.spinnerLivingAreaInfoBoard,R.id.spinnerConnectionToRunningWater,R.id.spinnerOverheadTanks,
-            R.id.spinnerFoodPreparedTrainingCenter,R.id.spinnerDiningRecreationAreaSeparate,R.id.spinnerTvAvailable,
-            R.id.spinnerReceptionAreaAvailable,R.id. spinnerWhetherHostelsSeparated,R.id. spinnerWardenWhereMalesStay,
+            R.id.spinnerFoodPreparedTrainingCenter,R.id.spinnerDiningRecreationAreaSeparate,R.id.spinnerTvAvailable,R.id.spinnerWhetherHostelsSeparated,R.id.spinnerWardenWhereMalesStay,
             R.id. spinnerWardenWhereLadyStay,R.id. spinnerSecurityGaurdsAvailable,R.id. spinnerWhetherFemaleDoctorAvailable,
             R.id. spinnerWhetherMaleDoctorAvailable,R.id. spinnerSafeDrinikingAvailable,R.id. spinnerFirstAidKitAvailable,
             R.id. spinnerFireFightingEquipmentAvailable,R.id. spinnerBiometricDeviceAvailable,R.id.spinnerElectricalPowerBackupAvailable,
@@ -859,6 +969,20 @@ class ResidentialFacilityFragment : Fragment() {
             checkAndLaunchCamera()
 
         }
+
+        view.findViewById<Button>(R.id.btnUploadAreaOfBuilding).setOnClickListener {
+            currentPhotoTarget = "AreaOfBuilding"
+            checkAndLaunchCamera()
+
+        }
+
+        view.findViewById<Button>(R.id.btnUploadCirculationArea).setOnClickListener {
+            currentPhotoTarget = "CirculationArea"
+            checkAndLaunchCamera()
+
+        }
+
+
         view.findViewById<Button>(R.id.btnUploadCorridor).setOnClickListener {
             currentPhotoTarget = "Corridor"
             checkAndLaunchCamera()
@@ -944,10 +1068,6 @@ class ResidentialFacilityFragment : Fragment() {
             currentPhotoTarget = "LivingAreaFans"
             checkAndLaunchCamera()
         }
-
-
-
-
         view.findViewById<Button>(R.id.btnUploadLivingAreaInfoBoard).setOnClickListener {
             currentPhotoTarget = "LivingAreaInfoBoard"
             checkAndLaunchCamera()
@@ -970,7 +1090,20 @@ class ResidentialFacilityFragment : Fragment() {
             currentPhotoTarget = "ReceptionArea"
             checkAndLaunchCamera()
         }
-           view.findViewById<Button>(R.id.btnUploadWhetherHostelsSeparated).setOnClickListener {
+
+
+        view.findViewById<Button>(R.id.btnUploadDiningArea).setOnClickListener {
+            currentPhotoTarget = "DiningArea"
+            checkAndLaunchCamera()
+        }
+
+        view.findViewById<TextView>(R.id.btnUploadIndoorGame).setOnClickListener {
+            currentPhotoTarget = "IndoorGame"
+            checkAndLaunchCamera()
+        }
+
+
+        view.findViewById<Button>(R.id.btnUploadWhetherHostelsSeparated).setOnClickListener {
             currentPhotoTarget = "WhetherHostelsSeparated"
             checkAndLaunchCamera()
         }
@@ -1040,8 +1173,10 @@ class ResidentialFacilityFragment : Fragment() {
                 Toast.LENGTH_LONG
             ).show()
         }
+
+
         view.findViewById<Button>(R.id.btnSubmitInfraInfo).setOnClickListener {
-            if (validateInfraInfoForm(view)) submitBasicInfoForm(view)
+            if (validateInfraInfoForm(view)) submitRFInfraForm(view)
             else Toast.makeText(
                 requireContext(),
                 "Complete all Infrastructure Details and Compliances  fields and photos.",
@@ -1072,6 +1207,7 @@ class ResidentialFacilityFragment : Fragment() {
                 Toast.LENGTH_LONG
             ).show()
         }
+/*
         view.findViewById<Button>(R.id.btnSubmitInDoorGameInfo).setOnClickListener {
             if (validateIndoorGameInfoForm(view)) submitBasicInfoForm(view)
             else Toast.makeText(
@@ -1080,6 +1216,7 @@ class ResidentialFacilityFragment : Fragment() {
                 Toast.LENGTH_LONG
             ).show()
         }
+*/
         view.findViewById<Button>(R.id.btnResidentialFacilitiesInfo).setOnClickListener {
             if (validateResidentialFacilitiesInfoForm(view)) submitBasicInfoForm(view)
             else Toast.makeText(
@@ -1300,6 +1437,7 @@ class ResidentialFacilityFragment : Fragment() {
         ivToiletFlooringPreview= view.findViewById(R.id.ivToiletFlooringPreview)
         ivFoodPreparedTrainingPreview= view.findViewById(R.id.ivFoodPreparedTrainingPreview)
         ivReceptionAreaPreview= view.findViewById(R.id.ivReceptionAreaPreview)
+        ivDiningAreaPreview= view.findViewById(R.id.ivDiningAreaPreview)
         ivWhetherHostelsSeparatedPreview= view.findViewById(R.id.ivWhetherHostelsSeparatedPreview)
         ivWardenWhereMalesStayPreview= view.findViewById(R.id.ivWardenWhereMalesStayPreview)
         ivWardenWhereLadyStayPreview= view.findViewById(R.id.ivWardenWhereLadyStayPreview)
@@ -1356,12 +1494,10 @@ class ResidentialFacilityFragment : Fragment() {
         etLightsInToilet= view.findViewById(R.id.etLightsInToilet)
         etFemaleUrinal= view.findViewById(R.id.etFemaleUrinal)
         etFemaleWashbasins= view.findViewById(R.id.etFemaleWashbasins)
-        etCandidatesPermissible= view.findViewById(R.id.etCandidatesPermissible)
         /////////////////////////Non-Living Areas Section////////////
         spinnerFoodPreparedTrainingCenter= view.findViewById(R.id.spinnerFoodPreparedTrainingCenter)
         spinnerDiningRecreationAreaSeparate= view.findViewById(R.id.spinnerDiningRecreationAreaSeparate)
         spinnerTvAvailable= view.findViewById(R.id.spinnerTvAvailable)
-        spinnerReceptionAreaAvailable= view.findViewById(R.id.spinnerReceptionAreaAvailable)
         etKitchenLength= view.findViewById(R.id.etKitchenLength)
         etKitchenWidth= view.findViewById(R.id.etKitchenWidth)
         etKitchenArea= view.findViewById(R.id.etKitchenArea)
@@ -1604,7 +1740,8 @@ class ResidentialFacilityFragment : Fragment() {
        if(base64OwnerBuildingDocFile == null || base64RoofOfBuildingDocFile == null||base64WhetherStructurallySoundDocFile == null || base64SignOfLeakageDocFile == null
            || base64ConformanceDDUGKYDocFile == null || base64ProtectionofStairsDocFile == null||base64CorridorDocFile == null || base64SecuringWiresDocFile == null
            || base64SwitchBoardsDocFile == null || base64HostelNameBoardDocFile == null||base64EntitlementBoardDocFile == null || base64ContactDetailDocFile == null
-           ||base64FoodSpecificationBoardDocFile==null) isValid = false
+           ||base64FoodSpecificationBoardDocFile==null || base64BuildingAreaDocFile == null
+           ||base64CirculatingAreaProof==null) isValid = false
 
        return isValid
 
@@ -1696,7 +1833,6 @@ class ResidentialFacilityFragment : Fragment() {
        if (!checkTextInput(etLightsInToilet, "Lights (In No.)")) isValid = false
        if (!checkTextInput(etFemaleUrinal, "Female Urinals")) isValid = false
        if (!checkTextInput(etFemaleWashbasins, "Female Washbasins")) isValid = false
-       if (!checkTextInput(etCandidatesPermissible, "Maximum No. of Candidates Permissible")) isValid = false
 
        if(base64LightsInToiletDocFile == null || base64ToiletFlooringDocFile == null ) isValid = false
 
@@ -1735,27 +1871,27 @@ class ResidentialFacilityFragment : Fragment() {
        if (!checkSpinner(spinnerFoodPreparedTrainingCenter, "Whether Food for the Candidates is being Prepared in the Premises of the Training Center?")) isValid = false
        if (!checkSpinner(spinnerDiningRecreationAreaSeparate, "Are the Dining and Recreation Area Separate?")) isValid = false
        if (!checkSpinner(spinnerTvAvailable, "Whether TV with a Cable or Satellite Connection is Available for Viewing?")) isValid = false
-       if (!checkSpinner(spinnerReceptionAreaAvailable, "Is reception area available?")) isValid = false
-
 
        // Validate required TextInputEditTexts
        if (!checkTextInput(etKitchenLength, "Length (In ft)")) isValid = false
        if (!checkTextInput(etKitchenWidth, "Width (In ft)")) isValid = false
-       if (!checkTextInput(etKitchenArea, "Area")) isValid = false
        if (!checkTextInput(etStoolsChairsBenches, "No.of Stools/Chairs/Benches")) isValid = false
-       if (!checkTextInput(etWashArea, "Wash Area")) isValid = false
        if (!checkTextInput(etDiningLength, "Length (in ft)")) isValid = false
        if (!checkTextInput(etDiningWidth, "Width (in ft)")) isValid = false
-       if (!checkTextInput(etDiningArea, "Area")) isValid = false
        if (!checkTextInput(etRecreationLength, "Length (in ft)")) isValid = false
        if (!checkTextInput(etRecreationWidth, "Width (in ft)")) isValid = false
-       if (!checkTextInput(etRecreationArea, "Area")) isValid = false
+       if (!checkTextInput(etWashArea, "Wash Area")) isValid = false
+
+
+
+       if(base64FoodPreparedTrainingDocFile == null || base64DiningAreaDocFile == null || base64ReceptionAreaDocFile == null ) isValid = false
 
 
        return isValid
 
 
     }
+/*
    private fun validateIndoorGameInfoForm(view: View): Boolean {
        var isValid = true
 
@@ -1787,6 +1923,7 @@ class ResidentialFacilityFragment : Fragment() {
 
 
     }
+*/
 
     private fun validateResidentialFacilitiesInfoForm(view: View): Boolean {
         var isValid = true
@@ -1820,6 +1957,11 @@ class ResidentialFacilityFragment : Fragment() {
         if (!checkSpinner(spinnerWhetherFemaleDoctorAvailable, "Whether Female Doctor on call is Available or Not ?")) isValid = false
         if (!checkSpinner(spinnerWhetherMaleDoctorAvailable, "Whether Male Doctor on call is Available or Not?")) isValid = false
 
+
+
+
+        if(base64WhetherHostelsSeparatedDocFile == null || base64WardenWhereMalesStayDocFile == null ||base64WardenWhereLadyStayDocFile == null
+            || base64SecurityGaurdsDocFile == null || base64WhetherFemaleDoctorDocFile == null ) isValid = false
 
         return isValid
 
@@ -1858,22 +2000,52 @@ class ResidentialFacilityFragment : Fragment() {
         if (!checkSpinner(spinnerGrievanceRegisterAvailable, "Grievance Register?")) isValid = false
 
 
+        if(base64SafeDrinkingDocFile == null || base64FirstAidKitDocFile == null ||base64FireFightingEquipmentDocFile == null
+            || base64BiometricDeviceDocFile == null || base64ElectricalPowerDocFile == null|| base64GrievanceRegisterDocFile == null ) isValid = false
+
         return isValid
 
 
     }
 
-    private fun calculateAndShowArea() {
+    private fun calculateAndShowArea(
+        etLength: EditText,
+        etWidth: EditText,
+        tvArea: TextView
+    ) {
+        val lengthStr = etLength.text.toString().trim()
+        val widthStr = etWidth.text.toString().trim()
 
-        val lengthStr = etRoomLength.text.toString().trim()
-        val widthStr = etRoomWidth.text.toString().trim()
-
+        // Safely convert inputs to numbers
         val length = lengthStr.toDoubleOrNull() ?: 0.0
         val width = widthStr.toDoubleOrNull() ?: 0.0
 
+        // Calculate area
         val area = length * width
-        etRoomArea.text = "$area"
+
+        // Format to 2 decimal places for clean output
+        tvArea.text = String.format("%.2f", area)
     }
+
+    private fun setupAutoAreaCalculation(
+        etLengths: EditText,
+        etWidths: EditText,
+        tvAreas: TextView
+    ) {
+        val watcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                calculateAndShowArea(etLengths, etWidths, tvAreas)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+
+        etLengths.addTextChangedListener(watcher)
+        etWidths.addTextChangedListener(watcher)
+    }
+
+
 
 
     private fun hasLocationPermission(): Boolean {
@@ -1965,7 +2137,62 @@ class ResidentialFacilityFragment : Fragment() {
                   )
 
           viewModel.SubmitRfBasicInformationToServer(request, token)
+        showProgressBar()
     }
+
+
+    private fun submitRFInfraForm(view: View) {
+        val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
+            .getString("ACCESS_TOKEN", "") ?: ""
+
+        val request =
+            InsertRfInfraDetaiReq(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                trainingCentre = centerItem!!.trainingCenterId,
+                sanctionOrder = centerItem!!.senctionOrder,
+                facilityId = 0,
+                ownership = spinnerOwnerBuilding.selectedItem.toString(),
+                buildingArea = etAreaOfBuilding.text.toString(),
+                roof = spinnerRoofOfBuilding.selectedItem.toString(),
+                plastering = spinnerWhetherStructurallySound.selectedItem.toString(),
+                empLetterFile = base64OwnerBuildingDocFile!!,
+                buildingPlan = base64BuildingAreaDocFile!!,
+                photosBuilding = base64RoofOfBuildingDocFile!!,
+                photosWalls = base64WhetherStructurallySoundDocFile!!,
+                leakages = spinnerVisibleSignOfLeakage.selectedItem.toString(),
+                conformanceDDU = spinnerConformanceDDUGKY.selectedItem.toString(),
+                protectionStairs = spinnerProtectionofStairs.selectedItem.toString(),
+                circulatingArea = etCirculatingArea.text.toString(),
+                corridor = spinnerCorridor.selectedItem.toString(),
+                securingWiresDone = spinnerSecuringWires.selectedItem.toString(),
+                switchBoardsPanelBoards = spinnerSwitchBoards.selectedItem.toString(),
+                hostelNameBoard = spinnerHostelNameBoard.selectedItem.toString(),
+                studentEntitlementBoard = spinnerEntitlementBoard.selectedItem.toString(),
+                contactDetailImportantPeople = spinnerContactDetail.selectedItem.toString(),
+                basicInformationBoard = spinnerBasicInfoBoard.selectedItem.toString(),
+                foodSpecificationBoard = spinnerFoodSpecificationBoard.selectedItem.toString(),
+                openSpaceArea = etAreaForOutDoorGames.text.toString(),
+                leakagesProof = base64SignOfLeakageDocFile!!,
+                conformanceDDUProof = base64ConformanceDDUGKYDocFile!!,
+                protectionStairsProof = base64ProtectionofStairsDocFile!!,
+                circulatingAreaProof =base64CirculatingAreaProof!! ,
+                corridorProof = base64CorridorDocFile!!,
+                securingWiresDoneProof = base64SecuringWiresDocFile!!,
+                switchBoardsPanelBoardsProof = base64SwitchBoardsDocFile!!,
+                hostelNameBoardProof = base64HostelNameBoardDocFile!!,
+                studentEntitlementBoardProof = base64EntitlementBoardDocFile!!,
+                contactDetailImportantPeopleproof = base64ContactDetailDocFile!!,
+                basicInformationBoardproof = base64BasicInfoBoardDocFile!!,
+                foodSpecificationBoardproof = base64FoodSpecificationBoardDocFile!!
+
+            )
+
+        viewModel.SubmitRfInfraDetailsAndComlianceToServer(request, token)
+        showProgressBar()
+    }
+
 
 
 
@@ -2009,4 +2236,29 @@ class ResidentialFacilityFragment : Fragment() {
         this.visibility = View.INVISIBLE
     }
 
+    fun showProgressBar() {
+        if (context != null && isAdded && progress?.isShowing == false) {
+            progress?.show()
+        }
+    }
+
+    fun hideProgressBar() {
+        if (progress?.isShowing == true) {
+            progress?.dismiss()
+        }
+    }
+    private fun removeGame(game: IndoorGame) {
+        val index = indoorGamesList.indexOf(game)
+        if (index != -1) {
+            indoorGamesList.removeAt(index)
+            adapterGame.notifyItemRemoved(index)
+
+            // Recalculate numbering
+            indoorGamesList.forEachIndexed { i, g ->
+                indoorGamesList[i] = g.copy(gameNumber = i + 1)
+            }
+            adapterGame.notifyDataSetChanged()
+            gameCounter = indoorGamesList.size + 1
+        }
+    }
 }

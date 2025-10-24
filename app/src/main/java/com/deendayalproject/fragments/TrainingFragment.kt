@@ -4658,13 +4658,18 @@ class TrainingFragment : Fragment() {
                     "CCTV data submitted successfully!",
                     Toast.LENGTH_LONG
                 ).show()
-                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutCCTVComplianceContent)
-                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
 
-                base64MonitorFile= null
-                base64ConformanceFile= null
-                base64StorageFile = null
-                base64DVRFile = null
+                val requestTcInfraReq = TrainingCenterInfo(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    imeiNo = AppUtil.getAndroidId(requireContext())
+                )
+
+                viewModel.getSectionsStatusData(requestTcInfraReq)
+
+
 
             }
             result.onFailure {
@@ -4680,14 +4685,19 @@ class TrainingFragment : Fragment() {
                 Toast.makeText(
                     requireContext(),
                     "Electrical data submitted successfully!",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
 
-                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutElectricalWiringContent)
-                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+                val requestTcInfraReq = TrainingCenterInfo(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    imeiNo = AppUtil.getAndroidId(requireContext())
+                )
 
-                base64SwitchBoardImage = null
-                base64WireSecurityImage = null
+                viewModel.getSectionsStatusData(requestTcInfraReq)
+
             }
             result.onFailure {
                 Toast.makeText(
@@ -4702,13 +4712,18 @@ class TrainingFragment : Fragment() {
                 Toast.makeText(
                     requireContext(),
                     "General details submitted successfully!",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
-                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutGeneralDetailsContent)
-                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+                val requestTcInfraReq = TrainingCenterInfo(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    imeiNo = AppUtil.getAndroidId(requireContext())
+                )
 
-                base64LeakageImage = null
-                base64StairsImage = null
+                viewModel.getSectionsStatusData(requestTcInfraReq)
+
             }
             result.onFailure {
                 Toast.makeText(
@@ -4723,10 +4738,17 @@ class TrainingFragment : Fragment() {
                 Toast.makeText(
                     requireContext(),
                     "Training details submitted successfully!",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
-                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutTCBasicInfoContent)
-                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+                val requestTcInfraReq = TrainingCenterInfo(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    imeiNo = AppUtil.getAndroidId(requireContext())
+                )
+
+                viewModel.getSectionsStatusData(requestTcInfraReq)
             }
             result.onFailure {
                 Toast.makeText(
@@ -4741,18 +4763,18 @@ class TrainingFragment : Fragment() {
                 Toast.makeText(
                     requireContext(),
                     "Signages&InfoBoards details submitted successfully!",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
 
-                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutSignagesInfoBoardsContent)
-                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
-                base64TcNameBoardImage= null
-                base64ActivityAchievementBoardImage = null
-                base64StudentEntitlementBoardImage = null
-                base64ContactDetailBoardImage = null
-                base64BasicInfoBoardImage = null
-                base64CodeConductBoardImage = null
-                base64StudentAttendanceBoardImage = null
+                val requestTcInfraReq = TrainingCenterInfo(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    imeiNo = AppUtil.getAndroidId(requireContext())
+                )
+
+                viewModel.getSectionsStatusData(requestTcInfraReq)
 
             }
             result.onFailure {
@@ -4768,14 +4790,17 @@ class TrainingFragment : Fragment() {
                 Toast.makeText(
                     requireContext(),
                     "Support Infrastructure details submitted successfully!",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
-                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutSupportInfrastructureContent)
-                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+                val requestTcInfraReq = TrainingCenterInfo(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    imeiNo = AppUtil.getAndroidId(requireContext())
+                )
 
-                base64SafeDrinkingWater =null
-                base64FireFightingEquipment=null
-                base64FirstAidKit=null
+                viewModel.getSectionsStatusData(requestTcInfraReq)
 
             }
             result.onFailure {
@@ -4792,19 +4817,17 @@ class TrainingFragment : Fragment() {
                 Toast.makeText(
                     requireContext(),
                     "Common equipment details submitted successfully!",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
-                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutCommonEquipmentContent)
-                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
-                base64PowerBackupImage = null
-                base64BiometricDevices = null
-                base64CCTVImage= null
-                base64DocumentStorageImage = null
-                base64PrinterScanner = null
-                base64DigitalCamera = null
-                base64GrievanceRegisterImage = null
-                base64MinimumEquipmentImage = null
-                base64DirectionBoardsImage = null
+                val requestTcInfraReq = TrainingCenterInfo(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    imeiNo = AppUtil.getAndroidId(requireContext())
+                )
+
+                viewModel.getSectionsStatusData(requestTcInfraReq)
 
 
             }
@@ -4822,14 +4845,17 @@ class TrainingFragment : Fragment() {
                 Toast.makeText(
                     requireContext(),
                     "Description of other area details submitted successfully!",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
-                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutDescriptionOtherAreasContent)
-                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
-                base64ProofUploadImage = null
-                base64CirculationProofImage = null
-                base64penSpaceProofImage = null
-                base64ParkingSpaceProofImage = null
+                val requestTcInfraReq = TrainingCenterInfo(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    imeiNo = AppUtil.getAndroidId(requireContext())
+                )
+
+                viewModel.getSectionsStatusData(requestTcInfraReq)
 
 
             }
@@ -4847,27 +4873,17 @@ class TrainingFragment : Fragment() {
                 Toast.makeText(
                     requireContext(),
                     "Toilet & WashBasin details submitted successfully!",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG
                 ).show()
-                val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutToiletsWashBasinsContent)
-                otherAreaSection?.let { AppUtil.clearAllInputs(it) }
+                val requestTcInfraReq = TrainingCenterInfo(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    imeiNo = AppUtil.getAndroidId(requireContext())
+                )
 
-                base64ProofMaleToilets = null
-
-                base64ProofMaleToiletsSignage = null
-
-                base64ProofFemaleToilets = null
-
-                base64ProofFemaleToiletsSignage = null
-
-                base64ProofMaleUrinals = null
-
-                base64ProofMaleWashBasins = null
-
-                base64ProofFemaleWashBasins = null
-
-                base64ProofOverheadTanks = null
-                base64ProofFlooring = null
+                viewModel.getSectionsStatusData(requestTcInfraReq)
 
             }
             result.onFailure {
