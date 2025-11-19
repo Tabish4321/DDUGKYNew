@@ -1467,7 +1467,7 @@ class RFQTeamFormFragment : Fragment() {
             )
 
             viewModel.getlivingRoomListView(livingRoomListViewReq)
-//            showProgressBar()
+            showProgressBar()
             RoomRecyclerView()
         }
 
@@ -2104,7 +2104,7 @@ class RFQTeamFormFragment : Fragment() {
                     200 ->{
 
 
-//                        hideProgressBar()
+                        hideProgressBar()
                         adapter.updateData(it.wrappedList ?: emptyList())
 
 
@@ -2112,13 +2112,13 @@ class RFQTeamFormFragment : Fragment() {
 
 
 
-
+//
 
 
 
 
                     202 -> {
-//                        hideProgressBar()
+                        hideProgressBar()
                         Toast.makeText(
                             requireContext(),
                             "No data available.",
@@ -2129,7 +2129,7 @@ class RFQTeamFormFragment : Fragment() {
                     301 ->
                     {
 
-//                        hideProgressBar()
+                        hideProgressBar()
 
                         Toast.makeText(
                             requireContext(),
@@ -2142,7 +2142,7 @@ class RFQTeamFormFragment : Fragment() {
 
                     401 ->
                     {
-//                        hideProgressBar()
+                        hideProgressBar()
 
                         AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                     }
