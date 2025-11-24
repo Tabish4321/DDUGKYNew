@@ -98,6 +98,7 @@ class HomeFragment : Fragment() {
         // Initialize adapter with empty list and form click listener lambda
         adapter = ModuleAdapter(emptyList()) { form: Form ->
             // Show Toast with formCd when form clicked
+            Log.i("form value formCd :: ",form.formCd)
 
             if (form.formCd == "TRAINING_CENTER_APP") {
                 findNavController().navigate(R.id.action_homeFragment_to_centerFragment)
@@ -120,6 +121,11 @@ class HomeFragment : Fragment() {
             }
             if (form.formCd == "RESIDENTIAL_FACILITY_FORM_QTEAM") {
                 findNavController().navigate(R.id.action_homeFragment_to_RFQTeamListFragment)
+            }
+
+            /* Field Verification */
+            if (form.formCd == "FIELD_VERIFICATION_FORM") {
+                findNavController().navigate(R.id.action_homeFragment_to_fieldVerificationFragment)
             }
 
         }

@@ -44,6 +44,10 @@
             android:id="@+id/action_homeFragment_to_rfCenterFragment"
             app:destination="@id/rfCenterFragment" />
 
+        <action
+            android:id="@+id/action_homeFragment_to_fieldVerificationFragment"
+            app:destination="@id/fieldVerificationListFragment" />
+
 
     </fragment>
 
@@ -188,6 +192,51 @@
 
         </action>
     </fragment>
+
+
+    <!-- Field Verificaion -->
+
+    <fragment
+        android:id="@+id/fieldVerificationListFragment"
+        android:name="com.deendayalproject.fragments.FieldVerificationListFragment"
+        android:label="fragment_field_verification_list"
+        tools:layout="@layout/fragment_field_verification_list" >
+        <action
+            android:id="@+id/action_FieldVerificationListFragment_to_FieldVerificationFormFragment"
+            app:destination="@id/FieldVerificationFormFragment" >
+            <argument
+                android:name="captiveEmpanelmentId"
+                app:argType="string"/>
+            <argument
+                android:name="prnNo"
+                app:argType="string"/>
+<!--            <argument-->
+<!--                android:name="sanctionOrder"-->
+<!--                app:argType="string"/>-->
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/FieldVerificationFormFragment"
+        android:name="com.deendayalproject.fragments.FieldVerificationFormFragment"
+        android:label="fragment_field_ver_form"
+        tools:layout="@layout/fragment_field_ver_form">
+<!--        <action-->
+<!--            android:id="@+id/action_FieldVerFormFragment_to_FieldVerListFragment"-->
+<!--            app:destination="@id/fieldVerificationListFragment" />-->
+    </fragment>
+
+
+
+
+
+
+
+
+
+
+
+
     <fragment
         android:id="@+id/RFQTeamFormFragment"
         android:name="com.deendayalproject.fragments.RFQTeamFormFragment"

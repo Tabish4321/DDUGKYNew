@@ -1,0 +1,975 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scroll"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:background="@color/color_light_grey">
+
+    <!-- Toolbar / Title (common id 'toolbar' used by many fragments) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/dp_100"
+        android:clipToPadding="false"
+        android:clipChildren="false">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100"
+            android:background="@color/color_dark_blue"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/backButton"
+                android:layout_marginStart="@dimen/dp_20"
+                android:padding="@dimen/dp_5"
+                android:scaleType="fitCenter"
+                android:src="@drawable/back_arrow"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/field_ver_head"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"/>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="150dp"
+                android:layout_height="@dimen/dp_60"
+                android:layout_gravity="end"
+                android:id="@+id/logo"
+                android:background="@color/white"
+                android:padding="@dimen/dp_5"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ddy_logo"
+                app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
+
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/verOrg"
+        style="@style/editTextHome"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:elevation="@dimen/dp_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
+        <LinearLayout
+            android:id="@+id/llTopInfra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_background_light_grey"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tvTrainInfra"
+                android:fontFamily="@font/avenir_next_semi_bold"
+                android:text="@string/field_ver_organization_details"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/viewInfra"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="#F7F7F7"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llTopInfra"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/trainingInfraExpand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:elevation="@dimen/dp_2"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/llTopInfra"
+            app:layout_constraintStart_toStartOf="parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clipToPadding="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                tools:listitem="@layout/item_field_ver_card"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/InfoRemarks"
+                android:text="@string/remarkss"
+                android:layout_marginTop="@dimen/dp_20"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                android:visibility="gone"/>
+
+            <EditText
+                android:id="@+id/etInfoRemarks"
+                style="@style/EditText"
+                android:hint="@string/remarks"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/InfoRemarks"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:text="@string/save_and_next"
+                android:id="@+id/btnInfoNext"
+                android:textColor="@color/white"
+                android:elevation="4dp"
+                android:textSize="@dimen/sp_16"
+                android:background="@drawable/card_background"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- financial details -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/verFin"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/verOrg">
+
+
+            <LinearLayout
+                android:id="@+id/llTopFin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvFinHead"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/field_ver_financial"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewFin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopFin"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/verFinExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/llTopFin"
+                app:layout_constraintStart_toStartOf="parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewFin"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    tools:listitem="@layout/item_field_ver_card"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/finRemarks"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewFin"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/etFinRemarks"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/finRemarks"
+                    android:visibility="gone"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/llBtn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewFin">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnFinPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/save_and_next"
+                        android:gravity="center"
+                        android:id="@+id/btnFinNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Training details -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/verTraining"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/verFin">
+
+
+            <LinearLayout
+                android:id="@+id/llTopTraining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvTrainingHead"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/field_ver_training"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewTraining"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopTraining"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/verTrainingExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/llTopTraining"
+                app:layout_constraintStart_toStartOf="parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewTraining"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    tools:listitem="@layout/item_field_ver_card"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/trainingRemarks"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewTraining"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/etTrainingRemarks"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/trainingRemarks"
+                    android:visibility="gone"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/llBtnTraining"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewTraining">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnTrainingPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/save_and_next"
+                        android:gravity="center"
+                        android:id="@+id/btnTrainingNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Training Infrastructure details -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/verTrainingInfra"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/verTraining">
+
+
+            <LinearLayout
+                android:id="@+id/llTopTrainingInfra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvTrainingInfraHead"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/field_ver_training_infra"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewTrainingInfra"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopTrainingInfra"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/verTrainingInfraExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/llTopTrainingInfra"
+                app:layout_constraintStart_toStartOf="parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewTrainingInfra"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    tools:listitem="@layout/item_field_ver_card"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/trainingRemarksInfra"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewTrainingInfra"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/etTrainingInfraRemarks"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/trainingRemarksInfra"
+                    android:visibility="gone"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/llBtnTrainingInfra"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewTrainingInfra">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnTrainingInfraPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/save_and_next"
+                        android:gravity="center"
+                        android:id="@+id/btnTrainingInfraNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Assessment & Certification details -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/verCert"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/verTrainingInfra">
+
+
+            <LinearLayout
+                android:id="@+id/llTopCert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvCertHead"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/field_ver_cert"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewCert"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopCert"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/verCertExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/llTopCert"
+                app:layout_constraintStart_toStartOf="parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewCert"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    tools:listitem="@layout/item_field_ver_card"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/certRemarks"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewCert"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/etCertRemarks"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/certRemarks"
+                    android:visibility="gone"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/llBtnCert"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewCert">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnCertPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/save_and_next"
+                        android:gravity="center"
+                        android:id="@+id/btnCertNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Placement details -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/verPlacement"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/verCert">
+
+
+            <LinearLayout
+                android:id="@+id/llTopPlacement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvPlacementHead"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/field_ver_placement"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewPlacement"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopPlacement"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/verPlacementExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/llTopPlacement"
+                app:layout_constraintStart_toStartOf="parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewPlacement"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    tools:listitem="@layout/item_field_ver_card"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/placementRemarks"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewPlacement"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/etPlacementRemarks"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/placementRemarks"
+                    android:visibility="gone"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/llBtnPlacement"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewPlacement">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnPlacementPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/save_and_next"
+                        android:gravity="center"
+                        android:id="@+id/btnPlacementNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Field Visit details -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/verField"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/verPlacement">
+
+
+            <LinearLayout
+                android:id="@+id/llTopField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvFieldHead"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/field_ver_field"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewField"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopField"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/verFieldExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/llTopField"
+                app:layout_constraintStart_toStartOf="parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewField"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    tools:listitem="@layout/item_field_ver_card"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fieldRemarks"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewField"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/etFieldRemarks"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fieldRemarks"
+                    android:visibility="gone"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:id="@+id/llBtnField"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewField">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnFieldPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/submit"
+                        android:gravity="center"
+                        android:id="@+id/btnFieldNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</androidx.core.widget.NestedScrollView>

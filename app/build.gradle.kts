@@ -94,4 +94,7 @@ dependencies {
     //Location Service
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
-}
+        //card view
+        implementation("androidx.cardview:cardview:1.0.0")
+
+    }

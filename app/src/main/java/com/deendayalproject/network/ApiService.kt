@@ -11,6 +11,8 @@ import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GetUrinalWashReq
+import com.deendayalproject.model.request.FieldVerificationDetailRequest
+import com.deendayalproject.model.request.FieldVerificationListRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
@@ -67,7 +69,10 @@ import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.DistrictResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
+import com.deendayalproject.model.response.FieldVerificationDetailResponse
+import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
+import com.deendayalproject.model.response.FinancialDetailsResponse
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GetUrinalWashRes
 import com.deendayalproject.model.response.GpResponse
@@ -136,6 +141,9 @@ interface ApiService {
     @POST(value = "getTrainingCenterVerificationList")
     suspend fun getQTeamTrainingList(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
 
+    @POST(value ="getCaptivePiaList")
+    suspend fun getFieldVerificationList(@Body request: FieldVerificationListRequest) : Response<FieldVerificationListResponse>
+
 
     @POST(value = "getTrainingCenterVerificationSRLM")
     suspend fun getTrainingCenterVerificationSRLM(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
@@ -148,6 +156,35 @@ interface ApiService {
     @POST(value = "insertCCTVCompliance")
     suspend fun insertCCTVCompliance(@Body request: CCTVComplianceRequest): Response<CCTVComplianceResponse>
 
+    @POST("getCaptiveOrganizationDetails") // TODO: replace with actual endpoint path
+    suspend fun getFieldVerificationDetail(
+        @Body request: FieldVerificationDetailRequest
+    ): Response<FieldVerificationDetailResponse>
+
+    @POST("getCaptiveFinancialDetails")
+    suspend fun getFieldVerificationFinDetail(
+        @Body request: FieldVerificationDetailRequest
+    ): Response<FieldVerificationDetailResponse>
+
+    @POST("getCaptiveTrainingDetails")
+    suspend fun getFieldVerificationTrainingDetail(
+        @Body request: FieldVerificationDetailRequest
+    ): Response<FieldVerificationDetailResponse>
+
+    @POST("getCaptiveTrainingInfrastructure")
+    suspend fun getFieldVerificationTrainingInfraDetail(
+        @Body request: FieldVerificationDetailRequest
+    ): Response<FieldVerificationDetailResponse>
+
+    @POST("getCaptiveAssessmentCertification")
+    suspend fun getFieldVerificationCertificationDetail(
+        @Body request: FieldVerificationDetailRequest
+    ): Response<FieldVerificationDetailResponse>
+
+    @POST("getCaptivePlacementDetails")
+    suspend fun getFieldVerificationPlacementDetail(
+        @Body request: FieldVerificationDetailRequest
+    ): Response<FieldVerificationDetailResponse>
 
     @POST(value = "insertTcElectricWiringStandard")
     suspend fun insertTcElectricWiringStandard(@Body request: ElectricalWiringRequest): Response<ElectircalWiringReponse>
