@@ -68,7 +68,6 @@ class RFSRLMFormFragment : Fragment() {
     private val progress: androidx.appcompat.app.AlertDialog? by lazy {
         AppUtil.getProgressDialog(context)
     }
-    private var RFQInfraContactDetailOfImportantPeopleFile = ""
     private lateinit var adapter: LivingAreaInformationAdapter
     private lateinit var adapterToilet: RFToiletAdapter
     private var rfToiletId = ""
@@ -84,21 +83,6 @@ class RFSRLMFormFragment : Fragment() {
     private var selectedResidintislSupportFacilityApproval = ""
     private var selectedNonAreaInfoApproval = ""
     private var RFQTresFacilityId = ""
-    private var RFQInfraDetailsbuildingPlanFile = ""
-    private var RFQInfraDetailprotectionStairsProofFile = ""
-    private var RFQInfraDetailhostelNameBoardProofFile = ""
-    private var RFQInfraDetailfoodSpecificationBoardFile = ""
-    private var RFQInfraDetailbasicInformationBoardproofFile = ""
-    private var RFQInfraDetailbasicsecuringWiresDoneProofFile = ""
-    private var RFQInfraDetailcorridorProofFile = ""
-    private var RFQInfraDetailcirculatingAreaProofFile = ""
-    private var RFQInfraDetailbuildingPhotosFile = ""
-    private var RFQInfraDetailleakagesProofFile = ""
-    private var RFQInfraDetailconformanceDduProofFile = ""
-    private var RFQInfraDetailswitchBoardsPanelBoardsProofFile = ""
-    private var RFQInfraDetailcontactDetailImportantPeopleproofFile = ""
-    private var RFQInfraDetailstudentEntitlementBoardProofFile = ""
-
     //       Ajit Ranjan 03/11/2025 Non Room Information
     private var PreparedFoodFile = ""
     private var ReceptionAreaPdf = ""
@@ -292,6 +276,8 @@ class RFSRLMFormFragment : Fragment() {
 
 
 
+
+
         // TrainingCenterInfo API
         val requestTcInfo = RfCommonReq(
             appVersion = BuildConfig.VERSION_NAME,
@@ -371,7 +357,7 @@ class RFSRLMFormFragment : Fragment() {
                             binding.residentialfacilityqteamInfoLayout.ApproximateDistanceFrom.text =
                                 safeText(x.distBusStand)
                             binding.residentialfacilityqteamInfoLayout.DistanceFromTheTrainingCenter.text = safeText(x.distFromTc)
-                            binding.residentialfacilityqteamInfoLayout.AvailabilityOfPick.text = safeText(x.distRailStand)
+                            binding.residentialfacilityqteamInfoLayout.AvailabilityOfPick.text = safeText(x.pickUpDrop)
                             binding.residentialfacilityqteamInfoLayout.DistanceFromRailwayStand.text = safeText(x.distRailStand)
 
                             binding.residentialfacilityqteamInfoLayout.DistanceFromAutoTraining.text = safeText(x.distAutoStand)
@@ -601,7 +587,7 @@ class RFSRLMFormFragment : Fragment() {
                 }
             }
 
-            ToiletRecyclerView()
+            ToiletDetails()
             showProgressBar()
         }
 
@@ -666,6 +652,8 @@ class RFSRLMFormFragment : Fragment() {
 
 
 
+
+
             binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
                 R.drawable.toilet,
                 0,
@@ -693,6 +681,12 @@ class RFSRLMFormFragment : Fragment() {
             binding.tvlivingareainformation.visibility= View.VISIBLE
             binding.livingareainformationLayout.LivingAreaInformationExpand.visibility= View.VISIBLE
             binding.tvRFTiolet.visibility= View.GONE
+
+
+
+
+
+
 
         }
 
@@ -1083,7 +1077,8 @@ class RFSRLMFormFragment : Fragment() {
         binding.RFNonLivingAreaLayout.btnNonLivingAreaInformationPrevious.setOnClickListener {
 
             binding.tvRFConstraintLayoutNonLivingArea.visibility= View.GONE
-            binding.RFTioletLayout.toiletsExpand.visibility = View.VISIBLE
+            binding.RFTioletAdditionalSectionLayout.AdditionalSectionExpand.visibility = View.VISIBLE
+            binding.tvRFtoiletAdditionalSection.visibility = View.VISIBLE
 
 
 
@@ -1466,6 +1461,7 @@ class RFSRLMFormFragment : Fragment() {
         binding.infrastructureDetailsAndCompliancesLayout.btnIDCPrevious.setOnClickListener {
             binding.tvinfrastructureDetailsAndCompliances.visibility= View.GONE
             binding.residentialfacilityqteamInfoLayout.RFQTInfoExpand.visibility= View.VISIBLE
+
         }
 
     }
@@ -1608,6 +1604,13 @@ class RFSRLMFormFragment : Fragment() {
         binding.RFIndoorGameLayout.btnIndoorGamePrevious.setOnClickListener {
             binding.tvRFConstraintLayoutIndoorGame.visibility= View.GONE
             binding.RFNonLivingAreaLayout.NonLivingAreaInfoExpand.visibility= View.VISIBLE
+
+
+
+
+
+
+
         }
 
     }
@@ -2152,7 +2155,7 @@ class RFSRLMFormFragment : Fragment() {
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
-    private  fun ToiletRecyclerView()
+    private  fun ToiletDetails()
     {
 
 
@@ -2350,7 +2353,7 @@ class RFSRLMFormFragment : Fragment() {
                                     )
                                     binding.RFTioletLayout.LinLayoutCardView.visibility= View.GONE
                                     binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
-                                    ListViewToilet("Washroom")
+                                    ListViewToilet("Bathroom")
 
                                 }
 
@@ -2361,7 +2364,7 @@ class RFSRLMFormFragment : Fragment() {
 
 
                                 if (x.toiletWashroomCount!="0") {
-                                    ListViewToilet("Toilet Cum Washroom")
+                                    ListViewToilet("Toilet Cum Bathroom")
 
                                     binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
                                         R.drawable.back_black,
