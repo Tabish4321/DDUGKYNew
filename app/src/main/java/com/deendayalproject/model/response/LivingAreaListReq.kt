@@ -12,6 +12,7 @@ data class LivingRoomListItem(
     val livingRoomId: Int,
     val roomNo: Int,
     val length: Double,
+    val totalRfCapacity: Int,
     val width: Double
 )
 

@@ -75,6 +75,8 @@ class RFQTeamFormFragment : Fragment() {
     private var selectedResidintislSupportFacilityApproval = ""
     private var selectedNonAreaInfoApproval = ""
     private var RFQTresFacilityId = ""
+
+
 //       Ajit Ranjan 03/11/2025 Non Room Information
     private var PreparedFoodFile= ""
     private var ReceptionAreaPdf= ""
@@ -359,7 +361,7 @@ class RFQTeamFormFragment : Fragment() {
                             binding.residentialfacilityqteamInfoLayout.ApproximateDistanceFrom.text =
                                 safeText(x.distBusStand)
                             binding.residentialfacilityqteamInfoLayout.DistanceFromTheTrainingCenter.text = safeText(x.distFromTc)
-                            binding.residentialfacilityqteamInfoLayout.AvailabilityOfPick.text = safeText(x.pickUpDrop)
+                            binding.residentialfacilityqteamInfoLayout.AvailabilityOfPick.text = safeText(x.distRailStand)
                             binding.residentialfacilityqteamInfoLayout.DistanceFromRailwayStand.text = safeText(x.distRailStand)
 
                             binding.residentialfacilityqteamInfoLayout.DistanceFromAutoTraining.text = safeText(x.distAutoStand)
@@ -683,12 +685,6 @@ class RFQTeamFormFragment : Fragment() {
             binding.tvlivingareainformation.visibility= View.VISIBLE
             binding.livingareainformationLayout.LivingAreaInformationExpand.visibility= View.VISIBLE
             binding.tvRFTiolet.visibility= View.GONE
-
-
-
-
-
-
 
         }
 
@@ -1079,8 +1075,7 @@ class RFQTeamFormFragment : Fragment() {
         binding.RFNonLivingAreaLayout.btnNonLivingAreaInformationPrevious.setOnClickListener {
 
             binding.tvRFConstraintLayoutNonLivingArea.visibility= View.GONE
-            binding.RFTioletAdditionalSectionLayout.AdditionalSectionExpand.visibility = View.VISIBLE
-            binding.tvRFtoiletAdditionalSection.visibility = View.VISIBLE
+            binding.RFTioletLayout.toiletsExpand.visibility = View.VISIBLE
 
 
 
@@ -1463,7 +1458,6 @@ class RFQTeamFormFragment : Fragment() {
         binding.infrastructureDetailsAndCompliancesLayout.btnIDCPrevious.setOnClickListener {
             binding.tvinfrastructureDetailsAndCompliances.visibility= View.GONE
             binding.residentialfacilityqteamInfoLayout.RFQTInfoExpand.visibility= View.VISIBLE
-
         }
 
     }
@@ -1606,13 +1600,6 @@ class RFQTeamFormFragment : Fragment() {
         binding.RFIndoorGameLayout.btnIndoorGamePrevious.setOnClickListener {
             binding.tvRFConstraintLayoutIndoorGame.visibility= View.GONE
             binding.RFNonLivingAreaLayout.NonLivingAreaInfoExpand.visibility= View.VISIBLE
-
-
-
-
-
-
-
         }
 
     }
@@ -2352,7 +2339,7 @@ class RFQTeamFormFragment : Fragment() {
                                     )
                                     binding.RFTioletLayout.LinLayoutCardView.visibility= View.GONE
                                     binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
-                                    ListViewToilet("Bathroom")
+                                    ListViewToilet("Washroom")
 
                                 }
 
@@ -2363,7 +2350,7 @@ class RFQTeamFormFragment : Fragment() {
 
 
                                 if (x.toiletWashroomCount!="0") {
-                                    ListViewToilet("Toilet Cum Bathroom")
+                                    ListViewToilet("Toilet Cum Washroom")
 
                                     binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
                                         R.drawable.back_black,

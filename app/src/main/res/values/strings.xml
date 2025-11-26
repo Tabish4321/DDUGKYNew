@@ -861,4 +861,5 @@
     <string name="urinals">Urinals</string>
     <string name="washbasins">Washbasins</string>
     <string name="flooring">Flooring</string>
+    <string name="total_rf_capacity">Total RF Capacity</string>
 </resources>

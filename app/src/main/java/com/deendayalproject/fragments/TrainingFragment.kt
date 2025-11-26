@@ -77,6 +77,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.android.material.textfield.TextInputEditText
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -374,11 +375,6 @@ class TrainingFragment : Fragment() {
     private var base64ProofITCDLItLabPhotograph: String? = null
     private var base64ProofITCDLListofDomain: String? = null
     private var base64ProofITCDLDoes_the_room_has: String? = null
-
-
-
-
-
 
 
 
@@ -7987,6 +7983,8 @@ private fun validateITComeDomainLab(): Boolean {
                 airConditioningRoom = spinnerITCDLDoes_the_room_has.selectedItem.toString(),
                 airConditioningRoomAttachment = base64ProofITCDLDoes_the_room_has ?: ""
             )
+
+            val jsonString = Gson().toJson(request)
 
 
             viewModel.SubmitITComeDomainLabDataToServer(request, token)

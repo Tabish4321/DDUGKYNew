@@ -246,7 +246,7 @@ class FieldVerificationFormFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentFieldVerFormBinding.inflate(inflater, container, false)
         return binding.root
     }

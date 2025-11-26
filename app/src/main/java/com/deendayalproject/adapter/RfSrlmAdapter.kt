@@ -19,6 +19,7 @@ class RfSrlmAdapter(
         val order: TextView = view.findViewById(R.id.senctionOrder)
         val address: TextView = view.findViewById(R.id.trainingCenterAddress)
         val district: TextView =view.findViewById(R.id.districtName)
+        val tvTotalRfCapacity: TextView =view.findViewById(R.id.tvTotalRfCapacity)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CenterViewHolder {
@@ -34,6 +35,7 @@ class RfSrlmAdapter(
         holder.address.text = "Training Center Address: ${center.trainingCenterAddress}"
         holder.order.text = "Sanction Order: ${center.senctionOrder}"
         holder.district.text="District Name: ${center.districtName}"
+        holder.tvTotalRfCapacity.text="Total RF Capacity: ${center.finalRfCapacity}"
         holder.itemView.setOnClickListener {
             onItemClick(center)
         }

@@ -17,6 +17,5 @@ data class RfCenter(
     val districtName: String,
     val status: String,
     val facilityId: Int,
-
-
+    val finalRfCapacity:String
 )
