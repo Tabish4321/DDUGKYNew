@@ -6834,7 +6834,7 @@ private fun validateItLAB(): Boolean {
     // --- 3️⃣ Validate all necessary Spinners only ---
     val spinnerList = listOf(
         spinnerITLSoundLevelAsPerSpecifications to getString(R.string.sound_level_as_per_specifications),
-        spinnerITLTypeofRoofItLab to getString(R.string.type_of_roof),
+//        spinnerITLTypeofRoofItLab to getString(R.string.type_of_roof),
         spinnerITLepbftr to getString(R.string.electrical_power_backup_for_the_room),
         spinnerITLFalseCellingProvide to getString(R.string.false_ceiling_provided),
         spinnerITLwhether_all_the_academic to getString(R.string.whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning),
@@ -6848,14 +6848,32 @@ private fun validateItLAB(): Boolean {
         spinnerITLtLabPhotograph to getString(R.string.it_lab_photograph),
         spinnerITLDoes_the_room_has to getString(R.string.does_the_room_has_air_conditioning)
     )
+    val mandatoryBase64List = listOf(
+        base64ProofPreviewITLTypeofRoofItLab to "Type of Roof proof",
+        base64ProofITLHeightOfCelling to "Height of Ceiling proof",
+        base64ProofITLVentilationAreaInSqFt to "Ventilation Area InSqFt proof",
+        base64ProofITLSoundLevelInDb to "Sound Level In Db proof",
+        base64ProofITLLanEnabledComputersInNo to "Lan Enabled Computers proof",
+        base64ProofITLTablets to "Tablets proof",
+        base64ProofITLStoolsChairs to "Stools Chairs proof",
+        base64ProofITLLightsInNo to "Lights proof",
+        base64ProofITLFansInNo to "Fans proof",
 
+        )
+
+    for ((base64, proofName) in mandatoryBase64List) {
+        if (base64.isNullOrBlank()) {
+            Toast.makeText(requireContext(), "Please upload $proofName", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+    }
     for ((spinner, name) in spinnerList) {
         if (!checkSpinner(spinner, name)) isValid = false
     }
 
     // --- 4️⃣ Image Proof ONLY IF Spinner = "YES" ✅ ---
     val spinnerToProofMap = mapOf(
-        spinnerITLTypeofRoofItLab to Pair(base64ProofPreviewITLTypeofRoofItLab, "Electrical Power Backup proof"),
+//        spinnerITLTypeofRoofItLab to Pair(base64ProofPreviewITLTypeofRoofItLab, "Electrical Power Backup proof"),
         spinnerITLepbftr to Pair(base64ProofITLElectricaPowerBackUpForThRoom, "Electrical Power Backup proof"),
         spinnerITLFalseCellingProvide to Pair(base64ProofITLFalseCellingProvide, "False Ceiling proof"),
         spinnerITLwhether_all_the_academic to Pair(base64ProofITLwhether_all_the_academic, "Sound Proofing proof"),
@@ -6883,6 +6901,7 @@ private fun validateItLAB(): Boolean {
 }
 
 //    Office Cum(Counselling room)    Ajit Ranjan
+
     private fun validateOfficeCumCounsellingRoom(): Boolean {
 
         var isValid = true
@@ -6929,31 +6948,48 @@ private fun validateItLAB(): Boolean {
             spinnerOCCROfficeTable to "Office Table",
             spinnerOCCRCumSplaceforSecuringDoc to "Space for Securing Documents",
             spinnerOCCRPhotograph to "Photograph",
-            spinnerOfficeCumTypeofRoofItLab to "Type of Roof",
             spinnerOfficeCumFalseCellingProvide to "False Ceiling",
             spinnerOfficeCumLepbftr to "Power Backup",
-            spinnerOfficeCumTableOfofficeCumpter to "Office Computer Table"
+            spinnerOfficeCumTableOfofficeCumpter to "Office Computer Table",
+
         )
 
         for ((spinner, name) in spinnerList) {
             if (!checkSpinner(spinner, name)) isValid = false
         }
 
-        // --- 4️⃣ Spinner → Base64 Image Conditional Validation ---
+        // --- 4️⃣ Spinner → Base64 Conditional Validation ---
         val spinnerToProofMap = listOf(
             Triple(spinnerOCCROfficeTable, base64ProofOCCROfficeTable, "Office Table proof"),
             Triple(spinnerOCCRCumSplaceforSecuringDoc, base64ProofOfficeCumSplaceforSecuringDoc, "Securing Documents proof"),
             Triple(spinnerOCCRPhotograph, base64ProofPreviewOfficeRoomPhotograph, "Photograph proof"),
-            Triple(spinnerOfficeCumTypeofRoofItLab, base64ProofOfficeCumTypeofRoofItLab, "Type of Roof proof"),
             Triple(spinnerOfficeCumFalseCellingProvide, base64ProofOfficeCumFalseCellingProvide, "False Ceiling proof"),
             Triple(spinnerOfficeCumLepbftr, base64ProofOfficeCumElectricialPowerBackup, "Power Backup proof"),
-            Triple(spinnerOfficeCumTableOfofficeCumpter, base64ProofOfficeCumTableOfofficeCumpter, "Office Computer Table proof")
+            Triple(spinnerOfficeCumTableOfofficeCumpter, base64ProofOfficeCumTableOfofficeCumpter, "Office Computer Table proof"),
+             // ADDED
         )
 
         for ((spinner, base64, proofName) in spinnerToProofMap) {
             val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
             if (selected == "yes" && base64.isNullOrBlank()) {
                 Toast.makeText(requireContext(), "Please upload $proofName (selected Yes)", Toast.LENGTH_SHORT).show()
+                isValid = false
+            }
+        }
+
+        // --- 5️⃣ Mandatory Base64 validations for EditText Related Proofs ---
+        val mandatoryBase64List = listOf(
+            base64ProofOfficeCumTypeofRoofItLab to "Type of Roof proof",
+            base64ProofOfficeCumHeightOfCelling to "Height of Ceiling proof",
+            base64ProofOfficeCumAnOfficeTableNo to "Office Table Number proof",
+            base64ProofOfficeCumChairs to "Chairs proof",
+            base64ProofOfficeCumPrinterCumScannerInNo to "Printer/Scanner proof",
+            base64ProofOfficeCumDigitalCameraInNo to "Digital Camera proof"
+        )
+
+        for ((base64, proofName) in mandatoryBase64List) {
+            if (base64.isNullOrBlank()) {
+                Toast.makeText(requireContext(), "Please upload $proofName", Toast.LENGTH_SHORT).show()
                 isValid = false
             }
         }
@@ -7104,7 +7140,7 @@ private fun validateItLAB(): Boolean {
                 isValid = false
             } else field.error = null
         }
-
+//mandatoryBase64List
         // --- 2️⃣ Spinner Validation Helper ---
         fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
             if (spinner.selectedItemPosition <= 0) {
@@ -7121,13 +7157,28 @@ private fun validateItLAB(): Boolean {
         // --- 3️⃣ Validate All Spinners ---
         val spinnerList = listOf(
 //            spinnerITCDLSoundLevelAsPerSpecifications to "Sound Level As Per Specifications",
-            spinnerORTypeofRoofItLab to "Type of Roof",
+//            spinnerORTypeofRoofItLab to "Type of Roof",
             spinnerORSplaceforSecuringDoc to "Space for Securing Documents",
             spinnerROfficeRoomPhotograph to "Office Room Photograph",
             spinnerORFalseCellingProvide to "False Ceiling Provided",
             spinnerORTableOfofficeCumpter to "Office Computer Table Available",
             spinnerORPOEPBFTR to "Power Backup"
         )
+    val mandatoryBase64List = listOf(
+        base64ProofORTypeofRoofItLab to "Type of Roof proof",
+        base64ProofORHeightOfCelling to "Height of Ceiling proof",
+        base64ProofORAnOfficeTableNo to "Office Table Number proof",
+        base64ProofORChairs to "Chairs proof",
+        base64ProofORPrinterCumScannerInNo to "Printer/Scanner proof",
+        base64ProofORDigitalCameraInNo to "Digital Camera proof"
+    )
+
+    for ((base64, proofName) in mandatoryBase64List) {
+        if (base64.isNullOrBlank()) {
+            Toast.makeText(requireContext(), "Please upload $proofName", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+    }
 
         for ((spinner, name) in spinnerList) {
             if (!checkSpinner(spinner, name)) isValid = false
@@ -7135,7 +7186,7 @@ private fun validateItLAB(): Boolean {
 
         // --- 4️⃣ Conditional Validation: If Spinner = "Yes" then Base64 mandatory ---
         val spinnerToProofMap = listOf(
-            Triple(spinnerORTypeofRoofItLab, base64ProofORTypeofRoofItLab, "Type of Roof proof"),
+//            Triple(spinnerORTypeofRoofItLab, base64ProofORTypeofRoofItLab, "Type of Roof proof"),
             Triple(spinnerORSplaceforSecuringDoc, base64ProofORSplaceforSecuringDoc, "Securing Document proof"),
             Triple(spinnerROfficeRoomPhotograph, base64ProofPreviewOROfficeRoomORPhotograph, "Office Room photograph"),
             Triple(spinnerORFalseCellingProvide, base64ProofORFalseCellingProvide, "False Ceiling proof"),
@@ -7189,6 +7240,11 @@ private fun validateITComeDomainLab(): Boolean {
         }
     }
 
+
+
+
+
+
     // ✅ 2️⃣ Spinner Validation Helper
     fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
         if (spinner.selectedItemPosition <= 0) {
@@ -7219,6 +7275,27 @@ private fun validateITComeDomainLab(): Boolean {
         spinnerITCDLElectricaPowerBackUp to "Electrical Power Backup",
         spinnerITCDLDoes_the_room_has to "Required Facilities Availability"
     )
+    val mandatoryBase64List = listOf(
+        base64ProofPreviewITCDLTypeofRoofItLab to "Type of Roof proof",
+        base64ProofITCDLabHeightOfCelling to "Height of Ceiling proof",
+        base64ProofITCDLVentilationAreaInSqFt to "Ventilation Area InSqFt proof",
+        base64ProofITCDLabSoundLevelInDb to "Sound Level In Db proof",
+        base64ProofITCDLLanEnabledComputersInNo to "LanEnabledComputers proof",
+        base64ProofITCDLTablets to "Tablets proof",
+        base64ProofITCDLStoolsChairs to "Stools Chairs proof",
+        base64ProofITCDLLightsInNo to "Lights proof",
+        base64ProofITCDLFansInNo to "Fans proof",
+        base64ProofITCDLListofDomain to "List of Domain proof"
+    )
+
+    for ((base64, proofName) in mandatoryBase64List) {
+        if (base64.isNullOrBlank()) {
+            Toast.makeText(requireContext(), "Please upload $proofName", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+    }
+
+
 
     for ((spinner, name) in spinnerList) {
         if (!checkSpinner(spinner, name)) isValid = false
@@ -7227,7 +7304,7 @@ private fun validateITComeDomainLab(): Boolean {
     // ✅ 4️⃣ Conditional Proof Validation (Yes → Image required)
     val spinnerToProofMap = listOf(
         Triple(spinnerITCDLItLabPhotograph, base64ProofITCDLItLabPhotograph, "IT Lab Photograph proof"),
-        Triple(spinnerITCDLTypeofRoofItLab, base64ProofPreviewITCDLTypeofRoofItLab, "Type of Roof proof"),
+//        Triple(spinnerITCDLTypeofRoofItLab, base64ProofPreviewITCDLTypeofRoofItLab, "Type of Roof proof"),
         Triple(spinnerITCDLFalseCellingProvide, base64ProofITCDLFalseCellingProvide, "False Ceiling proof"),
         Triple(spinnerITCDLwhether_all_the_academic, base64ProofITCDLwhether_all_the_academic, "Academic Room Availability proof"),
         Triple(spinnerITCDLAcademicRoomInformationBoard, base64ProofITCDLAcademicRoomInformationBoard, "Academic Room Information Board proof"),
@@ -7303,7 +7380,7 @@ private fun validateITComeDomainLab(): Boolean {
         // --- 3️⃣ Validate all Spinners ---
         val spinnerList = listOf(
             spinnerTTCILSoundLevelAsPerSpecifications to "Sound Level AsPerS pecificationsf",
-            spinnerTCILITypeofRoofItLab to "Type of Roof",
+//            spinnerTCILITypeofRoofItLab to "Type of Roof",
             spinnerTCILFalseCellingProvide to "False Ceiling Provided",
             spinnerTCILTrainerChair to "Trainer Chair",
             spinnerTCILTrainerTable to "Trainer Table",
@@ -7317,6 +7394,27 @@ private fun validateITComeDomainLab(): Boolean {
             spinnerTCILDLDoes_the_room_has to "Room Facility",
             spinnerTCILTheoryCumItLabPhotogragh to "Theory Cum IT Lab Photograph"
         )
+        val mandatoryBase64List = listOf(
+            base64ProofPreviewTCILListofDomain to "List of Domain proof",
+            base64ProofPreviewTCILTypeofRoofItLab to "Type of Roof proof",
+            base64ProofPreviewTCILHeightOfCelling to "Height of Ceiling proof",
+            base64ProofPreviewTCILVentilationAreaInSqFt to "Ventilation Area InSqFt proof",
+            base64ProofPreviewTTCILSoundLevelInDb to "Sound Level In Db proof",
+            base64ProofPreviewTCILLanEnabledComputersInNo to "LanEnabledComputers proof",
+            base64ProofPreviewTCILTablets to "Tablets proof",
+            base64ProofPreviewTCILStoolsChairs to "Stools Chairs proof",
+            base64ProofPreviewTCILLightsInNo to "Lights proof",
+            base64ProofPreviewTCILFansInNo to "Fans proof",
+
+        )
+
+        for ((base64, proofName) in mandatoryBase64List) {
+            if (base64.isNullOrBlank()) {
+                Toast.makeText(requireContext(), "Please upload $proofName", Toast.LENGTH_SHORT).show()
+                isValid = false
+            }
+        }
+
 
         for ((spinner, name) in spinnerList) {
             if (!checkSpinner(spinner, name)) isValid = false
@@ -7324,7 +7422,7 @@ private fun validateITComeDomainLab(): Boolean {
 
         // --- 4️⃣ Conditional Proof Required Only When "Yes" Selected ---
         val spinnerToProofMap = mapOf(
-            spinnerTCILITypeofRoofItLab to Pair(base64ProofPreviewTCILTypeofRoofItLab, "Type of Roof photo"),
+//            spinnerTCILITypeofRoofItLab to Pair(base64ProofPreviewTCILTypeofRoofItLab, "Type of Roof photo"),
             spinnerTCILFalseCellingProvide to Pair(base64ProofPreviewTCILFalseCellingProvide, "False Ceiling photo"),
             spinnerTCILTrainerChair to Pair(base64ProofPreviewTCILTrainerChair, "Trainer Chair photo"),
             spinnerTCILTrainerTable to Pair(base64ProofPreviewTCILTrainerTable, "Trainer Table photo"),
@@ -7365,7 +7463,8 @@ private fun validateITComeDomainLab(): Boolean {
             etTCDLSoundLevelInDb to "Sound Level in dB is required",
             etTCDLChairForCandidatesInNo to "Chair for Candidates is required",
             etTCDLLightsInNo to "Lights is required",
-            etTCDLFansInNo to "Fans is required"
+            etTCDLFansInNo to "Fans is required",
+            etTCDLListofDomain to "List of Domain required"
         )
 
         for ((field, message) in editTextFields) {
@@ -7394,7 +7493,7 @@ private fun validateITComeDomainLab(): Boolean {
         }
 
         val spinnerList = listOf(
-            spinnerTCDLTypeofRoofItLab to "Type of Roof",
+//            spinnerTCDLTypeofRoofItLab to "Type of Roof",
             spinnerTCDLFalseCellingProvide to "False Ceiling Provide",
             spinnerTCDLSoundLevelAsPerSpecifications to "Sound Level as per Specifications",
             spinnerTCDLLcdDigitalProjector to "LCD/Digital Projector",
@@ -7410,13 +7509,34 @@ private fun validateITComeDomainLab(): Boolean {
             spinnerTCDLDoes_the_room_has to "Room Air Conditioning"
         )
 
+
+
+        val mandatoryBase64List = listOf(
+            base64ProofPreviewTCDLListofDomain to "List of Domain proof",
+            base64ProofPreviewTCDLTypeofRoofItLab to "Type of Roof proof",
+            base64ProofPreviewTCDLHeightOfCelling to "Height of Ceiling proof",
+            base64ProofPreviewTCDLVentilationAreaInSqFt to "Ventilation Area InSqFt proof",
+            base64ProofPreviewTCDLSoundLevelInDb to "Sound Level In Db proof",
+            base64ProofPreviewTCDLChairForCandidatesInNo to "Chair For Candidatess proof",
+            base64ProofPreviewTCDLLightsInNo to "Lights proof",
+            base64ProofPreviewTCDLFansInNo to "Fans proof",
+
+            )
+
+        for ((base64, proofName) in mandatoryBase64List) {
+            if (base64.isNullOrBlank()) {
+                Toast.makeText(requireContext(), "Please upload $proofName", Toast.LENGTH_SHORT).show()
+                isValid = false
+            }
+        }
+
         for ((spinner, name) in spinnerList) {
             if (!checkSpinner(spinner, name)) isValid = false
         }
 
         // ✅ Conditional Image Validation (Yes → Image Required)
         val yesConditionMap = mapOf(
-            spinnerTCDLTypeofRoofItLab to Pair(base64ProofPreviewTCDLTypeofRoofItLab, "Type of Roof Proof"),
+//            spinnerTCDLTypeofRoofItLab to Pair(base64ProofPreviewTCDLTypeofRoofItLab, "Type of Roof Proof"),
             spinnerTCDLFalseCellingProvide to Pair(base64ProofPreviewTCDLFalseCellingProvide, "False Ceiling Proof"),
             spinnerTCDLLcdDigitalProjector to Pair(base64ProofPreviewTCDLLcdDigitalProjector, "Digital Projector Proof"),
             spinnerTCDLTrainerChair to Pair(base64ProofPreviewTCDLTrainerChair, "Trainer Chair Proof"),
@@ -7497,7 +7617,7 @@ private fun validateITComeDomainLab(): Boolean {
             spinnerDLTrainerTable to "Trainer Table",
             spinnerDLWritingBoard to "Writing Board",
             spinnerDLFalseCellingProvide to "False Ceiling Provide",
-            spinnerDLTypeofRoofItLab to "Type of Roof",
+//            spinnerDLTypeofRoofItLab to "Type of Roof",
             spinnerDDLSoundLevelAsPerSpecifications to "Sound Level as per Specifications",
             spinnerDLDomainLabPhotogragh to "Domain Lab Photograph",
             spinnerDLAcademicRoomInformationBoard to "Academic Room Information Board",
@@ -7523,12 +7643,30 @@ private fun validateITComeDomainLab(): Boolean {
             spinnerDLTrainerTable to Pair(base64ProofPreviewDLTrainerTable, "Trainer Table proof"),
             spinnerDLWritingBoard to Pair(base64ProofPreviewDLWritingBoard, "Writing Board proof"),
             spinnerDLFalseCellingProvide to Pair(base64ProofPreviewDLFalseCellingProvide, "False Ceiling proof"),
-            spinnerDLTypeofRoofItLab to Pair(base64ProofPreviewDLTypeofRoofItLab, "Roof Type proof"),
+//            spinnerDLTypeofRoofItLab to Pair(base64ProofPreviewDLTypeofRoofItLab, "Roof Type proof"),
             spinnerDLDomainLabPhotogragh to Pair(base64ProofPreviewDLDomainLabPhotogragh, "Domain Lab Photograph proof"),
             spinnerDLElectricaPowerBackUp to Pair(base64ProofPreviewDLElectricaPowerBackUpForThRoom, "Power Backup proof"),
             spinnerDLDoes_the_room_has to Pair(base64ProofPreviewDLDoes_the_room_has, "Air Conditioning proof"),
         )
+        val mandatoryBase64List = listOf(
+            base64ProofPreviewDLTypeofRoofItLab to "Type of Roof proof",
+            base64ProofPreviewDLHeightOfCelling to "Height of Ceiling proof",
+            base64ProofPreviewDLVentilationAreaInSqFt to "Ventilation Area InSqFt proof",
+            base64ProofPreviewDLSoundLevelInDb to "Sound Level In Db proof",
+            base64ProofPreviewDLChairForCandidatesInNo to "Chair For Candidates proof",
+            base64ProofPreviewDLLightsInNo to "Lights proof",
+            base64ProofPreviewDLFansInNo to "Fans proof",
+            base64ProofPreviewDLILListofDomain to "List of Domain proof",
 
+
+            )
+
+        for ((base64, proofName) in mandatoryBase64List) {
+            if (base64.isNullOrBlank()) {
+                Toast.makeText(requireContext(), "Please upload $proofName", Toast.LENGTH_SHORT).show()
+                isValid = false
+            }
+        }
         for ((spinner, pair) in yesConditionalImages) {
             val (base64, proofName) = pair
             val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
@@ -7586,7 +7724,7 @@ private fun validateITComeDomainLab(): Boolean {
         // ✅ 3️⃣ Validate mandatory spinner selection
         val spinnerList = listOf(
             spinnerTCRSoundLevelAsPerSpecifications to "Sound Level AsPer Specifications",
-            spinnerTCRTypeofRoofItLab to "Type Of Roof",
+//            spinnerTCRTypeofRoofItLab to "Type Of Roof",
             spinnerTCRFalseCellingProvide to "False Celling Provide",
             spinnerTCRLcdDigitalProjector to "Digital Projector",
             spinnerTCRTrainerChair to "Trainer Chair",
@@ -7600,13 +7738,31 @@ private fun validateITComeDomainLab(): Boolean {
             spinnerTCRDoes_the_room_has to "AC Room Facilities"
         )
 
+
+        val mandatoryBase64List = listOf(
+            base64ProofPreviewTCRTypeofRoofItLab to "Type of Roof proof",
+            base64ProofPreviewTCRHeightOfCelling to "Height of Ceiling proof",
+            base64ProofPreviewTCRVentilationAreaInSqFt to "Ventilation Area InSqFt proof",
+            base64ProofPreviewTCRSoundLevelInDb to "Sound Level In Db proof",
+            base64ProofPreviewTCRChairForCandidatesInNo to "Chair For Candidates proof",
+            base64ProofPreviewTCRLightsInNo to "Lights proof",
+            base64ProofPreviewTCRFansInNo to "Fans proof",
+
+            )
+
+        for ((base64, proofName) in mandatoryBase64List) {
+            if (base64.isNullOrBlank()) {
+                Toast.makeText(requireContext(), "Please upload $proofName", Toast.LENGTH_SHORT).show()
+                isValid = false
+            }
+        }
         spinnerList.forEach { (spinner, name) ->
             if (!checkSpinner(spinner, name)) isValid = false
         }
 
         // ✅ 4️⃣ Only required if YES selected ✅
         val spinnerToProofMap = mapOf(
-            spinnerTCRTypeofRoofItLab to Pair(base64ProofPreviewTCRTypeofRoofItLab, "Type of Roof"),
+//            spinnerTCRTypeofRoofItLab to Pair(base64ProofPreviewTCRTypeofRoofItLab, "Type of Roof"),
             spinnerTCRFalseCellingProvide to Pair(base64ProofPreviewTCRFalseCellingProvide, "False Ceiling"),
             spinnerTCRLcdDigitalProjector to Pair(base64ProofPreviewTCRLcdDigitalProjector, "Digital Projector"),
             spinnerTCRTrainerChair to Pair(base64ProofPreviewTCRTrainerChair, "Trainer Chair"),
