@@ -13,6 +13,8 @@ import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GetUrinalWashReq
+import com.deendayalproject.model.request.FieldVerificationDetailRequest
+import com.deendayalproject.model.request.FieldVerificationListRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
@@ -69,7 +71,10 @@ import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.DistrictResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
+import com.deendayalproject.model.response.FieldVerificationDetailResponse
+import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
+import com.deendayalproject.model.response.FinancialDetailsResponse
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GetUrinalWashRes
 import com.deendayalproject.model.response.GpResponse
@@ -203,6 +208,24 @@ class CommonRepository(private val context: Context) {
         }
     }
 
+    suspend fun fetchFieldVerificationList(request: FieldVerificationListRequest, token: String): Result<FieldVerificationListResponse> {
+        return try {
+            val response = apiService.getFieldVerificationList(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                if (response.code() == 202) {
+                    Result.failure(HttpException(response))
+                } else {
+                    Result.failure(HttpException(response))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun fetchSrlmTeamTrainingList(request: TrainingCenterRequest, token: String): Result<TrainingCenterResponse> {
         return try {
             val response = apiService.getTrainingCenterVerificationSRLM(request)
@@ -253,6 +276,104 @@ class CommonRepository(private val context: Context) {
                     ?: Result.failure(Exception("Empty response"))
             } else {
                 Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /* for field Verification Details data */
+    suspend fun getFieldVerificationDetail(
+        request: FieldVerificationDetailRequest
+    ): Result<FieldVerificationDetailResponse> {
+        return try {
+            val response = apiService.getFieldVerificationDetail(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(HttpException(response))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /* for finance details */
+    suspend fun getFieldVerificationFinDetail(
+        request: FieldVerificationDetailRequest
+    ): Result<FieldVerificationDetailResponse> {
+        return try {
+            val response = apiService.getFieldVerificationFinDetail(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(HttpException(response))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getFieldVerificationTrainingDetail(
+        request: FieldVerificationDetailRequest
+    ): Result<FieldVerificationDetailResponse> {
+        return try {
+            val response = apiService.getFieldVerificationTrainingDetail(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(HttpException(response))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getFieldVerificationTrainingInfraDetail(
+        request: FieldVerificationDetailRequest
+    ): Result<FieldVerificationDetailResponse> {
+        return try {
+            val response = apiService.getFieldVerificationTrainingInfraDetail(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(HttpException(response))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getFieldVerificationCertificationDetail(
+        request: FieldVerificationDetailRequest
+    ): Result<FieldVerificationDetailResponse> {
+        return try {
+            val response = apiService.getFieldVerificationCertificationDetail(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(HttpException(response))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getFieldVerificationPlacementDetail(
+        request: FieldVerificationDetailRequest
+    ): Result<FieldVerificationDetailResponse> {
+        return try {
+            val response = apiService.getFieldVerificationPlacementDetail(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(HttpException(response))
             }
         } catch (e: Exception) {
             Result.failure(e)

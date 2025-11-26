@@ -14,6 +14,8 @@ import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GetUrinalWashReq
+import com.deendayalproject.model.request.FieldVerificationDetailRequest
+import com.deendayalproject.model.request.FieldVerificationListRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
@@ -70,7 +72,10 @@ import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.DistrictResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
+import com.deendayalproject.model.response.FieldVerificationDetailResponse
+import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
+import com.deendayalproject.model.response.FinancialDetailsResponse
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GetUrinalWashRes
 import com.deendayalproject.model.response.GpResponse
@@ -153,6 +158,9 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     val rfTrainingCenters: LiveData<Result<RfListResponse>> = _rfTrainingCenters
 
 
+    private val _fieldprnDetails = MutableLiveData<Result<FieldVerificationListResponse>>()
+    val fieldprnDetails: LiveData<Result<FieldVerificationListResponse>> = _fieldprnDetails
+
 
     // insert cctv section
     private val _insertCCTVdata = MutableLiveData<Result<CCTVComplianceResponse>>()
@@ -213,6 +221,84 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _villageList = MutableLiveData<Result<VillageRes>>()
     val villageList: LiveData<Result<VillageRes>> = _villageList
 
+
+    private val _fieldDetail = MutableLiveData<Result<FieldVerificationDetailResponse>>()
+    val fieldDetail: LiveData<Result<FieldVerificationDetailResponse>> = _fieldDetail
+
+    private val _finDetail = MutableLiveData<Result<FieldVerificationDetailResponse>>()
+    val finDetail: LiveData<Result<FieldVerificationDetailResponse>> = _finDetail
+
+    private val _trainingDetail = MutableLiveData<Result<FieldVerificationDetailResponse>>()
+    val trainingDetail: LiveData<Result<FieldVerificationDetailResponse>> = _trainingDetail
+
+    private val _trainingInfraDetail = MutableLiveData<Result<FieldVerificationDetailResponse>>()
+    val trainingInfraDetail: LiveData<Result<FieldVerificationDetailResponse>> = _trainingInfraDetail
+
+    private val _certificationDetail = MutableLiveData<Result<FieldVerificationDetailResponse>>()
+    val certificationDetail: LiveData<Result<FieldVerificationDetailResponse>> = _certificationDetail
+
+    private val _placementDetail = MutableLiveData<Result<FieldVerificationDetailResponse>>()
+    val placementDetail: LiveData<Result<FieldVerificationDetailResponse>> = _placementDetail
+
+    fun getFieldVerificationDetail(request: FieldVerificationDetailRequest) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getFieldVerificationDetail(request)
+            result.onFailure { _errorMessage.postValue(it.message ?: "Unknown error") }
+            _fieldDetail.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    fun getFieldVerificationFinDetail(request: FieldVerificationDetailRequest) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getFieldVerificationFinDetail(request)
+            result.onFailure { _errorMessage.postValue(it.message ?: "Unknown error") }
+            _finDetail.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    fun getFieldVerificationTrainingDetail(request: FieldVerificationDetailRequest) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getFieldVerificationTrainingDetail(request)
+            result.onFailure { _errorMessage.postValue(it.message ?: "Unknown error") }
+            _trainingDetail.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    fun getFieldVerificationTrainingInfraDetail(request: FieldVerificationDetailRequest) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getFieldVerificationTrainingInfraDetail(request)
+            result.onFailure { _errorMessage.postValue(it.message ?: "Unknown error") }
+            _trainingInfraDetail.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    fun getFieldVerificationCertificationDetail(request: FieldVerificationDetailRequest) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getFieldVerificationCertificationDetail(request)
+            result.onFailure { _errorMessage.postValue(it.message ?: "Unknown error") }
+            _certificationDetail.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    fun getFieldVerificationPlacementDetail(request: FieldVerificationDetailRequest) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getFieldVerificationPlacementDetail(request)
+            result.onFailure { _errorMessage.postValue(it.message ?: "Unknown error") }
+            _placementDetail.postValue(result)
+            _loading.postValue(false)
+        }
+    }
 
     fun submitElectricalData(request: ElectricalWiringRequest, token: String) {
         _loading.postValue(true)
@@ -353,6 +439,18 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 _errorMessage.postValue(it.message ?: "Unknown error")
             }
             _trainingCenters.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    fun fetchFieldVerificationList(request: FieldVerificationListRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.fetchFieldVerificationList(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _fieldprnDetails.postValue(result)
             _loading.postValue(false)
         }
     }

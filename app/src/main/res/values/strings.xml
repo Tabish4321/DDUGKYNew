@@ -704,6 +704,119 @@
     <string name="residential_facility">Residential Facility</string>
     <string name="add_living_area">+Add Living Area</string>
 
+    <string name="close">close</string>
+
+    <!-- Field Verification Organization Details -->
+    <string name="field_ver_head">Field Verification </string>
+    <string name="field_ver_list">Field Verification List </string>
+    <string name="field_ver_organization_details">Organization Details </string>
+    <string name="field_ver_industry_existence">Proof of Industry Existence for a Minimum of Three Years </string>
+    <string name="field_ver_valid_govt_note_doc">To be verified with a valid government - issued document. </string>
+    <string name="field_ver_valid_epfo_esic_doc">The industry must possess a valid EPFO, ESIC, or Factory Registration Number. </string>
+    <string name="field_ver_valid_epfo_esic_note_doc">To be verified with a valid PF Registration, ESIC Registration, or Factory Registration Certificate. </string>
+
+    <string name="field_ver_epfo_challan_doc">EPFO Challans for the Last Six Months. </string>
+    <string name="field_ver_valid_epfo_challan_note_doc">The latest six months’ EPFO challans must be verified, and the highest monthly numbers among them shall be considered for determining target allocation.</string>
+
+    <string name="field_ver_valid_industry_doc">The industry must have a valid TIN, TAN, and GST Number. </string>
+    <string name="field_ver_valid_industry_note_doc">GST Certificate, TAN, or TIN Certificate must be verified as part of the mandatory documentation. </string>
+
+    <string name="field_ver_valid_bank_doc">The industry must have a valid bank account number linked to Aadhaar and/or PAN. </string>
+    <string name="field_ver_valid_bank_note_doc">A letter from the bank confirming that the organization’s bank account is linked with Aadhaar and/or PAN must be submitted. </string>
+
+    <string name="field_ver_valid_manpower_doc">The industry must not be engaged in manpower supply or operate as a manpower agency. </string>
+    <string name="field_ver_valid_manpower_note_doc">It is mandatory to verify the organization’s past placement records to ensure that it is not functioning as a manpower supply agency. </string>
+
+
+    <!-- Field Verification Financial Details -->
+    <string name="field_ver_financial">Financial </string>
+
+    <string name="field_ver_industry_turnover_fin">The industry must have an annual turnover of ₹25 crore or more in each of the last three financial years. </string>
+    <string name="field_ver_industry_turnover_note_fin">A Chartered Accountant (CA) Certificate or audited Balance Sheet.</string>
+
+    <string name="field_ver_industry_networth_fin">The industry must have a positive net worth in at least two out of the last three financial years. </string>
+    <string name="field_ver_industry_networth_note_fin">A Chartered Accountant (CA) Certificate or audited Balance Sheet. </string>
+
+    <string name="fin_balance_sheet_button">Balance Sheet (last 3 years)</string>
+    <string name="fin_turnover_button">Turnover</string>
+    <string name="fin_annual_turnover">Annual Turnover</string>
+    <string name="fin_net_worth">Net Worth</string>
+
+    <!-- Field Verification Training Details -->
+    <string name="field_ver_training">Training </string>
+
+    <string name="field_ver_exp_training">The organization must have prior training experience of more than two years. </string>
+    <string name="field_ver_exp_note_training">Sanction letters or project approval orders / Proof of targets allocated and achieved / Project completion certificates / Records of training programs conducted in collaboration with corporates or for in-house staff / MoUs or Work Orders with Government or Corporate entities.</string>
+
+    <string name="field_ver_hrs_training">Total Number of Training Hours Proposed. </string>
+    <string name="field_ver_hrs_note_training">A minimum of 576 hours and a maximum of 2304 hours of training is permissible for each proposed course. </string>
+
+    <string name="field_ver_course_content_training">Is there any repetition or clubbing of course content? (Yes/No). </string>
+    <string name="field_ver_course_content_note_training">If Yes, the SRLM must instruct the PIA to revise and remove the repeated course content before accepting the proposal. Repetition of course content is not permitted in clubbed courses under any circumstances.</string>
+
+    <string name="field_ver_nsqf_courses_training">The industry must be willing to provide basic training as per NSQF-aligned courses. </string>
+    <string name="field_ver_nsqf_courses_note_training">A commitment letter must be provided by the Captive Employer on the official letterhead of the organization, duly signed and stamped by the Authorized Signatory. </string>
+
+    <string name="field_ver_500_cand_training">The industry must be willing to commit to training a minimum of 500 candidates over a period of three years. </string>
+    <string name="field_ver_500_cand_note_training">The commitments provided by the Captive Employer must be verified as per the prescribed formats – FORM I and FORM II.</string>
+
+    <string name="field_ver_job_training">Is the industry willing to provide additional tailor-made training based on specific job requirements? (Yes/No) </string>
+    <string name="field_ver_job_note_training">To be verified in cases where the industry expresses willingness to provide any add-on or supplementary training beyond the standard curriculum. </string>
+
+    <string name="field_ver_domain_training">Trainers delivering domain-specific training must be ToT (Training of Trainers) certified. </string>
+    <string name="field_ver_domain_note_training">The commitments provided by the Captive Employer must be verified as per the prescribed formats – FORM I and FORM II.</string>
+
+    <string name="train_target_button">View Target</string>
+    <string name="train_NSQF_course_button">View NSQF Courses Declaration</string>
+    <string name="train_commitment1_button">Form 1</string>
+    <string name="train_commitment2_button">Form 2</string>
+    <string name="train_tailor_button">View Tailor Training Doc</string>
+    <string name="train_domain1_button">Form 1</string>
+    <string name="train_domain2_button">Form 2</string>
+
+
+
+    <!-- Field Verification Training Infrastructure Details -->
+    <string name="field_ver_training_infra">Training Infrastructure </string>
+
+    <string name="field_ver_nsqf_training_infra">The training centre must comply with NSQF norms and industry-specified standards. </string>
+    <string name="field_ver_nsqf_note_training_infra">The availability of the training center must be substantiated through any of the following supporting documents: Photographs / Self-declaration / Lease agreement, ownership document / Any other valid proof of operational readiness.</string>
+
+    <string name="field_ver_res_training_infra">Residential facility must be available for the courses proposed as residential. </string>
+    <string name="field_ver_res_note_training_infra">The availability of residential facilities must be supported with appropriate documentation: Photographs  / Self-declaration / Lease or ownership documents / Any other reliable evidence. </string>
+
+    <!-- Field Verification Assessment & Certification Details -->
+    <string name="field_ver_cert">Assessment &amp; Certification </string>
+
+    <string name="field_ver_provide_cert">Commitment to provide assessment and certification through a government-recognized awarding body. </string>
+    <string name="field_ver_provide_note_cert">Commitment letter submitted by the Captive Employer on the organization’s official letterhead, duly signed and stamped by the Authorized Signatory.</string>
+
+    <string name="field_ver_res_conduct_cert">Commitment to conduct assessments for all trained candidates and ensure certification for a minimum of 70% of candidates across all job roles in which training has been imparted. </string>
+    <string name="field_ver_conduct_note_cert">Commitment letter submitted by the Captive Employer on the organization’s official letterhead, duly signed and stamped by the Authorized Signatory. </string>
+
+    <!-- Field Verification Placement Details -->
+    <string name="field_ver_placement">Placement </string>
+
+    <string name="field_ver_500_empl_placement">The organization must have provided employment to at least 500 individuals through its own establishment or subsidiary agencies/companies within the last three years from the date of application. </string>
+    <string name="field_ver_empl_note_placement">Details to be verified by the list of candidates submitted by Captive Employer alongwith the PF /ESIC Number/ Sanction Order of the Govt. Projects/Declaration of the placement by Captive Employer.</string>
+
+    <string name="field_ver_70_per_cand_placement">Commitment to provide placement to at least 70% of the trained candidates in the organization’s own establishment or affiliate companies for a minimum duration of six months. </string>
+    <string name="field_ver_empl_off_letter_note_placement">Commitment letter submitted by the Captive Employer on the organization’s official letterhead, duly signed and stamped by the Authorized Signatory. </string>
+
+    <string name="field_ver_70_per_less_cand_coursewise_placement">Commitment to provide placement to at least 70% of the trained candidates from training courses of less than six months\' duration, with a minimum salary of ₹10,000 or the applicable minimum wage—whichever is higher. </string>
+    <string name="field_ver_empl_off_letter_coursewise_less_note_placement">Commitment letter submitted by the Captive Employer on the organization’s official letterhead, duly signed and stamped by the Authorized Signatory.</string>
+
+    <string name="field_ver_70_per_more_cand_coursewise_placement">Commitment to provide placement to at least 70% of the trained candidates from training courses of more than six months\' duration, with a minimum salary of ₹12,000 or the applicable minimum wage—whichever is higher. </string>
+    <string name="field_ver_empl_off_letter_coursewise_more_note_placement">Commitment letter submitted by the Captive Employer on the organization’s official letterhead, duly signed and stamped by the Authorized Signatory.</string>
+
+    <!-- Field Verification Placement Details -->
+    <string name="field_ver_field">Field Visit </string>
+
+    <string name="field_ver_geo_factory_field">Geo Tagging of Head Quarter and Factory Location(s). </string>
+    <string name="field_ver_ctsa_off_note_field">The above details are to be captured and verified during the field visit by the concerned State/UT representative or CTSA officer.</string>
+
+
+
     <string name="training_center_id">Training Center ID</string>
     <string name="toilet_id">Toilet Id</string>
     <string name="delete">Delete</string>
