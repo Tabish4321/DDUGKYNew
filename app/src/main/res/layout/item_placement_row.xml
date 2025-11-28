@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@drawable/shape_rectangle_white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            android:id="@+id/tvYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Year"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCandidatePlaced"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Candidates Placed" />
+
+        <TextView
+            android:id="@+id/tvSanctionOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sanction Order" />
+
+        <TextView
+            android:id="@+id/tvEsicNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ESIC Number" />
+
+        <TextView
+            android:id="@+id/tvEpfoNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="EPFO Number" />
+
+        <Button
+            android:id="@+id/btnView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Document"
+            android:visibility="gone" />
+
+    </LinearLayout>

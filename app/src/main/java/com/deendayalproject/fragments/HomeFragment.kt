@@ -1,4 +1,5 @@
 package com.deendayalproject.fragments
+
 import SharedViewModel
 import android.os.Bundle
 import android.util.Log
@@ -6,8 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
@@ -17,61 +16,63 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.R
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.adapter.ModuleAdapter
+import com.deendayalproject.base.BaseFragment
+import com.deendayalproject.base.BaseRecyclerAdapter
 import com.deendayalproject.databinding.FragmentHomeBinding
+import com.deendayalproject.databinding.ItemFormBinding
+import com.deendayalproject.databinding.ItemModuleBinding
 import com.deendayalproject.databinding.NavigationHeaderBinding
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.response.Form
+import com.deendayalproject.model.response.Module
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.util.NoDataHelper
+
+class HomeFragment : BaseFragment<FragmentHomeBinding>(
+bindingInflater = FragmentHomeBinding::inflate
+) {
 
 
-class HomeFragment : Fragment() {
-
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
-    private lateinit var adapter: ModuleAdapter
-    private val progress: AlertDialog? by lazy {
-        AppUtil.getProgressDialog(context)
+   // private lateinit var batchAdapter: BaseRecyclerAdapter<AttendanceBatch, AttendanceBatchLayoutBinding>
+
+    private lateinit var adapter: BaseRecyclerAdapter<Module,ItemModuleBinding>
+
+
+    // ------------------- UI Setup ------------------------
+
+    private fun setupNavHeader() {
+        setupToolbar(
+            binding.root,
+            "HOME",
+            showBack = false,
+            showLang = true,
+            showProfile = true,
+            profileClick = { binding.drawerLayout.openDrawer(GravityCompat.START) },
+            langClick = {findNavController().navigate(HomeFragmentDirections.actionHomeFrahmentToLanguageChangeFragment())
+            }
+
+        )
+
+
+        val headerBinding = NavigationHeaderBinding.bind(
+            binding.navigationView.getHeaderView(0)
+        )
+        headerBinding.loginId.text =
+            AppUtil.getSavedLoginIdPreference(requireContext())
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private fun setupDrawerClicks() {
+//        binding.profilePic.setOnClickListener {
+//            binding.drawerLayout.openDrawer(GravityCompat.START)
+//        }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // First, get the header view using getHeaderView()
-        val headerView = binding.navigationView.getHeaderView(0)
-
-        // Now, bind the header layout using the generated ViewBinding for the header
-        val headerBinding = NavigationHeaderBinding.bind(headerView)
-
-        // Access the ImageView from the header layout
-        headerBinding.circleImageView
-        val headerIdView: TextView = headerBinding.loginId
-
-        headerIdView.text = AppUtil.getSavedLoginIdPreference(requireContext())
-
-        binding.profilePic.setOnClickListener {
-            binding.drawerLayout.openDrawer(GravityCompat.START)
-        }
-
-//New Logout (Rohit)
         binding.navigationView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_logout -> {
                     Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show()
-
-                    // Clear saved login status
                     AppUtil.saveLoginStatus(requireContext(), false)
 
-                    // Navigate back to login fragment and clear back stack
                     findNavController().navigate(
                         R.id.fragmentLogin,
                         null,
@@ -80,7 +81,6 @@ class HomeFragment : Fragment() {
                             .build()
                     )
 
-                    // Close the drawer
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
@@ -88,103 +88,166 @@ class HomeFragment : Fragment() {
                 else -> false
             }
         }
-/*binding.changeLanguage.setOnClickListener {
-    findNavController().navigate(R.id.action_homeFragment_to_languageSelectionFragment)
-}*/
+    }
 
-        // Initialize ViewModel scoped to this Fragment
+    private fun setupViewModel() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+    }
+    private var expandedPosition = -1
+    private fun updateExpansionUI(binding: ItemModuleBinding, isExpanded: Boolean) {
+        binding.rvForms.visibility = if (isExpanded) View.VISIBLE else View.GONE
 
-        // Initialize adapter with empty list and form click listener lambda
-        adapter = ModuleAdapter(emptyList()) { form: Form ->
-            // Show Toast with formCd when form clicked
-            Log.i("form value formCd :: ",form.formCd)
+        binding.ivExpandArrow.animate()
+            .rotation(if (isExpanded) 180f else 0f)
+            .setDuration(250)
+            .start()
+    }
 
-            if (form.formCd == "TRAINING_CENTER_APP") {
-                findNavController().navigate(R.id.action_homeFragment_to_centerFragment)
-            }
-            if (form.formCd=="RESIDENTIAL_FACILITY_FORM"){
-                findNavController().navigate(R.id.action_homeFragment_to_rfCenterFragment)
-            }
+    private fun toggleExpand(position: Int) {
+        expandedPosition = if (expandedPosition == position) -1 else position
+    }
 
-            if (form.formCd == "TRAINING_CENTER_VERIFICATION") {
-                findNavController().navigate(R.id.action_homeFragment_to_QTeamListFragment)
-            }
+    fun update(newList: List<Module>) {
+        adapter.update(newList)
+    }
 
-            if (form.formCd == "TRAINING_CENTERS_VERIFICATION_SRLM") {
-                findNavController().navigate(R.id.action_homeFragment_to_srlmVerListFragment)
-            }
+    fun collapseAll() {
+        expandedPosition = -1
+        adapter.notifyDataSetChanged()
+    }
+    private fun setupRecycler() {
+         adapter = BaseRecyclerAdapter(
+            items = emptyList<Module>(),
+            bindingInflater = ItemModuleBinding::inflate,
+            onBind = { module, binding, position ->
 
+                binding.tvModuleName.text = module.moduleName
 
-            if (form.formCd == "RESIDENTIAL_FACILITY_FORM_SRLM") {
-                findNavController().navigate(R.id.action_homeFragment_to_RFSrlmListFragment)
-            }
-            if (form.formCd == "RESIDENTIAL_FACILITY_FORM_QTEAM") {
-                findNavController().navigate(R.id.action_homeFragment_to_RFQTeamListFragment)
-            }
+              //  var  lists = List(4) { module.forms }.flatten() // for testing
 
-            /* Field Verification */
-            if (form.formCd == "FIELD_VERIFICATION_FORM") {
-                findNavController().navigate(R.id.action_homeFragment_to_fieldVerificationFragment)
-            }
+                // Set up nested form adapter
+                val formAdapter = BaseRecyclerAdapter(
+                    items = module.forms, //lists,
+                    bindingInflater = ItemFormBinding::inflate,
+                    onBind = { form, formBinding, _ ->
+                        formBinding.tvFormName.text = form.formName
+                    },
+                    onItemClick = { form, _ ->
+                        handleFormClick(form)
+                    }
+                )
 
-        }
+                binding.rvForms.apply {
+                    layoutManager = LinearLayoutManager(binding.root.context)
+                    adapter = formAdapter
+                }
 
-        // Setup RecyclerView with adapter
+                // Apply expand/collapse state
+                val isExpanded = position == expandedPosition
+                updateExpansionUI(binding, isExpanded)
+
+                // Handle module click
+                binding.root.setOnClickListener {
+                    toggleExpand(position)
+                    adapter.notifyDataSetChanged()
+                }
+            },
+            diffChecker = { old, new -> old.id == new.id },
+             recyclerViewParent = binding.container,
+             noDataTitle = "No modules available for your account",
+             noDataDescription = ""
+        )
         binding.rvModules.layoutManager = LinearLayoutManager(requireContext())
         binding.rvModules.adapter = adapter
 
-        observeViewModel()
-
-        val modulesRequest = ModulesRequest(
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME
-
-        )
-        val token = AppUtil.getSavedTokenPreference(requireContext())
-        Log.d("HomeFragment", "Using token: $token")
-
-        // Trigger data fetch with token
-        viewModel.fetch(
-            modulesRequest,
-            "Bearer ${AppUtil.getSavedTokenPreference(requireContext())}"
-        )
-        showProgressBar()
+//        adapter = ModuleAdapter(emptyList()) { form: Form ->
+//            handleFormClick(form)
+//        }
+//
+//        binding.rvModules.apply {
+//            layoutManager = LinearLayoutManager(requireContext())
+//            adapter = this@HomeFragment.adapter
+//        }
     }
+
+    private fun handleFormClick(form: Form) {
+        when (form.formCd) {
+            "TRAINING_CENTER_APP" ->
+                navigate(R.id.action_homeFragment_to_centerFragment)
+
+            "RESIDENTIAL_FACILITY_FORM" ->
+                navigate(R.id.action_homeFragment_to_rfCenterFragment)
+
+            "TRAINING_CENTER_VERIFICATION" ->
+                navigate(R.id.action_homeFragment_to_QTeamListFragment)
+
+            "TRAINING_CENTERS_VERIFICATION_SRLM" ->
+                navigate(R.id.action_homeFragment_to_srlmVerListFragment)
+
+            "RESIDENTIAL_FACILITY_FORM_SRLM" ->
+                navigate(R.id.action_homeFragment_to_RFSrlmListFragment)
+
+            "RESIDENTIAL_FACILITY_FORM_QTEAM" ->
+                navigate(R.id.action_homeFragment_to_RFQTeamListFragment)
+
+            "FIELD_VERIFICATION_FORM" ->
+                navigate(R.id.action_homeFragment_to_fieldVerificationFragment)
+        }
+    }
+
+    private fun navigate(id: Int) {
+        findNavController().navigate(id)
+    }
+
+    // ------------------- API & Observers ------------------------
+
+    private fun fetchModules() {
+        val loginId = AppUtil.getSavedLoginIdPreference(requireContext())
+        val token = AppUtil.getSavedTokenPreference(requireContext())
+
+        val request = ModulesRequest(
+            loginId = loginId,
+            appVersion = BuildConfig.VERSION_NAME
+        )
+
+        Log.d("HomeFragment", "Using token: $token")
+        dismissProgressDialog()
+        viewModel.fetch(request, "Bearer $token")
+    }
+
     private fun observeViewModel() {
         viewModel.modules.observe(viewLifecycleOwner) { response ->
-            response.onSuccess {
-                hideProgressBar()
+            response.onSuccess { result ->
+                dismissProgressDialog()
 
+                handleApiResponse(responseCode = result.responseCode,
+                    result.wrappedList,
+                    onSuccess = {
+               // val updated = emptyList<Module>() // for testing
+                        val updated = result.wrappedList?.map { module ->
+                    module.isExpanded = false
+                    module
+                    } ?: emptyList()
+                     adapter.update(updated)
+                        adapter.notifyDataSetChanged()
 
-                when (it.responseCode) {
-
-                    200 -> {
-                        // Initialize modules as collapsed (optional)
-                        val collapsedModules = it.wrappedList?.map { module ->
-                            module.isExpanded = false
-                            module
-                        } ?: emptyList()
-                        adapter.updateData(collapsedModules)
-
-                    }
-
-                    401 -> {
-                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-
-                    }
-                }
-
+                        if (updated.isEmpty()) {
+                            showToast("No modules available for your account")
+                        }
+                 },
+                    onSessionExpired = { AppUtil.showSessionExpiredDialog(findNavController(), requireContext())},
+                )
             }
-            response.onFailure {
 
-                hideProgressBar()
+            response.onFailure {
+                dismissProgressDialog()
                 if (it is retrofit2.HttpException && it.code() == 401) {
                     AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+
                 Toast.makeText(
                     requireContext(),
-                    "Something went wrong try again",
+                    "Something went wrong. Try again.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -199,30 +262,23 @@ class HomeFragment : Fragment() {
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
-
-
-/*
-        viewModel.sessionExpired.observe(viewLifecycleOwner){ expired ->
-            if (expired){
-                Log.d("homeFragment","sessionexpired")
-                AppUtil.showSessionExpiredDialog(findNavController(),requireContext())
-            }
-        }
-*/
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-    fun showProgressBar() {
-        if (context != null && isAdded && progress?.isShowing == false) {
-            progress?.show()
-        }
     }
 
-    fun hideProgressBar() {
-        if (progress?.isShowing == true) {
-            progress?.dismiss()
+    override fun initializeViews() {
+        setupNavHeader()
+        setupViewModel()
         }
+
+    override fun setupObservers() {
+        observeViewModel()
+    }
+
+    override fun setupClickListeners() {
+        setupDrawerClicks()
+    }
+
+    override fun loadInitialData() {
+        fetchModules()
+        setupRecycler()
     }
 }

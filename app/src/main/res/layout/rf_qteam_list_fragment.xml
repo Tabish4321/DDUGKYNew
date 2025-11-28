@@ -21,14 +21,16 @@
             android:id="@+id/backButton"
             android:layout_marginStart="@dimen/dp_20"
             android:padding="@dimen/dp_5"
+            android:fontFamily="@font/avenir_next_semi_bold"
             android:scaleType="fitCenter"
             android:src="@drawable/back_arrow"/>
         <TextView
-            android:layout_width="@dimen/dp_100"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/residential_facility_q_team"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp_16"/>
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:textSize="@dimen/sp_18"/>
 
         <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="150dp"
@@ -38,9 +40,8 @@
             android:padding="@dimen/dp_5"
             android:scaleType="fitCenter"
             android:src="@drawable/ddy_logo"
-            app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
-
-
+            app:shapeAppearanceOverlay="@style/CustomRectangleShape"
+            android:visibility="gone" />
 
     </androidx.appcompat.widget.Toolbar>
 

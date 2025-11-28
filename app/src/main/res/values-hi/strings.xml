@@ -1,0 +1,871 @@
+<resources>
+
+
+    <string name="training_center_info">प्रशिक्षण केंद्र की जानकारी</string>
+    <string name="hint_distance_bus_stand">एक प्रमुख बस स्टैंड से अनुमानित दूरी (मीटर में)</string>
+    <string name="hint_distance_auto_stand">एक ऑटो स्टैंड से अनुमानित दूरी (मीटर में)</string>
+    <string name="hint_distance_railway_station">एक रेलवे स्टेशन से अनुमानित दूरी (मीटर में)</string>
+    <string name="hint_latitude">अक्षांश</string>
+    <string name="hint_longitude">देशांतर</string>
+
+    <string name="title_ip_enabled_camera">आईपी सक्षम कैमरा</string>
+    <string name="label_ip_enabled">आईपी सक्षम</string>
+    <string name="label_resolution">रिज़ॉल्यूशन - 1080p HD @ 25 FPS या बेहतर</string>
+    <string name="label_video_stream">वीडियो स्ट्रीम - डुअल H.264 या बेहतर</string>
+    <string name="label_remote_browser">रिमोट एक्सेस - कॉन्फ़िगरेशन, व्यूइंग और कंट्रोल के लिए वेब ब्राउज़र के माध्यम से</string>
+    <string name="label_simultaneous_access">रिमोट एक्सेस - न्यूनतम 10 उपयोगकर्ताओं को एक साथ</string>
+    <string name="label_supported_protocols">समर्थित प्रोटोकॉल - IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP आदि।</string>
+    <string name="label_color_video_audio">ऑडियो के साथ रंगीन वीडियो</string>
+    <string name="label_storage_facility">परियोजना बंद होने तक रिकॉर्डिंग रखने की भंडारण सुविधा</string>
+    <string name="label_monitor_accessible">सेंटर इंचार्ज के लिए सुलभ सेंट्रल मॉनिटर</string>
+    <string name="btn_click_photo">फोटो क्लिक करें</string>
+    <string name="label_conformance">एसओपी के अध्याय 5 के अनुसार डीडीयू-जीकेवाई के अनुरूप सीसीटीवी</string>
+    <string name="label_storage_recording">सीसीटीवी रिकॉर्डेड सामग्री का भंडारण</string>
+    <string name="label_dvr_static_ip">SF 5.2B के अनुसार कार्यरत स्टेटिक आईपी से जुड़ा DVR</string>
+    <string name="btn_submit_cctv">जमा करें</string>
+
+
+    <string name="toilets_wash_basins_section_title">शौचालय और वॉश बेसिन</string>
+    <string name="male_toilets">पुरुष शौचालय (संख्या में)</string>
+    <string name="proof_male_toilets">पुरुष शौचालय का प्रमाण</string>
+    <string name="proof_male_toilets_signage">पुरुष शौचालय साइनेज का प्रमाण</string>
+    <string name="female_toilets">महिला शौचालय (संख्या में)</string>
+    <string name="proof_female_toilets">महिला शौचालय का प्रमाण</string>
+    <string name="proof_female_toilets_signage">महिला शौचालय साइनेज का प्रमाण</string>
+    <string name="male_urinals">पुरुष यूरिनल (संख्या में)</string>
+    <string name="proof_male_urinals">पुरुष यूरिनल का प्रमाण</string>
+    <string name="male_wash_basins">पुरुष वॉश बेसिन (संख्या में)</string>
+    <string name="proof_male_wash_basins">पुरुष वॉश बेसिन का प्रमाण</string>
+    <string name="female_wash_basins">महिला वॉश बेसिन (संख्या में)</string>
+    <string name="proof_female_wash_basins">महिला वॉश बेसिन का प्रमाण</string>
+    <string name="proof_overhead_tanks">ओवरहेड टैंक का प्रमाण</string>
+    <string name="proof_flooring">फ्लोरिंग का प्रमाण</string>
+    <string name="upload">अपलोड</string>
+    <string name="submit_toilet_wash_basin">जमा करें</string>
+
+
+    <!-- Section Header -->
+
+    <!-- TextInput Hints -->
+
+    <string name="length">लंबाई</string>
+    <string name="width">चौड़ाई</string>
+    <string name="area">क्षेत्र</string>
+    <string name="fans">पंखे</string>
+    <string name="circulation_area_hint">सर्कुलेशन क्षेत्र (वर्ग फुट में)</string>
+    <string name="open_space_hint">लोगों के इकट्ठा होने और बातचीत करने के लिए खुली जगह (वर्ग फुट में)</string>
+    <string name="exclusive_parking_space_hint">विशेष पार्किंग स्थान (साइकिल पार्किंग स्लॉट की संख्या)</string>
+
+    <!-- Section Titles -->
+    <string name="proof_upload">प्रमाण अपलोड</string>
+    <string name="circulation_area_title">सर्कुलेशन क्षेत्र (वर्ग फुट में)</string>
+    <string name="circulation_proof_upload">सर्कुलेशन क्षेत्र प्रमाण अपलोड</string>
+    <string name="open_space_proof_upload">खुली जगह प्रमाण अपलोड</string>
+    <string name="parking_space_proof_upload">पार्किंग स्थान प्रमाण अपलोड</string>
+
+    <!-- Button Labels -->
+    <string name="upload_proof">प्रमाण अपलोड करें</string>
+    <string name="upload_circulation_proof">सर्कुलेशन प्रमाण अपलोड करें</string>
+    <string name="upload_open_space_proof">खुली जगह प्रमाण अपलोड करें</string>
+    <string name="upload_parking_proof">पार्किंग प्रमाण अपलोड करें</string>
+
+
+    <string name="app_name">डीडीयूजीकेवाई</string>
+    <string name="hello_blank_fragment">हैलो ब्लैंक फ्रैगमेंट</string>
+    <string name="electrical_wiring_title">इलेक्ट्रिकल वायरिंग और मानक</string>
+    <string name="securing_of_wires">तारों की सुरक्षा</string>
+    <string name="switch_boards_panel_boards">स्विच बोर्ड और पैनल बोर्ड</string>
+    <string name="upload_photos">फोटो अपलोड करें</string>
+
+    <string name="general_details_title">सामान्य विवरण</string>
+    <string name="leakage_check_title">दीवारों और छत से लीकेज के दृश्य संकेत (आरसीसी और गैर-आरसीसी)</string>
+    <string name="upload_photos_general">फोटो अपलोड करें</string>
+    <string name="protection_of_stairs_title">सीढ़ियों, बालकनी और अन्य स्थानों की सुरक्षा</string>
+    <string name="ddu_look_and_feel_title">डीडीयू-जीकेवाई लुक और फील मानकों का अनुपालन (4.2.1)</string>
+    <string name="candidate_safety_title">क्या उम्मीदवार सुरक्षित रूप से केंद्र पर आ सकते हैं जब प्रशिक्षण आयोजित किया जाता है</string>
+
+    <string name="signages_info_boards_title">साइनेज और सूचना बोर्ड</string>
+    <string name="training_centre_name_board">प्रशिक्षण केंद्र नाम बोर्ड (SF-4.2B)</string>
+    <string name="activity_summary_board">गतिविधि सारांश और उपलब्धि बोर्ड (SF-4.2D)</string>
+    <string name="entitlement_responsibilities_board">छात्र हकदारी और जिम्मेदारियां बोर्ड (SF-4.2M)</string>
+    <string name="important_contacts_board">महत्वपूर्ण लोगों का संपर्क विवरण (SF-4.2E)</string>
+    <string name="basic_info_board">प्रशिक्षण केंद्र पर बुनियादी सूचना बोर्ड (SF-4.2G)</string>
+    <string name="code_of_conduct_board">उम्मीदवारों के लिए आचार संहिता बोर्ड (SF-4.2J)</string>
+    <string name="attendance_summary_board">छात्र उपस्थिति और हकदारी सारांश सूचना बोर्ड (SF-4.2N)</string>
+
+
+    <string name="common_equipment_title">सामान्य उपकरण</string>
+    <string name="electrical_power_backup">इलेक्ट्रिकल पावर बैकअप</string>
+    <string name="biometric_devices_installation">बायोमेट्रिक डिवाइस की स्थापना</string>
+    <string name="enter_details_hint">विवरण दर्ज करें</string>
+    <string name="cctv_monitor_installation">सीसीटीवी मॉनिटर की स्थापना</string>
+    <string name="document_storage_place">दस्तावेजों को सुरक्षित रखने का भंडारण स्थान</string>
+    <string name="printer_scanner_quantity">प्रिंटर कम स्कैनर (संख्या में)</string>
+    <string name="digital_camera_quantity">डिजिटल कैमरा (संख्या में)</string>
+    <string name="grievance_register">शिकायत रजिस्टर</string>
+    <string name="minimum_equipment_sf_5_1p">SF 5.1P के अनुसार न्यूनतम उपकरण</string>
+    <string name="direction_boards">दिशा बोर्ड</string>
+
+
+    <string name="theory_classroom_title">सिद्धांत कक्षा कक्ष विवरण</string>
+    <string name="room_number_label">कक्ष संख्या</string>
+    <string name="room_number_hint">कक्ष संख्या दर्ज करें</string>
+    <string name="room_allocation_type_label">कक्ष आवंटन प्रकार</string>
+    <string name="length_label">लंबाई (वर्ग फुट में)</string>
+    <string name="length_hint">वर्ग फुट में लंबाई दर्ज करें</string>
+    <string name="width_label">चौड़ाई (वर्ग फुट में)</string>
+    <string name="width_hint">वर्ग फुट में चौड़ाई दर्ज करें</string>
+    <string name="area_label">क्षेत्र (वर्ग फुट में)</string>
+    <string name="area_hint">क्षेत्र दर्ज करें या ऑटो-कैलकुलेट</string>
+    <string name="max_candidates_label">अधिकतम अनुमत उम्मीदवार</string>
+    <string name="max_candidates_hint">उम्मीदवारों की अधिकतम संख्या दर्ज करें</string>
+    <string name="roof_type_label">छत का प्रकार</string>
+    <string name="false_ceiling_label">झूठी छत प्रदान की गई?</string>
+    <string name="ceiling_height_label">छत की ऊंचाई (फुट में)</string>
+    <string name="ceiling_height_hint">फुट में छत की ऊंचाई दर्ज करें</string>
+    <string name="ventilation_area_label">वेंटिलेशन क्षेत्र (वर्ग फुट में)</string>
+    <string name="ventilation_area_hint">वेंटिलेशन क्षेत्र दर्ज करें</string>
+    <string name="sound_specification_label">विनिर्देशों के अनुसार ध्वनि स्तर</string>
+    <string name="sound_db_label">ध्वनि स्तर (dB में)</string>
+    <string name="sound_db_hint">dB स्तर दर्ज करें</string>
+    <string name="upload_photos_theory_classroom">फोटो अपलोड करें</string>
+
+
+    <string name="trainers_section_title">उपलब्ध ट्रेनर और अन्य स्टाफ</string>
+    <string name="profile_type_label">प्रोफाइल प्रकार</string>
+    <string name="trainer_name_label">ट्रेनर/स्टाफ नाम</string>
+    <string name="designation_label">पदनाम</string>
+    <string name="engagement_type_label">सगाई प्रकार</string>
+    <string name="domain_type_label">डोमेन/गैर-डोमेन</string>
+    <string name="assigned_courses_label">आवंटित कोर्स</string>
+    <string name="tot_certified_label">क्या TOT प्रमाणित?</string>
+    <string name="tot_certification_number_label">TOT प्रमाणन संख्या</string>
+    <string name="tot_certification_number_hint">प्रमाणन संख्या दर्ज करें</string>
+
+
+    <string name="cctv_section_title">आईपी सक्षम कैमरा</string>
+    <string name="ip_enabled_label">आईपी सक्षम</string>
+    <string name="resolution_label">रिज़ॉल्यूशन - 1080p HD @ 25 FPS या बेहतर</string>
+    <string name="video_stream_label">वीडियो स्ट्रीम - डुअल H.264 या बेहतर</string>
+    <string name="remote_access_browser_label">रिमोट एक्सेस - कॉन्फ़िगरेशन, व्यूइंग और नियंत्रण के लिए वेब ब्राउज़र के माध्यम से</string>
+    <string name="remote_access_simultaneous_label">रिमोट एक्सेस - किसी भी समय न्यूनतम 10 उपयोगकर्ताओं को एक साथ एक्सेस</string>
+    <string name="supported_protocols_label">समर्थित प्रोटोकॉल - रीयल-टाइम लाइव मॉनिटरिंग और रिकॉर्डिंग के लिए सिस्टम डिज़ाइन के अनुसार IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP आदि।</string>
+    <string name="color_video_audio_label">ऑडियो के साथ रंगीन वीडियो</string>
+    <string name="storage_facility_label">परियोजना बंद होने तक पूर्ण रिकॉर्डिंग रखने की भंडारण सुविधा</string>
+    <string name="monitor_accessible_label">सेंटर इंचार्ज के लिए सेंट्रल मॉनिटर आसानी से सुलभ है</string>
+    <string name="click_photo">फोटो क्लिक करें</string>
+    <string name="conformance_label">एसओपी के अध्याय 5 में दिए अनुसार डीडीयू-जीकेवाई के अनुरूप सीसीटीवी</string>
+    <string name="storage_recorded_material_label">सीसीटीवी रिकॉर्डेड सामग्री का भंडारण</string>
+    <string name="dvr_static_ip_label">SF 5.2B के अनुसार कार्यरत स्टेटिक आईपी से जुड़ा DVR</string>
+    <string name="submit_button">जमा करें</string>
+
+
+    <string name="infrastructure_section_title">इंफ्रास्ट्रक्चर</string>
+    <string name="ownership_building_label">भवन का स्वामित्व (स्वयं / किराया / सरकारी)</string>
+    <string name="area_building_label">भवन का क्षेत्र (वर्ग फुट)</string>
+    <string name="roof_building_label">भवन की छत</string>
+    <string name="structurally_sound_label">यदि गैर-आरसीसी, तो दृश्य निरीक्षण पर संरचनात्मक रूप से मजबूत?</string>
+    <string name="plastering_painting_label">आंतरिक/बाहरी दीवारों और छत की प्लास्टरिंग और पेंटिंग</string>
+    <string name="upload_declaration_label">स्व-घोषणा पत्र अपलोड करें</string>
+    <string name="choose_file_button">फाइल चुनें</string>
+    <string name="upload_building_plan_label">स्कीमैटिक भवन योजना अपलोड करें</string>
+    <string name="upload_roof_photos_label">भवन, छत, छत की फोटो अपलोड करें (PDF)</string>
+    <string name="upload_wall_photos_label">आंतरिक और बाहरी दीवारों की फोटो अपलोड करें (PDF)</string>
+    <string name="choose_pdf_button">PDF चुनें</string>
+
+
+    <string name="tc_basic_info_title">प्रशिक्षण केंद्र की जानकारी</string>
+    <string name="scheme_name_label">योजना नाम</string>
+    <string name="project_state_label">परियोजना राज्य</string>
+    <string name="sanction_order_no_label">स्वीकृति आदेश संख्या</string>
+    <string name="training_centre_name_hint">प्रशिक्षण केंद्र का नाम</string>
+    <string name="nature_training_centre_label">प्रशिक्षण केंद्र की प्रकृति</string>
+    <string name="type_of_area_label">क्षेत्र का प्रकार</string>
+    <string name="address_type_label">पता प्रकार</string>
+    <string name="house_no_hint">मकान संख्या/ भवन संख्या/ अपार्टमेंट संख्या</string>
+    <string name="street_road_lane_hint">सड़क/ रोड/ लेन</string>
+    <string name="area_locality_sector_hint">क्षेत्र/ इलाका/ सेक्टर</string>
+    <string name="landmark_hint">लैंडमार्क</string>
+    <string name="state_ut_tc_label">राज्य/केंद्रशासित प्रदेश (TC)</string>
+    <string name="district_tc_label">जिला (TC)</string>
+    <string name="block_label">ब्लॉक</string>
+    <string name="gram_panchayat_label">ग्राम पंचायत</string>
+    <string name="village_ward_no_hint">गांव/वार्ड संख्या</string>
+    <string name="police_station_hint">पुलिस स्टेशन</string>
+    <string name="pincode_hint">पिनकोड</string>
+    <string name="mobile_no_hint">मोबाइल संख्या</string>
+    <string name="phone_std_code_hint">STD कोड के साथ प्रशिक्षण केंद्र फोन संख्या</string>
+    <string name="email_id_hint">ईमेल आईडी</string>
+    <string name="centre_incharge_details_label">केंद्र इंचार्ज विवरण</string>
+
+
+    <string-array name="academic_room_types">
+        <item>कक्ष प्रकार चुनें</item>
+        <item>आईटी लैब</item>
+        <item>ऑफिस कम काउंसलिंग रूम</item>
+        <item>ऑफिस रूम</item>
+        <item>आईटी कम डोमेन लैब</item>
+        <item>सिद्धांत कम आईटी लैब</item>
+        <item>सिद्धांत कम डोमेन लैब</item>
+        <item>डोमेन लैब</item>
+        <item>सिद्धांत कक्षा कक्ष</item>
+    </string-array>
+
+
+    <string name="training_list">प्रशिक्षण सूची</string>
+    <string name="training_center_address">प्रशिक्षण केंद्र पता</string>
+    <string name="training_center_name">प्रशिक्षण केंद्र नाम</string>
+
+    <string name="sanction_order">स्वीकृति आदेश</string>
+    <string name="district_name">जिला नाम</string>
+    <string name="center_name">केंद्र नाम</string>
+    <string name="sanction_order_no">स्वीकृति आदेश संख्या</string>
+    <string name="type_of_training_center">प्रशिक्षण केंद्र का प्रकार</string>
+    <string name="nature_of_training_center">प्रशिक्षण केंद्र की प्रकृति</string>
+    <string name="special_area">विशेष क्षेत्र</string>
+    <string name="training_center_email">प्रशिक्षण केंद्र ईमेल</string>
+    <string name="center123_gmail_com">center123@gmail.com</string>
+    <string name="training_center_mobile">प्रशिक्षण केंद्र मोबाइल</string>
+    <string name="training_center_landline">प्रशिक्षण केंद्र लैंडलाइन (STD कोड के साथ)</string>
+    <string name="mobile_number_value">+91-9876543210</string>
+    <string name="landline_number_value">011-23456789</string>
+    <string name="parliamentary_constituency">संसदीय निर्वाचन क्षेत्र</string>
+    <string name="assembly_constituency">विधानसभा निर्वाचन क्षेत्र</string>
+    <string name="parliamentary_constituency_value">नई दिल्ली</string>
+    <string name="assembly_constituency_value">राजीव चौक</string>
+    <string name="training_center_infrastructure">प्रशिक्षण केंद्र इंफ्रास्ट्रक्चर</string>
+    <string name="training_center_information">प्रशिक्षण केंद्र की जानकारी</string>
+    <string name="center_incharge">केंद्र इंचार्ज</string>
+    <string name="center_incharge_value">इंचार्ज नाम</string>
+    <string name="center_incharge_mobile">केंद्र इंचार्ज मोबाइल संख्या</string>
+    <string name="center_incharge_mobile_value">+919876543210</string>
+    <string name="center_incharge_email">केंद्र इंचार्ज ईमेल आईडी</string>
+    <string name="center_incharge_email_value">Inchare@example.com</string>
+    <string name="trainers_and_other_staffs">ट्रेनर और अन्य स्टाफ</string>
+    <string name="view"><u>देखें</u></string>
+    <string name="profile_type">प्रोफाइल प्रकार</string>
+    <string name="trainer_staff_name">ट्रेनर/स्टाफ नाम</string>
+    <string name="designation">पदनाम</string>
+    <string name="engagement_type">सगाई प्रकार</string>
+    <string name="domain_non_domain">डोमेन / गैर-डोमेन</string>
+    <string name="assigned_course">आवंटित कोर्स</string>
+    <string name="whether_tot_certificate">क्या TOT प्रमाणपत्र</string>
+    <string name="tot_certificate_no">TOT प्रमाणपत्र संख्या</string>
+    <string name="scheme_name">योजना नाम</string>
+    <string name="project_state">परियोजना राज्य</string>
+    <string name="type_of_area">पता प्रकार</string>
+    <string name="bus">एक प्रमुख बस स्टैंड से अनुमानित दूरी (मीटर में)</string>
+    <string name="auto">एक ऑटो स्टैंड से अनुमानित दूरी (मीटर में)</string>
+    <string name="Railway">एक रेलवे स्टेशन से अनुमानित दूरी (मीटर में)</string>
+    <string name="latitude_and_longitude">अक्षांश और देशांतर</string>
+    <string name="select_approval">स्वीकृति चुनें</string>
+    <string name="remarks">टिप्पणियां</string>
+    <string name="select_approvals">स्वीकृति चुनें<font color='#FF0000'>*</font></string>
+    <string name="remarkss">टिप्पणियां<font color='#FF0000'>*</font></string>
+    <string name="save_and_next">सहेजें और अगला</string>
+    <string name="ownership_of_building">भवन का स्वामित्व</string>
+    <string name="area_of_the_building_sq_ft">भवन का क्षेत्र (वर्ग फुट)</string>
+    <string name="roof_of_the_building">भवन की छत</string>
+    <string name="plastering_painting_internal_external">प्लास्टरिंग पेंटिंग (आंतरिक बाहरी)</string>
+    <string name="self_declaration_statement_pdf">स्व-घोषणा पत्र (PDF)</string>
+    <string name="photos_of_building_ceiling_and_roof_pdf">भवन, छत और छत की फोटो (PDF)</string>
+    <string name="schematic_building_plan_pdf">स्कीमैटिक भवन योजना (PDF)</string>
+    <string name="photos_of_internal_external_walls_and_ceiling_pdf">आंतरिक/बाहरी दीवारों और छत की फोटो (PDF)</string>
+    <string name="previous">पिछला</string>
+    <string name="type_of_roof">छत का प्रकार</string>
+    <string name="n_a">एन/ए</string>
+    <string name="false_ceiling_provided">झूठी छत प्रदान की गई</string>
+    <string name="height_of_ceiling_in_ft">छत की ऊंचाई (फुट में)</string>
+    <string name="sound_level_in_db">ध्वनि स्तर (dB में)</string>
+    <string name="ventilation_area_in_sq_ft">वेंटिलेशन क्षेत्र (वर्ग फुट में)</string>
+    <string name="whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning">क्या सभी शैक्षणिक केंद्रों को एयर कंडीशनिंग के साथ साउंड प्रूफ किया गया है</string>
+    <string name="internal_signage">आंतरिक साइनेज</string>
+    <string name="academic_room_information_board">शैक्षणिक कक्ष सूचना बोर्ड</string>
+    <string name="lan_enabled_computers_in_no">LAN सक्षम कंप्यूटर (संख्या में)</string>
+    <string name="cctv_cameras_with_audio_facility">ऑडियो सुविधा के साथ सीसीटीवी कैमरा</string>
+    <string name="internet_connections">इंटरनेट कनेक्शन</string>
+    <string name="do_all_computers_have_typing_tutor">क्या सभी कंप्यूटरों में टाइपिंग ट्यूटर है</string>
+    <string name="tablets_in_no">टैबलेट (संख्या में)</string>
+    <string name="stools_chairs_in_no">स्टूल/कुर्सियां (संख्या में)</string>
+    <string name="trainer_chair">ट्रेनर कुर्सी</string>
+    <string name="trainer_table">ट्रेनर टेबल</string>
+    <string name="lights_in_no">लाइट (संख्या में)</string>
+    <string name="electrical_power_backup_for_the_room">कक्ष के लिए इलेक्ट्रिकल पावर बैकअप</string>
+    <string name="fans_in_no">पंखे (संख्या में)</string>
+    <string name="it_lab_photograph">आईटी लैब फोटोग्राफ</string>
+    <string name="does_the_room_have_air_conditioning">क्या कक्ष में एयर कंडीशनिंग है?</string>
+    <string name="office_room_photograph">ऑफिस रूम फोटोग्राफ</string>
+    <string name="storage_place_for_securing_documents">दस्तावेजों को सुरक्षित रखने का भंडारण स्थान</string>
+    <string name="an_office_table_in_no">एक ऑफिस टेबल (संख्या में)</string>
+    <string name="digital_camera_in_no">डिजिटल कैमरा (संख्या में)</string>
+    <string name="printer_cum_scanner_in_no">प्रिंटर कम स्कैनर (संख्या में)</string>
+    <string name="table_for_office_computer">ऑफिस कंप्यूटर के लिए टेबल</string>
+    <string name="chairs_in_no">कुर्सियां (संख्या में)</string>
+    <string name="reception_area_photogragh">रिसेप्शन क्षेत्र फोटोग्राफ</string>
+    <string name="counselling_area_photograph">काउंसलिंग क्षेत्र फोटोग्राफ</string>
+    <string name="counselling_room">काउंसलिंग रूम</string>
+    <string name="reception_area">रिसेप्शन क्षेत्र</string>
+    <string name="training_center_verification">प्रशिक्षण केंद्र सत्यापन</string>
+    <string name="it_lab">आईटी लैब</string>
+    <string name="office_cum_counselling_room">ऑफिस कम काउंसलिंग रूम</string>
+    <string name="office_room">ऑफिस रूम</string>
+    <string name="it_cum_domain_lab_photogragh">आईटी कम डोमेन लैब फोटोग्राफ</string>
+    <string name="theory_cum_domain_lab_photogragh">सिद्धांत कम डोमेन लैब फोटोग्राफ</string>
+    <string name="theory_cum_it_lab_photogragh">सिद्धांत कम आईटी लैब फोटोग्राफ</string>
+    <string name="list_of_domain_related_equip">प्रमाणन एजेंसी द्वारा दिए गए विनिर्देशों के अनुसार डोमेन संबंधित उपकरणों की सूची (संख्या में)</string>
+    <string name="it_cum_domain_lab">आईटी कम डोमेन लैब</string>
+    <string name="theory_cum_it_lab">सिद्धांत कम आईटी लैब</string>
+    <string name="theory_cum_domain_lab">सिद्धांत कम डोमेन लैब</string>
+    <string name="domain_lab">डोमेन लैब</string>
+    <string name="lcd_digital_projector">एलसीडी/डिजिटल प्रोजेक्टर</string>
+    <string name="chair_for_candidates_in_no">उम्मीदवारों के लिए कुर्सी (संख्या में)</string>
+    <string name="writing_board">लेखन बोर्ड</string>
+    <string name="domain_lab_photogragh">डोमेन लैब फोटोग्राफ</string>
+    <string name="theory_class_room">सिद्धांत कक्षा कक्ष</string>
+    <string name="theory_class_room_photograph">सिद्धांत कक्षा कक्ष फोटोग्राफ</string>
+    <string name="description_of_academic_non_academic_areas">शैक्षणिक/गैर-शैक्षणिक क्षेत्रों का विवरण</string>
+    <string name="toilets_and_wash_basins">शौचालय और वॉश बेसिन</string>
+    <string name="male_toilets_in_no">पुरुष शौचालय (संख्या में)</string>
+    <string name="female_toilets_in_no">महिला शौचालय (संख्या में)</string>
+    <string name="proof_of_male_toilets_signage">पुरुष शौचालय साइनेज का प्रमाण</string>
+    <string name="proof_of_female_toilets_signage">महिला शौचालय साइनेज का प्रमाण</string>
+    <string name="male_urinals_in_no">पुरुष यूरिनल (संख्या में)</string>
+    <string name="male_wash_basins_in_no">पुरुष वॉश बेसिन (संख्या में)</string>
+    <string name="female_wash_basins_in_no">महिला वॉश बेसिन (संख्या में)</string>
+    <string name="overhead_tanks">ओवरहेड टैंक</string>
+    <string name="type_of_flooring">फ्लोरिंग का प्रकार</string>
+    <string name="description_of_other_areas">अन्य क्षेत्रों का विवरण</string>
+    <string name="corridor_no">कॉरिडोर संख्या</string>
+    <string name="length_in_ft">लंबाई (फुट में)</string>
+    <string name="width_in_ft">चौड़ाई (फुट में)</string>
+    <string name="area_in_sq_ft">क्षेत्र (वर्ग फुट में)</string>
+    <string name="lights">लाइट</string>
+    <string name="circulation_area_in_sq_ft">सर्कुलेशन क्षेत्र (वर्ग फुट में)</string>
+    <string name="open_space_for_people_to_gather_and_interact_in_sq_ft">लोगों के इकट्ठा होने और बातचीत करने के लिए खुली जगह (वर्ग फुट में)</string>
+    <string name="exclusive_parking_space_no_in_terms_of_bicycle_parking_slots">विशेष पार्किंग स्थान (साइकिल पार्किंग स्लॉट के संदर्भ में संख्या)</string>
+    <string name="availability_of_teaching_learning_materials">शिक्षण सीखने की सामग्री की उपलब्धता</string>
+    <string name="trade">ट्रेड</string>
+    <string name="nature_of_training_proposed">प्रस्तावित प्रशिक्षण की प्रकृति</string>
+    <string name="is_the_available_trades_as_per_project_execution_readiness_assessment_at_project_hq_s">क्या उपलब्ध ट्रेड प्रोजेक्ट एचक्यू पर प्रोजेक्ट एक्जीक्यूशन रेडीनेस असेसमेंट के अनुसार हैं?</string>
+    <string name="is_training_plan_available_as_per_sf_4_1a">क्या SF-4.1A के अनुसार प्रशिक्षण योजना उपलब्ध है?</string>
+    <string name="is_domain_curriculum_available_as_per_sf_4_2a">क्या SF 4.2A के अनुसार डोमेन पाठ्यक्रम उपलब्ध है?</string>
+    <string name="is_activity_cum_lesson_planner_available_as_per_sf_4_5a">क्या SF-4.5A के अनुसार गतिविधि-कम-पाठ योजना उपलब्ध है?</string>
+    <string name="is_welcome_kit_available_as_per_sf_5_1c2">क्या SF-5.1C2 के अनुसार वेलकम किट उपलब्ध है?</string>
+    <string name="name_of_certifying_agency">प्रमाणन एजेंसी का नाम</string>
+    <string name="assessment_material_availability">मूल्यांकन सामग्री उपलब्धता?</string>
+    <string name="general_details">सामान्य विवरण</string>
+    <string name="visible_signs_of_leakages_from_walls_and_roof_applicable_for_both_rcc_and_non_rcc_structures">दीवारों और छत से लीकेज के दृश्य संकेत - आरसीसी और गैर आरसीसी संरचनाओं दोनों के लिए लागू</string>
+    <string name="protection_of_stairs_balconies_and_other_locations">सीढ़ियों, बालकनी और अन्य स्थानों की सुरक्षा</string>
+    <string name="conformance_to_ddu_gky_look_and_feel_standards_as_per_sub_section_4_2_1">उप अनुभाग 4.2.1 के अनुसार डीडीयू-जीकेवाई लुक और फील मानकों का अनुपालन</string>
+    <string name="can_the_candidates_safely_come_to_the_centre_when_training_is_conducted">क्या उम्मीदवार सुरक्षित रूप से केंद्र पर आ सकते हैं जब प्रशिक्षण आयोजित किया जाता है</string>
+    <string name="electrical_wiring_and_standards">इलेक्ट्रिकल वायरिंग और मानक</string>
+    <string name="signages_and_information_boards">साइनेज और सूचना बोर्ड</string>
+    <string name="activity_summary_and_achievement_board_sf_4_2d">गतिविधि सारांश और उपलब्धि बोर्ड (SF-4.2D)</string>
+    <string name="training_centre_name_board_sf_4_2b">प्रशिक्षण केंद्र नाम बोर्ड (SF- 4.2B)</string>
+    <string name="code_of_conduct_board_for_candidates_sf_4_2j">उम्मीदवारों के लिए आचार संहिता बोर्ड (SF-4.2J)</string>
+    <string name="student_attendance_and_entitlement_summary_information_board_sf_4_2n">छात्र उपस्थिति और हकदारी सारांश सूचना बोर्ड (SF-4.2N)</string>
+    <string name="basic_information_board_at_training_centre_sf_4_2g">प्रशिक्षण केंद्र पर बुनियादी सूचना बोर्ड (SF-4.2G)</string>
+    <string name="contact_detail_of_important_people_sf_4_2e">महत्वपूर्ण लोगों का संपर्क विवरण (SF-4.2E)</string>
+    <string name="student_entitlement_board_and_responsibilities_board_sf_4_2m">छात्र हकदारी बोर्ड और जिम्मेदारियां बोर्ड (SF-4.2M)</string>
+    <string name="ip_enabled_camera">आईपी सक्षम कैमरा</string>
+    <string name="central_monitor_is_easily_accessible_to_centre_incharge">सेंटर इंचार्ज के लिए सेंट्रल मॉनिटर आसानी से सुलभ है</string>
+    <string name="conformance_of_cctv_to_ddu_gky_as_provided_in_chapter_5_of_sop">एसओपी के अध्याय 5 में दिए अनुसार डीडीयू-जीकेवाई के अनुरूप सीसीटीवी</string>
+    <string name="storage_of_the_cctv_recorded_material">सीसीटीवी रिकॉर्डेड सामग्री का भंडारण</string>
+    <string name="dvr_is_connected_to_working_static_ip_as_per_sf_5_2b">SF 5.2B के अनुसार कार्यरत स्टेटिक आईपी से जुड़ा DVR</string>
+    <string name="ip_enabled">आईपी सक्षम</string>
+    <string name="resolution_1080_hd_25_fps_or_better">रिज़ॉल्यूशन - 1080 HD @25 FPS या बेहतर</string>
+    <string name="video_stream_dual_h_264_or_better">वीडियो स्ट्रीम - डुअल H.264 या बेहतर</string>
+    <string name="remote_access_via_web_browser_for_configuration_viewing_and_control">रिमोट एक्सेस - कॉन्फ़िगरेशन, व्यूइंग और नियंत्रण के लिए वेब ब्राउज़र के माध्यम से</string>
+    <string name="storage_facility_to_keep_complete_recording_till_closure_of_project">परियोजना बंद होने तक पूर्ण रिकॉर्डिंग रखने की भंडारण सुविधा</string>
+    <string name="color_video_with_audio">ऑडियो के साथ रंगीन वीडियो</string>
+    <string name="supported_protocols_ipv4_http_tcp_rtsp_rtp_icmp_udp_dns_dhcp_etc">समर्थित प्रोटोकॉल - IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP, आदि।</string>
+    <string name="remote_access_simultaneous_access_at_minimum_10_users">रिमोट एक्सेस - न्यूनतम 10 उपयोगकर्ताओं को एक साथ एक्सेस</string>
+    <string name="common_equipment">सामान्य उपकरण</string>
+    <string name="safe_drinking_water">सुरक्षित पेयजल</string>
+    <string name="first_aid_kit">प्राथमिक उपचार किट</string>
+    <string name="fire_fighting_equipment">अग्निशमन उपकरण</string>
+    <string name="availability_of_support_infrastructure">समर्थन इंफ्रास्ट्रक्चर की उपलब्धता</string>
+    <string name="installation_of_biometric_devices">बायोमेट्रिक डिवाइस की स्थापना *</string>
+    <string name="installation_of_cctv_monitor">सीसीटीवी मॉनिटर की स्थापना</string>
+    <string name="minimum_equipment_as_per_sf_5_1p">SF 5.1P के अनुसार न्यूनतम उपकरण</string>
+    <string name="availability_of_standard_forms">मानक फॉर्म की उपलब्धता</string>
+    <string name="sf_4_1a_plan_of_training">SF 4.1A : Plan of Training</string>
+
+    <string name="sf_4_1c_activity_cum_lesson_planner">SF 4.1C : Activity Cum Lesson Planner</string>
+
+    <string name="sf_4_3h_on_the_job_training_plan">SF 4.3H : On the Job Training Plan for the Batch</string>
+
+    <string name="sf_4_5a_daily_distribution_of_tablets">SF 4.5A : Daily Distribution of Tablets</string>
+
+    <string name="sf_5_1a2_training_center_name_board">SF 4.2O: (Dully filled and signed form along with proofs)</string>
+
+    <string name="sf_5_1b1_activity_summary_and_achievement_board">SF 4.2P: (Dully filled and signed form along with proofs) if applicable</string>
+
+
+    <string name="sf_5_1b2_contact_details_of_important_people">SF 5.1B2 : Contact Details of Important People</string>
+    <!-- SF 5.1C1 – SF 5.1C3 -->
+    <string name="sf_5_1c1_student_entitlement_banner">SF 4.2N: Student Attendance and Entitlement Summary Information</string>
+    <string name="sf_5_1c2_welcome_kit_to_trainees">SF 5.1C2 : Welcome Kit to Trainees</string>
+    <string name="sf_5_1c3_first_aid_kit">SF 5.1C3 : First Aid Kit</string>
+
+    <!-- SF 5.1E1 – SF 5.1E2 -->
+    <string name="sf_5_1e1_summary_of_staff">SF 5.1E1 : Summary of Staff Deployed at the Training Centre</string>
+    <string name="sf_5_1e2_trainers_profile">SF 5.1E2 : Trainers Profile</string>
+
+    <!-- SF 5.1F – SF 5.1G2 -->
+    <string name="sf_5_1f_candidate_id_template">SF 5.1F : Candidate ID Template</string>
+    <string name="sf_5_1g1_index_of_candidate_dossier">SF 5.1G1 : Index of Individual Candidate Dossier</string>
+    <string name="sf_5_1g2_parents_consent_form">SF 5.1G2 : Parents Consent Form</string>
+
+    <!-- SF 5.1H1 – SF 5.1H2 -->
+    <string name="sf_5_1h1_batch_summary">SF 5.1H1 : Batch Summary as on Day of Batch Freezing</string>
+    <string name="sf_5_1h2_list_of_candidates">SF 5.1H2 : List of Candidates in the Batch and their Profile</string>
+
+    <!-- SF 5.1I – SF 5.1K -->
+    <string name="sf_5_1i_attendance_register_candidates">SF 5.1I : Attendance Registers for Candidates (as per Biometric)</string>
+    <string name="sf_5_1j_attendance_register_trainers">SF 5.1J : Attendance Registers for Trainers (as per Biometric)</string>
+    <string name="sf_5_1k_checklist_items_given">SF 5.1K : Checklist of Items Given to Candidates</string>
+
+    <!-- SF 5.1L1 – SF 5.1L2 -->
+    <string name="sf_5_1l1_candidate_feedback_form">SF 5.1L1 : Candidate Feedback Form</string>
+    <string name="sf_5_1l2_summary_feedback_candidates">SF 5.1L2 : Summary of the Feedback Given by the Candidates in SF 5.1L1 On Completion of Training Programme</string>
+
+    <!-- SF 5.1M – SF 5.1N -->
+    <string name="sf_5_1m_summary_evaluation_assessment">SF 5.1M : Summary of Evaluation and Assessment Done</string>
+    <string name="sf_5_1n_ta_da_calculation_record">SF 5.1N : TA/ DA Calculation Record (Batch Wise) To be Linked with Biometric Attendance</string>
+
+    <!-- SF 5.1O1 – SF 5.1O2 -->
+    <string name="sf_5_1o1_training_certificate">SF 5.1O1 : Training Certificate</string>
+    <string name="sf_5_1o2_training_completion_certificate">SF 5.1O2 : Training Completion Certificate Distribution Record</string>
+
+    <!-- SF 5.1P – SF 5.1Q -->
+    <string name="sf_5_1p_list_of_equipment_training_centre">SF 5.1P : List of Equipment in the Training Centre</string>
+    <string name="sf_5_1q_list_of_equipment_accommodation">SF 5.1Q : List of Equipment in the Trainees Accommodation Facilities (Applicable for Residential Training only)</string>
+
+    <!-- SF 5.1R – SF 5.1S -->
+    <string name="sf_5_1r_instructions_opening_hybrid_centres">SF 5.1R : Instructions for Opening Hybrid Training Centres</string>
+    <string name="sf_5_1s_bare_minimum_items">SF 5.1S : Bare Minimum Items to be Ensured to Start Training Pending CTSA/SRLM Due Diligence Visit</string>
+
+    <!-- SF 5.2A – SF 5.2B -->
+    <string name="sf_5_2a_training_centre_inspection">SF 5.2A : Training Centre Inspection</string>
+    <string name="sf_5_2b_cctv_specifications">SF 5.2B : CCTV- Specifications, Location and Recording, Review and Storage</string>
+
+    <!-- SF 5.3A -->
+    <string name="sf_5_3a_specification_of_uniform">SF 5.3A : Specification of Uniform</string>
+
+    <!-- SF 5.1F to SF 5.1O1 -->
+
+    <string name="sf_51f_candidate_id_template">SF 5.1F : Candidate ID Template</string>
+    <string name="sf_51g1_candidate_dossier_index">SF 5.1G1 : Index of Individual Candidate Dossier</string>
+    <string name="sf_51g2_parents_consent_form">SF 5.1G2 : Parents Consent Form</string>
+    <string name="sf_51h1_batch_summary"> SF 4.3B Batch freeze summary</string>
+    <string name="sf_51h2_candidates_list_profile">SF 5.1H2 : List of Candidates in the Batch and their Profile</string>
+    <string name="sf_51i_attendance_candidates">SF 5.1I : Attendance Registers for Candidates (as per Biometric)</string>
+    <string name="sf_51j_attendance_trainers">SF 5.1J : Attendance Registers for Trainers (as per Biometric)</string>
+    <string name="sf_51k_checklist_items_candidates">SF 5.1K : Checklist of Items Given to Candidates</string>
+    <string name="sf_51l1_candidate_feedback_form">SF 5.1L1 : Candidate Feedback Form</string>
+    <string name="sf_51l2_feedback_summary">SF 5.1L2 : Summary of the Feedback Given by the Candidates</string>
+    <string name="sf_51m_summary_evaluation_assessment">SF 5.1M : Summary of Evaluation and Assessment Done</string>
+    <string name="sf_51n_ta_da_record">SF 5.1N : TA/ DA Calculation Record (Batch Wise) To be Linked with Biometric Attendance</string>
+    <string name="sf_51o1_training_certificate">SF 5.1O1 : Training Certificate</string>
+    <string name="sf_5_3a_uniform_spec">SF 5.3A : Specification of Uniform</string>
+
+
+    <string name="sf_51o2_training_completion_certificate_distribution_record">SF 5.1O2 : Training Completion Certificate Distribution Record</string>
+    <string name="sf_51p_equipment_training_centre">SF 5.1P : List of Equipment in the Training Centre</string>
+    <string name="sf_51q_equipment_trainees_accommodation">SF 5.1Q : List of Equipment in the Trainees Accommodation Facilities (Applicable for Residential Training only)</string>
+    <string name="sf_51r_instructions_hybrid_training">SF 5.1R : Instructions for Opening Hybrid Training Centres</string>
+    <string name="sf_51s_bare_minimum_items">SF 5.1S : Bare Minimum Items to be Ensured to Start Training Pending CTSA/SRLM Due Diligence Visit</string>
+    <string name="sf_52a_training_centre_inspection">SF 5.2A : Training Centre Inspection</string>
+    <string name="sf_52b_cctv_specification">SF 5.2B : CCTV - Specifications, Location and Recording, Review and Storage</string>
+    <string name="sf_51o2_training_completion_certificate">SF 5.1O2 : Training Completion Certificate Distribution Record</string>
+    <string name="sf_51q_equipment_accommodation">SF 5.1Q : List of Equipment in the Trainees Accommodation Facilities (Applicable for Residential Training only)</string>
+    <string name="sf_51r_opening_hybrid_centres">SF 5.1R : Instructions for Opening Hybrid Training Centres</string>
+    <string name="sf_52b_cctv_specifications">SF 4.2AH: IP Enabled Camera</string>
+
+
+    <string name="sf_54a_assessment_certification">SF 5.4A : Assessment and Certification of Candidates</string>
+    <string name="sf_61a_letter_srlm_info_mobilization">SF 6.1A : Letter to SRLM Seeking Information on Mobilization Plan</string>
+    <string name="sf_61b_letter_from_srlm_mobilization">SF 6.1B : Letter from SRLM Regarding Mobilization Plan</string>
+    <string name="sf_61c_on_field_registration">SF 6.1C : On Field Registration of Candidates</string>
+    <string name="sf_62a1_overview_aptitude_test">SF 6.2A1 : Overview of Aptitude Test</string>
+    <string name="sf_62a2_counselling_content">SF 6.2A2 : Content for Counselling for Each Trade</string>
+    <string name="sf_62a3_candidate_application">SF 6.2A3 : Candidate Application Form</string>
+    <string name="sf_62a4_list_admitted_candidates">SF 6.2A4 : List of Candidates Who Were Enrolled</string>
+    <string name="sf_62b_final_batch_list">SF 6.2B : List of Candidates in the Final Batch</string>
+    <string name="sf_63a1_batch_details">SF 6.3A1 : Batch Details</string>
+    <string name="sf_63a2_batch_enrollment_summary">SF 6.3A2 : Batch Enrollment Summary</string>
+    <string name="sf_63a3_batch_freeze_summary">SF 6.3A3 : Batch Freeze Summary</string>
+    <string name="sf_63a4_batch_completion_summary">SF 6.3A4 : Batch Completion Summary</string>
+    <string name="sf_63a5_list_enrolled_candidates">SF 6.3A5 : List of Candidates Who Were Enrolled</string>
+    <string name="sf_51t_daily_failure_report">SF 5.1T : Daily Failure Items Report</string>
+
+    <string name="sf_51u_15days_summary_centre_status">SF 5.1U : 15 Days Summary of Centre Status</string>
+    <!-- SF 6.1A -->
+    <string name="sf_61a_letter_mobilization_plan">SF 6.1A : Letter to SRLM Seeking Information on Mobilization Plan</string>
+
+    <!-- SF 6.1B -->
+    <string name="sf_61b_letter_from_srlm">SF 6.1B : Letter from SRLM Regarding Mobilization Plan</string>
+
+    <!-- SF 6.2A3 -->
+    <string name="sf_62a3_candidate_application_form">SF 6.2A3 : Candidate Application Form</string>
+
+    <!-- SF 6.2B -->
+    <string name="sf_62b_list_final_batch">SF 6.2B : List of Candidates in the Final Batch</string>
+    <string name="sf_63a6_candidates_after_freezing">SF 6.3A6 : List of Candidates After Freezing of the Batch</string>
+    <string name="sf_63a7_candidates_after_completion">SF 6.3A7 : List of Candidates After Completion of Training of the Batch</string>
+    <!--    <string name="submit">Submit</string>-->
+    <string name="switch_boards_and_panel_boards">स्विच बोर्ड और पैनल बोर्ड</string>
+    <string name="storage_facility_to_keep_recording_till_project_closure">परियोजना बंद होने तक रिकॉर्डिंग रखने की भंडारण सुविधा</string>
+    <string name="central_monitor_accessible_to_centre_incharge">सेंटर इंचार्ज के लिए सुलभ सेंट्रल मॉनिटर</string>
+    <string name="sf_4_3n_performance_evaluation_plan_for_candidates">SF 4.3N Performance Evaluation Plan for Candidates</string>
+    <string name="sf_4_3o_performance_evaluation_plan_for_trainers">SF 4.3O Performance Evaluation Plan for Trainers</string>
+    <string name="sf_4_3d_list_of_candidates_after_freezing_of_the_batch">SF 4.3D List of candidates after freezing of the batch</string>
+
+
+    <!--    AJIT RANJAN PMAY-G-->
+    <string name="submit">जमा करें</string>
+    <string name="add_more">और जोड़ें</string>
+    <string name="does_the_room_has_air_conditioning">क्या कक्ष में एयर कंडीशनिंग है?</string>
+    <!--    <string name="it_lab_photograph">IT Lab Photogragh</string>-->
+    <string name="electrica_power_back_up_for_the_room">कक्ष के लिए इलेक्ट्रिकल पावर बैकअप</string>
+    <!--    <string name="fans">Fans (In No.)</string>-->
+    <!--    <string name="lights">Lights (In No.)</string>-->
+    <!--    <string name="trainer_table">Trainer Table</string>-->
+    <!--    <string name="trainer_chair">Trainer Chair</string>-->
+    <string name="stools_chairs">स्टूल/कुर्सियां (संख्या में)</string>
+    <string name="tablets">टैबलेट (संख्या में)</string>
+    <!--    <string name="do_all_computers_have_typing_tutor">Do all Computers have Typing Tutor</string>-->
+    <!--    <string name="internet_connections">Internet Connections</string>-->
+    <string name="lan_enabled_computers">LAN सक्षम कंप्यूटर (संख्या में)</string>
+    <string name="cctc_cameras_with_audio_facility">ऑडियो सुविधा के साथ सीसीटी कैमरा</string>
+    <!--    <string name="internal_signage">Internal Signage</string>-->
+    <!--    <string name="academic_room_information_board">Academic Room Information Board</string>-->
+    <string name="whether_all_the_academic_centres">क्या सभी शैक्षणिक केंद्रों को एयर कंडीशनिंग के साथ साउंड प्रूफ किया गया है</string>
+    <string name="sound_level">ध्वनि स्तर (dB में)</string>
+    <string name="sound_level_as_per_specifications">विनिर्देशों के अनुसार ध्वनि स्तर</string>
+    <string name="ventilation_area">वेंटिलेशन क्षेत्र (वर्ग फुट में)</string>
+    <string name="height_of_ceiling">छत की ऊंचाई (फुट में)</string>
+    <!--    <string name="false_ceiling_provided">False Ceiling Provided</string>-->
+    <string name="typeofroof_academic">छत का प्रकार</string>
+
+    <string name="description_of_academic_non_academic_areass">शैक्षणिक/गैर-शैक्षणिक क्षेत्रों का विवरण</string>
+    <string name="description_of_academic_non_academic_areas_length">शैक्षणिक/गैर-शैक्षणिक क्षेत्रों का विवरण/लंबाई (फुट में)</string>
+    <string name="description_of_academic_non_academic_areas_width">शैक्षणिक/गैर-शैक्षणिक क्षेत्रों का विवरण/चौड़ाई (फुट में)</string>
+    <string name="description_of_academic_non_academic_areas_area">क्षेत्र की गणना करें</string>
+    <string name="electrical_power_backup_for_the_office_room">ऑफिस रूम के लिए इलेक्ट्रिकल पावर बैकअप</string>
+
+    <!--     Prrof of IT LAB -->
+
+    <string name="proof_of_type_of_roof">छत के प्रकार का प्रमाण</string>
+    <string name="proof_of_false_celling">झूठी छत का प्रमाण </string>
+    <string name="proof_of_height_celling_in_ft">झूठी छत का प्रमाण </string>
+    <string name="proof_of_ventilation_area_sq_ft">वेंटिलेशन क्षेत्र का प्रमाण (वर्ग फुट में) </string>
+    <string name="proof_of_sound_level_as_per_specifications">विनिर्देशों के अनुसार ध्वनि स्तर का प्रमाण</string>
+    <string name="proof_of_sound_level_in_db">ध्वनि स्तर का प्रमाण (dB में)</string>
+    <string name="proof_of_whether_all">क्या सभी शैक्षणिक केंद्रों को एयर कंडीशनिंग के साथ साउंड प्रूफ किया गया है का प्रमाण</string>
+    <string name="proof_of_academic_room_information_board">शैक्षणिक कक्ष सूचना बोर्ड का प्रमाण</string>
+    <string name="proof_of_internal_signage">आंतरिक साइनेज का प्रमाण</string>
+    <string name="proof_of_cctc_cameras_audio_facility">सीसीटीवी कैमरा ऑडियो सुविधा का प्रमाण</string>
+    <string name="proof_of_lan_enabled_in_no">LAN सक्षम (संख्या में) का प्रमाण</string>
+    <string name="proof_of_lan_internet_conncetion">इंटरनेट कनेक्शन का प्रमाण</string>
+    <string name="proof_of_tablets">टैबलेट का प्रमाण</string>
+    <string name="proof_of_lan_do_all_computers_have_typing_tutor">क्या सभी कंप्यूटरों में टाइपिंग ट्यूटर है का प्रमाण</string>
+    <string name="proof_of_lan_tablets_in_no">टैबलेट (संख्या में) का प्रमाण</string>
+    <string name="proof_of_stools_chairs_in_no">स्टूल/कुर्सियां (संख्या में) का प्रमाण</string>
+    <string name="proof_of_triner_chairs">ट्रेनर कुर्सी का प्रमाण</string>
+    <string name="proof_of_triner_table">ट्रेनर टेबल का प्रमाण</string>
+    <string name="proof_of_lights_in_no">लाइट (संख्या में) का प्रमाण</string>
+    <string name="proof_of_writing_board_in_no">लेखन बोर्ड (संख्या में) का प्रमाण</string>
+    <string name="proof_of_fans_in_no">पंखे (संख्या में) का प्रमाण</string>
+    <string name="proof_of_writing_board">लेखन बोर्ड का प्रमाण</string>
+    <string name="proof_of_theory_class_room_photograph">सिद्धांत कक्षा कक्ष फोटोग्राफ का प्रमाण</string>
+    <string name="proof_of_theory_cum_domain_lab">सिद्धांत कम डोमेन लैब फोटोग्राफ का प्रमाण</string>
+    <string name="proof_of_doman_lab_photograph">डोमेन लैब फोटोग्राफ का प्रमाण</string>
+    <string name="proof_of_chair_for_candidates">उम्मीदवारों के लिए कुर्सी (संख्या में) का प्रमाण</string>
+    <string name="proof_of_lcd_digital_projector">एलसीडी/डिजिटल प्रोजेक्टर का प्रमाण</string>
+    <string name="proof_of_theory_cum_it_Lab_photograph">सिद्धांत कम आईटी लैब फोटोग्राफ का प्रमाण</string>
+    <string name="proof_of_electrical_power_backup_for_the_room">कक्ष के लिए इलेक्ट्रिकल पावर बैकअप का प्रमाण</string>
+    <string name="proof_of_it_lab_photograph">आईटी लैब फोटोग्राफ का प्रमाण</string>
+    <string name="proof_of_it_list_of_domain">प्रमाणन एजेंसी द्वारा दिए गए विनिर्देशों के अनुसार डोमेन संबंधित उपकरणों की सूची (संख्या में) का प्रमाण</string>
+
+    <!--     Office Cum Counselling room -->
+
+    <string name="office_cum_proof_of_does_the_room_has_air_conditioning">क्या कक्ष में एयर कंडीशनिंग है? का प्रमाण</string>
+    <string name="office_cum_proof_of_office_room_photogragh">ऑफिस रूम फोटोग्राफ का प्रमाण</string>
+    <string name="office_cum_proof_of_type_of_roof">छत के प्रकार का प्रमाण</string>
+    <string name="office_cum_proof_of_an_office_table_no">एक ऑफिस टेबल (संख्या में) का प्रमाण</string>
+    <string name="office_cum_proof_of_storage_place_for">दस्तावेजों को सुरक्षित रखने का भंडारण स्थान का प्रमाण</string>
+    <string name="office_cum_proof_of_chairs_in_no">कुर्सियां (संख्या में) का प्रमाण</string>
+    <string name="office_cum_proof_of_table_for_office_computer">ऑफिस कंप्यूटर के लिए टेबल का प्रमाण</string>
+    <string name="office_cum_proof_of_printer_cum_scanner">प्रिंटर कम स्कैनर (संख्या में) का प्रमाण</string>
+    <string name="office_cum_proof_of_digital_camera_in_no">डिजिटल कैमरा (संख्या में) का प्रमाण</string>
+    <string name="office_cum_proof_of_electrical_power_back_up_for_the_room">कक्ष के लिए इलेक्ट्रिकल पावर बैकअप का प्रमाण</string>
+
+    <!--     Reception Area Photogragh -->
+
+    <string name="proof_of_reception_area">रिसेप्शन क्षेत्र फोटोग्राफ का प्रमाण </string>
+    <string name="roomtype">कक्ष प्रकार</string>
+    <string name="roomno">कक्ष संख्या</string>
+    <string name="roomlength">कक्ष लंबाई</string>
+    <string name="roomarea">कक्ष क्षेत्र</string>
+    <string name="select_state">राज्य चुनें</string>
+    <string name="district_tc">जिला (TC)</string>
+    <string name="basic_information">बुनियादी जानकारी</string>
+    <string name="residential_facility_name">आवासीय सुविधा नाम</string>
+    <string name="residential_facility_type">आवासीय सुविधा प्रकार</string>
+    <string name="house_no">मकान संख्या</string>
+    <string name="street">सड़क</string>
+    <string name="landmark">लैंडमार्क</string>
+    <string name="block">ब्लॉक</string>
+    <string name="gram_panchayat">ग्राम पंचायत</string>
+    <string name="village_ward_no">गांव/वार्ड संख्या</string>
+    <string name="pincode">पिनकोड</string>
+    <string name="mobile_no">मोबाइल संख्या</string>
+    <string name="residential_facility_phone_no_with_std_code">STD कोड के साथ आवासीय सुविधा फोन संख्या</string>
+    <string name="email_id">ईमेल आईडी</string>
+    <string name="type_of_area1">क्षेत्र का प्रकार</string>
+    <string name="category_of_tc_location_x_y_z_any_other_area">टीसी स्थान की श्रेणी X / Y / Z / कोई अन्य क्षेत्र</string>
+    <string name="category_of_tc_location">टीसी स्थान की श्रेणी</string>
+    <string name="police_station">पुलिस स्टेशन</string>
+    <string name="approximate_distance_from_a_prominent_bus_stand_in_mtrs">एक प्रमुख बस स्टैंड से अनुमानित दूरी (मीटर में)</string>
+    <string name="approximate_distance_from_an_auto_stand_in_mtrs">एक ऑटो स्टैंड से अनुमानित दूरी (मीटर में)</string>
+    <string name="approximate_distance_from_a_prominent_railway_station_in_mtrs">एक प्रमुख रेलवे स्टेशन से अनुमानित दूरी (मीटर में)</string>
+    <string name="distance_from_the_training_centre_to_residential_centre_in_kms">प्रशिक्षण केंद्र से आवासीय केंद्र की दूरी (किमी में)</string>
+    <string name="availability_of_pick_up_and_drop_facility">पिक-अप और ड्रॉप सुविधा की उपलब्धता</string>
+    <string name="warden_s_name">वार्डन नाम</string>
+    <string name="warden_gender">वार्डन लिंग</string>
+    <string name="warden_employee_id">वार्डन कर्मचारी आईडी</string>
+    <string name="warden_address">वार्डन पता</string>
+    <string name="warden_email_id">वार्डन ईमेल आईडी</string>
+    <string name="warden_mobile_no">वार्डन मोबाइल संख्या</string>
+    <string name="police_verification_status">पुलिस सत्यापन स्थिति</string>
+    <string name="appointment_letter">नियुक्ति पत्र</string>
+
+    <string name="whether_it_is_structurally_sound_on_visual_inspection_plastering_and_painting_of_internal_and_external_walls_and_ceiling">क्या यह दृश्य निरीक्षण पर संरचनात्मक रूप से मजबूत है, आंतरिक और बाहरी दीवारों और छत की प्लास्टरिंग और पेंटिंग</string>
+    <string name="conformance_to_ddu_gky_look_and_feel_standards_as_per_sub_section_5_1_1">उप अनुभाग 5.1.1 के अनुसार डीडीयू-जीकेवाई लुक और फील मानकों का अनुपालन</string>
+    <string name="corridor">कॉरिडोर</string>
+    <string name="securing_of_wires_done">तारों की सुरक्षा की गई</string>
+    <string name="hostel_name_board">हॉस्टल नाम बोर्ड</string>
+    <string name="circulating_area">सर्कुलेटिंग क्षेत्र</string>
+    <string name="student_entitlement_board_and_responsibilities_board">छात्र हकदारी बोर्ड और जिम्मेदारियां बोर्ड</string>
+    <string name="residential_signages_and_information_boards">आवासीय साइनेज और सूचना बोर्ड</string>
+    <string name="contact_detail_of_important_people">महत्वपूर्ण लोगों का संपर्क विवरण</string>
+    <string name="basic_information_board">बुनियादी सूचना बोर्ड</string>
+    <string name="food_specification_board">खाद्य विनिर्देश बोर्ड</string>
+    <string name="infrastructure_details_and_compliances">इंफ्रास्ट्रक्चर विवरण और अनुपालन</string>
+    <string name="toilets">शौचालय</string>
+    <string name="indoor_game_details">इनडोर गेम विवरण</string>
+    <string name="non_living_areas">गैर-जीवित क्षेत्र</string>
+    <string name="living_area_information">जीवित क्षेत्र की जानकारी</string>
+    <string name="toilet_room_information">शौचालय कक्ष की जानकारी</string>
+    <string name="area_of_the_building_sq_ft_include_corridors_but_exclude_open_to_sky_spaces_like_court_yards_etc">भवन का क्षेत्र (वर्ग फुट) (कॉरिडोर शामिल करें लेकिन आकाश के खुले स्थानों जैसे कोर्ट यार्ड आदि को बाहर करें)</string>
+    <string name="residential_areas">आवासीय क्षेत्र</string>
+    <string name="type_of_roof_rcc_non_rcc">छत का प्रकार (आरसीसी/गैर आरसीसी)</string>
+    <string name="window_area_in_sq_ft">खिड़की क्षेत्र (वर्ग फुट में)</string>
+    <string name="sleeping_and_storing_material">सोने और भंडारण सामग्री</string>
+    <string name="cot_in_no"> <font color='#FF0000'><u>नोट: 1 बंक बेड = 2 कोट</u></font> </string>
+    <string name="cot_in_no_hint">कोट (संख्या में)</string>
+    <string name="mattress_in_no">गद्दा (संख्या में)</string>
+    <string name="bed_sheet_in_no">बेड शीट (संख्या में)</string>
+    <string name="cupboard_almirah_trunk_with_locking_arrangements_in_no">कपबोर्ड / अलमारी / ट्रंक लॉकिंग व्यवस्था के साथ (संख्या में)</string>
+    <string name="living_area_information_board_as_per_sf_5_1_b4">SF 5.1 B4 के अनुसार जीवित क्षेत्र सूचना बोर्ड</string>
+    <string name="number_of_students_permitted">अनुमत छात्रों की संख्या</string>
+
+    <string name="connection_to_running_water">चलते पानी से कनेक्शन</string>
+    <string name="female_urinals">यूरिनल</string>
+    <string name="female_washbasins">वॉशबेसिन</string>
+    <string name="maximum_no_of_candidates_permissible">अधिकतम अनुमत उम्मीदवारों की संख्या</string>
+    <string name="sanction_letter_no_and_date">स्वीकृति पत्र संख्या और तारीख</string>
+    <string name="sanction_letter_no_and_date1">स्वीकृति पत्र संख्या और तारीख</string>
+    <string name="lable_area">लेबल क्षेत्र</string>
+    <string name="residential_facility_q_team">आवासीय सुविधा क्यू टीम</string>
+    <string name="whether_food_for_the_candidates_is_being_prepared_in_the_premises_of_the_training_center">क्या उम्मीदवारों के लिए भोजन प्रशिक्षण केंद्र के परिसर में तैयार किया जा रहा है?</string>
+    <string name="recreation_and_dining_areas">मनोरंजन और भोजन क्षेत्र</string>
+    <string name="kitchen">रसोई</string>
+    <string name="are_the_dining_and_recreation_area_separate">क्या भोजन और मनोरंजन क्षेत्र अलग हैं?</string>
+    <string name="no_of_stools_chairs_benches">स्टूल/कुर्सी/बेंच की संख्या</string>
+    <string name="wash_area">धुलाई क्षेत्र</string>
+    <string name="whether_tv_with_a_cable_or_satellite_connection_is_available_for_viewing">क्या देखने के लिए केबल या सैटेलाइट कनेक्शन वाला टीवी उपलब्ध है?</string>
+    <string name="dining_area">भोजन क्षेत्र</string>
+    <string name="recreation_area">मनोरंजन क्षेत्र</string>
+    <string name="indoor_game_name">इनडोर गेम नाम</string>
+    <string name="add_more_game">+ गेम जोड़ें</string>
+    <string name="residential_facilities_available">आवासीय सुविधाएं उपलब्ध</string>
+    <string name="whether_hostels_for_male_and_female_candidates_separated">क्या पुरुष और महिला उम्मीदवारों के लिए हॉस्टल अलग हैं?</string>
+    <string name="warden_care_taker_for_hostels_where_males_stay">पुरुषों के रहने वाले हॉस्टल के लिए वार्डन/केयर टेकर?</string>
+    <string name="lady_warden_caretaker_for_hostels_where_females_stay">महिलाओं के रहने वाले हॉस्टल के लिए महिला वार्डन/केयरटेकर?</string>
+    <string name="are_security_gaurds_available">क्या सुरक्षा गार्ड उपलब्ध हैं?</string>
+    <string name="whether_female_doctor_on_call_is_available_or_not">क्या कॉल पर महिला डॉक्टर उपलब्ध है या नहीं?</string>
+    <string name="whether_male_doctor_on_call_is_available_or_not">क्या कॉल पर पुरुष डॉक्टर उपलब्ध है या नहीं?</string>
+    <string name="safe_driniking_available">सुरक्षित पेयजल उपलब्ध?</string>
+    <string name="biometric_device">बायोमेट्रिक डिवाइस?</string>
+    <string name="open_space_area">खुला स्थान क्षेत्र</string>
+    <string name="residential_facility">आवासीय सुविधा</string>
+    <string name="add_living_area">+ जीवित क्षेत्र जोड़ें</string>
+
+    <string name="close">बंद करें</string>
+
+    <!-- Field Verification Organization Details -->
+    <string name="field_ver_head">फील्ड सत्यापन </string>
+    <string name="field_ver_list">फील्ड सत्यापन सूची </string>
+    <string name="field_ver_organization_details">संगठन विवरण </string>
+    <string name="field_ver_industry_existence">न्यूनतम तीन वर्षों के लिए उद्योग अस्तित्व का प्रमाण </string>
+    <string name="field_ver_valid_govt_note_doc">एक वैध सरकारी जारी दस्तावेज के साथ सत्यापित किया जाए। </string>
+    <string name="field_ver_valid_epfo_esic_doc">उद्योग के पास वैध EPFO, ESIC या फैक्ट्री पंजीकरण संख्या होनी चाहिए। </string>
+    <string name="field_ver_valid_epfo_esic_note_doc">वैध PF पंजीकरण, ESIC पंजीकरण या फैक्ट्री पंजीकरण प्रमाणपत्र के साथ सत्यापित किया जाए। </string>
+
+    <string name="field_ver_epfo_challan_doc">पिछले छह महीनों के EPFO चालान। </string>
+    <string name="field_ver_valid_epfo_challan_note_doc">नवीनतम छह महीनों के EPFO चालानों को सत्यापित किया जाए, और उनमें से उच्चतम मासिक संख्या को लक्ष्य आवंटन निर्धारित करने के लिए माना जाएगा।</string>
+
+    <string name="field_ver_valid_industry_doc">उद्योग के पास वैध TIN, TAN और GST संख्या होनी चाहिए। </string>
+    <string name="field_ver_valid_industry_note_doc">GST प्रमाणपत्र, TAN या TIN प्रमाणपत्र को अनिवार्य दस्तावेज के रूप में सत्यापित किया जाए। </string>
+
+    <string name="field_ver_valid_bank_doc">उद्योग के पास आधार और/या PAN से जुड़ी वैध बैंक खाता संख्या होनी चाहिए। </string>
+    <string name="field_ver_valid_bank_note_doc">बैंक से एक पत्र जो संगठन के बैंक खाते को आधार और/या PAN से जुड़ा होने की पुष्टि करता है, जमा किया जाना चाहिए। </string>
+
+    <string name="field_ver_valid_manpower_doc">उद्योग मानवशक्ति आपूर्ति में संलग्न नहीं होना चाहिए या मानवशक्ति एजेंसी के रूप में कार्य नहीं करना चाहिए। </string>
+    <string name="field_ver_valid_manpower_note_doc">यह अनिवार्य है कि संगठन के पिछले प्लेसमेंट रिकॉर्ड को सत्यापित किया जाए ताकि यह सुनिश्चित हो कि यह मानवशक्ति आपूर्ति एजेंसी के रूप में कार्य नहीं कर रहा है। </string>
+
+
+    <!-- Field Verification Financial Details -->
+    <string name="field_ver_financial">वित्तीय </string>
+
+    <string name="field_ver_industry_turnover_fin">उद्योग का प्रत्येक पिछले तीन वित्तीय वर्षों में ₹25 करोड़ या उससे अधिक का वार्षिक टर्नओवर होना चाहिए। </string>
+    <string name="field_ver_industry_turnover_note_fin">चार्टर्ड अकाउंटेंट (CA) प्रमाणपत्र या ऑडिटेड बैलेंस शीट।</string>
+
+    <string name="field_ver_industry_networth_fin">उद्योग का पिछले तीन वित्तीय वर्षों में से कम से कम दो में सकारात्मक नेट वर्थ होना चाहिए। </string>
+    <string name="field_ver_industry_networth_note_fin">चार्टर्ड अकाउंटेंट (CA) प्रमाणपत्र या ऑडिटेड बैलेंस शीट। </string>
+
+    <string name="fin_balance_sheet_button">बैलेंस शीट (पिछले 3 वर्ष)</string>
+    <string name="fin_turnover_button">टर्नओवर</string>
+    <string name="fin_annual_turnover">वार्षिक टर्नओवर</string>
+    <string name="fin_net_worth">नेट वर्थ</string>
+
+    <!-- Field Verification Training Details -->
+    <string name="field_ver_training">प्रशिक्षण </string>
+
+    <string name="field_ver_exp_training">संगठन के पास दो वर्ष से अधिक का पूर्व प्रशिक्षण अनुभव होना चाहिए। </string>
+    <string name="field_ver_exp_note_training">स्वीकृति पत्र या प्रोजेक्ट अनुमोदन आदेश / लक्ष्य आवंटित और प्राप्त का प्रमाण / प्रोजेक्ट समापन प्रमाणपत्र / कॉर्पोरेट या इन-हाउस स्टाफ के साथ सहयोग में आयोजित प्रशिक्षण कार्यक्रमों के रिकॉर्ड / सरकारी या कॉर्पोरेट संस्थाओं के साथ MoU या वर्क ऑर्डर।</string>
+
+    <string name="field_ver_hrs_training">प्रस्तावित प्रशिक्षण घंटों की कुल संख्या। </string>
+    <string name="field_ver_hrs_note_training">प्रत्येक प्रस्तावित कोर्स के लिए न्यूनतम 576 घंटे और अधिकतम 2304 घंटे का प्रशिक्षण अनुमत है। </string>
+
+    <string name="field_ver_course_content_training">क्या कोर्स सामग्री में दोहराव या क्लबिंग है? (हां/नहीं)। </string>
+    <string name="field_ver_course_content_note_training">यदि हां, तो SRLM को PIA को प्रस्ताव स्वीकार करने से पहले दोहराई गई कोर्स सामग्री को संशोधित और हटाने का निर्देश देना चाहिए। क्लब्ड कोर्स में किसी भी परिस्थिति में कोर्स सामग्री का दोहराव अनुमत नहीं है।</string>
+
+    <string name="field_ver_nsqf_courses_training">उद्योग को NSQF-अलाइन्ड कोर्स के अनुसार बेसिक प्रशिक्षण प्रदान करने की इच्छा होनी चाहिए। </string>
+    <string name="field_ver_nsqf_courses_note_training">कैप्टिव एम्प्लॉयर द्वारा संगठन के आधिकारिक लेटरहेड पर अधिकृत हस्ताक्षरकर्ता द्वारा हस्ताक्षरित और स्टांप किया गया प्रतिबद्धता पत्र प्रदान किया जाना चाहिए। </string>
+
+    <string name="field_ver_500_cand_training">उद्योग को तीन वर्ष की अवधि में न्यूनतम 500 उम्मीदवारों को प्रशिक्षित करने की प्रतिबद्धता होनी चाहिए। </string>
+    <string name="field_ver_500_cand_note_training">कैप्टिव एम्प्लॉयर द्वारा प्रदान की गई प्रतिबद्धताओं को निर्धारित प्रारूपों के अनुसार सत्यापित किया जाए – FORM I और FORM II।</string>
+
+    <string name="field_ver_job_training">क्या उद्योग विशिष्ट जॉब आवश्यकताओं के आधार पर अतिरिक्त टेलर-मेड प्रशिक्षण प्रदान करने की इच्छा रखता है? (हां/नहीं) </string>
+    <string name="field_ver_job_note_training">उन मामलों में सत्यापित किया जाए जहां उद्योग मानक पाठ्यक्रम से परे कोई ऐड-ऑन या पूरक प्रशिक्षण प्रदान करने की इच्छा व्यक्त करता है। </string>
+
+    <string name="field_ver_domain_training">डोमेन-विशिष्ट प्रशिक्षण देने वाले ट्रेनरों को ToT (ट्रेनिंग ऑफ ट्रेनर्स) प्रमाणित होना चाहिए। </string>
+    <string name="field_ver_domain_note_training">कैप्टिव एम्प्लॉयर द्वारा प्रदान की गई प्रतिबद्धताओं को निर्धारित प्रारूपों के अनुसार सत्यापित किया जाए – FORM I और FORM II।</string>
+
+    <string name="train_target_button">लक्ष्य देखें</string>
+    <string name="train_NSQF_course_button">NSQF कोर्स घोषणा देखें</string>
+    <string name="train_commitment1_button">Form 1</string>
+    <string name="train_commitment2_button">Form 2</string>
+    <string name="train_tailor_button">टेलर प्रशिक्षण दस्तावेज देखें</string>
+    <string name="train_domain1_button">Form 1</string>
+    <string name="train_domain2_button">Form 2</string>
+
+
+
+    <!-- Field Verification Training Infrastructure Details -->
+    <string name="field_ver_training_infra">प्रशिक्षण इंफ्रास्ट्रक्चर </string>
+
+    <string name="field_ver_nsqf_training_infra">प्रशिक्षण केंद्र को NSQF मानदंडों और उद्योग-निर्दिष्ट मानकों का अनुपालन करना चाहिए। </string>
+    <string name="field_ver_nsqf_note_training_infra">प्रशिक्षण केंद्र की उपलब्धता को निम्नलिखित समर्थन दस्तावेजों में से किसी से पुष्टि की जाए: फोटोग्राफ / स्व-घोषणा / लीज समझौता, स्वामित्व दस्तावेज / ऑपरेशनल रेडीनेस का कोई अन्य वैध प्रमाण।</string>
+
+    <string name="field_ver_res_training_infra">प्रस्तावित आवासीय कोर्स के लिए आवासीय सुविधा उपलब्ध होनी चाहिए। </string>
+    <string name="field_ver_res_note_training_infra">आवासीय सुविधाओं की उपलब्धता को उपयुक्त दस्तावेजों से समर्थित किया जाए: फोटोग्राफ / स्व-घोषणा / लीज या स्वामित्व दस्तावेज / कोई अन्य विश्वसनीय प्रमाण। </string>
+
+    <!-- Field Verification Assessment & Certification Details -->
+    <string name="field_ver_cert">मूल्यांकन और प्रमाणन </string>
+
+    <string name="field_ver_provide_cert">सरकारी मान्यता प्राप्त अवार्डिंग बॉडी के माध्यम से मूल्यांकन और प्रमाणन प्रदान करने की प्रतिबद्धता। </string>
+    <string name="field_ver_provide_note_cert">कैप्टिव एम्प्लॉयर द्वारा संगठन के आधिकारिक लेटरहेड पर अधिकृत हस्ताक्षरकर्ता द्वारा हस्ताक्षरित और स्टांप किया गया प्रतिबद्धता पत्र।</string>
+
+    <string name="field_ver_res_conduct_cert">सभी प्रशिक्षित उम्मीदवारों के लिए मूल्यांकन आयोजित करने और प्रशिक्षण दिए गए सभी जॉब रोल में कम से कम 70% उम्मीदवारों के लिए प्रमाणन सुनिश्चित करने की प्रतिबद्धता। </string>
+    <string name="field_ver_conduct_note_cert">कैप्टिव एम्प्लॉयर द्वारा संगठन के आधिकारिक लेटरहेड पर अधिकृत हस्ताक्षरकर्ता द्वारा हस्ताक्षरित और स्टांप किया गया प्रतिबद्धता पत्र। </string>
+
+    <!-- Field Verification Placement Details -->
+    <string name="field_ver_placement">प्लेसमेंट </string>
+
+    <string name="field_ver_500_empl_placement">संगठन ने आवेदन की तारीख से पिछले तीन वर्षों में अपनी स्वयं की स्थापना या सहायक एजेंसियों/कंपनियों के माध्यम से कम से कम 500 व्यक्तियों को रोजगार प्रदान किया होना चाहिए। </string>
+    <string name="field_ver_empl_note_placement">कैप्टिव एम्प्लॉयर द्वारा जमा की गई उम्मीदवारों की सूची द्वारा विवरण सत्यापित किए जाएं साथ ही PF /ESIC संख्या/ सरकारी प्रोजेक्ट की स्वीकृति आदेश/ कैप्टिव एम्प्लॉयर द्वारा प्लेसमेंट की घोषणा।</string>
+
+    <string name="field_ver_70_per_cand_placement">प्रशिक्षित उम्मीदवारों के कम से कम 70% को संगठन की स्वयं की स्थापना या सहयोगी कंपनियों में न्यूनतम छह महीने की अवधि के लिए प्लेसमेंट प्रदान करने की प्रतिबद्धता। </string>
+    <string name="field_ver_empl_off_letter_note_placement">कैप्टिव एम्प्लॉयर द्वारा संगठन के आधिकारिक लेटरहेड पर अधिकृत हस्ताक्षरकर्ता द्वारा हस्ताक्षरित और स्टांप किया गया प्रतिबद्धता पत्र। </string>
+
+    <string name="field_ver_70_per_less_cand_coursewise_placement">छह महीने से कम अवधि के प्रशिक्षण कोर्स से प्रशिक्षित उम्मीदवारों के कम से कम 70% को न्यूनतम ₹10,000 की सैलरी या लागू न्यूनतम मजदूरी—जो भी अधिक हो—के साथ प्लेसमेंट प्रदान करने की प्रतिबद्धता। </string>
+    <string name="field_ver_empl_off_letter_coursewise_less_note_placement">कैप्टिव एम्प्लॉयर द्वारा संगठन के आधिकारिक लेटरहेड पर अधिकृत हस्ताक्षरकर्ता द्वारा हस्ताक्षरित और स्टांप किया गया प्रतिबद्धता पत्र।</string>
+
+    <string name="field_ver_70_per_more_cand_coursewise_placement">छह महीने से अधिक अवधि के प्रशिक्षण कोर्स से प्रशिक्षित उम्मीदवारों के कम से कम 70% को न्यूनतम ₹12,000 की सैलरी या लागू न्यूनतम मजदूरी—जो भी अधिक हो—के साथ प्लेसमेंट प्रदान करने की प्रतिबद्धता। </string>
+    <string name="field_ver_empl_off_letter_coursewise_more_note_placement">कैप्टिव एम्प्लॉयर द्वारा संगठन के आधिकारिक लेटरहेड पर अधिकृत हस्ताक्षरकर्ता द्वारा हस्ताक्षरित और स्टांप किया गया प्रतिबद्धता पत्र।</string>
+
+    <!-- Field Verification Placement Details -->
+    <string name="field_ver_field">फील्ड विजिट </string>
+
+    <string name="field_ver_geo_factory_field">हेड क्वार्टर और फैक्ट्री स्थान(ों) का जियो टैगिंग। </string>
+    <string name="field_ver_ctsa_off_note_field">उपरोक्त विवरण संबंधित राज्य/केंद्रशासित प्रदेश प्रतिनिधि या CTSA अधिकारी द्वारा फील्ड विजिट के दौरान कैप्चर और सत्यापित किए जाएं।</string>
+
+
+
+    <string name="training_center_id">प्रशिक्षण केंद्र आईडी</string>
+    <string name="toilet_id">शौचालय आईडी</string>
+    <string name="delete">हटाएं</string>
+    <string name="add_more_toilet">+ शौचालय जोड़ें</string>
+    <string name="training_center">प्रशिक्षण केंद्र</string>
+    <string name="toiletid">शौचालय आईडी</string>
+    <string name="toilet_type">शौचालय प्रकार</string>
+    <string name="proof_og_image_it_cum_domain_lab_photograph">आईटी कम डोमेन लैब फोटोग्राफ का प्रमाण</string>
+    <string name="kitchen_length">रसोई लंबाई</string>
+    <string name="prepared_food">तैयार भोजन</string>
+    <string name="recreation_width">मनोरंजन चौड़ाई</string>
+    <string name="kitchen_area">रसोई क्षेत्र</string>
+    <string name="kitchen_width">रसोई चौड़ाई</string>
+    <string name="inddor_game_id">इनडोर गेम आईडी</string>
+    <string name="male_doctor">पुरुष डॉक्टर</string>
+    <string name="female_doctor">महिला डॉक्टर</string>
+    <string name="warden_caretaker_female">वार्डन केयरटेकर महिला</string>
+    <string name="warden_caretaker_male">वार्डन केयरटेकर पुरुष</string>
+    <string name="hostels_separated">हॉस्टल अलग</string>
+    <string name="security_guards">सुरक्षा गार्ड</string>
+    <string name="is_reception_area_available">क्या रिसेप्शन क्षेत्र उपलब्ध है?</string>
+    <string name="support_facilities_available">समर्थन सुविधाएं उपलब्ध</string>
+    <string name="residential_facility_srlm">आवासीय सुविधा SRLM</string>
+    <string name="warden_details">वार्डन विवरण</string>
+    <string name="conformance_to_standards">मानकों का अनुपालन</string>
+    <string name="do_you_want_to_edit_this_section">क्या आप इस अनुभाग को संपादित करना चाहते हैं?</string>
+    <string name="add_new_residential_facility">नई आवासीय सुविधा जोड़ें</string>
+    <string name="tc_female_capacity_12">टीसी महिला क्षमता : 12</string>
+    <string name="tc_male_capacity_12">टीसी पुरुष क्षमता : 12</string>
+    <string name="tc_total_capacity_24">टीसी कुल क्षमता: 24</string>
+    <string name="number_of_seats">सीटों की संख्या</string>
+    <string name="dining_length">भोजन लंबाई</string>
+    <string name="dining_width">भोजन चौड़ाई</string>
+    <string name="max_candidate">अधिकतम उम्मीदवार</string>
+    <string name="residential_multiple_list">आवासीय बहु सूची</string>
+    <string name="common_dining_and_recreation">सामान्य भोजन और मनोरंजन</string>
+    <string name="urinal_washbasin_overhead">यूरिनल/वॉशबेसिन/ओवरहेड</string>
+
+    <string name="under_text"><u>2</u></string>
+    <string name="bathroom">बाथरूम</string>
+    <string name="toilet_and_bathroom">शौचालय कम बाथरूम</string>
+    <string name="urinals">यूरिनल</string>
+    <string name="washbasins">वॉशबेसिन</string>
+    <string name="flooring">फ्लोरिंग</string>
+
+
+    <string name="no_data_title">कोई डेटा नहीं मिला</string>
+    <string name="no_data_description">अभी कुछ दिखाने के लिए नहीं है। कृपया बाद में जांचें।</string>
+    <string name="english">अंग्रेजी\n</string>
+    <string name="hindi">हिंदी\n</string>
+
+</resources>

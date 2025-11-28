@@ -9,7 +9,7 @@ import com.deendayalproject.R
 import com.deendayalproject.model.response.TrainingCenterItem
 import com.deendayalproject.util.AppUtil
 
-
+// rMOVE IN FUTURE
 class RfAdapterList(
 
     private var centers: List<TrainingCenterItem>,

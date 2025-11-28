@@ -1,58 +1,69 @@
 package com.deendayalproject.fragments
 
-import CenterAdapter
 import SharedViewModel
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.databinding.FragmentCenterBinding
+import com.deendayalproject.databinding.ItemTrainingCenterBinding
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.request.TrainingCenter
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.base.BaseFragment
 
-class CenterFragment : Fragment() {
-//    Code commit in 181120250219
-    private var _binding: FragmentCenterBinding? = null
-    private val binding get() = _binding!!
-    private val progress: AlertDialog? by lazy {
-        AppUtil.getProgressDialog(context)
-    }
-
+class CenterFragment : BaseFragment<FragmentCenterBinding>(
+    FragmentCenterBinding::inflate
+) {
     private lateinit var viewModel: SharedViewModel
-    private lateinit var adapter: CenterAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentCenterBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initializeViews() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
-        adapter = CenterAdapter(emptyList()) {
-            val action = CenterFragmentDirections.actionCenterFragmentToFragmentTraining(it.trainingCenterId.toString(), it.senctionOrder,it.status, it.remarks,it.trainingCenterName)
-            findNavController().navigate(action)
-        }
+        setupRecyclerView(
+            recyclerView = binding.recyclerView,
+            items = emptyList<TrainingCenter>(),
+            layoutManager = LinearLayoutManager(requireContext()),
+            bindingInflater = { inflater, parent, attachToParent ->
+                ItemTrainingCenterBinding.inflate(inflater, parent, attachToParent)
+            },
+            onBind = { center, binding, position ->
+                binding.trainingCenterName.text = "Training Center Name: ${center.trainingCenterName}"
+                binding.trainingCenterAddress.text = "Training Center Address: ${center.trainingCenterAddress}"
+                binding.senctionOrder.text = "Sanction Order: ${center.senctionOrder}"
+                binding.districtName.text = "District Name: ${center.districtName}"
+            },
+            onItemClick = { center, position ->
+                AppUtil.savesanctionOrderPreference(requireContext(), center.senctionOrder)
+                AppUtil.savecenterIdPreference(requireContext(), center.trainingCenterId.toString())
 
+                val action = CenterFragmentDirections.actionCenterFragmentToFragmentTraining(
+                    center.trainingCenterId.toString(),
+                    center.senctionOrder,
+                    center.status,
+                    center.remarks,
+                    center.trainingCenterName
+                )
+                findNavController().navigate(action)
+            },
+            noDataTitle = "No Training Centers",
+            noDataDescription = "No training centers available at the moment",
+        )
+    }
+
+    override fun setupObservers() {
+        observeViewModel()
+    }
+
+    override fun setupClickListeners() {
         binding.backButton.setOnClickListener {
-
             findNavController().navigateUp()
         }
+    }
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
-
-        observeViewModel()
-
+    override fun loadInitialData() {
         val request = TrainingCenterRequest(
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -63,32 +74,38 @@ class CenterFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.trainingCenters.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                when (it.responseCode) {
-                    200 ->{
-                        adapter.updateData(it.wrappedList ?: emptyList())
-                        adapter.notifyDataSetChanged()
+            result.onSuccess { response ->
+                handleApiResponse(
+                    responseCode = response.responseCode,
+                    data = response.wrappedList,
+                    onSuccess = { data ->
+                        // Update RecyclerView data using BaseFragment method
+                        updateRecyclerViewData(binding.recyclerView.id, data ?: emptyList())
+                    },
+                    onNoData = {
+                        updateRecyclerViewData(binding.recyclerView.id, emptyList<TrainingCenter>())
+                        showToast("No data available.")
+                    },
+                    onUpgradeRequired = {
+                        showToast("Please upgrade your app.")
+                    },
+                    onSessionExpired = {
+                        handleSessionExpired()
                     }
-                    202 ->{
-                        adapter.updateData(it.wrappedList ?: emptyList())
-                        adapter.notifyDataSetChanged()
-                        Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                    }
-                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
-            result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            result.onFailure { exception ->
+                showErrorToast("Failed: ${exception.message}")
+                logCrashlyticsError("observeViewModel", exception as Exception)
             }
         }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-        }
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            if (loading) {
+                binding.progressBar.show()
+            } else {
+                binding.progressBar.hide()
+            }
+        }
     }
 }

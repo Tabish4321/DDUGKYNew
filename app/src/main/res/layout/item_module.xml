@@ -1,39 +1,72 @@
-
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardElevation="4dp"
-    card_view:cardCornerRadius="8dp"
-    android:layout_margin="8dp"
-    android:backgroundTint="@color/color_dark_blue"
-    card_view:cardBackgroundColor="@color/soft_navy_blue"
-    card_view:cardUseCompatPadding="true">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="5dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="10dp">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvModuleName"
+        <!-- Header with gradient background -->
+        <LinearLayout
+            android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Module Name"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:drawableEnd="@drawable/ic_dropdown_arrow"
-            android:textStyle="bold"
-            android:padding="8dp" />
+            android:orientation="horizontal"
+            android:paddingVertical="20dp"
+            android:paddingHorizontal="24dp"
+            android:background="@drawable/module_header_gradient"
+            android:gravity="center_vertical">
 
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:id="@+id/tvModuleName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Module Name"
+                android:textColor="@color/white_pure"
+                android:fontFamily="@font/sf_pro_rounded_semibold"
+                android:textSize="14sp"
+                />
+
+            <ImageView
+                android:id="@+id/ivExpandArrow"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_dropdown_arrow"
+                android:tint="@color/white_pure"
+                android:rotation="0" />
+
+        </LinearLayout>
+
+        <!-- Forms RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvForms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/forms_background"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="8dp"
+            android:clipToPadding="false"
             android:visibility="gone"
-            android:nestedScrollingEnabled="false" />
+            tools:listitem="@layout/item_form"
+            tools:itemCount="3"
+
+            />
+
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

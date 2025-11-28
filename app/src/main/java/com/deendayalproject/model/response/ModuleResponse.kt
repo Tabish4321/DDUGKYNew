@@ -9,10 +9,11 @@ data class ModuleResponse(
 )
 
 data class Module(
-    val moduleCd: String,
-    val moduleName: String,
-    val forms: List<Form>,
-    var isExpanded: Boolean = false,
+    val id: String? = "",
+    val moduleCd: String? = "",
+    val moduleName: String? = "",
+    val forms: List<Form> = emptyList(),
+    var isExpanded: Boolean = false
 )
 
 data class Form(

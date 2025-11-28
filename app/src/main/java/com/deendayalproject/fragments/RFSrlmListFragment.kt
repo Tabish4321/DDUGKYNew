@@ -3,157 +3,131 @@ package com.deendayalproject.fragments
 import SharedViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
-import com.deendayalproject.adapter.RfSrlmAdapter
+import com.deendayalproject.R
+import com.deendayalproject.databinding.RfItemQteamLayoutBinding
 import com.deendayalproject.databinding.RfSrlmListFragmentBinding
-import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.response.RfCenter
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.base.BaseFragment
+import dagger.hilt.android.ViewModelLifecycle
 
-class RFSrlmListFragment : Fragment() {
-    private var _binding: RfSrlmListFragmentBinding? = null
-    private val binding get() = _binding!!
+class RFSrlmListFragment : BaseFragment<RfSrlmListFragmentBinding>(
+    RfSrlmListFragmentBinding::inflate
+) {
     private lateinit var viewModel: SharedViewModel
-    private lateinit var adapter: RfSrlmAdapter
 
-    private val progress: androidx.appcompat.app.AlertDialog? by lazy {
-        AppUtil.getProgressDialog(context)
-    }
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        _binding = RfSrlmListFragmentBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun initializeViews() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
-        adapter = RfSrlmAdapter(emptyList()) { center ->
-            val action =
-                RFSrlmListFragmentDirections.actionRFSrlmListFragmentToRFSRLMFormFragment(
-                    center.trainingCenterId.toString(),
-                    center.trainingCenterName,
-                    center.senctionOrder,
-                    center.facilityId
-                )
-            findNavController().navigate(action)
-        }
+        setupToolbar(
+            binding.root,
+            titleRes = R.string.residential_facility_srlm,
+            backClick = { findNavController().navigateUp() }
+        )
 
-        binding.backButton.setOnClickListener {
+        // Setup RecyclerView using BaseFragment's method
+        setupRecyclerView(
+            recyclerView = binding.recyclerViewSRLM,
+            items = emptyList<RfCenter>(),
+            layoutManager = LinearLayoutManager(requireContext()),
+            bindingInflater = { inflater, parent, attachToParent ->
+                RfItemQteamLayoutBinding.inflate(inflater, parent, attachToParent)
+            },
+            onBind = { center, binding, position ->
+                binding.apply {
+                    trainingCenterName.text = "Training Center Name: ${center.trainingCenterName}"
+                    trainingCenterAddress.text = "Training Center Address: ${center.trainingCenterAddress}"
+                    senctionOrder.text = "Sanction Order: ${center.senctionOrder}"
+                    districtName.text = "District Name: ${center.districtName}"
+                }
+            },
+            onItemClick = { center, position ->
+                val action =
+                    RFSrlmListFragmentDirections.actionRFSrlmListFragmentToRFSRLMFormFragment(
+                        center.trainingCenterId.toString(),
+                        center.trainingCenterName,
+                        center.senctionOrder,
+                        center.facilityId
+                    )
+                findNavController().navigate(action)
+            },
+            noDataTitle = "No Training Centers",
+            noDataDescription = "No training centers available at the moment",
+            noDataIconRes = R.drawable.no_data
+        )
+    }
 
-            findNavController().navigateUp()
-        }
-
-
-
-        binding.recyclerViewSRLM.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewSRLM.adapter = adapter
-
+    override fun setupObservers() {
         observeViewModel()
+    }
 
+    override fun setupClickListeners() {
+//        binding.backButton.setOnClickListener {
+//            findNavController().navigateUp()
+//        }
+    }
 
-
+    override fun loadInitialData() {
         val request = TrainingCenterRequest(
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
 
+        viewModel.getRFSRLMVerification(request, AppUtil.getSavedTokenPreference(requireContext()))
 
-        viewModel.getRFSRLMVerification(
-            request,
-            AppUtil.getSavedTokenPreference(requireContext())
-        )
-
+        viewModel.loading.observe(viewLifecycleOwner){loading ->
+            if(loading){
+                binding.progressBar.show()
+            } else {
+                binding.progressBar.hide()
+            }
+        }
     }
 
     private fun observeViewModel() {
         viewModel.trainingRfCenters.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                when (it.responseCode) {
-                    200 -> adapter.updateData(it.wrappedList ?: emptyList())
-                    202 ->
-                    {
-
-                        adapter.updateData(emptyList())
-                        adapter.updateData(mutableListOf())
-
-                        Toast.makeText(
-                            requireContext(),
-                            "No data available. ",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-
+            result.onSuccess { response ->
+                handleApiResponse(
+                    responseCode = response.responseCode,
+                    data = response.wrappedList,
+                    onSuccess = { data ->
+                        // Update RecyclerView data using BaseFragment method
+                        updateRecyclerViewData(binding.recyclerViewSRLM.id, data ?: emptyList())
+                    },
+                    onNoData = {
+                        updateRecyclerViewData(binding.recyclerViewSRLM.id, emptyList<RfCenter>())
+                        showToast("No data available.")
+                    },
+                    onUpgradeRequired = {
+                        showToast("Please upgrade your app.")
+                    },
+                    onSessionExpired = {
+                        handleSessionExpired()
                     }
-
-
-                    301 ->
-
-
-                    {
-
-
-                        hideProgressBar()
-
-                        Toast.makeText(
-                            requireContext(),
-                            "Please upgrade your app.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-
-
-
-
-                    401 ->
-
-                    {
-
-
-                        hideProgressBar()
-                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }}
+                )
             }
-            result.onFailure {
-                hideProgressBar()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            result.onFailure { exception ->
+                showErrorToast("Failed: ${exception.message}")
+                logCrashlyticsError("observeViewModel", exception as Exception)
             }
         }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-        }
+
+
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
+    // Keep original method names as requested
     fun showProgressBar() {
-        if (context != null && isAdded && progress?.isShowing == false) {
-            progress?.show()
-        }
+        showProgressDialog("Loading...")
     }
-    //
+
     fun hideProgressBar() {
-        if (progress?.isShowing == true) {
-            progress?.dismiss()
-        }
+        dismissProgressDialog()
     }
 }

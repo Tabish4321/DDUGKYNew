@@ -6,153 +6,175 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
-import com.deendayalproject.adapter.FieldVerificationAdapter
-import com.deendayalproject.adapter.TrainingQAdapter
+import com.deendayalproject.R
+import com.deendayalproject.base.BaseFragment
+import com.deendayalproject.base.NoDataConfig
 import com.deendayalproject.databinding.FragmentFieldVerificationListBinding
+import com.deendayalproject.databinding.ItemFieldVerificationLayoutBinding
 import com.deendayalproject.model.request.FieldVerificationListRequest
-import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.response.FieldVerificationItem
 import com.deendayalproject.util.AppUtil
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 
+class FieldVerificationListFragment : BaseFragment<FragmentFieldVerificationListBinding>(
+    FragmentFieldVerificationListBinding::inflate
+) {
 
-class FieldVerificationListFragment : Fragment() {
-    private var _binding: FragmentFieldVerificationListBinding? = null
-    private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
-    private lateinit var adapter: FieldVerificationAdapter
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var fieldVerificationList: MutableList<FieldVerificationItem> = mutableListOf()
 
     private var latitude = 26.2153
     private var longitude = 84.3588
     private var radius = 500000000f
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-
-
-
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        _binding = FragmentFieldVerificationListBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
-
+    private val locationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                // Permission granted → retry geofence check
+                logFragmentEvent("Location_Permission_Granted")
+            } else {
+                showErrorToast("Location permission denied")
+                logCrashlyticsError("LocationPermission", Exception("Location permission denied by user"))
+            }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
-
-
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
-        adapter = FieldVerificationAdapter(emptyList()) { item ->
-            // navigate using captiveEmpanelmentId (or other fields)
-            val id = item.captiveEmpanelmentId?.toString() ?: ""
-            val action = FieldVerificationListFragmentDirections
-                .actionFieldVerificationListFragmentToFieldVerificationFormFragment(
-                    id,
-                    item.prnNo ?: ""
-                )
-            findNavController().navigate(action)
-        }
+        initializeViews()
+        setupObservers()
+        setupClickListeners()
+        loadInitialData()
+    }
 
+    override fun initializeViews() {
+        setupRecyclerView()
+    }
+
+    override fun setupObservers() {
+        observeViewModel()
+    }
+
+    override fun setupClickListeners() {
         binding.backButton.setOnClickListener {
-
             findNavController().navigateUp()
         }
+    }
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
-
-        observeViewModel()
-
+    override fun loadInitialData() {
         val request = FieldVerificationListRequest(
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
         viewModel.fetchFieldVerificationList(request, AppUtil.getSavedTokenPreference(requireContext()))
-
     }
+
+    private fun setupRecyclerView() {
+        setupRecyclerView(
+            recyclerView = binding.recyclerView,
+            items = fieldVerificationList,
+            layoutManager = LinearLayoutManager(requireContext()),
+            bindingInflater = { inflater, parent, _ ->
+                ItemFieldVerificationLayoutBinding.inflate(inflater, parent, false)
+            },
+            onBind = { item, itemBinding, position ->
+                itemBinding.piaName.text = "PIA Name: ${item.piaName}"
+                itemBinding.prnNo.text = "PRN No: ${item.prnNo}"
+                itemBinding.address.text = "PIA Address: ${item.address}"
+                itemBinding.districtName.text = "District Name: ${item.districtName}"
+
+                itemBinding.root.setOnClickListener {
+                    onItemClick(item)
+                }
+            },
+            noDataConfig = NoDataConfig(
+                title = "No Field Verifications",
+                description = "No field verification records found",
+                iconRes = R.drawable.no_data
+            )
+        )
+    }
+
+    private fun onItemClick(item: FieldVerificationItem) {
+        val id = item.captiveEmpanelmentId?.toString() ?: ""
+        val action = FieldVerificationListFragmentDirections
+            .actionFieldVerificationListFragmentToFieldVerificationFormFragment(
+                id,
+                item.prnNo ?: ""
+            )
+        findNavController().navigate(action)
+
+        logFragmentEvent("Field_Verification_Item_Selected", item.prnNo ?: "")
+    }
+
     private fun observeViewModel() {
         viewModel.fieldprnDetails.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                when (it.responseCode) {
-                    200 ->{
-                        adapter.updateData(it.wrappedList ?: emptyList())
-                        adapter.notifyDataSetChanged()
-
+            handleApiResponse(
+                responseCode = result.getOrNull()?.responseCode ?: 0,
+                data = result.getOrNull()?.wrappedList,
+                onSuccess = { data ->
+                    data?.let {
+                        fieldVerificationList.clear()
+                        fieldVerificationList.addAll(it)
+                        updateRecyclerViewData(binding.recyclerView.id, fieldVerificationList)
                     }
-                    202 -> {
-                        adapter.updateData(it.wrappedList ?: emptyList())
-                        adapter.notifyDataSetChanged()
-                        Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                    }
-                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                },
+                onNoData = {
+                    showToast("No data available.")
+                    fieldVerificationList.clear()
+                    updateRecyclerViewData(binding.recyclerView.id, fieldVerificationList)
+                },
+                onUpgradeRequired = {
+                    showToast("Please upgrade your app.")
+                },
+                onSessionExpired = {
+                    handleSessionExpired()
                 }
-            }
-            result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
+            )
         }
+
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-
+    // Maintain all original methods for compatibility
     private fun checkGeofence(
         context: Context,
         latitude: Double,
         longitude: Double,
         radiusInMeters: Float,
-        progressBar: ProgressBar,
+        progressBar: android.widget.ProgressBar,
         onResult: (inside: Boolean, location: Location?) -> Unit
     ) {
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-
         if (ActivityCompat.checkSelfPermission(
                 context,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // 👉 Ask user for permission
             locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             return
         }
 
-        // Show progress bar
-        progressBar.visibility = View.VISIBLE
+        progressBar.show()
 
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
-                progressBar.visibility = View.GONE
+                progressBar.hide()
                 if (location != null) {
                     val inside = isUserInGeofence(
                         userLat = location.latitude,
@@ -162,20 +184,23 @@ class FieldVerificationListFragment : Fragment() {
                         radiusInMeters = radiusInMeters
                     )
                     onResult(inside, location)
+
+                    // Log location event
+                    logFragmentEvent("Geofence_Check_Result", "Inside: $inside")
                 } else {
-                    Toast.makeText(context, "Location not available", Toast.LENGTH_SHORT).show()
+                    showToast("Location not available")
                     onResult(false, null)
                 }
             }
-            .addOnFailureListener {
-                progressBar.visibility = View.GONE
-                Toast.makeText(context, "Failed to get location", Toast.LENGTH_SHORT).show()
+            .addOnFailureListener { exception ->
+                progressBar.hide()
+                showErrorToast("Failed to get location")
                 onResult(false, null)
+                logCrashlyticsError("checkGeofence", exception)
             }
     }
 
-
-    // Simple geofence check
+    // Simple geofence check - kept original method
     private fun isUserInGeofence(
         userLat: Double,
         userLng: Double,
@@ -188,15 +213,45 @@ class FieldVerificationListFragment : Fragment() {
         return results[0] <= radiusInMeters
     }
 
-    private val locationPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                // Permission granted → retry geofence check
+    // Helper methods for data management
+    fun updateFieldVerificationData(newList: List<FieldVerificationItem>) {
+        fieldVerificationList.clear()
+        fieldVerificationList.addAll(newList)
+        updateRecyclerViewData(binding.recyclerView.id, fieldVerificationList)
+    }
 
-            } else {
-                Toast.makeText(requireContext(), "❌ Location permission denied", Toast.LENGTH_SHORT).show()
+    fun getCurrentFieldVerificationList(): List<FieldVerificationItem> {
+        return getRecyclerViewItems(binding.recyclerView.id)
+    }
+
+    fun clearFieldVerificationList() {
+        fieldVerificationList.clear()
+        updateRecyclerViewData(binding.recyclerView.id, fieldVerificationList)
+    }
+
+    fun filterFieldVerificationList(query: String) {
+        val filteredList = if (query.isEmpty()) {
+            fieldVerificationList
+        } else {
+            fieldVerificationList.filter {
+                it.piaName?.contains(query, ignoreCase = true) == true ||
+                        it.prnNo?.contains(query, ignoreCase = true) == true ||
+                        it.districtName?.contains(query, ignoreCase = true) == true
             }
         }
+        updateRecyclerViewData(binding.recyclerView.id, filteredList)
+    }
 
+    // Location permission check helper
+    fun hasLocationPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
 
+    // Request location permission
+    fun requestLocationPermission() {
+        locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+    }
 }

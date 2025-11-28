@@ -20,8 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
-import com.deendayalproject.adapter.DescriptionAcademiaAdapter
 import com.deendayalproject.adapter.TrainerStaffAdapter
+import com.deendayalproject.base.BaseFragment
+import com.deendayalproject.databinding.DescriptionAcademiaLayoutBinding
 import com.deendayalproject.databinding.FragmentQTeamFormBinding
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.response.Trainer
@@ -54,17 +55,13 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.URLEncoder
 
-class QTeamFormFragment : Fragment() {
+class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
+    FragmentQTeamFormBinding::inflate
+) {
 
-    private var _binding: FragmentQTeamFormBinding? = null
-    private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
     var dataStaffList: MutableList<Trainer> = mutableListOf()
     var academiaList: MutableList<RoomItem> = mutableListOf()
-    private val progress: androidx.appcompat.app.AlertDialog? by lazy {
-        AppUtil.getProgressDialog(context)
-    }
-
 
     private val approvalList = listOf("Approved", "Send for modification")
     private lateinit var tcInfoAdapter: ArrayAdapter<String>
@@ -74,7 +71,6 @@ class QTeamFormFragment : Fragment() {
     private lateinit var tcDescAcademiaAdapter: ArrayAdapter<String>
     private var selectedTcDescAcademiaApproval = ""
     private var selectedTcDescAcademiaRemarks = ""
-
 
     private lateinit var roomDetails: RoomDetail
 
@@ -86,53 +82,43 @@ class QTeamFormFragment : Fragment() {
     private var selectedTcBasinApproval = ""
     private var selectedTcBasinRemarks = ""
 
-
     private lateinit var tcDescOtherAreaAdapter: ArrayAdapter<String>
     private var selectedTcDescOtherAreaApproval = ""
     private var selectedTcDescOtherAreaRemarks = ""
-
 
     private lateinit var tcTeachingAdapter: ArrayAdapter<String>
     private var selectedTcTeachingApproval = ""
     private var selectedTcTeachingRemarks = ""
 
-
     private lateinit var tcGeneralAdapter: ArrayAdapter<String>
     private var selectedTcGeneralApproval = ""
     private var selectedTcGeneralRemarks = ""
-
 
     private lateinit var tcElectricalAdapter: ArrayAdapter<String>
     private var selectedTcElectricalApproval = ""
     private var selectedTcElectricalRemarks = ""
 
-
     private lateinit var tcSignageAdapter: ArrayAdapter<String>
     private var selectedTcSignageApproval = ""
     private var selectedTcSignageRemarks = ""
-
 
     private lateinit var tcIpEnableAdapter: ArrayAdapter<String>
     private var selectedTcIpEnableApproval = ""
     private var selectedTcIpEnableRemarks = ""
 
-
     private lateinit var tcCommonEquipmentAdapter: ArrayAdapter<String>
     private var selectedTcCommonEquipmentApproval = ""
     private var selectedTcCommonEquipmentRemarks = ""
 
-
     private lateinit var tcAvailSupportInfraAdapter: ArrayAdapter<String>
     private var selectedTcAvailSupportInfraApproval = ""
     private var selectedTcAvailSupportInfraRemarks = ""
-
 
     private lateinit var tcAvailOfStandardFormAdapter: ArrayAdapter<String>
     private var selectedTcAvailOfStandardFormApproval = ""
     private var selectedTcAvailOfStandardFormRemarks = ""
 
     //All Room Var
-
     private var fansRoomImage = ""
     private var writingBoard = ""
     private var internetConnectionImage = ""
@@ -194,33 +180,27 @@ class QTeamFormFragment : Fragment() {
     private var fans = ""
     private var officeComputerImagePath = ""
     private var ecPowerBackupImage = ""
-
     //end all room var
-
 
     private var centerId = ""
     private var sanctionOrder = ""
     private var centerName = ""
-
 
     private var selfDeclarationPdf = ""
     private var buildingPdf = ""
     private var schematicPdf = ""
     private var internalExternalWallPdf = ""
 
-
     private var maleToiletImage = ""
     private var maleToiletSignageImage = ""
     private var maleToiletUrinalsImage = ""
     private var maleToiletWashbasinImage = ""
-
 
     private var femaleToiletImage = ""
     private var femaleToiletSignageImage = ""
     private var femaleToiletWashbasinImage = ""
     private var ovrHeadTankImage = ""
     private var typeOfFlooringImage = ""
-
 
     private var fansImage = ""
     private var circulationAreaImage = ""
@@ -245,7 +225,6 @@ class QTeamFormFragment : Fragment() {
     private var storageOfCCtvImage = ""
     private var dvrImage = ""
 
-
     private var electricPowerImage = ""
     private var installBiometricImage = ""
     private var installationCCTVImage = ""
@@ -259,57 +238,28 @@ class QTeamFormFragment : Fragment() {
     private var fireFightingImage = ""
     private var firstAidImage = ""
 
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentQTeamFormBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+    override fun initializeViews() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
-        init()
+        // Get arguments safely
+        centerId = arguments?.getString("centerId") ?: ""
+        centerName = arguments?.getString("centerName") ?: ""
+        sanctionOrder = arguments?.getString("sanctionOrder") ?: ""
 
-        centerId = arguments?.getString("centerId").toString()
-        centerName = arguments?.getString("centerName").toString()
-        sanctionOrder = arguments?.getString("sanctionOrder").toString()
-
-        // TrainingCenterInfo API
-        val requestTcInfo = TrainingCenterInfo(
-            appVersion = BuildConfig.VERSION_NAME,
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            tcId = centerId.toInt(),
-            sanctionOrder = sanctionOrder,
-            imeiNo = AppUtil.getAndroidId(requireContext())
+        setupToolbar(
+            root = binding.root,
+            title = "Dashboard",
+            showBack = true,
+            showLang = false,
+            showProfile = false,
         )
-        viewModel.getTrainerCenterInfo(requestTcInfo)
-
-
-        collectTCInfoResponse()
-
-
-        // TrainingCenterStaffList API
-        val requestStaffList = TrainingCenterInfo(
-            appVersion = BuildConfig.VERSION_NAME,
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            tcId = centerId.toInt(),
-            sanctionOrder = sanctionOrder,
-            imeiNo = AppUtil.getAndroidId(requireContext())
-        )
-        viewModel.getTcStaffDetails(requestStaffList)
-
-        collectTCStaffResponse()
-
+        setupRecyclerView()
+        setupAdapters()
     }
 
-    private fun init() {
-
+    override fun setupObservers() {
+        collectTCInfoResponse()
+        collectTCStaffResponse()
         collectTCElectrical()
         collectTCGeneral()
         collectTCTeaching()
@@ -324,3763 +274,1914 @@ class QTeamFormFragment : Fragment() {
         collectTCStandardForms()
         collectAllRoomDetails()
         collectQTeamInsertRes()
-
-
-
-        listener()
-
-
-
     }
 
-    private fun listener() {
-
-
-
-
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = DescriptionAcademiaAdapter(academiaList) { room ->
-
-            when (room.roomType) {
-
-/*
-                "Theory Class Room" -> {
-                    val binding = TheoryClassRoomBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder,
-                    )
-
-                    // Show progress bar
-                   showProgressBar()
-
-
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        // Call API
-                        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                        // Wait for 2 seconds
-                        delay(2000L)
-
-                        // Hide progress bar
-                        hideProgressBar()
-
-
-                        // Now set data to TextViews
-                        binding.yesNoTypeOfRoof.text =
-                            safeText(roofType)
-                        binding.yesNoFalseCeiling.text = safeText(falseCeiling)
-                        binding.yesNoHeightCeiling.text = safeText(ceilingHeight.toString())
-                        binding.yesNoVentilationArea.text = safeText(ventilationArea.toString())
-                        binding.yesNoSoundLevel.text = safeText(soundLevel.toString())
-                        binding.yesNoSoundProofAC.text = safeText(centerSoundProof)
-                        binding.yesNoInfoBoard.text = safeText(roomInfoBoard)
-                        binding.yesNoInternalSignage.text = safeText(internalSignage)
-                        binding.yesNoCCTV.text = safeText(audioCamera)
-                        binding.yesNoLCDComputers.text = safeText(digitalProjector)
-                        binding.yesNoChairForCan.text = safeText(candidateChair)
-                        binding.yesNoWritingBoard.text = safeText(writingBoard)
-                        binding.yesNoTrainerChair.text = safeText(trainerChair)
-                        binding.yesNoTrainerTable.text = safeText(trainerTable)
-                        binding.yesNoLights.text = safeText(lights.toString())
-                        binding.yesNoFans.text = safeText(fans.toString())
-                        binding.yesNoPowerBackup.text = safeText(ecPowerBackup)
-                        binding.yesNoLabPhoto.text = safeText(roomsPhotographs)
-                        binding.yesNoAirConditioning.text = safeText(airConditionRoom)
-
-
-
-                        //open Image
-
-                        binding.valueTypeOfRoof.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), roofTypeImage, "Roof Type Image")
-                        }
-
-                        binding.valueFalseCeiling.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), falseCeilingImage, "False Ceiling Image")
-                        }
-
-                        binding.valueHeightCeiling.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), ceilingHeightImage, "Ceiling Height Image")
-                        }
-
-                        binding.valueVentilationArea.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), ventilationAreaImage, "Ventilation Area Image")
-                        }
-
-                        binding.valueSoundLevel.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), soundLevelImage, "Sound Level Image")
-                        }
-
-                        binding.valueSoundProofAC.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), centerSoundProofImage, "Sound Proof & AC Image")
-                        }
-
-                        binding.valueInfoBoard.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), roomInfoBoardImage, "Information Board Image")
-                        }
-
-                        binding.valueInternalSignage.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), internalSignageImage, "Internal Signage Image")
-                        }
-
-                        binding.valueCCTV.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), audioCameraImage, "CCTV & Audio Image")
-                        }
-
-                        binding.valueLCDComputers.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), digitalProjectorImage, "Digital Projector / LCD Image")
-                        }
-
-                        binding.valueChairForCan.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), candidateChairImage, "Candidate Chair Image")
-                        }
-
-                        binding.valueWritingBoard.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), writingBoardImage, "Writing Board Image")
-                        }
-
-                        binding.valueTrainerChair.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), trainerChairImage, "Trainer Chair Image")
-                        }
-
-                        binding.valueTrainerTable.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), trainerTableImage, "Trainer Table Image")
-                        }
-
-                        binding.valueLights.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), lightsImage, "Lights Image")
-                        }
-
-                        binding.valueFans.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), fansRoomImage, "Fans Image")
-                        }
-
-                        binding.valuePowerBackup.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), ecPowerBackupImage, "Power Backup Image")
-                        }
-
-                        binding.valueITLabPhoto.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), roomsPhotographsImage, "Room Photos")
-                        }
-
-                        binding.valueAirConditioning.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), airConditionRoomImage, "Air Conditioning Image")
-                        }
-
-
-
-                    }
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-
-
-                "Office Cum Counselling Room" -> {
-                    val binding = OfficeCumCouncelingRoomLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder,
-                    )
-
-
-
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        // Call API
-                        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                       showProgressBar()
-                        delay(2000L)
-                        hideProgressBar()
-
-
-                        // Set data to TextViews (from variables set after API call)
-                        binding.yesNoOfficeRoomPhoto.text = safeText(roomsPhotographs)
-                        binding.yesNoRoofType.text = safeText(roofType)
-                        binding.yesNoFalseCeiling.text = safeText(falseCeiling)
-                        binding.yesNoCeilingHeight.text = safeText(ceilingHeight.toString())
-                        binding.yesNoStorage.text = safeText(secureDocumentStorage)
-                        binding.yesNoOfficeTable.text = safeText(officeTable)
-                        binding.yesNoChairs.text = safeText(officeChair)
-                        binding.yesNoComputerTable.text = safeText(officeComputer)
-                        binding.yesNoPrinter.text = safeText(printerScanner)
-                        binding.yesNoCamera.text = safeText(digitalCamera)
-                        binding.yesNoPowerBackup.text = safeText(ecPowerBackup)
-
-                        // Open images on click
-                        binding.valueOfficeRoomPhoto.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), roomsPhotographsImage, "Room Photo")
-                        }
-                        binding.valueRoofType.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), roofTypeImage, "Roof Type Image")
-                        }
-                        binding.valueFalseCeiling.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), falseCeilingImage, "False Ceiling Image")
-                        }
-                        binding.valueCeilingHeight.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), ceilingHeightImage, "Ceiling Height Image")
-                        }
-                        binding.valueStorage.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), secureDocumentStorageImage, "Storage Image")
-                        }
-                        binding.valueOfficeTable.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), officeTableImage, "Office Table Image")
-                        }
-                        binding.valueChairs.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), officeChairImage, "Chairs Image")
-                        }
-                        binding.valueComputerTable.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), officeComputerImagePath, "Computer Table Image")
-                        }
-                        binding.valuePrinter.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), printerScannerImage, "Printer / Scanner Image")
-                        }
-                        binding.valueCamera.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), digitalCameraImage, "Digital Camera Image")
-                        }
-                        binding.valuePowerBackup.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), ecPowerBackupImage, "Power Backup Image")
-                        }
-                    }
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-                "Reception Area" -> {
-                    val binding = ReceptionAreaLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder,
-                    )
-
-
-
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        // Call API
-                        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                        // Wait for 2 seconds
-                        showProgressBar()
-                        delay(2000L)
-
-                        hideProgressBar()
-                        // Hide progress bar
-
-                        // Set data to TextViews (from variables set after API call)
-                        binding.yesNoReceptionAreaPhoto.text = safeText(roomsPhotographs)
-
-                        // Open image on click
-                        binding.valueReceptionAreaPhoto.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), roomsPhotographsImage, "Reception Area Photo")
-                        }
-                    }
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-
-                "Counselling Room" -> {
-                    val binding = CounsellingRoomBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder,
-                    )
-
-
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        // Call API
-                        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                        showProgressBar()
-                        delay(2000L)
-
-                        hideProgressBar()
-
-                        // Set data to TextViews
-                        binding.yesNoCounsellingAreaPhoto.text = safeText(roomsPhotographs)
-
-                        // Open image on click
-                        binding.valueCounsellingAreaPhoto.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                roomsPhotographsImage,
-                                "Counselling Area Photo"
-                            )
-                        }
-                    }
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-                "Office Room" -> {
-                    val binding = OfficeRoomLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder,
-                    )
-
-                    // Show progress bar
-
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        // Call API
-                        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                        showProgressBar()
-                        delay(2000L)
-
-                        hideProgressBar()
-
-                        // Set data to TextViews
-                        binding.yesNoOfficeRoomPhoto.text = safeText(roomsPhotographs)
-                        binding.yesNoRoofType.text = safeText(roofType)
-                        binding.yesNoFalseCeiling.text = safeText(falseCeiling)
-                        binding.yesNoCeilingHeight.text = safeText(ceilingHeight)
-                        binding.yesNoStorage.text = safeText(secureDocumentStorage)
-                        binding.yesNoOfficeTable.text = safeText(officeTable)
-                        binding.yesNoChairs.text = safeText(officeChair)
-                        binding.yesNoComputerTable.text = safeText(officeComputer)
-                        binding.yesNoPrinter.text = safeText(printerScanner)
-                        binding.yesNoCamera.text = safeText(digitalCamera)
-                        binding.yesNoPowerBackup.text = safeText(ecPowerBackup)
-
-                        // Image click listeners
-                        binding.valueOfficeRoomPhoto.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), roomsPhotographsImage, "Office Room Photo")
-                        }
-                        binding.valueRoofType.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), roofTypeImage, "Roof Type Image")
-                        }
-                        binding.valueFalseCeiling.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), falseCeilingImage, "False Ceiling Image")
-                        }
-                        binding.valueCeilingHeight.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), ceilingHeightImage, "Ceiling Height Image")
-                        }
-                        binding.valueStorage.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), secureDocumentStorageImage, "Storage Place Image")
-                        }
-                        binding.valueOfficeTable.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), officeTableImage, "Office Table Image")
-                        }
-                        binding.valueChairs.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), officeChairImage, "Chairs Image")
-                        }
-                        binding.valueComputerTable.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), officeComputerImagePath, "Computer Table Image")
-                        }
-                        binding.valuePrinter.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), printerScannerImage, "Printer / Scanner Image")
-                        }
-                        binding.valueCamera.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), digitalCameraRoomImage, "Digital Camera Image")
-                        }
-                        binding.valuePowerBackup.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), ecPowerBackupImage, "Power Backup Image")
-                        }
-                    }
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-                "IT cum Domain Lab" -> {
-                    val binding = ItCumDomainLabLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder,
-                    )
-
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-                        showProgressBar()
-                        delay(2000L)
-
-                        hideProgressBar()
-                        // Set yes/no values
-                        binding.yesNoTypeOfRoof.text = safeText(roofType)
-                        binding.yesNoFalseCeiling.text = safeText(falseCeiling)
-                        binding.yesNoHeightCeiling.text = safeText(ceilingHeight)
-                        binding.yesNoVentilationArea.text = safeText(ventilationArea)
-                        binding.yesNoSoundLevel.text = safeText(soundLevel)
-                        binding.yesNoSoundProofAC.text = safeText(centerSoundProof)
-                        binding.yesNoInfoBoard.text = safeText(roomInfoBoard)
-                        binding.yesNoInternalSignage.text = safeText(internalSignage)
-                        binding.yesNoCCTV.text = safeText(audioCamera)
-                        binding.yesNoLANComputers.text = safeText(lanEnabled)
-                        binding.yesNoInternet.text = safeText(internetConnection)
-                        binding.yesNoTypingTutor.text = safeText(typingTuterComp)
-                        binding.yesNoTablets.text = safeText(tablet)
-                        binding.yesNoTrainerChair.text = safeText(trainerChair)
-                        binding.yesNoTrainerTable.text = safeText(trainerTable)
-                        binding.yesNoLights.text = safeText(lights)
-                        binding.yesNoFans.text = safeText(fans)
-                        binding.yesNoPowerBackup.text = safeText(ecPowerBackup)
-                        binding.yesNoAirConditioning.text = safeText(airConditionRoom)
-                        binding.yesNoLabPhoto.text = safeText(roomsPhotographs)
-                        binding.yesNodomainrelatedequipPhoto.text = safeText(domainEquipment)
-                        binding.yesNoStools.text = safeText(candidateChair)
-
-
-                        // Open images on click
-                        binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(requireContext(), roofTypeImage, "Roof Type") }
-                        binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(requireContext(), falseCeilingImage, "False Ceiling") }
-                        binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(requireContext(), ceilingHeightImage, "Height of Ceiling") }
-                        binding.valueVentilationArea.setOnClickListener { showBase64ImageDialog(requireContext(), ventilationAreaImage, "Ventilation Area") }
-                        binding.valueSoundLevel.setOnClickListener { showBase64ImageDialog(requireContext(), soundLevelImage, "Sound Level") }
-                        binding.valueSoundProofAC.setOnClickListener { showBase64ImageDialog(requireContext(), centerSoundProofImage, "Sound Proof AC") }
-                        binding.valueInfoBoard.setOnClickListener { showBase64ImageDialog(requireContext(), roomInfoBoardImage, "Information Board") }
-                        binding.valueInternalSignage.setOnClickListener { showBase64ImageDialog(requireContext(), internalSignageImage, "Internal Signage") }
-                        binding.valueCCTV.setOnClickListener { showBase64ImageDialog(requireContext(), audioCameraImage, "CCTV Camera") }
-                        binding.valueLANComputers.setOnClickListener { showBase64ImageDialog(requireContext(), lanEnabledImage, "LAN Computers") }
-                        binding.valueInternet.setOnClickListener { showBase64ImageDialog(requireContext(), internetConnectionImage, "Internet Connection") }
-                        binding.valueTypingTutor.setOnClickListener { showBase64ImageDialog(requireContext(), typingTuterCompImage, "Typing Tutor") }
-                        binding.valueTablets.setOnClickListener { showBase64ImageDialog(requireContext(), tabletImage, "Tablets") }
-                        binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), trainerChairImage, "Trainer Chair") }
-                        binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), trainerTableImage, "Trainer Table") }
-                        binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), lightsImage, "Lights") }
-                        binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), fansRoomImage, "Fans") }
-                        binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), ecPowerBackupImage, "Power Backup") }
-                        binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(requireContext(), airConditionRoomImage, "Air Conditioning") }
-                        binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), roomsPhotographsImage, "IT cum Domain Lab Photo") }
-                        binding.valueStools.setOnClickListener { showBase64ImageDialog(requireContext(), candidateChairImage, "Domain Related Equipment") }
-
-                    }
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-                "Theory Cum IT Lab" -> {
-                    val binding = TheoryCumItLabLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder,
-                    )
-
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-                        showProgressBar()
-                        delay(2000L)
-
-                        hideProgressBar()
-
-
-                    binding.yesNoTypeOfRoof.text = safeText(roofType)
-                    binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(requireContext(), roofTypeImage, "Type of Roof") }
-
-                    binding.yesNoFalseCeiling.text = safeText(falseCeiling)
-                    binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(requireContext(), falseCeilingImage, "False Ceiling") }
-
-                    binding.yesNoHeightCeiling.text = safeText(ceilingHeight)
-                    binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(requireContext(), ceilingHeightImage, "Height of Ceiling") }
-
-                    binding.yesNoVentilationArea.text = safeText(ventilationArea)
-                    binding.valueVentilationArea.setOnClickListener { showBase64ImageDialog(requireContext(), ventilationAreaImage, "Ventilation Area") }
-
-                    binding.yesNoSoundLevel.text = safeText(soundLevel)
-                    binding.valueSoundLevel.setOnClickListener { showBase64ImageDialog(requireContext(), soundLevelImage, "Sound Level") }
-
-                    binding.yesNoSoundProofAC.text = safeText(centerSoundProof)
-                    binding.valueSoundProofAC.setOnClickListener { showBase64ImageDialog(requireContext(), centerSoundProofImage, "Sound Proof & AC") }
-
-                    binding.yesNoInfoBoard.text = safeText(roomInfoBoard)
-                    binding.valueInfoBoard.setOnClickListener { showBase64ImageDialog(requireContext(), roomInfoBoardImage, "Room Info Board") }
-
-                    binding.yesNoInternalSignage.text = safeText(internalSignage)
-                    binding.valueInternalSignage.setOnClickListener { showBase64ImageDialog(requireContext(), internalSignageImage, "Internal Signage") }
-
-                    binding.yesNoCCTV.text = safeText(audioCamera)
-                    binding.valueCCTV.setOnClickListener { showBase64ImageDialog(requireContext(), audioCameraImage, "CCTV Cameras") }
-
-                    binding.yesNoLANComputers.text = safeText(lanEnabled)
-                    binding.valueLANComputers.setOnClickListener { showBase64ImageDialog(requireContext(), lanEnabledImage, "LAN Enabled Computers") }
-
-                    binding.yesNoInternet.text = safeText(internetConnection)
-                    binding.valueInternet.setOnClickListener { showBase64ImageDialog(requireContext(), internetConnectionImage, "Internet Connection") }
-
-                    binding.yesNoTypingTutor.text = safeText(typingTuterComp)
-                    binding.valueTypingTutor.setOnClickListener { showBase64ImageDialog(requireContext(), typingTuterCompImage, "Typing Tutor Computers") }
-
-                    binding.yesNoTablets.text = safeText(tablet)
-                    binding.valueTablets.setOnClickListener { showBase64ImageDialog(requireContext(), tabletImage, "Tablets") }
-
-                    binding.yesNoStools.text = safeText(candidateChair)
-                    binding.valueStools.setOnClickListener { showBase64ImageDialog(requireContext(), candidateChairImage, "Candidate Chair") }
-
-                    binding.yesNoTrainerChair.text = safeText(trainerChair)
-                    binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), trainerChairImage, "Trainer Chair") }
-
-                    binding.yesNoTrainerTable.text = safeText(trainerTable)
-                    binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), trainerTableImage, "Trainer Table") }
-
-                    binding.yesNoLights.text = safeText(lights)
-                    binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), lightsImage, "Lights") }
-
-                    binding.yesNoFans.text = safeText(fans)
-                    binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), fansRoomImage, "Fans") }
-
-                    binding.yesNoPowerBackup.text = safeText(ecPowerBackup)
-                    binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), ecPowerBackupImage, "Power Backup") }
-
-                    binding.yesNoLabPhoto.text = safeText(roomsPhotographs)
-                    binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), roomsPhotographsImage, "IT Lab Photograph") }
-
-                    binding.yesNodomainrelatedequipPhoto.text = safeText(domainEquipment)
-                    binding.valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), domainEquipmentImage, "Domain Equipment") }
-
-                    binding.yesNoAirConditioning.text = safeText(airConditionRoom)
-                    binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(requireContext(), airConditionRoomImage, "Air Conditioning") }
-
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                    dialog.show()
-                        }
-                }
-                "IT Lab" -> {
-                    val binding = ItLabLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder,
-                    )
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-                        showProgressBar()
-                        delay(2000L)
-
-                        hideProgressBar()                        // Populate fields
-                        binding.yesNoTypeOfRoof.text = safeText(roofType)
-                        binding.valueTypeOfRoof.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), roofTypeImage, "Type of Roof")
-                        }
-
-                        binding.yesNoFalseCeiling.text = safeText(falseCeiling)
-                        binding.valueFalseCeiling.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                falseCeilingImage,
-                                "False Ceiling"
-                            )
-                        }
-
-                        binding.yesNoHeightCeiling.text = safeText(ceilingHeight)
-                        binding.valueHeightCeiling.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                ceilingHeightImage,
-                                "Height of Ceiling"
-                            )
-                        }
-
-                        binding.yesNoVentilationArea.text = safeText(ventilationArea)
-                        binding.valueVentilationArea.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                ventilationAreaImage,
-                                "Ventilation Area"
-                            )
-                        }
-
-                        binding.yesNoSoundLevel.text = safeText(soundLevel)
-                        binding.valueSoundLevel.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), soundLevelImage, "Sound Level")
-                        }
-
-                        binding.yesNoSoundProofAC.text = safeText(centerSoundProof)
-                        binding.valueSoundProofAC.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                centerSoundProofImage,
-                                "Sound Proof & AC"
-                            )
-                        }
-
-                        binding.yesNoInfoBoard.text = safeText(roomInfoBoard)
-                        binding.valueInfoBoard.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                roomInfoBoardImage,
-                                "Room Info Board"
-                            )
-                        }
-
-                        binding.yesNoInternalSignage.text = safeText(internalSignage)
-                        binding.valueInternalSignage.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                internalSignageImage,
-                                "Internal Signage"
-                            )
-                        }
-
-                        binding.yesNoCCTV.text = safeText(audioCamera)
-                        binding.valueCCTV.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                audioCameraImage,
-                                "CCTV & Audio"
-                            )
-                        }
-
-                        binding.yesNoLANComputers.text = safeText(lanEnabled)
-                        binding.valueLANComputers.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                lanEnabledImage,
-                                "LAN Enabled Computers"
-                            )
-                        }
-
-                        binding.yesNoInternet.text = safeText(internetConnection)
-                        binding.valueInternet.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                internetConnectionImage,
-                                "Internet Connection"
-                            )
-                        }
-
-                        binding.yesNoTypingTutor.text = safeText(typingTuterComp)
-                        binding.valueTypingTutor.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                typingTuterCompImage,
-                                "Typing Tutor Computers"
-                            )
-                        }
-
-                        binding.yesNoTablets.text = safeText(tablet)
-                        binding.valueTablets.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), tabletImage, "Tablets")
-                        }
-
-                        binding.yesNoStools.text = safeText(candidateChair)
-                        binding.valueStools.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                candidateChairImage,
-                                "Stools / Chairs"
-                            )
-                        }
-
-                        binding.yesNoTrainerChair.text = safeText(trainerChair)
-                        binding.valueTrainerChair.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                trainerChairImage,
-                                "Trainer Chair"
-                            )
-                        }
-
-                        binding.yesNoTrainerTable.text = safeText(trainerTable)
-                        binding.valueTrainerTable.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                trainerTableImage,
-                                "Trainer Table"
-                            )
-                        }
-
-                        binding.yesNoLights.text = safeText(lights)
-                        binding.valueLights.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), lightsImage, "Lights")
-                        }
-
-                        binding.yesNoFans.text = safeText(fans)
-                        binding.valueFans.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), fansRoomImage, "Fans")
-                        }
-
-                        binding.yesNoPowerBackup.text = safeText(ecPowerBackup)
-                        binding.valuePowerBackup.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                ecPowerBackupImage,
-                                "Power Backup"
-                            )
-                        }
-
-                        binding.yesNoLabPhoto.text = safeText(roomsPhotographs)
-                        binding.valueITLabPhoto.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                roomsPhotographsImage,
-                                "IT Lab Photo"
-                            )
-                        }
-
-                        binding.yesNoAirConditioning.text = safeText(airConditionRoom)
-                        binding.valueAirConditioning.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                airConditionRoomImage,
-                                "Air Conditioning"
-                            )
-                        }
-
-                        binding.backButton.setOnClickListener { dialog.dismiss() }
-                        dialog.show()
-                    }
-                }
-                "Domain Lab" -> {
-                    val binding = DomainLabLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder,
-                    )
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-                        showProgressBar()
-                        delay(2000L)
-
-                        hideProgressBar()                        // 1. Type of Roof
-                        binding.yesNoTypeOfRoof.text = safeText(roofType)
-                        binding.valueTypeOfRoof.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), roofTypeImage, "Type of Roof")
-                        }
-
-                        // 2. False Ceiling
-                        binding.yesNoFalseCeiling.text = safeText(falseCeiling)
-                        binding.valueFalseCeiling.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                falseCeilingImage,
-                                "False Ceiling"
-                            )
-                        }
-
-                        // 3. Height of Ceiling
-                        binding.yesNoHeightCeiling.text = safeText(ceilingHeight)
-                        binding.valueHeightCeiling.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                ceilingHeightImage,
-                                "Height of Ceiling"
-                            )
-                        }
-
-                        // 4. Ventilation Area
-                        binding.yesNoVentilationArea.text = safeText(ventilationArea)
-                        binding.valueVentilationArea.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                ventilationAreaImage,
-                                "Ventilation Area"
-                            )
-                        }
-
-                        // 5. Sound Level
-                        binding.yesNoSoundLevel.text = safeText(soundLevel)
-                        binding.valueSoundLevel.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), soundLevelImage, "Sound Level")
-                        }
-
-                        // 6. Sound Proof & AC
-                        binding.yesNoSoundProofAC.text = safeText(centerSoundProof)
-                        binding.valueSoundProofAC.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                centerSoundProofImage,
-                                "Sound Proof & AC"
-                            )
-                        }
-
-                        // 10. Academic Room Info Board
-                        binding.yesNoInfoBoard.text = safeText(roomInfoBoard)
-                        binding.valueInfoBoard.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                roomInfoBoardImage,
-                                "Room Info Board"
-                            )
-                        }
-
-                        // 11. Internal Signage
-                        binding.yesNoInternalSignage.text = safeText(internalSignage)
-                        binding.valueInternalSignage.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                internalSignageImage,
-                                "Internal Signage"
-                            )
-                        }
-
-                        // 12. CCTV with Audio
-                        binding.yesNoCCTV.text = safeText(audioCamera)
-                        binding.valueCCTV.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                audioCameraImage,
-                                "CCTV & Audio"
-                            )
-                        }
-
-                        // 13. LAN Enabled Computers / LCD Digital Projector
-                        binding.yesNoLCDComputers.text = safeText(lanEnabled)
-                        binding.valueLCDComputers.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                lanEnabledImage,
-                                "LAN Enabled Computers"
-                            )
-                        }
-
-                        // 14. Chair for Candidates
-                        binding.yesNoChairForCan.text = safeText(candidateChair)
-                        binding.valueChairForCan.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                candidateChairImage,
-                                "Chair for Candidates"
-                            )
-                        }
-
-                        // 15. Writing Board
-                        binding.yesNoWritingBoard.text = safeText(writingBoard)
-                        binding.valueWritingBoard.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                writingBoardImage,
-                                "Writing Board"
-                            )
-                        }
-
-                        // 18. Trainer Chair
-                        binding.yesNoTrainerChair.text = safeText(trainerChair)
-                        binding.valueTrainerChair.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                trainerChairImage,
-                                "Trainer Chair"
-                            )
-                        }
-
-                        // 19. Trainer Table
-                        binding.yesNoTrainerTable.text = safeText(trainerTable)
-                        binding.valueTrainerTable.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                trainerTableImage,
-                                "Trainer Table"
-                            )
-                        }
-
-                        // 20. Lights
-                        binding.yesNoLights.text = safeText(lights)
-                        binding.valueLights.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), lightsImage, "Lights")
-                        }
-
-                        // 21. Fans
-                        binding.yesNoFans.text = safeText(fans)
-                        binding.valueFans.setOnClickListener {
-                            showBase64ImageDialog(requireContext(), fansRoomImage, "Fans")
-                        }
-
-                        // 22. Electrical Power Backup
-                        binding.yesNoPowerBackup.text = safeText(ecPowerBackup)
-                        binding.valuePowerBackup.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                ecPowerBackupImage,
-                                "Power Backup"
-                            )
-                        }
-
-                        // 23. IT Lab Photo
-                        binding.yesNoLabPhoto.text = safeText(roomsPhotographs)
-                        binding.valueITLabPhoto.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                roomsPhotographsImage,
-                                "IT Lab Photo"
-                            )
-                        }
-
-                        // Domain Related Equipment Photo
-                        binding.yesNodomainrelatedequipPhoto.text = safeText(domainEquipment)
-                        binding.valuedomainrelatedequipPhoto.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                domainEquipmentImage,
-                                "Domain Related Equipment"
-                            )
-                        }
-
-                        // 24. Air Conditioning
-                        binding.yesNoAirConditioning.text = safeText(airConditionRoom)
-                        binding.valueAirConditioning.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                airConditionRoomImage,
-                                "Air Conditioning"
-                            )
-                        }
-
-                        // Back button
-                        binding.backButton.setOnClickListener { dialog.dismiss() }
-
-                        dialog.show()
-                    }
-
-                }
-
-*/
-
-
-                "Theory Class Room" -> {
-                    showProgressBar()
-                    val binding = TheoryClassRoomBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder,
-                    )
-
-
-
-                    // 🔹 Call the API
-                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                    // 🔹 Observe API Response
-                    viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
-                        result.onSuccess { response ->
-                            hideProgressBar()
-
-                            val data = response.wrappedList.firstOrNull() // Adjust per your response structure
-
-                            if (data != null) {
-                                binding.yesNoTypeOfRoof.text = safeText(data.roofType)
-                                binding.yesNoFalseCeiling.text = safeText(data.falseCeiling)
-                                binding.yesNoHeightCeiling.text = safeText(data.ceilingHeight.toString())
-                                binding.yesNoVentilationArea.text = safeText(data.ventilationArea.toString())
-                                binding.yesNoSoundLevel.text = safeText(data.soundLevel.toString())
-                                binding.yesNoSoundProofAC.text = safeText(data.centerSoundProof)
-                                binding.yesNoInfoBoard.text = safeText(data.roomInfoBoard)
-                                binding.yesNoInternalSignage.text = safeText(data.internalSignage)
-                                binding.yesNoCCTV.text = safeText(data.audioCamera)
-                                binding.yesNoLCDComputers.text = safeText(data.digitalProjector)
-                                binding.yesNoChairForCan.text = safeText(data.candidateChair)
-                                binding.yesNoWritingBoard.text = safeText(data.writingBoard)
-                                binding.yesNoTrainerChair.text = safeText(data.trainerChair)
-                                binding.yesNoTrainerTable.text = safeText(data.trainerTable)
-                                binding.yesNoLights.text = safeText(data.lights.toString())
-                                binding.yesNoFans.text = safeText(data.fans.toString())
-                                binding.yesNoPowerBackup.text = safeText(data.ecPowerBackup)
-                                binding.yesNoLabPhoto.text = safeText(data.roomsPhotographs)
-                                binding.yesNoAirConditioning.text = safeText(data.airConditionRoom)
-
-                                // Example image click
-                                binding.valueTypeOfRoof.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), roofTypeImage, "Roof Type Image")
-                                }
-
-                                binding.valueFalseCeiling.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), falseCeilingImage, "False Ceiling Image")
-                                }
-
-                                binding.valueHeightCeiling.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), ceilingHeightImage, "Ceiling Height Image")
-                                }
-
-                                binding.valueVentilationArea.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), ventilationAreaImage, "Ventilation Area Image")
-                                }
-
-                                binding.valueSoundLevel.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), soundLevelImage, "Sound Level Image")
-                                }
-
-                                binding.valueSoundProofAC.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), centerSoundProofImage, "Sound Proof & AC Image")
-                                }
-
-                                binding.valueInfoBoard.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), roomInfoBoardImage, "Information Board Image")
-                                }
-
-                                binding.valueInternalSignage.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), internalSignageImage, "Internal Signage Image")
-                                }
-
-                                binding.valueCCTV.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), audioCameraImage, "CCTV & Audio Image")
-                                }
-
-                                binding.valueLCDComputers.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), digitalProjectorImage, "Digital Projector / LCD Image")
-                                }
-
-                                binding.valueChairForCan.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), candidateChairImage, "Candidate Chair Image")
-                                }
-
-                                binding.valueWritingBoard.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), writingBoardImage, "Writing Board Image")
-                                }
-
-                                binding.valueTrainerChair.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), trainerChairImage, "Trainer Chair Image")
-                                }
-
-                                binding.valueTrainerTable.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), trainerTableImage, "Trainer Table Image")
-                                }
-
-                                binding.valueLights.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), lightsImage, "Lights Image")
-                                }
-
-                                binding.valueFans.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), fansRoomImage, "Fans Image")
-                                }
-
-                                binding.valuePowerBackup.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), ecPowerBackupImage, "Power Backup Image")
-                                }
-
-                                binding.valueITLabPhoto.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), roomsPhotographsImage, "Room Photos")
-                                }
-
-                                binding.valueAirConditioning.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), airConditionRoomImage, "Air Conditioning Image")
-                                }
-
-
-
-
-
-                            binding.backButton.setOnClickListener { dialog.dismiss() }
-                            } else {
-                                Toast.makeText(requireContext(), "No data available", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        result.onFailure {
-                            hideProgressBar()
-                            Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-
-                "Office Cum Counselling Room" -> {
-                    showProgressBar()
-
-                    val binding = OfficeCumCouncelingRoomLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder
-                    )
-
-                    // 🔹 Call the API
-                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                    // 🔹 Observe API Response
-                    viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
-                        result.onSuccess { response ->
-                            hideProgressBar()
-
-                            val data = response.wrappedList.firstOrNull()
-                            if (data != null) {
-                                // ✅ Set Text Data
-                                binding.yesNoOfficeRoomPhoto.text = safeText(data.roomsPhotographs)
-                                binding.yesNoRoofType.text = safeText(data.roofType)
-                                binding.yesNoFalseCeiling.text = safeText(data.falseCeiling)
-                                binding.yesNoCeilingHeight.text = safeText(data.ceilingHeight.toString())
-                                binding.yesNoStorage.text = safeText(data.secureDocumentStorage)
-                                binding.yesNoOfficeTable.text = safeText(data.officeTable)
-                                binding.yesNoChairs.text = safeText(data.officeChair)
-                                binding.yesNoComputerTable.text = safeText(data.officeComputer)
-                                binding.yesNoPrinter.text = safeText(data.printerScanner)
-                                binding.yesNoCamera.text = safeText(data.digitalCamera)
-                                binding.yesNoPowerBackup.text = safeText(data.ecPowerBackup)
-
-                                // ✅ Image Clicks
-                                binding.valueOfficeRoomPhoto.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "Room Photo")
-                                }
-                                binding.valueRoofType.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.roofTypeImage, "Roof Type Image")
-                                }
-                                binding.valueFalseCeiling.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.falseCeilingImage, "False Ceiling Image")
-                                }
-                                binding.valueCeilingHeight.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.ceilingHeightImage, "Ceiling Height Image")
-                                }
-                                binding.valueStorage.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.secureDocumentStorageImage, "Storage Image")
-                                }
-                                binding.valueOfficeTable.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.officeTableImage, "Office Table Image")
-                                }
-                                binding.valueChairs.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.officeChairImage, "Chairs Image")
-                                }
-                                binding.valueComputerTable.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.officeComputerImagePath, "Computer Table Image")
-                                }
-                                binding.valuePrinter.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.printerScannerImage, "Printer / Scanner Image")
-                                }
-                                binding.valueCamera.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.digitalCameraImage, "Digital Camera Image")
-                                }
-                                binding.valuePowerBackup.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup Image")
-                                }
-                            } else {
-                                Toast.makeText(requireContext(), "No data available", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        result.onFailure {
-                            hideProgressBar()
-                            Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-
-                "Reception Area" -> {
-                    showProgressBar()
-
-                    val binding = ReceptionAreaLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder
-                    )
-
-                    // 🔹 Call API
-                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                    // 🔹 Observe API Response
-                    viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
-                        result.onSuccess { response ->
-                            hideProgressBar()
-
-                            val data = response.wrappedList.firstOrNull()
-                            if (data != null) {
-                                // ✅ Set data to TextViews
-                                binding.yesNoReceptionAreaPhoto.text = safeText(data.roomsPhotographs)
-
-                                // ✅ Open Image on click
-                                binding.valueReceptionAreaPhoto.setOnClickListener {
-                                    showBase64ImageDialog(
-                                        requireContext(),
-                                        data.roomsPhotographsImage,
-                                        "Reception Area Photo"
-                                    )
-                                }
-                            } else {
-                                Toast.makeText(requireContext(), "No data available", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        result.onFailure {
-                            hideProgressBar()
-                            Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-
-                "Counselling Room" -> {
-                    showProgressBar()
-
-                    val binding = CounsellingRoomBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toIntOrNull() ?: 0, // ✅ safer conversion
-                        sanctionOrder = sanctionOrder
-                    )
-
-                    // 🔹 Call API
-                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                    // 🔹 Observe API Response
-                    viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
-                        result.onSuccess { response ->
-                            hideProgressBar()
-
-                            val data = response.wrappedList.firstOrNull()
-                            if (data != null) {
-                                // ✅ Set data to TextViews
-                                binding.yesNoCounsellingAreaPhoto.text = safeText(data.roomsPhotographs)
-
-                                // ✅ Open Image on click
-                                binding.valueCounsellingAreaPhoto.setOnClickListener {
-                                    showBase64ImageDialog(
-                                        requireContext(),
-                                        data.roomsPhotographsImage,
-                                        "Counselling Area Photo"
-                                    )
-                                }
-                            } else {
-                                Toast.makeText(requireContext(), "No data available", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        result.onFailure {
-                            hideProgressBar()
-                            Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    // 🔹 Dismiss dialog on back button click
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-                "Office Room" -> {
-                    showProgressBar()
-
-                    val binding = OfficeRoomLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toIntOrNull() ?: 0, // ✅ safer conversion
-                        sanctionOrder = sanctionOrder
-                    )
-
-                    // 🔹 Call API
-                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                    // 🔹 Observe API Response
-                    viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
-                        result.onSuccess { response ->
-                            hideProgressBar()
-
-                            val data = response.wrappedList.firstOrNull()
-                            if (data != null) {
-                                // ✅ Set text data
-                                binding.yesNoOfficeRoomPhoto.text = safeText(data.roomsPhotographs)
-                                binding.yesNoRoofType.text = safeText(data.roofType)
-                                binding.yesNoFalseCeiling.text = safeText(data.falseCeiling)
-                                binding.yesNoCeilingHeight.text = safeText(data.ceilingHeight)
-                                binding.yesNoStorage.text = safeText(data.secureDocumentStorage)
-                                binding.yesNoOfficeTable.text = safeText(data.officeTable)
-                                binding.yesNoChairs.text = safeText(data.officeChair)
-                                binding.yesNoComputerTable.text = safeText(data.officeComputer)
-                                binding.yesNoPrinter.text = safeText(data.printerScanner)
-                                binding.yesNoCamera.text = safeText(data.digitalCamera)
-                                binding.yesNoPowerBackup.text = safeText(data.ecPowerBackup)
-
-                                // ✅ Image click listeners
-                                binding.valueOfficeRoomPhoto.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "Office Room Photo")
-                                }
-                                binding.valueRoofType.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.roofTypeImage, "Roof Type Image")
-                                }
-                                binding.valueFalseCeiling.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.falseCeilingImage, "False Ceiling Image")
-                                }
-                                binding.valueCeilingHeight.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.ceilingHeightImage, "Ceiling Height Image")
-                                }
-                                binding.valueStorage.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.secureDocumentStorageImage, "Storage Place Image")
-                                }
-                                binding.valueOfficeTable.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.officeTableImage, "Office Table Image")
-                                }
-                                binding.valueChairs.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.officeChairImage, "Chairs Image")
-                                }
-                                binding.valueComputerTable.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.officeComputerImagePath, "Computer Table Image")
-                                }
-                                binding.valuePrinter.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.printerScannerImage, "Printer / Scanner Image")
-                                }
-                                binding.valueCamera.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.digitalCameraImage, "Digital Camera Image")
-                                }
-                                binding.valuePowerBackup.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup Image")
-                                }
-                            } else {
-                                Toast.makeText(requireContext(), "No data available", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        result.onFailure {
-                            hideProgressBar()
-                            Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    // 🔹 Dismiss dialog on back button click
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-
-
-                "IT cum Domain Lab" -> {
-                    showProgressBar()
-
-                    val binding = ItCumDomainLabLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toIntOrNull() ?: 0,
-                        sanctionOrder = sanctionOrder
-                    )
-
-                    // 🔹 Call API
-                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                    // 🔹 Observe API Response
-                    viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
-                        result.onSuccess { response ->
-                            hideProgressBar()
-
-                            val data = response.wrappedList.firstOrNull()
-                            if (data != null) {
-                                // ✅ Set text values
-                                binding.yesNoTypeOfRoof.text = safeText(data.roofType)
-                                binding.yesNoFalseCeiling.text = safeText(data.falseCeiling)
-                                binding.yesNoHeightCeiling.text = safeText(data.ceilingHeight)
-                                binding.yesNoVentilationArea.text = safeText(data.ventilationArea)
-                                binding.yesNoSoundLevel.text = safeText(data.soundLevel)
-                                binding.yesNoSoundProofAC.text = safeText(data.centerSoundProof)
-                                binding.yesNoInfoBoard.text = safeText(data.roomInfoBoard)
-                                binding.yesNoInternalSignage.text = safeText(data.internalSignage)
-                                binding.yesNoCCTV.text = safeText(data.audioCamera)
-                                binding.yesNoLANComputers.text = safeText(data.lanEnabled)
-                                binding.yesNoInternet.text = safeText(data.internetConnection)
-                                binding.yesNoTypingTutor.text = safeText(data.typingTuterComp)
-                                binding.yesNoTablets.text = safeText(data.tablet)
-                                binding.yesNoTrainerChair.text = safeText(data.trainerChair)
-                                binding.yesNoTrainerTable.text = safeText(data.trainerTable)
-                                binding.yesNoLights.text = safeText(data.lights)
-                                binding.yesNoFans.text = safeText(data.fans)
-                                binding.yesNoPowerBackup.text = safeText(data.ecPowerBackup)
-                                binding.yesNoAirConditioning.text = safeText(data.airConditionRoom)
-                                binding.yesNoLabPhoto.text = safeText(data.roomsPhotographs)
-                                binding.yesNodomainrelatedequipPhoto.text = safeText(data.domainEquipment)
-                                binding.yesNoStools.text = safeText(data.candidateChair)
-
-                                // ✅ Set image click listeners
-                                binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(requireContext(), data.roofTypeImage, "Roof Type") }
-                                binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(requireContext(), data.falseCeilingImage, "False Ceiling") }
-                                binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(requireContext(), data.ceilingHeightImage, "Height of Ceiling") }
-                                binding.valueVentilationArea.setOnClickListener { showBase64ImageDialog(requireContext(), data.ventilationAreaImage, "Ventilation Area") }
-                                binding.valueSoundLevel.setOnClickListener { showBase64ImageDialog(requireContext(), data.soundLevelImage, "Sound Level") }
-                                binding.valueSoundProofAC.setOnClickListener { showBase64ImageDialog(requireContext(), data.centerSoundProofImage, "Sound Proof / AC") }
-                                binding.valueInfoBoard.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomInfoBoardImage, "Information Board") }
-                                binding.valueInternalSignage.setOnClickListener { showBase64ImageDialog(requireContext(), data.internalSignageImage, "Internal Signage") }
-                                binding.valueCCTV.setOnClickListener { showBase64ImageDialog(requireContext(), data.audioCameraImage, "CCTV Camera") }
-                                binding.valueLANComputers.setOnClickListener { showBase64ImageDialog(requireContext(), data.lanEnabledImage, "LAN Computers") }
-                                binding.valueInternet.setOnClickListener { showBase64ImageDialog(requireContext(), data.internetConnectionImage, "Internet Connection") }
-                                binding.valueTypingTutor.setOnClickListener { showBase64ImageDialog(requireContext(), data.typingTuterCompImage, "Typing Tutor") }
-                                binding.valueTablets.setOnClickListener { showBase64ImageDialog(requireContext(), data.tabletImage, "Tablets") }
-                                binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerChairImage, "Trainer Chair") }
-                                binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerTableImage, "Trainer Table") }
-                                binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), data.lightsImage, "Lights") }
-                                binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), data.fansImage, "Fans") }
-                                binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup") }
-                                binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(requireContext(), data.airConditionRoomImage, "Air Conditioning") }
-                                binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "IT cum Domain Lab Photo") }
-                                binding.valueStools.setOnClickListener { showBase64ImageDialog(requireContext(), data.candidateChairImage, "Domain Related Equipment") }
-
-                            } else {
-                                Toast.makeText(requireContext(), "No data available", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        result.onFailure {
-                            hideProgressBar()
-                            Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    // 🔹 Dismiss dialog on back button click
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-
-
-                "Theory Cum IT Lab" -> {
-                    showProgressBar()
-
-                    val binding = TheoryCumItLabLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toIntOrNull() ?: 0,
-                        sanctionOrder = sanctionOrder
-                    )
-
-                    // 🔹 Call API
-                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                    // 🔹 Observe API Response
-                    viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
-                        result.onSuccess { response ->
-                            hideProgressBar()
-
-                            val data = response.wrappedList.firstOrNull()
-                            if (data != null) {
-                                // ✅ Set text values
-                                binding.yesNoTypeOfRoof.text = safeText(data.roofType)
-                                binding.yesNoFalseCeiling.text = safeText(data.falseCeiling)
-                                binding.yesNoHeightCeiling.text = safeText(data.ceilingHeight)
-                                binding.yesNoVentilationArea.text = safeText(data.ventilationArea)
-                                binding.yesNoSoundLevel.text = safeText(data.soundLevel)
-                                binding.yesNoSoundProofAC.text = safeText(data.centerSoundProof)
-                                binding.yesNoInfoBoard.text = safeText(data.roomInfoBoard)
-                                binding.yesNoInternalSignage.text = safeText(data.internalSignage)
-                                binding.yesNoCCTV.text = safeText(data.audioCamera)
-                                binding.yesNoLANComputers.text = safeText(data.lanEnabled)
-                                binding.yesNoInternet.text = safeText(data.internetConnection)
-                                binding.yesNoTypingTutor.text = safeText(data.typingTuterComp)
-                                binding.yesNoTablets.text = safeText(data.tablet)
-                                binding.yesNoStools.text = safeText(data.candidateChair)
-                                binding.yesNoTrainerChair.text = safeText(data.trainerChair)
-                                binding.yesNoTrainerTable.text = safeText(data.trainerTable)
-                                binding.yesNoLights.text = safeText(data.lights)
-                                binding.yesNoFans.text = safeText(data.fans)
-                                binding.yesNoPowerBackup.text = safeText(data.ecPowerBackup)
-                                binding.yesNoLabPhoto.text = safeText(data.roomsPhotographs)
-                                binding.yesNodomainrelatedequipPhoto.text = safeText(data.domainEquipment)
-                                binding.yesNoAirConditioning.text = safeText(data.airConditionRoom)
-
-                                // ✅ Set image click listeners
-                                binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(requireContext(), data.roofTypeImage, "Type of Roof") }
-                                binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(requireContext(), data.falseCeilingImage, "False Ceiling") }
-                                binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(requireContext(), data.ceilingHeightImage, "Height of Ceiling") }
-                                binding.valueVentilationArea.setOnClickListener { showBase64ImageDialog(requireContext(), data.ventilationAreaImage, "Ventilation Area") }
-                                binding.valueSoundLevel.setOnClickListener { showBase64ImageDialog(requireContext(), data.soundLevelImage, "Sound Level") }
-                                binding.valueSoundProofAC.setOnClickListener { showBase64ImageDialog(requireContext(), data.centerSoundProofImage, "Sound Proof & AC") }
-                                binding.valueInfoBoard.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomInfoBoardImage, "Room Info Board") }
-                                binding.valueInternalSignage.setOnClickListener { showBase64ImageDialog(requireContext(), data.internalSignageImage, "Internal Signage") }
-                                binding.valueCCTV.setOnClickListener { showBase64ImageDialog(requireContext(), data.audioCameraImage, "CCTV Cameras") }
-                                binding.valueLANComputers.setOnClickListener { showBase64ImageDialog(requireContext(), data.lanEnabledImage, "LAN Enabled Computers") }
-                                binding.valueInternet.setOnClickListener { showBase64ImageDialog(requireContext(), data.internetConnectionImage, "Internet Connection") }
-                                binding.valueTypingTutor.setOnClickListener { showBase64ImageDialog(requireContext(), data.typingTuterCompImage, "Typing Tutor Computers") }
-                                binding.valueTablets.setOnClickListener { showBase64ImageDialog(requireContext(), data.tabletImage, "Tablets") }
-                                binding.valueStools.setOnClickListener { showBase64ImageDialog(requireContext(), data.candidateChairImage, "Candidate Chair") }
-                                binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerChairImage, "Trainer Chair") }
-                                binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerTableImage, "Trainer Table") }
-                                binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), data.lightsImage, "Lights") }
-                                binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), data.fansImage, "Fans") }
-                                binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup") }
-                                binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "IT Lab Photograph") }
-                                binding.valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.domainEquipmentImage, "Domain Equipment") }
-                                binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(requireContext(), data.airConditionRoomImage, "Air Conditioning") }
-
-                            } else {
-                                Toast.makeText(requireContext(), "No data available", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        result.onFailure {
-                            hideProgressBar()
-                            Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    // 🔹 Dismiss dialog on back button click
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-
-
-
-                "Theory Cum Domain Lab" -> {
-                    val binding = TheoryCumDomainLabLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toInt(),
-                        sanctionOrder = sanctionOrder,
-                    )
-
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-                        showProgressBar()
-                        delay(2000L)
-
-                        hideProgressBar()                        // ---------------------- Set all fields ----------------------
-                        binding.yesNoTypeOfRoof.text = safeText(roofType)
-                        binding.valueTypeOfRoof.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                roofTypeImage,
-                                "Type of Roof"
-                            )
-                        }
-
-                        binding.yesNoFalseCeiling.text = safeText(falseCeiling)
-                        binding.valueFalseCeiling.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                falseCeilingImage,
-                                "False Ceiling"
-                            )
-                        }
-
-                        binding.yesNoHeightCeiling.text = safeText(ceilingHeight)
-                        binding.valueHeightCeiling.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                ceilingHeightImage,
-                                "Height of Ceiling"
-                            )
-                        }
-
-                        binding.yesNoVentilationArea.text = safeText(ventilationArea)
-                        binding.valueVentilationArea.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                ventilationAreaImage,
-                                "Ventilation Area"
-                            )
-                        }
-
-                        binding.yesNoSoundLevel.text = safeText(soundLevel)
-                        binding.valueSoundLevel.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                soundLevelImage,
-                                "Sound Level"
-                            )
-                        }
-
-                        binding.yesNoSoundProofAC.text = safeText(centerSoundProof)
-                        binding.valueSoundProofAC.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                centerSoundProofImage,
-                                "Sound Proof & AC"
-                            )
-                        }
-
-                        binding.yesNoInfoBoard.text = safeText(roomInfoBoard)
-                        binding.valueInfoBoard.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                roomInfoBoardImage,
-                                "Room Info Board"
-                            )
-                        }
-
-                        binding.yesNoInternalSignage.text = safeText(internalSignage)
-                        binding.valueInternalSignage.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                internalSignageImage,
-                                "Internal Signage"
-                            )
-                        }
-
-                        binding.yesNoCCTV.text = safeText(audioCamera)
-                        binding.valueCCTV.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                audioCameraImage,
-                                "CCTV Cameras"
-                            )
-                        }
-
-                        binding.yesNoLANComputers.text = safeText(lanEnabled)
-                        binding.valueLANComputers.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                lanEnabledImage,
-                                "LAN Enabled Computers"
-                            )
-                        }
-
-                        binding.yesNoInternet.text = safeText(internetConnection)
-                        binding.valueInternet.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                internetConnectionImage,
-                                "Internet Connection"
-                            )
-                        }
-
-                        binding.yesNoTypingTutor.text = safeText(typingTuterComp)
-                        binding.valueTypingTutor.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                typingTuterCompImage,
-                                "Typing Tutor Computers"
-                            )
-                        }
-
-                        binding.yesNoTablets.text = safeText(tablet)
-                        binding.valueTablets.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                tabletImage,
-                                "Tablets"
-                            )
-                        }
-
-                        binding.yesNoStools.text = safeText(candidateChair)
-                        binding.valueStools.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                candidateChairImage,
-                                "Candidate Chair"
-                            )
-                        }
-
-                        binding.yesNoTrainerChair.text = safeText(trainerChair)
-                        binding.valueTrainerChair.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                trainerChairImage,
-                                "Trainer Chair"
-                            )
-                        }
-
-                        binding.yesNoTrainerTable.text = safeText(trainerTable)
-                        binding.valueTrainerTable.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                trainerTableImage,
-                                "Trainer Table"
-                            )
-                        }
-
-                        binding.yesNoLights.text = safeText(lights)
-                        binding.valueLights.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                lightsImage,
-                                "Lights"
-                            )
-                        }
-
-                        binding.yesNoFans.text = safeText(fans)
-                        binding.valueFans.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                fansRoomImage,
-                                "Fans"
-                            )
-                        }
-
-                        binding.yesNoPowerBackup.text = safeText(ecPowerBackup)
-                        binding.valuePowerBackup.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                ecPowerBackupImage,
-                                "Power Backup"
-                            )
-                        }
-
-                        binding.yesNoLabPhoto.text = safeText(roomsPhotographs)
-                        binding.valueITLabPhoto.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                roomsPhotographsImage,
-                                "IT Lab Photograph"
-                            )
-                        }
-
-                        binding.yesNodomainrelatedequipPhoto.text = safeText(domainEquipment)
-                        binding.valuedomainrelatedequipPhoto.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                domainEquipmentImage,
-                                "Domain Equipment"
-                            )
-                        }
-
-                        binding.yesNoAirConditioning.text = safeText(airConditionRoom)
-                        binding.valueAirConditioning.setOnClickListener {
-                            showBase64ImageDialog(
-                                requireContext(),
-                                airConditionRoomImage,
-                                "Air Conditioning"
-                            )
-                        }
-
-                        dialog.show()
-                    }
-                }
-
-                "IT Lab" -> {
-                    showProgressBar()
-
-                    val binding = ItLabLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toIntOrNull() ?: 0,
-                        sanctionOrder = sanctionOrder
-                    )
-
-                    // 🔹 Call API
-                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                    // 🔹 Observe API Response
-                    viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
-                        result.onSuccess { response ->
-                            hideProgressBar()
-
-                            val data = response.wrappedList.firstOrNull()
-                            if (data != null) {
-                                // ✅ Set text values
-                                binding.yesNoTypeOfRoof.text = safeText(data.roofType)
-                                binding.yesNoFalseCeiling.text = safeText(data.falseCeiling)
-                                binding.yesNoHeightCeiling.text = safeText(data.ceilingHeight)
-                                binding.yesNoVentilationArea.text = safeText(data.ventilationArea)
-                                binding.yesNoSoundLevel.text = safeText(data.soundLevel)
-                                binding.yesNoSoundProofAC.text = safeText(data.centerSoundProof)
-                                binding.yesNoInfoBoard.text = safeText(data.roomInfoBoard)
-                                binding.yesNoInternalSignage.text = safeText(data.internalSignage)
-                                binding.yesNoCCTV.text = safeText(data.audioCamera)
-                                binding.yesNoLANComputers.text = safeText(data.lanEnabled)
-                                binding.yesNoInternet.text = safeText(data.internetConnection)
-                                binding.yesNoTypingTutor.text = safeText(data.typingTuterComp)
-                                binding.yesNoTablets.text = safeText(data.tablet)
-                                binding.yesNoStools.text = safeText(data.candidateChair)
-                                binding.yesNoTrainerChair.text = safeText(data.trainerChair)
-                                binding.yesNoTrainerTable.text = safeText(data.trainerTable)
-                                binding.yesNoLights.text = safeText(data.lights)
-                                binding.yesNoFans.text = safeText(data.fans)
-                                binding.yesNoPowerBackup.text = safeText(data.ecPowerBackup)
-                                binding.yesNoAirConditioning.text = safeText(data.airConditionRoom)
-                                binding.yesNoLabPhoto.text = safeText(data.roomsPhotographs)
-
-                                // ✅ Set image click listeners
-                                binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(requireContext(), data.roofTypeImage, "Type of Roof") }
-                                binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(requireContext(), data.falseCeilingImage, "False Ceiling") }
-                                binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(requireContext(), data.ceilingHeightImage, "Height of Ceiling") }
-                                binding.valueVentilationArea.setOnClickListener { showBase64ImageDialog(requireContext(), data.ventilationAreaImage, "Ventilation Area") }
-                                binding.valueSoundLevel.setOnClickListener { showBase64ImageDialog(requireContext(), data.soundLevelImage, "Sound Level") }
-                                binding.valueSoundProofAC.setOnClickListener { showBase64ImageDialog(requireContext(), data.centerSoundProofImage, "Sound Proof / AC") }
-                                binding.valueInfoBoard.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomInfoBoardImage, "Information Board") }
-                                binding.valueInternalSignage.setOnClickListener { showBase64ImageDialog(requireContext(), data.internalSignageImage, "Internal Signage") }
-                                binding.valueCCTV.setOnClickListener { showBase64ImageDialog(requireContext(), data.audioCameraImage, "CCTV Camera") }
-                                binding.valueLANComputers.setOnClickListener { showBase64ImageDialog(requireContext(), data.lanEnabledImage, "LAN Computers") }
-                                binding.valueInternet.setOnClickListener { showBase64ImageDialog(requireContext(), data.internetConnectionImage, "Internet Connection") }
-                                binding.valueTypingTutor.setOnClickListener { showBase64ImageDialog(requireContext(), data.typingTuterCompImage, "Typing Tutor") }
-                                binding.valueTablets.setOnClickListener { showBase64ImageDialog(requireContext(), data.tabletImage, "Tablets") }
-                                binding.valueStools.setOnClickListener { showBase64ImageDialog(requireContext(), data.candidateChairImage, "Stools / Chairs") }
-                                binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerChairImage, "Trainer Chair") }
-                                binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerTableImage, "Trainer Table") }
-                                binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), data.lightsImage, "Lights") }
-                                binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), data.fansImage, "Fans") }
-                                binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup") }
-                                binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(requireContext(), data.airConditionRoomImage, "Air Conditioning") }
-                                binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "IT Lab Photo") }
-
-                            } else {
-                                Toast.makeText(requireContext(), "No data available", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        result.onFailure {
-                            hideProgressBar()
-                            Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    // 🔹 Dismiss dialog on back button click
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-
-
-                "Domain Lab" -> {
-                    showProgressBar()
-
-                    val binding = DomainLabLayoutBinding.inflate(layoutInflater)
-                    val dialog = AlertDialog.Builder(requireContext())
-                        .setView(binding.root)
-                        .create()
-                    dialog.show()
-
-                    val requestTcRoomDetails = AllRoomDetaisReques(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId,
-                        roomType = room.roomType,
-                        roomNo = room.roomNo.toIntOrNull() ?: 0,
-                        sanctionOrder = sanctionOrder
-                    )
-
-                    // 🔹 Call API
-                    viewModel.getAcademicRoomDetails(requestTcRoomDetails)
-
-                    // 🔹 Observe API Response
-                    viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
-                        result.onSuccess { response ->
-                            hideProgressBar()
-
-                            val data = response.wrappedList.firstOrNull()
-                            if (data != null) {
-                                // ✅ Text fields
-                                binding.yesNoTypeOfRoof.text = safeText(data.roofType)
-                                binding.yesNoFalseCeiling.text = safeText(data.falseCeiling)
-                                binding.yesNoHeightCeiling.text = safeText(data.ceilingHeight)
-                                binding.yesNoVentilationArea.text = safeText(data.ventilationArea)
-                                binding.yesNoSoundLevel.text = safeText(data.soundLevel)
-                                binding.yesNoSoundProofAC.text = safeText(data.centerSoundProof)
-                                binding.yesNoInfoBoard.text = safeText(data.roomInfoBoard)
-                                binding.yesNoInternalSignage.text = safeText(data.internalSignage)
-                                binding.yesNoCCTV.text = safeText(data.audioCamera)
-                                binding.yesNoLCDComputers.text = safeText(data.lanEnabled)
-                                binding.yesNoChairForCan.text = safeText(data.candidateChair)
-                                binding.yesNoWritingBoard.text = safeText(data.writingBoard)
-                                binding.yesNoTrainerChair.text = safeText(data.trainerChair)
-                                binding.yesNoTrainerTable.text = safeText(data.trainerTable)
-                                binding.yesNoLights.text = safeText(data.lights)
-                                binding.yesNoFans.text = safeText(data.fans)
-                                binding.yesNoPowerBackup.text = safeText(data.ecPowerBackup)
-                                binding.yesNoLabPhoto.text = safeText(data.roomsPhotographs)
-                                binding.yesNodomainrelatedequipPhoto.text = safeText(data.domainEquipment)
-                                binding.yesNoAirConditioning.text = safeText(data.airConditionRoom)
-
-                                // ✅ Image click listeners
-                                binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(requireContext(), data.roofTypeImage, "Type of Roof") }
-                                binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(requireContext(), data.falseCeilingImage, "False Ceiling") }
-                                binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(requireContext(), data.ceilingHeightImage, "Height of Ceiling") }
-                                binding.valueVentilationArea.setOnClickListener { showBase64ImageDialog(requireContext(), data.ventilationAreaImage, "Ventilation Area") }
-                                binding.valueSoundLevel.setOnClickListener { showBase64ImageDialog(requireContext(), data.soundLevelImage, "Sound Level") }
-                                binding.valueSoundProofAC.setOnClickListener { showBase64ImageDialog(requireContext(), data.centerSoundProofImage, "Sound Proof & AC") }
-                                binding.valueInfoBoard.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomInfoBoardImage, "Room Info Board") }
-                                binding.valueInternalSignage.setOnClickListener { showBase64ImageDialog(requireContext(), data.internalSignageImage, "Internal Signage") }
-                                binding.valueCCTV.setOnClickListener { showBase64ImageDialog(requireContext(), data.audioCameraImage, "CCTV & Audio") }
-                                binding.valueLCDComputers.setOnClickListener { showBase64ImageDialog(requireContext(), data.lanEnabledImage, "LAN / LCD Digital Projector") }
-                                binding.valueChairForCan.setOnClickListener { showBase64ImageDialog(requireContext(), data.candidateChairImage, "Chair for Candidates") }
-                                binding.valueWritingBoard.setOnClickListener { showBase64ImageDialog(requireContext(), data.writingBoardImage, "Writing Board") }
-                                binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerChairImage, "Trainer Chair") }
-                                binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerTableImage, "Trainer Table") }
-                                binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), data.lightsImage, "Lights") }
-                                binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), data.fansImage, "Fans") }
-                                binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup") }
-                                binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "Domain Lab Photo") }
-                                binding.valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.domainEquipmentImage, "Domain Related Equipment") }
-                                binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(requireContext(), data.airConditionRoomImage, "Air Conditioning") }
-
-                            } else {
-                                Toast.makeText(requireContext(), "No data available", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        result.onFailure {
-                            hideProgressBar()
-                            Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-
-                    // 🔹 Dismiss dialog
-                    binding.backButton.setOnClickListener { dialog.dismiss() }
-                }
-
-                else -> {
-                    Toast.makeText(requireContext(), "No layout found for ${room.roomType}", Toast.LENGTH_SHORT).show()
+    override fun setupClickListeners() {
+        setupAllClickListeners()
+    }
+    val request = TrainingCenterInfo(
+        appVersion = BuildConfig.VERSION_NAME,
+        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+        tcId = centerId.toInt(),
+        sanctionOrder = sanctionOrder,
+        imeiNo = AppUtil.getAndroidId(requireContext())
+    )
+    override fun loadInitialData() {
+        // Load basic center info and staff
+
+        viewModel.getTrainerCenterInfo(request)
+        viewModel.getTcStaffDetails(request)
+    }
+
+    private fun setupRecyclerView() {
+        setupRecyclerView(
+            recyclerView = binding.recyclerView,
+            items = academiaList,
+            layoutManager = LinearLayoutManager(requireContext()),
+            bindingInflater = { inflater, parent, _ ->
+                DescriptionAcademiaLayoutBinding.inflate(inflater, parent, false)
+            },
+            onBind = { room, binding, _ ->
+                binding.tvMaxCandidate.text = room.maxPermissibleCandidate
+                binding.tvLength.text = room.roomLength
+                binding.tvWidth.text = room.roomWidth
+                binding.tvArea.text = room.roomArea
+                binding.tvRoomType.text = room.roomType
+
+                binding.btnView.setOnClickListener {
+                    handleRoomItemClick(room)
                 }
             }
-        }
-
-
-        // All Adapter
-
-        //Adapter Information
-        tcInfoAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
         )
-        binding.trainingCenterInfoLayout.SpinnerTcInfo.setAdapter(tcInfoAdapter)
-
-        binding.trainingCenterInfoLayout.SpinnerTcInfo.setOnItemClickListener { parent, view, position, id ->
-            selectedTcInfoApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcInfoApproval == "Send for modification") {
-
-                binding.trainingCenterInfoLayout.InfoRemarks.visibility = View.VISIBLE
-                binding.trainingCenterInfoLayout.etInfoRemarks.visibility = View.VISIBLE
-
-            } else {
-
-                binding.trainingCenterInfoLayout.InfoRemarks.visibility = View.GONE
-                binding.trainingCenterInfoLayout.etInfoRemarks.visibility = View.GONE
-            }
-
-        }
-
-
-        //Adapter Description Academia
-        tcDescAcademiaAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
-        )
-        binding.SpinnerDescAcademia.setAdapter(tcDescAcademiaAdapter)
-
-        binding.SpinnerDescAcademia.setOnItemClickListener { parent, view, position, id ->
-            selectedTcDescAcademiaApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcDescAcademiaApproval == "Send for modification") {
-
-                binding.DescAcademiaRemarks.visibility = View.VISIBLE
-                binding.etDescAcademiaRemarks.visibility = View.VISIBLE
-
-            } else {
-
-                binding.DescAcademiaRemarks.visibility = View.GONE
-                binding.etDescAcademiaRemarks.visibility = View.GONE
-            }
-
-        }
-
-        //Adapter Infrastructure
-        tcInfraAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
-        )
-        binding.SpinnerTcInfra.setAdapter(tcInfraAdapter)
-
-
-        binding.SpinnerTcInfra.setOnItemClickListener { parent, view, position, id ->
-            selectedTcInfraApproval = parent.getItemAtPosition(position).toString()
-
-            if (selectedTcInfraApproval == "Send for modification") {
-
-                binding.InfraRemarks.visibility = View.VISIBLE
-                binding.etInfraRemarks.visibility = View.VISIBLE
-
-            } else {
-
-                binding.InfraRemarks.visibility = View.GONE
-                binding.etInfraRemarks.visibility = View.GONE
-            }
-
-        }
-
-        //Adapter Basin
-        tcBasinAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
-        )
-        binding.SpinnerBasin.setAdapter(tcBasinAdapter)
-
-        binding.SpinnerBasin.setOnItemClickListener { parent, view, position, id ->
-            selectedTcBasinApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcBasinApproval == "Send for modification") {
-
-                binding.BasinRemarks.visibility = View.VISIBLE
-                binding.etBasinRemarks.visibility = View.VISIBLE
-
-            } else {
-
-                binding.BasinRemarks.visibility = View.GONE
-                binding.etBasinRemarks.visibility = View.GONE
-            }
-
-        }
-
-
-        //Adapter DescOtherArea
-        tcDescOtherAreaAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
-        )
-        binding.SpinnerDescOtherArea.setAdapter(tcDescOtherAreaAdapter)
-
-        binding.SpinnerDescOtherArea.setOnItemClickListener { parent, view, position, id ->
-            selectedTcDescOtherAreaApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcDescOtherAreaApproval == "Send for modification") {
-
-                binding.DescOtherAreaRemarks.visibility = View.VISIBLE
-                binding.etDescOtherAreaRemarks.visibility = View.VISIBLE
-
-            } else {
-
-                binding.DescOtherAreaRemarks.visibility = View.GONE
-                binding.etDescOtherAreaRemarks.visibility = View.GONE
-            }
-
-        }
-
-
-        //Adapter Teaching
-        tcTeachingAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
-        )
-        binding.SpinnerTeaching.setAdapter(tcTeachingAdapter)
-
-        binding.SpinnerTeaching.setOnItemClickListener { parent, view, position, id ->
-            selectedTcTeachingApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcTeachingApproval == "Send for modification") {
-
-                binding.TeachingRemarks.visibility = View.VISIBLE
-                binding.etTeachingRemarks.visibility = View.VISIBLE
-
-            } else {
-
-                binding.TeachingRemarks.visibility = View.GONE
-                binding.etTeachingRemarks.visibility = View.GONE
-            }
-
-        }
-        binding.root.setOnTouchListener { v, event ->
-            AppUtil.hideKeyboard(requireActivity())
-            v.performClick()
-            false
-        }
-
-        //Adapter General
-        tcGeneralAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
-        )
-        binding.SpinnerGeneral.setAdapter(tcGeneralAdapter)
-
-        binding.SpinnerGeneral.setOnItemClickListener { parent, view, position, id ->
-            selectedTcGeneralApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcGeneralApproval == "Send for modification") {
-
-                binding.GeneralRemarks.visibility = View.VISIBLE
-                binding.etGeneralRemarks.visibility = View.VISIBLE
-
-            } else {
-
-                binding.GeneralRemarks.visibility = View.GONE
-                binding.etGeneralRemarks.visibility = View.GONE
-            }
-
-        }
-
-
-        //Adapter Electrical
-        tcElectricalAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
-        )
-        binding.SpinnerElectrical.setAdapter(tcElectricalAdapter)
-
-        binding.SpinnerElectrical.setOnItemClickListener { parent, view, position, id ->
-            selectedTcElectricalApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcElectricalApproval == "Send for modification") {
-
-                binding.ElectricalRemarks.visibility = View.VISIBLE
-                binding.etElectricalRemarks.visibility = View.VISIBLE
-
-            } else {
-
-                binding.ElectricalRemarks.visibility = View.GONE
-                binding.etElectricalRemarks.visibility = View.GONE
-            }
-
-        }
-
-
-        //Adapter Signage
-        tcSignageAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
-        )
-        binding.signageLayout.SpinnerSignage.setAdapter(tcSignageAdapter)
-
-        binding.signageLayout.SpinnerSignage.setOnItemClickListener { parent, view, position, id ->
-            selectedTcSignageApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcSignageApproval == "Send for modification") {
-
-                binding.signageLayout.SignageRemarks.visibility = View.VISIBLE
-                binding.signageLayout.etSignageRemarks.visibility = View.VISIBLE
-
-            } else {
-
-                binding.signageLayout.SignageRemarks.visibility = View.GONE
-                binding.signageLayout.etSignageRemarks.visibility = View.GONE
-            }
-
-        }
-
-
-        //Adapter IpEnable
-        tcIpEnableAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
-        )
-        binding.ipCameraLayout.SpinnerIpEnable.setAdapter(tcIpEnableAdapter)
-
-        binding.ipCameraLayout.SpinnerIpEnable.setOnItemClickListener { parent, view, position, id ->
-            selectedTcIpEnableApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcIpEnableApproval == "Send for modification") {
-
-                binding.ipCameraLayout.IpEnableRemarks.visibility = View.VISIBLE
-                binding.ipCameraLayout.etIpEnableRemarks.visibility = View.VISIBLE
-
-            } else {
-
-                binding.ipCameraLayout.IpEnableRemarks.visibility = View.GONE
-                binding.ipCameraLayout.etIpEnableRemarks.visibility = View.GONE
-            }
-
-        }
-
-
-        //Adapter Common Equipment
-        tcCommonEquipmentAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
-        )
-        binding.commonEquipmentLayout.SpinnerCommonEquipment.setAdapter(tcCommonEquipmentAdapter)
-
-        binding.commonEquipmentLayout.SpinnerCommonEquipment.setOnItemClickListener { parent, view, position, id ->
-            selectedTcCommonEquipmentApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcCommonEquipmentApproval == "Send for modification") {
-
-                binding.commonEquipmentLayout.CommonEquipmentRemarks.visibility = View.VISIBLE
-                binding.commonEquipmentLayout.etCommonEquipmentRemarks.visibility = View.VISIBLE
-
-            } else {
-
-                binding.commonEquipmentLayout.CommonEquipmentRemarks.visibility = View.GONE
-                binding.commonEquipmentLayout.etCommonEquipmentRemarks.visibility = View.GONE
-            }
-
-        }
-
-
-        //Adapter Avail Support Infra Adapter
-        tcAvailSupportInfraAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
-        )
-        binding.availSupportInfraLayout.SpinnerAvailSupportInfra.setAdapter(
-            tcAvailSupportInfraAdapter
+    }
+
+    private val approvalAdapters = mutableMapOf<TextView, ArrayAdapter<String>>()
+
+
+    private fun setupApprovalSpinners() {
+        val spinners = listOf(
+            binding.trainingCenterInfoLayout.SpinnerTcInfo,
+            binding.SpinnerDescAcademia,
+            binding.SpinnerTcInfra,
+            binding.SpinnerBasin,
+            binding.SpinnerDescOtherArea,
+            binding.SpinnerTeaching,
+            binding.SpinnerGeneral,
+            binding.SpinnerElectrical,
+            binding.signageLayout.SpinnerSignage,
+            binding.ipCameraLayout.SpinnerIpEnable,
+            binding.commonEquipmentLayout.SpinnerCommonEquipment,
+            binding.availSupportInfraLayout.SpinnerAvailSupportInfra,
+            binding.availOfStandardFormsLayout.SpinnerAvailOfStandardForms
         )
 
-        binding.availSupportInfraLayout.SpinnerAvailSupportInfra.setOnItemClickListener { parent, view, position, id ->
-            selectedTcAvailSupportInfraApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcAvailSupportInfraApproval == "Send for modification") {
-
-                binding.availSupportInfraLayout.AvailSupportInfraRemarks.visibility = View.VISIBLE
-                binding.availSupportInfraLayout.etAvailSupportInfraRemarks.visibility = View.VISIBLE
-
-            } else {
-
-                binding.availSupportInfraLayout.AvailSupportInfraRemarks.visibility = View.GONE
-                binding.availSupportInfraLayout.etAvailSupportInfraRemarks.visibility = View.GONE
-            }
-
+        spinners.forEach { spinner ->
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+            spinner.setAdapter(adapter)
+            approvalAdapters[spinner] = adapter
         }
-
-
-        // AvailOfStandardFormAdapter
-        tcAvailOfStandardFormAdapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
-        )
-        binding.availOfStandardFormsLayout.SpinnerAvailOfStandardForms.setAdapter(
-            tcAvailOfStandardFormAdapter
-        )
-
-        binding.availOfStandardFormsLayout.SpinnerAvailOfStandardForms.setOnItemClickListener { parent, view, position, id ->
-            selectedTcAvailOfStandardFormApproval = parent.getItemAtPosition(position).toString()
-            if (selectedTcAvailOfStandardFormApproval == "Send for modification") {
-
-                binding.availOfStandardFormsLayout.AvailOfStandardFormsRemarks.visibility =
-                    View.VISIBLE
-                binding.availOfStandardFormsLayout.etAvailOfStandardFormsRemarks.visibility =
-                    View.VISIBLE
-
-            } else {
-
-
-                binding.availOfStandardFormsLayout.AvailOfStandardFormsRemarks.visibility =
-                    View.GONE
-                binding.availOfStandardFormsLayout.etAvailOfStandardFormsRemarks.visibility =
-                    View.GONE
-            }
-
-        }
-
-        // All Buttons
-
-        binding.backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
-
-
-        // Wash basin image set
-        binding.valueMaleToilet.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), maleToiletImage, "maleToilet Image")
-
-        }
-
-        binding.valueProofMaleSignageToilet.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), maleToiletSignageImage, "male Toilet Signage Image ")
-
-        }
-
-        binding.valueMaleUrinals.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), maleToiletUrinalsImage, "male Toilet Urinals Image ")
-
-        }
-
-
-        binding.valueMaleWashBasin.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), maleToiletWashbasinImage, "male Toilet Urinals Image ")
-
-        }
-
-
-        binding.valueFemaleToilet.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), femaleToiletImage, "female Toilet Image ")
-
-        }
-
-
-        binding.valueProofFemaleSignageToilet.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), femaleToiletSignageImage, "female Toilet Signage Image")
-
-        }
-
-
-        binding.valueFemaleWashBasin.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), femaleToiletWashbasinImage, "female Toilet Washbasin Image")
-
-        }
-
-
-        binding.valueOverheadTank.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), ovrHeadTankImage, "over Head Tank Image")
-
-        }
-
-        binding.valueTypeOfFlooring.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), typeOfFlooringImage, "type Of Flooring Image")
-
-        }
-
-
-        // desc area image set
-
-
-        binding.valueFans.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), fansImage, "fan Image")
-
-        }
-
-
-        binding.valueCirculationArea.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), circulationAreaImage, "circulation Area Image")
-
-        }
-
-
-        binding.valueOpenSpace.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), openSpaceImage, "open Space Image")
-
-        }
-
-
-
-        binding.valueParking.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), parkingSpaceImage, "parking Space Image")
-
-        }
-
-
-        // Infra pdf set
-        binding.tvSelfDeclarationPdf.setOnClickListener {
-
-
-            downloadAndOpenBase64Pdf(requireContext(), selfDeclarationPdf, "selfDeclarationPdf.pdf")
-
-
-        }
-
-
-        binding.tvPhotosOfBuildingPdf.setOnClickListener {
-            downloadAndOpenBase64Pdf(requireContext(), buildingPdf, "buildingPdf.pdf")
-
-
-        }
-
-
-        binding.tvSchematicBuildingPlanPdf.setOnClickListener {
-            downloadAndOpenBase64Pdf(requireContext(), schematicPdf, "schematicPdf.pdf")
-
-        }
-
-
-        binding.tvInternalExternalWallsPdf.setOnClickListener {
-            downloadAndOpenBase64Pdf(requireContext(), schematicPdf, "schematicPdf.pdf")
-
-        }
-
-
-
-        //Availability Teaching  image set
-
-
-        binding.valueIsWelcomeKitAvail.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), welcomeKitImage, "welcome Kit Image")
-
-        }
-
-
-        //General Details image set
-
-        binding.valueSignOfLiakage.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), signOfLeakageImage, "sign Of Leakage Image")
-
-        }
-
-        binding.valueProtectionOfStairs.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), protectionStairsBalImage, "protection Stairs Balcony Image")
-
-        }
-
-
-        //Electrical wiring
-        binding.valueSecuringWire.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), securingWiringImage, "securing Wiring Image")
-
-        }
-
-        binding.valueSwitchBoard.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), switchBoardImage, "switch Board Image")
-
-        }
-
-        //signage's and info boards
-
-        binding.signageLayout.valueCenterNameBoard.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), tcNameBoardImage, "Training Center Name Board")
-
-        }
-
-
-        binding.signageLayout.valueSummaryAcheivement.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), activitySummaryBoardImage, "Activity Summary Achievement")
-
-        }
-
-
-        binding.signageLayout.valueStudentEntitlement.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), studentEntitlementBoardImage, "student Entitlement Board Image")
-
-        }
-
-
-        binding.signageLayout.valueContactDetail.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), contactDetailImpoPeopleImage, "contact Detail Important People Image")
-
-        }
-
-        binding.signageLayout.valueBasicInfoBoard.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), basicInfoBoardImage, "basic Info Board Image")
-
-        }
-
-        binding.signageLayout.valueCodeOfConduct.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), codeOfConductImage, "code of conduct")
-
-        }
-
-        binding.signageLayout.valueAttendanceSummary.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), studentAttendanceImage, "student Attendance Image")
-
-        }
-
-        // Ip Enable
-
-        binding.ipCameraLayout.valueCentralMonitor.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), centralMonitorImage, "central Monitor Image")
-
-        }
-
-
-        binding.ipCameraLayout.valueConformanceCCTV.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), conformationOfCCTVImage, "conformation Of CCTV Image")
-
-        }
-
-        binding.ipCameraLayout.valueStorageCCTV.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), storageOfCCtvImage, "storage Of CCtv Image")
-
-        }
-
-
-        binding.ipCameraLayout.valueDvrStaticIP.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), dvrImage, "DVR is Connected")
-
-        }
-
-
-            // common equipment
-
-        binding.commonEquipmentLayout.valueElectricalPowerBackup.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), electricPowerImage, "electric Power Image")
-
-        }
-
-        binding.commonEquipmentLayout.valueBiometricDevices.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), installBiometricImage, "install Biometric Image")
-
-        }
-
-
-        binding.commonEquipmentLayout.valueCCTVMonitor.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), installationCCTVImage, "installation CCTV Image")
-
-        }
-
-        binding.commonEquipmentLayout.valueStorageDocs.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), storagePlaceSecuringDocImage, "storage Place Securing Doc Image")
-
-        }
-
-        binding.commonEquipmentLayout.valuePrinterScanner.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), printerCumImage, "printer Cum Image")
-
-        }
-
-        binding.commonEquipmentLayout.valueDigitalCamera.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), digitalCameraImage, "digital Camera Image")
-
-        }
-
-
-        binding.commonEquipmentLayout.valueGrievanceRegister.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), grievanceImage, "grievance Image")
-
-        }
-
-        binding.commonEquipmentLayout.valueMinEquipment.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), minimumEquipmentImage, "minimum Equipment Image")
-
-        }
-
-
-        binding.commonEquipmentLayout.valueDirectionBoards.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), directionBoardsImage, "direction Boards Image")
-
-        }
-
-        //Availability of support infra
-
-
-        binding.availSupportInfraLayout.valueSafeDrinkingWater.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), safeDrinkingImage, "safe Drinking Image")
-
-        }
-
-        binding.availSupportInfraLayout.valueFireFighting.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), fireFightingImage, "fire Fighting Image")
-
-        }
-
-
-        binding.availSupportInfraLayout.valueFirstAidKit.setOnClickListener {
-
-            showBase64ImageDialog(requireContext(), firstAidImage, "first Aid Image")
-
-        }
-
-
-
-
-
+    }
+
+
+    private fun setupAdapters() {
+        setupApprovalSpinners()
+
+//        // All Adapter setups
+//        tcInfoAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.trainingCenterInfoLayout.SpinnerTcInfo.setAdapter(tcInfoAdapter)
+//
+//        tcDescAcademiaAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.SpinnerDescAcademia.setAdapter(tcDescAcademiaAdapter)
+//
+//        tcInfraAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.SpinnerTcInfra.setAdapter(tcInfraAdapter)
+//
+//        tcBasinAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.SpinnerBasin.setAdapter(tcBasinAdapter)
+//
+//        tcDescOtherAreaAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.SpinnerDescOtherArea.setAdapter(tcDescOtherAreaAdapter)
+//
+//        tcTeachingAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.SpinnerTeaching.setAdapter(tcTeachingAdapter)
+//
+//        tcGeneralAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.SpinnerGeneral.setAdapter(tcGeneralAdapter)
+//
+//        tcElectricalAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.SpinnerElectrical.setAdapter(tcElectricalAdapter)
+//
+//        tcSignageAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.signageLayout.SpinnerSignage.setAdapter(tcSignageAdapter)
+//
+//        tcIpEnableAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.ipCameraLayout.SpinnerIpEnable.setAdapter(tcIpEnableAdapter)
+//
+//        tcCommonEquipmentAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.commonEquipmentLayout.SpinnerCommonEquipment.setAdapter(tcCommonEquipmentAdapter)
+//
+//        tcAvailSupportInfraAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.availSupportInfraLayout.SpinnerAvailSupportInfra.setAdapter(tcAvailSupportInfraAdapter)
+//
+//        tcAvailOfStandardFormAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList)
+//        binding.availOfStandardFormsLayout.SpinnerAvailOfStandardForms.setAdapter(tcAvailOfStandardFormAdapter)
+    }
+
+    private fun setupAllClickListeners() {
+        // Spinner click listeners
+        setupSpinnerSelectionListeners()
+
+        // Back button
+//        binding.backButton.setOnClickListener {
+//            findNavController().navigateUp()
+//        }
+
+        // Image click listeners
+        setupImageClickListeners()
+
+        // PDF click listeners
+        setupPdfClickListeners()
+
+        // Trainer and staff view
         binding.trainingCenterInfoLayout.tvViewTrainerAndStaff.setOnClickListener {
-            val dialog = Dialog(requireContext())
-            dialog.setContentView(R.layout.dialog_trainer_staff)
+            showTrainerStaffDialog()
+        }
 
-            val recyclerView = dialog.findViewById<RecyclerView>(R.id.rvTrainerStaff)
-            val closeButton = dialog.findViewById<TextView>(R.id.tvClose)
+        // All navigation buttons
+        setupNavigationButtons()
+    }
 
-            recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            recyclerView.adapter = TrainerStaffAdapter(dataStaffList)
 
-            closeButton.setOnClickListener {
+    // Handle spinner selection and show/hide remarks
+    private fun setupSpinnerSelectionListeners() {
+        binding.trainingCenterInfoLayout.SpinnerTcInfo.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "tcInfo") }
+        binding.SpinnerDescAcademia.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "descAcademia") }
+        binding.SpinnerTcInfra.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "infra") }
+        binding.SpinnerBasin.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "basin") }
+        binding.SpinnerDescOtherArea.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "descOtherArea") }
+        binding.SpinnerTeaching.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "teaching") }
+        binding.SpinnerGeneral.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "general") }
+        binding.SpinnerElectrical.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "electrical") }
+        binding.signageLayout.SpinnerSignage.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "signage") }
+        binding.ipCameraLayout.SpinnerIpEnable.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "ipEnable") }
+        binding.commonEquipmentLayout.SpinnerCommonEquipment.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "commonEquipment") }
+        binding.availSupportInfraLayout.SpinnerAvailSupportInfra.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "supportInfra") }
+        binding.availOfStandardFormsLayout.SpinnerAvailOfStandardForms.setOnItemClickListener { _, _, pos, _ -> onApprovalSelected(pos, "standardForms") }
+    }
+
+    private fun onApprovalSelected(position: Int, section: String) {
+        val selected = approvalList[position]
+        val isModify = selected == "Send for modification"
+
+        when (section) {
+            "tcInfo" -> { selectedTcInfoApproval = selected; toggleRemarks(binding.trainingCenterInfoLayout.InfoRemarks, binding.trainingCenterInfoLayout.etInfoRemarks, isModify) }
+            "descAcademia" -> { selectedTcDescAcademiaApproval = selected; toggleRemarks(binding.DescAcademiaRemarks, binding.etDescAcademiaRemarks, isModify) }
+            "infra" -> { selectedTcInfraApproval = selected; toggleRemarks(binding.InfraRemarks, binding.etInfraRemarks, isModify) }
+            "basin" -> { selectedTcBasinApproval = selected; toggleRemarks(binding.BasinRemarks, binding.etBasinRemarks, isModify) }
+            "descOtherArea" -> { selectedTcDescOtherAreaApproval = selected; toggleRemarks(binding.DescOtherAreaRemarks, binding.etDescOtherAreaRemarks, isModify) }
+            "teaching" -> { selectedTcTeachingApproval = selected; toggleRemarks(binding.TeachingRemarks, binding.etTeachingRemarks, isModify) }
+            "general" -> { selectedTcGeneralApproval = selected; toggleRemarks(binding.GeneralRemarks, binding.etGeneralRemarks, isModify) }
+            "electrical" -> { selectedTcElectricalApproval = selected; toggleRemarks(binding.ElectricalRemarks, binding.etElectricalRemarks, isModify) }
+            "signage" -> { selectedTcSignageApproval = selected; toggleRemarks(binding.signageLayout.SignageRemarks, binding.signageLayout.etSignageRemarks, isModify) }
+            "ipEnable" -> { selectedTcIpEnableApproval = selected; toggleRemarks(binding.ipCameraLayout.IpEnableRemarks, binding.ipCameraLayout.etIpEnableRemarks, isModify) }
+            "commonEquipment" -> { selectedTcCommonEquipmentApproval = selected; toggleRemarks(binding.commonEquipmentLayout.CommonEquipmentRemarks, binding.commonEquipmentLayout.etCommonEquipmentRemarks, isModify) }
+            "supportInfra" -> { selectedTcAvailSupportInfraApproval = selected; toggleRemarks(binding.availSupportInfraLayout.AvailSupportInfraRemarks, binding.availSupportInfraLayout.etAvailSupportInfraRemarks, isModify) }
+            "standardForms" -> { selectedTcAvailOfStandardFormApproval = selected; toggleRemarks(binding.availOfStandardFormsLayout.AvailOfStandardFormsRemarks, binding.availOfStandardFormsLayout.etAvailOfStandardFormsRemarks, isModify) }
+        }
+    }
+
+    private fun toggleRemarks(label: View, editText: View, show: Boolean) {
+        label.visibility = if (show) View.VISIBLE else View.GONE
+        editText.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+
+
+
+//    private fun setupSpinnerListeners() {
+//        binding.trainingCenterInfoLayout.SpinnerTcInfo.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcInfoApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcInfoApproval == "Send for modification",
+//                binding.trainingCenterInfoLayout.InfoRemarks,
+//                binding.trainingCenterInfoLayout.etInfoRemarks
+//            )
+//        }
+//
+//        binding.SpinnerDescAcademia.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcDescAcademiaApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcDescAcademiaApproval == "Send for modification",
+//                binding.DescAcademiaRemarks,
+//                binding.etDescAcademiaRemarks
+//            )
+//        }
+//
+//        binding.SpinnerTcInfra.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcInfraApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcInfraApproval == "Send for modification",
+//                binding.InfraRemarks,
+//                binding.etInfraRemarks
+//            )
+//        }
+//
+//        binding.SpinnerBasin.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcBasinApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcBasinApproval == "Send for modification",
+//                binding.BasinRemarks,
+//                binding.etBasinRemarks
+//            )
+//        }
+//
+//        binding.SpinnerDescOtherArea.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcDescOtherAreaApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcDescOtherAreaApproval == "Send for modification",
+//                binding.DescOtherAreaRemarks,
+//                binding.etDescOtherAreaRemarks
+//            )
+//        }
+//
+//        binding.SpinnerTeaching.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcTeachingApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcTeachingApproval == "Send for modification",
+//                binding.TeachingRemarks,
+//                binding.etTeachingRemarks
+//            )
+//        }
+//
+//        binding.SpinnerGeneral.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcGeneralApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcGeneralApproval == "Send for modification",
+//                binding.GeneralRemarks,
+//                binding.etGeneralRemarks
+//            )
+//        }
+//
+//        binding.SpinnerElectrical.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcElectricalApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcElectricalApproval == "Send for modification",
+//                binding.ElectricalRemarks,
+//                binding.etElectricalRemarks
+//            )
+//        }
+//
+//        binding.signageLayout.SpinnerSignage.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcSignageApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcSignageApproval == "Send for modification",
+//                binding.signageLayout.SignageRemarks,
+//                binding.signageLayout.etSignageRemarks
+//            )
+//        }
+//
+//        binding.ipCameraLayout.SpinnerIpEnable.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcIpEnableApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcIpEnableApproval == "Send for modification",
+//                binding.ipCameraLayout.IpEnableRemarks,
+//                binding.ipCameraLayout.etIpEnableRemarks
+//            )
+//        }
+//
+//        binding.commonEquipmentLayout.SpinnerCommonEquipment.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcCommonEquipmentApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcCommonEquipmentApproval == "Send for modification",
+//                binding.commonEquipmentLayout.CommonEquipmentRemarks,
+//                binding.commonEquipmentLayout.etCommonEquipmentRemarks
+//            )
+//        }
+//
+//        binding.availSupportInfraLayout.SpinnerAvailSupportInfra.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcAvailSupportInfraApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcAvailSupportInfraApproval == "Send for modification",
+//                binding.availSupportInfraLayout.AvailSupportInfraRemarks,
+//                binding.availSupportInfraLayout.etAvailSupportInfraRemarks
+//            )
+//        }
+//
+//        binding.availOfStandardFormsLayout.SpinnerAvailOfStandardForms.setOnItemClickListener { parent, _, position, _ ->
+//            selectedTcAvailOfStandardFormApproval = parent.getItemAtPosition(position).toString()
+//            toggleRemarksVisibility(
+//                selectedTcAvailOfStandardFormApproval == "Send for modification",
+//                binding.availOfStandardFormsLayout.AvailOfStandardFormsRemarks,
+//                binding.availOfStandardFormsLayout.etAvailOfStandardFormsRemarks
+//            )
+//        }
+//    }
+//
+//    private fun toggleRemarksVisibility(show: Boolean, remarksLabel: View, remarksEditText: View) {
+//        if (show) {
+//            remarksLabel.show()
+//            remarksEditText.show()
+//        } else {
+//            remarksLabel.hide()
+//            remarksEditText.hide()
+//        }
+//    }
+
+//    private fun setupImageClickListeners() {
+//        // Wash basin images
+//        binding.valueMaleToilet.setOnClickListener { showBase64ImageDialog(maleToiletImage, "Male Toilet") }
+//        binding.valueProofMaleSignageToilet.setOnClickListener { showBase64ImageDialog(maleToiletSignageImage, "Male Toilet Signage") }
+//        binding.valueMaleUrinals.setOnClickListener { showBase64ImageDialog(maleToiletUrinalsImage, "Male Urinals") }
+//        binding.valueMaleWashBasin.setOnClickListener { showBase64ImageDialog(maleToiletWashbasinImage, "Male Wash Basin") }
+//        binding.valueFemaleToilet.setOnClickListener { showBase64ImageDialog(femaleToiletImage, "Female Toilet") }
+//        binding.valueProofFemaleSignageToilet.setOnClickListener { showBase64ImageDialog(femaleToiletSignageImage, "Female Toilet Signage") }
+//        binding.valueFemaleWashBasin.setOnClickListener { showBase64ImageDialog(femaleToiletWashbasinImage, "Female Wash Basin") }
+//        binding.valueOverheadTank.setOnClickListener { showBase64ImageDialog(ovrHeadTankImage, "Overhead Tank") }
+//        binding.valueTypeOfFlooring.setOnClickListener { showBase64ImageDialog(typeOfFlooringImage, "Type of Flooring") }
+//
+//        // Desc area images
+//        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
+//        binding.valueCirculationArea.setOnClickListener { showBase64ImageDialog(circulationAreaImage, "Circulation Area") }
+//        binding.valueOpenSpace.setOnClickListener { showBase64ImageDialog(openSpaceImage, "Open Space") }
+//        binding.valueParking.setOnClickListener { showBase64ImageDialog(parkingSpaceImage, "Parking Space") }
+//
+//        // Teaching images
+//        binding.valueIsWelcomeKitAvail.setOnClickListener { showBase64ImageDialog(welcomeKitImage, "Welcome Kit") }
+//
+//        // General details images
+//        binding.valueSignOfLiakage.setOnClickListener { showBase64ImageDialog(signOfLeakageImage, "Sign of Leakage") }
+//        binding.valueProtectionOfStairs.setOnClickListener { showBase64ImageDialog(protectionStairsBalImage, "Protection of Stairs") }
+//
+//        // Electrical wiring images
+//        binding.valueSecuringWire.setOnClickListener { showBase64ImageDialog(securingWiringImage, "Securing Wiring") }
+//        binding.valueSwitchBoard.setOnClickListener { showBase64ImageDialog(switchBoardImage, "Switch Board") }
+//
+//        // Signage images
+//        binding.signageLayout.valueCenterNameBoard.setOnClickListener { showBase64ImageDialog(tcNameBoardImage, "Training Center Name Board") }
+//        binding.signageLayout.valueSummaryAcheivement.setOnClickListener { showBase64ImageDialog(activitySummaryBoardImage, "Activity Summary Achievement") }
+//        binding.signageLayout.valueStudentEntitlement.setOnClickListener { showBase64ImageDialog(studentEntitlementBoardImage, "Student Entitlement Board") }
+//        binding.signageLayout.valueContactDetail.setOnClickListener { showBase64ImageDialog(contactDetailImpoPeopleImage, "Contact Details") }
+//        binding.signageLayout.valueBasicInfoBoard.setOnClickListener { showBase64ImageDialog(basicInfoBoardImage, "Basic Info Board") }
+//        binding.signageLayout.valueCodeOfConduct.setOnClickListener { showBase64ImageDialog(codeOfConductImage, "Code of Conduct") }
+//        binding.signageLayout.valueAttendanceSummary.setOnClickListener { showBase64ImageDialog(studentAttendanceImage, "Attendance Summary") }
+//
+//        // IP Enable images
+//        binding.ipCameraLayout.valueCentralMonitor.setOnClickListener { showBase64ImageDialog(centralMonitorImage, "Central Monitor") }
+//        binding.ipCameraLayout.valueConformanceCCTV.setOnClickListener { showBase64ImageDialog(conformationOfCCTVImage, "CCTV Conformance") }
+//        binding.ipCameraLayout.valueStorageCCTV.setOnClickListener { showBase64ImageDialog(storageOfCCtvImage, "CCTV Storage") }
+//        binding.ipCameraLayout.valueDvrStaticIP.setOnClickListener { showBase64ImageDialog(dvrImage, "DVR Static IP") }
+//
+//        // Common equipment images
+//        binding.commonEquipmentLayout.valueElectricalPowerBackup.setOnClickListener { showBase64ImageDialog(electricPowerImage, "Electrical Power Backup") }
+//        binding.commonEquipmentLayout.valueBiometricDevices.setOnClickListener { showBase64ImageDialog(installBiometricImage, "Biometric Devices") }
+//        binding.commonEquipmentLayout.valueCCTVMonitor.setOnClickListener { showBase64ImageDialog(installationCCTVImage, "CCTV Monitor") }
+//        binding.commonEquipmentLayout.valueStorageDocs.setOnClickListener { showBase64ImageDialog(storagePlaceSecuringDocImage, "Storage Documents") }
+//        binding.commonEquipmentLayout.valuePrinterScanner.setOnClickListener { showBase64ImageDialog(printerCumImage, "Printer Scanner") }
+//        binding.commonEquipmentLayout.valueDigitalCamera.setOnClickListener { showBase64ImageDialog(digitalCameraImage, "Digital Camera") }
+//        binding.commonEquipmentLayout.valueGrievanceRegister.setOnClickListener { showBase64ImageDialog(grievanceImage, "Grievance Register") }
+//        binding.commonEquipmentLayout.valueMinEquipment.setOnClickListener { showBase64ImageDialog(minimumEquipmentImage, "Minimum Equipment") }
+//        binding.commonEquipmentLayout.valueDirectionBoards.setOnClickListener { showBase64ImageDialog(directionBoardsImage, "Direction Boards") }
+//
+//        // Support infra images
+//        binding.availSupportInfraLayout.valueSafeDrinkingWater.setOnClickListener { showBase64ImageDialog(safeDrinkingImage, "Safe Drinking Water") }
+//        binding.availSupportInfraLayout.valueFireFighting.setOnClickListener { showBase64ImageDialog(fireFightingImage, "Fire Fighting") }
+//        binding.availSupportInfraLayout.valueFirstAidKit.setOnClickListener { showBase64ImageDialog(firstAidImage, "First Aid Kit") }
+//
+//
+//
+//    }
+
+
+    private fun setupImageClickListeners() = binding.apply {
+
+        // Wash basin + toilets
+        valueMaleToilet.onImageDialogClick(maleToiletImage, "Male Toilet")
+        valueProofMaleSignageToilet.onImageDialogClick(maleToiletSignageImage, "Male Toilet Signage")
+        valueMaleUrinals.onImageDialogClick(maleToiletUrinalsImage, "Male Urinals")
+        valueMaleWashBasin.onImageDialogClick(maleToiletWashbasinImage, "Male Wash Basin")
+        valueFemaleToilet.onImageDialogClick(femaleToiletImage, "Female Toilet")
+        valueProofFemaleSignageToilet.onImageDialogClick(femaleToiletSignageImage, "Female Toilet Signage")
+        valueFemaleWashBasin.onImageDialogClick(femaleToiletWashbasinImage, "Female Wash Basin")
+        valueOverheadTank.onImageDialogClick(ovrHeadTankImage, "Overhead Tank")
+        valueTypeOfFlooring.onImageDialogClick(typeOfFlooringImage, "Type of Flooring")
+
+        // Description area
+        valueFans.onImageDialogClick(fansImage, "Fans")
+        valueCirculationArea.onImageDialogClick(circulationAreaImage, "Circulation Area")
+        valueOpenSpace.onImageDialogClick(openSpaceImage, "Open Space")
+        valueParking.onImageDialogClick(parkingSpaceImage, "Parking Space")
+
+        // Teaching
+        valueIsWelcomeKitAvail.onImageDialogClick(welcomeKitImage, "Welcome Kit")
+
+        // General details
+        valueSignOfLiakage.onImageDialogClick(signOfLeakageImage, "Sign of Leakage")
+        valueProtectionOfStairs.onImageDialogClick(protectionStairsBalImage, "Protection of Stairs")
+
+        // Electrical
+        valueSecuringWire.onImageDialogClick(securingWiringImage, "Securing Wiring")
+        valueSwitchBoard.onImageDialogClick(switchBoardImage, "Switch Board")
+
+        // Signage
+        signageLayout.valueCenterNameBoard.onImageDialogClick(tcNameBoardImage, "Training Center Name Board")
+        signageLayout.valueSummaryAcheivement.onImageDialogClick(activitySummaryBoardImage, "Activity Summary Achievement")
+        signageLayout.valueStudentEntitlement.onImageDialogClick(studentEntitlementBoardImage, "Student Entitlement Board")
+        signageLayout.valueContactDetail.onImageDialogClick(contactDetailImpoPeopleImage, "Contact Details")
+        signageLayout.valueBasicInfoBoard.onImageDialogClick(basicInfoBoardImage, "Basic Info Board")
+        signageLayout.valueCodeOfConduct.onImageDialogClick(codeOfConductImage, "Code of Conduct")
+        signageLayout.valueAttendanceSummary.onImageDialogClick(studentAttendanceImage, "Attendance Summary")
+
+        // IP enable
+        ipCameraLayout.valueCentralMonitor.onImageDialogClick(centralMonitorImage, "Central Monitor")
+        ipCameraLayout.valueConformanceCCTV.onImageDialogClick(conformationOfCCTVImage, "CCTV Conformance")
+        ipCameraLayout.valueStorageCCTV.onImageDialogClick(storageOfCCtvImage, "CCTV Storage")
+        ipCameraLayout.valueDvrStaticIP.onImageDialogClick(dvrImage, "DVR Static IP")
+
+        // Common equipment
+        commonEquipmentLayout.valueElectricalPowerBackup.onImageDialogClick(electricPowerImage, "Electrical Power Backup")
+        commonEquipmentLayout.valueBiometricDevices.onImageDialogClick(installBiometricImage, "Biometric Devices")
+        commonEquipmentLayout.valueCCTVMonitor.onImageDialogClick(installationCCTVImage, "CCTV Monitor")
+        commonEquipmentLayout.valueStorageDocs.onImageDialogClick(storagePlaceSecuringDocImage, "Storage Documents")
+        commonEquipmentLayout.valuePrinterScanner.onImageDialogClick(printerCumImage, "Printer Scanner")
+        commonEquipmentLayout.valueDigitalCamera.onImageDialogClick(digitalCameraImage, "Digital Camera")
+        commonEquipmentLayout.valueGrievanceRegister.onImageDialogClick(grievanceImage, "Grievance Register")
+        commonEquipmentLayout.valueMinEquipment.onImageDialogClick(minimumEquipmentImage, "Minimum Equipment")
+        commonEquipmentLayout.valueDirectionBoards.onImageDialogClick(directionBoardsImage, "Direction Boards")
+
+        // Support infra
+        availSupportInfraLayout.valueSafeDrinkingWater.onImageDialogClick(safeDrinkingImage, "Safe Drinking Water")
+        availSupportInfraLayout.valueFireFighting.onImageDialogClick(fireFightingImage, "Fire Fighting")
+        availSupportInfraLayout.valueFirstAidKit.onImageDialogClick(firstAidImage, "First Aid Kit")
+    }
+
+
+
+    private inline fun TextView.onImageDialogClick(base64: String, fileName: String) {
+        setOnClickListener { showBase64ImageDialog(base64, fileName) }
+    }
+
+    private inline fun TextView.onPdfClick(base64: String, fileName: String) {
+        setOnClickListener { downloadAndOpenBase64Pdf(base64, fileName) }
+    }
+
+
+
+    private fun setupPdfClickListeners() {
+        binding.tvSelfDeclarationPdf.onPdfClick(selfDeclarationPdf,"selfDeclarationPdf.pdf")
+        binding.apply {
+            tvPhotosOfBuildingPdf.onPdfClick(buildingPdf, "buildingPdf.pdf")
+            tvSchematicBuildingPlanPdf.onPdfClick(schematicPdf, "schematicPdf.pdf")
+            tvInternalExternalWallsPdf.onPdfClick(internalExternalWallPdf, "internalExternalWallsPdf.pdf")
+        }
+    }
+
+
+//    private fun setupPdfClickListeners() {
+//
+//
+//        binding.tvSelfDeclarationPdf.setOnClickListener {
+//            downloadAndOpenBase64Pdf(selfDeclarationPdf, "selfDeclarationPdf.pdf")
+//        }
+//
+//        binding.tvPhotosOfBuildingPdf.setOnClickListener {
+//            downloadAndOpenBase64Pdf(buildingPdf, "buildingPdf.pdf")
+//        }
+//
+//        binding.tvSchematicBuildingPlanPdf.setOnClickListener {
+//            downloadAndOpenBase64Pdf(schematicPdf, "schematicPdf.pdf")
+//        }
+//
+//        binding.tvInternalExternalWallsPdf.setOnClickListener {
+//            downloadAndOpenBase64Pdf(internalExternalWallPdf, "internalExternalWallsPdf.pdf")
+//        }
+//    }
+
+    private fun setupNavigationButtons() {
+        binding.apply {
+           trainingCenterInfoLayout.btnInfoNext.setOnClickListener { handleInfoNext() }
+           btnInfraNext.setOnClickListener { handleInfraNext() }
+           btnInfraPrevious.setOnClickListener { handleInfraPrevious() }
+           btnDescAcademiaNext.setOnClickListener { handleDescAcademiaNext() }
+           btnDescAcademiaPrevious.setOnClickListener { handleDescAcademiaPrevious() }
+           btnBasinNext.setOnClickListener { handleBasinNext() }
+           btnBasinPrevious.setOnClickListener { handleBasinPrevious() }
+           btnDescOtherAreaNext.setOnClickListener { handleDescOtherAreaNext() }
+           btnDescOtherAreaPrevious.setOnClickListener { handleDescOtherAreaPrevious() }
+           btnTeachingNext.setOnClickListener { handleTeachingNext() }
+           btnTeachingPrevious.setOnClickListener { handleTeachingPrevious() }
+           btnGeneralNext.setOnClickListener { handleGeneralNext() }
+           btnGeneralPrevious.setOnClickListener { handleGeneralPrevious() }
+           btnElectricalNext.setOnClickListener { handleElectricalNext() }
+           btnElectricalPrevious.setOnClickListener { handleElectricalPrevious() }
+           signageLayout.btnSignageNext.setOnClickListener { handleSignageNext() }
+           signageLayout.btnSignagePrevious.setOnClickListener { handleSignagePrevious() }
+           ipCameraLayout.btnIpEnableNext.setOnClickListener { handleIpEnableNext() }
+           ipCameraLayout.btnIpEnablePrevious.setOnClickListener { handleIpEnablePrevious() }
+           commonEquipmentLayout.btnCommonEquipmentNext.setOnClickListener { handleCommonEquipmentNext() }
+           commonEquipmentLayout.btnCommonEquipmentPrevious.setOnClickListener { handleCommonEquipmentPrevious() }
+           availSupportInfraLayout.btnAvailSupportInfraNext.setOnClickListener { handleAvailSupportInfraNext() }
+           availSupportInfraLayout.btnAvailSupportInfraPrevious.setOnClickListener { handleAvailSupportInfraPrevious() }
+           availOfStandardFormsLayout.btnAvailOfStandardFormsNext.setOnClickListener { handleAvailOfStandardFormsNext() }
+           availOfStandardFormsLayout.btnAvailOfStandardFormsPrevious.setOnClickListener { handleAvailOfStandardFormsPrevious() }  }
+    }
+
+    private fun handleInfoNext() {
+        if (!validateApproval(selectedTcInfoApproval, "Approval")) return
+        if (selectedTcInfoApproval == "Send for modification") {
+            selectedTcInfoRemarks = binding.trainingCenterInfoLayout.etInfoRemarks.text.toString()
+            if (!validateRemarks(selectedTcInfoRemarks)) return
+        } else selectedTcInfoRemarks = ""
+
+
+        viewModel.getTrainerCenterInfra(request)
+
+        navigateToNextSection(
+            binding.trainingCenterInfoLayout.trainingInfoExpand,
+            binding.trainingCenterInfoLayout.viewInfo,
+            binding.trainingCenterInfoLayout.tvTrainInfo,
+            binding.mainInfra,
+            binding.viewInfra
+        )
+    }
+
+    private fun handleInfraNext() {
+        if (!validateApproval(selectedTcInfraApproval, "Approval")) return
+        if (selectedTcInfraApproval == "Send for modification") {
+            selectedTcInfraRemarks = binding.etInfraRemarks.text.toString()
+            if (!validateRemarks(selectedTcInfraRemarks)) return
+        } else selectedTcInfraRemarks = ""
+
+
+        viewModel.getTcAcademicNonAcademicArea(request)
+
+        navigateToNextSection(
+            binding.trainingInfraExpand,
+            binding.viewInfra,
+            binding.tvTrainInfra,
+            binding.mainDescAcademia,
+            binding.viewDescAcademia
+        )
+    }
+
+    private fun handleInfraPrevious() {
+        navigateToPreviousSection(
+            binding.trainingCenterInfoLayout.trainingInfoExpand,
+            binding.trainingCenterInfoLayout.viewInfo,
+            binding.mainInfra,
+            binding.viewInfra
+        )
+    }
+
+    private fun handleDescAcademiaNext() {
+        if (!validateApproval(selectedTcDescAcademiaApproval, "Approval")) return
+        if (selectedTcDescAcademiaApproval == "Send for modification") {
+            selectedTcDescAcademiaRemarks = binding.etDescAcademiaRemarks.text.toString()
+            if (!validateRemarks(selectedTcDescAcademiaRemarks)) return
+        } else selectedTcDescAcademiaRemarks = ""
+
+
+        viewModel.getTcToiletWashBasin(request)
+
+        navigateToNextSection(
+            binding.trainingDescAcademiaExpand,
+            binding.viewDescAcademia,
+            binding.tvTrainDescAcademia,
+            binding.mainToilet,
+            binding.viewToilet
+        )
+    }
+
+    private fun handleDescAcademiaPrevious() {
+        navigateToPreviousSection(
+            binding.trainingInfraExpand,
+            binding.viewInfra,
+            binding.mainDescAcademia,
+            binding.viewDescAcademia
+        )
+    }
+
+    private fun handleBasinNext() {
+        if (!validateApproval(selectedTcBasinApproval, "Approval")) return
+        if (selectedTcBasinApproval == "Send for modification") {
+            selectedTcBasinRemarks = binding.etBasinRemarks.text.toString()
+            if (!validateRemarks(selectedTcBasinRemarks)) return
+        } else selectedTcBasinRemarks = ""
+
+
+        viewModel.getDescriptionOtherArea(request)
+
+        navigateToNextSection(
+            binding.trainingToiletExpand,
+            binding.viewToilet,
+            binding.tvTrainToilet,
+            binding.mainDescOfOtherArea,
+            binding.viewDescOfOtherArea
+        )
+    }
+
+    private fun handleBasinPrevious() {
+        navigateToPreviousSection(
+            binding.trainingDescAcademiaExpand,
+            binding.viewDescAcademia,
+            binding.mainToilet,
+            binding.viewToilet
+        )
+    }
+
+    private fun handleDescOtherAreaNext() {
+        if (!validateApproval(selectedTcDescOtherAreaApproval, "Approval")) return
+        if (selectedTcDescOtherAreaApproval == "Send for modification") {
+            selectedTcDescOtherAreaRemarks = binding.etDescOtherAreaRemarks.text.toString()
+            if (!validateRemarks(selectedTcDescOtherAreaRemarks)) return
+        } else selectedTcDescOtherAreaRemarks = ""
+
+
+        viewModel.getTeachingLearningMaterial(request)
+
+        navigateToNextSection(
+            binding.trainingDescOfOtherAreaExpand,
+            binding.viewDescOfOtherArea,
+            binding.tvTrainDescOfOtherArea,
+            binding.mainTeaching,
+            binding.viewTeaching
+        )
+    }
+
+    private fun handleDescOtherAreaPrevious() {
+        navigateToPreviousSection(
+            binding.trainingToiletExpand,
+            binding.viewToilet,
+            binding.mainDescOfOtherArea,
+            binding.viewDescOfOtherArea
+        )
+    }
+
+    private fun handleTeachingNext() {
+        if (!validateApproval(selectedTcTeachingApproval, "Approval")) return
+        if (selectedTcTeachingApproval == "Send for modification") {
+            selectedTcTeachingRemarks = binding.etTeachingRemarks.text.toString()
+            if (!validateRemarks(selectedTcTeachingRemarks)) return
+        } else selectedTcTeachingRemarks = ""
+
+        viewModel.getGeneralDetails(request)
+
+        navigateToNextSection(
+            binding.trainingTeachingExpand,
+            binding.viewTeaching,
+            binding.tvTrainTeaching,
+            binding.mainGeneralDetails,
+            binding.viewGeneralDetails
+        )
+    }
+
+    private fun handleTeachingPrevious() {
+        navigateToPreviousSection(
+            binding.trainingDescOfOtherAreaExpand,
+            binding.viewDescOfOtherArea,
+            binding.mainTeaching,
+            binding.viewTeaching
+        )
+    }
+
+    private fun handleGeneralNext() {
+        if (!validateApproval(selectedTcGeneralApproval, "Approval")) return
+        if (selectedTcGeneralApproval == "Send for modification") {
+            selectedTcGeneralRemarks = binding.etGeneralRemarks.text.toString()
+            if (!validateRemarks(selectedTcGeneralRemarks)) return
+        } else selectedTcGeneralRemarks = ""
+
+
+        viewModel.getElectricalWiringStandard(request)
+
+        navigateToNextSection(
+            binding.trainingGeneralDetailsExpand,
+            binding.viewGeneralDetails,
+            binding.tvTrainGeneralDetails,
+            binding.mainElectricalDetails,
+            binding.viewElectricalDetails
+        )
+    }
+
+    private fun handleGeneralPrevious() {
+        navigateToPreviousSection(
+            binding.trainingTeachingExpand,
+            binding.viewTeaching,
+            binding.mainGeneralDetails,
+            binding.viewGeneralDetails
+        )
+    }
+
+    private fun handleElectricalNext() {
+        if (!validateApproval(selectedTcElectricalApproval, "Approval")) return
+        if (selectedTcElectricalApproval == "Send for modification") {
+            selectedTcElectricalRemarks = binding.etElectricalRemarks.text.toString()
+            if (!validateRemarks(selectedTcElectricalRemarks)) return
+        } else selectedTcElectricalRemarks = ""
+
+
+        viewModel.getSignagesAndInfoBoard(request)
+
+        navigateToNextSection(
+            binding.trainingElectricalDetailsExpand,
+            binding.viewElectricalDetails,
+            binding.tvTrainElectricalDetails,
+            binding.mainSignageBoardDetails,
+            binding.signageLayout.viewSignageBoardDetails
+        )
+    }
+
+    private fun handleElectricalPrevious() {
+        navigateToPreviousSection(
+            binding.trainingGeneralDetailsExpand,
+            binding.viewGeneralDetails,
+            binding.mainElectricalDetails,
+            binding.viewElectricalDetails
+        )
+    }
+
+    private fun handleSignageNext() {
+        if (!validateApproval(selectedTcSignageApproval, "Approval")) return
+        if (selectedTcSignageApproval == "Send for modification") {
+            selectedTcSignageRemarks = binding.signageLayout.etSignageRemarks.text.toString()
+            if (!validateRemarks(selectedTcSignageRemarks)) return
+        } else selectedTcSignageRemarks = ""
+
+
+        viewModel.getIpEnabledCamera(request)
+
+        navigateToNextSection(
+            binding.signageLayout.trainingSignageBoardlDetailsExpand,
+            binding.signageLayout.viewSignageBoardDetails,
+            binding.signageLayout.tvTrainSignageBoardDetails,
+            binding.mainIPEnableCameraDetails,
+            binding.ipCameraLayout.viewIPEnableCameraDetails
+        )
+    }
+
+    private fun handleSignagePrevious() {
+        navigateToPreviousSection(
+            binding.trainingElectricalDetailsExpand,
+            binding.viewElectricalDetails,
+            binding.mainSignageBoardDetails,
+            binding.signageLayout.viewSignageBoardDetails
+        )
+    }
+
+    private fun handleIpEnableNext() {
+        if (!validateApproval(selectedTcIpEnableApproval, "Approval")) return
+        if (selectedTcIpEnableApproval == "Send for modification") {
+            selectedTcIpEnableRemarks = binding.ipCameraLayout.etIpEnableRemarks.text.toString()
+            if (!validateRemarks(selectedTcIpEnableRemarks)) return
+        } else selectedTcIpEnableRemarks = ""
+
+
+        viewModel.getCommonEquipment(request)
+
+        navigateToNextSection(
+            binding.ipCameraLayout.trainingIPEnableCameralDetailsExpand,
+            binding.ipCameraLayout.viewIPEnableCameraDetails,
+            binding.ipCameraLayout.tvTrainIPEnableCameraDetails,
+            binding.mainCommonEquipmentDetails,
+            binding.commonEquipmentLayout.viewCommonEquipmentDetails
+        )
+    }
+
+    private fun handleIpEnablePrevious() {
+        navigateToPreviousSection(
+            binding.signageLayout.trainingSignageBoardlDetailsExpand,
+            binding.signageLayout.viewSignageBoardDetails,
+            binding.mainIPEnableCameraDetails,
+            binding.ipCameraLayout.viewIPEnableCameraDetails
+        )
+    }
+
+    private fun handleCommonEquipmentNext() {
+        if (!validateApproval(selectedTcCommonEquipmentApproval, "Approval")) return
+        if (selectedTcCommonEquipmentApproval == "Send for modification") {
+            selectedTcCommonEquipmentRemarks = binding.commonEquipmentLayout.etCommonEquipmentRemarks.text.toString()
+            if (!validateRemarks(selectedTcCommonEquipmentRemarks)) return
+        } else selectedTcCommonEquipmentRemarks = ""
+
+
+        viewModel.getAvailabilitySupportInfra(request)
+
+        navigateToNextSection(
+            binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand,
+            binding.commonEquipmentLayout.viewCommonEquipmentDetails,
+            binding.commonEquipmentLayout.tvTrainCommonEquipmentDetails,
+            binding.mainAvailSupportInfra,
+            binding.availSupportInfraLayout.viewAvailSupportInfra
+        )
+    }
+
+    private fun handleCommonEquipmentPrevious() {
+        navigateToPreviousSection(
+            binding.ipCameraLayout.trainingIPEnableCameralDetailsExpand,
+            binding.ipCameraLayout.viewIPEnableCameraDetails,
+            binding.mainCommonEquipmentDetails,
+            binding.commonEquipmentLayout.viewCommonEquipmentDetails
+        )
+    }
+
+    private fun handleAvailSupportInfraNext() {
+        if (!validateApproval(selectedTcAvailSupportInfraApproval, "Approval")) return
+        if (selectedTcAvailSupportInfraApproval == "Send for modification") {
+            selectedTcAvailSupportInfraRemarks = binding.availSupportInfraLayout.etAvailSupportInfraRemarks.text.toString()
+            if (!validateRemarks(selectedTcAvailSupportInfraRemarks)) return
+        } else selectedTcAvailSupportInfraRemarks = ""
+
+
+        viewModel.getAvailabilityStandardForms(request)
+
+        navigateToNextSection(
+            binding.availSupportInfraLayout.trainingAvailSupportInfraExpand,
+            binding.availSupportInfraLayout.viewAvailSupportInfra,
+            binding.availSupportInfraLayout.tvTrainAvailSupportInfra,
+            binding.mainAvailOfStandardForms,
+            binding.availOfStandardFormsLayout.viewAvailOfStandardForms
+        )
+    }
+
+    private fun handleAvailSupportInfraPrevious() {
+        navigateToPreviousSection(
+            binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand,
+            binding.commonEquipmentLayout.viewCommonEquipmentDetails,
+            binding.mainAvailSupportInfra,
+            binding.availSupportInfraLayout.viewAvailSupportInfra
+        )
+    }
+
+    private fun handleAvailOfStandardFormsNext() {
+        if (!validateApproval(selectedTcAvailOfStandardFormApproval, "Approval")) return
+        if (selectedTcAvailOfStandardFormApproval == "Send for modification") {
+            selectedTcAvailOfStandardFormRemarks = binding.availOfStandardFormsLayout.etAvailOfStandardFormsRemarks.text.toString()
+            if (!validateRemarks(selectedTcAvailOfStandardFormRemarks)) return
+        } else selectedTcAvailOfStandardFormRemarks = ""
+
+        showConfirmationDialog()
+    }
+
+    private fun handleAvailOfStandardFormsPrevious() {
+        navigateToPreviousSection(
+            binding.availSupportInfraLayout.trainingAvailSupportInfraExpand,
+            binding.availSupportInfraLayout.viewAvailSupportInfra,
+            binding.mainAvailOfStandardForms,
+            binding.availOfStandardFormsLayout.viewAvailOfStandardForms
+        )
+    }
+
+    private fun validateApproval(approval: String, fieldName: String): Boolean {
+        if (approval.isEmpty()) {
+            showToast("Kindly select $fieldName first")
+            return false
+        }
+        return true
+    }
+
+    private fun validateRemarks(remarks: String): Boolean {
+        if (remarks.isEmpty()) {
+            showToast("Kindly enter remarks first")
+            return false
+        }
+        return true
+    }
+
+    private fun navigateToNextSection(
+        currentExpand: View,
+        currentView: View,
+        currentTitle: TextView,
+        nextSection: View,
+        nextView: View
+    ) {
+        currentExpand.hide()
+        currentView.hide()
+        currentTitle.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+        nextSection.show()
+        nextView.show()
+
+        binding.scroll.post {
+            binding.scroll.smoothScrollTo(0, 0)
+        }
+    }
+
+    private fun navigateToPreviousSection(
+        previousExpand: View,
+        previousView: View,
+        currentSection: View,
+        currentView: View
+    ) {
+        previousExpand.show()
+        previousView.show()
+        currentSection.hide()
+        currentView.hide()
+
+        binding.scroll.post {
+            binding.scroll.smoothScrollTo(0, 0)
+        }
+    }
+
+    private fun showConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Confirmation")
+            .setMessage("Are you sure you want to submit these details?")
+            .setCancelable(false)
+            .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton("Submit") { dialog, _ ->
+                submitQTeamForm()
                 dialog.dismiss()
             }
+            .show()
+    }
 
-            dialog.show()
+    private fun submitQTeamForm() {
+        showProgressDialog("Submitting...")
+        val requestTcQTeamSubmit = TcQTeamInsertReq(
+            appVersion = BuildConfig.VERSION_NAME,
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            tcId = centerId.toInt(),
+            sanctionOrder = sanctionOrder,
+
+            tcInfoStatus = mapApproval(selectedTcInfoApproval),
+            tcInfoRemark = selectedTcInfoRemarks,
+
+            tcAcademicStatus = mapApproval(selectedTcDescAcademiaApproval),
+            tcAcademicRemark = selectedTcDescAcademiaRemarks,
+
+            tcInfraStatus = mapApproval(selectedTcInfraApproval),
+            tcInfraRemark = selectedTcInfraRemarks,
+
+            tcToiletStatus = mapApproval(selectedTcBasinApproval),
+            tcToiletRemark = selectedTcBasinRemarks,
+
+            tcDescOtherAreaStatus = mapApproval(selectedTcDescOtherAreaApproval),
+            tcDescOtherAreaRemark = selectedTcDescOtherAreaRemarks,
+
+            tcLearningMaterialStatus = mapApproval(selectedTcTeachingApproval),
+            tcLearningMaterialRemark = selectedTcTeachingRemarks,
+
+            tcGdStatus = mapApproval(selectedTcGeneralApproval),
+            tcGdRemark = selectedTcGeneralRemarks,
+
+            tcEcWiringStatus = mapApproval(selectedTcElectricalApproval),
+            tcEcWiringRemark = selectedTcElectricalRemarks,
+
+            tcSignageInfoStatus = mapApproval(selectedTcSignageApproval),
+            tcSignageInfoRemark = selectedTcSignageRemarks,
+
+            tcIpEnableStatus = mapApproval(selectedTcIpEnableApproval),
+            tcIpEnableRemark = selectedTcIpEnableRemarks,
+
+            tcCommonEquipmentStatus = mapApproval(selectedTcCommonEquipmentApproval),
+            tcCommonEquipmentRemark = selectedTcCommonEquipmentRemarks,
+
+            tcSupportInfraStatus = mapApproval(selectedTcAvailSupportInfraApproval),
+            tcSupportInfraRemark = selectedTcAvailSupportInfraRemarks,
+
+            tcStandardFormStatus = mapApproval(selectedTcAvailOfStandardFormApproval),
+            tcStandardFormRemark = selectedTcAvailOfStandardFormRemarks
+        )
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.insertQTeamVerification(requestTcQTeamSubmit)
         }
 
+        binding.availOfStandardFormsLayout.viewAvailOfStandardForms.hide()
+        binding.availOfStandardFormsLayout.trainingAvailOfStandardFormsExpand.hide()
+        binding.availOfStandardFormsLayout.tvTrainAvailOfStandardForms.setCompoundDrawablesWithIntrinsicBounds(
+            0, 0, R.drawable.ic_verified, 0
+        )
 
-        binding.trainingCenterInfoLayout.btnInfoNext.setOnClickListener {
-            if (selectedTcInfoApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
+        binding.scroll.post {
+            binding.scroll.smoothScrollTo(0, 0)
+        }
+    }
 
-            }
+    private fun showTrainerStaffDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_trainer_staff)
 
-            if (selectedTcInfoApproval == "Send for modification") {
-                selectedTcInfoRemarks =
-                    binding.trainingCenterInfoLayout.etInfoRemarks.text.toString()
+        val recyclerView = dialog.findViewById<RecyclerView>(R.id.rvTrainerStaff)
+        val closeButton = dialog.findViewById<TextView>(R.id.tvClose)
 
-                if (selectedTcInfoRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = TrainerStaffAdapter(dataStaffList)
+
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun handleRoomItemClick(room: RoomItem) {
+        when (room.roomType) {
+            "Theory Class Room" -> showTheoryClassRoomDialog(room)
+            "Office Cum Counselling Room" -> showOfficeCumCounsellingRoomDialog(room)
+            "Reception Area" -> showReceptionAreaDialog(room)
+            "Counselling Room" -> showCounsellingRoomDialog(room)
+            "Office Room" -> showOfficeRoomDialog(room)
+            "IT cum Domain Lab" -> showItCumDomainLabDialog(room)
+            "Theory Cum IT Lab" -> showTheoryCumItLabDialog(room)
+            "IT Lab" -> showItLabDialog(room)
+            "Domain Lab" -> showDomainLabDialog(room)
+            "Theory Cum Domain Lab" -> showTheoryCumDomainLabDialog(room)
+            else -> showToast("No layout found for ${room.roomType}")
+        }
+    }
+
+    private fun showTheoryClassRoomDialog(room: RoomItem) {
+        showProgressDialog()
+        val binding = TheoryClassRoomBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .create()
+        dialog.show()
+
+        val requestTcRoomDetails = AllRoomDetaisReques(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            tcId = centerId,
+            roomType = room.roomType,
+            roomNo = room.roomNo.toInt(),
+            sanctionOrder = sanctionOrder,
+        )
+
+        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+
+        viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                dismissProgressDialog()
+                val data = response.wrappedList.firstOrNull()
+                if (data != null) {
+                    binding.apply {
+                       yesNoTypeOfRoof.text = safeText(data.roofType)
+                        yesNoFalseCeiling.text = safeText(data.falseCeiling)
+                        yesNoHeightCeiling.text = safeText(data.ceilingHeight.toString())
+                        yesNoVentilationArea.text = safeText(data.ventilationArea.toString())
+                        yesNoSoundLevel.text = safeText(data.soundLevel.toString())
+                        yesNoSoundProofAC.text = safeText(data.centerSoundProof)
+                        yesNoInfoBoard.text = safeText(data.roomInfoBoard)
+                        yesNoInternalSignage.text = safeText(data.internalSignage)
+                        yesNoCCTV.text = safeText(data.audioCamera)
+                        yesNoLCDComputers.text = safeText(data.digitalProjector)
+                        yesNoChairForCan.text = safeText(data.candidateChair)
+                        yesNoWritingBoard.text = safeText(data.writingBoard)
+                        yesNoTrainerChair.text = safeText(data.trainerChair)
+                        yesNoTrainerTable.text = safeText(data.trainerTable)
+                        yesNoLights.text = safeText(data.lights.toString())
+                        yesNoFans.text = safeText(data.fans.toString())
+                        yesNoPowerBackup.text = safeText(data.ecPowerBackup)
+                        yesNoLabPhoto.text = safeText(data.roomsPhotographs)
+                        yesNoAirConditioning.text = safeText(data.airConditionRoom)
+                    }
+
+                    setupTheoryClassRoomImageClicks(binding, data)
+                } else {
+                    showToast("No data available")
                 }
-            } else selectedTcInfoRemarks = ""
-
-            // Common UI updates
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getTrainerCenterInfra(requestTcInfraReq)
-
-
-
-            binding.trainingCenterInfoLayout.trainingInfoExpand.visibility = View.GONE
-            binding.trainingCenterInfoLayout.viewInfo.visibility = View.GONE
-            binding.trainingCenterInfoLayout.tvTrainInfo.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
-            binding.mainInfra.visibility = View.VISIBLE
-            binding.viewInfra.visibility = View.VISIBLE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
             }
 
+            result.onFailure {
+                dismissProgressDialog()
+                showErrorToast("Failed: ${it.message}")
+            }
         }
 
+        binding.backButton.setOnClickListener { dialog.dismiss() }
+    }
 
-        binding.btnInfraNext.setOnClickListener {
-            if (selectedTcInfraApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
+    private fun setupTheoryClassRoomImageClicks(binding: TheoryClassRoomBinding, data: Any) {
+        binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Roof Type Image") }
+        binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling Image") }
+        binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Ceiling Height Image") }
+        binding.valueVentilationArea.setOnClickListener { showBase64ImageDialog(ventilationAreaImage, "Ventilation Area Image") }
+        binding.valueSoundLevel.setOnClickListener { showBase64ImageDialog(soundLevelImage, "Sound Level Image") }
+        binding.valueSoundProofAC.setOnClickListener { showBase64ImageDialog(centerSoundProofImage, "Sound Proof & AC Image") }
+        binding.valueInfoBoard.setOnClickListener { showBase64ImageDialog(roomInfoBoardImage, "Information Board Image") }
+        binding.valueInternalSignage.setOnClickListener { showBase64ImageDialog(internalSignageImage, "Internal Signage Image") }
+        binding.valueCCTV.setOnClickListener { showBase64ImageDialog(audioCameraImage, "CCTV & Audio Image") }
+        binding.valueLCDComputers.setOnClickListener { showBase64ImageDialog(digitalProjectorImage, "Digital Projector / LCD Image") }
+        binding.valueChairForCan.setOnClickListener { showBase64ImageDialog(candidateChairImage, "Candidate Chair Image") }
+        binding.valueWritingBoard.setOnClickListener { showBase64ImageDialog(writingBoardImage, "Writing Board Image") }
+        binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair Image") }
+        binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table Image") }
+        binding.valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights Image") }
+        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansRoomImage, "Fans Image") }
+        binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup Image") }
+        binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "Room Photos") }
+        binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning Image") }
+    }
 
-            }
+    private fun showOfficeCumCounsellingRoomDialog(room: RoomItem) {
+        showProgressDialog()
+        val binding = OfficeCumCouncelingRoomLayoutBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .create()
+        dialog.show()
 
-            if (selectedTcInfraApproval == "Send for modification") {
-                selectedTcInfraRemarks = binding.etInfraRemarks.text.toString()
-                if (selectedTcInfraRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
+        val requestTcRoomDetails = AllRoomDetaisReques(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            tcId = centerId,
+            roomType = room.roomType,
+            roomNo = room.roomNo.toInt(),
+            sanctionOrder = sanctionOrder
+        )
+
+        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+        viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                dismissProgressDialog()
+                val data = response.wrappedList.firstOrNull()
+                if (data != null) {
+                    binding.yesNoOfficeRoomPhoto.text = safeText(data.roomsPhotographs)
+                    binding.yesNoRoofType.text = safeText(data.roofType)
+                    binding.yesNoFalseCeiling.text = safeText(data.falseCeiling)
+                    binding.yesNoCeilingHeight.text = safeText(data.ceilingHeight.toString())
+                    binding.yesNoStorage.text = safeText(data.secureDocumentStorage)
+                    binding.yesNoOfficeTable.text = safeText(data.officeTable)
+                    binding.yesNoChairs.text = safeText(data.officeChair)
+                    binding.yesNoComputerTable.text = safeText(data.officeComputer)
+                    binding.yesNoPrinter.text = safeText(data.printerScanner)
+                    binding.yesNoCamera.text = safeText(data.digitalCamera)
+                    binding.yesNoPowerBackup.text = safeText(data.ecPowerBackup)
+
+                    setupOfficeCumCounsellingImageClicks(binding, data)
+                } else {
+                    showToast("No data available")
                 }
-            } else selectedTcInfraRemarks = ""
-
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getTcAcademicNonAcademicArea(requestTcInfraReq)
-
-
-
-            // Common UI updates
-            binding.trainingInfraExpand.visibility = View.GONE
-            binding.viewInfra.visibility = View.GONE
-            binding.tvTrainInfra.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
-            binding.mainDescAcademia.visibility = View.VISIBLE
-            binding.viewDescAcademia.visibility = View.VISIBLE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
             }
 
-        }
-        binding.btnInfraPrevious.setOnClickListener {
-
-            binding.trainingCenterInfoLayout.trainingInfoExpand.visibility = View.VISIBLE
-            binding.trainingCenterInfoLayout.viewInfo.visibility = View.VISIBLE
-            binding.mainInfra.visibility = View.GONE
-            binding.viewInfra.visibility = View.GONE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
+            result.onFailure {
+                dismissProgressDialog()
+                showErrorToast("Failed: ${it.message}")
             }
-
         }
 
+        binding.backButton.setOnClickListener { dialog.dismiss() }
+    }
 
-        binding.btnDescAcademiaNext.setOnClickListener {
-            if (selectedTcDescAcademiaApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
+    private fun setupOfficeCumCounsellingImageClicks(binding: OfficeCumCouncelingRoomLayoutBinding, data: Any) {
+        binding.valueOfficeRoomPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "Room Photo") }
+        binding.valueRoofType.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Roof Type Image") }
+        binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling Image") }
+        binding.valueCeilingHeight.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Ceiling Height Image") }
+        binding.valueStorage.setOnClickListener { showBase64ImageDialog(secureDocumentStorageImage, "Storage Image") }
+        binding.valueOfficeTable.setOnClickListener { showBase64ImageDialog(officeTableImage, "Office Table Image") }
+        binding.valueChairs.setOnClickListener { showBase64ImageDialog(officeChairImage, "Chairs Image") }
+        binding.valueComputerTable.setOnClickListener { showBase64ImageDialog(officeComputerImagePath, "Computer Table Image") }
+        binding.valuePrinter.setOnClickListener { showBase64ImageDialog(printerScannerImage, "Printer / Scanner Image") }
+        binding.valueCamera.setOnClickListener { showBase64ImageDialog(digitalCameraImage, "Digital Camera Image") }
+        binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup Image") }
+    }
 
-            }
+    private fun showReceptionAreaDialog(room: RoomItem) {
+        showProgressDialog()
+        val binding = ReceptionAreaLayoutBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .create()
+        dialog.show()
 
-            if (selectedTcDescAcademiaApproval == "Send for modification") {
-                selectedTcDescAcademiaRemarks = binding.etDescAcademiaRemarks.text.toString()
-                if (selectedTcDescAcademiaRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
+        val requestTcRoomDetails = AllRoomDetaisReques(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            tcId = centerId,
+            roomType = room.roomType,
+            roomNo = room.roomNo.toInt(),
+            sanctionOrder = sanctionOrder
+        )
+
+        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+
+        viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                dismissProgressDialog()
+                val data = response.wrappedList.firstOrNull()
+                if (data != null) {
+                    binding.yesNoReceptionAreaPhoto.text = safeText(data.roomsPhotographs)
+                    binding.valueReceptionAreaPhoto.setOnClickListener {
+                        showBase64ImageDialog(data.roomsPhotographsImage, "Reception Area Photo")
+                    }
+                } else {
+                    showToast("No data available")
                 }
-            } else selectedTcDescAcademiaRemarks = ""
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getTcToiletWashBasin(requestTcInfraReq)
-
-
-
-            // Common UI updates
-            binding.trainingDescAcademiaExpand.visibility = View.GONE
-            binding.viewDescAcademia.visibility = View.GONE
-            binding.tvTrainDescAcademia.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
-            binding.mainToilet.visibility = View.VISIBLE
-            binding.viewToilet.visibility = View.VISIBLE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
             }
 
-        }
-        binding.btnDescAcademiaPrevious.setOnClickListener {
-
-            binding.trainingInfraExpand.visibility = View.VISIBLE
-            binding.viewInfra.visibility = View.VISIBLE
-            binding.mainDescAcademia.visibility = View.GONE
-            binding.viewDescAcademia.visibility = View.GONE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
+            result.onFailure {
+                dismissProgressDialog()
+                showErrorToast("Failed: ${it.message}")
             }
-
         }
 
-        binding.btnBasinNext.setOnClickListener {
-            if (selectedTcBasinApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
+        binding.backButton.setOnClickListener { dialog.dismiss() }
+    }
 
-            }
+    private fun showCounsellingRoomDialog(room: RoomItem) {
+        showProgressDialog()
+        val binding = CounsellingRoomBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .create()
+        dialog.show()
 
-            if (selectedTcBasinApproval == "Send for modification") {
-                selectedTcBasinRemarks = binding.etBasinRemarks.text.toString()
-                if (selectedTcBasinRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
+        val requestTcRoomDetails = AllRoomDetaisReques(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            tcId = centerId,
+            roomType = room.roomType,
+            roomNo = room.roomNo.toIntOrNull() ?: 0,
+            sanctionOrder = sanctionOrder
+        )
+
+        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+
+        viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                dismissProgressDialog()
+                val data = response.wrappedList.firstOrNull()
+                if (data != null) {
+                    binding.yesNoCounsellingAreaPhoto.text = safeText(data.roomsPhotographs)
+                    binding.valueCounsellingAreaPhoto.setOnClickListener {
+                        showBase64ImageDialog(data.roomsPhotographsImage, "Counselling Area Photo")
+                    }
+                } else {
+                    showToast("No data available")
                 }
-            } else selectedTcBasinRemarks = ""
-            // Common UI updates
-
-
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getDescriptionOtherArea(requestTcInfraReq)
-
-
-
-
-            binding.trainingToiletExpand.visibility = View.GONE
-            binding.viewToilet.visibility = View.GONE
-            binding.tvTrainToilet.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
-            binding.mainDescOfOtherArea.visibility = View.VISIBLE
-            binding.viewDescOfOtherArea.visibility = View.VISIBLE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
             }
 
-        }
-        binding.btnBasinPrevious.setOnClickListener {
-
-            binding.trainingDescAcademiaExpand.visibility = View.VISIBLE
-            binding.viewDescAcademia.visibility = View.VISIBLE
-            binding.mainToilet.visibility = View.GONE
-            binding.viewToilet.visibility = View.GONE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
+            result.onFailure {
+                dismissProgressDialog()
+                showErrorToast("Failed: ${it.message}")
             }
-
         }
 
-        binding.btnDescOtherAreaNext.setOnClickListener {
-            if (selectedTcDescOtherAreaApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
+        binding.backButton.setOnClickListener { dialog.dismiss() }
+    }
 
-            }
+    private fun showOfficeRoomDialog(room: RoomItem) {
+        showProgressDialog()
+        val binding = OfficeRoomLayoutBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .create()
+        dialog.show()
 
-            if (selectedTcDescOtherAreaApproval == "Send for modification") {
-                selectedTcDescOtherAreaRemarks = binding.etDescOtherAreaRemarks.text.toString()
-                if (selectedTcDescOtherAreaRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
+        val requestTcRoomDetails = AllRoomDetaisReques(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            tcId = centerId,
+            roomType = room.roomType,
+            roomNo = room.roomNo.toIntOrNull() ?: 0,
+            sanctionOrder = sanctionOrder
+        )
+
+        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+
+        viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                dismissProgressDialog()
+                val data = response.wrappedList.firstOrNull()
+                if (data != null) {
+                    binding.yesNoOfficeRoomPhoto.text = safeText(data.roomsPhotographs)
+                    binding.yesNoRoofType.text = safeText(data.roofType)
+                    binding.yesNoFalseCeiling.text = safeText(data.falseCeiling)
+                    binding.yesNoCeilingHeight.text = safeText(data.ceilingHeight)
+                    binding.yesNoStorage.text = safeText(data.secureDocumentStorage)
+                    binding.yesNoOfficeTable.text = safeText(data.officeTable)
+                    binding.yesNoChairs.text = safeText(data.officeChair)
+                    binding.yesNoComputerTable.text = safeText(data.officeComputer)
+                    binding.yesNoPrinter.text = safeText(data.printerScanner)
+                    binding.yesNoCamera.text = safeText(data.digitalCamera)
+                    binding.yesNoPowerBackup.text = safeText(data.ecPowerBackup)
+
+                    setupOfficeRoomImageClicks(binding, data)
+                } else {
+                    showToast("No data available")
                 }
-            } else selectedTcDescOtherAreaRemarks = ""
-
-
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getTeachingLearningMaterial(requestTcInfraReq)
-
-            // Common UI updates
-            binding.trainingDescOfOtherAreaExpand.visibility = View.GONE
-            binding.viewDescOfOtherArea.visibility = View.GONE
-            binding.tvTrainDescOfOtherArea.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
-            binding.mainTeaching.visibility = View.VISIBLE
-            binding.viewTeaching.visibility = View.VISIBLE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
             }
 
-        }
-        binding.btnDescOtherAreaPrevious.setOnClickListener {
-
-            binding.trainingToiletExpand.visibility = View.VISIBLE
-            binding.viewToilet.visibility = View.VISIBLE
-            binding.mainDescOfOtherArea.visibility = View.GONE
-            binding.viewDescOfOtherArea.visibility = View.GONE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
+            result.onFailure {
+                dismissProgressDialog()
+                showErrorToast("Failed: ${it.message}")
             }
-
         }
 
-        binding.btnTeachingNext.setOnClickListener {
-            if (selectedTcTeachingApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
+        binding.backButton.setOnClickListener { dialog.dismiss() }
+    }
 
-            }
+    private fun setupOfficeRoomImageClicks(binding: OfficeRoomLayoutBinding, data: Any) {
+        binding.valueOfficeRoomPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "Office Room Photo") }
+        binding.valueRoofType.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Roof Type Image") }
+        binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling Image") }
+        binding.valueCeilingHeight.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Ceiling Height Image") }
+        binding.valueStorage.setOnClickListener { showBase64ImageDialog(secureDocumentStorageImage, "Storage Place Image") }
+        binding.valueOfficeTable.setOnClickListener { showBase64ImageDialog(officeTableImage, "Office Table Image") }
+        binding.valueChairs.setOnClickListener { showBase64ImageDialog(officeChairImage, "Chairs Image") }
+        binding.valueComputerTable.setOnClickListener { showBase64ImageDialog(officeComputerImagePath, "Computer Table Image") }
+        binding.valuePrinter.setOnClickListener { showBase64ImageDialog(printerScannerImage, "Printer / Scanner Image") }
+        binding.valueCamera.setOnClickListener { showBase64ImageDialog(digitalCameraRoomImage, "Digital Camera Image") }
+        binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup Image") }
+    }
 
-            if (selectedTcTeachingApproval == "Send for modification") {
-                selectedTcTeachingRemarks = binding.etTeachingRemarks.text.toString()
-                if (selectedTcTeachingRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
+    private fun showItCumDomainLabDialog(room: RoomItem) {
+        showProgressDialog()
+        val binding = ItCumDomainLabLayoutBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .create()
+        dialog.show()
+
+        val requestTcRoomDetails = AllRoomDetaisReques(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            tcId = centerId,
+            roomType = room.roomType,
+            roomNo = room.roomNo.toIntOrNull() ?: 0,
+            sanctionOrder = sanctionOrder
+        )
+
+        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+
+        viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                dismissProgressDialog()
+                val data = response.wrappedList.firstOrNull()
+                if (data != null) {
+                    binding.yesNoTypeOfRoof.text = safeText(data.roofType)
+                    binding.yesNoFalseCeiling.text = safeText(data.falseCeiling)
+                    binding.yesNoHeightCeiling.text = safeText(data.ceilingHeight)
+                    binding.yesNoVentilationArea.text = safeText(data.ventilationArea)
+                    binding.yesNoSoundLevel.text = safeText(data.soundLevel)
+                    binding.yesNoSoundProofAC.text = safeText(data.centerSoundProof)
+                    binding.yesNoInfoBoard.text = safeText(data.roomInfoBoard)
+                    binding.yesNoInternalSignage.text = safeText(data.internalSignage)
+                    binding.yesNoCCTV.text = safeText(data.audioCamera)
+                    binding.yesNoLANComputers.text = safeText(data.lanEnabled)
+                    binding.yesNoInternet.text = safeText(data.internetConnection)
+                    binding.yesNoTypingTutor.text = safeText(data.typingTuterComp)
+                    binding.yesNoTablets.text = safeText(data.tablet)
+                    binding.yesNoTrainerChair.text = safeText(data.trainerChair)
+                    binding.yesNoTrainerTable.text = safeText(data.trainerTable)
+                    binding.yesNoLights.text = safeText(data.lights)
+                    binding.yesNoFans.text = safeText(data.fans)
+                    binding.yesNoPowerBackup.text = safeText(data.ecPowerBackup)
+                    binding.yesNoAirConditioning.text = safeText(data.airConditionRoom)
+                    binding.yesNoLabPhoto.text = safeText(data.roomsPhotographs)
+                    binding.yesNodomainrelatedequipPhoto.text = safeText(data.domainEquipment)
+                    binding.yesNoStools.text = safeText(data.candidateChair)
+
+                    setupItCumDomainLabImageClicks(binding, data)
+                } else {
+                    showToast("No data available")
                 }
-            } else selectedTcTeachingRemarks = ""
-            // Common UI updates
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getGeneralDetails(requestTcInfraReq)
-
-
-
-
-            binding.trainingTeachingExpand.visibility = View.GONE
-            binding.viewTeaching.visibility = View.GONE
-            binding.tvTrainTeaching.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
-            binding.mainGeneralDetails.visibility = View.VISIBLE
-            binding.viewGeneralDetails.visibility = View.VISIBLE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
             }
 
-        }
-        binding.btnTeachingPrevious.setOnClickListener {
-
-            binding.trainingDescOfOtherAreaExpand.visibility = View.VISIBLE
-            binding.viewDescOfOtherArea.visibility = View.VISIBLE
-            binding.mainTeaching.visibility = View.GONE
-            binding.viewTeaching.visibility = View.GONE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
+            result.onFailure {
+                dismissProgressDialog()
+                showErrorToast("Failed: ${it.message}")
             }
-
         }
 
-        binding.btnGeneralNext.setOnClickListener {
-            if (selectedTcGeneralApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
+        binding.backButton.setOnClickListener { dialog.dismiss() }
+    }
 
-            }
+    private fun setupItCumDomainLabImageClicks(binding: ItCumDomainLabLayoutBinding, data: Any) {
+        binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Roof Type") }
+        binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
+        binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Height of Ceiling") }
+        binding.valueVentilationArea.setOnClickListener { showBase64ImageDialog(ventilationAreaImage, "Ventilation Area") }
+        binding.valueSoundLevel.setOnClickListener { showBase64ImageDialog(soundLevelImage, "Sound Level") }
+        binding.valueSoundProofAC.setOnClickListener { showBase64ImageDialog(centerSoundProofImage, "Sound Proof / AC") }
+        binding.valueInfoBoard.setOnClickListener { showBase64ImageDialog(roomInfoBoardImage, "Information Board") }
+        binding.valueInternalSignage.setOnClickListener { showBase64ImageDialog(internalSignageImage, "Internal Signage") }
+        binding.valueCCTV.setOnClickListener { showBase64ImageDialog(audioCameraImage, "CCTV Camera") }
+        binding.valueLANComputers.setOnClickListener { showBase64ImageDialog(lanEnabledImage, "LAN Computers") }
+        binding.valueInternet.setOnClickListener { showBase64ImageDialog(internetConnectionImage, "Internet Connection") }
+        binding.valueTypingTutor.setOnClickListener { showBase64ImageDialog(typingTuterCompImage, "Typing Tutor") }
+        binding.valueTablets.setOnClickListener { showBase64ImageDialog(tabletImage, "Tablets") }
+        binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
+        binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
+        binding.valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
+        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
+        binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
+        binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
+        binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "IT cum Domain Lab Photo") }
+        binding.valueStools.setOnClickListener { showBase64ImageDialog(candidateChairImage, "Domain Related Equipment") }
+    }
 
-            if (selectedTcGeneralApproval == "Send for modification") {
-                selectedTcGeneralRemarks = binding.etGeneralRemarks.text.toString()
-                if (selectedTcGeneralRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
+    private fun showTheoryCumItLabDialog(room: RoomItem) {
+        showProgressDialog()
+        val binding = TheoryCumItLabLayoutBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .create()
+        dialog.show()
+
+        val requestTcRoomDetails = AllRoomDetaisReques(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            tcId = centerId,
+            roomType = room.roomType,
+            roomNo = room.roomNo.toIntOrNull() ?: 0,
+            sanctionOrder = sanctionOrder
+        )
+
+        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+
+        viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                dismissProgressDialog()
+                val data = response.wrappedList.firstOrNull()
+                if (data != null) {
+                    binding.yesNoTypeOfRoof.text = safeText(data.roofType)
+                    binding.yesNoFalseCeiling.text = safeText(data.falseCeiling)
+                    binding.yesNoHeightCeiling.text = safeText(data.ceilingHeight)
+                    binding.yesNoVentilationArea.text = safeText(data.ventilationArea)
+                    binding.yesNoSoundLevel.text = safeText(data.soundLevel)
+                    binding.yesNoSoundProofAC.text = safeText(data.centerSoundProof)
+                    binding.yesNoInfoBoard.text = safeText(data.roomInfoBoard)
+                    binding.yesNoInternalSignage.text = safeText(data.internalSignage)
+                    binding.yesNoCCTV.text = safeText(data.audioCamera)
+                    binding.yesNoLANComputers.text = safeText(data.lanEnabled)
+                    binding.yesNoInternet.text = safeText(data.internetConnection)
+                    binding.yesNoTypingTutor.text = safeText(data.typingTuterComp)
+                    binding.yesNoTablets.text = safeText(data.tablet)
+                    binding.yesNoStools.text = safeText(data.candidateChair)
+                    binding.yesNoTrainerChair.text = safeText(data.trainerChair)
+                    binding.yesNoTrainerTable.text = safeText(data.trainerTable)
+                    binding.yesNoLights.text = safeText(data.lights)
+                    binding.yesNoFans.text = safeText(data.fans)
+                    binding.yesNoPowerBackup.text = safeText(data.ecPowerBackup)
+                    binding.yesNoLabPhoto.text = safeText(data.roomsPhotographs)
+                    binding.yesNodomainrelatedequipPhoto.text = safeText(data.domainEquipment)
+                    binding.yesNoAirConditioning.text = safeText(data.airConditionRoom)
+
+                    setupTheoryCumItLabImageClicks(binding, data)
+                } else {
+                    showToast("No data available")
                 }
-            } else selectedTcGeneralRemarks = ""
-
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getElectricalWiringStandard(requestTcInfraReq)
-
-
-
-            // Common UI updates
-            binding.trainingGeneralDetailsExpand.visibility = View.GONE
-            binding.viewGeneralDetails.visibility = View.GONE
-            binding.tvTrainGeneralDetails.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
-            binding.mainElectricalDetails.visibility = View.VISIBLE
-            binding.viewElectricalDetails.visibility = View.VISIBLE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
             }
 
-        }
-        binding.btnGeneralPrevious.setOnClickListener {
-
-            binding.trainingTeachingExpand.visibility = View.VISIBLE
-            binding.viewTeaching.visibility = View.VISIBLE
-            binding.mainGeneralDetails.visibility = View.GONE
-            binding.viewGeneralDetails.visibility = View.GONE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
+            result.onFailure {
+                dismissProgressDialog()
+                showErrorToast("Failed: ${it.message}")
             }
-
         }
 
-        binding.btnElectricalNext.setOnClickListener {
-            if (selectedTcElectricalApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
+        binding.backButton.setOnClickListener { dialog.dismiss() }
+    }
 
-            }
+    private fun setupTheoryCumItLabImageClicks(binding: TheoryCumItLabLayoutBinding, data: Any) {
+        binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Type of Roof") }
+        binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
+        binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Height of Ceiling") }
+        binding.valueVentilationArea.setOnClickListener { showBase64ImageDialog(ventilationAreaImage, "Ventilation Area") }
+        binding.valueSoundLevel.setOnClickListener { showBase64ImageDialog(soundLevelImage, "Sound Level") }
+        binding.valueSoundProofAC.setOnClickListener { showBase64ImageDialog(centerSoundProofImage, "Sound Proof & AC") }
+        binding.valueInfoBoard.setOnClickListener { showBase64ImageDialog(roomInfoBoardImage, "Room Info Board") }
+        binding.valueInternalSignage.setOnClickListener { showBase64ImageDialog(internalSignageImage, "Internal Signage") }
+        binding.valueCCTV.setOnClickListener { showBase64ImageDialog(audioCameraImage, "CCTV Cameras") }
+        binding.valueLANComputers.setOnClickListener { showBase64ImageDialog(lanEnabledImage, "LAN Enabled Computers") }
+        binding.valueInternet.setOnClickListener { showBase64ImageDialog(internetConnectionImage, "Internet Connection") }
+        binding.valueTypingTutor.setOnClickListener { showBase64ImageDialog(typingTuterCompImage, "Typing Tutor Computers") }
+        binding.valueTablets.setOnClickListener { showBase64ImageDialog(tabletImage, "Tablets") }
+        binding.valueStools.setOnClickListener { showBase64ImageDialog(candidateChairImage, "Candidate Chair") }
+        binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
+        binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
+        binding.valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
+        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansRoomImage, "Fans") }
+        binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
+        binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "IT Lab Photograph") }
+        binding.valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(domainEquipmentImage, "Domain Equipment") }
+        binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
+    }
 
-            if (selectedTcElectricalApproval == "Send for modification") {
-                selectedTcElectricalRemarks = binding.etElectricalRemarks.text.toString()
-                if (selectedTcElectricalRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
+    private fun showItLabDialog(room: RoomItem) {
+        showProgressDialog()
+        val binding = ItLabLayoutBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .create()
+        dialog.show()
+
+        val requestTcRoomDetails = AllRoomDetaisReques(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            tcId = centerId,
+            roomType = room.roomType,
+            roomNo = room.roomNo.toIntOrNull() ?: 0,
+            sanctionOrder = sanctionOrder
+        )
+
+        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+
+        viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                dismissProgressDialog()
+                val data = response.wrappedList.firstOrNull()
+                if (data != null) {
+                    binding.yesNoTypeOfRoof.text = safeText(data.roofType)
+                    binding.yesNoFalseCeiling.text = safeText(data.falseCeiling)
+                    binding.yesNoHeightCeiling.text = safeText(data.ceilingHeight)
+                    binding.yesNoVentilationArea.text = safeText(data.ventilationArea)
+                    binding.yesNoSoundLevel.text = safeText(data.soundLevel)
+                    binding.yesNoSoundProofAC.text = safeText(data.centerSoundProof)
+                    binding.yesNoInfoBoard.text = safeText(data.roomInfoBoard)
+                    binding.yesNoInternalSignage.text = safeText(data.internalSignage)
+                    binding.yesNoCCTV.text = safeText(data.audioCamera)
+                    binding.yesNoLANComputers.text = safeText(data.lanEnabled)
+                    binding.yesNoInternet.text = safeText(data.internetConnection)
+                    binding.yesNoTypingTutor.text = safeText(data.typingTuterComp)
+                    binding.yesNoTablets.text = safeText(data.tablet)
+                    binding.yesNoStools.text = safeText(data.candidateChair)
+                    binding.yesNoTrainerChair.text = safeText(data.trainerChair)
+                    binding.yesNoTrainerTable.text = safeText(data.trainerTable)
+                    binding.yesNoLights.text = safeText(data.lights)
+                    binding.yesNoFans.text = safeText(data.fans)
+                    binding.yesNoPowerBackup.text = safeText(data.ecPowerBackup)
+                    binding.yesNoAirConditioning.text = safeText(data.airConditionRoom)
+                    binding.yesNoLabPhoto.text = safeText(data.roomsPhotographs)
+
+                    setupItLabImageClicks(binding, data)
+                } else {
+                    showToast("No data available")
                 }
-            } else selectedTcElectricalRemarks = ""
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getSignagesAndInfoBoard(requestTcInfraReq)
-
-
-            // Common UI updates
-            binding.trainingElectricalDetailsExpand.visibility = View.GONE
-            binding.viewElectricalDetails.visibility = View.GONE
-            binding.tvTrainElectricalDetails.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
-            binding.mainSignageBoardDetails.visibility = View.VISIBLE
-            binding.signageLayout.viewSignageBoardDetails.visibility = View.VISIBLE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
             }
 
-        }
-        binding.btnElectricalPrevious.setOnClickListener {
-
-            binding.trainingGeneralDetailsExpand.visibility = View.VISIBLE
-            binding.viewGeneralDetails.visibility = View.VISIBLE
-            binding.mainElectricalDetails.visibility = View.GONE
-            binding.viewElectricalDetails.visibility = View.GONE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
+            result.onFailure {
+                dismissProgressDialog()
+                showErrorToast("Failed: ${it.message}")
             }
-
         }
 
-        binding.signageLayout.btnSignageNext.setOnClickListener {
-            if (selectedTcSignageApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
-
-            }
-
-            if (selectedTcSignageApproval == "Send for modification") {
-                selectedTcSignageRemarks = binding.signageLayout.etSignageRemarks.text.toString()
-                if (selectedTcSignageRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
-            } else selectedTcSignageRemarks = ""
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getIpEnabledCamera(requestTcInfraReq)
-
-
-            // Common UI updates
-            binding.signageLayout.trainingSignageBoardlDetailsExpand.visibility = View.GONE
-            binding.signageLayout.viewSignageBoardDetails.visibility = View.GONE
-            binding.signageLayout.tvTrainSignageBoardDetails.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
-            binding.mainIPEnableCameraDetails.visibility = View.VISIBLE
-            binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.VISIBLE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
-            }
-
-        }
-        binding.signageLayout.btnSignagePrevious.setOnClickListener {
-
-            binding.trainingElectricalDetailsExpand.visibility = View.VISIBLE
-            binding.viewElectricalDetails.visibility = View.VISIBLE
-            binding.mainSignageBoardDetails.visibility = View.GONE
-            binding.signageLayout.viewSignageBoardDetails.visibility = View.GONE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
-            }
-
-        }
-
-        binding.ipCameraLayout.btnIpEnableNext.setOnClickListener {
-            if (selectedTcIpEnableApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
-
-            }
-
-            if (selectedTcIpEnableApproval == "Send for modification") {
-                selectedTcIpEnableRemarks = binding.ipCameraLayout.etIpEnableRemarks.text.toString()
-                if (selectedTcIpEnableRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
-            } else selectedTcIpEnableRemarks = ""
-
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getCommonEquipment(requestTcInfraReq)
-
-
-            // Common UI updates
-            binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.GONE
-            binding.ipCameraLayout.trainingIPEnableCameralDetailsExpand.visibility = View.GONE
-
-            binding.ipCameraLayout.tvTrainIPEnableCameraDetails.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
-            binding.mainCommonEquipmentDetails.visibility = View.VISIBLE
-            binding.commonEquipmentLayout.viewCommonEquipmentDetails.visibility = View.VISIBLE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
-            }
-
-        }
-        binding.ipCameraLayout.btnIpEnablePrevious.setOnClickListener {
-
-            binding.signageLayout.trainingSignageBoardlDetailsExpand.visibility = View.VISIBLE
-            binding.signageLayout.viewSignageBoardDetails.visibility = View.VISIBLE
-            binding.mainIPEnableCameraDetails.visibility = View.GONE
-            binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.GONE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
-            }
-
-        }
-
-        binding.commonEquipmentLayout.btnCommonEquipmentNext.setOnClickListener {
-            if (selectedTcCommonEquipmentApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
-
-            }
-
-            if (selectedTcCommonEquipmentApproval == "Send for modification") {
-                selectedTcCommonEquipmentRemarks =
-                    binding.commonEquipmentLayout.etCommonEquipmentRemarks.text.toString()
-                if (selectedTcCommonEquipmentRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
-            } else selectedTcCommonEquipmentRemarks = ""
-            // Common UI updates
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getAvailabilitySupportInfra(requestTcInfraReq)
-
-
-            binding.commonEquipmentLayout.viewCommonEquipmentDetails.visibility = View.GONE
-            binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand.visibility =
-                View.GONE
-
-            binding.commonEquipmentLayout.tvTrainCommonEquipmentDetails.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
-
-
-            binding.mainAvailSupportInfra.visibility = View.VISIBLE
-            binding.availSupportInfraLayout.viewAvailSupportInfra.visibility = View.VISIBLE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
-            }
-
-        }
-        binding.commonEquipmentLayout.btnCommonEquipmentPrevious.setOnClickListener {
-
-            binding.ipCameraLayout.trainingIPEnableCameralDetailsExpand.visibility = View.VISIBLE
-            binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.VISIBLE
-
-            binding.mainCommonEquipmentDetails.visibility = View.GONE
-            binding.commonEquipmentLayout.viewCommonEquipmentDetails.visibility = View.GONE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
-            }
-
-        }
-
-        binding.availSupportInfraLayout.btnAvailSupportInfraNext.setOnClickListener {
-            if (selectedTcAvailSupportInfraApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
-
-            }
-
-            if (selectedTcAvailSupportInfraApproval == "Send for modification") {
-                selectedTcAvailSupportInfraRemarks =
-                    binding.availSupportInfraLayout.etAvailSupportInfraRemarks.text.toString()
-                if (selectedTcAvailSupportInfraRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
-            } else selectedTcAvailSupportInfraRemarks = ""
-            // Common UI updates
-
-
-            val requestTcInfraReq = TrainingCenterInfo(
-                appVersion = BuildConfig.VERSION_NAME,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-            viewModel.getAvailabilityStandardForms(requestTcInfraReq)
-
-
-            binding.availSupportInfraLayout.viewAvailSupportInfra.visibility = View.GONE
-            binding.availSupportInfraLayout.trainingAvailSupportInfraExpand.visibility = View.GONE
-            binding.availSupportInfraLayout.tvTrainAvailSupportInfra.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
-
-
-            binding.mainAvailOfStandardForms.visibility = View.VISIBLE
-            binding.availOfStandardFormsLayout.viewAvailOfStandardForms.visibility = View.VISIBLE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
-            }
-
-        }
-        binding.availSupportInfraLayout.btnAvailSupportInfraPrevious.setOnClickListener {
-
-            binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand.visibility =
-                View.VISIBLE
-            binding.commonEquipmentLayout.viewCommonEquipmentDetails.visibility = View.VISIBLE
-
-            binding.mainAvailSupportInfra.visibility = View.GONE
-            binding.availSupportInfraLayout.viewAvailSupportInfra.visibility = View.GONE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
-            }
-
-        }
-
-        binding.availOfStandardFormsLayout.btnAvailOfStandardFormsNext.setOnClickListener {
-
-            // 🔹 First: Run all validations
-            if (selectedTcAvailOfStandardFormApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
-            }
-
-            if (selectedTcAvailOfStandardFormApproval == "Send for modification") {
-                selectedTcAvailOfStandardFormRemarks =
-                    binding.availOfStandardFormsLayout.etAvailOfStandardFormsRemarks.text.toString()
-                if (selectedTcAvailOfStandardFormRemarks.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Kindly enter remarks first",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
-            } else {
-                selectedTcAvailOfStandardFormRemarks = ""
-            }
-
-            // 🔹 If validations passed → show confirmation dialog
-            AlertDialog.Builder(requireContext())
-                .setTitle("Confirmation")
-                .setMessage("Are you sure you want to submit these details?")
-                .setCancelable(false)
-                .setNegativeButton("Cancel") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .setPositiveButton("Submit") { dialog, _ ->
-
-                    //  Hit the insert API
-
-                    val requestTcQTeamSubmit = TcQTeamInsertReq(
-                        appVersion = BuildConfig.VERSION_NAME,
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        tcId = centerId.toInt(),
-                        sanctionOrder = sanctionOrder,
-
-                        tcInfoStatus = mapApproval(selectedTcInfoApproval),
-                        tcInfoRemark = selectedTcInfoRemarks,
-
-                        tcAcademicStatus = mapApproval(selectedTcDescAcademiaApproval),
-                        tcAcademicRemark = selectedTcDescAcademiaRemarks,
-
-                        tcInfraStatus = mapApproval(selectedTcInfraApproval),
-                        tcInfraRemark = selectedTcInfraRemarks,
-
-                        tcToiletStatus = mapApproval(selectedTcBasinApproval),
-                        tcToiletRemark = selectedTcBasinRemarks,
-
-                        tcDescOtherAreaStatus = mapApproval(selectedTcDescOtherAreaApproval),
-                        tcDescOtherAreaRemark = selectedTcDescOtherAreaRemarks,
-
-                        tcLearningMaterialStatus = mapApproval(selectedTcTeachingApproval),
-                        tcLearningMaterialRemark = selectedTcTeachingRemarks,
-
-                        tcGdStatus = mapApproval(selectedTcGeneralApproval),
-                        tcGdRemark = selectedTcGeneralRemarks,
-
-                        tcEcWiringStatus = mapApproval(selectedTcElectricalApproval),
-                        tcEcWiringRemark = selectedTcElectricalRemarks,
-
-                        tcSignageInfoStatus = mapApproval(selectedTcSignageApproval),
-                        tcSignageInfoRemark = selectedTcSignageRemarks,
-
-                        tcIpEnableStatus = mapApproval(selectedTcIpEnableApproval),
-                        tcIpEnableRemark = selectedTcIpEnableRemarks,
-
-                        tcCommonEquipmentStatus = mapApproval(selectedTcCommonEquipmentApproval),
-                        tcCommonEquipmentRemark = selectedTcCommonEquipmentRemarks,
-
-                        tcSupportInfraStatus = mapApproval(selectedTcAvailSupportInfraApproval),
-                        tcSupportInfraRemark = selectedTcAvailSupportInfraRemarks,
-
-                        tcStandardFormStatus = mapApproval(selectedTcAvailOfStandardFormApproval),
-                        tcStandardFormRemark = selectedTcAvailOfStandardFormRemarks
-                    )
-
-                    // Show progress bar
-                  showProgressBar()
-
-
-                    viewLifecycleOwner.lifecycleScope.launch {
-
-                        // Call API
-
-                        viewModel.insertQTeamVerification(requestTcQTeamSubmit)
-
+        binding.backButton.setOnClickListener { dialog.dismiss() }
+    }
+
+    private fun setupItLabImageClicks(binding: ItLabLayoutBinding, data: Any) {
+        binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Type of Roof") }
+        binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
+        binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Height of Ceiling") }
+        binding.valueVentilationArea.setOnClickListener { showBase64ImageDialog(ventilationAreaImage, "Ventilation Area") }
+        binding.valueSoundLevel.setOnClickListener { showBase64ImageDialog(soundLevelImage, "Sound Level") }
+        binding.valueSoundProofAC.setOnClickListener { showBase64ImageDialog(centerSoundProofImage, "Sound Proof / AC") }
+        binding.valueInfoBoard.setOnClickListener { showBase64ImageDialog(roomInfoBoardImage, "Information Board") }
+        binding.valueInternalSignage.setOnClickListener { showBase64ImageDialog(internalSignageImage, "Internal Signage") }
+        binding.valueCCTV.setOnClickListener { showBase64ImageDialog(audioCameraImage, "CCTV Camera") }
+        binding.valueLANComputers.setOnClickListener { showBase64ImageDialog(lanEnabledImage, "LAN Computers") }
+        binding.valueInternet.setOnClickListener { showBase64ImageDialog(internetConnectionImage, "Internet Connection") }
+        binding.valueTypingTutor.setOnClickListener { showBase64ImageDialog(typingTuterCompImage, "Typing Tutor") }
+        binding.valueTablets.setOnClickListener { showBase64ImageDialog(tabletImage, "Tablets") }
+        binding.valueStools.setOnClickListener { showBase64ImageDialog(candidateChairImage, "Stools / Chairs") }
+        binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
+        binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
+        binding.valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
+        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
+        binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
+        binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
+        binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "IT Lab Photo") }
+    }
+
+    private fun showDomainLabDialog(room: RoomItem) {
+        showProgressDialog()
+        val binding = DomainLabLayoutBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .create()
+        dialog.show()
+
+        val requestTcRoomDetails = AllRoomDetaisReques(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            tcId = centerId,
+            roomType = room.roomType,
+            roomNo = room.roomNo.toIntOrNull() ?: 0,
+            sanctionOrder = sanctionOrder
+        )
+
+        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+
+        viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                dismissProgressDialog()
+                val data = response.wrappedList.firstOrNull()
+                if (data != null) {
+                    binding.apply {
+                        yesNoTypeOfRoof.text = safeText(data.roofType)
+                        yesNoFalseCeiling.text = safeText(data.falseCeiling)
+                        yesNoHeightCeiling.text = safeText(data.ceilingHeight)
+                        yesNoVentilationArea.text = safeText(data.ventilationArea)
+                        yesNoSoundLevel.text = safeText(data.soundLevel)
+                        yesNoSoundProofAC.text = safeText(data.centerSoundProof)
+                        yesNoInfoBoard.text = safeText(data.roomInfoBoard)
+                        yesNoInternalSignage.text = safeText(data.internalSignage)
+                        yesNoCCTV.text = safeText(data.audioCamera)
+                        yesNoLCDComputers.text = safeText(data.lanEnabled)
+                        yesNoChairForCan.text = safeText(data.candidateChair)
+                        yesNoWritingBoard.text = safeText(data.writingBoard)
+                        yesNoTrainerChair.text = safeText(data.trainerChair)
+                        yesNoTrainerTable.text = safeText(data.trainerTable)
+                        yesNoLights.text = safeText(data.lights)
+                        yesNoFans.text = safeText(data.fans)
+                        yesNoPowerBackup.text = safeText(data.ecPowerBackup)
+                        yesNoLabPhoto.text = safeText(data.roomsPhotographs)
+                        yesNodomainrelatedequipPhoto.text = safeText(data.domainEquipment)
+                        yesNoAirConditioning.text = safeText(data.airConditionRoom)
                     }
 
 
 
-                    binding.availOfStandardFormsLayout.viewAvailOfStandardForms.visibility =
-                        View.GONE
-                    binding.availOfStandardFormsLayout.trainingAvailOfStandardFormsExpand.visibility =
-                        View.GONE
-                    binding.availOfStandardFormsLayout.tvTrainAvailOfStandardForms.setCompoundDrawablesWithIntrinsicBounds(
-                        0, 0, R.drawable.ic_verified, 0
-                    )
-
-                    binding.scroll.post {
-                        binding.scroll.smoothScrollTo(0, 0)
-                    }
-
-                    dialog.dismiss()
+                    setupDomainLabImageClicks(binding, data)
+                } else {
+                    showToast("No data available")
                 }
-                .show()
-        }
-        binding.availOfStandardFormsLayout.btnAvailOfStandardFormsPrevious.setOnClickListener {
-
-            binding.availSupportInfraLayout.trainingAvailSupportInfraExpand.visibility =
-                View.VISIBLE
-            binding.availSupportInfraLayout.viewAvailSupportInfra.visibility = View.VISIBLE
-
-            binding.mainAvailOfStandardForms.visibility = View.GONE
-            binding.availOfStandardFormsLayout.viewAvailOfStandardForms.visibility = View.GONE
-
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
             }
 
+            result.onFailure {
+                dismissProgressDialog()
+                showErrorToast("Failed: ${it.message}")
+            }
+        }
+
+        binding.backButton.setOnClickListener { dialog.dismiss() }
+    }
+
+    private fun setupDomainLabImageClicks(binding: DomainLabLayoutBinding, data: Any) {
+        binding.apply {
+           valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Type of Roof") }
+           valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
+           valueHeightCeiling.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Height of Ceiling") }
+           valueVentilationArea.setOnClickListener { showBase64ImageDialog(ventilationAreaImage, "Ventilation Area") }
+           valueSoundLevel.setOnClickListener { showBase64ImageDialog(soundLevelImage, "Sound Level") }
+           valueSoundProofAC.setOnClickListener { showBase64ImageDialog(centerSoundProofImage, "Sound Proof & AC") }
+           valueInfoBoard.setOnClickListener { showBase64ImageDialog(roomInfoBoardImage, "Room Info Board") }
+           valueInternalSignage.setOnClickListener { showBase64ImageDialog(internalSignageImage, "Internal Signage") }
+           valueCCTV.setOnClickListener { showBase64ImageDialog(audioCameraImage, "CCTV & Audio") }
+           valueLCDComputers.setOnClickListener { showBase64ImageDialog(lanEnabledImage, "LAN / LCD Digital Projector") }
+           valueChairForCan.setOnClickListener { showBase64ImageDialog(candidateChairImage, "Chair for Candidates") }
+           valueWritingBoard.setOnClickListener { showBase64ImageDialog(writingBoardImage, "Writing Board") }
+           valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
+           valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
+           valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
+           valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
+           valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
+           valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "Domain Lab Photo") }
+           valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(domainEquipmentImage, "Domain Related Equipment") }
+           valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
         }
 
     }
 
+    private fun showTheoryCumDomainLabDialog(room: RoomItem) {
+        showProgressDialog()
+        val binding = TheoryCumDomainLabLayoutBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .create()
+        dialog.show()
+
+        val requestTcRoomDetails = AllRoomDetaisReques(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            tcId = centerId,
+            roomType = room.roomType,
+            roomNo = room.roomNo.toInt(),
+            sanctionOrder = sanctionOrder,
+        )
+
+        viewModel.getAcademicRoomDetails(requestTcRoomDetails)
+
+        viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                dismissProgressDialog()
+                val data = response.wrappedList.firstOrNull()
+                if (data != null) {
+                    binding.apply {
+                       yesNoTypeOfRoof.text = safeText(data.roofType)
+                       yesNoFalseCeiling.text = safeText(data.falseCeiling)
+                       yesNoHeightCeiling.text = safeText(data.ceilingHeight)
+                       yesNoVentilationArea.text = safeText(data.ventilationArea)
+                       yesNoSoundLevel.text = safeText(data.soundLevel)
+                       yesNoSoundProofAC.text = safeText(data.centerSoundProof)
+                       yesNoInfoBoard.text = safeText(data.roomInfoBoard)
+                       yesNoInternalSignage.text = safeText(data.internalSignage)
+                       yesNoCCTV.text = safeText(data.audioCamera)
+                       yesNoLANComputers.text = safeText(data.lanEnabled)
+                       yesNoInternet.text = safeText(data.internetConnection)
+                       yesNoTypingTutor.text = safeText(data.typingTuterComp)
+                       yesNoTablets.text = safeText(data.tablet)
+                       yesNoStools.text = safeText(data.candidateChair)
+                       yesNoTrainerChair.text = safeText(data.trainerChair)
+                       yesNoTrainerTable.text = safeText(data.trainerTable)
+                       yesNoLights.text = safeText(data.lights)
+                       yesNoFans.text = safeText(data.fans)
+                       yesNoPowerBackup.text = safeText(data.ecPowerBackup)
+                       yesNoLabPhoto.text = safeText(data.roomsPhotographs)
+                       yesNodomainrelatedequipPhoto.text = safeText(data.domainEquipment)
+                       yesNoAirConditioning.text = safeText(data.airConditionRoom)
+                    }
+
+
+
+                    setupTheoryCumDomainLabImageClicks(binding, data)
+                } else {
+                    showToast("No data available")
+                }
+            }
+
+            result.onFailure {
+                dismissProgressDialog()
+                showErrorToast("Failed: ${it.message}")
+            }
+        }
+
+        binding.backButton.setOnClickListener { dialog.dismiss() }
+    }
+
+    private fun setupTheoryCumDomainLabImageClicks(binding: TheoryCumDomainLabLayoutBinding, data: Any) {
+
+        binding.apply {
+            valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Type of Roof") }
+            valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
+            valueHeightCeiling.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Height of Ceiling") }
+            valueVentilationArea.setOnClickListener { showBase64ImageDialog(ventilationAreaImage, "Ventilation Area") }
+            valueSoundLevel.setOnClickListener { showBase64ImageDialog(soundLevelImage, "Sound Level") }
+            valueSoundProofAC.setOnClickListener { showBase64ImageDialog(centerSoundProofImage, "Sound Proof & AC") }
+            valueInfoBoard.setOnClickListener { showBase64ImageDialog(roomInfoBoardImage, "Room Info Board") }
+            valueInternalSignage.setOnClickListener { showBase64ImageDialog(internalSignageImage, "Internal Signage") }
+            valueCCTV.setOnClickListener { showBase64ImageDialog(audioCameraImage, "CCTV Cameras") }
+            valueLANComputers.setOnClickListener { showBase64ImageDialog(lanEnabledImage, "LAN Enabled Computers") }
+            valueInternet.setOnClickListener { showBase64ImageDialog(internetConnectionImage, "Internet Connection") }
+            valueTypingTutor.setOnClickListener { showBase64ImageDialog(typingTuterCompImage, "Typing Tutor Computers") }
+            valueTablets.setOnClickListener { showBase64ImageDialog(tabletImage, "Tablets") }
+            valueStools.setOnClickListener { showBase64ImageDialog(candidateChairImage, "Candidate Chair") }
+            valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
+            valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
+            valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
+            valueFans.setOnClickListener { showBase64ImageDialog(fansRoomImage, "Fans") }
+            valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
+            valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "IT Lab Photograph") }
+            valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(domainEquipmentImage, "Domain Equipment") }
+            valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
+        }
+
+    }
+
+    @SuppressLint("Recycle")
+    private fun downloadAndOpenBase64Pdf(base64: String, fileName: String = "document.pdf") {
+        try {
+            val cleanBase64 = base64
+                .replace("data:application/pdf;base64,", "")
+                .trim()
+
+            val pdfBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
+            if (pdfBytes.isEmpty()) {
+                showToast("Invalid PDF data")
+                return
+            }
+
+            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            if (!downloadsDir.exists()) downloadsDir.mkdirs()
+
+            val file = File(downloadsDir, fileName)
+            FileOutputStream(file).use { it.write(pdfBytes) }
+
+            val uri = Uri.fromFile(file)
+            requireContext().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
+
+            showToast("PDF downloaded to Downloads: ${file.name}")
+            openBase64Pdf(base64)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            showErrorToast("Error: ${e.message}")
+        }
+    }
 
     @SuppressLint("SetTextI18n")
     private fun collectTCInfoResponse() {
         viewModel.trainingCentersInfo.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val tcInfoData = it.wrappedList
-                        for (x in tcInfoData) {
-
-                            binding.trainingCenterInfoLayout.tvSchemeName.text = x.schemeName
-                            binding.trainingCenterInfoLayout.tvCenterName.text = x.centerName
-                            binding.trainingCenterInfoLayout.tvProjectState.text = x.projectState
-                            binding.trainingCenterInfoLayout.tvTypeOfArea.text = x.addressType
-                            binding.trainingCenterInfoLayout.tvlatAndLang.text = x.latitude + " , " + x.longitude
-
-
-                            binding.trainingCenterInfoLayout.tvDistanceBus.text =
-                                x.distanceFromBusStand
-                            binding.trainingCenterInfoLayout.tvDistanceAuto.text =
-                                x.distanceFromAutoStand
-                            binding.trainingCenterInfoLayout.tvSanctionOrder.text =
-                                x.sanctionOrderNo
-                            binding.trainingCenterInfoLayout.tvTypeOfTraining.text = x.tcType
-                            binding.trainingCenterInfoLayout.tvNatureOfTraining.text = x.tcNature
-                            binding.trainingCenterInfoLayout.tvSpecialArea.text = x.specialArea
-                            binding.trainingCenterInfoLayout.tvTrainingCenterAddress.text =
-                                x.latitude + "," + x.tcAddress
-                            binding.trainingCenterInfoLayout.tvTrainingCenterEmail.text =
-                                x.tcEmailID
-                            binding.trainingCenterInfoLayout.tvMobileNumber.text = x.tcMobileNo
-                            binding.trainingCenterInfoLayout.tvLandlineNumber.text = x.tcLandline
-                            binding.trainingCenterInfoLayout.tvParliamentaryConstituency.text =
-                                x.parliamentaryConstituency
-                            binding.trainingCenterInfoLayout.tvAssemblyConstituency.text =
-                                x.assemblyConstituency
-                            binding.trainingCenterInfoLayout.tvCenterIncharge.text =
-                                x.centerIncharge
-                            binding.trainingCenterInfoLayout.tvCenterInchargeMobile.text =
-                                x.inchargeMobileNo
-                            binding.trainingCenterInfoLayout.tvCenterInchargeEmail.text =
-                                x.inchargeMailId
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
+                            binding.trainingCenterInfoLayout.apply {
+                                tvSchemeName.text = x.schemeName
+                                tvCenterName.text = x.centerName
+                                tvProjectState.text = x.projectState
+                                tvTypeOfArea.text = x.addressType
+                                tvlatAndLang.text = "${x.latitude} , ${x.longitude}"
+                                tvDistanceBus.text = x.distanceFromBusStand
+                                tvDistanceAuto.text = x.distanceFromAutoStand
+                                tvSanctionOrder.text = x.sanctionOrderNo
+                                tvTypeOfTraining.text = x.tcType
+                                tvNatureOfTraining.text = x.tcNature
+                                tvSpecialArea.text = x.specialArea
+                                tvTrainingCenterAddress.text = "${x.latitude},${x.tcAddress}"
+                                tvTrainingCenterEmail.text = x.tcEmailID
+                                tvMobileNumber.text = x.tcMobileNo
+                                tvLandlineNumber.text = x.tcLandline
+                                tvParliamentaryConstituency.text = x.parliamentaryConstituency
+                                tvAssemblyConstituency.text = x.assemblyConstituency
+                                tvCenterIncharge.text = x.centerIncharge
+                                tvCenterInchargeMobile.text = x.inchargeMobileNo
+                                tvCenterInchargeEmail.text = x.inchargeMailId
+                            }
                         }
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
         }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-        }
     }
-
 
     private fun collectTCStaffResponse() {
         viewModel.getTcStaffDetails.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        dataStaffList = it.wrappedList
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        dataStaffList = data?.toMutableList() ?: mutableListOf()
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
-
     private fun collectTCInfraResponse() {
-
         viewModel.getTrainerCenterInfra.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
                             binding.tvOwnershipOfBuilding.text = x.buildingOwner
                             binding.tvAreaOfBuilding.text = x.buildingArea
                             binding.tvRoofOfBuilding.text = x.buildingRoof
                             binding.tvPlasteringPainting.text = x.painting
 
-                            selfDeclarationPdf=x.selfDeclaration
-                            buildingPdf= x.roofCeilingPhoto
-                            schematicPdf= x.buildingPlan
-                            internalExternalWallPdf= x.buildingWallImage
-
-
+                            selfDeclarationPdf = x.selfDeclaration
+                            buildingPdf = x.roofCeilingPhoto
+                            schematicPdf = x.buildingPlan
+                            internalExternalWallPdf = x.buildingWallImage
                         }
-
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
     private fun collectTCAcademiaNonAcademia() {
-
         viewModel.getTcAcademicNonAcademicArea.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
                         academiaList.clear()
-                        academiaList.addAll(it.wrappedList)
-                        binding.recyclerView.adapter?.notifyDataSetChanged()
-
-
+                        data?.let { it1 -> academiaList.addAll(it1) }
+                        updateRecyclerViewData(binding.recyclerView.id, academiaList)
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
-
     private fun collectTCToiletAndWash() {
-
         viewModel.getTcToiletWashBasin.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
                             maleToiletImage = x.maleToiletImage
                             maleToiletSignageImage = x.maleToiletSignageImage
                             maleToiletUrinalsImage = x.maleUrinalImage
@@ -4090,172 +2191,96 @@ class QTeamFormFragment : Fragment() {
                             femaleToiletWashbasinImage = x.femaleWashBasinImage
                             ovrHeadTankImage = x.overheadTankImage
                             typeOfFlooringImage = x.flooringTypeImage
-                            binding.yesNoMaleToilet.text= x.maleToilet.toString()
-                            binding.yesNoMaleUrinals.text= x.maleUrinal.toString()
-                            binding.yesNoMaleWashBasin.text= x.maleWashBasin.toString()
-                            binding.yesNoFemaleToilet.text= x.femaleToilet.toString()
-                            binding.yesNoFemaleWashBasin.text= x.femaleWashBasin.toString()
-                            binding.yesNoOverheadTank.text= x.overheadTanks
-                            binding.yesNoTypeOfFlooring.text= x.flooringType
-
-
-
+                            binding.yesNoMaleToilet.text = x.maleToilet.toString()
+                            binding.yesNoMaleUrinals.text = x.maleUrinal.toString()
+                            binding.yesNoMaleWashBasin.text = x.maleWashBasin.toString()
+                            binding.yesNoFemaleToilet.text = x.femaleToilet.toString()
+                            binding.yesNoFemaleWashBasin.text = x.femaleWashBasin.toString()
+                            binding.yesNoOverheadTank.text = x.overheadTanks
+                            binding.yesNoTypeOfFlooring.text = x.flooringType
                         }
-
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
         }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-        }
     }
-    
-    private fun collectTCDescOtherArea() {
 
+    private fun collectTCDescOtherArea() {
         viewModel.getDescriptionOtherArea.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
-                             binding.valueCorridorNo.text=  x.corridorNo
-                             binding.valueLenghth.text=  x.length
-                             binding.valueWidth.text=  x.width
-                             binding.valueArea.text=  x.areas
-                             binding.valueLights.text=  x.numberOfLights
-                             binding.yesNoFans.text=  x.numberOfFans
-                             binding.yesNoCirculationArea.text=  x.circulationArea
-                             binding.yesNoOpenSpace.text=  x.openSpace
-                             binding.yesNoParking.text=  x.parkingSpace
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
+                            binding.apply {
+                               valueCorridorNo.text = x.corridorNo
+                               valueLenghth.text = x.length
+                               valueWidth.text = x.width
+                               valueArea.text = x.areas
+                               valueLights.text = x.numberOfLights
+                               yesNoFans.text = x.numberOfFans
+                               yesNoCirculationArea.text = x.circulationArea
+                               yesNoOpenSpace.text = x.openSpace
+                               yesNoParking.text = x.parkingSpace
+                            }
 
                             fansImage = x.descProofImagePath.toString()
                             circulationAreaImage = x.circulationAreaImagePath.toString()
                             openSpaceImage = x.openSpaceImagePath.toString()
                             parkingSpaceImage = x.parkingSpaceImagePath.toString()
-
-
-
                         }
-
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
     private fun collectTCTeaching() {
-
         viewModel.getTeachingLearningMaterial.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
-
-
-                            binding.yesNoTrade.text= x.trade
-                            binding.yesNoNatureofTraining.text= x.trainingNature
-                            binding.yesNoTradeAsPerProject.text= x.tradesAvailable
-                            binding.yesNoIsTrainingPlanAvail.text= x.trainingPlan
-                            binding.yesNoIsDomainCirAvail.text= x.domainCurriculum
-                            binding.yesNoIsActivityCumLess.text= x.availableACLP
-                            binding.yesNoIsWelcomeKitAvail.text= x.welcomeKit
-                            binding.yesNoNameOfCertifyingAg.text= x.certifingAgencyName
-                            binding.yesNoAssessmentMaterial.text= x.assessmentMaterial
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
+                          binding.apply {
+                              yesNoTrade.text = x.trade
+                              yesNoNatureofTraining.text = x.trainingNature
+                              yesNoTradeAsPerProject.text = x.tradesAvailable
+                              yesNoIsTrainingPlanAvail.text = x.trainingPlan
+                              yesNoIsDomainCirAvail.text = x.domainCurriculum
+                              yesNoIsActivityCumLess.text = x.availableACLP
+                              yesNoIsWelcomeKitAvail.text = x.welcomeKit
+                              yesNoNameOfCertifyingAg.text = x.certifingAgencyName
+                              yesNoAssessmentMaterial.text = x.assessmentMaterial
+                          }
 
                             welcomeKitImage = x.welcomeKitPdf
-
-
-
-
-
-
                         }
-
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
     private fun collectTCGeneral() {
-
         viewModel.getGeneralDetails.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
                             signOfLeakageImage = x.signLeakageImage
                             protectionStairsBalImage = x.stairsProtectionImage
 
@@ -4263,208 +2288,118 @@ class QTeamFormFragment : Fragment() {
                             binding.yesNoProtectionOfStairs.text = x.stairsProtection
                             binding.yesNoconformanceDDUGKY.text = x.ddugkyConfrence
                             binding.yesNoCandidateComeSafely.text = x.centerSafty
-
                         }
-
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
     private fun collectTCElectrical() {
-
         viewModel.getElectricalWiringStandard.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
                             securingWiringImage = x.wireSecurityImage.toString()
                             switchBoardImage = x.switchBoardImage.toString()
-
-
                             binding.yesNoSecuringWire.text = x.wireSecurity
                             binding.yesNoSwitchBoard.text = x.switchBoard
-
                         }
-
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
     private fun collectTCSignage() {
-
         viewModel.getSignagesAndInfoBoard.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
+                            tcNameBoardImage = x.tcNameImage.toString()
+                            activitySummaryBoardImage = x.activityAchivementImage.toString()
+                            studentEntitlementBoardImage = x.studentEntitlementImage.toString()
+                            contactDetailImpoPeopleImage = x.contactDetailsImage.toString()
+                            basicInfoBoardImage = x.basicInfoImage.toString()
+                            codeOfConductImage = x.codeConductImage.toString()
+                            studentAttendanceImage = x.studentsAttendanceImage.toString()
 
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
-                          tcNameBoardImage = x.tcNameImage.toString()
-                          activitySummaryBoardImage = x.activityAchivementImage.toString()
-                          studentEntitlementBoardImage = x.studentEntitlementImage.toString()
-                          contactDetailImpoPeopleImage = x.contactDetailsImage.toString()
-                          basicInfoBoardImage = x.basicInfoImage.toString()
-                          codeOfConductImage = x.codeConductImage.toString()
-                          studentAttendanceImage = x.studentsAttendanceImage.toString()
-
-
-                            binding.signageLayout.yesNoCenterNameBoard.text= x.tcName
-                            binding.signageLayout.yesNoSummaryAcheivement.text= x.activityAchivement
-                            binding.signageLayout.yesNoStudentEntitlement.text= x.studentEntitlement
-                            binding.signageLayout.yesNoContactDetail.text= x.contactDetails
-                            binding.signageLayout.yesNoBasicInfoBoard.text= x.basicInfo
-                            binding.signageLayout.yesNoCodeOfConduct.text= x.codeConduct
-                            binding.signageLayout.yesNoAttendanceSummary.text= x.studentsAttendance
-
+                            binding.signageLayout.apply {
+                                yesNoCenterNameBoard.text = x.tcName
+                                yesNoSummaryAcheivement.text = x.activityAchivement
+                                yesNoStudentEntitlement.text = x.studentEntitlement
+                                yesNoContactDetail.text = x.contactDetails
+                                yesNoBasicInfoBoard.text = x.basicInfo
+                                yesNoCodeOfConduct.text = x.codeConduct
+                                yesNoAttendanceSummary.text = x.studentsAttendance
+                            }
                         }
-
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
     private fun collectTCIpEnabele() {
-
         viewModel.getIpEnabledCamera.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
                             centralMonitorImage = x.centralMonitorImagePath.toString()
-                            conformationOfCCTVImage= x.cctvConformanceImagePath.toString()
+                            conformationOfCCTVImage = x.cctvConformanceImagePath.toString()
                             storageOfCCtvImage = x.cctvStorageImagePath.toString()
                             dvrImage = x.dvrStaticIpImagePath.toString()
 
-
-
-                            binding.ipCameraLayout.yesNoCentralMonitor.text= x.centralMonitor
-                            binding.ipCameraLayout.yesNoConformanceCCTV.text= x.cctvConformance
-                            binding.ipCameraLayout.yesNoStorageCCTV.text= x.cctvStorage
-                            binding.ipCameraLayout.yesNoDvrStaticIP.text= x.dvrStaticIp
-                            binding.ipCameraLayout.yesNoIpEnabled.text= x.ipEnable
-                            binding.ipCameraLayout.yesNoResolution.text= x.resolution
-                            binding.ipCameraLayout.yesNoVideoStream.text= x.videoStream
-                            binding.ipCameraLayout.yesNoRemoteAccessWeb.text= x.remoteAccessBrowser
-                            binding.ipCameraLayout.yesNoRemoteAccessUsers.text= x.simultaneousAccess
-                            binding.ipCameraLayout.yesNoSupportedProtocols.text= x.supportedProtocol
-                            binding.ipCameraLayout.yesNoColorAudio.text= x.colorVideoAudit
-                            binding.ipCameraLayout.yesNoStorageFacility.text= x.storageFacility
-
-
+                            binding.ipCameraLayout.apply {
+                                yesNoCentralMonitor.text = x.centralMonitor
+                                yesNoConformanceCCTV.text = x.cctvConformance
+                                yesNoStorageCCTV.text = x.cctvStorage
+                                yesNoDvrStaticIP.text = x.dvrStaticIp
+                                yesNoIpEnabled.text = x.ipEnable
+                                yesNoResolution.text = x.resolution
+                                yesNoVideoStream.text = x.videoStream
+                                yesNoRemoteAccessWeb.text = x.remoteAccessBrowser
+                                yesNoRemoteAccessUsers.text = x.simultaneousAccess
+                                yesNoSupportedProtocols.text = x.supportedProtocol
+                                yesNoColorAudio.text = x.colorVideoAudit
+                                yesNoStorageFacility.text = x.storageFacility
+                            }
                         }
-
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
     private fun collectTCCommonEquipment() {
-
         viewModel.getCommonEquipment.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
                             electricPowerImage = x.ecPowerBackupImage.toString()
                             installBiometricImage = x.biomatricDeviceInstallationImage.toString()
                             installationCCTVImage = x.cctvMoniotrInstallImage.toString()
@@ -4475,482 +2410,216 @@ class QTeamFormFragment : Fragment() {
                             minimumEquipmentImage = x.minimumEquipmentImage.toString()
                             directionBoardsImage = x.directionBoardImage.toString()
 
-
-
-
-                            binding.commonEquipmentLayout.yesNoElectricalPowerBackup.text= x.ecPowerBackup
-                            binding.commonEquipmentLayout.yesNoBiometricDevices.text= x.biomatricDeviceInstallation
-                            binding.commonEquipmentLayout.yesNoCCTVMonitor.text= x.cctvMoniotrInstall
-                            binding.commonEquipmentLayout.yesNoStorageDocs.text= x.storageSecuring
-                            binding.commonEquipmentLayout.yesNoPrinterScanner.text= x.printerScanner.toString()
-                            binding.commonEquipmentLayout.yesNoDigitalCamera.text= x.digitalCamera.toString()
-                            binding.commonEquipmentLayout.yesNoGrievanceRegister.text= x.grievanceRegister.toString()
-                            binding.commonEquipmentLayout.yesNoMinEquipment.text= x.minimumEquipment.toString()
-                            binding.commonEquipmentLayout.yesNoDirectionBoards.text= x.directionBoard.toString()
-
+                            binding.commonEquipmentLayout.apply {
+                                yesNoElectricalPowerBackup.text = x.ecPowerBackup
+                                yesNoBiometricDevices.text = x.biomatricDeviceInstallation
+                                yesNoCCTVMonitor.text = x.cctvMoniotrInstall
+                                yesNoStorageDocs.text = x.storageSecuring
+                                yesNoPrinterScanner.text = x.printerScanner.toString()
+                                yesNoDigitalCamera.text = x.digitalCamera.toString()
+                                yesNoGrievanceRegister.text = x.grievanceRegister.toString()
+                                yesNoMinEquipment.text = x.minimumEquipment.toString()
+                                yesNoDirectionBoards.text = x.directionBoard.toString()
+                            }
 
 
                         }
-
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
     private fun collectTCSupportInfra() {
-
         viewModel.getAvailabilitySupportInfra.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
                             safeDrinkingImage = x.drinkingWaterImage.toString()
                             fireFightingImage = x.fireFighterEquipImage.toString()
                             firstAidImage = x.firstAidKitImage.toString()
 
-
-
-
-
-                            binding.availSupportInfraLayout.yesNoSafeDrinkingWater.text= x.drinkingWater
-                            binding.availSupportInfraLayout.yesNoFireFighting.text= x.fireFighterEquip
-                            binding.availSupportInfraLayout.yesNoFirstAidKit.text= x.firstAidKit
-
-
-
-
+                            binding.availSupportInfraLayout.apply {
+                                yesNoSafeDrinkingWater.text = x.drinkingWater
+                                yesNoFireFighting.text = x.fireFighterEquip
+                                yesNoFirstAidKit.text = x.firstAidKit
+                            }
                         }
-
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
     private fun collectTCStandardForms() {
-
         viewModel.getAvailabilityStandardForms.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataInfra = it.wrappedList
-
-                        for (x in dataInfra) {
-
-                            binding.availOfStandardFormsLayout.yesNoPlanOfTraining.text = x.trainingPlan
-                            binding.availOfStandardFormsLayout.yesNoLessonPlanner.text = x.aclp
-                            binding.availOfStandardFormsLayout.yesNoOnJobTraining.text = x.batchJobTrainingPlan
-                            binding.availOfStandardFormsLayout.yesNoDailyTablets.text = x.tabletsDistribution
-                            binding.availOfStandardFormsLayout.yesNoStudentEntitlementBanner.text = x.studentEntitlement
-                            binding.availOfStandardFormsLayout.yesNoParentsConsentForm.text = x.parentsConsentForm
-                            binding.availOfStandardFormsLayout.yesNoCandidateAttendanceRegister.text = x.candidateAttendRegBio
-                            binding.availOfStandardFormsLayout.yesNoTrainerAttendanceRegister.text = x.trainersAttendRegBoi
-                            binding.availOfStandardFormsLayout.yesNoItemsChecklist.text = x.candidateChecklistItem
-                            binding.availOfStandardFormsLayout.yesNoEvaluationSummary.text = x.evaluationAssessmentSumm
-                            binding.availOfStandardFormsLayout.yesNoTADARecord.text = x.tadaCalcRecord
-                            binding.availOfStandardFormsLayout.yesNoTrainingCertificate.text = x.trainingCertificate
-                            binding.availOfStandardFormsLayout.yesNoTrainingCompletionCertificateRecord.text = x.trainingCompCertDisbRecord
-                            binding.availOfStandardFormsLayout.yesNoEquipmentTrainingCentre.text = x.equipmentList
-                            binding.availOfStandardFormsLayout.yesNoEquipmentAccommodation.text = x.tafEquipment
-                            binding.availOfStandardFormsLayout.yesNoTrainingCentreInspection.text = x.tcInspection
-                            binding.availOfStandardFormsLayout.yesNoAssessmentCertification.text = x.candidateCertificateAsmt
-                            binding.availOfStandardFormsLayout.yesNoLetterSRLMInfo.text = x.letterToMobilizationPlan
-                            binding.availOfStandardFormsLayout.yesNoLetterFromSRLM.text = x.letterFromMobilizationPlan
-                            binding.availOfStandardFormsLayout.yesNoOnFieldRegistration.text = x.candidateOnFieldReg
-                            binding.availOfStandardFormsLayout.yesNoOverviewAptitudeTest.text = x.aptitudeTest
-                            binding.availOfStandardFormsLayout.yesNoCandidateApplicationForm.text = x.candidateAppForm
-                            binding.availOfStandardFormsLayout.yesNoTrainersProfile.text = x.trainerProfile
-                            binding.availOfStandardFormsLayout.yesNoCandidatesEnrolled.text = x.enrolledCandidateList
-
-                            // 🔹 Additional fields from API (make sure to add TextViews for these in XML)
-                            binding.availOfStandardFormsLayout.yesNoCandidateDossierIndex.text = x.indexInvdcandidateDossier
-                            binding.availOfStandardFormsLayout.yesNoPerformanceCan.text = x.prfEvelPlanCandidate
-                            binding.availOfStandardFormsLayout.yesNoListOfCandidateAfterBatchFreezing.text = x.candidateAfterBatchFreeze
-                            binding.availOfStandardFormsLayout.yesNoDailyFailureReport.text = x.dailyFailureItemReport
-                            binding.availOfStandardFormsLayout.yesNo15DaysSummary.text = x.days15Summery
-                            binding.availOfStandardFormsLayout.yesNoContentCounselling.text = x.tradeCounselling
-                            binding.availOfStandardFormsLayout.yesNoCandidateIDTemplate.text = x.candidateIdTemp
-                            binding.availOfStandardFormsLayout.yesNoStaffSummary.text = x.deployedStaffSumm
-                            binding.availOfStandardFormsLayout.yesNoDullyIfApplicable.text = x.dulySignedformProofApplicable
-                            binding.availOfStandardFormsLayout.yesNoPerformanceTrainer.text = x.prfEvelPlanTrainers
-                            binding.availOfStandardFormsLayout.yesNoDully.text = x.dulySignedformProof
-                            binding.availOfStandardFormsLayout.yesNoIpEnabled.text = x.ipEnabledCamera
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
+                            with(binding.availOfStandardFormsLayout) {
+                                yesNoPlanOfTraining.text= x.trainingPlan
+                                yesNoLessonPlanner.text= x.aclp
+                                yesNoOnJobTraining.text= x.batchJobTrainingPlan
+                                yesNoDailyTablets.text= x.tabletsDistribution
+                                yesNoStudentEntitlementBanner.text       = x.studentEntitlement
+                                yesNoParentsConsentForm.text= x.parentsConsentForm
+                                yesNoCandidateAttendanceRegister.text    = x.candidateAttendRegBio
+                                yesNoTrainerAttendanceRegister.text      = x.trainersAttendRegBoi
+                                yesNoItemsChecklist.text= x.candidateChecklistItem
+                                yesNoEvaluationSummary.text= x.evaluationAssessmentSumm
+                                yesNoTADARecord.text= x.tadaCalcRecord
+                                yesNoTrainingCertificate.text= x.trainingCertificate
+                                yesNoTrainingCompletionCertificateRecord.text = x.trainingCompCertDisbRecord
+                                yesNoEquipmentTrainingCentre.text= x.equipmentList
+                                yesNoEquipmentAccommodation.text= x.tafEquipment
+                                yesNoTrainingCentreInspection.text       = x.tcInspection
+                                yesNoAssessmentCertification.text        = x.candidateCertificateAsmt
+                                yesNoLetterSRLMInfo.text= x.letterToMobilizationPlan
+                                yesNoLetterFromSRLM.text= x.letterFromMobilizationPlan
+                                yesNoOnFieldRegistration.text= x.candidateOnFieldReg
+                                yesNoOverviewAptitudeTest.text           = x.aptitudeTest
+                                yesNoCandidateApplicationForm.text       = x.candidateAppForm
+                                yesNoTrainersProfile.text= x.trainerProfile
+                                yesNoCandidatesEnrolled.text             = x.enrolledCandidateList
+                                yesNoCandidateDossierIndex.text          = x.indexInvdcandidateDossier
+                                yesNoPerformanceCan.text                 = x.prfEvelPlanCandidate
+                                yesNoListOfCandidateAfterBatchFreezing.text = x.candidateAfterBatchFreeze
+                                yesNoDailyFailureReport.text             = x.dailyFailureItemReport
+                                yesNo15DaysSummary.text= x.days15Summery
+                                yesNoContentCounselling.text             = x.tradeCounselling
+                                yesNoCandidateIDTemplate.text            = x.candidateIdTemp
+                                yesNoStaffSummary.text                   = x.deployedStaffSumm
+                                yesNoDullyIfApplicable.text              = x.dulySignedformProofApplicable
+                                yesNoPerformanceTrainer.text             = x.prfEvelPlanTrainers
+                                yesNoDully.text                          = x.dulySignedformProof
+                                yesNoIpEnabled.text                     = x.ipEnabledCamera
+                            }
                         }
-
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
     private fun collectAllRoomDetails() {
-
         viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-
-                        val dataAllRoom = it.wrappedList
-
-                            for (x in dataAllRoom) {
-
-                                fansRoomImage = x.fansImage ?: ""
-                                writingBoard = x.writingBoard ?: ""
-                                internetConnectionImage = x.internetConnectionImage ?: ""
-                                roomInfoBoardImage = x.roomInfoBoardImage ?: ""
-                                digitalProjectorImage = x.digitalProjectorImage ?: ""
-                                officeComputer = x.officeComputer ?: ""
-                                printerScannerImage = x.printerScannerImage ?: ""
-                                centerSoundProof = x.centerSoundProof ?: ""
-                                falseCeiling = x.falseCeiling ?: ""
-                                tablet = x.tablet.toString()
-                                typingTuterCompImage = x.typingTuterCompImage ?: ""
-                                lanEnabledImage = x.lanEnabledImage ?: ""
-                                internalSignageImage = x.internalSignageImage ?: ""
-                                airConditionRoom = x.airConditionRoom ?: ""
-                                roomsPhotographs = x.roomsPhotographs ?: ""
-                                roomsPhotographsImage = x.roomsPhotographsImage ?: ""
-                                audioCamera = x.audioCamera ?: ""
-                                lanEnabled = x.lanEnabled.toString()
-                                soundLevelImage = x.soundLevelImage ?: ""
-                                centerSoundProofImage = x.centerSoundProofImage ?: ""
-                                digitalCameraRoomImage = x.digitalCameraImage ?: ""
-                                internetConnection = x.internetConnection ?: ""
-                                officeChair = x.officeChair.toString()
-                                officeTableImage = x.officeTableImage ?: ""
-                                printerScanner = x.printerScanner.toString()
-                                trainerChair = x.trainerChair ?: ""
-                                domainEquipmentImage = x.domainEquipmentImage ?: ""
-                                ecPowerBackup = x.ecPowerBackup ?: ""
-                                tabletImage = x.tabletImage ?: ""
-                                soundLevel = x.soundLevel.toString()
-                                trainerTable = x.trainerTable ?: ""
-                                falseCeilingImage = x.falseCeilingImage ?: ""
-                                roomInfoBoard = x.roomInfoBoard ?: ""
-                                roofTypeImage = x.roofTypeImage ?: ""
-                                digitalProjector = x.digitalProjector ?: ""
-                                secureDocumentStorage = x.secureDocumentStorage ?: ""
-                                airConditionRoomImage = x.airConditionRoomImage ?: ""
-                                sounfLevelSpecific = x.sounfLevelSpecific ?: ""
-                                ventilationArea = x.ventilationArea.toString()
-                                domainEquipment = x.domainEquipment.toString()
-                                officeTable = x.officeTable.toString()
-                                officeChairImage = x.officeChairImage ?: ""
-                                typingTuterComp = x.typingTuterComp ?: ""
-                                ceilingHeightImage = x.ceilingHeightImage ?: ""
-                                candidateChair = x.candidateChair ?: ""
-                                candidateChairImage = x.candidateChairImage ?: ""
-                                ceilingHeight = x.ceilingHeight.toString()
-                                lightsImage = x.lightsImage ?: ""
-                                secureDocumentStorageImage = x.secureDocumentStorageImage ?: ""
-                                writingBoardImage = x.writingBoardImage ?: ""
-                                lights = x.lights.toString()
-                                digitalCamera = x.digitalCamera.toString()
-                                audioCameraImage = x.audioCameraImage ?: ""
-                                internalSignage = x.internalSignage ?: ""
-                                trainerChairImage = x.trainerChairImage ?: ""
-                                ventilationAreaImage = x.ventilationAreaImage ?: ""
-                                roofType = x.roofType
-                                trainerTableImage = x.trainerTableImage ?: ""
-                                fans = x.fans.toString()
-                                officeComputerImagePath = x.officeComputerImagePath ?: ""
-                                ecPowerBackupImage = x.ecPowerBackupImage ?: ""
-                            }
-
-
-
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it.wrappedList,
+                    onSuccess = { data ->
+                        data?.forEach { x ->
+                            fansRoomImage = x.fansImage ?: ""
+                            writingBoard = x.writingBoard ?: ""
+                            internetConnectionImage = x.internetConnectionImage ?: ""
+                            roomInfoBoardImage = x.roomInfoBoardImage ?: ""
+                            digitalProjectorImage = x.digitalProjectorImage ?: ""
+                            officeComputer = x.officeComputer ?: ""
+                            printerScannerImage = x.printerScannerImage ?: ""
+                            centerSoundProof = x.centerSoundProof ?: ""
+                            falseCeiling = x.falseCeiling ?: ""
+                            tablet = x.tablet.toString()
+                            typingTuterCompImage = x.typingTuterCompImage ?: ""
+                            lanEnabledImage = x.lanEnabledImage ?: ""
+                            internalSignageImage = x.internalSignageImage ?: ""
+                            airConditionRoom = x.airConditionRoom ?: ""
+                            roomsPhotographs = x.roomsPhotographs ?: ""
+                            roomsPhotographsImage = x.roomsPhotographsImage ?: ""
+                            audioCamera = x.audioCamera ?: ""
+                            lanEnabled = x.lanEnabled.toString()
+                            soundLevelImage = x.soundLevelImage ?: ""
+                            centerSoundProofImage = x.centerSoundProofImage ?: ""
+                            digitalCameraRoomImage = x.digitalCameraImage ?: ""
+                            internetConnection = x.internetConnection ?: ""
+                            officeChair = x.officeChair.toString()
+                            officeTableImage = x.officeTableImage ?: ""
+                            printerScanner = x.printerScanner.toString()
+                            trainerChair = x.trainerChair ?: ""
+                            domainEquipmentImage = x.domainEquipmentImage ?: ""
+                            ecPowerBackup = x.ecPowerBackup ?: ""
+                            tabletImage = x.tabletImage ?: ""
+                            soundLevel = x.soundLevel.toString()
+                            trainerTable = x.trainerTable ?: ""
+                            falseCeilingImage = x.falseCeilingImage ?: ""
+                            roomInfoBoard = x.roomInfoBoard ?: ""
+                            roofTypeImage = x.roofTypeImage ?: ""
+                            digitalProjector = x.digitalProjector ?: ""
+                            secureDocumentStorage = x.secureDocumentStorage ?: ""
+                            airConditionRoomImage = x.airConditionRoomImage ?: ""
+                            sounfLevelSpecific = x.sounfLevelSpecific ?: ""
+                            ventilationArea = x.ventilationArea.toString()
+                            domainEquipment = x.domainEquipment.toString()
+                            officeTable = x.officeTable.toString()
+                            officeChairImage = x.officeChairImage ?: ""
+                            typingTuterComp = x.typingTuterComp ?: ""
+                            ceilingHeightImage = x.ceilingHeightImage ?: ""
+                            candidateChair = x.candidateChair ?: ""
+                            candidateChairImage = x.candidateChairImage ?: ""
+                            ceilingHeight = x.ceilingHeight.toString()
+                            lightsImage = x.lightsImage ?: ""
+                            secureDocumentStorageImage = x.secureDocumentStorageImage ?: ""
+                            writingBoardImage = x.writingBoardImage ?: ""
+                            lights = x.lights.toString()
+                            digitalCamera = x.digitalCamera.toString()
+                            audioCameraImage = x.audioCameraImage ?: ""
+                            internalSignage = x.internalSignage ?: ""
+                            trainerChairImage = x.trainerChairImage ?: ""
+                            ventilationAreaImage = x.ventilationAreaImage ?: ""
+                            roofType = x.roofType
+                            trainerTableImage = x.trainerTableImage ?: ""
+                            fans = x.fans.toString()
+                            officeComputerImagePath = x.officeComputerImagePath ?: ""
+                            ecPowerBackupImage = x.ecPowerBackupImage ?: ""
+                        }
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                showErrorToast("Failed: ${it.message}")
             }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
 
     private fun collectQTeamInsertRes() {
-
         viewModel.insertQTeamVerification.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                hideProgressBar()
-                when (it.responseCode) {
-                    200 -> {
-
-
-                        Toast.makeText(
-                            requireContext(),
-                            it.responseDesc,
-                            Toast.LENGTH_SHORT
-                        ).show()
-
+                dismissProgressDialog()
+                handleApiResponse(
+                    responseCode = it.responseCode,
+                    data = it,
+                    onSuccess = {
+                        showSuccessToast(it!!.responseDesc)
                         findNavController().navigateUp()
-
                     }
-
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
             result.onFailure {
-                hideProgressBar()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                dismissProgressDialog()
+                showErrorToast("Failed: ${it.message}")
             }
         }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-        }
-    }
-
-
-
-
-    @SuppressLint("Recycle")
-    private fun downloadAndOpenBase64Pdf(context: Context, base64: String, fileName: String = "document.pdf") {
-        try {
-            // 1️⃣ Clean the Base64 (remove prefix if present)
-            val cleanBase64 = base64
-                .replace("data:application/pdf;base64,", "")
-                .trim()
-
-            // 2️⃣ Decode Base64 into bytes
-            val pdfBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
-            if (pdfBytes.isEmpty()) {
-                Toast.makeText(context, "Invalid PDF data", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            // 3️⃣ Define destination (Downloads folder)
-            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            if (!downloadsDir.exists()) downloadsDir.mkdirs()
-
-            val file = File(downloadsDir, fileName)
-
-            // 4️⃣ Write PDF bytes to file
-            FileOutputStream(file).use { it.write(pdfBytes) }
-
-            // 5️⃣ Notify media scanner
-            val uri = Uri.fromFile(file)
-            context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
-
-            Toast.makeText(context, "PDF downloaded to Downloads: ${file.name}", Toast.LENGTH_LONG).show()
-
-            // 6️⃣ Open the PDF after saving
-            openBase64Pdf(context, base64)
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
-    }
-    private fun openBase64Pdf(context: Context, base64: String) {
-        try {
-            // 1. Clean Base64 (remove header if present)
-            val cleanBase64 = base64
-                .replace("data:application/pdf;base64,", "")
-                .trim()
-
-            // 2. Decode Base64
-            val pdfBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
-
-            // 3. Verify PDF header
-            if (pdfBytes.isEmpty() || !String(pdfBytes.copyOfRange(0, 4)).startsWith("%PDF")) {
-                Toast.makeText(context, "Invalid PDF data", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            // 4. Save temporarily in cache
-            val pdfFile = File.createTempFile("temp_", ".pdf", context.cacheDir)
-            pdfFile.outputStream().use { it.write(pdfBytes) }
-
-            // 5. Get URI via FileProvider
-            val uri: Uri = FileProvider.getUriForFile(
-                context,
-                context.packageName + ".provider",  // must match manifest authority
-                pdfFile
-            )
-
-            // 6. Create intent
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                setDataAndType(uri, "application/pdf")
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-
-            // 7. Check if any app can handle PDFs
-            if (intent.resolveActivity(context.packageManager) != null) {
-                context.startActivity(Intent.createChooser(intent, "Open PDF with"))
-            } else {
-                Toast.makeText(context, "No PDF viewer installed", Toast.LENGTH_SHORT).show()
-            }
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(context, "Failed to open PDF", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-
-
-    private fun showBase64ImageDialog(context: Context, base64ImageString: String?, title: String = "Image") {
-        val imageView = ImageView(context)
-
-        // Decode Base64 → Bitmap
-        val bitmap: Bitmap? = if (!base64ImageString.isNullOrBlank()) {
-            try {
-                val cleanBase64 = base64ImageString
-                    .replace("data:image/png;base64,", "")
-                    .replace("data:image/jpg;base64,", "")
-                    .replace("data:image/jpeg;base64,", "")
-                    .replace("\\s".toRegex(), "")
-
-                val decodedBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
-                BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-            } catch (e: Exception) {
-                null
-            }
-        } else {
-            null
-        }
-
-        // If bitmap is null → show default image
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap)
-        } else {
-            imageView.setImageResource(R.drawable.no_image) // your fallback drawable
-        }
-
-        imageView.adjustViewBounds = true
-        imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-        imageView.setPadding(20, 20, 20, 20)
-
-        // Show in dialog
-        AlertDialog.Builder(context)
-            .setTitle(title)
-            .setView(imageView)
-            .setPositiveButton("Close") { dialog, _ -> dialog.dismiss() }
-            .show()
-    }
-
-    fun safeText(value: String?): String {
-        return if (value.isNullOrBlank() || value.equals("null", ignoreCase = true)) {
-            "N/A"
-        } else value
     }
 
     private fun mapApproval(approval: String): String {
         return when (approval) {
             "Send for modification" -> "M"
             "Approved" -> "A"
-            else -> "" // default or handle as needed
+            else -> ""
         }
     }
-
-    fun showProgressBar() {
-        if (context != null && isAdded && progress?.isShowing == false) {
-            progress?.show()
-        }
-    }
-
-    fun hideProgressBar() {
-        if (progress?.isShowing == true) {
-            progress?.dismiss()
-        }
-    }
-
 }
-
-
-

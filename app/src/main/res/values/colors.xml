@@ -40,6 +40,21 @@
     <color name="grey_400">#BDBDBD</color>
     <color name="yellow">#E6E62D</color>
 
+    <color name="button_start_color">#9B85E1</color>
+    <color name="button_center_color">#B8AAF0</color>
+    <color name="button_end_color">#D5CEF5</color>
+    <color name="login_btn">#7053BC</color>
+    <color name="button_solid_light">#9B85E1</color> <!-- Solid Light -->
+    <color name="button_pressed_state">#8A74D8</color> <!-- Slightly Darker for pressed state -->
+    <color name="button_disabled">#C9C0F0</color> <!-- Very Light for disabled state -->
 
+    <color name="white_pure">#FFFFFF</color>
+
+    <!-- Bright & Shiny Whites -->
+    <color name="white_brilliant">#FEFEFE</color>
+    <color name="white_crystal">#FDFDFD</color>
+    <color name="white_glow">#FAFAFA</color>
+    <color name="white_snow">#F8F8F8</color>
+    <color name="white_pearl">#F5F5F5</color>
 
 </resources>

@@ -861,4 +861,11 @@
     <string name="urinals">Urinals</string>
     <string name="washbasins">Washbasins</string>
     <string name="flooring">Flooring</string>
+
+
+    <string name="no_data_title">No Data Found</string>
+    <string name="no_data_description">Nothing to show right now. Please check back later.</string>
+    <string name="english">English\n</string>
+    <string name="hindi">Hindi\n</string>
+
 </resources>

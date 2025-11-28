@@ -30,6 +30,8 @@ import android.graphics.drawable.Drawable
 import android.preference.PreferenceManager
 import android.provider.Settings
 import android.text.InputType
+import android.text.Spannable
+import android.text.SpannableString
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +58,7 @@ import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.security.MessageDigest
 import java.security.SecureRandom
+import java.text.NumberFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kotlin.reflect.KClass
@@ -675,6 +678,14 @@ fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 800): String? {
                 }
             }
         }
+
+
+
+
+
+
+
+
     }
 
 

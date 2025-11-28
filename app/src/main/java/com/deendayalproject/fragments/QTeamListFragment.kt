@@ -2,217 +2,254 @@ package com.deendayalproject.fragments
 
 import SharedViewModel
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
-import com.deendayalproject.adapter.TrainingQAdapter
+import com.deendayalproject.R
+import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentQTeamListBinding
+import com.deendayalproject.databinding.ItemTrainingCenterBinding
+import com.deendayalproject.model.request.TrainingCenter
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.util.AppUtil
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 
+class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
+    bindingInflater = FragmentQTeamListBinding::inflate
+) {
 
-class QTeamListFragment : Fragment() {
-    private var _binding: FragmentQTeamListBinding? = null
-    private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
-    private lateinit var adapter: TrainingQAdapter
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var latitude = 26.2153
     private var longitude = 84.3588
     private var radius = 500000000f
-    private val progress: AlertDialog? by lazy {
-        AppUtil.getProgressDialog(context)
-    }
 
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    // RecyclerView ID for tracking in BaseFragment
+    private val TRAINING_CENTERS_RECYCLER_VIEW_ID = 1002
 
+    // Location permission launcher
+    private val locationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                logFragmentEvent("Location_Permission_Granted")
+            } else {
+                showToast("❌ Location permission denied")
+                logFragmentEvent("Location_Permission_Denied")
+            }
+        }
 
-
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        _binding = FragmentQTeamListBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
-
-
+    override fun initializeViews() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
-        adapter = TrainingQAdapter(emptyList()) { center ->
+        setupToolbar()
+        setupRecyclerView()
+        setupLocationClient()
 
-            val action = QTeamListFragmentDirections.actionQTeamListFragmentToQTeamFormFragment(
-                center.trainingCenterId.toString(),center.trainingCenterName,center.senctionOrder
-            )
-            findNavController().navigate(action)
+    }
 
-
-
-            /*   checkGeofence(
-                   context = requireContext(),
-                   latitude = latitude,
-                   longitude = longitude,
-                   radiusInMeters = radius,
-                   progressBar = binding.progressBar
-               ) { inside, location ->
-                   if (inside) {
-                       val action = QTeamListFragmentDirections.actionQTeamListFragmentToQTeamFormFragment(
-                           center.trainingCenterId.toString(),center.trainingCenterName,center.senctionOrder
-                       )
-                       findNavController().navigate(action)
-                   } else {
-                       Toast.makeText(requireContext(), "You are outside the center", Toast.LENGTH_SHORT).show()
-                   }
-               }*/
-
-
-
-        }
-
-        binding.backButton.setOnClickListener {
-
-            findNavController().navigateUp()
-        }
-
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
+    override fun setupObservers() {
 
         observeViewModel()
+    }
+
+    override fun setupClickListeners() {
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    override fun loadInitialData() {
+        fetchTrainingCenters()
+    }
+
+    // ------------------- UI Setup ------------------------
+
+    private fun setupToolbar() {
+        setupToolbar(
+            binding.root,
+            "Training Centers",
+            showBack = true,
+            showLang = false,
+            showProfile = false,
+            backClick = { findNavController().navigateUp() }
+        )
+    }
+
+    private fun setupRecyclerView() {
+        // Using BaseFragment's recyclerView setup
+        setupRecyclerView(
+            recyclerView = binding.recyclerView,
+            items = emptyList<TrainingCenter>(),
+            layoutManager = LinearLayoutManager(requireContext()),
+            bindingInflater = ItemTrainingCenterBinding::inflate,
+            onBind = { center, binding, position ->
+                bindTrainingCenterItem(center, binding, position)
+            },
+            onItemClick = { center, position ->
+                handleTrainingCenterClick(center)
+            },
+            noDataTitle = "No Training Centers",
+            noDataDescription = "No training centers available for verification",
+            noDataIconRes = R.drawable.no_data
+        )
+    }
+
+    private fun setupLocationClient() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+    }
+
+    private fun bindTrainingCenterItem(center: TrainingCenter, binding: ItemTrainingCenterBinding, position: Int) {
+        binding.trainingCenterName.text = center.trainingCenterName ?: "Unnamed Center"
+        binding.trainingCenterAddress.text = center.trainingCenterAddress ?: "N/A"
+        binding.senctionOrder.text = center.senctionOrder ?: "N/A"
+        binding.districtName.text=center.districtName?:"N/A"
+        // You can add more binding logic here as needed
+    }
+
+    private fun handleTrainingCenterClick(center: TrainingCenter) {
+        logFragmentEvent("Training_Center_Clicked", center.trainingCenterId.toString())
+
+        // Check if geofencing is required (commented out in original)
+        // For now, directly navigate without geofence check
+        navigateToForm(center)
+
+        /* Uncomment if geofencing is needed:
+        checkGeofence(center) { inside, location ->
+            if (inside) {
+                navigateToForm(center)
+            } else {
+                showErrorToast("You are outside the training center area")
+            }
+        }
+        */
+    }
+
+    private fun navigateToForm(center: TrainingCenter) {
+        val action = QTeamListFragmentDirections.actionQTeamListFragmentToQTeamFormFragment(
+            center.trainingCenterId.toString(),
+            center.trainingCenterName ?: "",
+            center.senctionOrder ?: ""
+        )
+        findNavController().navigate(action)
+    }
+
+    // ------------------- API & Observers ------------------------
+
+    private fun fetchTrainingCenters() {
+        val loginId = AppUtil.getSavedLoginIdPreference(requireContext())
+        val token = AppUtil.getSavedTokenPreference(requireContext())
+        val imeiNo = AppUtil.getAndroidId(requireContext())
 
         val request = TrainingCenterRequest(
             appVersion = BuildConfig.VERSION_NAME,
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            imeiNo = AppUtil.getAndroidId(requireContext())
+            loginId = loginId,
+            imeiNo = imeiNo
         )
-        viewModel.fetchQTeamTrainingList(request, AppUtil.getSavedTokenPreference(requireContext()))
 
+        logFragmentEvent("Fetch_Training_Centers_Started")
+        setCustomKey("user_login_id", loginId)
+
+        showProgressDialog("Loading training centers...")
+        viewModel.fetchQTeamTrainingList(request, "Bearer $token")
     }
+
     private fun observeViewModel() {
         viewModel.trainingCenters.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                when (it.responseCode) {
-                    200 ->{
-                        hideProgressBar()
-                        adapter.updateData(it.wrappedList ?: emptyList())
-                        adapter.notifyDataSetChanged()
+            result.onSuccess { response ->
+                dismissProgressDialog()
 
-                    }
-                    202 -> {
-                        hideProgressBar()
-                        adapter.updateData(emptyList())
-                        adapter.updateData(mutableListOf())
-                        adapter.updateData(it.wrappedList ?: emptyList())
-                        adapter.notifyDataSetChanged()
-                        Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                    }
-                    301 -> {
-                        hideProgressBar()
+                handleApiResponse(
+                    responseCode = response.responseCode,
+                    data = response.wrappedList,
+                    onSuccess = { centers ->
+                        updateRecyclerViewData(TRAINING_CENTERS_RECYCLER_VIEW_ID, centers ?: emptyList())
+                        logFragmentEvent("Training_Centers_Loaded", "Count: ${centers?.size ?: 0}")
 
-
-                        Toast.makeText(
-                            requireContext(),
-                            "Please upgrade your app.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                        401 -> {
-                            hideProgressBar()
-                            AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                        if (centers.isNullOrEmpty()) {
+                            showToast("No training centers available")
                         }
-                        }
+                    },
+                    onNoData = {
+                        showToast("No training centers available")
+                        clearRecyclerViewData(TRAINING_CENTERS_RECYCLER_VIEW_ID)
+                    },
+                    onSessionExpired = {
+                        handleSessionExpired()
+                    },
+                    onUpgradeRequired = {
+                        showToast("Please upgrade your app")
+                    }
+                )
             }
-            result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+
+            result.onFailure { throwable ->
+                dismissProgressDialog()
+                logCrashlyticsError("fetchTrainingCenters", Exception(throwable))
+                showErrorToast("Failed to load training centers. Please try again.")
             }
         }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading && !isProgressShowing()) {
+                showProgressDialog()
+            } else if (!isLoading) {
+                dismissProgressDialog()
+            }
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    // ------------------- Location & Geofencing ------------------------
 
-
-    private fun checkGeofence(
-        context: Context,
-        latitude: Double,
-        longitude: Double,
-        radiusInMeters: Float,
-        progressBar: ProgressBar,
-        onResult: (inside: Boolean, location: Location?) -> Unit
-    ) {
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-
+    private fun checkGeofence(center: TrainingCenter, onResult: (Boolean, Location?) -> Unit) {
         if (ActivityCompat.checkSelfPermission(
-                context,
+                requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // 👉 Ask user for permission
             locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             return
         }
 
-        // Show progress bar
-        progressBar.visibility = View.VISIBLE
+        showProgressDialog("Checking location...")
 
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
-                progressBar.visibility = View.GONE
+                dismissProgressDialog()
                 if (location != null) {
                     val inside = isUserInGeofence(
                         userLat = location.latitude,
                         userLng = location.longitude,
-                        centerLat = latitude,
+                        centerLat = latitude, // Use center's actual lat/lng if available
                         centerLng = longitude,
-                        radiusInMeters = radiusInMeters
+                        radiusInMeters = radius
                     )
                     onResult(inside, location)
+                    logFragmentEvent("Geofence_Check", "Inside: $inside")
                 } else {
-                    Toast.makeText(context, "Location not available", Toast.LENGTH_SHORT).show()
+                    showToast("Location not available")
                     onResult(false, null)
                 }
             }
-            .addOnFailureListener {
-                progressBar.visibility = View.GONE
-                Toast.makeText(context, "Failed to get location", Toast.LENGTH_SHORT).show()
+            .addOnFailureListener { exception ->
+                dismissProgressDialog()
+                logCrashlyticsError("checkGeofence", exception)
+                showErrorToast("Failed to get location")
                 onResult(false, null)
             }
     }
 
-
-    // Simple geofence check
     private fun isUserInGeofence(
         userLat: Double,
         userLng: Double,
@@ -225,28 +262,8 @@ class QTeamListFragment : Fragment() {
         return results[0] <= radiusInMeters
     }
 
-    private val locationPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                // Permission granted → retry geofence check
-
-            } else {
-                Toast.makeText(requireContext(), "❌ Location permission denied", Toast.LENGTH_SHORT).show()
-            }
-
-
-        }
-    fun showProgressBar() {
-        if (context != null && isAdded && progress?.isShowing == false) {
-            progress?.show()
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // BaseFragment handles cleanup
     }
-
-    //
-    fun hideProgressBar() {
-        if (progress?.isShowing == true) {
-            progress?.dismiss()
-        }
-
-}
 }

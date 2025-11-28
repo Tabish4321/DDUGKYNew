@@ -1,93 +1,64 @@
 package com.deendayalproject.fragments
 
-import CenterAdapter
 import SharedViewModel
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
-import com.deendayalproject.adapter.RfAdapterList
-import com.deendayalproject.databinding.FragmentCenterBinding
 import com.deendayalproject.databinding.FragmentRfCenterBinding
+import com.deendayalproject.databinding.ItemTrainingCenterBinding
 import com.deendayalproject.model.request.AddNewRFReq
-import com.deendayalproject.model.request.ModifyRfList
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.TrainingCenterItem
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.base.BaseFragment
 
-class RfCenterFragment : Fragment() {
-
-    private var _binding: FragmentRfCenterBinding? = null
-    private val binding get() = _binding!!
-
+class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
+    FragmentRfCenterBinding::inflate
+) {
     private lateinit var viewModel: SharedViewModel
-    private lateinit var adapter: RfAdapterList
-    var centerId =""
-    var sanctionOrder =""
+    private var centerId = ""
+    private var sanctionOrder = ""
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentRfCenterBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initializeViews() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
-        adapter = RfAdapterList(emptyList()) { selectedItem ->
+        // Setup RecyclerView using BaseFragment's method
+        setupRecyclerView(
+            recyclerView = binding.recyclerView,
+            items = emptyList<TrainingCenterItem>(),
+            layoutManager = LinearLayoutManager(requireContext()),
+            bindingInflater = { inflater, parent, attachToParent ->
+                ItemTrainingCenterBinding.inflate(inflater, parent, attachToParent)
+            },
+            onBind = { center, binding, position ->
+                binding.trainingCenterName.text = "Training Center Name: ${center.trainingCenterName}"
+                binding.trainingCenterAddress.text = "Training Center Address: ${center.trainingCenterAddress}"
+                binding.senctionOrder.text = "Sanction Order: ${center.senctionOrder}"
+                binding.districtName.text = "District Name: ${center.districtName}"
+            },
+            onItemClick = { center, position ->
+                handleItemClick(center)
+            },
+            noDataTitle = "No Training Centers",
+            noDataDescription = "No training centers available at the moment",
+            noDataIconRes = R.drawable.no_image
+        )
+    }
 
-        centerId= selectedItem.trainingCenterId.toString()
-        sanctionOrder= selectedItem.senctionOrder
-
-          val facilityStatus = selectedItem.facilityStatus
-
-
-            if (facilityStatus =="N"){
-
-                val request = AddNewRFReq(
-                    appVersion = BuildConfig.VERSION_NAME,
-                    trainingCentre = selectedItem.trainingCenterId.toString(),
-                    sanctionOrder = selectedItem.senctionOrder
-                )
-                viewModel.saveInitialResidentialFacility(request)
-                observeViewAddNewRF()
-
-
-
-
-            }
-
-            else
-            {
-
-
-                val action =
-                    RfCenterFragmentDirections.actionRfCenterFragmentToRfMultipleListFragment(centerId,sanctionOrder
-                    )
-                findNavController().navigate(action)
-
-            }
-        }
-
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
-
+    override fun setupObservers() {
         observeViewModel()
+        observeAddNewRF()
+    }
 
-
+    override fun setupClickListeners() {
         binding.backButton.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
 
+    override fun loadInitialData() {
         val request = TrainingCenterRequest(
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -98,60 +69,95 @@ class RfCenterFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.rfTrainingCenters.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                when (it.responseCode) {
-                    200 -> adapter.updateData(it.wrappedList ?: emptyList())
-                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
-            }
-            result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-
-    private fun observeViewAddNewRF() {
-        viewModel.saveInitialResidentialFacility.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                when (it.responseCode) {
-                    200 ->  {
-
-                        val facilityId = it.facilityId.toString()
-
-                        Toast.makeText(requireContext(), "Rf Added.", Toast.LENGTH_SHORT).show()
-
-
-                        val action =
-                            RfCenterFragmentDirections.actionRfcenterFragmentToFragmentResidentialFacility(centerId,sanctionOrder,
-                                facilityId
-                            )
-                        findNavController().navigate(action)
-
-
+            result.onSuccess { response ->
+                handleApiResponse(
+                    responseCode = response.responseCode,
+                    data = response.wrappedList,
+                    onSuccess = { data ->
+                        updateRecyclerViewData(binding.recyclerView.id, data ?: emptyList())
+                    },
+                    onNoData = {
+                        updateRecyclerViewData(binding.recyclerView.id, emptyList<TrainingCenterItem>())
+                        showToast("No data available.")
+                    },
+                    onUpgradeRequired = {
+                        showToast("Please upgrade your app.")
+                    },
+                    onSessionExpired = {
+                        handleSessionExpired()
                     }
-                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                )
             }
-            result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            result.onFailure { exception ->
+                showErrorToast("Failed: ${exception.message}")
+                logCrashlyticsError("observeViewModel", exception as Exception)
             }
         }
+
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+            if (loading) {
+                binding.progressBar.show()
+            } else {
+                binding.progressBar.hide()
+            }
         }
     }
 
+    private fun observeAddNewRF() {
+        viewModel.saveInitialResidentialFacility.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                handleApiResponse(
+                    responseCode = response.responseCode,
+                    data = response,
+                    onSuccess = { data ->
+                        val facilityId = response.facilityId.toString()
+                        showSuccessToast("RF Added successfully")
+
+                        val action = RfCenterFragmentDirections.actionRfcenterFragmentToFragmentResidentialFacility(
+                            centerId,
+                            sanctionOrder,
+                            facilityId
+                        )
+                        findNavController().navigate(action)
+                    },
+                    onNoData = {
+                        showToast("No data available.")
+                    },
+                    onUpgradeRequired = {
+                        showToast("Please upgrade your app.")
+                    },
+                    onSessionExpired = {
+                        handleSessionExpired()
+                    }
+                )
+            }
+            result.onFailure { exception ->
+                showErrorToast("Failed: ${exception.message}")
+                logCrashlyticsError("observeAddNewRF", exception as Exception)
+            }
+        }
+    }
+
+    private fun handleItemClick(center: TrainingCenterItem) {
+        centerId = center.trainingCenterId.toString()
+        sanctionOrder = center.senctionOrder
+        AppUtil.savesanctionOrderPreference(requireContext(), center.senctionOrder)
+
+        if (center.facilityStatus == "N") {
+            // Create new RF
+            val request = AddNewRFReq(
+                appVersion = BuildConfig.VERSION_NAME,
+                trainingCentre = centerId,
+                sanctionOrder = sanctionOrder
+            )
+            viewModel.saveInitialResidentialFacility(request)
+        } else {
+            // Navigate to existing RF
+            val action = RfCenterFragmentDirections.actionRfCenterFragmentToRfMultipleListFragment(
+                centerId,
+                sanctionOrder
+            )
+            findNavController().navigate(action)
+        }
+    }
 }

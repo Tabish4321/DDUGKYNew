@@ -26,6 +26,9 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
+            android:id="@+id/action_homeFrahment_to_languageChangeFragment"
+            app:destination="@id/languageChangeFragment" />
+        <action
             android:id="@+id/action_homeFragment_to_centerFragment"
             app:destination="@id/centerFragment" />
         <action
@@ -50,6 +53,17 @@
 
 
     </fragment>
+
+<!--    <fragment-->
+<!--        android:id="@+id/languageChangeFragment"-->
+<!--        com.deendayalproject.fragments.LanguageChangeFragment"/>-->
+
+
+    <fragment
+        android:id="@+id/languageChangeFragment"
+        android:name="com.deendayalproject.fragments.LanguageChangeFragment"
+        android:label="LanguageChangeFragment"
+        tools:layout="@layout/fragment_laguage_change"/>
 
     <!-- Training Fragment -->
     <fragment

@@ -97,6 +97,7 @@ class TrainingFragment : Fragment() {
 //    etOROfficeRoomPhotograph
 //            spinnerROfficeRoomPhotograph
 
+
     private lateinit var Academicadapter: AcademicAreaAdapter
     private var centersList = mutableListOf<wrappedList>()
 
@@ -965,12 +966,7 @@ class TrainingFragment : Fragment() {
     private var base64FirstAidKit: String? = null
 
     private val photoUploadButtons: Map<Int, String> = mapOf(
-
         //        ITLAB
-
-
-
-
         (R.id.btnITLTypeofRoofItLab to "itltypeofroofitlab"),
         (R.id.btnITLFalseCellingProvide to "itlfalsecellingprovide"),
         (R.id.btnITLHeightOfCelling to "itlheightofcelling"),
@@ -8477,6 +8473,4 @@ private fun validateITComeDomainLab(): Boolean {
     fun View.visible() {
         this.visibility = View.VISIBLE
     }
-
-
 }

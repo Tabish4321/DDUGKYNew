@@ -17,15 +17,12 @@ object RetrofitClient {
     //private const val BASE_URL ="http://10.0.2.2:7003/ddugkyapp/"
 
     fun getApiService(context: Context): ApiService {
-        val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
 
         val tokenInterceptor = TokenInterceptor(context)
 
         val client = OkHttpClient.Builder()
             .addInterceptor(tokenInterceptor) // ✅ Add your custom token interceptor here
-            .addInterceptor(logging) // Logging should go after tokenInterceptor
+            .addInterceptor(LoggingInterceptor()) // Logging should go after tokenInterceptor
             .build()
 
         return Retrofit.Builder()

@@ -7,6 +7,7 @@ import com.deendayalproject.R
 import com.deendayalproject.model.request.TrainingCenter
 import com.deendayalproject.util.AppUtil
 
+// rMOVE IN FUTURE
 
 class CenterAdapter(
 
