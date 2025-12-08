@@ -11,6 +11,7 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -149,6 +150,8 @@ class RFQTeamFormFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━RfQTeamFormFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
 //       GetRfBasicInformation AjitRanjan 17/10/2025
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
         centerId = arguments?.getString("centerId").toString()
@@ -312,7 +315,7 @@ class RFQTeamFormFragment : Fragment() {
         showProgressBar()
 
 
-        binding.backButton.setOnClickListener {
+        binding.btnBack.setOnClickListener {
 
             findNavController().navigateUp()
         }

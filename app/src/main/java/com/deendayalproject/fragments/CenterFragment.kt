@@ -2,6 +2,7 @@ package com.deendayalproject.fragments
 
 import SharedViewModel
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +21,31 @@ class CenterFragment : BaseFragment<FragmentCenterBinding>(
     private lateinit var viewModel: SharedViewModel
 
     override fun initializeViews() {
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━CenterFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+        setUpAdapter()
+    }
+
+    override fun setupObservers() {
+        observeViewModel()
+    }
+
+    override fun setupClickListeners() {
+//        binding.backButton.setOnClickListener {
+//            findNavController().navigateUp()
+//        }
+    }
+
+    fun setUpAdapter(){
+        setupToolbar(
+            root = binding.root,
+            titleRes = R.string.training_center,
+            showBack = true,
+            showLang = false,
+            showProfile = false,
+            backClick = {findNavController().navigateUp()}
+        )
 
         setupRecyclerView(
             recyclerView = binding.recyclerView,
@@ -30,10 +55,10 @@ class CenterFragment : BaseFragment<FragmentCenterBinding>(
                 ItemTrainingCenterBinding.inflate(inflater, parent, attachToParent)
             },
             onBind = { center, binding, position ->
-                binding.trainingCenterName.text = "Training Center Name: ${center.trainingCenterName}"
-                binding.trainingCenterAddress.text = "Training Center Address: ${center.trainingCenterAddress}"
-                binding.senctionOrder.text = "Sanction Order: ${center.senctionOrder}"
-                binding.districtName.text = "District Name: ${center.districtName}"
+                binding.trainingCenterName.text = " ${center.trainingCenterName}"
+                binding.trainingCenterAddress.text = "${center.trainingCenterAddress}"
+                binding.senctionOrder.text = " ${center.senctionOrder}"
+                binding.districtName.text = " ${center.districtName}"
             },
             onItemClick = { center, position ->
                 AppUtil.savesanctionOrderPreference(requireContext(), center.senctionOrder)
@@ -53,17 +78,8 @@ class CenterFragment : BaseFragment<FragmentCenterBinding>(
         )
     }
 
-    override fun setupObservers() {
-        observeViewModel()
-    }
-
-    override fun setupClickListeners() {
-        binding.backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
-    }
-
     override fun loadInitialData() {
+
         val request = TrainingCenterRequest(
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),

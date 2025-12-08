@@ -2,6 +2,7 @@ package com.deendayalproject.fragments
 
 import SharedViewModel
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +25,7 @@ class RFSrlmListFragment : BaseFragment<RfSrlmListFragmentBinding>(
 
     override fun initializeViews() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━RFSrlmListFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         setupToolbar(
             binding.root,

@@ -12,6 +12,7 @@ import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
+import com.deendayalproject.model.request.FieldVerificationFinalSubmit
 import com.deendayalproject.model.request.FieldVerificationListRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
@@ -151,6 +152,11 @@ interface ApiService {
 
     @POST(value = "getResidentialFacilitiesList")
     suspend fun getResidentialFacilitiesList(@Body request: TrainingCenterRequest): Response<RfListResponse>
+
+    @POST("insertCaptiveEmpanelmentVerification")
+    suspend fun submitFieldVerification(
+        @Body request: FieldVerificationFinalSubmit
+    ): Response<FieldVerificationDetailResponse>
 
 
     @POST(value = "insertCCTVCompliance")

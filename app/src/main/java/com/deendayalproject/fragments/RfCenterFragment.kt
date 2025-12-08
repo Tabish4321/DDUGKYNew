@@ -1,6 +1,8 @@
 package com.deendayalproject.fragments
 
 import SharedViewModel
+import android.util.Log
+import androidx.fragment.app.FragmentManager.TAG
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,8 +24,18 @@ class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
     private var sanctionOrder = ""
 
     override fun initializeViews() {
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━RfCenterFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
+        setupToolbar(
+            binding.root,
+            titleRes = R.string.residential_facility,
+            showBack = true,
+            showLang = false,
+            showProfile = false,
+            backClick = { findNavController().navigateUp()}
+        )
         // Setup RecyclerView using BaseFragment's method
         setupRecyclerView(
             recyclerView = binding.recyclerView,
@@ -33,17 +45,17 @@ class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
                 ItemTrainingCenterBinding.inflate(inflater, parent, attachToParent)
             },
             onBind = { center, binding, position ->
-                binding.trainingCenterName.text = "Training Center Name: ${center.trainingCenterName}"
-                binding.trainingCenterAddress.text = "Training Center Address: ${center.trainingCenterAddress}"
-                binding.senctionOrder.text = "Sanction Order: ${center.senctionOrder}"
-                binding.districtName.text = "District Name: ${center.districtName}"
+                binding.trainingCenterName.text = " ${center.trainingCenterName}"
+                binding.trainingCenterAddress.text = " ${center.trainingCenterAddress}"
+                binding.senctionOrder.text = " ${center.senctionOrder}"
+                binding.districtName.text = "${center.districtName}"
             },
             onItemClick = { center, position ->
                 handleItemClick(center)
             },
             noDataTitle = "No Training Centers",
             noDataDescription = "No training centers available at the moment",
-            noDataIconRes = R.drawable.no_image
+            noDataIconRes = R.drawable.no_data
         )
     }
 
@@ -53,9 +65,9 @@ class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
     }
 
     override fun setupClickListeners() {
-        binding.backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
+//        binding.backButton.setOnClickListener {
+//            findNavController().navigateUp()
+//        }
     }
 
     override fun loadInitialData() {

@@ -81,8 +81,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     // desc area
     private val _insertDescAreaDetails = MutableLiveData<Result<TcDescriptionOtherAreasResponse>>()
-    val insertDescAreaDetails: LiveData<Result<TcDescriptionOtherAreasResponse>> =
-        _insertDescAreaDetails
+    val insertDescAreaDetails: LiveData<Result<TcDescriptionOtherAreasResponse>> = _insertDescAreaDetails
 
     // wash basin
     private val _insertWashBasinDtails = MutableLiveData<Result<ToiletDetailsErrorResponse>>()
@@ -122,6 +121,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _placementDetail = MutableLiveData<Result<FieldVerificationDetailResponse>>()
     val placementDetail: LiveData<Result<FieldVerificationDetailResponse>> = _placementDetail
+
+    private val _submitFieldVerification = MutableLiveData<Result<FieldVerificationDetailResponse>>()
+    val submitFieldVerificationDetails: LiveData<Result<FieldVerificationDetailResponse>> = _submitFieldVerification
+
 
     //itLab
     private val _insertITTabDtails = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
@@ -430,6 +433,26 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             },
             resultLiveData = _placementDetail
         )
+    }
+
+    fun submitFieldVerification(request: FieldVerificationFinalSubmit) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.fieldVerification.submitFieldVerification(request)
+
+            },
+            resultLiveData = _submitFieldVerification
+        )
+
+//        _loading.postValue(true)
+//        viewModelScope.launch {
+//            val result = repository.submitFieldVerification(request)
+//            result.onFailure {
+//                _errorMessage.postValue(it.message ?: "Unknown error")
+//            }
+//            _submitFieldVerification.postValue(result)
+//            _loading.postValue(false)
+//        }
     }
 
     fun submitElectricalData(request: ElectricalWiringRequest, token: String) {

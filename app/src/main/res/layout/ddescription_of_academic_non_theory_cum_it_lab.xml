@@ -8,24 +8,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="@dimen/dp_10"
             android:layout_gravity="center"
-            android:text="@string/theory_cum_it_lab"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_weight="1"
             android:gravity="center"
+            android:text="@string/theory_cum_it_lab"
             android:textColor="?attr/colorPrimary"
             android:textSize="18sp"
             android:textStyle="bold" />
+
         <LinearLayout
             android:id="@+id/layoutTCBasicInfoContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="8dp">
-
 
 
             <!-- ListofDomain"-->
@@ -39,6 +40,7 @@
 
                 android:text="@string/list_of_domain_related_equip"
                 android:textStyle="bold" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,16 +64,18 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:visibility="gone"
                 android:text="@string/proof_of_it_list_of_domain"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -82,52 +86,25 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILListofDomain"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_it_list_of_domain"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
 
 
-
             </LinearLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             <TextView
@@ -142,26 +119,23 @@
             <Spinner
                 android:id="@+id/spinnerTCILITypeofRoofItLab"
                 android:layout_width="match_parent"
-                android:layout_height="57dp" />
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
 
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_4"-->
-<!--                android:layout_marginEnd="@dimen/dp_4"-->
-<!--                android:hint="@string/type_of_roof"-->
-<!--                android:paddingTop="8dp">-->
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_4"-->
+            <!--                android:layout_marginEnd="@dimen/dp_4"-->
+            <!--                android:hint="@string/type_of_roof"-->
+            <!--                android:paddingTop="8dp">-->
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/etTCILTypeofRoofItLab"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:inputType="text" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
-
-
-
-
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/etTCILTypeofRoofItLab"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:inputType="text" />-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
 
             <!-- Proof of Male Toilets (Upload) -->
@@ -171,16 +145,18 @@
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:visibility="gone"
                 android:text="@string/proof_of_type_of_roof"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -191,29 +167,25 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILTypeofRoofItLab"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="Preview Male Toilets Proof"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
 
 
-
             </LinearLayout>
-
-
-
 
 
             <!-- FalseCeilingProvided -->
@@ -225,24 +197,26 @@
                 android:paddingTop="8dp"
                 android:text="@string/false_ceiling_label"
                 android:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/spinnerTCILFalseCellingProvide"
                 android:layout_width="match_parent"
-                android:layout_height="57dp" />
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_4"-->
-<!--                android:layout_marginEnd="@dimen/dp_4"-->
-<!--                android:hint="@string/false_ceiling_label"-->
-<!--                android:paddingTop="8dp">-->
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_4"-->
+            <!--                android:layout_marginEnd="@dimen/dp_4"-->
+            <!--                android:hint="@string/false_ceiling_label"-->
+            <!--                android:paddingTop="8dp">-->
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/etTCILFalseCellingProvide"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:inputType="text" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/etTCILFalseCellingProvide"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:inputType="text" />-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of FalseCeilingProvided  -->
             <TextView
@@ -251,17 +225,19 @@
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
-                android:visibility="gone"
                 android:paddingTop="8dp"
                 android:text="@string/proof_of_false_celling"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -272,23 +248,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILFalseCellingProvide"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_false_celling"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -303,6 +278,7 @@
                 android:paddingTop="8dp"
                 android:text="@string/height_of_ceiling"
                 android:textStyle="bold" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -326,16 +302,18 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:visibility="gone"
                 android:text="@string/proof_of_height_celling_in_ft"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -346,23 +324,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILHeightOfCelling"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_height_celling_in_ft"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -376,6 +353,7 @@
                 android:paddingTop="8dp"
                 android:text="@string/ventilation_area"
                 android:textStyle="bold" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -399,16 +377,18 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:visibility="gone"
                 android:text="@string/proof_of_ventilation_area_sq_ft"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -419,23 +399,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILVentilationAreaInSqFt"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_ventilation_area_sq_ft"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -454,23 +433,24 @@
             <Spinner
                 android:id="@+id/spinnerTTCILSoundLevelAsPerSpecifications"
                 android:layout_width="match_parent"
-                android:layout_height="57dp" />
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
 
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_4"-->
-<!--                android:visibility="gone"-->
-<!--                android:layout_marginEnd="@dimen/dp_4"-->
-<!--                android:hint="@string/sound_level_as_per_specifications"-->
-<!--                android:paddingTop="8dp">-->
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_4"-->
+            <!--                android:visibility="gone"-->
+            <!--                android:layout_marginEnd="@dimen/dp_4"-->
+            <!--                android:hint="@string/sound_level_as_per_specifications"-->
+            <!--                android:paddingTop="8dp">-->
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/etTCILSoundLevelAsPerSpecifications"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:inputType="text" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/etTCILSoundLevelAsPerSpecifications"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:inputType="text" />-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of HeightofCeiling  -->
             <TextView
@@ -478,47 +458,48 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_5"
-                android:visibility="gone"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
                 android:text="@string/proof_of_sound_level_as_per_specifications"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
-                android:visibility="gone"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingTop="4dp">
+                android:paddingTop="4dp"
+                android:visibility="gone">
 
                 <Button
                     android:id="@+id/btnTCILSoundLevelAsPerSpecifications"
                     android:layout_width="wrap_content"
-                    android:visibility="gone"
                     android:layout_height="36dp"
                     android:layout_marginStart="@dimen/dp_5"
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILSoundLevelAsPerSpecifications"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_sound_level_as_per_specifications"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -532,6 +513,7 @@
                 android:paddingTop="8dp"
                 android:text="@string/sound_level_in_db"
                 android:textStyle="bold" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -559,14 +541,16 @@
                 android:paddingTop="8dp"
                 android:text="@string/proof_of_sound_level_in_db"
                 android:textStyle="bold" />
+
             <LinearLayout
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -577,23 +561,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILSoundLevelInDb"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_sound_level_in_db"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -608,26 +591,28 @@
                 android:paddingTop="8dp"
                 android:text="@string/whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning"
                 android:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/spinnerTCILwhether_all_the_academic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
 
 
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_4"-->
-<!--                android:layout_marginEnd="@dimen/dp_4"-->
-<!--                android:hint="@string/whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning"-->
-<!--                android:paddingTop="8dp">-->
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_4"-->
+            <!--                android:layout_marginEnd="@dimen/dp_4"-->
+            <!--                android:hint="@string/whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning"-->
+            <!--                android:paddingTop="8dp">-->
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/etTCILwhether_all_the_academic"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:inputType="text" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/etTCILwhether_all_the_academic"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:inputType="text" />-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of whether_all_the_academic  -->
             <TextView
@@ -636,17 +621,19 @@
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
-                android:visibility="gone"
                 android:paddingTop="8dp"
                 android:text="@string/proof_of_whether_all"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -657,23 +644,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILwhether_all_the_academic"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_whether_all"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -687,10 +673,12 @@
                 android:paddingTop="8dp"
                 android:text="@string/academic_room_information_board"
                 android:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/spinnerTCILLAcademicRoomInformationBoard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
 
             <!-- Proof of AcademicRoomInformationBoard  -->
             <TextView
@@ -698,18 +686,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_5"
-                android:visibility="gone"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
                 android:text="@string/proof_of_academic_room_information_board"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -720,23 +710,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILAcademicRoomInformationBoard"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_academic_room_information_board"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -749,24 +738,26 @@
                 android:paddingTop="8dp"
                 android:text="@string/internal_signage"
                 android:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/spinnerTCILInternalSignage"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_4"-->
-<!--                android:layout_marginEnd="@dimen/dp_4"-->
-<!--                android:hint="@string/internal_signage"-->
-<!--                android:paddingTop="8dp">-->
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_4"-->
+            <!--                android:layout_marginEnd="@dimen/dp_4"-->
+            <!--                android:hint="@string/internal_signage"-->
+            <!--                android:paddingTop="8dp">-->
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/etTCILInternalSignage"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:inputType="text" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/etTCILInternalSignage"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:inputType="text" />-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of InternalSignage  -->
             <TextView
@@ -776,16 +767,18 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:visibility="gone"
                 android:text="@string/proof_of_internal_signage"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -796,23 +789,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILInternalSignage"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_internal_signage"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -826,10 +818,12 @@
                 android:paddingTop="8dp"
                 android:text="@string/cctc_cameras_with_audio_facility"
                 android:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/spinnerTCILCctcCamerasWithAudioFacility"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
 
             <!-- Proof of CctcCamerasWithAudioFacility  -->
             <TextView
@@ -838,17 +832,19 @@
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
-                android:visibility="gone"
                 android:paddingTop="8dp"
                 android:text="@string/proof_of_cctc_cameras_audio_facility"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -859,23 +855,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILCctcCamerasWithAudioFacility"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_cctc_cameras_audio_facility"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -889,6 +884,7 @@
                 android:paddingTop="8dp"
                 android:text="@string/lan_enabled_computers"
                 android:textStyle="bold" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -911,17 +907,19 @@
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
-                android:visibility="gone"
                 android:paddingTop="8dp"
                 android:text="@string/proof_of_cctc_cameras_audio_facility"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -932,23 +930,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILLanEnabledComputersInNo"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_cctc_cameras_audio_facility"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -962,24 +959,26 @@
                 android:paddingTop="8dp"
                 android:text="@string/internet_connections"
                 android:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/spinnerTCILInternetConnections"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_4"-->
-<!--                android:layout_marginEnd="@dimen/dp_4"-->
-<!--                android:hint="@string/internet_connections"-->
-<!--                android:paddingTop="8dp">-->
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_4"-->
+            <!--                android:layout_marginEnd="@dimen/dp_4"-->
+            <!--                android:hint="@string/internet_connections"-->
+            <!--                android:paddingTop="8dp">-->
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/etTCILInternetConnections"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:inputType="text" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/etTCILInternetConnections"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:inputType="text" />-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of InternetConnections  -->
             <TextView
@@ -989,16 +988,18 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:visibility="gone"
                 android:text="@string/proof_of_lan_internet_conncetion"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -1009,23 +1010,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILInternetConnections"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_lan_internet_conncetion"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -1039,10 +1039,12 @@
                 android:paddingTop="8dp"
                 android:text="@string/do_all_computers_have_typing_tutor"
                 android:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/spinnerTCILDLDoAllComputersHaveTypingTutor"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
 
 
             <!-- Proof of DoAllComputersHaveTypingTutor  -->
@@ -1053,16 +1055,18 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:visibility="gone"
                 android:text="@string/proof_of_lan_do_all_computers_have_typing_tutor"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -1073,23 +1077,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILDoAllComputersHaveTypingTutor"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_lan_do_all_computers_have_typing_tutor"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -1103,6 +1106,7 @@
                 android:paddingTop="8dp"
                 android:text="@string/tablets"
                 android:textStyle="bold" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1126,16 +1130,18 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:visibility="gone"
                 android:text="@string/proof_of_tablets"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -1146,23 +1152,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILTablets"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_tablets"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -1176,6 +1181,7 @@
                 android:paddingTop="8dp"
                 android:text="@string/stools_chairs"
                 android:textStyle="bold" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1197,18 +1203,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_5"
-                android:visibility="gone"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
                 android:text="@string/proof_of_stools_chairs_in_no"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -1219,27 +1227,25 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILStoolsChairs"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_stools_chairs_in_no"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
 
 
-
             </LinearLayout>
-
 
 
             <!-- TrainerChair"-->
@@ -1255,21 +1261,22 @@
             <Spinner
                 android:id="@+id/spinnerTCILTrainerChair"
                 android:layout_width="match_parent"
-                android:layout_height="57dp" />
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_4"-->
-<!--                android:layout_marginEnd="@dimen/dp_4"-->
-<!--                android:hint="@string/trainer_chair"-->
-<!--                android:paddingTop="8dp">-->
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_4"-->
+            <!--                android:layout_marginEnd="@dimen/dp_4"-->
+            <!--                android:hint="@string/trainer_chair"-->
+            <!--                android:paddingTop="8dp">-->
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/etTCILTrainerChair"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:inputType="text" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/etTCILTrainerChair"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:inputType="text" />-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of TrainerChair  -->
             <TextView
@@ -1279,16 +1286,18 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:visibility="gone"
                 android:text="@string/proof_of_triner_chairs"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -1299,23 +1308,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILTrainerChair"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_triner_chairs"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -1333,21 +1341,22 @@
             <Spinner
                 android:id="@+id/spinnerTCILTrainerTable"
                 android:layout_width="match_parent"
-                android:layout_height="57dp" />
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_4"-->
-<!--                android:layout_marginEnd="@dimen/dp_4"-->
-<!--                android:hint="@string/trainer_table"-->
-<!--                android:paddingTop="8dp">-->
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_4"-->
+            <!--                android:layout_marginEnd="@dimen/dp_4"-->
+            <!--                android:hint="@string/trainer_table"-->
+            <!--                android:paddingTop="8dp">-->
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/etTCILTrainerTable"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:inputType="text" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/etTCILTrainerTable"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:inputType="text" />-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of TrainerTable  -->
             <TextView
@@ -1355,18 +1364,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_5"
-                android:visibility="gone"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
                 android:text="@string/proof_of_triner_table"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -1377,23 +1388,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILTrainerTable"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_triner_table"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -1408,6 +1418,7 @@
                 android:paddingTop="8dp"
                 android:text="@string/lights_in_no"
                 android:textStyle="bold" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1430,17 +1441,19 @@
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
-                android:visibility="gone"
                 android:paddingTop="8dp"
                 android:text="@string/proof_of_lights_in_no"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -1451,23 +1464,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILLightsInNo"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_lights_in_no"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -1481,6 +1493,7 @@
                 android:paddingTop="8dp"
                 android:text="@string/fans_in_no"
                 android:textStyle="bold" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1504,16 +1517,18 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:visibility="gone"
                 android:text="@string/proof_of_fans_in_no"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -1524,23 +1539,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILFansInNo"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_fans_in_no"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -1553,10 +1567,12 @@
                 android:paddingTop="8dp"
                 android:text="@string/electrica_power_back_up_for_the_room"
                 android:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/spinnerTCILIPowerBackup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
 
             <!-- Proof of ElectricaPowerBackUpForThRoom  -->
             <TextView
@@ -1565,17 +1581,19 @@
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
-                android:visibility="gone"
                 android:paddingTop="8dp"
                 android:text="@string/proof_of_electrical_power_backup_for_the_room"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -1586,30 +1604,25 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILElectricaPowerBackUpForThRoom"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_electrical_power_backup_for_the_room"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
 
 
-
             </LinearLayout>
-
-
-
-
 
 
             <!-- theory_cum_it_lab_photogragh"-->
@@ -1626,21 +1639,22 @@
             <Spinner
                 android:id="@+id/spinnerTCILTheoryCumItLabPhotogragh"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_4"-->
-<!--                android:layout_marginEnd="@dimen/dp_4"-->
-<!--                android:hint="@string/theory_cum_it_lab_photogragh"-->
-<!--                android:paddingTop="8dp">-->
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_4"-->
+            <!--                android:layout_marginEnd="@dimen/dp_4"-->
+            <!--                android:hint="@string/theory_cum_it_lab_photogragh"-->
+            <!--                android:paddingTop="8dp">-->
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/etTCILTheoryCumItLabPhotogragh"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:inputType="text" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/etTCILTheoryCumItLabPhotogragh"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:inputType="text" />-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of ElectricaPowerBackUpForThRoom  -->
             <TextView
@@ -1649,17 +1663,19 @@
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
-                android:visibility="gone"
                 android:paddingTop="8dp"
                 android:text="@string/proof_of_theory_cum_it_Lab_photograph"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -1670,23 +1686,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILTheoryCumItLabPhotogragh"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/proof_of_theory_cum_it_Lab_photograph"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -1702,25 +1717,27 @@
                 android:paddingTop="8dp"
                 android:text="@string/does_the_room_has_air_conditioning"
                 android:textStyle="bold" />
+
             <Spinner
                 android:id="@+id/spinnerTCILDLDoes_the_room_has"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg" />
 
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_4"-->
-<!--                android:layout_marginEnd="@dimen/dp_4"-->
-<!--                android:hint="@string/does_the_room_has_air_conditioning"-->
-<!--                android:paddingTop="8dp">-->
+            <!--            <com.google.android.material.textfield.TextInputLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_4"-->
+            <!--                android:layout_marginEnd="@dimen/dp_4"-->
+            <!--                android:hint="@string/does_the_room_has_air_conditioning"-->
+            <!--                android:paddingTop="8dp">-->
 
-<!--                <com.google.android.material.textfield.TextInputEditText-->
-<!--                    android:id="@+id/etTCILDoes_the_room_has"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:inputType="text" />-->
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
+            <!--                <com.google.android.material.textfield.TextInputEditText-->
+            <!--                    android:id="@+id/etTCILDoes_the_room_has"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:inputType="text" />-->
+            <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of ItLabPhotograph  -->
             <TextView
@@ -1729,17 +1746,19 @@
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
-                android:visibility="gone"
                 android:paddingTop="8dp"
                 android:text="@string/office_cum_proof_of_does_the_room_has_air_conditioning"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
+                android:gravity="center_horizontal|center_vertical"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -1750,23 +1769,22 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
-
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp"
+                    app:icon="@drawable/ic_upload" />
 
 
                 <ImageView
                     android:id="@+id/ivPreviewTCILDoes_the_room_has"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
                     android:contentDescription="@string/office_cum_proof_of_does_the_room_has_air_conditioning"
+                    android:scaleType="centerCrop"
                     android:visibility="gone" />
-
 
 
             </LinearLayout>
@@ -1778,10 +1796,10 @@
                 android:id="@+id/btnSubmitTCIL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="8dp"
                 android:layout_marginStart="@dimen/dp_5"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="@dimen/dp_5"
+                android:layout_marginBottom="8dp"
                 android:backgroundTint="?attr/colorPrimary"
                 android:text="@string/submit"
                 android:textStyle="bold" />

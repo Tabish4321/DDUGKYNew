@@ -3,6 +3,7 @@ package com.deendayalproject.fragments
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -26,28 +27,39 @@ class LanguageChangeFragment : BaseFragment<FragmentLaguageChangeBinding>(
         mapOf(
             binding.languageEng to "en",
             binding.languageHindi to "hi",
-            binding.languageTamil to "ta",
-            binding.languageAssamese to "as",
-            binding.languageBengali to "bn",
-            binding.languageGujarati to "gu",
-            binding.languageKannada to "kn",
-            binding.languageMalayalam to "ml",
-            binding.languageOdia to "or",
-            binding.languageMarathi to "mr",
-            binding.languagePunjabi to "pa",
-            binding.languageTelugu to "te",
-            binding.languageUrdu to "ur"
+//            binding.languageTamil to "ta",
+//            binding.languageAssamese to "as",
+//            binding.languageBengali to "bn",
+//            binding.languageGujarati to "gu",
+//            binding.languageKannada to "kn",
+//            binding.languageMalayalam to "ml",
+//            binding.languageOdia to "or",
+//            binding.languageMarathi to "mr",
+//            binding.languagePunjabi to "pa",
+//            binding.languageTelugu to "te",
+//            binding.languageUrdu to "ur"
         )
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun initializeViews() {
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━LanguageChangeFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+//        Only Two languge availble only
+        binding.languageTamil.hide()
+        binding.languageBengali.hide()
+        binding.languageGujarati.hide()
+        binding.languageKannada.hide()
+        binding.languageMalayalam.hide()
+        binding.languageOdia.hide()
+        binding.languageMarathi.hide()
+        binding.languagePunjabi.hide()
+        binding.languageTelugu.hide()
+        binding.languageUrdu.hide()
+        binding.languageAssamese.hide()
+
         setupLanguageIconMap()
         showSelectedLanguageIcon(AppUtil.getSavedLanguagePreference(requireContext()))
-        setupClickListeners()
         binding.progressBackButton.setOnClickListener {
             findNavController().navigateUp()
         }

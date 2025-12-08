@@ -37,7 +37,9 @@
             <Spinner
                 android:id="@+id/spinnerCounsellingRoomAreaPhotograph"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="57dp"
+                android:background="@drawable/spinner_bg"
+                />
 
 
             <TextView
@@ -55,7 +57,8 @@
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_gravity="center_vertical"
                 android:paddingTop="4dp">
 
                 <Button
@@ -66,17 +69,18 @@
                     android:layout_marginEnd="@dimen/dp_5"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
-                    android:drawableEnd="@drawable/ic_up"
-                    android:background="@drawable/bg_upload_button"
                     android:text="@string/upload"
-                    android:textSize="12sp" />
+                    app:icon="@drawable/ic_upload"
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:cornerRadius="8dp" />
 
 
 
                 <ImageView
                     android:id="@+id/ivPreviewCounsellingRoomAreaPhotograph"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     android:layout_marginStart="8dp"
                     android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"

@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
     android:orientation="horizontal"
+    android:gravity="center"
     android:padding="8dp"
     android:background="@drawable/bg_item_border">
 
@@ -49,9 +50,6 @@
         android:gravity="center"
         android:text="120"
         android:textSize="14sp" />
-
-
-
 
     <TextView
         android:id="@+id/btnView"

@@ -1,138 +1,179 @@
 package com.deendayalproject.fragments
+
 import SharedViewModel
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.finishAffinity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
+import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentLoginBinding
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.util.AppUtil
 import java.io.File
 
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment<FragmentLoginBinding>(
+    FragmentLoginBinding::inflate
+) {
 
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
 
-    private val progress: AlertDialog? by lazy {
-        AppUtil.getProgressDialog(context)
+
+    override fun initializeViews() {
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━LoginFragmnet━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+        viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+
+        // Setup password toggle
+        AppUtil.setupPasswordToggle(binding.etPassword)
+
+        // Check for security warnings
+        //checkSecurityWarnings()
+        checkAutoLogin()
+        setupObservers()
+        setupClickListeners()
+        loadInitialData()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
-
-        val logginStatus= AppUtil.getLoginStatus(requireContext())
-        if (logginStatus){
-            findNavController().navigate(R.id.action_fragmentLogin_to_homeFragment)
-        }
-
-        return binding.root
-    }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-        )[SharedViewModel::class.java]
-        setupListeners()
+    override fun setupObservers() {
         observeLoginResult()
     }
-    private fun setupListeners() {
+
+    override fun setupClickListeners() {
         binding.btnLogin.setOnClickListener {
-            if (AppUtil.getSavedLanguagePreference(requireContext()).contains("en")) {
+            handleLoginClick()
+        }
+    }
 
-                AppUtil.saveLanguagePreference(requireContext(), "en")
+    override fun loadInitialData() {
+        // Nothing to load initially for login
+    }
 
-            } else
-                AppUtil.changeAppLanguage(
-                    requireContext(),
-                    AppUtil.getSavedLanguagePreference(requireContext())
-                )
-            showProgressBar()
-            val request = LoginRequest(
-                loginId = binding.etUserId.text.toString().trim().uppercase(),
-                password = AppUtil.sha512Hash(binding.etPassword.text.toString()),
-                imeiNo = AppUtil.getAndroidId(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME
+    private fun checkAutoLogin() {
+        val loginStatus = AppUtil.getLoginStatus(requireContext())
+        if (loginStatus) {
+            logFragmentEvent("Auto_Login_Detected")
+            findNavController().navigate(R.id.action_fragmentLogin_to_homeFragment)
+        }
+    }
+
+    private fun handleLoginClick() {
+        // Set language based on preference
+        if (AppUtil.getSavedLanguagePreference(requireContext()).contains("en")) {
+            AppUtil.saveLanguagePreference(requireContext(), "en")
+        } else {
+            AppUtil.changeAppLanguage(
+                requireContext(),
+                AppUtil.getSavedLanguagePreference(requireContext())
             )
-                 viewModel.loginUser(request)
         }
-        AppUtil.setupPasswordToggle(binding.etPassword)
+
+        val userId = binding.etUserId.text.toString().trim().uppercase()
+        val password = binding.etPassword.text.toString()
+
+        if (validateInputs(userId, password)) {
+            performLogin(userId, password)
+        }
     }
+
+    private fun validateInputs(userId: String, password: String): Boolean {
+        if (userId.isEmpty()) {
+            showToast("Please enter user ID")
+            binding.etUserId.requestFocus()
+            return false
+        }
+
+        if (password.isEmpty()) {
+            showToast("Please enter password")
+            binding.etPassword.requestFocus()
+            return false
+        }
+
+        return true
+    }
+
+    private fun performLogin(userId: String, password: String) {
+        showProgressDialog("Logging in...")
+
+        val request = LoginRequest(
+            loginId = userId,
+            password = AppUtil.sha512Hash(password),
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME
+        )
+
+        logNetworkCall("Login API", "POST")
+        viewModel.loginUser(request)
+    }
+
     private fun observeLoginResult() {
-
         viewModel.loginResult.observe(viewLifecycleOwner) { result ->
+            dismissProgressDialog()
 
-            result.onSuccess {
-                hideProgressBar()
-
-
-                when (it.responseCode) {
-                    200 ->  {
-                        AppUtil.saveLoginStatus(requireContext(), true)
-                        AppUtil.saveTokenPreference( requireContext(),it.accessToken)
-                        AppUtil.saveLoginIdPreference( requireContext(),binding.etUserId.text.toString().trim().uppercase())
-                        Log.d(requireContext().toString(), "token:Bearer + ${it.accessToken}")
-                    Toast.makeText(requireContext(), "Login Successful", Toast.LENGTH_SHORT).show()
-                            findNavController().navigate(R.id.action_fragmentLogin_to_homeFragment)
-                    }
-
-                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+            handleApiResponse(
+                responseCode = result.getOrNull()?.responseCode ?: 0,
+                data = result.getOrNull(),
+                onSuccess = { data ->
+                    handleLoginSuccess(data)
+                },
+                onNoData = {
+                    showToast("No data available.")
+                },
+                onUpgradeRequired = {
+                    showToast("Please upgrade your app.")
+                },
+                onSessionExpired = {
+                    handleSessionExpired()
                 }
+            )
+        }
+
+        // Handle loading state if needed
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            if (loading) {
+               // showProgressDialog("Logging in...")
+            } else {
+                dismissProgressDialog()
             }
-
-            result.onFailure {
-                hideProgressBar()
-
-                AppUtil.clearPreferences(requireContext())
-                Toast.makeText(requireContext(), "Login Failed: ${it.message}", Toast.LENGTH_LONG).show()
-            }
-        }
-/*
-        viewModel.sessionExpired.observe(viewLifecycleOwner){ expired->
-        if (expired){
-            AppUtil.showSessionExpiredDialog(findNavController(),requireContext())
-        }
-
-        }
-*/
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-
-
-    fun showProgressBar() {
-        if (context != null && isAdded && progress?.isShowing == false) {
-            progress?.show()
         }
     }
 
-    fun hideProgressBar() {
-        if (progress?.isShowing == true) {
-            progress?.dismiss()
-        }
+    private fun handleLoginSuccess(data: Any?) {
+        val userId = binding.etUserId.text.toString().trim().uppercase()
+        val accessToken = (data as? com.deendayalproject.model.response.LoginResponse)?.accessToken ?: ""
+
+        // Save login data
+        AppUtil.saveLoginStatus(requireContext(), true)
+        AppUtil.saveTokenPreference(requireContext(), accessToken)
+        AppUtil.saveLoginIdPreference(requireContext(), userId)
+
+        // Log successful login
+        logFragmentEvent("Login_Successful", userId)
+        setUserIdentifier(userId)
+
+        // Show success message
+        //showSuccessToast("Login Successful")
+
+        // Navigate to home
+        findNavController().navigate(R.id.action_fragmentLogin_to_homeFragment)
     }
 
+    private fun handleLoginFailure(exception: Exception) {
+        logCrashlyticsError("Login_Failed", exception)
+        AppUtil.clearPreferences(requireContext())
+        showErrorToast("Login Failed: ${exception.message}")
+    }
+
+    private fun checkSecurityWarnings() {
+        if (isDeviceRooted() || isRunningOnEmulator()) {
+            showSecurityWarning()
+        }
+    }
 
     /**
      * Checks if the device is rooted.
@@ -183,14 +224,26 @@ class LoginFragment : Fragment() {
             else -> return
         }
 
-        android.app.AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext())
             .setTitle("Security Warning")
             .setMessage(message)
             .setCancelable(false)
-            .setPositiveButton("Exit") { _, _ -> finishAffinity(requireActivity()) }
+            .setPositiveButton("Exit") { _, _ ->
+                logFragmentEvent("App_Closed_Security_Warning", message)
+                finishAffinity(requireActivity())
+            }
+            .setOnDismissListener {
+                logFragmentEvent("Security_Warning_Dismissed")
+            }
             .show()
     }
 
+    // Maintain original method names for compatibility if needed
+    fun showProgressBar() {
+        showProgressDialog("Loading...")
+    }
 
-
+    fun hideProgressBar() {
+        dismissProgressDialog()
+    }
 }

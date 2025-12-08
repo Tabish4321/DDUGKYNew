@@ -7,6 +7,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.deendayalproject.R
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.imageview.ShapeableImageView
 
 class BaseToolbarComponent(
@@ -15,10 +16,10 @@ class BaseToolbarComponent(
 ) {
 
     private val toolbar: Toolbar? = rootView.findViewById(R.id.universalToolbar)
-    private val btnBack: ImageView? = rootView.findViewById(R.id.btnBack)
+    private val btnBack: MaterialButton? = rootView.findViewById(R.id.btnBack)
     private val tvTitle: TextView? = rootView.findViewById(R.id.tvTitle)
-    private val langIcon: ImageView? = rootView.findViewById(R.id.changeLanguage)
-    private val profileIcon: ImageView? = rootView.findViewById(R.id.profilePic)
+    private val langIcon: ShapeableImageView? = rootView.findViewById(R.id.changeLanguage)
+    private val profileIcon: ShapeableImageView? = rootView.findViewById(R.id.profilePic)
     private val appLogo: ShapeableImageView =rootView.findViewById(R.id.logo_img)
 
     fun setup(

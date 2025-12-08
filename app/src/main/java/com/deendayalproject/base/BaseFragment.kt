@@ -12,6 +12,7 @@ import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -43,7 +44,7 @@ abstract class BaseFragment<VB : ViewBinding>(
     private var progressDialog: Dialog? = null
 
     // RecyclerView tracking
-    private val recyclerViewHelpers = mutableMapOf<Int, RecyclerViewHelper<*>>()
+    protected val recyclerViewHelpers = mutableMapOf<Int, RecyclerViewHelper<*>>()
 
     // Swipe refresh tracking
     private val swipeRefreshHelpers = mutableMapOf<Int, SwipeRefreshHelper>()
@@ -57,6 +58,9 @@ abstract class BaseFragment<VB : ViewBinding>(
         savedInstanceState: Bundle?
     ): View? {
         _binding = bindingInflater(inflater)
+        requireActivity().window.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+        )
         return binding.root
     }
 
@@ -240,9 +244,10 @@ abstract class BaseFragment<VB : ViewBinding>(
 
         // Store helper for easy updates
         recyclerViewHelpers[recyclerView.id] = RecyclerViewHelper(adapter, items)
-
         return adapter
     }
+
+
 
     protected fun <T, VB : ViewBinding> setupRecyclerView(
         recyclerView: RecyclerView,
@@ -271,6 +276,9 @@ abstract class BaseFragment<VB : ViewBinding>(
         )
     }
 
+
+
+
     protected fun <T> updateRecyclerViewData(
         recyclerViewId: Int,
         newItems: List<T>
@@ -282,6 +290,7 @@ abstract class BaseFragment<VB : ViewBinding>(
             logCrashlyticsError("updateRecyclerViewData", e)
         }
     }
+
 
     @Suppress("UNCHECKED_CAST")
     protected fun <T, VB : ViewBinding> getRecyclerViewAdapter(
@@ -519,7 +528,7 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     // ==================== INNER CLASSES ====================
 
-    private class RecyclerViewHelper<T>(
+    protected class RecyclerViewHelper<T>(
         val adapter: RecyclerView.Adapter<*>,
         var currentItems: List<T>
     ) {
@@ -533,6 +542,15 @@ abstract class BaseFragment<VB : ViewBinding>(
             }
         }
     }
+
+    private class RecyclerViewHelperN(
+        val update: (List<Any>) -> Unit
+    ) {
+        fun updateItems(newItems: List<Any>) {
+            update(newItems)
+        }
+    }
+
 
     private class SwipeRefreshHelper(
         private val swipeRefreshLayout: SwipeRefreshLayout,
@@ -569,6 +587,11 @@ abstract class BaseFragment<VB : ViewBinding>(
                 profileAction = profileClick
             )
         }
+    }
+
+    // Helper function to get string resources with format
+    fun getStrings(resId: Int, vararg args: Any): String {
+        return requireContext().getString(resId, *args)
     }
 
 

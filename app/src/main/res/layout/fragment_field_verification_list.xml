@@ -3,47 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-    <androidx.appcompat.widget.Toolbar
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    >
+
+    <include
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_100"
-        android:background="@color/color_dark_blue"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/backButton"
-            android:layout_marginStart="@dimen/dp_20"
-            android:padding="@dimen/dp_5"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back_arrow"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/field_ver_list"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_16"/>
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="150dp"
-            android:layout_height="@dimen/dp_60"
-            android:layout_gravity="end"
-            android:id="@+id/logo"
-            android:background="@color/white"
-            android:padding="@dimen/dp_5"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ddy_logo"
-            app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
-
-
-
-    </androidx.appcompat.widget.Toolbar>
+        layout="@layout/layout_toolbar_base" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -58,6 +24,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="16dp" />
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:scrollbars="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:spanCount="1"
+        tools:itemCount="5"
+        tools:listitem="@layout/item_field_verification_layout"
+        android:layout_marginBottom="32dp"        />
 
 </LinearLayout>

@@ -5,13 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginHorizontal="8dp"
     android:layout_marginVertical="5dp"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="10dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:strokeWidth="0.8dp"
+    app:strokeColor="@color/login_btn"
+
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        >
 
         <!-- Header with gradient background -->
         <LinearLayout
@@ -21,8 +29,10 @@
             android:orientation="horizontal"
             android:paddingVertical="20dp"
             android:paddingHorizontal="24dp"
-            android:background="@drawable/module_header_gradient"
-            android:gravity="center_vertical">
+            android:background="@color/white_glow"
+            app:strokeColor="@color/black"
+            app:strokeWidth="1.5dp"
+            >
 
             <ImageView
                 android:layout_width="28dp"
@@ -37,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Module Name"
-                android:textColor="@color/white_pure"
+                android:textColor="@color/login_btn"
                 android:fontFamily="@font/sf_pro_rounded_semibold"
                 android:textSize="14sp"
                 />
@@ -47,7 +57,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_dropdown_arrow"
-                android:tint="@color/white_pure"
+                android:tint="@color/login_btn"
                 android:rotation="0" />
 
         </LinearLayout>
@@ -57,7 +67,7 @@
             android:id="@+id/rvForms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/forms_background"
+            android:background="@color/color_light_grey"
             android:paddingVertical="8dp"
             android:paddingHorizontal="8dp"
             android:clipToPadding="false"

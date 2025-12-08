@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -48,19 +49,39 @@ class FieldVerificationListFragment : BaseFragment<FragmentFieldVerificationList
             }
         }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
+    override fun initializeViews() {
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━FieldVerificationListFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+        setupToolbar(
+            root = binding.root,
+            titleRes = R.string.field_ver_list,
+            showBack = true,
+            showLang = false,
+            showProfile = false,
+            backClick = { findNavController().navigateUp()}
+        )
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
-        initializeViews()
-        setupObservers()
-        setupClickListeners()
-        loadInitialData()
-    }
+        // Setup back stack observer with original logic
+        val navController = findNavController()
 
-    override fun initializeViews() {
+        navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<Boolean>("refresh_pia_list")
+            ?.observe(viewLifecycleOwner) { shouldRefresh ->
+                /*if (shouldRefresh == true) {
+                    loadFieldVerificationList()
+                    // reset flag
+                    navController.currentBackStackEntry
+                        ?.savedStateHandle
+                        ?.set("refresh_pia_list", false)
+                }*/
+                findNavController().navigateUp()
+            }
+
+
         setupRecyclerView()
     }
 
@@ -69,9 +90,9 @@ class FieldVerificationListFragment : BaseFragment<FragmentFieldVerificationList
     }
 
     override fun setupClickListeners() {
-        binding.backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
+//        binding.backButton.setOnClickListener {
+//            findNavController().navigateUp()
+//        }
     }
 
     override fun loadInitialData() {
@@ -214,33 +235,33 @@ class FieldVerificationListFragment : BaseFragment<FragmentFieldVerificationList
     }
 
     // Helper methods for data management
-    fun updateFieldVerificationData(newList: List<FieldVerificationItem>) {
-        fieldVerificationList.clear()
-        fieldVerificationList.addAll(newList)
-        updateRecyclerViewData(binding.recyclerView.id, fieldVerificationList)
-    }
+//    fun updateFieldVerificationData(newList: List<FieldVerificationItem>) {
+//        fieldVerificationList.clear()
+//        fieldVerificationList.addAll(newList)
+//        updateRecyclerViewData(binding.recyclerView.id, fieldVerificationList)
+//    }
 
-    fun getCurrentFieldVerificationList(): List<FieldVerificationItem> {
-        return getRecyclerViewItems(binding.recyclerView.id)
-    }
+//    fun getCurrentFieldVerificationList(): List<FieldVerificationItem> {
+//        return getRecyclerViewItems(binding.recyclerView.id)
+//    }
 
-    fun clearFieldVerificationList() {
-        fieldVerificationList.clear()
-        updateRecyclerViewData(binding.recyclerView.id, fieldVerificationList)
-    }
+//    fun clearFieldVerificationList() {
+//        fieldVerificationList.clear()
+//        updateRecyclerViewData(binding.recyclerView.id, fieldVerificationList)
+//    }
 
-    fun filterFieldVerificationList(query: String) {
-        val filteredList = if (query.isEmpty()) {
-            fieldVerificationList
-        } else {
-            fieldVerificationList.filter {
-                it.piaName?.contains(query, ignoreCase = true) == true ||
-                        it.prnNo?.contains(query, ignoreCase = true) == true ||
-                        it.districtName?.contains(query, ignoreCase = true) == true
-            }
-        }
-        updateRecyclerViewData(binding.recyclerView.id, filteredList)
-    }
+//    fun filterFieldVerificationList(query: String) {
+//        val filteredList = if (query.isEmpty()) {
+//            fieldVerificationList
+//        } else {
+//            fieldVerificationList.filter {
+//                it.piaName?.contains(query, ignoreCase = true) == true ||
+//                        it.prnNo?.contains(query, ignoreCase = true) == true ||
+//                        it.districtName?.contains(query, ignoreCase = true) == true
+//            }
+//        }
+//        updateRecyclerViewData(binding.recyclerView.id, filteredList)
+//    }
 
     // Location permission check helper
     fun hasLocationPermission(): Boolean {

@@ -54,12 +54,8 @@ bindingInflater = FragmentHomeBinding::inflate
 
         )
 
-
-        val headerBinding = NavigationHeaderBinding.bind(
-            binding.navigationView.getHeaderView(0)
-        )
-        headerBinding.loginId.text =
-            AppUtil.getSavedLoginIdPreference(requireContext())
+        val headerBinding = NavigationHeaderBinding.bind(binding.navigationView.getHeaderView(0))
+        headerBinding.loginId.text = AppUtil.getSavedLoginIdPreference(requireContext())
     }
 
     private fun setupDrawerClicks() {
@@ -265,6 +261,8 @@ bindingInflater = FragmentHomeBinding::inflate
     }
 
     override fun initializeViews() {
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━HomeFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
         setupNavHeader()
         setupViewModel()
         }

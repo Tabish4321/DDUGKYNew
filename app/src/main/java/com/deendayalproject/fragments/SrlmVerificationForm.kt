@@ -31,6 +31,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
 import android.util.Base64
+import android.util.Log
 import android.widget.ImageView
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
@@ -225,22 +226,16 @@ class SrlmVerificationForm : BaseFragment<FragmentSrlmverificatiomFormBinding>(
     private var fireFightingImage = ""
     private var firstAidImage = ""
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
+    override fun initializeViews() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━SrlmVerificationFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         centerId = arguments?.getString("centerId").toString()
         centerName = arguments?.getString("centerName").toString()
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
 
-        initializeViews()
-        setupObservers()
-        setupClickListeners()
-        loadInitialData()
-    }
 
-    override fun initializeViews() {
         setupRecyclerViews()
         setupAdapters()
         setupInitialUIState()

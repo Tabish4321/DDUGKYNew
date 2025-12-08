@@ -150,7 +150,13 @@ data class ManpowerAgencyCheck(
 data class RemarkItem(
     val section: String,     // e.g. "Organization", "Finance", "Training"
     val requirement: String, // the FieldVerificationItem.requirement text (or an id if you have one)
-    val remark: String
+    val remark: String,
+    val attachments: List<AttachmentItem>? = null // map of docLabel -> base64
+
+)
+data class AttachmentItem(
+    val label: String,
+    val value: String
 )
 
 // optional wrapper if backend expects grouped remarks

@@ -87,17 +87,6 @@ import java.util.Date
 import java.util.Locale
 
 class TrainingFragment : Fragment() {
-
-    //      IT LAB All Parameter's use in Variable
-//{
-//        IT (LAB)
-//    Spinner
-
-
-//    etOROfficeRoomPhotograph
-//            spinnerROfficeRoomPhotograph
-
-
     private lateinit var Academicadapter: AcademicAreaAdapter
     private var centersList = mutableListOf<wrappedList>()
 
@@ -122,8 +111,6 @@ class TrainingFragment : Fragment() {
     private lateinit var lin_theory_cum_domain_lab: LinearLayout
     private lateinit var lin_theory_class_room: LinearLayout
 
-
-
     private lateinit var AcsdemicSpinner: Spinner
     private lateinit var spinnerITLTypeofRoofItLab: Spinner
     private lateinit var spinnerITLSoundLevelAsPerSpecifications: Spinner
@@ -143,7 +130,7 @@ class TrainingFragment : Fragment() {
 //    private lateinit var etITLTypeofRoofItLab: TextInputEditText
     private lateinit var etITLHeightOfCelling: TextInputEditText
     private lateinit var etITLVentilationAreaInSqFt: TextInputEditText
-//    private lateinit var etITLSoundLevelAsPerSpecifications: TextInputEditText
+    //    private lateinit var etITLSoundLevelAsPerSpecifications: TextInputEditText
     private lateinit var etITLSoundLevelInDb: TextInputEditText
     private lateinit var etITLLanEnabledComputersInNo: TextInputEditText
     private lateinit var etITLTablets: TextInputEditText
@@ -200,8 +187,6 @@ class TrainingFragment : Fragment() {
     //      Button
 
 
-    //            Office Cum(Counselling room)
-////    Spinner
 //    private lateinit var spinnerOCCROfficeTable: Spinner
 
     private lateinit var spinnerOCCROfficeTable: Spinner
@@ -213,7 +198,7 @@ class TrainingFragment : Fragment() {
     private lateinit var spinnerOfficeCumTableOfofficeCumpter: Spinner
     //    //    TextInputEditText
     private lateinit var etOfficeCumHeightOfCelling: TextInputEditText
-//    private lateinit var etOfficeCumSplaceforSecuringDoc: TextInputEditText
+    //    private lateinit var etOfficeCumSplaceforSecuringDoc: TextInputEditText
     private lateinit var etOfficeCumAnOfficeTableNo: TextInputEditText
     private lateinit var etOfficeCumChairs: TextInputEditText
     private lateinit var etOfficeCumPrinterCumScannerInNo: TextInputEditText
@@ -263,7 +248,7 @@ class TrainingFragment : Fragment() {
 //    private lateinit var etOROfficeRoomPhotograph: TextInputEditText
 //    private lateinit var etORTypeofRoofItLab: TextInputEditText
     private lateinit var etORHeightOfCelling: TextInputEditText
-//    private lateinit var etORSplaceforSecuringDoc: TextInputEditText
+    //    private lateinit var etORSplaceforSecuringDoc: TextInputEditText
     private lateinit var etORAnOfficeTableNo: TextInputEditText
     private lateinit var etORChairs: TextInputEditText
     private lateinit var etORPrinterCumScannerInNo: TextInputEditText
@@ -279,11 +264,6 @@ class TrainingFragment : Fragment() {
     private lateinit var spinnerORFalseCellingProvide: Spinner
     private lateinit var spinnerORTableOfofficeCumpter: Spinner
     private lateinit var spinnerORPOEPBFTR: Spinner
-
-
-
-
-
 
     //    ////    ImageViewBase64
     private var base64ProofPreviewOROfficeRoomORPhotograph: String? = null
@@ -315,27 +295,22 @@ class TrainingFragment : Fragment() {
 
 //    IT COME DOMAIN LAB
 
-
-
-
     //      TextInputEditText
 //    private lateinit var etITCDLTypeofRoofItLab: TextInputEditText
 //    private lateinit var etITCDLFalseCellingProvide: TextInputEditText
     private lateinit var etITCDLHeightOfCelling: TextInputEditText
     private lateinit var etITCDLVentilationAreaInSqFt: TextInputEditText
-//    private lateinit var etITCDLSoundLevelAsPerSpecifications: TextInputEditText
+    //    private lateinit var etITCDLSoundLevelAsPerSpecifications: TextInputEditText
     private lateinit var etITCDLabSoundLevelInDb: TextInputEditText
     private lateinit var etITCDLLanEnabledComputersInNo: TextInputEditText
     private lateinit var etITCDLTablets: TextInputEditText
     private lateinit var etITCDLStoolsChairs: TextInputEditText
     private lateinit var etITCDLLightsInNo: TextInputEditText
     private lateinit var etITCDLFansInNo: TextInputEditText
-//    private lateinit var etITCDLItLabPhotograph: TextInputEditText
+    //    private lateinit var etITCDLItLabPhotograph: TextInputEditText
     private lateinit var etITCDLListofDomain: TextInputEditText
 
     //    Spinner
-
-
 
     private lateinit var spinnerITCDLSoundLevelAsPerSpecifications: Spinner
     private lateinit var spinnerITCDLItLabPhotograph: Spinner
@@ -376,14 +351,6 @@ class TrainingFragment : Fragment() {
     private var base64ProofITCDLListofDomain: String? = null
     private var base64ProofITCDLDoes_the_room_has: String? = null
 
-
-
-
-
-
-
-
-
     //////    ImageView
     private lateinit var ivPreviewITCDLTypeofRoofItLab: ImageView
     private lateinit var ivPreviewITCDLFalseCellingProvide: ImageView
@@ -408,31 +375,23 @@ class TrainingFragment : Fragment() {
     private lateinit var ivPreviewITCDLListofDomain: ImageView
     private lateinit var ivPreviewITCDLDoes_the_room_has: ImageView
 
-
-//         Theory Cum IT Lab Lab
-//btnSubmitTCIL
-
-
-
     //      TextInputEditText
     private lateinit var etTCILListofDomain: TextInputEditText
-//    private lateinit var etTCILTypeofRoofItLab: TextInputEditText
+    //    private lateinit var etTCILTypeofRoofItLab: TextInputEditText
 //    private lateinit var etTCILFalseCellingProvide: TextInputEditText
     private lateinit var etTCILHeightOfCelling: TextInputEditText
     private lateinit var etTCILVentilationAreaInSqFt: TextInputEditText
-//    private lateinit var etTCILSoundLevelAsPerSpecifications: TextInputEditText
+    //    private lateinit var etTCILSoundLevelAsPerSpecifications: TextInputEditText
     private lateinit var etTCILSoundLevelInDb: TextInputEditText
     private lateinit var etTCILLanEnabledComputersInNo: TextInputEditText
     private lateinit var etTCILTablets: TextInputEditText
     private lateinit var etTCILStoolsChairs: TextInputEditText
-//    private lateinit var etTCILTrainerChair: TextInputEditText
+    //    private lateinit var etTCILTrainerChair: TextInputEditText
 //    private lateinit var etTCILTrainerTable: TextInputEditText
     private lateinit var etTCILLightsInNo: TextInputEditText
     private lateinit var etTCILFansInNo: TextInputEditText
 //    private lateinit var etTCILTheoryCumItLabPhotogragh: TextInputEditText
     //    Spinner
-
-
 
     private lateinit var spinnerTCILITypeofRoofItLab: Spinner
     private lateinit var spinnerTCILFalseCellingProvide: Spinner
@@ -585,21 +544,18 @@ class TrainingFragment : Fragment() {
 //    private lateinit var etDLFalseCellingProvide: TextInputEditText
     private lateinit var etDLHeightOfCelling: TextInputEditText
     private lateinit var etDLVentilationAreaInSqFt: TextInputEditText
-//    private lateinit var etDLSoundLevelAsPerSpecifications: TextInputEditText
+    //    private lateinit var etDLSoundLevelAsPerSpecifications: TextInputEditText
     private lateinit var etDLSoundLevelInDb: TextInputEditText
     private lateinit var etDLwhether_all_the_academic: TextInputEditText
-//    private lateinit var etDLLcdDigitalProjector: TextInputEditText
+    //    private lateinit var etDLLcdDigitalProjector: TextInputEditText
     private lateinit var etDLChairForCandidatesInNo: TextInputEditText
-//    private lateinit var etDLTrainerChair: TextInputEditText
+    //    private lateinit var etDLTrainerChair: TextInputEditText
 //    private lateinit var etDLTrainerTable: TextInputEditText
 //    private lateinit var etDLWritingBoard: TextInputEditText
     private lateinit var etDLLightsInNo: TextInputEditText
     private lateinit var etDLListOfDomainLab: TextInputEditText
     private lateinit var etDLFansInNo: TextInputEditText
 //    private lateinit var etDLDomainLabPhotogragh: TextInputEditText
-
-
-
 //    Spinner
 
     private lateinit var spinnerDLDomainLabPhotogragh: Spinner
@@ -615,7 +571,7 @@ class TrainingFragment : Fragment() {
     private lateinit var spinnerDLCctcCamerasWithAudioFacility: Spinner
     private lateinit var spinnerDLElectricaPowerBackUp: Spinner
     private lateinit var spinnerDLwhether_all_the_academic: Spinner
-//    private lateinit var spinnerDLListofDomain: Spinner
+    //    private lateinit var spinnerDLListofDomain: Spinner
     private lateinit var spinnerDLDoes_the_room_has: Spinner
 
     //    ////    ImageViewBase64
@@ -672,25 +628,19 @@ class TrainingFragment : Fragment() {
 //    private lateinit var etTCRFalseCellingProvide: TextInputEditText
     private lateinit var etTCRHeightOfCelling: TextInputEditText
     private lateinit var etTCRVentilationAreaInSqFt: TextInputEditText
-//    private lateinit var etTCRSoundLevelAsPerSpecifications: TextInputEditText
+    //    private lateinit var etTCRSoundLevelAsPerSpecifications: TextInputEditText
     private lateinit var etTCRSoundLevelInDb: TextInputEditText
     //    private lateinit var ivPreviewTCRAcademicRoomInformationBoard: TextInputEditText
 //    private lateinit var etTCRLcdDigitalProjector: TextInputEditText
     private lateinit var lcd_digital_projector: TextInputEditText
     private lateinit var etTCRChairForCandidatesInNo: TextInputEditText
-//    private lateinit var etTCRTrainerChair: TextInputEditText
+    //    private lateinit var etTCRTrainerChair: TextInputEditText
 //    private lateinit var etTCRTrainerTable: TextInputEditText
 //    private lateinit var etTCRWritingBoard: TextInputEditText
     private lateinit var etTCRLightsInNo: TextInputEditText
     private lateinit var etTCRFansInNo: TextInputEditText
 //    private lateinit var etTCRDomainLabPhotogragh: TextInputEditText
 //    Spinner
-
-
-
-
-
-
     private lateinit var spinnerTCRTypeofRoofItLab: Spinner
     private lateinit var spinnerTCRFalseCellingProvide: Spinner
     private lateinit var spinnerTCRSoundLevelAsPerSpecifications: Spinner
@@ -749,13 +699,6 @@ class TrainingFragment : Fragment() {
     private lateinit var ivPreviewTCRElectricaPowerBackUpForThRoom: ImageView
     private lateinit var ivPreviewTCRDomainLabPhotogragh: ImageView
     private lateinit var ivPreviewTCRDoes_the_room_has: ImageView
-
-
-
-
-
-
-
 
     private lateinit var binding:  FragmentTrainingBinding
 
@@ -1006,16 +949,7 @@ class TrainingFragment : Fragment() {
 
 //        Reception Area   Ajit Ranjan
         (R.id.btnReceptionAreaPhotogragh to "btnReceptionAreaPhotogragh"),
-
-
-
         (R.id.btnCounsellingRoomAreaPhotograph to "btnCounsellingRoomAreaPhotograph"),
-
-
-
-
-
-
 //        Office  Room  Ajit Ranjan
 
         (R.id.btnOROfficeRoomPhotograph to "btnOROfficeRoomPhotograph"),
@@ -1126,11 +1060,6 @@ class TrainingFragment : Fragment() {
         (R.id.btnDLDomainLabPhotogragh to "btnDLDomainLabPhotogragh"),
         (R.id.btnDLDoes_the_room_has to "btnDLDoes_the_room_has"),
 
-
-
-
-
-
         (R.id.btnTCRTypeofRoofItLab to "btnTCRTypeofRoofItLab"),
         (R.id.btnTCRFalseCellingProvide to "btnTCRFalseCellingProvide"),
         (R.id.btnTCRHeightOfCelling to "btnTCRHeightOfCelling"),
@@ -1139,9 +1068,6 @@ class TrainingFragment : Fragment() {
         (R.id.btnTCRwhether_all_the_academic to "btnTCRwhether_all_the_academic"),
         (R.id.btnTCRAcademicRoomInformationBoard to "btnTCRAcademicRoomInformationBoard"),
         (R.id.btnTCRCctcCamerasWithAudioFacility to "btnTCRCctcCamerasWithAudioFacility"),
-
-
-
 
         // CCTV
         (R.id.btnUploadMonitorPhoto to "monitor"),
@@ -1240,15 +1166,7 @@ class TrainingFragment : Fragment() {
 //        Reception Area   Ajit Ranjan
         (R.id.btnReceptionAreaPhotogragh to "btnReceptionAreaPhotogragh"),
 
-
-
         (R.id.btnCounsellingRoomAreaPhotograph to "btnCounsellingRoomAreaPhotograph"),
-
-
-
-
-
-
 //        Office  Room  Ajit Ranjan
 
         (R.id.btnOROfficeRoomPhotograph to "btnOROfficeRoomPhotograph"),
@@ -1359,11 +1277,6 @@ class TrainingFragment : Fragment() {
         (R.id.btnDLDomainLabPhotogragh to "btnDLDomainLabPhotogragh"),
         (R.id.btnDLDoes_the_room_has to "btnDLDoes_the_room_has"),
 
-
-
-
-
-
         (R.id.btnTCRTypeofRoofItLab to "btnTCRTypeofRoofItLab"),
         (R.id.btnTCRFalseCellingProvide to "btnTCRFalseCellingProvide"),
         (R.id.btnTCRHeightOfCelling to "btnTCRHeightOfCelling"),
@@ -1384,9 +1297,6 @@ class TrainingFragment : Fragment() {
         (R.id.btnTCRDomainLabPhotogragh to "btnTCRDomainLabPhotogragh"),
         (R.id.btnTCRDoes_the_room_has to "btnTCRDoes_the_room_has"),
         (R.id.btnTCRInternalSignage to "btnTCRInternalSignage"),
-
-
-
 
         )
 
@@ -1417,1152 +1327,229 @@ class TrainingFragment : Fragment() {
             }
         }
 
+    private fun setPhotoPreview(
+        iv: ImageView,
+        base64Setter: (String) -> Unit,
+        uri: Uri
+    ) {
+        iv.setImageURI(uri)
+        iv.visibility = View.VISIBLE
+        AppUtil.imageUriToBase64(requireContext(), uri)?.let { base64Setter(it) }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
-
-
-
-        cameraLauncher =
-            registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-                if (success) {
-                    Log.d("Camera", "Captured image URI: $photoUri")
-                    when (currentPhotoTarget) {
-                        "monitor" -> {
-
-                            ivMonitorPreview.setImageURI(photoUri)
-                            ivMonitorPreview.visibility = View.VISIBLE
-                            base64MonitorFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+        cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            if (success) {
+                Log.d("Camera", "Captured image URI: $photoUri")
+                when (currentPhotoTarget) {
+                    "monitor" -> setPhotoPreview(ivMonitorPreview, { base64MonitorFile = it }, photoUri)
+                    "conformance" -> setPhotoPreview(ivConformancePreview, { base64ConformanceFile = it }, photoUri)
+                    "storage" -> setPhotoPreview(ivStoragePreview, { base64StorageFile = it }, photoUri)
+                    "dvr" -> setPhotoPreview(ivDVRPreview, { base64DVRFile = it }, photoUri)
+                    "switchBoard" -> setPhotoPreview(ivSwitchBoardPreview, { base64SwitchBoardImage = it }, photoUri)
+                    "WireSecurity" -> setPhotoPreview(ivWireSecurityPreview, { base64WireSecurityImage = it }, photoUri)
+                    "leakage" -> setPhotoPreview(ivLeakagePreview, { base64LeakageImage = it }, photoUri)
+                    "stairs" -> setPhotoPreview(ivStairsPreview, { base64StairsImage = it }, photoUri)
+                    "tcNameBoard" -> setPhotoPreview(ivTcNameBoardPreview, { base64TcNameBoardImage = it }, photoUri)
+                    "activityAchievementBoard" -> setPhotoPreview(ivActivityAchievementBoardPreview, { base64ActivityAchievementBoardImage = it }, photoUri)
+                    "studentEntitlementBoard" -> setPhotoPreview(ivStudentEntitlementBoardPreview, { base64StudentEntitlementBoardImage = it }, photoUri)
+                    "contactDetailBoard" -> setPhotoPreview(ivContactDetailBoardPreview, { base64ContactDetailBoardImage = it }, photoUri)
+                    "basicInfoBoard" -> setPhotoPreview(ivBasicInfoBoardPreview, { base64BasicInfoBoardImage = it }, photoUri)
+                    "codeConductBoard" -> setPhotoPreview(ivCodeConductBoardPreview, { base64CodeConductBoardImage = it }, photoUri)
+                    "studentAttendanceBoard" -> setPhotoPreview(ivStudentAttendanceBoardPreview, { base64StudentAttendanceBoardImage = it }, photoUri)
+                    "SafeDrinkingWater" -> setPhotoPreview(ivSafeDrinkingWaterPreview, { base64SafeDrinkingWater = it }, photoUri)
+                    "FireFightingEquipment" -> setPhotoPreview(ivFireFightingEquipmentPreview, { base64FireFightingEquipment = it }, photoUri)
+                    "FirstAidKit" -> setPhotoPreview(ivFirstAidKitPreview, { base64FirstAidKit = it }, photoUri)
+                    "powerBackup" -> setPhotoPreview(ivPowerBackupPreview, { base64PowerBackupImage = it }, photoUri)
+                    "biometricDevices" -> setPhotoPreview(ivBiometricDevicesPreview, { base64BiometricDevices = it }, photoUri)
+                    "cctv" -> setPhotoPreview(ivCCTVPreview, { base64CCTVImage = it }, photoUri)
+                    "documentStorage" -> setPhotoPreview(ivDocumentStoragePreview, { base64DocumentStorageImage = it }, photoUri)
+                    "printerScanner" -> setPhotoPreview(ivPrinterScannerPreview, { base64PrinterScanner = it }, photoUri)
+                    "digitalCamera" -> setPhotoPreview(ivDigitalCameraPreview, { base64DigitalCamera = it }, photoUri)
+                    "grievanceRegister" -> setPhotoPreview(ivGrievanceRegisterPreview, { base64GrievanceRegisterImage = it }, photoUri)
+                    "minimumEquipment" -> setPhotoPreview(ivMinimumEquipmentPreview, { base64MinimumEquipmentImage = it }, photoUri)
+                    "directionBoards" -> setPhotoPreview(ivDirectionBoardsPreview, { base64DirectionBoardsImage = it }, photoUri)
+                    "maleToiletsProof" -> {
+                        try {
+                            setPhotoPreview(ivPreviewMaleToiletsProof, { base64ProofMaleToilets = it }, photoUri)
+                        } catch (e: Exception) {
+                            Log.e("ImagePreview", "Error in maleToiletsProof", e)
                         }
-
-                        "conformance" -> {
-
-                            ivConformancePreview.setImageURI(photoUri)
-                            ivConformancePreview.visibility = View.VISIBLE
-                            base64ConformanceFile =
-                                AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "storage" -> {
-
-                            ivStoragePreview.setImageURI(photoUri)
-                            ivStoragePreview.visibility = View.VISIBLE
-                            base64StorageFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "dvr" -> {
-
-                            ivDVRPreview.setImageURI(photoUri)
-                            ivDVRPreview.visibility = View.VISIBLE
-                            base64DVRFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "switchBoard" -> {
-
-                            ivSwitchBoardPreview.setImageURI(photoUri)
-                            ivSwitchBoardPreview.visibility = View.VISIBLE
-                            base64SwitchBoardImage =
-                                AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "WireSecurity" -> {
-
-                            ivWireSecurityPreview.setImageURI(photoUri)
-                            ivWireSecurityPreview.visibility = View.VISIBLE
-                            base64WireSecurityImage =
-                                AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "leakage" -> {
-
-                            ivLeakagePreview.setImageURI(photoUri)
-                            ivLeakagePreview.visibility = View.VISIBLE
-                            base64LeakageImage =
-                                AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "stairs" -> {
-                            ivStairsPreview.setImageURI(photoUri)
-                            ivStairsPreview.visibility = View.VISIBLE
-                            base64StairsImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "tcNameBoard" -> {
-
-                            ivTcNameBoardPreview.setImageURI(photoUri)
-                            ivTcNameBoardPreview.visibility = View.VISIBLE
-                            base64TcNameBoardImage =
-                                AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "activityAchievementBoard" -> {
-
-                            ivActivityAchievementBoardPreview.setImageURI(photoUri)
-                            ivActivityAchievementBoardPreview.visibility = View.VISIBLE
-                            base64ActivityAchievementBoardImage =
-                                AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "studentEntitlementBoard" -> {
-
-                            ivStudentEntitlementBoardPreview.setImageURI(photoUri)
-                            ivStudentEntitlementBoardPreview.visibility = View.VISIBLE
-                            base64StudentEntitlementBoardImage =
-                                AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "contactDetailBoard" -> {
-
-                            ivContactDetailBoardPreview.setImageURI(photoUri)
-                            ivContactDetailBoardPreview.visibility = View.VISIBLE
-                            base64ContactDetailBoardImage =
-                                AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "basicInfoBoard" -> {
-
-                            ivBasicInfoBoardPreview.setImageURI(photoUri)
-                            ivBasicInfoBoardPreview.visibility = View.VISIBLE
-                            base64BasicInfoBoardImage =
-                                AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "codeConductBoard" -> {
-
-                            ivCodeConductBoardPreview.setImageURI(photoUri)
-                            ivCodeConductBoardPreview.visibility = View.VISIBLE
-                            base64CodeConductBoardImage =
-                                AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "studentAttendanceBoard" -> {
-
-                            ivStudentAttendanceBoardPreview.setImageURI(photoUri)
-                            ivStudentAttendanceBoardPreview.visibility = View.VISIBLE
-                            base64StudentAttendanceBoardImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "SafeDrinkingWater" -> {
-
-                            ivSafeDrinkingWaterPreview.setImageURI(photoUri)
-                            ivSafeDrinkingWaterPreview.visibility = View.VISIBLE
-                            base64SafeDrinkingWater = AppUtil.imageUriToBase64(context = requireContext(), photoUri)
-                        }
-
-                        "FireFightingEquipment" -> {
-
-                            ivFireFightingEquipmentPreview.setImageURI(photoUri)
-                            ivFireFightingEquipmentPreview.visibility = View.VISIBLE
-                            base64FireFightingEquipment =
-                                AppUtil.imageUriToBase64(context = requireContext(), photoUri)
-                        }
-
-                        "FirstAidKit" -> {
-
-                            ivFirstAidKitPreview.setImageURI(photoUri)
-                            ivFirstAidKitPreview.visibility = View.VISIBLE
-                            base64FirstAidKit = AppUtil.imageUriToBase64(context = requireContext(), photoUri)
-                        }
-                        "powerBackup" -> {
-
-                            ivPowerBackupPreview.setImageURI(photoUri)
-                            ivPowerBackupPreview.visibility = View.VISIBLE
-                            base64PowerBackupImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "biometricDevices" -> {
-
-                            ivBiometricDevicesPreview.setImageURI(photoUri)
-                            ivBiometricDevicesPreview.visibility = View.VISIBLE
-                            base64BiometricDevices = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "cctv" -> {
-
-                            ivCCTVPreview.setImageURI(photoUri)
-                            ivCCTVPreview.visibility = View.VISIBLE
-                            base64CCTVImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "documentStorage" -> {
-
-                            ivDocumentStoragePreview.setImageURI(photoUri)
-                            ivDocumentStoragePreview.visibility = View.VISIBLE
-                            base64DocumentStorageImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "printerScanner" -> {
-
-                            ivPrinterScannerPreview.setImageURI(photoUri)
-                            ivPrinterScannerPreview.visibility = View.VISIBLE
-                            base64PrinterScanner = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "digitalCamera" -> {
-
-                            ivDigitalCameraPreview.setImageURI(photoUri)
-                            ivDigitalCameraPreview.visibility = View.VISIBLE
-                            base64DigitalCamera = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "grievanceRegister" -> {
-
-                            ivGrievanceRegisterPreview.setImageURI(photoUri)
-                            ivGrievanceRegisterPreview.visibility = View.VISIBLE
-                            base64GrievanceRegisterImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "minimumEquipment" -> {
-
-                            ivMinimumEquipmentPreview.setImageURI(photoUri)
-                            ivMinimumEquipmentPreview.visibility = View.VISIBLE
-                            base64MinimumEquipmentImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "directionBoards" -> {
-
-                            ivDirectionBoardsPreview.setImageURI(photoUri)
-                            ivDirectionBoardsPreview.visibility = View.VISIBLE
-                            base64DirectionBoardsImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "maleToiletsProof" -> {
-
-                            try{
-                                ivPreviewMaleToiletsProof.setImageURI(photoUri)
-                                ivPreviewMaleToiletsProof.visibility = View.VISIBLE
-                                base64ProofMaleToilets = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                            }catch (e: Exception){
-                                Log.e("ImagePreview", "Error in maleToiletsProof", e)
-                            }
-
-                        }
-                        "maleToiletsSignageProof" -> {
-
-                            ivPreviewMaleToiletsSignageProof.setImageURI(photoUri)
-                            ivPreviewMaleToiletsSignageProof.visibility = View.VISIBLE
-                            base64ProofMaleToiletsSignage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "femaleToiletsProof" -> {
-
-                            ivPreviewFemaleToiletsProof.setImageURI(photoUri)
-                            ivPreviewFemaleToiletsProof.visibility = View.VISIBLE
-                            base64ProofFemaleToilets = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "femaleToiletsSignageProof" -> {
-
-                            ivPreviewFemaleToiletsSignageProof.setImageURI(photoUri)
-                            ivPreviewFemaleToiletsSignageProof.visibility = View.VISIBLE
-                            base64ProofFemaleToiletsSignage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "maleUrinalsProof" -> {
-
-                            ivPreviewMaleUrinalsProof.setImageURI(photoUri)
-                            ivPreviewMaleUrinalsProof.visibility = View.VISIBLE
-                            base64ProofMaleUrinals = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "maleWashBasinsProof" -> {
-
-                            ivPreviewMaleWashBasinsProof.setImageURI(photoUri)
-                            ivPreviewMaleWashBasinsProof.visibility = View.VISIBLE
-                            base64ProofMaleWashBasins = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "femaleWashBasinsProof" -> {
-                            AppUtil.hideKeyboard(requireContext(), requireView())
-                            ivPreviewFemaleWashBasinsProof.setImageURI(photoUri)
-                            ivPreviewFemaleWashBasinsProof.visibility = View.VISIBLE
-                            base64ProofFemaleWashBasins = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "overheadTanksProof" -> {
-
-                            ivPreviewOverheadTanksProof.setImageURI(photoUri)
-                            ivPreviewOverheadTanksProof.visibility = View.VISIBLE
-                            base64ProofOverheadTanks = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "flooringProof" -> {
-
-                            ivPreviewFlooringProof.setImageURI(photoUri)
-                            ivPreviewFlooringProof.visibility = View.VISIBLE
-                            base64ProofFlooring = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "proofUpload" -> {
-
-                            ivProofPreview.setImageURI(photoUri)
-                            ivProofPreview.visibility = View.VISIBLE
-                            base64ProofUploadImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "circulationProof" -> {
-
-                            ivCirculationProofPreview.setImageURI(photoUri)
-                            ivCirculationProofPreview.visibility = View.VISIBLE
-                            base64CirculationProofImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "openSpaceProof" -> {
-
-                            ivOpenSpaceProofPreview.setImageURI(photoUri)
-                            ivOpenSpaceProofPreview.visibility = View.VISIBLE
-                            base64penSpaceProofImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                            // Consider renaming base64penSpaceProofImage to base64OpenSpaceProofImage for clarity
-                        }
-
-                        "parking" -> {
-
-                            ivParkingProofPreview.setImageURI(photoUri)
-                            ivParkingProofPreview.visibility = View.VISIBLE
-                            base64ParkingSpaceProofImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-
-
-
-
-
-//                        Ajit Rnanjan Create page
-//                            IT(LAB)
-
-                        "itltypeofroofitlab" -> {
-
-                            ivPreviewITLTypeofRoofItLab.setImageURI(photoUri)
-                            ivPreviewITLTypeofRoofItLab.visibility = View.VISIBLE
-                            base64ProofPreviewITLTypeofRoofItLab = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "itlfalsecellingprovide" -> {
-                            ivPreviewITLFalseCellingProvide.setImageURI(photoUri)
-                            ivPreviewITLFalseCellingProvide.visibility = View.VISIBLE
-                            base64ProofITLFalseCellingProvide = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "itlheightofcelling" -> {
-                            ivPreviewITLHeightOfCelling.setImageURI(photoUri)
-                            ivPreviewITLHeightOfCelling.visibility = View.VISIBLE
-                            base64ProofITLHeightOfCelling = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "itlventilationareainsqft" -> {
-                            ivPreviewITLVentilationAreaInSqFt.setImageURI(photoUri)
-                            ivPreviewITLVentilationAreaInSqFt.visibility = View.VISIBLE
-                            base64ProofITLVentilationAreaInSqFt = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itlsoundlevelasperspecifications" -> {
-                            ivPreviewITLSoundLevelAsPerSpecifications.setImageURI(photoUri)
-                            ivPreviewITLSoundLevelAsPerSpecifications.visibility = View.VISIBLE
-                            base64ProofITLSoundLevelAsPerSpecifications = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itlsoundlevelindb" -> {
-                            ivPreviewITLSoundLevelInDb.setImageURI(photoUri)
-                            ivPreviewITLSoundLevelInDb.visibility = View.VISIBLE
-                            base64ProofITLSoundLevelInDb = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itlwhether_all_the_academic" -> {
-                            ivPreviewITLwhether_all_the_academic.setImageURI(photoUri)
-                            ivPreviewITLwhether_all_the_academic.visibility = View.VISIBLE
-                            base64ProofITLwhether_all_the_academic = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itlacadmicroominformationboard" -> {
-                            ivPreviewITLAcademicRoomInformationBoard.setImageURI(photoUri)
-                            ivPreviewITLAcademicRoomInformationBoard.visibility = View.VISIBLE
-                            base64ProofITLAcademicRoomInformationBoard = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itlinternalsignage" -> {
-                            ivPreviewITLInternalSignage.setImageURI(photoUri)
-                            ivPreviewITLInternalSignage.visibility = View.VISIBLE
-                            base64ProofITLInternalSignage = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itlcctccameraswithaudiofacility" -> {
-                            ivPreviewITLCctcCamerasWithAudioFacility.setImageURI(photoUri)
-                            ivPreviewITLCctcCamerasWithAudioFacility.visibility = View.VISIBLE
-                            base64ProofITLCctcCamerasWithAudioFacility = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itllanenabledcomputersinno" -> {
-                            ivPreviewITLLanEnabledComputersInNo.setImageURI(photoUri)
-                            ivPreviewITLLanEnabledComputersInNo.visibility = View.VISIBLE
-                            base64ProofITLLanEnabledComputersInNo = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itlinternetconnections" -> {
-                            ivPreviewITLInternetConnections.setImageURI(photoUri)
-                            ivPreviewITLInternetConnections.visibility = View.VISIBLE
-                            base64ProofITLInternetConnections = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itldoallcomputershavetypingtutor" -> {
-                            ivPreviewITLDoAllComputersHaveTypingTutor.setImageURI(photoUri)
-                            ivPreviewITLDoAllComputersHaveTypingTutor.visibility = View.VISIBLE
-                            base64ProofITLDoAllComputersHaveTypingTutor = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "itltablets" -> {
-                            ivPreviewITLTablets.setImageURI(photoUri)
-                            ivPreviewITLTablets.visibility = View.VISIBLE
-                            base64ProofITLTablets = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "itlstoolschairs" -> {
-                            ivPreviewITLStoolsChairs.setImageURI(photoUri)
-                            ivPreviewITLStoolsChairs.visibility = View.VISIBLE
-                            base64ProofITLStoolsChairs = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "itltrainerchair" -> {
-                            ivPreviewITLTrainerChair.setImageURI(photoUri)
-                            ivPreviewITLTrainerChair.visibility = View.VISIBLE
-                            base64ProofITLTrainerChair = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "itltrainertable" -> {
-                            ivPreviewITLTrainerTable.setImageURI(photoUri)
-                            ivPreviewITLTrainerTable.visibility = View.VISIBLE
-                            base64ProofITLTrainerTable = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itllightsinno" -> {
-                            ivPreviewITLLightsInNo.setImageURI(photoUri)
-                            ivPreviewITLLightsInNo.visibility = View.VISIBLE
-                            base64ProofITLLightsInNo = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itlfansinno" -> {
-                            ivPreviewITLFansInNo.setImageURI(photoUri)
-                            ivPreviewITLFansInNo.visibility = View.VISIBLE
-                            base64ProofITLFansInNo = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itlelectricapowerbackupforthroom" -> {
-                            ivPreviewITLElectricaPowerBackUpForThRoom.setImageURI(photoUri)
-                            ivPreviewITLElectricaPowerBackUpForThRoom.visibility = View.VISIBLE
-                            base64ProofITLElectricaPowerBackUpForThRoom = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itlitlabphotograph" -> {
-                            ivPreviewITLItLabPhotograph.setImageURI(photoUri)
-                            ivPreviewITLItLabPhotograph.visibility = View.VISIBLE
-                            base64ProofITLItLabPhotograph = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "itlldoes_the_room_has" -> {
-                            ivPreviewITLDoes_the_room_has.setImageURI(photoUri)
-                            ivPreviewITLDoes_the_room_has.visibility = View.VISIBLE
-                            base64ProofITLDoes_the_room_has = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-//                           Office Cum(Counselling room)
-
-
-                        "btnuploadofficeroomphotograph" -> {
-                            ivPreviewOfficeRoomPhotograph.setImageURI(photoUri)
-                            ivPreviewOfficeRoomPhotograph.visibility = View.VISIBLE
-                            base64ProofPreviewOfficeRoomPhotograph = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "btnuploadofficecumtypeofroofitlab" -> {
-                            ivPreviewOfficeCumTypeofRoofItLab.setImageURI(photoUri)
-                            ivPreviewOfficeCumTypeofRoofItLab.visibility = View.VISIBLE
-                            base64ProofOfficeCumTypeofRoofItLab = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "btnofficecumfalsecellingprovide" -> {
-                            ivPreviewOfficeCumFalseCellingProvide.setImageURI(photoUri)
-                            ivPreviewOfficeCumFalseCellingProvide.visibility = View.VISIBLE
-                            base64ProofOfficeCumFalseCellingProvide = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "btnofficecumheightofcelling" -> {
-                            ivPreviewOfficeCumHeightOfCelling.setImageURI(photoUri)
-                            ivPreviewOfficeCumHeightOfCelling.visibility = View.VISIBLE
-                            base64ProofOfficeCumHeightOfCelling = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "btnofficecumsplaceforsecuringdoc" -> {
-                            ivPreviewOfficeCumSplaceforSecuringDoc.setImageURI(photoUri)
-                            ivPreviewOfficeCumSplaceforSecuringDoc.visibility = View.VISIBLE
-                            base64ProofOfficeCumSplaceforSecuringDoc = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnUploadOCCROfficeTable" -> {
-                            ivPreviewOCCROfficeTable.setImageURI(photoUri)
-                            ivPreviewOCCROfficeTable.visibility = View.VISIBLE
-                            base64ProofOCCROfficeTable = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-
-                        "btnofficecumanofficetableno" -> {
-                            ivPreviewOfficeCumAnOfficeTableNo.setImageURI(photoUri)
-                            ivPreviewOfficeCumAnOfficeTableNo.visibility = View.VISIBLE
-                            base64ProofOfficeCumAnOfficeTableNo = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnofficecumchairs" -> {
-                            ivPreviewOfficeCumChairs.setImageURI(photoUri)
-                            ivPreviewOfficeCumChairs.visibility = View.VISIBLE
-                            base64ProofOfficeCumChairs = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnofficecumtableofofficecumpter" -> {
-                            ivPreviewOfficeCumTableOfofficeCumpter.setImageURI(photoUri)
-                            ivPreviewOfficeCumTableOfofficeCumpter.visibility = View.VISIBLE
-                            base64ProofOfficeCumTableOfofficeCumpter = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnofficecumprintercumscannerinno" -> {
-                            ivPreviewOfficeCumPrinterCumScannerInNo.setImageURI(photoUri)
-                            ivPreviewOfficeCumPrinterCumScannerInNo.visibility = View.VISIBLE
-                            base64ProofOfficeCumPrinterCumScannerInNo = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnofficecumdigitalcamerainno" -> {
-                            ivPreviewOfficeCumDigitalCameraInNo.setImageURI(photoUri)
-                            ivPreviewOfficeCumDigitalCameraInNo.visibility = View.VISIBLE
-                            base64ProofOfficeCumDigitalCameraInNo = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnofficecumelectricialpowerbackup" -> {
-                            ivPreviewOfficeCumElectricialPowerBackup.setImageURI(photoUri)
-                            ivPreviewOfficeCumElectricialPowerBackup.visibility = View.VISIBLE
-                            base64ProofOfficeCumElectricialPowerBackup = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-//                        ReceptionArea
-                        "btnReceptionAreaPhotogragh" -> {
-                            ivPreviewReceptionAreaPhotogragh.setImageURI(photoUri)
-                            ivPreviewReceptionAreaPhotogragh.visibility = View.VISIBLE
-                            base64ProofPreviewReceptionAreaPhotogragh = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnCounsellingRoomAreaPhotograph" -> {
-                            ivPreviewCounsellingRoomAreaPhotograph.setImageURI(photoUri)
-                            ivPreviewCounsellingRoomAreaPhotograph.visibility = View.VISIBLE
-                            base64ProofPreviewCounsellingRoomPhotogragh = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-
-
-
-
-//                        Office Room
-                        "btnOROfficeRoomPhotograph" -> {
-                            ivPreviewOROfficeRoomPhotograph.setImageURI(photoUri)
-                            ivPreviewOROfficeRoomPhotograph.visibility = View.VISIBLE
-                            base64ProofPreviewOROfficeRoomORPhotograph = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnORTypeofRoofItLab" -> {
-                            ivPreviewORTypeofRoofItLab.setImageURI(photoUri)
-                            ivPreviewORTypeofRoofItLab.visibility = View.VISIBLE
-                            base64ProofORTypeofRoofItLab = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnORFalseCellingProvide" -> {
-                            ivPreviewORFalseCellingProvide.setImageURI(photoUri)
-                            ivPreviewORFalseCellingProvide.visibility = View.VISIBLE
-                            base64ProofORFalseCellingProvide = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnORHeightOfCelling" -> {
-                            ivPreviewORHeightOfCelling.setImageURI(photoUri)
-                            ivPreviewORHeightOfCelling.visibility = View.VISIBLE
-                            base64ProofORHeightOfCelling = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnORSplaceforSecuringDoc" -> {
-                            ivPreviewORSplaceforSecuringDoc.setImageURI(photoUri)
-                            ivPreviewORSplaceforSecuringDoc.visibility = View.VISIBLE
-                            base64ProofORSplaceforSecuringDoc = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnORAnOfficeTableNo" -> {
-                            ivPreviewORAnOfficeTableNo.setImageURI(photoUri)
-                            ivPreviewORAnOfficeTableNo.visibility = View.VISIBLE
-                            base64ProofORAnOfficeTableNo = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnORChairs" -> {
-                            ivPreviewORChairs.setImageURI(photoUri)
-                            ivPreviewORChairs.visibility = View.VISIBLE
-                            base64ProofORChairs = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnORTableOfofficeCumpter" -> {
-                            ivPreviewORTableOfofficeCumpter.setImageURI(photoUri)
-                            ivPreviewORTableOfofficeCumpter.visibility = View.VISIBLE
-                            base64ProofORTableOfofficeCumpter = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "btnORPrinterCumScannerInNo" -> {
-                            ivPreviewORPrinterCumScannerInNo.setImageURI(photoUri)
-                            ivPreviewORPrinterCumScannerInNo.visibility = View.VISIBLE
-                            base64ProofORPrinterCumScannerInNo = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnORDigitalCameraInNo" -> {
-                            ivPreviewORDigitalCameraInNo.setImageURI(photoUri)
-                            ivPreviewORDigitalCameraInNo.visibility = View.VISIBLE
-                            base64ProofORDigitalCameraInNo = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnORElectricialPowerBackup" -> {
-                            ivPreviewORElectricialPowerBackup.setImageURI(photoUri)
-                            ivPreviewORElectricialPowerBackup.visibility = View.VISIBLE
-                            base64ProofORElectricialPowerBackup = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "btnITCDLTypeofRoofItLab"->{
-
-                            ivPreviewITCDLTypeofRoofItLab.setImageURI(photoUri)
-                            ivPreviewITCDLTypeofRoofItLab.visibility = View.VISIBLE
-                            base64ProofPreviewITCDLTypeofRoofItLab= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "btnITCDLFalseCellingProvide"->{
-
-                            ivPreviewITCDLFalseCellingProvide.setImageURI(photoUri)
-                            ivPreviewITCDLFalseCellingProvide.visibility = View.VISIBLE
-                            base64ProofITCDLFalseCellingProvide= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "btnITCDLHeightOfCelling"->{
-
-                            ivPreviewITCDLabHeightOfCelling.setImageURI(photoUri)
-                            ivPreviewITCDLabHeightOfCelling.visibility = View.VISIBLE
-                            base64ProofITCDLabHeightOfCelling= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLVentilationAreaInSqFt"->{
-
-                            ivPreviewITCDLVentilationAreaInSqFt.setImageURI(photoUri)
-                            ivPreviewITCDLVentilationAreaInSqFt.visibility = View.VISIBLE
-                            base64ProofITCDLVentilationAreaInSqFt= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLabSoundLevelInDb"->{
-
-                            ivPreviewITCDLabSoundLevelInDb.setImageURI(photoUri)
-                            ivPreviewITCDLabSoundLevelInDb.visibility = View.VISIBLE
-                            base64ProofITCDLabSoundLevelInDb= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITDLwhether_all_the_academic"->{
-
-                            ivPreviewITCDLwhether_all_the_academic.setImageURI(photoUri)
-                            ivPreviewITCDLwhether_all_the_academic.visibility = View.VISIBLE
-                            base64ProofITCDLwhether_all_the_academic= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLAcademicRoomInformationBoard"->{
-
-                            ivPreviewITCDLAcademicRoomInformationBoard.setImageURI(photoUri)
-                            ivPreviewITCDLAcademicRoomInformationBoard.visibility = View.VISIBLE
-                            base64ProofITCDLAcademicRoomInformationBoard= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLInternalSignage"->{
-
-                            ivPreviewITCDLInternalSignage.setImageURI(photoUri)
-                            ivPreviewITCDLInternalSignage.visibility = View.VISIBLE
-                            base64ProofITCDLInternalSignage= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLCctcCamerasWithAudioFacility"->{
-
-                            ivPreviewITCDLCctcCamerasWithAudioFacility.setImageURI(photoUri)
-                            ivPreviewITCDLCctcCamerasWithAudioFacility.visibility = View.VISIBLE
-                            base64ProofITCDLCctcCamerasWithAudioFacility= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLLanEnabledComputersInNo"->{
-
-                            ivPreviewITCDLLanEnabledComputersInNo.setImageURI(photoUri)
-                            ivPreviewITCDLLanEnabledComputersInNo.visibility = View.VISIBLE
-                            base64ProofITCDLLanEnabledComputersInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLInternetConnections"->{
-
-                            ivPreviewITCDLInternetConnections.setImageURI(photoUri)
-                            ivPreviewITCDLInternetConnections.visibility = View.VISIBLE
-                            base64ProofITCDLInternetConnections= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLTrainerChair"->{
-
-                            ivPreviewITCDLTrainerChair.setImageURI(photoUri)
-                            ivPreviewITCDLTrainerChair.visibility = View.VISIBLE
-                            base64ProofITCDLTrainerChair= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLTrainerTable"->{
-
-                            ivPreviewITCDLTrainerTable.setImageURI(photoUri)
-                            ivPreviewITCDLTrainerTable.visibility = View.VISIBLE
-                            base64ProofITCDLTrainerTable= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLLightsInNo"->{
-
-                            ivPreviewITCDLLightsInNo.setImageURI(photoUri)
-                            ivPreviewITCDLLightsInNo.visibility = View.VISIBLE
-                            base64ProofITCDLLightsInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLFansInNo"->{
-
-                            ivPreviewITCDLFansInNo.setImageURI(photoUri)
-                            ivPreviewITCDLFansInNo.visibility = View.VISIBLE
-                            base64ProofITCDLFansInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLElectricaPowerBackUpForThRoom"->{
-
-                            ivPreviewITCDLElectricaPowerBackUpForThRoom.setImageURI(photoUri)
-                            ivPreviewITCDLElectricaPowerBackUpForThRoom.visibility = View.VISIBLE
-                            base64ProofITCDLElectricaPowerBackUpForThRoom= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLItLabPhotograph"->{
-
-                            ivPreviewITCDLItLabPhotograph.setImageURI(photoUri)
-                            ivPreviewITCDLItLabPhotograph.visibility = View.VISIBLE
-                            base64ProofITCDLItLabPhotograph= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLListofDomain"->{
-
-                            ivPreviewITCDLListofDomain.setImageURI(photoUri)
-                            ivPreviewITCDLListofDomain.visibility = View.VISIBLE
-                            base64ProofITCDLListofDomain= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLDoes_the_room_has"->{
-
-                            ivPreviewITCDLDoes_the_room_has.setImageURI(photoUri)
-                            ivPreviewITCDLDoes_the_room_has.visibility = View.VISIBLE
-                            base64ProofITCDLDoes_the_room_has= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLTablets"->{
-
-                            ivPreviewITCDLTablets.setImageURI(photoUri)
-                            ivPreviewITCDLTablets.visibility = View.VISIBLE
-                            base64ProofITCDLTablets = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLDoAllComputersHaveTypingTutor"->{
-
-                            ivPreviewITCDLDoAllComputersHaveTypingTutor.setImageURI(photoUri)
-                            ivPreviewITCDLDoAllComputersHaveTypingTutor.visibility = View.VISIBLE
-                            base64ProofITCDLDoAllComputersHaveTypingTutor= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnITCDLStoolsChairs"->{
-
-                            ivPreviewITCDLStoolsChairs.setImageURI(photoUri)
-                            ivPreviewITCDLStoolsChairs.visibility = View.VISIBLE
-                            base64ProofITCDLStoolsChairs= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-
-
-
-
-
-
-
-
-                        "btnTCILListofDomain"->{
-                            ivPreviewTCILListofDomain.setImageURI(photoUri)
-                            ivPreviewTCILListofDomain.visibility = View.VISIBLE
-                            base64ProofPreviewTCILListofDomain= AppUtil.imageUriToBase64(requireContext(), photoUri)
-
-                        }
-                        "btnTCILTypeofRoofItLab"->{
-                            ivPreviewTCILTypeofRoofItLab.setImageURI(photoUri)
-                            ivPreviewTCILTypeofRoofItLab.visibility = View.VISIBLE
-                            base64ProofPreviewTCILTypeofRoofItLab= AppUtil.imageUriToBase64(requireContext(), photoUri)
-
-                        }
-                        "btnTCILFalseCellingProvide"->{
-                            ivPreviewTCILFalseCellingProvide.setImageURI(photoUri)
-                            ivPreviewTCILFalseCellingProvide.visibility = View.VISIBLE
-                            base64ProofPreviewTCILFalseCellingProvide= AppUtil.imageUriToBase64(requireContext(), photoUri)
-
-                        }
-                        "btnTCILFalseCellingProvide"->{
-                            ivPreviewTCILHeightOfCelling.setImageURI(photoUri)
-                            ivPreviewTCILHeightOfCelling.visibility = View.VISIBLE
-                            base64ProofPreviewTCILHeightOfCelling= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "btnTCILHeightOfCelling"->{
-                            ivPreviewTCILHeightOfCelling.setImageURI(photoUri)
-                            ivPreviewTCILHeightOfCelling.visibility = View.VISIBLE
-                            base64ProofPreviewTCILHeightOfCelling= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCILVentilationAreaInSqFt"->{
-                            ivPreviewTCILVentilationAreaInSqFt.setImageURI(photoUri)
-                            ivPreviewTCILVentilationAreaInSqFt.visibility = View.VISIBLE
-                            base64ProofPreviewTCILVentilationAreaInSqFt= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-
-                        "btnTCILSoundLevelInDb"->{
-                            ivPreviewTCILSoundLevelInDb.setImageURI(photoUri)
-                            ivPreviewTCILSoundLevelInDb.visibility = View.VISIBLE
-                            base64ProofPreviewTTCILSoundLevelInDb= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        } "btnTCILwhether_all_the_academic"->{
-                        ivPreviewTCILwhether_all_the_academic.setImageURI(photoUri)
-                        ivPreviewTCILwhether_all_the_academic.visibility = View.VISIBLE
-                        base64ProofPreviewTCILwhether_all_the_academic= AppUtil.imageUriToBase64(requireContext(), photoUri)
-
                     }
-                        "btnTCILAcademicRoomInformationBoard"->{
-                            ivPreviewTCILAcademicRoomInformationBoard.setImageURI(photoUri)
-                            ivPreviewTCILAcademicRoomInformationBoard.visibility = View.VISIBLE
-                            base64ProofPreviewTCILAcademicRoomInformationBoard= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCILInternalSignage"->{
-                            ivPreviewTCILInternalSignage.setImageURI(photoUri)
-                            ivPreviewTCILInternalSignage.visibility = View.VISIBLE
-                            base64ProofPreviewTCILInternalSignage= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCILCctcCamerasWithAudioFacility"->{
-                            ivPreviewTCILCctcCamerasWithAudioFacility.setImageURI(photoUri)
-                            ivPreviewTCILCctcCamerasWithAudioFacility.visibility = View.VISIBLE
-                            base64ProofPreviewTCILCctcCamerasWithAudioFacility= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCILLanEnabledComputersInNo"->{
-                            ivPreviewTCILLanEnabledComputersInNo.setImageURI(photoUri)
-                            ivPreviewTCILLanEnabledComputersInNo.visibility = View.VISIBLE
-                            base64ProofPreviewTCILLanEnabledComputersInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCILInternetConnections"->{
-                            ivPreviewTCILInternetConnections.setImageURI(photoUri)
-                            ivPreviewTCILInternetConnections.visibility = View.VISIBLE
-                            base64ProofPreviewTCILInternetConnections= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCILDoAllComputersHaveTypingTutor"->{
-                            ivPreviewTCILDoAllComputersHaveTypingTutor.setImageURI(photoUri)
-                            ivPreviewTCILDoAllComputersHaveTypingTutor.visibility = View.VISIBLE
-                            base64ProofPreviewTCILDoAllComputersHaveTypingTutor= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCILTablets"->{
-                            ivPreviewTCILTablets.setImageURI(photoUri)
-                            ivPreviewTCILTablets.visibility = View.VISIBLE
-                            base64ProofPreviewTCILTablets= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCILStoolsChairs"->{
-                            ivPreviewTCILStoolsChairs.setImageURI(photoUri)
-                            ivPreviewTCILStoolsChairs.visibility = View.VISIBLE
-                            base64ProofPreviewTCILStoolsChairs= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCILTrainerChair"->{
-                            ivPreviewTCILTrainerChair.setImageURI(photoUri)
-                            ivPreviewTCILTrainerChair.visibility = View.VISIBLE
-                            base64ProofPreviewTCILTrainerChair= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }"btnTCILTrainerTable"->{
-                        ivPreviewTCILTrainerTable.setImageURI(photoUri)
-                        ivPreviewTCILTrainerTable.visibility = View.VISIBLE
-                        base64ProofPreviewTCILTrainerTable= AppUtil.imageUriToBase64(requireContext(), photoUri)
-
-                    }"btnTCILLightsInNo"->{
-                        ivPreviewTCILLightsInNo.setImageURI(photoUri)
-                        ivPreviewTCILLightsInNo.visibility = View.VISIBLE
-                        base64ProofPreviewTCILLightsInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-
-                    }"btnTCILFansInNo"->{
-                        ivPreviewTCILFansInNo.setImageURI(photoUri)
-                        ivPreviewTCILFansInNo.visibility = View.VISIBLE
-                        base64ProofPreviewTCILFansInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
+                    "maleToiletsSignageProof" -> setPhotoPreview(ivPreviewMaleToiletsSignageProof, { base64ProofMaleToiletsSignage = it }, photoUri)
+                    "femaleToiletsProof" -> setPhotoPreview(ivPreviewFemaleToiletsProof, { base64ProofFemaleToilets = it }, photoUri)
+                    "femaleToiletsSignageProof" -> setPhotoPreview(ivPreviewFemaleToiletsSignageProof, { base64ProofFemaleToiletsSignage = it }, photoUri)
+                    "maleUrinalsProof" -> setPhotoPreview(ivPreviewMaleUrinalsProof, { base64ProofMaleUrinals = it }, photoUri)
+                    "maleWashBasinsProof" -> setPhotoPreview(ivPreviewMaleWashBasinsProof, { base64ProofMaleWashBasins = it }, photoUri)
+                    "femaleWashBasinsProof" -> {
+                        AppUtil.hideKeyboard(requireContext(), requireView())
+                        setPhotoPreview(ivPreviewFemaleWashBasinsProof, { base64ProofFemaleWashBasins = it }, photoUri)
                     }
-                        "btnTCILElectricaPowerBackUpForThRoom"->{
-                            ivPreviewTCILElectricaPowerBackUpForThRoom.setImageURI(photoUri)
-                            ivPreviewTCILElectricaPowerBackUpForThRoom.visibility = View.VISIBLE
-                            base64ProofPreviewTCILElectricaPowerBackUpForThRoom= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCILTheoryCumItLabPhotogragh"->{
-                            ivPreviewTCILTheoryCumItLabPhotogragh.setImageURI(photoUri)
-                            ivPreviewTCILTheoryCumItLabPhotogragh.visibility = View.VISIBLE
-                            base64ProofPreviewTCILTheoryCumItLabPhotogragh= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCILDoes_the_room_has"->{
-                            ivPreviewTCILDoes_the_room_has.setImageURI(photoUri)
-                            ivPreviewTCILDoes_the_room_has.visibility = View.VISIBLE
-                            base64ProofPreviewTCILDoes_the_room_has= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-//                        Theory Cum Domain Lab Ajit Ranjan Click On Button
-                        "btnTCDLTypeofRoofItLab"->{
-                            ivPreviewTCDLTypeofRoofItLab.setImageURI(photoUri)
-                            ivPreviewTCDLTypeofRoofItLab.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLTypeofRoofItLab= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLFalseCellingProvide"->{
-                            ivPreviewTCDLFalseCellingProvide.setImageURI(photoUri)
-                            ivPreviewTCDLFalseCellingProvide.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLFalseCellingProvide= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLHeightOfCelling"->{
-                            ivPreviewTCDLHeightOfCelling.setImageURI(photoUri)
-                            ivPreviewTCDLHeightOfCelling.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLHeightOfCelling= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLVentilationAreaInSqFt"->{
-                            ivPreviewTCDLVentilationAreaInSqFt.setImageURI(photoUri)
-                            ivPreviewTCDLVentilationAreaInSqFt.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLVentilationAreaInSqFt= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLSoundLevelInDb"->{
-                            ivPreviewTCDLSoundLevelInDb.setImageURI(photoUri)
-                            ivPreviewTCDLSoundLevelInDb.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLSoundLevelInDb= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLwhether_all_the_academic"->{
-                            ivPreviewTCDLwhether_all_the_academic.setImageURI(photoUri)
-                            ivPreviewTCDLwhether_all_the_academic.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLwhether_all_the_academic= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLAcademicRoomInformationBoard"->{
-                            ivPreviewTCDLAcademicRoomInformationBoard.setImageURI(photoUri)
-                            ivPreviewTCDLAcademicRoomInformationBoard.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLAcademicRoomInformationBoard= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLInternalSignage"->{
-                            ivPreviewTCDLInternalSignage.setImageURI(photoUri)
-                            ivPreviewTCDLInternalSignage.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLInternalSignage= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLCctcCamerasWithAudioFacility"->{
-                            ivPreviewTCDLCctcCamerasWithAudioFacility.setImageURI(photoUri)
-                            ivPreviewTCDLCctcCamerasWithAudioFacility.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLCctcCamerasWithAudioFacility= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLLcdDigitalProjector"->{
-                            ivPreviewTCDLLcdDigitalProjector.setImageURI(photoUri)
-                            ivPreviewTCDLLcdDigitalProjector.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLLcdDigitalProjector= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLChairForCandidatesInNo"->{
-                            ivPreviewTCDLChairForCandidatesInNo.setImageURI(photoUri)
-                            ivPreviewTCDLChairForCandidatesInNo.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLChairForCandidatesInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLUploaadTrainerChair"->{
-                            ivPreviewTCDLTrainerChair.setImageURI(photoUri)
-                            ivPreviewTCDLTrainerChair.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLTrainerChair= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLTrainerTable"->{
-                            ivPreviewTCDLTrainerTable.setImageURI(photoUri)
-                            ivPreviewTCDLTrainerTable.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLTrainerTable= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLWritingBoard"->{
-                            ivPreviewTCDLWritingBoard.setImageURI(photoUri)
-                            ivPreviewTCDLWritingBoard.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLWritingBoard= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }"btnTCDLLightsInNo"->{
-                        ivPreviewTCDLLightsInNo.setImageURI(photoUri)
-                        ivPreviewTCDLLightsInNo.visibility = View.VISIBLE
-                        base64ProofPreviewTCDLLightsInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                    }"btnTCDLFansInNo"->{
-                        ivPreviewTCDLFansInNo.setImageURI(photoUri)
-                        ivPreviewTCDLFansInNo.visibility = View.VISIBLE
-                        base64ProofPreviewTCDLFansInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                    }"btnTCDLElectricaPowerBackUpForThRoom"->{
-                        ivPreviewTCDLElectricaPowerBackUpForThRoom.setImageURI(photoUri)
-                        ivPreviewTCDLElectricaPowerBackUpForThRoom.visibility = View.VISIBLE
-                        base64ProofPreviewTCDLElectricaPowerBackUpForThRoom= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                    }"btnTCDLListofDomain"->{
-                        ivPreviewTCDLListofDomain.setImageURI(photoUri)
-                        ivPreviewTCDLListofDomain.visibility = View.VISIBLE
-                        base64ProofPreviewTCDLListofDomain= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                    }
-                        "btnTCDLDomainLabPhotogragh"->{
-                            ivPreviewTCDLDomainLabPhotogragh.setImageURI(photoUri)
-                            ivPreviewTCDLDomainLabPhotogragh.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLDomainLabPhotogragh= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCDLDoes_the_room_has"->{
-                            ivPreviewTCDLDoes_the_room_has.setImageURI(photoUri)
-                            ivPreviewTCDLDoes_the_room_has.visibility = View.VISIBLE
-                            base64ProofPreviewTCDLDoes_the_room_has= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-//                            Domain Lab
-                        "btnDLTypeofRoofItLab"->{
-                            ivPreviewDLTypeofRoofItLab.setImageURI(photoUri)
-                            ivPreviewDLTypeofRoofItLab.visibility = View.VISIBLE
-                            base64ProofPreviewDLTypeofRoofItLab= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnDLFalseCellingProvide"->{
-                            ivPreviewDLFalseCellingProvide.setImageURI(photoUri)
-                            ivPreviewDLFalseCellingProvide.visibility = View.VISIBLE
-                            base64ProofPreviewDLFalseCellingProvide= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnDLHeightOfCelling"->{
-                            ivPreviewDLHeightOfCelling.setImageURI(photoUri)
-                            ivPreviewDLHeightOfCelling.visibility = View.VISIBLE
-                            base64ProofPreviewDLHeightOfCelling= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnDLVentilationAreaInSqFt"->{
-                            ivPreviewDLVentilationAreaInSqFt.setImageURI(photoUri)
-                            ivPreviewDLVentilationAreaInSqFt.visibility = View.VISIBLE
-                            base64ProofPreviewDLVentilationAreaInSqFt= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-//                        "btnDLSoundLevelAsPerSpecifications"->{
-//                            ivPreviewDLSoundLevelInDb.setImageURI(photoUri)
-//                            ivPreviewDLSoundLevelInDb.visibility = View.VISIBLE
-//                            base64ProofPreviewTCDLDoes_the_room_has= AppUtil.imageUriToBase64(requireContext(), photoUri)
-//                        }
-                        "btnDLSoundLevelInDb"->{
-                            ivPreviewDLSoundLevelInDb.setImageURI(photoUri)
-                            ivPreviewDLSoundLevelInDb.visibility = View.VISIBLE
-                            base64ProofPreviewDLSoundLevelInDb= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnDLwhether_all_the_academic"->{
-                            ivPreviewDLwhether_all_the_academic.setImageURI(photoUri)
-                            ivPreviewDLwhether_all_the_academic.visibility = View.VISIBLE
-                            base64ProofPreviewDLwhether_all_the_academic= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnDLAcademicRoomInformationBoard"->{
-                            ivPreviewDLAcademicRoomInformationBoard.setImageURI(photoUri)
-                            ivPreviewDLAcademicRoomInformationBoard.visibility = View.VISIBLE
-                            base64ProofPreviewDLAcademicRoomInformationBoard= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnDLInternalSignage"->{
-                            ivPreviewDLInternalSignage.setImageURI(photoUri)
-                            ivPreviewDLInternalSignage.visibility = View.VISIBLE
-                            base64ProofPreviewDLInternalSignage= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnDLCctcCamerasWithAudioFacility"->{
-                            ivPreviewDLCctcCamerasWithAudioFacility.setImageURI(photoUri)
-                            ivPreviewDLCctcCamerasWithAudioFacility.visibility = View.VISIBLE
-                            base64ProofPreviewDLCctcCamerasWithAudioFacility= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnDLLcdDigitalProjector"->{
-                            ivPreviewDLLcdDigitalProjector.setImageURI(photoUri)
-                            ivPreviewDLLcdDigitalProjector.visibility = View.VISIBLE
-                            base64ProofPreviewDLLcdDigitalProjector= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnDLChairForCandidatesInNo"->{
-                            ivPreviewDLChairForCandidatesInNo.setImageURI(photoUri)
-                            ivPreviewDLChairForCandidatesInNo.visibility = View.VISIBLE
-                            base64ProofPreviewDLChairForCandidatesInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnDLUploaadTrainerChair"->{
-                            ivPreviewDLTrainerChair.setImageURI(photoUri)
-                            ivPreviewDLTrainerChair.visibility = View.VISIBLE
-                            base64ProofPreviewDLTrainerChair= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnDLTrainerTable"->{
-                            ivPreviewDLTrainerTable.setImageURI(photoUri)
-                            ivPreviewDLTrainerTable.visibility = View.VISIBLE
-                            base64ProofPreviewDLTrainerTable= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }"btnDLWritingBoard"->{
-                        ivPreviewDLWritingBoard.setImageURI(photoUri)
-                        ivPreviewDLWritingBoard.visibility = View.VISIBLE
-                        base64ProofPreviewDLWritingBoard= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                    }"btnDLLightsInNo"->{
-                        ivPreviewDLLightsInNo.setImageURI(photoUri)
-                        ivPreviewDLLightsInNo.visibility = View.VISIBLE
-                        base64ProofPreviewDLLightsInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                    }"btnDLFansInNo"->{
-                        ivPreviewDLFansInNo.setImageURI(photoUri)
-                        ivPreviewDLFansInNo.visibility = View.VISIBLE
-                        base64ProofPreviewDLFansInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                    }"btnDLElectricaPowerBackUpForThRoom"->{
-                        ivPreviewDLElectricaPowerBackUpForThRoom.setImageURI(photoUri)
-                        ivPreviewDLElectricaPowerBackUpForThRoom.visibility = View.VISIBLE
-                        base64ProofPreviewDLElectricaPowerBackUpForThRoom= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                    }"btnDLILListofDomain"->{
-                        ivPreviewDLILListofDomain.setImageURI(photoUri)
-                        ivPreviewDLILListofDomain.visibility = View.VISIBLE
-                        base64ProofPreviewDLILListofDomain= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                    }"btnDLDomainLabPhotogragh"->{
-                        ivPreviewDLDomainLabPhotogragh.setImageURI(photoUri)
-                        ivPreviewDLDomainLabPhotogragh.visibility = View.VISIBLE
-                        base64ProofPreviewDLDomainLabPhotogragh= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                    }"btnDLDoes_the_room_has"->{
-                        ivPreviewDLDoes_the_room_has.setImageURI(photoUri)
-                        ivPreviewDLDoes_the_room_has.visibility = View.VISIBLE
-                        base64ProofPreviewDLDoes_the_room_has= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                    }
-
-//                        Theory Class Room
-
-                        "btnTCRTypeofRoofItLab" -> {
-                            ivPreviewTCRTypeofRoofItLab.setImageURI(photoUri)
-                            ivPreviewTCRTypeofRoofItLab.visibility = View.VISIBLE
-                            base64ProofPreviewTCRTypeofRoofItLab= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRFalseCellingProvide" -> {
-                            ivPreviewTCRFalseCellingProvide.setImageURI(photoUri)
-                            ivPreviewTCRFalseCellingProvide.visibility = View.VISIBLE
-                            base64ProofPreviewTCRFalseCellingProvide= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRHeightOfCelling" -> {
-                            ivPreviewTCRHeightOfCelling.setImageURI(photoUri)
-                            ivPreviewTCRHeightOfCelling.visibility = View.VISIBLE
-                            base64ProofPreviewTCRHeightOfCelling= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRVentilationAreaInSqFt" -> {
-                            ivPreviewTCRVentilationAreaInSqFt.setImageURI(photoUri)
-                            ivPreviewTCRVentilationAreaInSqFt.visibility = View.VISIBLE
-                            base64ProofPreviewTCRVentilationAreaInSqFt= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRSoundLevelInDb" -> {
-                            ivPreviewTCRSoundLevelInDb.setImageURI(photoUri)
-                            ivPreviewTCRSoundLevelInDb.visibility = View.VISIBLE
-                            base64ProofPreviewTCRSoundLevelInDb= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRwhether_all_the_academic" -> {
-                            ivPreviewTCRwhether_all_the_academic.setImageURI(photoUri)
-                            ivPreviewTCRwhether_all_the_academic.visibility = View.VISIBLE
-                            base64ProofPreviewTCRwhether_all_the_academic= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRAcademicRoomInformationBoard" -> {
-                            ivPreviewTCRAcademicRoomInformationBoard.setImageURI(photoUri)
-                            ivPreviewTCRAcademicRoomInformationBoard.visibility = View.VISIBLE
-                            base64ProofPreviewTCRAcademicRoomInformationBoard= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRCctcCamerasWithAudioFacility" -> {
-                            ivPreviewTCRCctcCamerasWithAudioFacility.setImageURI(photoUri)
-                            ivPreviewTCRCctcCamerasWithAudioFacility.visibility = View.VISIBLE
-                            base64ProofPreviewTCRCctcCamerasWithAudioFacility= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-
-                        "btnTCRLcdDigitalProjector" -> {
-                            ivPreviewTCRLcdDigitalProjector.setImageURI(photoUri)
-                            ivPreviewTCRLcdDigitalProjector.visibility = View.VISIBLE
-                            base64ProofPreviewTCRLcdDigitalProjector= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRChairForCandidatesInNo" -> {
-                            ivPreviewTCRChairForCandidatesInNo.setImageURI(photoUri)
-                            ivPreviewTCRChairForCandidatesInNo.visibility = View.VISIBLE
-                            base64ProofPreviewTCRChairForCandidatesInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRTrainerChair" -> {
-                            ivPreviewTCRTrainerChair.setImageURI(photoUri)
-                            ivPreviewTCRTrainerChair.visibility = View.VISIBLE
-                            base64ProofPreviewTCRTrainerChair= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRTrainerTable" -> {
-                            ivPreviewTCRTrainerTable.setImageURI(photoUri)
-                            ivPreviewTCRTrainerTable.visibility = View.VISIBLE
-                            base64ProofPreviewTCRTrainerTable= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRWritingBoard" -> {
-                            ivPreviewTCRWritingBoard.setImageURI(photoUri)
-                            ivPreviewTCRWritingBoard.visibility = View.VISIBLE
-                            base64ProofPreviewTCRWritingBoard= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRLightsInNo" -> {
-                            ivPreviewTCRLightsInNo.setImageURI(photoUri)
-                            ivPreviewTCRLightsInNo.visibility = View.VISIBLE
-                            base64ProofPreviewTCRLightsInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRFansInNo" -> {
-                            ivPreviewTCRFansInNo.setImageURI(photoUri)
-                            ivPreviewTCRFansInNo.visibility = View.VISIBLE
-                            base64ProofPreviewTCRFansInNo= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRElectricaPowerBackUpForThRoom" -> {
-                            ivPreviewTCRElectricaPowerBackUpForThRoom.setImageURI(photoUri)
-                            ivPreviewTCRElectricaPowerBackUpForThRoom.visibility = View.VISIBLE
-                            base64ProofPreviewTCRElectricaPowerBackUpForThRoom= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRDomainLabPhotogragh" -> {
-                            ivPreviewTCRDomainLabPhotogragh.setImageURI(photoUri)
-                            ivPreviewTCRDomainLabPhotogragh.visibility = View.VISIBLE
-                            base64ProofPreviewTCRDomainLabPhotogragh= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-                        "btnTCRDoes_the_room_has" -> {
-                            ivPreviewTCRDoes_the_room_has.setImageURI(photoUri)
-                            ivPreviewTCRDoes_the_room_has.visibility = View.VISIBLE
-                            base64ProofPreviewTCRDoes_the_room_has= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-                        "btnTCRInternalSignage" -> {
-                            ivPreviewivPreviewTCRInternalSignage.setImageURI(photoUri)
-                            ivPreviewivPreviewTCRInternalSignage.visibility = View.VISIBLE
-                            base64ProofPreviewTCRInternalSignage= AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        }
-
-
-                    }
-                } else {
-                    Toast.makeText(requireContext(), "Photo capture failed", Toast.LENGTH_SHORT)
-                        .show()
+                    "overheadTanksProof" -> setPhotoPreview(ivPreviewOverheadTanksProof, { base64ProofOverheadTanks = it }, photoUri)
+                    "flooringProof" -> setPhotoPreview(ivPreviewFlooringProof, { base64ProofFlooring = it }, photoUri)
+                    "proofUpload" -> setPhotoPreview(ivProofPreview, { base64ProofUploadImage = it }, photoUri)
+                    "circulationProof" -> setPhotoPreview(ivCirculationProofPreview, { base64CirculationProofImage = it }, photoUri)
+                        "openSpaceProof" -> { ivOpenSpaceProofPreview.setImageURI(photoUri)
+                    ivOpenSpaceProofPreview.visibility = View.VISIBLE
+                    base64penSpaceProofImage = AppUtil.imageUriToBase64(requireContext(), photoUri)}
+                    "parking" -> setPhotoPreview(ivParkingProofPreview, { base64ParkingSpaceProofImage = it }, photoUri)
+                    "itltypeofroofitlab" -> setPhotoPreview(ivPreviewITLTypeofRoofItLab, { base64ProofPreviewITLTypeofRoofItLab = it }, photoUri)
+                    "itlfalsecellingprovide" -> setPhotoPreview(ivPreviewITLFalseCellingProvide, { base64ProofITLFalseCellingProvide = it }, photoUri)
+                    "itlheightofcelling" -> setPhotoPreview(ivPreviewITLHeightOfCelling, { base64ProofITLHeightOfCelling = it }, photoUri)
+                    "itlventilationareainsqft" -> setPhotoPreview(ivPreviewITLVentilationAreaInSqFt, { base64ProofITLVentilationAreaInSqFt = it }, photoUri)
+                    "itlsoundlevelasperspecifications" -> setPhotoPreview(ivPreviewITLSoundLevelAsPerSpecifications, { base64ProofITLSoundLevelAsPerSpecifications = it }, photoUri)
+                    "itlsoundlevelindb" -> setPhotoPreview(ivPreviewITLSoundLevelInDb, { base64ProofITLSoundLevelInDb = it }, photoUri)
+                    "itlwhether_all_the_academic" -> setPhotoPreview(ivPreviewITLwhether_all_the_academic, { base64ProofITLwhether_all_the_academic = it }, photoUri)
+                    "itlacadmicroominformationboard" -> setPhotoPreview(ivPreviewITLAcademicRoomInformationBoard, { base64ProofITLAcademicRoomInformationBoard = it }, photoUri)
+                    "itlinternalsignage" -> setPhotoPreview(ivPreviewITLInternalSignage, { base64ProofITLInternalSignage = it }, photoUri)
+                    "itlcctccameraswithaudiofacility" -> setPhotoPreview(ivPreviewITLCctcCamerasWithAudioFacility, { base64ProofITLCctcCamerasWithAudioFacility = it }, photoUri)
+                    "itllanenabledcomputersinno" -> setPhotoPreview(ivPreviewITLLanEnabledComputersInNo, { base64ProofITLLanEnabledComputersInNo = it }, photoUri)
+                    "itlinternetconnections" -> setPhotoPreview(ivPreviewITLInternetConnections, { base64ProofITLInternetConnections = it }, photoUri)
+                    "itldoallcomputershavetypingtutor" -> setPhotoPreview(ivPreviewITLDoAllComputersHaveTypingTutor, { base64ProofITLDoAllComputersHaveTypingTutor = it }, photoUri)
+                    "itltablets" -> setPhotoPreview(ivPreviewITLTablets, { base64ProofITLTablets = it }, photoUri)
+                    "itlstoolschairs" -> setPhotoPreview(ivPreviewITLStoolsChairs, { base64ProofITLStoolsChairs = it }, photoUri)
+                    "itltrainerchair" -> setPhotoPreview(ivPreviewITLTrainerChair, { base64ProofITLTrainerChair = it }, photoUri)
+                    "itltrainertable" -> setPhotoPreview(ivPreviewITLTrainerTable, { base64ProofITLTrainerTable = it }, photoUri)
+                    "itllightsinno" -> setPhotoPreview(ivPreviewITLLightsInNo, { base64ProofITLLightsInNo = it }, photoUri)
+                    "itlfansinno" -> setPhotoPreview(ivPreviewITLFansInNo, { base64ProofITLFansInNo = it }, photoUri)
+                    "itlelectricapowerbackupforthroom" -> setPhotoPreview(ivPreviewITLElectricaPowerBackUpForThRoom, { base64ProofITLElectricaPowerBackUpForThRoom = it }, photoUri)
+                    "itlitlabphotograph" -> setPhotoPreview(ivPreviewITLItLabPhotograph, { base64ProofITLItLabPhotograph = it }, photoUri)
+                    "itlldoes_the_room_has" -> setPhotoPreview(ivPreviewITLDoes_the_room_has, { base64ProofITLDoes_the_room_has = it }, photoUri)
+                    "btnuploadofficeroomphotograph" -> setPhotoPreview(ivPreviewOfficeRoomPhotograph, { base64ProofPreviewOfficeRoomPhotograph = it }, photoUri)
+                    "btnuploadofficecumtypeofroofitlab" -> setPhotoPreview(ivPreviewOfficeCumTypeofRoofItLab, { base64ProofOfficeCumTypeofRoofItLab = it }, photoUri)
+                    "btnofficecumfalsecellingprovide" -> setPhotoPreview(ivPreviewOfficeCumFalseCellingProvide, { base64ProofOfficeCumFalseCellingProvide = it }, photoUri)
+                    "btnofficecumheightofcelling" -> setPhotoPreview(ivPreviewOfficeCumHeightOfCelling, { base64ProofOfficeCumHeightOfCelling = it }, photoUri)
+                    "btnofficecumsplaceforsecuringdoc" -> setPhotoPreview(ivPreviewOfficeCumSplaceforSecuringDoc, { base64ProofOfficeCumSplaceforSecuringDoc = it }, photoUri)
+                    "btnUploadOCCROfficeTable" -> setPhotoPreview(ivPreviewOCCROfficeTable, { base64ProofOCCROfficeTable = it }, photoUri)
+                    "btnofficecumanofficetableno" -> setPhotoPreview(ivPreviewOfficeCumAnOfficeTableNo, { base64ProofOfficeCumAnOfficeTableNo = it }, photoUri)
+                    "btnofficecumchairs" -> setPhotoPreview(ivPreviewOfficeCumChairs, { base64ProofOfficeCumChairs = it }, photoUri)
+                    "btnofficecumtableofofficecumpter" -> setPhotoPreview(ivPreviewOfficeCumTableOfofficeCumpter, { base64ProofOfficeCumTableOfofficeCumpter = it }, photoUri)
+                    "btnofficecumprintercumscannerinno" -> setPhotoPreview(ivPreviewOfficeCumPrinterCumScannerInNo, { base64ProofOfficeCumPrinterCumScannerInNo = it }, photoUri)
+                    "btnofficecumdigitalcamerainno" -> setPhotoPreview(ivPreviewOfficeCumDigitalCameraInNo, { base64ProofOfficeCumDigitalCameraInNo = it }, photoUri)
+                    "btnofficecumelectricialpowerbackup" -> setPhotoPreview(ivPreviewOfficeCumElectricialPowerBackup, { base64ProofOfficeCumElectricialPowerBackup = it }, photoUri)
+                    "btnReceptionAreaPhotogragh" -> setPhotoPreview(ivPreviewReceptionAreaPhotogragh, { base64ProofPreviewReceptionAreaPhotogragh = it }, photoUri)
+                    "btnCounsellingRoomAreaPhotograph" -> setPhotoPreview(ivPreviewCounsellingRoomAreaPhotograph, { base64ProofPreviewCounsellingRoomPhotogragh = it }, photoUri)
+                    "btnOROfficeRoomPhotograph" -> setPhotoPreview(ivPreviewOROfficeRoomPhotograph, { base64ProofPreviewOROfficeRoomORPhotograph = it }, photoUri)
+                    "btnORTypeofRoofItLab" -> setPhotoPreview(ivPreviewORTypeofRoofItLab, { base64ProofORTypeofRoofItLab = it }, photoUri)
+                    "btnORFalseCellingProvide" -> setPhotoPreview(ivPreviewORFalseCellingProvide, { base64ProofORFalseCellingProvide = it }, photoUri)
+                    "btnORHeightOfCelling" -> setPhotoPreview(ivPreviewORHeightOfCelling, { base64ProofORHeightOfCelling = it }, photoUri)
+                    "btnORSplaceforSecuringDoc" -> setPhotoPreview(ivPreviewORSplaceforSecuringDoc, { base64ProofORSplaceforSecuringDoc = it }, photoUri)
+                    "btnORAnOfficeTableNo" -> setPhotoPreview(ivPreviewORAnOfficeTableNo, { base64ProofORAnOfficeTableNo = it }, photoUri)
+                    "btnORChairs" -> setPhotoPreview(ivPreviewORChairs, { base64ProofORChairs = it }, photoUri)
+                    "btnORTableOfofficeCumpter" -> setPhotoPreview(ivPreviewORTableOfofficeCumpter, { base64ProofORTableOfofficeCumpter = it }, photoUri)
+                    "btnORPrinterCumScannerInNo" -> setPhotoPreview(ivPreviewORPrinterCumScannerInNo, { base64ProofORPrinterCumScannerInNo = it }, photoUri)
+                    "btnORDigitalCameraInNo" -> setPhotoPreview(ivPreviewORDigitalCameraInNo, { base64ProofORDigitalCameraInNo = it }, photoUri)
+                    "btnORElectricialPowerBackup" -> setPhotoPreview(ivPreviewORElectricialPowerBackup, { base64ProofORElectricialPowerBackup = it }, photoUri)
+                    "btnITCDLTypeofRoofItLab" -> setPhotoPreview(ivPreviewITCDLTypeofRoofItLab, { base64ProofPreviewITCDLTypeofRoofItLab = it }, photoUri)
+                    "btnITCDLFalseCellingProvide" -> setPhotoPreview(ivPreviewITCDLFalseCellingProvide, { base64ProofITCDLFalseCellingProvide = it }, photoUri)
+                    "btnITCDLHeightOfCelling" -> setPhotoPreview(ivPreviewITCDLabHeightOfCelling, { base64ProofITCDLabHeightOfCelling = it }, photoUri)
+                    "btnITCDLVentilationAreaInSqFt" -> setPhotoPreview(ivPreviewITCDLVentilationAreaInSqFt, { base64ProofITCDLVentilationAreaInSqFt = it }, photoUri)
+                    "btnITCDLabSoundLevelInDb" -> setPhotoPreview(ivPreviewITCDLabSoundLevelInDb, { base64ProofITCDLabSoundLevelInDb = it }, photoUri)
+                    "btnITDLwhether_all_the_academic" -> setPhotoPreview(ivPreviewITCDLwhether_all_the_academic, { base64ProofITCDLwhether_all_the_academic = it }, photoUri)
+                    "btnITCDLAcademicRoomInformationBoard" -> setPhotoPreview(ivPreviewITCDLAcademicRoomInformationBoard, { base64ProofITCDLAcademicRoomInformationBoard = it }, photoUri)
+                    "btnITCDLInternalSignage" -> setPhotoPreview(ivPreviewITCDLInternalSignage, { base64ProofITCDLInternalSignage = it }, photoUri)
+                    "btnITCDLCctcCamerasWithAudioFacility" -> setPhotoPreview(ivPreviewITCDLCctcCamerasWithAudioFacility, { base64ProofITCDLCctcCamerasWithAudioFacility = it }, photoUri)
+                    "btnITCDLLanEnabledComputersInNo" -> setPhotoPreview(ivPreviewITCDLLanEnabledComputersInNo, { base64ProofITCDLLanEnabledComputersInNo = it }, photoUri)
+                    "btnITCDLInternetConnections" -> setPhotoPreview(ivPreviewITCDLInternetConnections, { base64ProofITCDLInternetConnections = it }, photoUri)
+                    "btnITCDLTrainerChair" -> setPhotoPreview(ivPreviewITCDLTrainerChair, { base64ProofITCDLTrainerChair = it }, photoUri)
+                    "btnITCDLTrainerTable" -> setPhotoPreview(ivPreviewITCDLTrainerTable, { base64ProofITCDLTrainerTable = it }, photoUri)
+                    "btnITCDLLightsInNo" -> setPhotoPreview(ivPreviewITCDLLightsInNo, { base64ProofITCDLLightsInNo = it }, photoUri)
+                    "btnITCDLFansInNo" -> setPhotoPreview(ivPreviewITCDLFansInNo, { base64ProofITCDLFansInNo = it }, photoUri)
+                    "btnITCDLElectricaPowerBackUpForThRoom" -> setPhotoPreview(ivPreviewITCDLElectricaPowerBackUpForThRoom, { base64ProofITCDLElectricaPowerBackUpForThRoom = it }, photoUri)
+                    "btnITCDLItLabPhotograph" -> setPhotoPreview(ivPreviewITCDLItLabPhotograph, { base64ProofITCDLItLabPhotograph = it }, photoUri)
+                    "btnITCDLListofDomain" -> setPhotoPreview(ivPreviewITCDLListofDomain, { base64ProofITCDLListofDomain = it }, photoUri)
+                    "btnITCDLDoes_the_room_has" -> setPhotoPreview(ivPreviewITCDLDoes_the_room_has, { base64ProofITCDLDoes_the_room_has = it }, photoUri)
+                    "btnITCDLTablets" -> setPhotoPreview(ivPreviewITCDLTablets, { base64ProofITCDLTablets = it }, photoUri)
+                    "btnITCDLDoAllComputersHaveTypingTutor" -> setPhotoPreview(ivPreviewITCDLDoAllComputersHaveTypingTutor, { base64ProofITCDLDoAllComputersHaveTypingTutor = it }, photoUri)
+                    "btnITCDLStoolsChairs" -> setPhotoPreview(ivPreviewITCDLStoolsChairs, { base64ProofITCDLStoolsChairs = it }, photoUri)
+                    "btnTCILListofDomain" -> setPhotoPreview(ivPreviewTCILListofDomain, { base64ProofPreviewTCILListofDomain = it }, photoUri)
+                    "btnTCILTypeofRoofItLab" -> setPhotoPreview(ivPreviewTCILTypeofRoofItLab, { base64ProofPreviewTCILTypeofRoofItLab = it }, photoUri)
+                    "btnTCILFalseCellingProvide" -> setPhotoPreview(ivPreviewTCILFalseCellingProvide, { base64ProofPreviewTCILFalseCellingProvide = it }, photoUri)
+                    "btnTCILHeightOfCelling" -> setPhotoPreview(ivPreviewTCILHeightOfCelling, { base64ProofPreviewTCILHeightOfCelling = it }, photoUri)
+                    "btnTCILVentilationAreaInSqFt" -> setPhotoPreview(ivPreviewTCILVentilationAreaInSqFt, { base64ProofPreviewTCILVentilationAreaInSqFt = it }, photoUri)
+                    "btnTCILSoundLevelInDb" -> setPhotoPreview(ivPreviewTCILSoundLevelInDb, { base64ProofPreviewTTCILSoundLevelInDb = it }, photoUri)
+                    "btnTCILwhether_all_the_academic" -> setPhotoPreview(ivPreviewTCILwhether_all_the_academic, { base64ProofPreviewTCILwhether_all_the_academic = it }, photoUri)
+                    "btnTCILAcademicRoomInformationBoard" -> setPhotoPreview(ivPreviewTCILAcademicRoomInformationBoard, { base64ProofPreviewTCILAcademicRoomInformationBoard = it }, photoUri)
+                    "btnTCILInternalSignage" -> setPhotoPreview(ivPreviewTCILInternalSignage, { base64ProofPreviewTCILInternalSignage = it }, photoUri)
+                    "btnTCILCctcCamerasWithAudioFacility" -> setPhotoPreview(ivPreviewTCILCctcCamerasWithAudioFacility, { base64ProofPreviewTCILCctcCamerasWithAudioFacility = it }, photoUri)
+                    "btnTCILLanEnabledComputersInNo" -> setPhotoPreview(ivPreviewTCILLanEnabledComputersInNo, { base64ProofPreviewTCILLanEnabledComputersInNo = it }, photoUri)
+                    "btnTCILInternetConnections" -> setPhotoPreview(ivPreviewTCILInternetConnections, { base64ProofPreviewTCILInternetConnections = it }, photoUri)
+                    "btnTCILDoAllComputersHaveTypingTutor" -> setPhotoPreview(ivPreviewTCILDoAllComputersHaveTypingTutor, { base64ProofPreviewTCILDoAllComputersHaveTypingTutor = it }, photoUri)
+                    "btnTCILTablets" -> setPhotoPreview(ivPreviewTCILTablets, { base64ProofPreviewTCILTablets = it }, photoUri)
+                    "btnTCILStoolsChairs" -> setPhotoPreview(ivPreviewTCILStoolsChairs, { base64ProofPreviewTCILStoolsChairs = it }, photoUri)
+                    "btnTCILTrainerChair" -> setPhotoPreview(ivPreviewTCILTrainerChair, { base64ProofPreviewTCILTrainerChair = it }, photoUri)
+                    "btnTCILTrainerTable" -> setPhotoPreview(ivPreviewTCILTrainerTable, { base64ProofPreviewTCILTrainerTable = it }, photoUri)
+                    "btnTCILLightsInNo" -> setPhotoPreview(ivPreviewTCILLightsInNo, { base64ProofPreviewTCILLightsInNo = it }, photoUri)
+                    "btnTCILFansInNo" -> setPhotoPreview(ivPreviewTCILFansInNo, { base64ProofPreviewTCILFansInNo = it }, photoUri)
+                    "btnTCILElectricaPowerBackUpForThRoom" -> setPhotoPreview(ivPreviewTCILElectricaPowerBackUpForThRoom, { base64ProofPreviewTCILElectricaPowerBackUpForThRoom = it }, photoUri)
+                    "btnTCILTheoryCumItLabPhotogragh" -> setPhotoPreview(ivPreviewTCILTheoryCumItLabPhotogragh, { base64ProofPreviewTCILTheoryCumItLabPhotogragh = it }, photoUri)
+                    "btnTCILDoes_the_room_has" -> setPhotoPreview(ivPreviewTCILDoes_the_room_has, { base64ProofPreviewTCILDoes_the_room_has = it }, photoUri)
+                    "btnTCDLTypeofRoofItLab" -> setPhotoPreview(ivPreviewTCDLTypeofRoofItLab, { base64ProofPreviewTCDLTypeofRoofItLab = it }, photoUri)
+                    "btnTCDLFalseCellingProvide" -> setPhotoPreview(ivPreviewTCDLFalseCellingProvide, { base64ProofPreviewTCDLFalseCellingProvide = it }, photoUri)
+                    "btnTCDLHeightOfCelling" -> setPhotoPreview(ivPreviewTCDLHeightOfCelling, { base64ProofPreviewTCDLHeightOfCelling = it }, photoUri)
+                    "btnTCDLVentilationAreaInSqFt" -> setPhotoPreview(ivPreviewTCDLVentilationAreaInSqFt, { base64ProofPreviewTCDLVentilationAreaInSqFt = it }, photoUri)
+                    "btnTCDLSoundLevelInDb" -> setPhotoPreview(ivPreviewTCDLSoundLevelInDb, { base64ProofPreviewTCDLSoundLevelInDb = it }, photoUri)
+                    "btnTCDLwhether_all_the_academic" -> setPhotoPreview(ivPreviewTCDLwhether_all_the_academic, { base64ProofPreviewTCDLwhether_all_the_academic = it }, photoUri)
+                    "btnTCDLAcademicRoomInformationBoard" -> setPhotoPreview(ivPreviewTCDLAcademicRoomInformationBoard, { base64ProofPreviewTCDLAcademicRoomInformationBoard = it }, photoUri)
+                    "btnTCDLInternalSignage" -> setPhotoPreview(ivPreviewTCDLInternalSignage, { base64ProofPreviewTCDLInternalSignage = it }, photoUri)
+                    "btnTCDLCctcCamerasWithAudioFacility" -> setPhotoPreview(ivPreviewTCDLCctcCamerasWithAudioFacility, { base64ProofPreviewTCDLCctcCamerasWithAudioFacility = it }, photoUri)
+                    "btnTCDLLcdDigitalProjector" -> setPhotoPreview(ivPreviewTCDLLcdDigitalProjector, { base64ProofPreviewTCDLLcdDigitalProjector = it }, photoUri)
+                    "btnTCDLChairForCandidatesInNo" -> setPhotoPreview(ivPreviewTCDLChairForCandidatesInNo, { base64ProofPreviewTCDLChairForCandidatesInNo = it }, photoUri)
+                    "btnTCDLUploaadTrainerChair" -> setPhotoPreview(ivPreviewTCDLTrainerChair, { base64ProofPreviewTCDLTrainerChair = it }, photoUri)
+                    "btnTCDLTrainerTable" -> setPhotoPreview(ivPreviewTCDLTrainerTable, { base64ProofPreviewTCDLTrainerTable = it }, photoUri)
+                    "btnTCDLWritingBoard" -> setPhotoPreview(ivPreviewTCDLWritingBoard, { base64ProofPreviewTCDLWritingBoard = it }, photoUri)
+                    "btnTCDLLightsInNo" -> setPhotoPreview(ivPreviewTCDLLightsInNo, { base64ProofPreviewTCDLLightsInNo = it }, photoUri)
+                    "btnTCDLFansInNo" -> setPhotoPreview(ivPreviewTCDLFansInNo, { base64ProofPreviewTCDLFansInNo = it }, photoUri)
+                    "btnTCDLElectricaPowerBackUpForThRoom" -> setPhotoPreview(ivPreviewTCDLElectricaPowerBackUpForThRoom, { base64ProofPreviewTCDLElectricaPowerBackUpForThRoom = it }, photoUri)
+                    "btnTCDLListofDomain" -> setPhotoPreview(ivPreviewTCDLListofDomain, { base64ProofPreviewTCDLListofDomain = it }, photoUri)
+                    "btnTCDLDomainLabPhotogragh" -> setPhotoPreview(ivPreviewTCDLDomainLabPhotogragh, { base64ProofPreviewTCDLDomainLabPhotogragh = it }, photoUri)
+                    "btnTCDLDoes_the_room_has" -> setPhotoPreview(ivPreviewTCDLDoes_the_room_has, { base64ProofPreviewTCDLDoes_the_room_has = it }, photoUri)
+                    "btnDLTypeofRoofItLab" -> setPhotoPreview(ivPreviewDLTypeofRoofItLab, { base64ProofPreviewDLTypeofRoofItLab = it }, photoUri)
+                    "btnDLFalseCellingProvide" -> setPhotoPreview(ivPreviewDLFalseCellingProvide, { base64ProofPreviewDLFalseCellingProvide = it }, photoUri)
+                    "btnDLHeightOfCelling" -> setPhotoPreview(ivPreviewDLHeightOfCelling, { base64ProofPreviewDLHeightOfCelling = it }, photoUri)
+                    "btnDLVentilationAreaInSqFt" -> setPhotoPreview(ivPreviewDLVentilationAreaInSqFt, { base64ProofPreviewDLVentilationAreaInSqFt = it }, photoUri)
+                    "btnDLSoundLevelInDb" -> setPhotoPreview(ivPreviewDLSoundLevelInDb, { base64ProofPreviewDLSoundLevelInDb = it }, photoUri)
+                    "btnDLwhether_all_the_academic" -> setPhotoPreview(ivPreviewDLwhether_all_the_academic, { base64ProofPreviewDLwhether_all_the_academic = it }, photoUri)
+                    "btnDLAcademicRoomInformationBoard" -> setPhotoPreview(ivPreviewDLAcademicRoomInformationBoard, { base64ProofPreviewDLAcademicRoomInformationBoard = it }, photoUri)
+                    "btnDLInternalSignage" -> setPhotoPreview(ivPreviewDLInternalSignage, { base64ProofPreviewDLInternalSignage = it }, photoUri)
+                    "btnDLCctcCamerasWithAudioFacility" -> setPhotoPreview(ivPreviewDLCctcCamerasWithAudioFacility, { base64ProofPreviewDLCctcCamerasWithAudioFacility = it }, photoUri)
+                    "btnDLLcdDigitalProjector" -> setPhotoPreview(ivPreviewDLLcdDigitalProjector, { base64ProofPreviewDLLcdDigitalProjector = it }, photoUri)
+                    "btnDLChairForCandidatesInNo" -> setPhotoPreview(ivPreviewDLChairForCandidatesInNo, { base64ProofPreviewDLChairForCandidatesInNo = it }, photoUri)
+                    "btnDLUploaadTrainerChair" -> setPhotoPreview(ivPreviewDLTrainerChair, { base64ProofPreviewDLTrainerChair = it }, photoUri)
+                    "btnDLTrainerTable" -> setPhotoPreview(ivPreviewDLTrainerTable, { base64ProofPreviewDLTrainerTable = it }, photoUri)
+                    "btnDLWritingBoard" -> setPhotoPreview(ivPreviewDLWritingBoard, { base64ProofPreviewDLWritingBoard = it }, photoUri)
+                    "btnDLLightsInNo" -> setPhotoPreview(ivPreviewDLLightsInNo, { base64ProofPreviewDLLightsInNo = it }, photoUri)
+                    "btnDLFansInNo" -> setPhotoPreview(ivPreviewDLFansInNo, { base64ProofPreviewDLFansInNo = it }, photoUri)
+                    "btnDLElectricaPowerBackUpForThRoom" -> setPhotoPreview(ivPreviewDLElectricaPowerBackUpForThRoom, { base64ProofPreviewDLElectricaPowerBackUpForThRoom = it }, photoUri)
+                    "btnDLILListofDomain" -> setPhotoPreview(ivPreviewDLILListofDomain, { base64ProofPreviewDLILListofDomain = it }, photoUri)
+                    "btnDLDomainLabPhotogragh" -> setPhotoPreview(ivPreviewDLDomainLabPhotogragh, { base64ProofPreviewDLDomainLabPhotogragh = it }, photoUri)
+                    "btnDLDoes_the_room_has" -> setPhotoPreview(ivPreviewDLDoes_the_room_has, { base64ProofPreviewDLDoes_the_room_has = it }, photoUri)
+                    "btnTCRTypeofRoofItLab" -> setPhotoPreview(ivPreviewTCRTypeofRoofItLab, { base64ProofPreviewTCRTypeofRoofItLab = it }, photoUri)
+                    "btnTCRFalseCellingProvide" -> setPhotoPreview(ivPreviewTCRFalseCellingProvide, { base64ProofPreviewTCRFalseCellingProvide = it }, photoUri)
+                    "btnTCRHeightOfCelling" -> setPhotoPreview(ivPreviewTCRHeightOfCelling, { base64ProofPreviewTCRHeightOfCelling = it }, photoUri)
+                    "btnTCRVentilationAreaInSqFt" -> setPhotoPreview(ivPreviewTCRVentilationAreaInSqFt, { base64ProofPreviewTCRVentilationAreaInSqFt = it }, photoUri)
+                    "btnTCRSoundLevelInDb" -> setPhotoPreview(ivPreviewTCRSoundLevelInDb, { base64ProofPreviewTCRSoundLevelInDb = it }, photoUri)
+                    "btnTCRwhether_all_the_academic" -> setPhotoPreview(ivPreviewTCRwhether_all_the_academic, { base64ProofPreviewTCRwhether_all_the_academic = it }, photoUri)
+                    "btnTCRAcademicRoomInformationBoard" -> setPhotoPreview(ivPreviewTCRAcademicRoomInformationBoard, { base64ProofPreviewTCRAcademicRoomInformationBoard = it }, photoUri)
+                    "btnTCRCctcCamerasWithAudioFacility" -> setPhotoPreview(ivPreviewTCRCctcCamerasWithAudioFacility, { base64ProofPreviewTCRCctcCamerasWithAudioFacility = it }, photoUri)
+                    "btnTCRLcdDigitalProjector" -> setPhotoPreview(ivPreviewTCRLcdDigitalProjector, { base64ProofPreviewTCRLcdDigitalProjector = it }, photoUri)
+                    "btnTCRChairForCandidatesInNo" -> setPhotoPreview(ivPreviewTCRChairForCandidatesInNo, { base64ProofPreviewTCRChairForCandidatesInNo = it }, photoUri)
+                    "btnTCRTrainerChair" -> setPhotoPreview(ivPreviewTCRTrainerChair, { base64ProofPreviewTCRTrainerChair = it }, photoUri)
+                    "btnTCRTrainerTable" -> setPhotoPreview(ivPreviewTCRTrainerTable, { base64ProofPreviewTCRTrainerTable = it }, photoUri)
+                    "btnTCRWritingBoard" -> setPhotoPreview(ivPreviewTCRWritingBoard, { base64ProofPreviewTCRWritingBoard = it }, photoUri)
+                    "btnTCRLightsInNo" -> setPhotoPreview(ivPreviewTCRLightsInNo, { base64ProofPreviewTCRLightsInNo = it }, photoUri)
+                    "btnTCRFansInNo" -> setPhotoPreview(ivPreviewTCRFansInNo, { base64ProofPreviewTCRFansInNo = it }, photoUri)
+                    "btnTCRElectricaPowerBackUpForThRoom" -> setPhotoPreview(ivPreviewTCRElectricaPowerBackUpForThRoom, { base64ProofPreviewTCRElectricaPowerBackUpForThRoom = it }, photoUri)
+                    "btnTCRDomainLabPhotogragh" -> setPhotoPreview(ivPreviewTCRDomainLabPhotogragh, { base64ProofPreviewTCRDomainLabPhotogragh = it }, photoUri)
+                    "btnTCRDoes_the_room_has" -> setPhotoPreview(ivPreviewTCRDoes_the_room_has, { base64ProofPreviewTCRDoes_the_room_has = it }, photoUri)
+                    "btnTCRInternalSignage" -> setPhotoPreview(ivPreviewivPreviewTCRInternalSignage, { base64ProofPreviewTCRInternalSignage = it }, photoUri)
                 }
+            } else {
+                Toast.makeText(requireContext(), "Photo capture failed", Toast.LENGTH_SHORT).show()
             }
+        }
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) launchCamera()
@@ -2573,7 +1560,6 @@ class TrainingFragment : Fragment() {
                 ).show()
             }
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -2597,16 +1583,14 @@ class TrainingFragment : Fragment() {
         remarks = arguments?.getString("remarks")
         trainingCenterName = arguments?.getString("trainingCenterName")
 
-        binding.tvTitleName.text=trainingCenterName
+        binding.tvTitle.text=trainingCenterName
         RecyClerViewUI()
-
 
         binding.root.setOnTouchListener { v, event ->
             AppUtil.hideKeyboard(requireActivity())
             v.performClick()
             false
         }
-
 
         if (status == STATUS_QM || status == STATUS_SM) {
             AlertDialog.Builder(requireContext())
@@ -2627,21 +1611,15 @@ class TrainingFragment : Fragment() {
         )
 
         viewModel.getSectionsStatusData(requestTcInfraReq)
-
         // Initialize Training center information views
         etLatitude = view.bindView(R.id.etLatitude)
         etLongitude = view.bindView(R.id.etLongitude)
 
-
-
-        binding.backButton.setOnClickListener {
-
+        binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
 
-
         //RecyClerViewUI()
-
 //         Initilize  IT LAB  AJIT PMAYG Crate ID
         etITLHeightOfCelling = view.bindView(R.id.etITLHeightOfCelling)
         etITLVentilationAreaInSqFt = view.bindView(R.id.etITLVentilationAreaInSqFt)
@@ -2652,8 +1630,6 @@ class TrainingFragment : Fragment() {
         etITLLightsInNo = view.bindView(R.id.etITLLightsInNo)
         etITLFansInNo = view.bindView(R.id.etITLFansInNo)
 
-
-
         //         Office Cum(Counselling room)    Ajit Ranjan  EditText Id GET
         etOfficeCumHeightOfCelling = view.bindView(R.id.etOfficeCumHeightOfCelling)
         etOfficeCumAnOfficeTableNo = view.bindView(R.id.etOfficeCumAnOfficeTableNo)
@@ -2661,19 +1637,12 @@ class TrainingFragment : Fragment() {
         etOfficeCumPrinterCumScannerInNo = view.bindView(R.id.etOfficeCumPrinterCumScannerInNo)
         etOfficeCumDigitalCameraInNo = view.bindView(R.id.etOfficeCumDigitalCameraInNo)
 
-
-
 //        (Office room)    Ajit Ranjan  EditText Id GET
         etORHeightOfCelling = view.bindView(R.id.etORHeightOfCelling)
         etORAnOfficeTableNo = view.bindView(R.id.etORAnOfficeTableNo)
         etORChairs = view.bindView(R.id.etORChairs)
         etORPrinterCumScannerInNo = view.bindView(R.id.etORPrinterCumScannerInNo)
         etORDigitalCameraInNo = view.bindView(R.id.etORDigitalCameraInNo)
-
-
-
-
-
 //        IT COME DOMAIN LAB  Ajit Ranjan  EditText Id GET
         etITCDLHeightOfCelling = view.bindView(R.id.etITCDLHeightOfCelling)
         etITCDLVentilationAreaInSqFt = view.bindView(R.id.etITCDLVentilationAreaInSqFt)
@@ -2706,8 +1675,6 @@ class TrainingFragment : Fragment() {
         etTCDLListofDomain = view.bindView(R.id.etTCDLListofDomain)
 
 //        DOMAIN Lab Ajit Ranjan
-
-
         etDLHeightOfCelling = view.bindView(R.id.etDLHeightOfCelling)
         etDLVentilationAreaInSqFt = view.bindView(R.id.etDLVentilationAreaInSqFt)
         etDLSoundLevelInDb = view.bindView(R.id.etDLSoundLevelInDb)
@@ -2717,7 +1684,6 @@ class TrainingFragment : Fragment() {
         etDLListOfDomainLab = view.bindView(R.id.etDLILListofDomain)
 
 //           TCR
-
         etTCRHeightOfCelling = view.bindView(R.id.etTCRHeightOfCelling)
         etTCRVentilationAreaInSqFt = view.bindView(R.id.etTCRVentilationAreaInSqFt)
         etTCRSoundLevelInDb = view.bindView(R.id.etTCRSoundLevelInDb)
@@ -2763,7 +1729,6 @@ class TrainingFragment : Fragment() {
         btnUploadProofFlooring = view.bindView(R.id.btnUploadProofFlooring)
         ivPreviewFlooringProof = view.bindView(R.id.ivPreviewProofFlooring)
 
-
         // Initialize CCTV ImageViews
         ivMonitorPreview = view.findViewById(R.id.ivMonitorPreview)
         ivConformancePreview = view.findViewById(R.id.ivConformancePreview)
@@ -2777,24 +1742,13 @@ class TrainingFragment : Fragment() {
         // Initialize General Details ImageViews
         ivLeakagePreview = view.findViewById(R.id.ivLeakagePreview)
         ivStairsPreview = view.findViewById(R.id.ivStairsPreview)
-
         //Initialize support infra ImageViews
-
         ivFirstAidKitPreview = view.findViewById(R.id.ivFirstAidKitPreview)
         ivFireFightingEquipmentPreview = view.findViewById(R.id.ivFireFightingEquipmentPreview)
         ivSafeDrinkingWaterPreview = view.findViewById(R.id.ivSafeDrinkingWaterPreview)
         spinnerFirstAidKit = view.findViewById(R.id.spinnerFirstAidKit)
-
         spinnerSafeDrinkingWater = view.findViewById(R.id.spinnerSafeDrinkingWater)
         spinnerFireFightingEquipment = view.findViewById(R.id.spinnerFireFightingEquipment)
-
-
-
-
-
-
-
-
         ivPowerBackupPreview = view.findViewById(R.id.ivPowerBackupPreview)
         ivBiometricDevicesPreview = view.findViewById(R.id.ivBiometricDevicesPreview)
         ivCCTVPreview = view.findViewById(R.id.ivCCTVPreview)
@@ -2813,7 +1767,6 @@ class TrainingFragment : Fragment() {
         spinnerGrievanceRegister=view.findViewById(R.id.spinnerGrievanceRegister)
         spinnerMinimumEquipment=view.findViewById(R.id.spinnerMinimumEquipment)
         spinnerDirectionBoards=view.findViewById(R.id.spinnerDirectionBoards)
-
         // Description of other areas
         ivProofPreview = view.findViewById(R.id.ivProofPreview)
         ivCirculationProofPreview = view.findViewById(R.id.ivCirculationProofPreview)
@@ -2828,21 +1781,11 @@ class TrainingFragment : Fragment() {
         etCirculationArea =view.findViewById(R.id.etCirculationArea)
         etOpenSpace =view.findViewById(R.id.etOpenSpace)
         etExclusiveParkingSpace =view.findViewById(R.id.etExclusiveParkingSpace)
-
         // Description of Ajit Ranjnan
-
-
         AcsdemicSpinner = view.findViewById(R.id.AcsdemicSpinner)
         // General Details Spinners
-
-
-
-
         lin_domain_lab = view.findViewById(R.id.lin_domain_lab)
         lin_itlab = view.findViewById(R.id.lin_itlab)
-
-
-
         lin_office_counselling_room = view.findViewById(R.id.lin_office_counselling_room)
         lin_counselling_room = view.findViewById(R.id.lin_counselling_room)
         lin_non_reception = view.findViewById(R.id.lin_non_reception)
@@ -2851,8 +1794,6 @@ class TrainingFragment : Fragment() {
         lin_theory_cum_it_lab = view.findViewById(R.id.lin_theory_cum_it_lab)
         lin_theory_cum_domain_lab = view.findViewById(R.id.lin_theory_cum_domain_lab)
         lin_theory_class_room = view.findViewById(R.id.lin_theory_class_room)
-
-
         etLength = view.findViewById(R.id.etLength)
         etWidth = view.findViewById(R.id.etWidth)
         tvArea = view.findViewById(R.id.tvArea)
@@ -2861,14 +1802,10 @@ class TrainingFragment : Fragment() {
         tvArea.visibility = View.GONE
         etroomType = view.findViewById(R.id.etroomType)
         etroomType.visibility = View.GONE
-
 //        etetDescriptionOfAcademic_NonAcademicAreashWidth = view.findViewById(R.id.etetDescriptionOfAcademic_NonAcademicAreashWidth)
         btnSubmitAdddMore = view.findViewById(R.id.btnSubmitAdddMore)
         LayoutLinear = view.findViewById(R.id.LayoutLinear)
         RecyclerViewData = view.findViewById(R.id.RecyclerViewData)
-
-
-
 //        IT LAB
         ivPreviewITLTypeofRoofItLab = view.findViewById(R.id.ivPreviewITLTypeofRoofItLab)
         ivPreviewITLFalseCellingProvide = view.findViewById(R.id.ivPreviewITLFalseCellingProvide)
@@ -2892,10 +1829,7 @@ class TrainingFragment : Fragment() {
         ivPreviewITLElectricaPowerBackUpForThRoom = view.findViewById(R.id.ivPreviewITLElectricaPowerBackUpForThRoom)
         ivPreviewITLItLabPhotograph = view.findViewById(R.id.ivPreviewITLItLabPhotograph)
         ivPreviewITLDoes_the_room_has = view.findViewById(R.id.ivPreviewITLDoes_the_room_has)
-
 //        Office Cum(Counselling room)
-
-
         ivPreviewOfficeRoomPhotograph = view.findViewById(R.id.ivPreviewOfficeRoomPhotograph)
         ivPreviewOfficeCumTypeofRoofItLab = view.findViewById(R.id.ivPreviewOfficeCumTypeofRoofItLab)
         ivPreviewOfficeCumFalseCellingProvide = view.findViewById(R.id.ivPreviewOfficeCumFalseCellingProvide)
@@ -2908,17 +1842,11 @@ class TrainingFragment : Fragment() {
         ivPreviewOfficeCumPrinterCumScannerInNo = view.findViewById(R.id.ivPreviewOfficeCumPrinterCumScannerInNo)
         ivPreviewOfficeCumDigitalCameraInNo = view.findViewById(R.id.ivPreviewOfficeCumDigitalCameraInNo)
         ivPreviewOfficeCumElectricialPowerBackup = view.findViewById(R.id.ivPreviewOfficeCumElectricialPowerBackup)
-
 //        Reception Area
-
         ivPreviewReceptionAreaPhotogragh = view.findViewById(R.id.ivPreviewReceptionAreaPhotogragh)
-
 //        CounsellingRoomArea
         ivPreviewCounsellingRoomAreaPhotograph = view.findViewById(R.id.ivPreviewCounsellingRoomAreaPhotograph)
-
 //        Office  Room
-
-
         ivPreviewOROfficeRoomPhotograph = view.findViewById(R.id.ivPreviewOROfficeRoomPhotograph)
         ivPreviewORTypeofRoofItLab = view.findViewById(R.id.ivPreviewORTypeofRoofItLab)
         ivPreviewORFalseCellingProvide = view.findViewById(R.id.ivPreviewORFalseCellingProvide)
@@ -2930,15 +1858,7 @@ class TrainingFragment : Fragment() {
         ivPreviewORPrinterCumScannerInNo = view.findViewById(R.id.ivPreviewORPrinterCumScannerInNo)
         ivPreviewORDigitalCameraInNo = view.findViewById(R.id.ivPreviewORDigitalCameraInNo)
         ivPreviewORElectricialPowerBackup = view.findViewById(R.id.ivPreviewORElectricialPowerBackup)
-
-
-
-//
-
-
 //        It Come Domain Lab
-
-
         ivPreviewITCDLTypeofRoofItLab = view.findViewById(R.id.ivPreviewITCDLTypeofRoofItLab)
         ivPreviewITCDLFalseCellingProvide = view.findViewById(R.id.ivPreviewITCDLFalseCellingProvide)
         ivPreviewITCDLabHeightOfCelling = view.findViewById(R.id.ivPreviewITCDLabHeightOfCelling)
@@ -2963,7 +1883,6 @@ class TrainingFragment : Fragment() {
         ivPreviewITCDLDoes_the_room_has = view.findViewById(R.id.ivPreviewITCDLDoes_the_room_has)
 
 //            Thorey Come It Lab
-
         ivPreviewTCILListofDomain = view.findViewById(R.id.ivPreviewTCILListofDomain)
         ivPreviewTCILTypeofRoofItLab = view.findViewById(R.id.ivPreviewTCILTypeofRoofItLab)
         ivPreviewTCILFalseCellingProvide = view.findViewById(R.id.ivPreviewTCILFalseCellingProvide)
@@ -2986,11 +1905,7 @@ class TrainingFragment : Fragment() {
         ivPreviewTCILElectricaPowerBackUpForThRoom = view.findViewById(R.id.ivPreviewTCILElectricaPowerBackUpForThRoom)
         ivPreviewTCILTheoryCumItLabPhotogragh = view.findViewById(R.id.ivPreviewTCILTheoryCumItLabPhotogragh)
         ivPreviewTCILDoes_the_room_has = view.findViewById(R.id.ivPreviewTCILDoes_the_room_has)
-
 //        Theory Cum Domain Lab Ajit Ranjan Click On Button
-
-
-
         ivPreviewTCDLTypeofRoofItLab = view.findViewById(R.id.ivPreviewTCDLTypeofRoofItLab)
         ivPreviewTCDLFalseCellingProvide = view.findViewById(R.id.ivPreviewTCDLFalseCellingProvide)
         ivPreviewTCDLHeightOfCelling = view.findViewById(R.id.ivPreviewTCDLHeightOfCelling)
@@ -3034,11 +1949,7 @@ class TrainingFragment : Fragment() {
         ivPreviewDLDomainLabPhotogragh = view.findViewById(R.id.ivPreviewDLDomainLabPhotogragh)
         ivPreviewDLDoes_the_room_has = view.findViewById(R.id.ivPreviewDLDoes_the_room_has)
 
-
 //         TCR Ajit Ranjan (PMAYG)Theory Class Room
-
-
-
         ivPreviewTCRTypeofRoofItLab = view.findViewById(R.id.ivPreviewTCRTypeofRoofItLab)
         ivPreviewTCRFalseCellingProvide = view.findViewById(R.id.ivPreviewTCRFalseCellingProvide)
         ivPreviewTCRHeightOfCelling = view.findViewById(R.id.ivPreviewTCRHeightOfCelling)
@@ -3083,7 +1994,6 @@ class TrainingFragment : Fragment() {
         spinnerGrievanceRegister=view.findViewById(R.id.spinnerGrievanceRegister)
         spinnerMinimumEquipment=view.findViewById(R.id.spinnerMinimumEquipment)
         spinnerDirectionBoards=view.findViewById(R.id.spinnerDirectionBoards)
-
         // Description of other areas
         ivProofPreview = view.findViewById(R.id.ivProofPreview)
         ivCirculationProofPreview = view.findViewById(R.id.ivCirculationProofPreview)
@@ -3121,7 +2031,6 @@ class TrainingFragment : Fragment() {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
 
-        ///////////////////////////
         val overheadTankOptions = listOf("--Select--", "Available", "Not Available")
         val flooringOptions = listOf("--Select--", "Cement", "TILE", "Polished")
         val RccNonRCC = listOf("--Select--", "RCC", "NON-RCC", "RCC & NON RCC")
@@ -3131,73 +2040,52 @@ class TrainingFragment : Fragment() {
         //val actvTypeOfFlooring: AutoCompleteTextView = view.findViewById(R.id.actvTypeOfFlooring)
 
 // Create ArrayAdapter for Overhead Tanks dropdown
-
         val RCCNONRCCAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
             RccNonRCC
         )
-
         val overheadTankAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
             overheadTankOptions
         )
-
 // Create ArrayAdapter for Flooring dropdown
         val flooringAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
             flooringOptions
         )
-
 // Set adapter on AutoCompleteTextViews
         actvOverheadTanks.setAdapter(overheadTankAdapter)
         actvTypeOfFlooring.setAdapter(flooringAdapter)
-
         // Setup CCTV & Electrical Spinners& upport infra spinners
         val spinners = listOf(
+
             R.id.spinnerMonitorAccessible, R.id.spinnerConformance, R.id.spinnerStorage,
             R.id.spinnerDVRStaticIP, R.id.spinnerIPEnabled, R.id.spinnerResolution,
             R.id.spinnerVideoStream, R.id.spinnerRemoteAccessBrowser, R.id.spinnerSimultaneousAccess,
             R.id.spinnerSupportedProtocols, R.id.spinnerColorVideoAudio, R.id.spinnerStorageFacility,
             R.id.spinnerSwitchBoards, R.id.spinnerCandidateSafety,R.id.spinnerFirstAidKit,R.id.spinnerSafeDrinkingWater,R.id.spinnerPowerBackup,R.id.spinnerCCTV,R.id.spinnerStorage,R.id.spinnerSecure
-
-
 //               IT LAB
-
-
             , R.id.spinnerITLepbftr,R.id.spinnerITLTypeofRoofItLab,R.id.spinnerITLSoundLevelAsPerSpecifications,R.id.spinnerITLFalseCellingProvide,R.id.spinnerITLAcademicRoomInformationBoard
             ,R.id.spinnerITLInternalSignage,R.id.spinnerITLCctcCamerasWithAudioFacility,R.id.spinnerITLabInternetConnections
             ,R.id.spinnerITLDoAllComputersHaveTypingTutor,R.id.spinnerITLTrainerChair,R.id.spinnerITLTrainerTable
             ,R.id.spinnerITLtLabPhotograph,R.id.spinnerITLDoes_the_room_has,
-
-
-
 //           OCCR
-
             R.id.spinnerOCCROfficeTable,R.id.spinnerOCCRCumSplaceforSecuringDoc,R.id.spinnerOCCRPhotograph,R.id.spinnerOfficeCumTypeofRoofItLab,R.id.spinnerOfficeCumFalseCellingProvide,R.id.spinnerOfficeCumLepbftr,R.id.spinnerOfficeCumTableOfofficeCumpter,
-
 //               OfficeCum
             R.id.spinnerReceptionAreaEPBR,
 //               CounsellingRoomArea
-
             R.id.spinnerCounsellingRoomAreaPhotograph,
-
 //               Office Room
-
             R.id.spinnerORTypeofRoofItLab,
             R.id.spinnerORSplaceforSecuringDoc,
             R.id.spinnerROfficeRoomPhotograph,
             R.id.spinnerORFalseCellingProvide,
             R.id.spinnerORTableOfofficeCumpter,
             R.id.spinnerORPOEPBFTR,
-
-
-
 //               IT Come Domain Lab
-
-
             R.id.spinnerITCDLSoundLevelAsPerSpecifications,
             R.id.spinnerITCDLItLabPhotograph,
             R.id.spinnerITCDLTypeofRoofItLab,
@@ -3221,9 +2109,6 @@ class TrainingFragment : Fragment() {
             R.id.spinnerTCILTrainerChair,
             R.id.spinnerTCILTrainerTable,
 
-
-
-
             R.id.spinnerTCILwhether_all_the_academic,
             R.id.spinnerTCILLAcademicRoomInformationBoard,
             R.id.spinnerTCILInternalSignage,
@@ -3233,9 +2118,7 @@ class TrainingFragment : Fragment() {
             R.id.spinnerTCILIPowerBackup,
             R.id.spinnerTCILDLDoes_the_room_has,
             R.id.spinnerTCILTheoryCumItLabPhotogragh,
-
 //               Theory Cum Domain Lab Ajit Ranjan Spinner's Id
-
             R.id.spinnerTCDLTypeofRoofItLab,
             R.id.spinnerTCDLFalseCellingProvide,
             R.id.spinnerTCDLSoundLevelAsPerSpecifications,
@@ -3251,9 +2134,7 @@ class TrainingFragment : Fragment() {
             R.id.spinnerTCDLPowerBackup,
             R.id.spinnerTCDLDoes_the_room_has,
 
-
 //               Domain Lab Ajit Ranjan Spinner's Id
-
             R.id.spinnerDLLcdDigitalProjector,
             R.id.spinnerDLTrainerChair,
             R.id.spinnerDLTrainerTable,
@@ -3269,15 +2150,7 @@ class TrainingFragment : Fragment() {
             R.id.spinnerDLElectricaPowerBackUp,
             R.id.spinnerDLwhether_all_the_academic,
             R.id.spinnerDLDoes_the_room_has,
-
-
 //                  TCR
-
-
-
-
-
-
             R.id.spinnerTCRTypeofRoofItLab,
             R.id.spinnerTCRFalseCellingProvide,
             R.id.spinnerTCRSoundLevelAsPerSpecifications,
@@ -3293,20 +2166,7 @@ class TrainingFragment : Fragment() {
             R.id.spinnerTCRDoes_the_room_has,
             R.id.spinnerTCRPowerBackup,
 
-
-
-
-
-
             )
-
-
-
-
-
-
-
-
         spinners.forEach {
             view.findViewById<Spinner>(it).adapter = yesNoAdapter
         }
@@ -3335,8 +2195,6 @@ class TrainingFragment : Fragment() {
             Pair(view.findViewById<Spinner>(R.id.spinnerMinimumEquipment), view.findViewById<Button>(R.id.btnUploadMinimumEquipment)),
             Pair(view.findViewById<Spinner>(R.id.spinnerDirectionBoards), view.findViewById<Button>(R.id.btnUploadDirectionBoards)),
 
-
-
 //                    It Lab  Ajit Ranjan
             Pair(view.findViewById<Spinner>(R.id.spinnerITLTypeofRoofItLab), view.findViewById<Button>(R.id.btnITLTypeofRoofItLab)),
             Pair(view.findViewById<Spinner>(R.id.spinnerITLSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnITLSoundLevelAsPerSpecifications)),
@@ -3363,16 +2221,10 @@ class TrainingFragment : Fragment() {
             Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumLepbftr), view.findViewById<Button>(R.id.btnOfficeCumElectricialPowerBackup)),
             Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumTableOfofficeCumpter), view.findViewById<Button>(R.id.btnOfficeCumTableOfofficeCumpter)),
 
-//            ReceptionArea
-
+//            ReceptionAre
             Pair(view.findViewById<Spinner>(R.id.spinnerReceptionAreaEPBR), view.findViewById<Button>(R.id.btnReceptionAreaPhotogragh)),
-
-
-
             Pair(view.findViewById<Spinner>(R.id.spinnerCounsellingRoomAreaPhotograph), view.findViewById<Button>(R.id.btnCounsellingRoomAreaPhotograph)),
-
 //            Office Room
-
             Pair(view.findViewById<Spinner>(R.id.spinnerORTypeofRoofItLab), view.findViewById<Button>(R.id.btnORTypeofRoofItLab)),
             Pair(view.findViewById<Spinner>(R.id.spinnerORSplaceforSecuringDoc), view.findViewById<Button>(R.id.btnORSplaceforSecuringDoc)),
             Pair(view.findViewById<Spinner>(R.id.spinnerROfficeRoomPhotograph), view.findViewById<Button>(R.id.btnOROfficeRoomPhotograph)),
@@ -3381,10 +2233,6 @@ class TrainingFragment : Fragment() {
             Pair(view.findViewById<Spinner>(R.id.spinnerORPOEPBFTR), view.findViewById<Button>(R.id.btnORElectricialPowerBackup)),
 
 //            IT Come Domain Lab
-
-
-
-
 //            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnITCDLabSoundLevelAsPerSpecifications)),
             Pair(view.findViewById<Spinner>(R.id.spinnerITCDLItLabPhotograph), view.findViewById<Button>(R.id.btnITCDLItLabPhotograph)),
             Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTypeofRoofItLab), view.findViewById<Button>(R.id.btnITCDLTypeofRoofItLab)),
@@ -3401,15 +2249,11 @@ class TrainingFragment : Fragment() {
             Pair(view.findViewById<Spinner>(R.id.spinnerITCDLDoes_the_room_has), view.findViewById<Button>(R.id.btnITCDLDoes_the_room_has)),
 
 //                    Theory Cum IT Lab Ajit Ranjan Spinner set adapter
-
-
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILITypeofRoofItLab), view.findViewById<Button>(R.id.btnTCILTypeofRoofItLab)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILFalseCellingProvide), view.findViewById<Button>(R.id.btnTCILFalseCellingProvide)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTTCILSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnTCILSoundLevelAsPerSpecifications)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILTrainerChair), view.findViewById<Button>(R.id.btnTCILTrainerChair)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILTrainerTable), view.findViewById<Button>(R.id.btnTCILTrainerTable)),
-
-
 
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILwhether_all_the_academic), view.findViewById<Button>(R.id.btnITDLwhether_all_the_academic)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITCDLAcademicRoomInformationBoard)),
@@ -3422,12 +2266,6 @@ class TrainingFragment : Fragment() {
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILDLDoes_the_room_has), view.findViewById<Button>(R.id.btnITCDLTrainerTable)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILTheoryCumItLabPhotogragh), view.findViewById<Button>(R.id.btnTCILTheoryCumItLabPhotogragh)),
 //                    Theory Cum Domain Lab Ajit Ranjan Spinner set adapter
-
-
-
-
-
-
             Pair(view.findViewById<Spinner>(R.id.spinnerTCDLTypeofRoofItLab), view.findViewById<Button>(R.id.btnTCDLTypeofRoofItLab)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCDLFalseCellingProvide), view.findViewById<Button>(R.id.btnTCDLFalseCellingProvide)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCDLSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnTCDLSoundLevelAsPerSpecifications)),
@@ -3442,8 +2280,6 @@ class TrainingFragment : Fragment() {
             Pair(view.findViewById<Spinner>(R.id.spinnerTCDLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnTCDLCctcCamerasWithAudioFacility)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCDLPowerBackup), view.findViewById<Button>(R.id.btnTCDLElectricaPowerBackUpForThRoom)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCDLDoes_the_room_has), view.findViewById<Button>(R.id.btnTCDLDoes_the_room_has)),
-
-
 
             //                    Domain Lab Ajit Ranjan Spinner set adapter
             Pair(view.findViewById<Spinner>(R.id.spinnerDLLcdDigitalProjector), view.findViewById<Button>(R.id.btnDLLcdDigitalProjector)),
@@ -3461,13 +2297,7 @@ class TrainingFragment : Fragment() {
             Pair(view.findViewById<Spinner>(R.id.spinnerDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnDLwhether_all_the_academic)),
             Pair(view.findViewById<Spinner>(R.id.spinnerDLDoes_the_room_has), view.findViewById<Button>(R.id.btnDLDoes_the_room_has)),
 
-
-
 //                TCR
-
-
-
-
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRTypeofRoofItLab), view.findViewById<Button>(R.id.btnTCRTypeofRoofItLab)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRFalseCellingProvide), view.findViewById<Button>(R.id.btnTCRFalseCellingProvide)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnTCRSoundLevelAsPerSpecifications)),
@@ -3476,21 +2306,12 @@ class TrainingFragment : Fragment() {
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRTrainerTable), view.findViewById<Button>(R.id.btnTCRTrainerTable)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRWritingBoard), view.findViewById<Button>(R.id.btnTCRWritingBoard)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRDomainLabPhotogragh), view.findViewById<Button>(R.id.btnTCRDomainLabPhotogragh)),
-
-
-
-
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRwhether_all_the_academic), view.findViewById<Button>(R.id.btnTCRwhether_all_the_academic)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnTCRAcademicRoomInformationBoard)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRInternalSignage), view.findViewById<Button>(R.id.btnTCRInternalSignage)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnTCRCctcCamerasWithAudioFacility)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRDoes_the_room_has), view.findViewById<Button>(R.id.btnTCRDoes_the_room_has)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRPowerBackup), view.findViewById<Button>(R.id.btnTCRElectricaPowerBackUpForThRoom)),
-
-
-
-
-
 
             )
 
@@ -3513,10 +2334,7 @@ class TrainingFragment : Fragment() {
             }
         }
 
-
-
 //        It Lab    Spinner Id Ajit Ranjan
-
 
         spinnerITLepbftr = view.findViewById(R.id.spinnerITLepbftr)
         spinnerITLTypeofRoofItLab = view.findViewById(R.id.spinnerITLTypeofRoofItLab)
@@ -3552,8 +2370,6 @@ class TrainingFragment : Fragment() {
         spinnerITLtLabPhotograph.setAdapter(yesNoAdapter)
         spinnerITLDoes_the_room_has.setAdapter(yesNoAdapter)
 
-
-
 //               Office Cum(Counselling room)    Spinner Id Ajit Ranjan
         spinnerOCCROfficeTable = view.findViewById(R.id.spinnerOCCROfficeTable)
         spinnerOCCRCumSplaceforSecuringDoc = view.findViewById(R.id.spinnerOCCRCumSplaceforSecuringDoc)
@@ -3573,7 +2389,6 @@ class TrainingFragment : Fragment() {
 //      ReceptionArea  Spinner Id Ajit Ranjan
 
         spinnerReceptionAreaEPBR = view.findViewById(R.id.spinnerReceptionAreaEPBR)
-
         spinnerOfficeCumLepbftr.setAdapter(yesNoAdapter)
 
 //        CounsellingRoomArea
@@ -3581,7 +2396,6 @@ class TrainingFragment : Fragment() {
         spinnerCounsellingRoomAreaPhotograph.setAdapter(yesNoAdapter)
 
 //          Office Room
-
         spinnerORTypeofRoofItLab = view.findViewById(R.id.spinnerORTypeofRoofItLab)
         spinnerORSplaceforSecuringDoc = view.findViewById(R.id.spinnerORSplaceforSecuringDoc)
         spinnerROfficeRoomPhotograph = view.findViewById(R.id.spinnerROfficeRoomPhotograph)
@@ -3595,13 +2409,8 @@ class TrainingFragment : Fragment() {
         spinnerORTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
         spinnerORSplaceforSecuringDoc.setAdapter(yesNoAdapter)
 
-
-
 //            IT Come Domain Lab
-
-
-
-        spinnerITCDLSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerITCDLSoundLevelAsPerSpecifications)
+       spinnerITCDLSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerITCDLSoundLevelAsPerSpecifications)
         spinnerITCDLItLabPhotograph = view.findViewById(R.id.spinnerITCDLItLabPhotograph)
         spinnerITCDLTypeofRoofItLab = view.findViewById(R.id.spinnerITCDLTypeofRoofItLab)
         spinnerITCDLFalseCellingProvide = view.findViewById(R.id.spinnerITCDLFalseCellingProvide)
@@ -3634,12 +2443,7 @@ class TrainingFragment : Fragment() {
 
         //                    Theory Cum IT Lab Ajit Ranjan Spinner set adapter
 
-
-
-
-
-
-        spinnerTCILITypeofRoofItLab = view.findViewById(R.id.spinnerTCILITypeofRoofItLab)
+       spinnerTCILITypeofRoofItLab = view.findViewById(R.id.spinnerTCILITypeofRoofItLab)
         spinnerTCILFalseCellingProvide = view.findViewById(R.id.spinnerTCILFalseCellingProvide)
         spinnerTTCILSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerTTCILSoundLevelAsPerSpecifications)
         spinnerTCILTrainerChair = view.findViewById(R.id.spinnerTCILTrainerChair)
@@ -3654,12 +2458,6 @@ class TrainingFragment : Fragment() {
 //        spinnerTCILIPEnabled = view.findViewById(R.id.spinnerTCILIPEnabled)
         spinnerTCILDLDoes_the_room_has = view.findViewById(R.id.spinnerTCILDLDoes_the_room_has)
         spinnerTCILTheoryCumItLabPhotogragh = view.findViewById(R.id.spinnerTCILTheoryCumItLabPhotogragh)
-
-//
-
-
-
-
 
 
         spinnerTCILITypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
@@ -3688,10 +2486,6 @@ class TrainingFragment : Fragment() {
 //            R.id.spinnerTCDLWritingBoard,
 //            R.id.spinnerTCDLDomainLabPhotogragh,
 
-
-
-
-
         spinnerTCDLTypeofRoofItLab = view.findViewById(R.id.spinnerTCDLTypeofRoofItLab)
         spinnerTCDLFalseCellingProvide = view.findViewById(R.id.spinnerTCDLFalseCellingProvide)
         spinnerTCDLSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerTCDLSoundLevelAsPerSpecifications)
@@ -3706,10 +2500,6 @@ class TrainingFragment : Fragment() {
         spinnerTCDLCctcCamerasWithAudioFacility = view.findViewById(R.id.spinnerTCDLCctcCamerasWithAudioFacility)
         spinnerTCDLPowerBackup = view.findViewById(R.id.spinnerTCDLPowerBackup)
         spinnerTCDLDoes_the_room_has = view.findViewById(R.id.spinnerTCDLDoes_the_room_has)
-
-
-
-
 
         spinnerTCDLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
         spinnerTCDLFalseCellingProvide.setAdapter(yesNoAdapter)
@@ -3726,8 +2516,6 @@ class TrainingFragment : Fragment() {
         spinnerTCDLPowerBackup.setAdapter(yesNoAdapter)
         spinnerTCDLDoes_the_room_has.setAdapter(yesNoAdapter)
 
-
-
         //                    Domain Lab Ajit Ranjan Spinner set adapter
         spinnerDLLcdDigitalProjector = view.findViewById(R.id.spinnerDLLcdDigitalProjector)
         spinnerDLTrainerChair = view.findViewById(R.id.spinnerDLTrainerChair)
@@ -3736,9 +2524,6 @@ class TrainingFragment : Fragment() {
         spinnerDLFalseCellingProvide = view.findViewById(R.id.spinnerDLFalseCellingProvide)
         spinnerDLTypeofRoofItLab = view.findViewById(R.id.spinnerDLTypeofRoofItLab)
         spinnerDDLSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerDDLSoundLevelAsPerSpecifications)
-
-
-
 
         spinnerDLDomainLabPhotogragh = view.findViewById(R.id.spinnerDLDomainLabPhotogragh)
         spinnerDLAcademicRoomInformationBoard = view.findViewById(R.id.spinnerDLAcademicRoomInformationBoard)
@@ -3759,11 +2544,6 @@ class TrainingFragment : Fragment() {
         spinnerDLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
         spinnerDDLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
 
-
-
-
-
-
         spinnerDLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
         spinnerDLInternalSignage.setAdapter(yesNoAdapter)
         spinnerDLCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
@@ -3773,11 +2553,6 @@ class TrainingFragment : Fragment() {
 
 
 //          TCR Ajit Ranjan(PMAYG)
-
-
-
-
-
 
         spinnerTCRTypeofRoofItLab = view.findViewById(R.id.spinnerTCRTypeofRoofItLab)
         spinnerTCRFalseCellingProvide = view.findViewById(R.id.spinnerTCRFalseCellingProvide)
@@ -3797,11 +2572,6 @@ class TrainingFragment : Fragment() {
         spinnerTCRDoes_the_room_has = view.findViewById(R.id.spinnerTCRDoes_the_room_has)
         spinnerTCRPowerBackup = view.findViewById(R.id.spinnerTCRPowerBackup)
 
-
-
-
-
-
         spinnerTCRTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
         spinnerTCRFalseCellingProvide.setAdapter(yesNoAdapter)
         spinnerTCRSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
@@ -3817,18 +2587,7 @@ class TrainingFragment : Fragment() {
         spinnerTCRDoes_the_room_has.setAdapter(yesNoAdapter)
         spinnerTCRPowerBackup.setAdapter(yesNoAdapter)
         spinnerFireFightingEquipment.setAdapter(yesNoAdapter)
-
-
-
-
-
-
-
-
-
-
-
-        // General Details Spinners
+       // General Details Spinners
         spinnerLeakageCheck = view.findViewById(R.id.spinnerLeakageCheck)
         spinnerProtectionStairs = view.findViewById(R.id.spinnerProtectionStairs)
         spinnerDDUConformance = view.findViewById(R.id.spinnerDDUConformance)
@@ -4039,10 +2798,10 @@ class TrainingFragment : Fragment() {
                 SubmitDL()
             else
                 Toast.makeText(
-                requireContext(),
-                "Please complete all fields for Submit Domain Lab Details.",
-                Toast.LENGTH_LONG
-            ).show()
+                    requireContext(),
+                    "Please complete all fields for Submit Domain Lab Details.",
+                    Toast.LENGTH_LONG
+                ).show()
 
             //SubmitDL()
 
@@ -4372,15 +3131,6 @@ class TrainingFragment : Fragment() {
                 base64ProofITLDoes_the_room_has= null
 
 
-
-
-
-
-
-
-
-
-
             }
             result.onFailure {
                 // ✅ Dismiss progress dialog
@@ -4425,16 +3175,6 @@ class TrainingFragment : Fragment() {
                 base64ProofOfficeCumPrinterCumScannerInNo= null
                 base64ProofOfficeCumDigitalCameraInNo= null
                 base64ProofOfficeCumElectricialPowerBackup= null
-
-
-
-
-
-
-
-
-
-
 
 
             }
@@ -4539,16 +3279,6 @@ class TrainingFragment : Fragment() {
                 base64ProofORPrinterCumScannerInNo= null
                 base64ProofORDigitalCameraInNo= null
                 base64ProofORElectricialPowerBackup= null
-
-
-
-
-
-
-
-
-
-
 
 
             }
@@ -4843,15 +3573,6 @@ class TrainingFragment : Fragment() {
             }
         }
 
-
-
-
-
-
-
-
-
-
         viewModel.insertCCTVdata.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 Toast.makeText(
@@ -4865,7 +3586,7 @@ class TrainingFragment : Fragment() {
                     loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                     tcId = centerId.toInt(),
                     sanctionOrder = sanctionOrder,
-                        imeiNo = AppUtil.getAndroidId(requireContext())
+                    imeiNo = AppUtil.getAndroidId(requireContext())
                 )
 
                 viewModel.getSectionsStatusData(requestTcInfraReq)
@@ -5247,6 +3968,7 @@ class TrainingFragment : Fragment() {
                     }),
                     3 to SectionHandler(sectionsStatus.generalDetailsSection, {
                         viewModel.getGeneralDetails(request)
+                        collectTCGeneral(content, icon)
                     }),
                     5 to SectionHandler(sectionsStatus.signageSection, {
                         viewModel.getSignagesAndInfoBoard(request)
@@ -5301,6 +4023,8 @@ class TrainingFragment : Fragment() {
         }
     }
 
+    //////////////////////
+
     @SuppressLint("SetTextI18n")
     private fun collectTCInfoResponse(content: LinearLayout, icon: ImageView) {
         viewModel.trainingCentersInfo.observe(viewLifecycleOwner) { result ->
@@ -5315,10 +4039,13 @@ class TrainingFragment : Fragment() {
                             val distanceBus =  x.distanceFromBusStand
                             val distanceAuto = x.distanceFromAutoStand
                             val distanceRailway = x.distanceFromRailway
+                            binding.etDistanceBusStand.setText(distanceBus)
+                            binding.etDistanceAutoStand.setText(distanceAuto)
+                            binding.etDistanceRailwayStation.setText(distanceRailway)
 
-                            view?.findViewById<TextInputEditText>(R.id.etDistanceBusStand)?.setText(distanceBus)
-                            view?.findViewById<TextInputEditText>(R.id.etDistanceAutoStand)?.setText(distanceAuto)
-                            view?.findViewById<TextInputEditText>(R.id.etDistanceRailwayStation)?.setText(distanceRailway)
+                           // view?.findViewById<TextInputEditText>(R.id.etDistanceBusStand)?.setText(distanceBus)
+                           // view?.findViewById<TextInputEditText>(R.id.etDistanceAutoStand)?.setText(distanceAuto)
+                          //  view?.findViewById<TextInputEditText>(R.id.etDistanceRailwayStation)?.setText(distanceRailway)
                         }
                     }
 
@@ -5355,7 +4082,10 @@ class TrainingFragment : Fragment() {
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> {
+                        val gson = GsonBuilder().setPrettyPrinting().create()
+                        val jsonResponse = gson.toJson(it.wrappedList)
 
+                        Log.d("collectTCIpEnabele+++++++++>", "✅ Success Response:\n$jsonResponse")
                         val dataInfra = it.wrappedList
 
                         for (x in dataInfra) {
@@ -5567,9 +4297,16 @@ class TrainingFragment : Fragment() {
             content.visibility = View.VISIBLE
             icon.setImageResource(R.drawable.outline_arrow_upward_24)
 
+
+
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> {
+                        val gson = GsonBuilder().setPrettyPrinting().create()
+                        val jsonResponse = gson.toJson(it.wrappedList)
+
+                        Log.d("collectTCSignage", "✅ Success Response:\n$jsonResponse")
+
 
                         val dataInfra = it.wrappedList
 
@@ -5577,21 +4314,21 @@ class TrainingFragment : Fragment() {
                             val spinnerDetailsMap = mutableMapOf<Any, String?>()
                             val imagesMap = mutableMapOf<ImageView, String?>()
 
-                            spinnerDetailsMap[spinnerTcNameBoard] = x.tcNameImage.toString()
-                            spinnerDetailsMap[spinnerActivityAchievementBoard] = x.activityAchivementImage.toString()
-                            spinnerDetailsMap[spinnerStudentEntitlementBoard] = x.studentEntitlementImage.toString()
-                            spinnerDetailsMap[spinnerContactDetailBoard] = x.contactDetailsImage.toString()
-                            spinnerDetailsMap[spinnerBasicInfoBoard] = x.basicInfoImage.toString()
-                            spinnerDetailsMap[spinnerCodeConductBoard] = x.codeConductImage.toString()
-                            spinnerDetailsMap[spinnerStudentAttendanceBoard] = x.studentsAttendanceImage.toString()
+                            spinnerDetailsMap[spinnerTcNameBoard] = x.tcName.toString()
+                            spinnerDetailsMap[spinnerActivityAchievementBoard] = x.activityAchivement
+                            spinnerDetailsMap[spinnerStudentEntitlementBoard] = x.studentEntitlement
+                            spinnerDetailsMap[spinnerContactDetailBoard] = x.contactDetails
+                            spinnerDetailsMap[spinnerBasicInfoBoard] = x.basicInfo
+                            spinnerDetailsMap[spinnerCodeConductBoard] = x.codeConduct
+                            spinnerDetailsMap[spinnerStudentAttendanceBoard] = x.studentsAttendance
 
-                            base64TcNameBoardImage = x.tcName
-                            base64ActivityAchievementBoardImage = x.activityAchivement
-                            base64StudentEntitlementBoardImage = x.studentEntitlement
-                            base64ContactDetailBoardImage = x.contactDetails
-                            base64BasicInfoBoardImage = x.basicInfo
-                            base64CodeConductBoardImage = x.codeConduct
-                            base64StudentAttendanceBoardImage = x.studentsAttendance
+                            base64TcNameBoardImage =x.tcNameImage// x.tcName
+                            base64ActivityAchievementBoardImage =x.activityAchivementImage.toString() //x.activityAchivement
+                            base64StudentEntitlementBoardImage = x.studentEntitlementImage.toString()//x.studentEntitlement
+                            base64ContactDetailBoardImage = x.contactDetailsImage.toString()//x.contactDetails
+                            base64BasicInfoBoardImage =x.basicInfoImage.toString() //x.basicInfo
+                            base64CodeConductBoardImage =x.codeConductImage.toString() //x.codeConduct
+                            base64StudentAttendanceBoardImage = x.studentsAttendanceImage.toString() //x.studentsAttendance
 
                             imagesMap[ivTcNameBoardPreview] = base64TcNameBoardImage
                             imagesMap[ivActivityAchievementBoardPreview] = base64ActivityAchievementBoardImage
@@ -5600,7 +4337,6 @@ class TrainingFragment : Fragment() {
                             imagesMap[ivBasicInfoBoardPreview] = base64BasicInfoBoardImage
                             imagesMap[ivCodeConductBoardPreview] = base64CodeConductBoardImage
                             imagesMap[ivStudentAttendanceBoardPreview] = base64StudentAttendanceBoardImage
-
                             updateSpinner(spinnerDetailsMap)
                             showBase64Image(imagesMap)
                         }
@@ -5861,53 +4597,6 @@ class TrainingFragment : Fragment() {
         }
     }
 
-    private fun updateSpinner(spinnerDetailsMap: Map<Any, String?>) {
-        spinnerDetailsMap.forEach { (spinner, value) ->
-            when (spinner) {
-                is Int ->  view?.findViewById<Spinner>(spinner)?.setSelection(updateSelection(value))
-                is Spinner-> spinner.setSelection(updateSelection(value))
-            }
-        }
-    }
-
-    private fun updateSelection(value: String?) : Int {
-        return  when(value) {
-            "Yes" -> 1
-            "No" -> 2
-            else -> 0
-        }
-    }
-
-    private fun showBase64Image(imagesMap: Map<ImageView, String?>) {
-        imagesMap.forEach { (imageView, base64ImageString) ->
-            // Decode Base64 → Bitmap
-            val bitmap: Bitmap? = if (!base64ImageString.isNullOrBlank()) {
-                try {
-                    val cleanBase64 = base64ImageString
-                        .replace("data:image/png;base64,", "")
-                        .replace("data:image/jpg;base64,", "")
-                        .replace("data:image/jpeg;base64,", "")
-                        .replace("\\s".toRegex(), "")
-
-                    val decodedBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
-                    BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-                } catch (e: Exception) {
-                    null
-                }
-            } else {
-                null
-            }
-
-            // If bitmap is null → show default image
-            if (bitmap != null) {
-                imageView.setImageBitmap(bitmap)
-            } else {
-                imageView.setImageResource(R.drawable.no_image) // your fallback drawable
-            }
-            imageView.visibility = View.VISIBLE
-        }
-    }
-
     private fun collectFinalSubmitData() {
 
         viewModel.getFinalSubmitData.observe(viewLifecycleOwner) { result ->
@@ -5985,7 +4674,7 @@ class TrainingFragment : Fragment() {
                         }
 
                         if (sectionsStatus.academicSection > 0) {
-                            binding.ivToggleDescriptionOtherAreas.setImageResource(R.drawable.ic_verified)
+                            binding.ivToggleDescriptionOfAcademicNonAcademicAreas.setImageResource(R.drawable.ic_verified)
                         }
                     }
 
@@ -6012,6 +4701,58 @@ class TrainingFragment : Fragment() {
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
+
+
+
+///////////////////////////////////
+    private fun updateSpinner(spinnerDetailsMap: Map<Any, String?>) {
+        spinnerDetailsMap.forEach { (spinner, value) ->
+            when (spinner) {
+                is Int ->  view?.findViewById<Spinner>(spinner)?.setSelection(updateSelection(value))
+                is Spinner-> spinner.setSelection(updateSelection(value))
+            }
+        }
+    }
+
+    private fun updateSelection(value: String?) : Int {
+        return  when(value) {
+            "Yes" -> 1
+            "No" -> 2
+            else -> 0
+        }
+    }
+
+    private fun showBase64Image(imagesMap: Map<ImageView, String?>) {
+        imagesMap.forEach { (imageView, base64ImageString) ->
+            // Decode Base64 → Bitmap
+            val bitmap: Bitmap? = if (!base64ImageString.isNullOrBlank()) {
+                try {
+                    val cleanBase64 = base64ImageString
+                        .replace("data:image/png;base64,", "")
+                        .replace("data:image/jpg;base64,", "")
+                        .replace("data:image/jpeg;base64,", "")
+                        .replace("\\s".toRegex(), "")
+
+                    val decodedBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
+                    BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                } catch (e: Exception) {
+                    null
+                }
+            } else {
+                null
+            }
+
+            // If bitmap is null → show default image
+            if (bitmap != null) {
+                imageView.setImageBitmap(bitmap)
+            } else {
+                imageView.setImageResource(R.drawable.no_image) // your fallback drawable
+            }
+            imageView.visibility = View.VISIBLE
+        }
+    }
+
+
 
     private fun hasLocationPermission(): Boolean {
         val fineLocation = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -6088,48 +4829,48 @@ class TrainingFragment : Fragment() {
 
 
     private fun validateCCTVForm(view: View): Boolean {
-    // Step 1: Get spinner references
-    val spinnerMonitorAccessible = view.findViewById<Spinner>(R.id.spinnerMonitorAccessible)
-    val spinnerConformance = view.findViewById<Spinner>(R.id.spinnerConformance)
-    val spinnerStorage = view.findViewById<Spinner>(R.id.spinnerStorage)
-    val spinnerDVRStaticIP = view.findViewById<Spinner>(R.id.spinnerDVRStaticIP)
+        // Step 1: Get spinner references
+        val spinnerMonitorAccessible = view.findViewById<Spinner>(R.id.spinnerMonitorAccessible)
+        val spinnerConformance = view.findViewById<Spinner>(R.id.spinnerConformance)
+        val spinnerStorage = view.findViewById<Spinner>(R.id.spinnerStorage)
+        val spinnerDVRStaticIP = view.findViewById<Spinner>(R.id.spinnerDVRStaticIP)
 
-    // Step 2: Validate all spinners are selected (not "--Select--")
-    val spinnerOk = listOf(
-        spinnerMonitorAccessible,
-        spinnerConformance,
-        spinnerStorage,
-        spinnerDVRStaticIP,
-        view.findViewById(R.id.spinnerIPEnabled),
-        view.findViewById(R.id.spinnerResolution),
-        view.findViewById(R.id.spinnerVideoStream),
-        view.findViewById(R.id.spinnerRemoteAccessBrowser),
-        view.findViewById(R.id.spinnerSimultaneousAccess),
-        view.findViewById(R.id.spinnerSupportedProtocols),
-        view.findViewById(R.id.spinnerColorVideoAudio),
-        view.findViewById(R.id.spinnerStorageFacility)
-    ).all { it.selectedItem.toString() != "--Select--" }
+        // Step 2: Validate all spinners are selected (not "--Select--")
+        val spinnerOk = listOf(
+            spinnerMonitorAccessible,
+            spinnerConformance,
+            spinnerStorage,
+            spinnerDVRStaticIP,
+            view.findViewById(R.id.spinnerIPEnabled),
+            view.findViewById(R.id.spinnerResolution),
+            view.findViewById(R.id.spinnerVideoStream),
+            view.findViewById(R.id.spinnerRemoteAccessBrowser),
+            view.findViewById(R.id.spinnerSimultaneousAccess),
+            view.findViewById(R.id.spinnerSupportedProtocols),
+            view.findViewById(R.id.spinnerColorVideoAudio),
+            view.findViewById(R.id.spinnerStorageFacility)
+        ).all { it.selectedItem.toString() != "--Select--" }
 
-    // Step 3: Conditional photo validation based on spinner values
-    val monitorOk = if (spinnerMonitorAccessible.selectedItem.toString() == "Yes") {
-        !base64MonitorFile.isNullOrEmpty()
-    } else true
+        // Step 3: Conditional photo validation based on spinner values
+        val monitorOk = if (spinnerMonitorAccessible.selectedItem.toString() == "Yes") {
+            !base64MonitorFile.isNullOrEmpty()
+        } else true
 
-    val conformanceOk = if (spinnerConformance.selectedItem.toString() == "Yes") {
-        !base64ConformanceFile.isNullOrEmpty()
-    } else true
+        val conformanceOk = if (spinnerConformance.selectedItem.toString() == "Yes") {
+            !base64ConformanceFile.isNullOrEmpty()
+        } else true
 
-    val storageOk = if (spinnerStorage.selectedItem.toString() == "Yes") {
-        !base64StorageFile.isNullOrEmpty()
-    } else true
+        val storageOk = if (spinnerStorage.selectedItem.toString() == "Yes") {
+            !base64StorageFile.isNullOrEmpty()
+        } else true
 
-    val dvrOk = if (spinnerDVRStaticIP.selectedItem.toString() == "Yes") {
-        !base64DVRFile.isNullOrEmpty()
-    } else true
+        val dvrOk = if (spinnerDVRStaticIP.selectedItem.toString() == "Yes") {
+            !base64DVRFile.isNullOrEmpty()
+        } else true
 
-    // Step 4: Combine all conditions
-    return spinnerOk && monitorOk && conformanceOk && storageOk && dvrOk
-}
+        // Step 4: Combine all conditions
+        return spinnerOk && monitorOk && conformanceOk && storageOk && dvrOk
+    }
 
     private fun validateElectricalForm(view: View): Boolean {
         val spinnerSwitchBoards = view.findViewById<Spinner>(R.id.spinnerSwitchBoards)
@@ -6153,23 +4894,23 @@ class TrainingFragment : Fragment() {
     }
 
     private fun validateGeneralDetailsForm(): Boolean {
-    val leakageSelected = spinnerLeakageCheck.selectedItem.toString() != "--Select--"
-    val stairsSelected = spinnerProtectionStairs.selectedItem.toString() != "--Select--"
-    val dduSelected = spinnerDDUConformance.selectedItem.toString() != "--Select--"
-    val safetySelected = spinnerCandidateSafety.selectedItem.toString() != "--Select--"
+        val leakageSelected = spinnerLeakageCheck.selectedItem.toString() != "--Select--"
+        val stairsSelected = spinnerProtectionStairs.selectedItem.toString() != "--Select--"
+        val dduSelected = spinnerDDUConformance.selectedItem.toString() != "--Select--"
+        val safetySelected = spinnerCandidateSafety.selectedItem.toString() != "--Select--"
 
-    // Conditional validation
-    val leakagePhotoOk = if (spinnerLeakageCheck.selectedItem.toString() == "Yes") {
-        !base64LeakageImage.isNullOrEmpty()
-    } else true
+        // Conditional validation
+        val leakagePhotoOk = if (spinnerLeakageCheck.selectedItem.toString() == "Yes") {
+            !base64LeakageImage.isNullOrEmpty()
+        } else true
 
-    val stairsPhotoOk = if (spinnerProtectionStairs.selectedItem.toString() == "Yes") {
-        !base64StairsImage.isNullOrEmpty()
-    } else true
+        val stairsPhotoOk = if (spinnerProtectionStairs.selectedItem.toString() == "Yes") {
+            !base64StairsImage.isNullOrEmpty()
+        } else true
 
-    return leakageSelected && stairsSelected && dduSelected && safetySelected &&
-            leakagePhotoOk && stairsPhotoOk
-}
+        return leakageSelected && stairsSelected && dduSelected && safetySelected &&
+                leakagePhotoOk && stairsPhotoOk
+    }
 
 
     private fun validateSupportInfrastructure(): Boolean {
@@ -6501,6 +5242,10 @@ class TrainingFragment : Fragment() {
             tcId = centerId,
             sanctionOrder = sanctionOrder
         )
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val jsonResponse = gson.toJson(request)
+
+        Log.d("InsertITDetails=================", "✅ Success Response:\n$jsonResponse")
         viewModel.submitCCTVDataToServer(request, token)
     }
 
@@ -6785,104 +5530,104 @@ class TrainingFragment : Fragment() {
 
 
 
-//     IT LAB(validateItLAB)    Ajit Ranjan
-private fun validateItLAB(): Boolean {
-    var isValid = true
-    var firstFocusSet = false
+    //     IT LAB(validateItLAB)    Ajit Ranjan
+    private fun validateItLAB(): Boolean {
+        var isValid = true
+        var firstFocusSet = false
 
-    // --- 1️⃣ Validate EditTexts ---
-    val editTextFields = mapOf(
-        etLength to "Type of Length is required",
-        etWidth to "Type of Width is required",
-        etITLHeightOfCelling to "Height of Ceiling is required",
-        etITLVentilationAreaInSqFt to "Ventilation Area (in Sq Ft) is required",
-        etITLSoundLevelInDb to "Sound Level in dB is required",
-        etITLLanEnabledComputersInNo to "LAN Enabled Computers (in No) is required",
-        etITLTablets to "Tablets count is required",
-        etITLStoolsChairs to "Stools/Chairs count is required",
-        etITLLightsInNo to "Lights (in No) is required",
-        etITLFansInNo to "Fans (in No) is required"
-    )
+        // --- 1️⃣ Validate EditTexts ---
+        val editTextFields = mapOf(
+            etLength to "Type of Length is required",
+            etWidth to "Type of Width is required",
+            etITLHeightOfCelling to "Height of Ceiling is required",
+            etITLVentilationAreaInSqFt to "Ventilation Area (in Sq Ft) is required",
+            etITLSoundLevelInDb to "Sound Level in dB is required",
+            etITLLanEnabledComputersInNo to "LAN Enabled Computers (in No) is required",
+            etITLTablets to "Tablets count is required",
+            etITLStoolsChairs to "Stools/Chairs count is required",
+            etITLLightsInNo to "Lights (in No) is required",
+            etITLFansInNo to "Fans (in No) is required"
+        )
 
-    for ((field, message) in editTextFields) {
-        val text = field.text?.toString()?.trim().orEmpty()
-        if (text.isEmpty()) {
-            field.error = message
-            if (!firstFocusSet) {
-                field.requestFocus()
-                firstFocusSet = true
+        for ((field, message) in editTextFields) {
+            val text = field.text?.toString()?.trim().orEmpty()
+            if (text.isEmpty()) {
+                field.error = message
+                if (!firstFocusSet) {
+                    field.requestFocus()
+                    firstFocusSet = true
+                }
+                isValid = false
+            } else {
+                field.error = null
             }
-            isValid = false
-        } else {
-            field.error = null
         }
-    }
 
-    // --- 2️⃣ Spinner Validation helper ---
-    fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-        if (spinner.selectedItemPosition <= 0) {
-            Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
-            if (!firstFocusSet) {
-                spinner.requestFocus()
-                firstFocusSet = true
+        // --- 2️⃣ Spinner Validation helper ---
+        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
+            if (spinner.selectedItemPosition <= 0) {
+                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
+                if (!firstFocusSet) {
+                    spinner.requestFocus()
+                    firstFocusSet = true
+                }
+                return false
             }
-            return false
+            return true
         }
-        return true
-    }
 
-    // --- 3️⃣ Validate all necessary Spinners only ---
-    val spinnerList = listOf(
-        spinnerITLSoundLevelAsPerSpecifications to getString(R.string.sound_level_as_per_specifications),
-        spinnerITLTypeofRoofItLab to getString(R.string.type_of_roof),
-        spinnerITLepbftr to getString(R.string.electrical_power_backup_for_the_room),
-        spinnerITLFalseCellingProvide to getString(R.string.false_ceiling_provided),
-        spinnerITLwhether_all_the_academic to getString(R.string.whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning),
-        spinnerITLAcademicRoomInformationBoard to getString(R.string.academic_room_information_board),
-        spinnerITLInternalSignage to getString(R.string.internal_signage),
-        spinnerITLCctcCamerasWithAudioFacility to getString(R.string.cctv_cameras_with_audio_facility),
-        spinnerITLabInternetConnections to getString(R.string.internet_connections),
-        spinnerITLDoAllComputersHaveTypingTutor to getString(R.string.do_all_computers_have_typing_tutor),
-        spinnerITLTrainerChair to getString(R.string.trainer_chair),
-        spinnerITLTrainerTable to getString(R.string.trainer_table),
-        spinnerITLtLabPhotograph to getString(R.string.it_lab_photograph),
-        spinnerITLDoes_the_room_has to getString(R.string.does_the_room_has_air_conditioning)
-    )
+        // --- 3️⃣ Validate all necessary Spinners only ---
+        val spinnerList = listOf(
+            spinnerITLSoundLevelAsPerSpecifications to getString(R.string.sound_level_as_per_specifications),
+            spinnerITLTypeofRoofItLab to getString(R.string.type_of_roof),
+            spinnerITLepbftr to getString(R.string.electrical_power_backup_for_the_room),
+            spinnerITLFalseCellingProvide to getString(R.string.false_ceiling_provided),
+            spinnerITLwhether_all_the_academic to getString(R.string.whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning),
+            spinnerITLAcademicRoomInformationBoard to getString(R.string.academic_room_information_board),
+            spinnerITLInternalSignage to getString(R.string.internal_signage),
+            spinnerITLCctcCamerasWithAudioFacility to getString(R.string.cctv_cameras_with_audio_facility),
+            spinnerITLabInternetConnections to getString(R.string.internet_connections),
+            spinnerITLDoAllComputersHaveTypingTutor to getString(R.string.do_all_computers_have_typing_tutor),
+            spinnerITLTrainerChair to getString(R.string.trainer_chair),
+            spinnerITLTrainerTable to getString(R.string.trainer_table),
+            spinnerITLtLabPhotograph to getString(R.string.it_lab_photograph),
+            spinnerITLDoes_the_room_has to getString(R.string.does_the_room_has_air_conditioning)
+        )
 
-    for ((spinner, name) in spinnerList) {
-        if (!checkSpinner(spinner, name)) isValid = false
-    }
-
-    // --- 4️⃣ Image Proof ONLY IF Spinner = "YES" ✅ ---
-    val spinnerToProofMap = mapOf(
-        spinnerITLTypeofRoofItLab to Pair(base64ProofPreviewITLTypeofRoofItLab, "Electrical Power Backup proof"),
-        spinnerITLepbftr to Pair(base64ProofITLElectricaPowerBackUpForThRoom, "Electrical Power Backup proof"),
-        spinnerITLFalseCellingProvide to Pair(base64ProofITLFalseCellingProvide, "False Ceiling proof"),
-        spinnerITLwhether_all_the_academic to Pair(base64ProofITLwhether_all_the_academic, "Sound Proofing proof"),
-        spinnerITLAcademicRoomInformationBoard to Pair(base64ProofITLAcademicRoomInformationBoard, "Academic Room Info Board proof"),
-        spinnerITLInternalSignage to Pair(base64ProofITLInternalSignage, "Internal Signage proof"),
-        spinnerITLCctcCamerasWithAudioFacility to Pair(base64ProofITLCctcCamerasWithAudioFacility, "CCTV Camera proof"),
-        spinnerITLabInternetConnections to Pair(base64ProofITLInternetConnections, "Internet Connection proof"),
-        spinnerITLDoAllComputersHaveTypingTutor to Pair(base64ProofITLDoAllComputersHaveTypingTutor, "Typing Tutor proof"),
-        spinnerITLTrainerChair to Pair(base64ProofITLTrainerChair, "Trainer Chair proof"),
-        spinnerITLTrainerTable to Pair(base64ProofITLTrainerTable, "Trainer Table proof"),
-        spinnerITLtLabPhotograph to Pair(base64ProofITLItLabPhotograph, "IT Lab Photograph proof"),
-        spinnerITLDoes_the_room_has to Pair(base64ProofITLDoes_the_room_has, "Room AC proof")
-    )
-
-    for ((spinner, proofPair) in spinnerToProofMap) {
-        val (base64, proofName) = proofPair
-        val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
-        if (selected == "yes" && base64.isNullOrBlank()) {
-            Toast.makeText(requireContext(), "Please upload $proofName (You selected Yes)", Toast.LENGTH_SHORT).show()
-            isValid = false
+        for ((spinner, name) in spinnerList) {
+            if (!checkSpinner(spinner, name)) isValid = false
         }
+
+        // --- 4️⃣ Image Proof ONLY IF Spinner = "YES" ✅ ---
+        val spinnerToProofMap = mapOf(
+            spinnerITLTypeofRoofItLab to Pair(base64ProofPreviewITLTypeofRoofItLab, "Electrical Power Backup proof"),
+            spinnerITLepbftr to Pair(base64ProofITLElectricaPowerBackUpForThRoom, "Electrical Power Backup proof"),
+            spinnerITLFalseCellingProvide to Pair(base64ProofITLFalseCellingProvide, "False Ceiling proof"),
+            spinnerITLwhether_all_the_academic to Pair(base64ProofITLwhether_all_the_academic, "Sound Proofing proof"),
+            spinnerITLAcademicRoomInformationBoard to Pair(base64ProofITLAcademicRoomInformationBoard, "Academic Room Info Board proof"),
+            spinnerITLInternalSignage to Pair(base64ProofITLInternalSignage, "Internal Signage proof"),
+            spinnerITLCctcCamerasWithAudioFacility to Pair(base64ProofITLCctcCamerasWithAudioFacility, "CCTV Camera proof"),
+            spinnerITLabInternetConnections to Pair(base64ProofITLInternetConnections, "Internet Connection proof"),
+            spinnerITLDoAllComputersHaveTypingTutor to Pair(base64ProofITLDoAllComputersHaveTypingTutor, "Typing Tutor proof"),
+            spinnerITLTrainerChair to Pair(base64ProofITLTrainerChair, "Trainer Chair proof"),
+            spinnerITLTrainerTable to Pair(base64ProofITLTrainerTable, "Trainer Table proof"),
+            spinnerITLtLabPhotograph to Pair(base64ProofITLItLabPhotograph, "IT Lab Photograph proof"),
+            spinnerITLDoes_the_room_has to Pair(base64ProofITLDoes_the_room_has, "Room AC proof")
+        )
+
+        for ((spinner, proofPair) in spinnerToProofMap) {
+            val (base64, proofName) = proofPair
+            val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
+            if (selected == "yes" && base64.isNullOrBlank()) {
+                Toast.makeText(requireContext(), "Please upload $proofName (You selected Yes)", Toast.LENGTH_SHORT).show()
+                isValid = false
+            }
+        }
+
+        return isValid
     }
 
-    return isValid
-}
-
-//    Office Cum(Counselling room)    Ajit Ranjan
+    //    Office Cum(Counselling room)    Ajit Ranjan
     private fun validateOfficeCumCounsellingRoom(): Boolean {
 
         var isValid = true
@@ -7020,7 +5765,7 @@ private fun validateItLAB(): Boolean {
     }
 
 
-//    CounsellingRoom
+    //    CounsellingRoom
     private fun validateCounsellingRoom(): Boolean {
         var isValid = true
         var firstFocusSet = false
@@ -7077,8 +5822,8 @@ private fun validateItLAB(): Boolean {
         return isValid
     }
 
-//    validateOfficeRoom
-        private fun validateOfficeRoom(): Boolean {
+    //    validateOfficeRoom
+    private fun validateOfficeRoom(): Boolean {
         var isValid = true
         var firstFocusSet = false
 
@@ -7155,102 +5900,102 @@ private fun validateItLAB(): Boolean {
     }
 
 
-//    validateITComeDomainLab
-private fun validateITComeDomainLab(): Boolean {
-    var isValid = true
-    var firstFocusSet = false
+    //    validateITComeDomainLab
+    private fun validateITComeDomainLab(): Boolean {
+        var isValid = true
+        var firstFocusSet = false
 
-    // ✅ 1️⃣ Validate EditText Fields
-    val editTextFields = mapOf(
-        etLength to "Length is required",
-        etWidth to "Width is required",
-        etITCDLHeightOfCelling to "Height of Ceiling is required",
-        etITCDLVentilationAreaInSqFt to "Ventilation Area (in Sq Ft) is required",
-        etITCDLabSoundLevelInDb to "Sound Level (in dB) is required",
-        etITCDLLanEnabledComputersInNo to "Number of LAN-enabled Computers is required",
-        etITCDLTablets to "Number of Tablets is required",
-        etITCDLStoolsChairs to "Number of Stools & Chairs is required",
-        etITCDLLightsInNo to "Number of Lights is required",
-        etITCDLFansInNo to "Number of Fans is required",
-        etITCDLListofDomain to "ListofDomain",
-    )
+        // ✅ 1️⃣ Validate EditText Fields
+        val editTextFields = mapOf(
+            etLength to "Length is required",
+            etWidth to "Width is required",
+            etITCDLHeightOfCelling to "Height of Ceiling is required",
+            etITCDLVentilationAreaInSqFt to "Ventilation Area (in Sq Ft) is required",
+            etITCDLabSoundLevelInDb to "Sound Level (in dB) is required",
+            etITCDLLanEnabledComputersInNo to "Number of LAN-enabled Computers is required",
+            etITCDLTablets to "Number of Tablets is required",
+            etITCDLStoolsChairs to "Number of Stools & Chairs is required",
+            etITCDLLightsInNo to "Number of Lights is required",
+            etITCDLFansInNo to "Number of Fans is required",
+            etITCDLListofDomain to "ListofDomain",
+        )
 
-    for ((field, message) in editTextFields) {
-        val text = field.text?.toString()?.trim().orEmpty()
-        if (text.isEmpty()) {
-            field.error = message
-            if (!firstFocusSet) {
-                field.requestFocus()
-                firstFocusSet = true
+        for ((field, message) in editTextFields) {
+            val text = field.text?.toString()?.trim().orEmpty()
+            if (text.isEmpty()) {
+                field.error = message
+                if (!firstFocusSet) {
+                    field.requestFocus()
+                    firstFocusSet = true
+                }
+                isValid = false
+            } else {
+                field.error = null
             }
-            isValid = false
-        } else {
-            field.error = null
         }
-    }
 
-    // ✅ 2️⃣ Spinner Validation Helper
-    fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-        if (spinner.selectedItemPosition <= 0) {
-            Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
-            if (!firstFocusSet) {
-                spinner.requestFocus()
-                firstFocusSet = true
+        // ✅ 2️⃣ Spinner Validation Helper
+        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
+            if (spinner.selectedItemPosition <= 0) {
+                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
+                if (!firstFocusSet) {
+                    spinner.requestFocus()
+                    firstFocusSet = true
+                }
+                return false
             }
-            return false
+            return true
         }
-        return true
-    }
 
-    // ✅ 3️⃣ Validate Required Spinners
-    val spinnerList = listOf(
-        spinnerITCDLSoundLevelAsPerSpecifications to "Sound Level As Per Specifications",
-        spinnerITCDLItLabPhotograph to "IT Lab Photograph",
-        spinnerITCDLTypeofRoofItLab to "Type of Roof",
-        spinnerITCDLFalseCellingProvide to "False Ceiling Provided",
-        spinnerITCDLwhether_all_the_academic to "Academic Rooms Availability",
-        spinnerITCDLAcademicRoomInformationBoard to "Academic Room Information Board",
-        spinnerITCDLInternalSignage to "Internal Signage",
-        spinnerITCDLCctcCamerasWithAudioFacility to "CCTV Cameras With Audio",
-        spinnerITCDLInternetConnections to "Internet Connection",
-        spinnerITCDLDoAllComputersHaveTypingTutor to "Typing Tutor Availability",
-        spinnerITCDLTrainerChair to "Trainer Chair Availability",
-        spinnerITCDLTrainerTable to "Trainer Table Availability",
-        spinnerITCDLElectricaPowerBackUp to "Electrical Power Backup",
-        spinnerITCDLDoes_the_room_has to "Required Facilities Availability"
-    )
+        // ✅ 3️⃣ Validate Required Spinners
+        val spinnerList = listOf(
+            spinnerITCDLSoundLevelAsPerSpecifications to "Sound Level As Per Specifications",
+            spinnerITCDLItLabPhotograph to "IT Lab Photograph",
+            spinnerITCDLTypeofRoofItLab to "Type of Roof",
+            spinnerITCDLFalseCellingProvide to "False Ceiling Provided",
+            spinnerITCDLwhether_all_the_academic to "Academic Rooms Availability",
+            spinnerITCDLAcademicRoomInformationBoard to "Academic Room Information Board",
+            spinnerITCDLInternalSignage to "Internal Signage",
+            spinnerITCDLCctcCamerasWithAudioFacility to "CCTV Cameras With Audio",
+            spinnerITCDLInternetConnections to "Internet Connection",
+            spinnerITCDLDoAllComputersHaveTypingTutor to "Typing Tutor Availability",
+            spinnerITCDLTrainerChair to "Trainer Chair Availability",
+            spinnerITCDLTrainerTable to "Trainer Table Availability",
+            spinnerITCDLElectricaPowerBackUp to "Electrical Power Backup",
+            spinnerITCDLDoes_the_room_has to "Required Facilities Availability"
+        )
 
-    for ((spinner, name) in spinnerList) {
-        if (!checkSpinner(spinner, name)) isValid = false
-    }
-
-    // ✅ 4️⃣ Conditional Proof Validation (Yes → Image required)
-    val spinnerToProofMap = listOf(
-        Triple(spinnerITCDLItLabPhotograph, base64ProofITCDLItLabPhotograph, "IT Lab Photograph proof"),
-        Triple(spinnerITCDLTypeofRoofItLab, base64ProofPreviewITCDLTypeofRoofItLab, "Type of Roof proof"),
-        Triple(spinnerITCDLFalseCellingProvide, base64ProofITCDLFalseCellingProvide, "False Ceiling proof"),
-        Triple(spinnerITCDLwhether_all_the_academic, base64ProofITCDLwhether_all_the_academic, "Academic Room Availability proof"),
-        Triple(spinnerITCDLAcademicRoomInformationBoard, base64ProofITCDLAcademicRoomInformationBoard, "Academic Room Information Board proof"),
-        Triple(spinnerITCDLInternalSignage, base64ProofITCDLInternalSignage, "Internal Signage proof"),
-        Triple(spinnerITCDLCctcCamerasWithAudioFacility, base64ProofITCDLCctcCamerasWithAudioFacility, "CCTV Camera proof"),
-        Triple(spinnerITCDLInternetConnections, base64ProofITCDLInternetConnections, "Internet Connection proof"),
-        Triple(spinnerITCDLDoAllComputersHaveTypingTutor, base64ProofITCDLDoAllComputersHaveTypingTutor, "Typing Tutor proof"),
-        Triple(spinnerITCDLTrainerChair, base64ProofITCDLTrainerChair, "Trainer Chair proof"),
-        Triple(spinnerITCDLTrainerTable, base64ProofITCDLTrainerTable, "Trainer Table proof"),
-        Triple(spinnerITCDLElectricaPowerBackUp, base64ProofITCDLElectricaPowerBackUpForThRoom, "Electrical Power Backup proof"),
-        Triple(spinnerITCDLDoes_the_room_has, base64ProofITCDLDoes_the_room_has, "Required Room Facilities proof"),
-    )
-
-    for ((spinner, base64, message) in spinnerToProofMap) {
-        val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
-        if (selected == "yes" && base64.isNullOrBlank()) {
-            Toast.makeText(requireContext(), "Please upload $message (selected Yes)", Toast.LENGTH_SHORT).show()
-            isValid = false
+        for ((spinner, name) in spinnerList) {
+            if (!checkSpinner(spinner, name)) isValid = false
         }
-    }
 
-    return isValid
-}
+        // ✅ 4️⃣ Conditional Proof Validation (Yes → Image required)
+        val spinnerToProofMap = listOf(
+            Triple(spinnerITCDLItLabPhotograph, base64ProofITCDLItLabPhotograph, "IT Lab Photograph proof"),
+            Triple(spinnerITCDLTypeofRoofItLab, base64ProofPreviewITCDLTypeofRoofItLab, "Type of Roof proof"),
+            Triple(spinnerITCDLFalseCellingProvide, base64ProofITCDLFalseCellingProvide, "False Ceiling proof"),
+            Triple(spinnerITCDLwhether_all_the_academic, base64ProofITCDLwhether_all_the_academic, "Academic Room Availability proof"),
+            Triple(spinnerITCDLAcademicRoomInformationBoard, base64ProofITCDLAcademicRoomInformationBoard, "Academic Room Information Board proof"),
+            Triple(spinnerITCDLInternalSignage, base64ProofITCDLInternalSignage, "Internal Signage proof"),
+            Triple(spinnerITCDLCctcCamerasWithAudioFacility, base64ProofITCDLCctcCamerasWithAudioFacility, "CCTV Camera proof"),
+            Triple(spinnerITCDLInternetConnections, base64ProofITCDLInternetConnections, "Internet Connection proof"),
+            Triple(spinnerITCDLDoAllComputersHaveTypingTutor, base64ProofITCDLDoAllComputersHaveTypingTutor, "Typing Tutor proof"),
+            Triple(spinnerITCDLTrainerChair, base64ProofITCDLTrainerChair, "Trainer Chair proof"),
+            Triple(spinnerITCDLTrainerTable, base64ProofITCDLTrainerTable, "Trainer Table proof"),
+            Triple(spinnerITCDLElectricaPowerBackUp, base64ProofITCDLElectricaPowerBackUpForThRoom, "Electrical Power Backup proof"),
+            Triple(spinnerITCDLDoes_the_room_has, base64ProofITCDLDoes_the_room_has, "Required Room Facilities proof"),
+        )
+
+        for ((spinner, base64, message) in spinnerToProofMap) {
+            val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
+            if (selected == "yes" && base64.isNullOrBlank()) {
+                Toast.makeText(requireContext(), "Please upload $message (selected Yes)", Toast.LENGTH_SHORT).show()
+                isValid = false
+            }
+        }
+
+        return isValid
+    }
 
 
     //    validateTheoryCumITLab
@@ -8263,70 +7008,67 @@ private fun validateITComeDomainLab(): Boolean {
         val TCRFansInNo = etTCRFansInNo.text.toString()
 
         lifecycleScope.launch(Dispatchers.IO) {
-        val request = TCRRequest(
+            val request = TCRRequest(
 
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            imeiNo = AppUtil.getAndroidId(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME,
-            tcId = centerId,
-            sanctionOrder=AppUtil.getsanctionOrderPreference(requireContext()),
-            roomType = RoomType,
-            roomLength = Length,
-            roomWidth = Width,
-            roomArea = Area,
-            roofType=spinnerTCRTypeofRoofItLab.selectedItem.toString(),
-            roofTypeAttachment=base64ProofPreviewTCRTypeofRoofItLab?: "",
-            falseCeiling=spinnerTCRFalseCellingProvide.selectedItem.toString(),
-            falseCeilingAttachment=base64ProofPreviewTCRFalseCellingProvide?: "",
-            ceilingHeight=TCRHeightOfCelling.toString(),
-            ceilingHeightAttachment=base64ProofPreviewTCRHeightOfCelling?: "",
-            ventilationArea=TCRVentilationAreaInSqFt.toString(),
-            ventilationAreaAttachment=base64ProofPreviewTCRVentilationAreaInSqFt?: "",
-            soundLevelSpecifications=spinnerTCRSoundLevelAsPerSpecifications.selectedItem.toString(),
-            soundLevel=TCRSoundLevelInDb.toString(),
-            soundLevelAttachment=base64ProofPreviewTCRSoundLevelInDb?: "",
-            centerSoungProofed=spinnerTCRwhether_all_the_academic.selectedItem.toString(),
-            centerSoungProofedAttachment=base64ProofPreviewTCRwhether_all_the_academic?: "",
-            roomInfoBoard=spinnerTCRAcademicRoomInformationBoard.selectedItem.toString(),
-            roomInfoBoardAttachment=base64ProofPreviewTCRAcademicRoomInformationBoard?: "",
-            internalSignage = spinnerTCRInternalSignage.selectedItem.toString(),
-            internalSignageAttachment = base64ProofPreviewTCRInternalSignage?: "",
-            audioCamera = spinnerTCRCctcCamerasWithAudioFacility.selectedItem.toString(),
-            audioCameraAttachment = base64ProofPreviewTCRCctcCamerasWithAudioFacility?: "",
-            digitalProjector =spinnerTCRLcdDigitalProjector.selectedItem.toString(),
-            digitalProjectorAttachment = base64ProofPreviewTCRLcdDigitalProjector?: "",
-            candidatesChair=TCRChairForCandidatesInNo.toString(),
-            candidatesChairAttachment=base64ProofPreviewTCRChairForCandidatesInNo?: "",
-            trainersChair=spinnerTCRTrainerChair.selectedItem.toString(),
-            trainersChairAttachment=base64ProofPreviewTCRTrainerChair?: "",
-            trainersTable=spinnerTCRTrainerTable.selectedItem.toString(),
-            trainersTableAttachment=base64ProofPreviewTCRTrainerTable?: "",
-            lightsAcademic=TCRLightsInNo.toString(),
-            lightsAttachment=base64ProofPreviewTCRLightsInNo?: "",
-            fansAcademic=TCRFansInNo.toString(),
-            fansAttachment=base64ProofPreviewTCRFansInNo?: "",
-            electricalPowerBackup=spinnerTCRPowerBackup.selectedItem.toString(),
-            electricalPowerBackupAttachment=base64ProofPreviewTCRElectricaPowerBackUpForThRoom?: "",
-            roomPhotograph=spinnerTCRDomainLabPhotogragh.selectedItem.toString(),
-            roomPhotographAttachment=base64ProofPreviewTCRDomainLabPhotogragh?: "",
-            airConditioningRoom=spinnerTCRDoes_the_room_has.selectedItem.toString(),
-            airConditioningRoomAttachment=base64ProofPreviewTCRDoes_the_room_has?: "",
-            writingBoard=spinnerTCRWritingBoard.selectedItem.toString(),
-            writingBoardAttachment=base64ProofPreviewTCRWritingBoard?: ""
-
-
-
-        )
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId,
+                sanctionOrder=AppUtil.getsanctionOrderPreference(requireContext()),
+                roomType = RoomType,
+                roomLength = Length,
+                roomWidth = Width,
+                roomArea = Area,
+                roofType=spinnerTCRTypeofRoofItLab.selectedItem.toString(),
+                roofTypeAttachment=base64ProofPreviewTCRTypeofRoofItLab?: "",
+                falseCeiling=spinnerTCRFalseCellingProvide.selectedItem.toString(),
+                falseCeilingAttachment=base64ProofPreviewTCRFalseCellingProvide?: "",
+                ceilingHeight=TCRHeightOfCelling.toString(),
+                ceilingHeightAttachment=base64ProofPreviewTCRHeightOfCelling?: "",
+                ventilationArea=TCRVentilationAreaInSqFt.toString(),
+                ventilationAreaAttachment=base64ProofPreviewTCRVentilationAreaInSqFt?: "",
+                soundLevelSpecifications=spinnerTCRSoundLevelAsPerSpecifications.selectedItem.toString(),
+                soundLevel=TCRSoundLevelInDb.toString(),
+                soundLevelAttachment=base64ProofPreviewTCRSoundLevelInDb?: "",
+                centerSoungProofed=spinnerTCRwhether_all_the_academic.selectedItem.toString(),
+                centerSoungProofedAttachment=base64ProofPreviewTCRwhether_all_the_academic?: "",
+                roomInfoBoard=spinnerTCRAcademicRoomInformationBoard.selectedItem.toString(),
+                roomInfoBoardAttachment=base64ProofPreviewTCRAcademicRoomInformationBoard?: "",
+                internalSignage = spinnerTCRInternalSignage.selectedItem.toString(),
+                internalSignageAttachment = base64ProofPreviewTCRInternalSignage?: "",
+                audioCamera = spinnerTCRCctcCamerasWithAudioFacility.selectedItem.toString(),
+                audioCameraAttachment = base64ProofPreviewTCRCctcCamerasWithAudioFacility?: "",
+                digitalProjector =spinnerTCRLcdDigitalProjector.selectedItem.toString(),
+                digitalProjectorAttachment = base64ProofPreviewTCRLcdDigitalProjector?: "",
+                candidatesChair=TCRChairForCandidatesInNo.toString(),
+                candidatesChairAttachment=base64ProofPreviewTCRChairForCandidatesInNo?: "",
+                trainersChair=spinnerTCRTrainerChair.selectedItem.toString(),
+                trainersChairAttachment=base64ProofPreviewTCRTrainerChair?: "",
+                trainersTable=spinnerTCRTrainerTable.selectedItem.toString(),
+                trainersTableAttachment=base64ProofPreviewTCRTrainerTable?: "",
+                lightsAcademic=TCRLightsInNo.toString(),
+                lightsAttachment=base64ProofPreviewTCRLightsInNo?: "",
+                fansAcademic=TCRFansInNo.toString(),
+                fansAttachment=base64ProofPreviewTCRFansInNo?: "",
+                electricalPowerBackup=spinnerTCRPowerBackup.selectedItem.toString(),
+                electricalPowerBackupAttachment=base64ProofPreviewTCRElectricaPowerBackUpForThRoom?: "",
+                roomPhotograph=spinnerTCRDomainLabPhotogragh.selectedItem.toString(),
+                roomPhotographAttachment=base64ProofPreviewTCRDomainLabPhotogragh?: "",
+                airConditioningRoom=spinnerTCRDoes_the_room_has.selectedItem.toString(),
+                airConditioningRoomAttachment=base64ProofPreviewTCRDoes_the_room_has?: "",
+                writingBoard=spinnerTCRWritingBoard.selectedItem.toString(),
+                writingBoardAttachment=base64ProofPreviewTCRWritingBoard?: ""
 
 
-        viewModel.SubmitTheoryClassRoomDataToServer(request, token)
-    }
+
+            )
+
+
+            viewModel.SubmitTheoryClassRoomDataToServer(request, token)
+        }
     }
 
     private fun RecyClerViewUI(){
-
-
-
 
         Academicadapter = AcademicAreaAdapter(centersList)
         RoomNumber=AppUtil.gettopValuePreference(requireContext())
@@ -8473,4 +7215,6 @@ private fun validateITComeDomainLab(): Boolean {
     fun View.visible() {
         this.visibility = View.VISIBLE
     }
+
+
 }

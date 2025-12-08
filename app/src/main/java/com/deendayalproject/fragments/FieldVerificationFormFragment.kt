@@ -4,32 +4,21 @@ import SharedViewModel
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
 import android.graphics.drawable.RippleDrawable
 import android.net.Uri
-import android.os.Bundle
 import android.os.Environment
 import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextWatcher
-import android.util.Base64
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.R
@@ -39,9 +28,6 @@ import com.deendayalproject.base.NoDataConfig
 import com.deendayalproject.databinding.FragmentFieldVerFormBinding
 import com.deendayalproject.databinding.ItemFieldVerCardBinding
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -61,14 +47,13 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import android.widget.FrameLayout
 import androidx.core.graphics.ColorUtils
 import com.deendayalproject.databinding.ItemFinancialRowBinding
 import com.deendayalproject.databinding.ItemPlacementRowBinding
 import com.deendayalproject.databinding.ItemTrainingRowBinding
+import com.deendayalproject.model.request.FieldVerificationFinalSubmit
 import com.deendayalproject.model.response.AnnualTurnover
-import com.deendayalproject.model.response.FieldVerificationDetailResponse
-import com.deendayalproject.model.response.FinancialDetailsResponse
+import com.deendayalproject.model.response.AttachmentItem
 import com.deendayalproject.model.response.NetWorth
 import com.deendayalproject.model.response.RemarkItem
 import com.deendayalproject.model.response.TrainingCriteriaItem
@@ -219,6 +204,8 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     private var apiCommitmentMoreSixMonthsBase64: String? = null
 
     override fun initializeViews() {
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━FieldVerificationFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
         captiveEmpanelmentId = arguments?.getString("captiveEmpanelmentId").toString()
         prnNo = arguments?.getString("prnNo").toString()
 
@@ -673,9 +660,17 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     }
 
     private fun setupToolbar() {
-        binding.backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
+        setupToolbar(
+            root = binding.root,
+            titleRes = R.string.field_ver_head,
+            showBack = true,
+            showLang = false,
+            showProfile = false,
+            backClick = { findNavController().navigateUp()}
+        )
+//        binding.backButton.setOnClickListener {
+//            findNavController().navigateUp()
+//        }
     }
 
     private fun setupNavigationButtons() {
@@ -848,20 +843,60 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         binding.verFieldExpand.visibility = View.VISIBLE
     }
 
+//    private fun handleFieldSubmit() {
+//        binding.verFieldExpand.visibility = View.GONE
+//        binding.tvFieldHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+//
+//        val sectionMap = collectAllRemarksSectionWise()
+//        val manpowerFound = sectionMap["Organization"]?.any {
+//            it.requirement.contains(
+//                "Manpower",
+//                ignoreCase = true
+//            )
+//        } ?: false
+//
+//        Log.d("section Map :: ", sectionMap.toString())
+//        Log.d("manpowerFound :: ", manpowerFound.toString())
+//    }
+
+
     private fun handleFieldSubmit() {
         binding.verFieldExpand.visibility = View.GONE
         binding.tvFieldHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
 
-        val sectionMap = collectAllRemarksSectionWise()
-        val manpowerFound = sectionMap["Organization"]?.any {
-            it.requirement.contains(
-                "Manpower",
-                ignoreCase = true
-            )
-        } ?: false
+        // collect all remarks
+        val finalSubmitData = collectAllRemarksSectionWise()
 
-        Log.d("section Map :: ", sectionMap.toString())
-        Log.d("manpowerFound :: ", manpowerFound.toString())
+        // Call submit API
+        viewModel.submitFieldVerification(finalSubmitData)
+
+        // Observe the LiveData once (remove previous observers first for safety)
+        viewModel.submitFieldVerificationDetails.removeObservers(viewLifecycleOwner)
+        viewModel.submitFieldVerificationDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                try {
+                    val item = response.responseCode.toInt()
+                    if (item == 200){
+                        Log.d("Field Verification Submit if", item.toString())
+                        val navController = findNavController()
+
+                        // Signal to the list that it should refresh
+                        navController.previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("refresh_pia_list", true)
+
+                        navController.navigateUp()
+                    } else {
+                        Log.d("Field Verification Submit else", item.toString())
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    showErrorToast("Failed processing submitFieldVerification response: ${e.message}")
+                }
+            }.onFailure { e ->
+                showErrorToast("SubmitFieldVerification API failed: ${e.message ?: "Unknown"}")
+            }
+        }
     }
 
     // ==================== OBSERVERS ====================
@@ -1064,23 +1099,33 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                     if (existing != null) {
                         finItems[pos] = existing.copy(
                             imageUri = photoUri.toString(),
-                            uploadEnabled = true
+                            uploadEnabled = true,
+                            attachments = listOf(
+                                AttachmentItem(
+                                    label = "Turnover",
+                                    value = base64FinanceFile ?: ""
+                                )
+                            )
                         )
                         updateRecyclerViewData(binding.recyclerViewFin.id, finItems)
                     }
                 }
-
                 "training" -> {
                     val existing = trainingItems.getOrNull(pos)
                     if (existing != null) {
                         trainingItems[pos] = existing.copy(
                             imageUri = photoUri.toString(),
-                            uploadEnabled = true
+                            uploadEnabled = true,
+                            attachments = listOf(
+                                AttachmentItem(
+                                    label = "Additional Training",
+                                    value = base64TrainingFile ?: ""
+                                )
+                            )
                         )
                         updateRecyclerViewData(binding.recyclerViewTraining.id, trainingItems)
                     }
                 }
-
                 "Self Declaration" -> {
                     val existing = trainingInfraItems.getOrNull(pos)
                     if (existing != null) {
@@ -1088,13 +1133,10 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                             imageUri = photoUri.toString(),
                             uploadEnabled = true
                         )
-                        updateRecyclerViewData(
-                            binding.recyclerViewTrainingInfra.id,
-                            trainingInfraItems
-                        )
+                        base64TrainingInfraDeclarationFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        updateRecyclerViewData(binding.recyclerViewTrainingInfra.id, trainingInfraItems)
                     }
                 }
-
                 "Training Centre" -> {
                     val existing = trainingInfraItems.getOrNull(pos)
                     if (existing != null) {
@@ -1102,10 +1144,8 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                             imageUri = photoUri.toString(),
                             uploadEnabled = true
                         )
-                        updateRecyclerViewData(
-                            binding.recyclerViewTrainingInfra.id,
-                            trainingInfraItems
-                        )
+                        base64TrainingInfraCentreFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        updateRecyclerViewData(binding.recyclerViewTrainingInfra.id, trainingInfraItems)
                     }
                 }
             }
@@ -1114,30 +1154,26 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             currentUploadPosition = -1
             currentUploadList = ""
         }
+
+        // Store base64 files for later submission
         when (currentPhotoTarget) {
             "Turnover" -> {
                 base64FinanceFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
             }
-
             "Additional tailor-made training If Yes Upload" -> {
                 base64TrainingFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
             }
-
             "Self Declaration" -> {
-                base64TrainingInfraDeclarationFile =
-                    AppUtil.imageUriToBase64(requireContext(), photoUri)
+                base64TrainingInfraDeclarationFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
             }
-
             "Training Centre" -> {
                 base64TrainingInfraCentreFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
             }
-
             "Residential Facilities" -> {
                 base64TrainingResFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
             }
         }
     }
-
     // ==================== LOCATION METHODS ====================
 
     private fun setupLocationClient() {
@@ -1415,9 +1451,18 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             .setView(container)
             .setNegativeButton(resources.getString(R.string.close), null)
             .create()
+        dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_background)
 
         dialog.show()
     }
+
+//    var titleView = TextView(ctx).apply {
+//        text = title
+//        textSize = 18f
+//        setTextColor(ContextCompat.getColor(ctx, android.R.color.black))
+//        gravity = Gravity.CENTER
+//        setPadding(0, (12 * dp).toInt(), 0, (12 * dp).toInt())
+//    }
 
     // ==================== VALIDATION & UTILITY METHODS ====================
 
@@ -1441,32 +1486,140 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         return remarkItems.associate { it.requirement to (it.remarkText!!.trim()) }
     }
 
+//    private fun collectRemarksFromSection(
+//        sectionName: String,
+//        sectionItems: List<FieldVerificationItem>
+//    ): List<RemarkItem> {
+//        commitFocusedEditText()
+//        return sectionItems
+//            .filter { it.allowRemark }
+//            .mapNotNull { item ->
+//                val remark = item.remarkText?.trim().orEmpty()
+//                if (remark.isEmpty()) null
+//                else RemarkItem(section = sectionName, requirement = item.id, remark = remark)
+//            }
+//    }
+
     private fun collectRemarksFromSection(
         sectionName: String,
         sectionItems: List<FieldVerificationItem>
     ): List<RemarkItem> {
         commitFocusedEditText()
-        return sectionItems
+
+        // collect normal per-item remarks (only items with allowRemark)
+        val remarkList = sectionItems
             .filter { it.allowRemark }
             .mapNotNull { item ->
-                val remark = item.remarkText?.trim().orEmpty()
-                if (remark.isEmpty()) null
-                else RemarkItem(section = sectionName, requirement = item.id, remark = remark)
+                val r = item.remarkText?.trim().orEmpty()
+                if (r.isEmpty()) null
+                else RemarkItem(section = sectionName, requirement = item.id, remark = r)
             }
+            .toMutableList()
+
+        // Special case: attach captured base64 files into TrainingInfra section
+        if (sectionName.equals("TrainingInfra", ignoreCase = true)) {
+            val attachments = mutableListOf<AttachmentItem>()
+
+            if (!base64TrainingInfraDeclarationFile.isNullOrBlank()) {
+                attachments.add(
+                    AttachmentItem(
+                        label = "Self Declaration",
+                        value = base64TrainingInfraDeclarationFile!!
+                    )
+                )
+            }
+            if (!base64TrainingInfraCentreFile.isNullOrBlank()) {
+                attachments.add(
+                    AttachmentItem(
+                        label = "Training Centre File",
+                        value = base64TrainingInfraCentreFile!!
+                    )
+                )
+            }
+            if (attachments.isNotEmpty()) {
+                // Add a single RemarkItem carrying the attachments map
+                remarkList.add(
+                    RemarkItem(
+                        section = sectionName,
+                        requirement = "TRAIN_INFRA_ATTACHMENTS",
+                        remark = "",
+                        attachments = attachments
+                    )
+                )
+            }
+        }
+
+        // --- Add Field Visit coordinates to collected remarks ---
+        if (sectionName.equals("FieldVisit", ignoreCase = true)) {
+            val attachList = mutableListOf<AttachmentItem>()
+
+            if (!latitude.isNullOrBlank()) {
+                attachList.add(AttachmentItem(label = "latitude", value = latitude))
+            }
+            if (!longitude.isNullOrBlank()) {
+                attachList.add(AttachmentItem(label = "longitude", value = longitude))
+            }
+
+            if (attachList.isNotEmpty()) {
+                remarkList.add(
+                    RemarkItem(
+                        section = sectionName,
+                        requirement = "FIELD_VISIT_COORDINATES",
+                        remark = "",
+                        attachments = attachList
+                    )
+                )
+            }
+        }
+        return remarkList
     }
 
-    private fun collectAllRemarksSectionWise(): Map<String, List<RemarkItem>> {
+    // Alternative if API expects different structure
+//    data class FieldVerificationFinalSubmit(
+//        val appVersion: String,
+//        val loginId: String,
+//        val captiveEmpanelmentId: String,
+//        val prnNo: String,
+//        val remarks: List<RemarkItem> // All remarks flattened
+//    )
+
+    // Then modify collectAllRemarksSectionWise to flatten all remarks:
+    private fun collectAllRemarksSectionWise(): FieldVerificationFinalSubmit {
         commitFocusedEditText()
-        return mapOf(
-            "Organization" to collectRemarksFromSection("Organization", orgItems),
-            "Finance" to collectRemarksFromSection("Finance", finItems),
-            "Training" to collectRemarksFromSection("Training", trainingItems),
-            "TrainingInfra" to collectRemarksFromSection("TrainingInfra", trainingInfraItems),
-            "Certification" to collectRemarksFromSection("Certification", certItems),
-            "Placement" to collectRemarksFromSection("Placement", placementItems),
-            "FieldVisit" to collectRemarksFromSection("FieldVisit", fieldItems)
+
+        val allRemarks = mutableListOf<RemarkItem>().apply {
+            addAll(collectRemarksFromSection("Organization", orgItems))
+            addAll(collectRemarksFromSection("Finance", finItems))
+            addAll(collectRemarksFromSection("Training", trainingItems))
+            addAll(collectRemarksFromSection("TrainingInfra", trainingInfraItems))
+            addAll(collectRemarksFromSection("Certification", certItems))
+            addAll(collectRemarksFromSection("Placement", placementItems))
+            addAll(collectRemarksFromSection("FieldVisit", fieldItems))
+        }
+
+        return FieldVerificationFinalSubmit(
+            appVersion = BuildConfig.VERSION_NAME,
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            captiveEmpanelmentId = captiveEmpanelmentId,
+            prnNo = prnNo,
+            remarks = allRemarks
         )
     }
+
+
+//    private fun collectAllRemarksSectionWise(): Map<String, List<RemarkItem>> {
+//        commitFocusedEditText()
+//        val result = FieldVerificationDetailRequest
+//        return mapOf(
+//            "Organization" to collectRemarksFromSection("Organization", orgItems),
+//            "Finance" to collectRemarksFromSection("Finance", finItems),
+//            "Training" to collectRemarksFromSection("Training", trainingItems),
+//            "TrainingInfra" to collectRemarksFromSection("TrainingInfra", trainingInfraItems),
+//            "Certification" to collectRemarksFromSection("Certification", certItems),
+//            "Placement" to collectRemarksFromSection("Placement", placementItems),
+//            "FieldVisit" to collectRemarksFromSection("FieldVisit", fieldItems)
+//        )
+//    }
 
     private fun commitFocusedEditText() {
         try {
@@ -1884,13 +2037,17 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
 
     // Simple data model
-    data class FieldVerificationItem(
-        val id: String,
-        val requirement: String,
-        val verificationDoc: String,
-        val documents: List<String>,
-        val uploadEnabled: Boolean = false,
-        val imageUri: String? = null,
-        val allowRemark: Boolean = false,
-        var remarkText: String? = null
-    )
+
+
+// Update your FieldVerificationItem data class to include attachments
+data class FieldVerificationItem(
+    val id: String,
+    val requirement: String,
+    val verificationDoc: String,
+    val documents: List<String>,
+    val uploadEnabled: Boolean = false,
+    val imageUri: String? = null,
+    val allowRemark: Boolean = false,
+    var remarkText: String? = null,
+    var attachments: List<AttachmentItem> = emptyList() // NEW: For storing captured files
+)

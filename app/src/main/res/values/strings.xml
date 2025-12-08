@@ -868,4 +868,14 @@
     <string name="english">English\n</string>
     <string name="hindi">Hindi\n</string>
 
+    <string name="training_center_name_format">Training Center Name: %s</string>
+    <string name="training_center_address_format">Training Center Address: %s</string>
+    <string name="sanction_order_format">Sanction Order: %s</string>
+    <string name="district_name_format">District Name: %s</string>
+    <string name="no_data_available">No Data Available</string>
+    <string name="no_centers_found">No training centers found</string>
+
+    <string name="calculate">Calculate</string>
+
+
 </resources>

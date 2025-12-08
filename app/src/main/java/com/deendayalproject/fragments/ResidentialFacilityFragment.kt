@@ -1,5 +1,7 @@
 package com.deendayalproject.fragments
 
+
+
 import SharedViewModel
 import android.Manifest
 import android.annotation.SuppressLint
@@ -84,8 +86,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.String
 
-
-
 class ResidentialFacilityFragment : Fragment() {
 
     private var _binding: FragmentResidentialBinding? = null
@@ -134,9 +134,6 @@ class ResidentialFacilityFragment : Fragment() {
     private var base64LivingAreaInfoBoardDocFile: String? = ""
     private var base64LightsInToiletDocFile: String? = ""
     private var base64ToiletFlooringDocFile: String? = ""
-
-
-
     private var base64UrinalsDocFile: String? = ""
     private var base64WashBasinDocFile: String? = ""
     private var base64OverHeadTankDocFile: String? = ""
@@ -601,7 +598,7 @@ class ResidentialFacilityFragment : Fragment() {
 
 
                         "Urinals" -> {
-                          binding.urinalWashbasin.ivUrinalPreview.setImageURI(photoUri)
+                            binding.urinalWashbasin.ivUrinalPreview.setImageURI(photoUri)
                             binding.urinalWashbasin.ivUrinalPreview.visibility = View.VISIBLE
                             base64UrinalsDocFile =
                                 AppUtil.imageUriToBase64(requireContext(), photoUri)
@@ -879,8 +876,7 @@ class ResidentialFacilityFragment : Fragment() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
-        binding.backButton.setOnClickListener {
-
+        binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
 
@@ -902,8 +898,6 @@ class ResidentialFacilityFragment : Fragment() {
             showProgressBar()
 
         }
-
-
 
         livingRoomAdapter = LivingRoomListAdapter(mutableListOf()) { roomItem ->
 
@@ -2487,15 +2481,15 @@ class ResidentialFacilityFragment : Fragment() {
 
 
 
-       binding.urinalWashbasin.btnSubmitToiletAdditional.setOnClickListener {
+        binding.urinalWashbasin.btnSubmitToiletAdditional.setOnClickListener {
 
-           if (validateAdditionalToiletInfoForm(view)) submitRFAdditionalToiletForm(view)
-           else Toast.makeText(
-               requireContext(),
-               "Complete all Urinals/Washbasin/Overhead  fields and photos.",
-               Toast.LENGTH_LONG
-           ).show()
-       }
+            if (validateAdditionalToiletInfoForm(view)) submitRFAdditionalToiletForm(view)
+            else Toast.makeText(
+                requireContext(),
+                "Complete all Urinals/Washbasin/Overhead  fields and photos.",
+                Toast.LENGTH_LONG
+            ).show()
+        }
 
 
 
@@ -2603,7 +2597,7 @@ class ResidentialFacilityFragment : Fragment() {
             result.onSuccess { response ->
                 when (response.responseCode) {
                     200 -> populateSpinnerBlock(
-                        (response.wrappedList ?: emptyList()) as ArrayList<BlockModel?>,
+                        (response.wrappedList ?: emptyList()) as ArrayList<BlockModel>,
                         spinnerBlock
                     )
 
@@ -2719,7 +2713,7 @@ class ResidentialFacilityFragment : Fragment() {
         }
     }
 
-    private fun populateSpinnerBlock(alStateModel: java.util.ArrayList<BlockModel?>, sp: Spinner) {
+    private fun populateSpinnerBlock(alStateModel: ArrayList<BlockModel>, sp: Spinner) {
         if (!alStateModel.isEmpty() && alStateModel.size > 0) {
             alStateModel!!.add(0, BlockModel("--Select--", "0"))
             val dbAdapter = BlockAdapter(
@@ -2953,27 +2947,6 @@ class ResidentialFacilityFragment : Fragment() {
     private fun validateBasicInfoForm(view: View): Boolean {
         var isValid = true
 
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            return if (spinner.selectedItemPosition == 0) {
-                spinner.requestFocus()
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT)
-                    .show()
-                false
-            } else {
-                true
-            }
-        }
-
-        fun checkTextInput(editText: TextInputEditText, fieldName: String): Boolean {
-            return if (editText.text.isNullOrBlank()) {
-                editText.error = "Please enter $fieldName"
-                editText.requestFocus()
-                false
-            } else {
-                true
-            }
-        }
-
         // Validate all required Spinners
         if (!checkSpinner(spinnerState, "State")) isValid = false
         if (!checkSpinner(spinnerDistrict, "District")) isValid = false
@@ -3031,23 +3004,6 @@ class ResidentialFacilityFragment : Fragment() {
 
     private fun validateInfraInfoForm(view: View): Boolean {
         var isValid = true
-
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            return if (spinner.selectedItemPosition == 0) {
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT)
-                    .show()
-                false
-            } else true
-        }
-
-        fun checkTextInput(editText: TextInputEditText, fieldName: String): Boolean {
-            return if (editText.text.isNullOrBlank()) {
-                editText.error = "Please enter $fieldName"
-                editText.requestFocus()
-                false
-            } else true
-        }
-
 
         // ✅ Validate All Spinners
         isValid = isValid && checkSpinner(spinnerOwnerBuilding, "Ownership of Building")
@@ -3148,27 +3104,6 @@ class ResidentialFacilityFragment : Fragment() {
     private fun validateLivingAreaInfoForm(view: View): Boolean {
         var isValid = true
 
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            return if (spinner.selectedItemPosition == 0) {
-                spinner.requestFocus()
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT)
-                    .show()
-                false
-            } else {
-                true
-            }
-        }
-
-        fun checkTextInput(editText: TextInputEditText, fieldName: String): Boolean {
-            return if (editText.text.isNullOrBlank()) {
-                editText.error = "Please enter $fieldName"
-                editText.requestFocus()
-                false
-            } else {
-                true
-            }
-        }
-
         // Validate all required Spinners
         if (!checkSpinner(spinnerTypeLivingRoof, "Type of Roof(RCC/Non RCC)")) isValid = false
         if (!checkSpinner(spinnerCeiling, "False Ceiling Provided")) isValid = false
@@ -3214,45 +3149,39 @@ class ResidentialFacilityFragment : Fragment() {
             "Upload image for Living Area Info Board"
         )
 
-
-
-
-
         if (base64TypeLivingRoofDocFile == null
             || base64CotDocFile == null || base64MattressDocFile == null || base64BedSheetDocFile == null || base64CupBoardDocFile == null
             || base64LightsDocFile == null || base64FansDocFile == null
             || base64AirHieghtOfCelingDocFile == null || base64WindowAreaDocFile == null
         ) isValid = false
 
-
         return isValid
+    }
 
+    fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
+        return if (spinner.selectedItemPosition == 0) {
+            spinner.requestFocus()
+            Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
+            false
+        } else {
+            true
+        }
+    }
 
+    fun checkTextInput(editText: TextInputEditText, fieldName: String): Boolean {
+        return if (editText.text.isNullOrBlank()) {
+            editText.error = "Please enter $fieldName"
+            editText.requestFocus()
+            false
+        } else {
+            true
+        }
     }
 
     private fun validateToiletInfoForm(view: View): Boolean {
         var isValid = true
 
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            return if (spinner.selectedItemPosition == 0) {
-                spinner.requestFocus()
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT)
-                    .show()
-                false
-            } else {
-                true
-            }
-        }
 
-        fun checkTextInput(editText: TextInputEditText, fieldName: String): Boolean {
-            return if (editText.text.isNullOrBlank()) {
-                editText.error = "Please enter $fieldName"
-                editText.requestFocus()
-                false
-            } else {
-                true
-            }
-        }
 
         // Validate all required Spinners
         if (!checkSpinner(spinnerToiletType, "Toilet Type")) isValid = false
@@ -3269,50 +3198,20 @@ class ResidentialFacilityFragment : Fragment() {
 
         if (base64LightsInToiletDocFile == null || base64ToiletFlooringDocFile == null ) isValid =
             false
-
-
-
         isValid = isValid && validateImageIfYes(
             spinnerConnectionToRunningWater,
             base64RunningWaterDocFile,
             "Upload image for Connection To Running Water"
         )
-
         return isValid
-
-
     }
-
-
 
 
     private fun validateAdditionalToiletInfoForm(view: View): Boolean {
         var isValid = true
-
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            return if (spinner.selectedItemPosition == 0) {
-                spinner.requestFocus()
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT)
-                    .show()
-                false
-            } else {
-                true
-            }
-        }
-
-        fun checkTextInput(editText: TextInputEditText, fieldName: String): Boolean {
-            return if (editText.text.isNullOrBlank()) {
-                editText.error = "Please enter $fieldName"
-                editText.requestFocus()
-                false
-            } else {
-                true
-            }
-        }
-
         // Validate all required Spinners
 
-         if (!checkSpinner(spinnerOverheadTanks, "Overhead Tanks")) isValid = false
+        if (!checkSpinner(spinnerOverheadTanks, "Overhead Tanks")) isValid = false
 
 
         // Validate required TextInputEditTexts
@@ -3340,46 +3239,15 @@ class ResidentialFacilityFragment : Fragment() {
 
     private fun validateNonLivingAreaInfoForm(view: View): Boolean {
         var isValid = true
-
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            return if (spinner.selectedItemPosition == 0) {
-                spinner.requestFocus()
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT)
-                    .show()
-                false
-            } else {
-                true
-            }
-        }
-
-        fun checkTextInput(editText: TextInputEditText, fieldName: String): Boolean {
-            return if (editText.text.isNullOrBlank()) {
-                editText.error = "Please enter $fieldName"
-                editText.requestFocus()
-                false
-            } else {
-                true
-            }
-        }
-
         // Validate all required Spinners
-        if (!checkSpinner(
-                spinnerFoodPreparedTrainingCenter,
-                "Whether Food for the Candidates is being Prepared in the Premises of the Training Center?"
-            )
-        ) isValid = false
-        if (!checkSpinner(
-                spinnerDiningRecreationAreaSeparate,
-                "Are the Dining and Recreation Area Separate?"
-            )
-        ) isValid = false
-        if (!checkSpinner(spinnerIsReceptionAreaAva, "Is Reception area is available?")) isValid =
-            false
-        if (!checkSpinner(
-                spinnerTvAvailable,
-                "Whether TV with a Cable or Satellite Connection is Available for Viewing?"
-            )
-        ) isValid = false
+        if (!checkSpinner(spinnerFoodPreparedTrainingCenter, "Whether Food for the Candidates is being Prepared in the Premises of the Training Center?"))
+            isValid = false
+        if (!checkSpinner(spinnerDiningRecreationAreaSeparate, "Are the Dining and Recreation Area Separate?"))
+            isValid = false
+        if (!checkSpinner(spinnerIsReceptionAreaAva, "Is Reception area is available?"))
+            isValid = false
+        if (!checkSpinner(spinnerTvAvailable, "Whether TV with a Cable or Satellite Connection is Available for Viewing?"))
+            isValid = false
 
         if (selectedRfFoodPre == "Yes") {
 
@@ -3387,11 +3255,8 @@ class ResidentialFacilityFragment : Fragment() {
             if (!checkTextInput(etKitchenWidth, "Width (In ft)")) isValid = false
         }
 
-
         // Validate required TextInputEditTexts
-
         if (!checkTextInput(etStoolsChairsBenches, "No.of Stools/Chairs/Benches")) isValid = false
-
         if (spinnerDiningRecreationAreaSeparate.selectedItem.toString()=="Yes")
         {
             if (!checkTextInput(etDiningLength, "Length (in ft)")) isValid = false
@@ -3399,44 +3264,28 @@ class ResidentialFacilityFragment : Fragment() {
             if (!checkTextInput(etRecreationLength, "Length (in ft)")) isValid = false
             if (!checkTextInput(etRecreationWidth, "Width (in ft)")) isValid = false
 
-        }
-
-        else{
+        } else{
             if (!checkTextInput(binding.etDiningAndRecreactionWidth, "Length (in ft)")) isValid = false
             if (!checkTextInput(binding.etDiningAndRecreactionLength, "Width (in ft)")) isValid = false
 
         }
-
-
 
         isValid = isValid && validateImageIfYes(
             spinnerDiningRecreationAreaSeparate,
             base64RecreationAreaDocFile,
             "Upload image for Recreation Area"
         )
-
-
         isValid = isValid && validateImageIfYes(
             spinnerDiningRecreationAreaSeparate,
             base64DinningAreaDocFile,
             "Upload image for Dining Area"
         )
-
-
         isValid = isValid && validateImageIfNo(
             spinnerDiningRecreationAreaSeparate,
             base64RecreationDiningAreaDocFile,
             "Upload image for Recreation and Dining Area"
         )
-
-
-
-
-
         if (!checkTextInput(etWashArea, "Wash Area")) isValid = false
-
-
-
         isValid = isValid && validateImageIfYes(
             spinnerFoodPreparedTrainingCenter,
             base64FoodPreparedTrainingDocFile,
@@ -3447,36 +3296,11 @@ class ResidentialFacilityFragment : Fragment() {
             base64ReceptionAreaDocFile,
             "Upload image for Reception Area"
         )
-
         return isValid
-
-
     }
 
     private fun validateResidentialFacilitiesInfoForm(view: View): Boolean {
         var isValid = true
-
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            return if (spinner.selectedItemPosition == 0) {
-                spinner.requestFocus()
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT)
-                    .show()
-                false
-            } else {
-                true
-            }
-        }
-
-        fun checkTextInput(editText: TextInputEditText, fieldName: String): Boolean {
-            return if (editText.text.isNullOrBlank()) {
-                editText.error = "Please enter $fieldName"
-                editText.requestFocus()
-                false
-            } else {
-                true
-            }
-        }
-
         // Validate all required Spinners
         if (!checkSpinner(
                 spinnerWhetherHostelsSeparated,
@@ -3508,12 +3332,6 @@ class ResidentialFacilityFragment : Fragment() {
                 "Whether Male Doctor on call is Available or Not?"
             )
         ) isValid = false
-
-
-
-
-
-
 
         isValid = isValid && validateImageIfYes(
             spinnerWhetherHostelsSeparated,
@@ -3557,27 +3375,6 @@ class ResidentialFacilityFragment : Fragment() {
 
     private fun validateSupportFacilitiesInfoForm(view: View): Boolean {
         var isValid = true
-
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            return if (spinner.selectedItemPosition == 0) {
-                spinner.requestFocus()
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT)
-                    .show()
-                false
-            } else {
-                true
-            }
-        }
-
-        fun checkTextInput(editText: TextInputEditText, fieldName: String): Boolean {
-            return if (editText.text.isNullOrBlank()) {
-                editText.error = "Please enter $fieldName"
-                editText.requestFocus()
-                false
-            } else {
-                true
-            }
-        }
 
         // Validate all required Spinners
         if (!checkSpinner(spinnerSafeDrinikingAvailable, "Safe Driniking Available ?")) isValid =
@@ -3637,18 +3434,7 @@ class ResidentialFacilityFragment : Fragment() {
             "Please upload document for Grievance Register"
         )
 
-
-
-
-
-
-
-
-
-
         return isValid
-
-
     }
 
     private fun calculateAndShowArea(
@@ -3766,15 +3552,11 @@ class ResidentialFacilityFragment : Fragment() {
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
                 if (location != null) {
-
-
-                    binding.tvLatLang.text =
-                        location.latitude.toString() + "," + location.longitude.toString()
+                    binding.tvLatLang.text = location.latitude.toString() + "," + location.longitude.toString()
                     latValue = location.latitude.toString()
                     langValue = location.longitude.toString()
                 } else {
-                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener {
@@ -3998,10 +3780,6 @@ class ResidentialFacilityFragment : Fragment() {
 
 
 
-
-
-
-
     private fun submitRFNonLivingAreaForm(view: View) {
 
         val request =
@@ -4031,17 +3809,12 @@ class ResidentialFacilityFragment : Fragment() {
                 receptionArea = binding.spinnerReceptionArea.selectedItem.toString(),
                 receptionAreaFile = base64ReceptionAreaDocFile!!,
 
-
-
                 diningRecreationLength =  binding.etDiningAndRecreactionLength.text.toString().toDoubleOrNull() ?: 0.0,
                 diningRecreationWidth =  binding.etDiningAndRecreactionWidth.text.toString().toDoubleOrNull() ?: 0.0,
                 diningRecreationArea =  binding.etDiningAndRecreactionArea.text.toString().toDoubleOrNull() ?: 0.0,
                 diningRecreationAreaFile = base64RecreationDiningAreaDocFile!!,
                 diningAreaFile = base64DinningAreaDocFile!!,
                 recreationAreaFile = base64RecreationAreaDocFile!!
-
-
-
             )
 
         viewModel.SubmitRfNonLivingAreaDataToServer(request)
@@ -4413,8 +4186,6 @@ class ResidentialFacilityFragment : Fragment() {
                         if (sectionsStatus.toiletAdditionalSection > 0) {
                             binding.urinalWashbasin.ivToggleUrinalWashbasin.setImageResource(R.drawable.ic_verified)
                         }
-
-
                     }
 
                     202 -> Toast.makeText(
@@ -4439,7 +4210,6 @@ class ResidentialFacilityFragment : Fragment() {
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
-
         }
     }
 
@@ -4556,11 +4326,11 @@ class ResidentialFacilityFragment : Fragment() {
                             setSpinnerValue(spinnerGp, x.gpName!!)
                             setSpinnerValue(spinnerVillage, x.villageName!!)*/
 
-                             selectedStateCode = x.stateCode.toString()
-                             selectedDistrictCode = x.districtCode.toString()
-                             selectedBlockCode = x.villageCode.toString()
-                             selectedGpCode = x.gpCode.toString()
-                             selectedVillageCode = x.villageCode.toString()
+                            selectedStateCode = x.stateCode.toString()
+                            selectedDistrictCode = x.districtCode.toString()
+                            selectedBlockCode = x.villageCode.toString()
+                            selectedGpCode = x.gpCode.toString()
+                            selectedVillageCode = x.villageCode.toString()
 
 
                             binding.etPoliceStation.setText(x.policeStation)
@@ -5295,7 +5065,6 @@ class ResidentialFacilityFragment : Fragment() {
         binding.ivLivingAreaInfoBoardPreview.gone()
         binding.ivLivingAreaLightsPreview.gone()
         binding.ivLivingAreaFansPreview.gone()
-
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -5376,5 +5145,5 @@ class ResidentialFacilityFragment : Fragment() {
 
 
 
-}
+    }
 }

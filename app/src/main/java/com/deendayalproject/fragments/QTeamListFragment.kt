@@ -5,6 +5,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,8 +37,6 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
     private var longitude = 84.3588
     private var radius = 500000000f
 
-    // RecyclerView ID for tracking in BaseFragment
-    private val TRAINING_CENTERS_RECYCLER_VIEW_ID = 1002
 
     // Location permission launcher
     private val locationPermissionLauncher =
@@ -174,16 +173,15 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
                     responseCode = response.responseCode,
                     data = response.wrappedList,
                     onSuccess = { centers ->
-                        updateRecyclerViewData(TRAINING_CENTERS_RECYCLER_VIEW_ID, centers ?: emptyList())
+                        updateRecyclerViewData(binding.recyclerView.id, centers ?: emptyList())
                         logFragmentEvent("Training_Centers_Loaded", "Count: ${centers?.size ?: 0}")
-
                         if (centers.isNullOrEmpty()) {
                             showToast("No training centers available")
                         }
                     },
                     onNoData = {
                         showToast("No training centers available")
-                        clearRecyclerViewData(TRAINING_CENTERS_RECYCLER_VIEW_ID)
+                        clearRecyclerViewData(binding.recyclerView.id)
                     },
                     onSessionExpired = {
                         handleSessionExpired()

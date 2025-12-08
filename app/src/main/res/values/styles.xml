@@ -6,10 +6,10 @@
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="CustomRectangleShape">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">12%</item>
-    </style>
+<!--    <style name="CustomRectangleShape">-->
+<!--        <item name="cornerFamily">rounded</item>-->
+<!--        <item name="cornerSize">12%</item>-->
+<!--    </style>-->
     <style name="CustomChip" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipStrokeColor">@color/color_dark_green</item>
         <item name="chipStrokeWidth">1dp</item>
@@ -45,7 +45,6 @@
         <item name="android:background">@drawable/shape_rectangle_green</item>
         <item name="android:fontFamily">@font/avenir_next_demi_bold</item>
         <item name="android:gravity">start|center_vertical</item>
-        <item name="android:paddingVertical">@dimen/dp_10</item>
         <item name="android:paddingStart">@dimen/dp_10</item>
         <item name="android:paddingEnd">@dimen/dp_10</item>
     </style>
@@ -74,6 +73,52 @@
         <item name="fontFamily">@font/avenir_next_regular</item>
         <item name="android:lineSpacingExtra">4sp</item>
     </style>
+
+
+        <!-- RoundedMediumShape - Used for TextInputLayouts and buttons -->
+        <style name="RoundedMediumShape" parent="">
+            <item name="cornerFamily">rounded</item>
+            <item name="cornerSize">8dp</item>
+            <item name="cornerSizeTopLeft">8dp</item>
+            <item name="cornerSizeTopRight">8dp</item>
+            <item name="cornerSizeBottomLeft">8dp</item>
+            <item name="cornerSizeBottomRight">8dp</item>
+        </style>
+
+        <!-- CircleShape - Used for icons and avatars -->
+        <style name="CircleShape" parent="">
+            <item name="cornerFamily">rounded</item>
+            <item name="cornerSize">50%</item>
+        </style>
+
+        <!-- RoundedLargeShape - Used for cards and larger containers -->
+        <style name="RoundedLargeShape" parent="">
+            <item name="cornerFamily">rounded</item>
+            <item name="cornerSize">12dp</item>
+            <item name="cornerSizeTopLeft">12dp</item>
+            <item name="cornerSizeTopRight">12dp</item>
+            <item name="cornerSizeBottomLeft">12dp</item>
+            <item name="cornerSizeBottomRight">12dp</item>
+        </style>
+
+        <!-- CustomRectangleShape - For logo container -->
+        <style name="CustomRectangleShape" parent="">
+            <item name="cornerFamily">rounded</item>
+            <item name="cornerSize">4dp</item>
+            <item name="cornerSizeTopLeft">4dp</item>
+            <item name="cornerSizeTopRight">4dp</item>
+            <item name="cornerSizeBottomLeft">4dp</item>
+            <item name="cornerSizeBottomRight">4dp</item>
+        </style>
+
+        <!-- PillShape - For tab indicators or special buttons -->
+        <style name="PillShape" parent="">
+            <item name="cornerFamily">rounded</item>
+            <item name="cornerSize">50%</item>
+        </style>
+
+
+
 
 
 </resources>

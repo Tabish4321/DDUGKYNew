@@ -1,44 +1,61 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/dp_16"
-    android:layout_marginTop="@dimen/dp_10"
-    android:layout_marginBottom="@dimen/dp_10"
-    card_view:cardCornerRadius="12dp"
-    card_view:cardElevation="6dp"
-    card_view:cardUseCompatPadding="true">
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="10dp"
+    android:layout_margin="@dimen/dp_5"
+    tools:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:fitsSystemWindows="true"
-        android:padding="16dp">
+        android:padding="@dimen/dp_16">
 
         <!-- Training Center Name -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/dp_12">
 
             <ImageView
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25"
-                android:src="@drawable/training_center"
-                android:layout_marginTop="@dimen/dp_5" />
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_signage"
+                android:contentDescription="Center" />
 
-            <TextView
-                android:id="@+id/trainingCenterName"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_15"
-                android:text="@string/training_center_name"
-                android:textColor="@color/color_dark_green"
-                android:fontFamily="@font/avenir_next_semi_bold"
-                android:textSize="@dimen/sp_16"
-                android:padding="@dimen/dp_4"/>
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/sp_14">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Training Center Name"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_12"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/trainingCenterName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_16"
+                    android:fontFamily="@font/avenir_next_medium"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    tools:text="Deen Dayal Upadhyaya Grameen Kaushalya Yojana Training Center" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- Sanction Order -->
@@ -46,23 +63,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/dp_12">
 
             <ImageView
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25"
-                android:src="@drawable/sanction"
-                android:layout_marginTop="@dimen/dp_5" />
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_sanction"
+                android:contentDescription="Sanction" />
 
-            <TextView
-                android:id="@+id/senctionOrder"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_15"
-                android:text="@string/sanction_order"
-                android:fontFamily="@font/avenir_next_semi_bold"
-                android:textSize="@dimen/sp_16"
-                android:padding="@dimen/dp_4"/>
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/sp_14">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sanction Order"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_12"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/senctionOrder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_15"
+                    android:fontFamily="@font/avenir_next_medium"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="SO/2025-26/789" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- Address -->
@@ -70,53 +107,87 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/dp_12">
 
             <ImageView
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25"
-                android:src="@drawable/ic_location"
-                android:layout_marginTop="@dimen/dp_5" />
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_address"
+                android:contentDescription="Address" />
 
-            <TextView
-                android:id="@+id/trainingCenterAddress"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_15"
-                android:text="@string/training_center_address"
-                android:fontFamily="@font/avenir_next_semi_bold"
-                android:textSize="@dimen/sp_16"
-                android:textStyle="bold"
-                android:padding="@dimen/dp_4"/>
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/dp_10">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_12"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/trainingCenterAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_14"
+                    android:fontFamily="@font/avenir_next_medium"
+                    android:maxLines="3"
+                    android:ellipsize="end"
+                    tools:text="123, Main Road, Near Bus Stand, Village XYZ, District ABC" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- District -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <ImageView
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:src="@drawable/ic_district"
-                android:layout_marginTop="@dimen/dp_5" />
+                android:contentDescription="District" />
 
-            <TextView
-                android:id="@+id/districtName"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_15"
-                android:text="@string/district_name"
-                android:fontFamily="@font/avenir_next_semi_bold"
-                android:textSize="@dimen/sp_16"
-                android:padding="@dimen/dp_4"
-                android:maxLines="2"
-                android:ellipsize="end"/>
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/sp_14">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="District"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_12"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/districtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_14"
+                    android:fontFamily="@font/avenir_next_medium"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="Bhopal" />
+            </LinearLayout>
         </LinearLayout>
-
-
-
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

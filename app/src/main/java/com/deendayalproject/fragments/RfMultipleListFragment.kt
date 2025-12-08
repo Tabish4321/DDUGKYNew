@@ -2,6 +2,7 @@ package com.deendayalproject.fragments
 
 import SharedViewModel
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -29,21 +30,13 @@ class RfMultipleListFragment : BaseFragment<FragmentRfMultipleListBinding>(
     var sanctionOrder = ""
     var facilityId = ""
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
-
-        centerId = arguments?.getString("centerId").toString()
-        sanctionOrder = arguments?.getString("sanctionOrder").toString()
-
-        initializeViews()
-        setupObservers()
-        setupClickListeners()
-        loadInitialData()
-    }
 
     override fun initializeViews() {
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━RfMultipleListFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+        viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+        centerId = arguments?.getString("centerId").toString()
+        sanctionOrder = arguments?.getString("sanctionOrder").toString()
         setupToolbar(
             binding.root,
             titleRes = R.string.residential_multiple_list,
@@ -85,10 +78,13 @@ class RfMultipleListFragment : BaseFragment<FragmentRfMultipleListBinding>(
                 ItemModifyListBinding.inflate(inflater, parent, false)
             },
             onBind = { item, itemBinding, position ->
-                itemBinding.trainingCenterName.text = "Training Center Name: ${item.trainingCenterName}"
-                itemBinding.senctionOrder.text = "Sanction Order: ${item.senctionOrder}"
+                itemBinding.trainingCenterName.text = "${item.trainingCenterName}"
+                itemBinding.senctionOrder.text = "${item.senctionOrder}"
 
-                itemBinding.root.setOnClickListener {
+//                itemBinding.root.setOnClickListener {
+//                    onItemClick(item)
+//                }
+                itemBinding.btnMarkAttendance.setOnClickListener {
                     onItemClick(item)
                 }
             },

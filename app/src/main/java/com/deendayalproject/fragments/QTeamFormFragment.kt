@@ -32,9 +32,11 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
 import android.util.Base64
+import android.util.Log
 import android.widget.ImageView
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.deendayalproject.databinding.CounsellingRoomBinding
 import com.deendayalproject.databinding.DomainLabLayoutBinding
 import com.deendayalproject.databinding.ItCumDomainLabLayoutBinding
@@ -54,10 +56,13 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URLEncoder
+import kotlin.getValue
 
 class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
-    FragmentQTeamFormBinding::inflate
+    bindingInflater = FragmentQTeamFormBinding::inflate
 ) {
+
+
 
     private lateinit var viewModel: SharedViewModel
     var dataStaffList: MutableList<Trainer> = mutableListOf()
@@ -182,9 +187,9 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
     private var ecPowerBackupImage = ""
     //end all room var
 
-    private var centerId = ""
-    private var sanctionOrder = ""
-    private var centerName = ""
+    private var centerId: String = ""
+    private var centerName: String = ""
+    private var sanctionOrder: String = ""
 
     private var selfDeclarationPdf = ""
     private var buildingPdf = ""
@@ -238,13 +243,29 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
     private var fireFightingImage = ""
     private var firstAidImage = ""
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+
     override fun initializeViews() {
-        viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━QTeamFormFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
 
         // Get arguments safely
-        centerId = arguments?.getString("centerId") ?: ""
-        centerName = arguments?.getString("centerName") ?: ""
-        sanctionOrder = arguments?.getString("sanctionOrder") ?: ""
+        centerId = arguments?.getString("centerId").toString() ?: ""
+        centerName = arguments?.getString("centerName").toString() ?: ""
+        sanctionOrder = arguments?.getString("sanctionOrder").toString() ?: ""
+
+        viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+
+        request = TrainingCenterInfo(
+            appVersion = BuildConfig.VERSION_NAME,
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            tcId = centerId.toInt(),
+            sanctionOrder = sanctionOrder,
+            imeiNo = AppUtil.getAndroidId(requireContext())
+        )
 
         setupToolbar(
             root = binding.root,
@@ -275,17 +296,12 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         collectAllRoomDetails()
         collectQTeamInsertRes()
     }
+    private lateinit var request: TrainingCenterInfo // Declare but don't initialize here
 
     override fun setupClickListeners() {
         setupAllClickListeners()
     }
-    val request = TrainingCenterInfo(
-        appVersion = BuildConfig.VERSION_NAME,
-        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-        tcId = centerId.toInt(),
-        sanctionOrder = sanctionOrder,
-        imeiNo = AppUtil.getAndroidId(requireContext())
-    )
+
     override fun loadInitialData() {
         // Load basic center info and staff
 
@@ -293,15 +309,45 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         viewModel.getTcStaffDetails(request)
     }
 
+//    private fun setupRecyclerView() {
+//        setupRecyclerView(
+//            recyclerView = binding.recyclerView,
+//            items = academiaList,
+//            layoutManager = LinearLayoutManager(requireContext()),
+//            bindingInflater = { inflater, parent, _ ->
+//                DescriptionAcademiaLayoutBinding.inflate(inflater, parent, false)
+//            },
+//            onBind = { room, binding, _ ->
+//                binding.tvMaxCandidate.text = room.maxPermissibleCandidate
+//                binding.tvLength.text = room.roomLength
+//                binding.tvWidth.text = room.roomWidth
+//                binding.tvArea.text = room.roomArea
+//                binding.tvRoomType.text = room.roomType
+//
+//                binding.btnView.setOnClickListener {
+//                    handleRoomItemClick(room)
+//                }
+//            }
+//        )
+//    }
+
+
     private fun setupRecyclerView() {
-        setupRecyclerView(
-            recyclerView = binding.recyclerView,
-            items = academiaList,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = { inflater, parent, _ ->
-                DescriptionAcademiaLayoutBinding.inflate(inflater, parent, false)
-            },
-            onBind = { room, binding, _ ->
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+                val binding = DescriptionAcademiaLayoutBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                return object : RecyclerView.ViewHolder(binding.root) {}
+            }
+
+            override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                val room = academiaList[position]
+                val binding = DescriptionAcademiaLayoutBinding.bind(holder.itemView)
+
                 binding.tvMaxCandidate.text = room.maxPermissibleCandidate
                 binding.tvLength.text = room.roomLength
                 binding.tvWidth.text = room.roomWidth
@@ -312,7 +358,9 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                     handleRoomItemClick(room)
                 }
             }
-        )
+
+            override fun getItemCount() = academiaList.size
+        }
     }
 
     private val approvalAdapters = mutableMapOf<TextView, ArrayAdapter<String>>()
@@ -2155,6 +2203,25 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         }
     }
 
+//    private fun collectTCAcademiaNonAcademia() {
+//        viewModel.getTcAcademicNonAcademicArea.observe(viewLifecycleOwner) { result ->
+//            result.onSuccess {
+//                handleApiResponse(
+//                    responseCode = it.responseCode,
+//                    data = it.wrappedList,
+//                    onSuccess = { data ->
+//                        academiaList.clear()
+//                        data?.let { it1 -> academiaList.addAll(it1) }
+//                        updateRecyclerViewData(binding.recyclerView.id, academiaList)
+//                    }
+//                )
+//            }
+//            result.onFailure {
+//                showErrorToast("Failed: ${it.message}")
+//            }
+//        }
+//    }
+
     private fun collectTCAcademiaNonAcademia() {
         viewModel.getTcAcademicNonAcademicArea.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
@@ -2164,7 +2231,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                     onSuccess = { data ->
                         academiaList.clear()
                         data?.let { it1 -> academiaList.addAll(it1) }
-                        updateRecyclerViewData(binding.recyclerView.id, academiaList)
+                        binding.recyclerView.adapter?.notifyDataSetChanged() // Important!
                     }
                 )
             }

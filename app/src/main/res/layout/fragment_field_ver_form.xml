@@ -15,47 +15,9 @@
         android:paddingBottom="@dimen/dp_100"
         android:clipToPadding="false"
         android:clipChildren="false">
-        <androidx.appcompat.widget.Toolbar
+        <include
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_100"
-            android:background="@color/color_dark_blue"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/backButton"
-                android:layout_marginStart="@dimen/dp_20"
-                android:padding="@dimen/dp_5"
-                android:scaleType="fitCenter"
-                android:src="@drawable/back_arrow"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/field_ver_head"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_16"/>
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="150dp"
-                android:layout_height="@dimen/dp_60"
-                android:layout_gravity="end"
-                android:id="@+id/logo"
-                android:background="@color/white"
-                android:padding="@dimen/dp_5"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ddy_logo"
-                app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
-
-
-
-        </androidx.appcompat.widget.Toolbar>
-
+            layout="@layout/layout_toolbar_base" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/verOrg"
         style="@style/editTextHome"
@@ -114,6 +76,25 @@
             android:visibility="visible"
             app:layout_constraintTop_toBottomOf="@+id/llTopInfra"
             app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/btnInfoNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="136dp"
+                android:background="@drawable/card_background"
+                android:elevation="4dp"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dp_10"
+                android:text="@string/save_and_next"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
@@ -149,21 +130,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/InfoRemarks"
                 android:visibility="gone"
                 />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10"
-                android:text="@string/save_and_next"
-                android:id="@+id/btnInfoNext"
-                android:textColor="@color/white"
-                android:elevation="4dp"
-                android:textSize="@dimen/sp_16"
-                android:background="@drawable/card_background"
-                android:layout_margin="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-
-                app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

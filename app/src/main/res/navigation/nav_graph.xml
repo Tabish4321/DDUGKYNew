@@ -110,22 +110,24 @@
         <argument
             android:name="centerId"
             app:argType="string"/>
-            <argument
-                android:name="centerName"
-                app:argType="string"/>
-            <argument
-                android:name="sanctionOrder"
-                app:argType="string"/>
+        <argument
+             android:name="centerName"
+             app:argType="string"/>
+        <argument
+             android:name="sanctionOrder"
+             app:argType="string"/>
         </action>
     </fragment>
+
     <fragment
         android:id="@+id/QTeamFormFragment"
-        android:name="com.deendayalproject.fragments.QTeamFormFragment"
         android:label="fragment_q_team_form"
+        android:name="com.deendayalproject.fragments.QTeamFormFragment"
         tools:layout="@layout/fragment_q_team_form">
         <action
             android:id="@+id/action_QTeamFormFragment_to_srlmVerListFragment"
-            app:destination="@id/srlmVerListFragment" />
+            app:destination="@id/srlmVerListFragment" >
+        </action>
     </fragment>
     <fragment
         android:id="@+id/srlmVerListFragment"

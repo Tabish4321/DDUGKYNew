@@ -1,102 +1,234 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/dp_16"
-    android:layout_marginTop="@dimen/dp_10"
-    android:layout_marginBottom="@dimen/dp_10"
-    card_view:cardCornerRadius="12dp"
-    card_view:cardElevation="6dp"
-    card_view:cardUseCompatPadding="true">
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="10dp"
+    android:layout_margin="@dimen/dp_10"
+    tools:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:fitsSystemWindows="true"
-        android:padding="16dp">
+        android:padding="@dimen/dp_10"
+        android:fitsSystemWindows="true">
 
-        <!-- Training Center Name -->
+        <!-- Training Center Name Section - Vertical Stack -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="@dimen/dp_12">
 
             <ImageView
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
                 android:src="@drawable/training_center"
-                android:layout_marginTop="@dimen/dp_5" />
+                android:layout_gravity="center_vertical"
+                android:contentDescription="Training Center Icon" />
 
-            <TextView
-                android:id="@+id/trainingCenterName"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_15"
-                android:text="@string/training_center"
-                android:textColor="@color/color_dark_green"
-                android:fontFamily="@font/avenir_next_semi_bold"
-                android:textSize="@dimen/sp_16"
-                android:padding="@dimen/dp_4"/>
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/dp_12"
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Training Center Name"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_12"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:textStyle="bold"
+                    tools:text="Training Center Name" />
+
+                <TextView
+                    android:id="@+id/trainingCenterName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sample Training Center XYZ"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_14"
+                    android:fontFamily="@font/avenir_next_regular"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    tools:text="Sample Training Center XYZ" />
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Sanction Order -->
+        <!-- Sanction Order Section - Vertical Stack -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="@dimen/dp_12">
 
             <ImageView
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
                 android:src="@drawable/sanction"
-                android:layout_marginTop="@dimen/dp_5" />
+                android:layout_gravity="center_vertical"
+                android:contentDescription="Sanction Order Icon" />
 
-            <TextView
-                android:id="@+id/senctionOrder"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_15"
-                android:text="Sanction Order"
-                android:fontFamily="@font/avenir_next_semi_bold"
-                android:textSize="@dimen/sp_16"
-                android:padding="@dimen/dp_4"/>
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/dp_12"
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sanction Order"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_12"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:textStyle="bold"
+                    tools:text="Sanction Order" />
+
+                <TextView
+                    android:id="@+id/senctionOrder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="SO/2025/001"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_14"
+                    android:fontFamily="@font/avenir_next_regular"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="SO/2025/001" />
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Address -->
+        <!-- Address Section - Vertical Stack -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/dp_12">
 
+            <ImageView
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:src="@drawable/ic_location"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="Address Icon" />
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/dp_12"
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_12"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:textStyle="bold"
+                    tools:text="Address" />
+
+                <TextView
+                    android:id="@+id/addressText"
+                    android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="123 Main St, City, State 12345"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_14"
+                android:fontFamily="@font/avenir_next_regular"
+                android:maxLines="2"
+                android:ellipsize="end"
+                tools:text="123 Main St, City, State 12345" />
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- District -->
+        <!-- District Section - Vertical Stack -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:src="@drawable/ic_district"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="District Icon"
+                android:visibility="gone"
+                />
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/dp_12"
+                android:layout_gravity="center_vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="District"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_12"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:textStyle="bold"
+                    tools:text="District" />
+
+                <TextView
+                    android:id="@+id/districtText"
+                    android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sample District"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_14"
+                android:fontFamily="@font/avenir_next_regular"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Sample District" />
+            </LinearLayout>
         </LinearLayout>
+
+        <!-- Divider -->
         <View
             android:id="@+id/viewSecc"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
-            android:layout_marginTop="@dimen/dp_8"
-            android:background="#DDDDDD"/>
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:background="#E0E0E0" />
 
+        <!-- Modify Button - Centered -->
         <TextView
+            android:id="@+id/btnMarkAttendance"
             style="@style/smallButton1"
-            android:textSize="@dimen/dp_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_8"
             android:text="Modify Residential facility"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_gravity="end"
-            android:id="@+id/btnMarkAttendance" />
+            android:textSize="@dimen/sp_12"
+            android:textColor="@color/white_glow"
+            android:background="@drawable/button_primary"
+            android:fontFamily="@font/avenir_next_demi_bold"
+            android:paddingHorizontal="@dimen/dp_16"
+            android:paddingVertical="@dimen/dp_8"
+            android:clickable="true"
+            android:focusable="true"
+            tools:text="Modify Residential facility" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

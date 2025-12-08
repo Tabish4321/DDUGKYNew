@@ -11,10 +11,10 @@ object FullScreenHelper {
 
     fun enableFullScreen(activity: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val controller = activity.window.insetsController
-            controller?.let {
-                it.hide(WindowInsets.Type.systemBars())
-                it.systemBarsBehavior =
+            activity.window.setDecorFitsSystemWindows(false)
+            activity.window.insetsController?.let { controller ->
+                controller.hide(WindowInsets.Type.systemBars())
+                controller.systemBarsBehavior =
                     WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
         } else {
