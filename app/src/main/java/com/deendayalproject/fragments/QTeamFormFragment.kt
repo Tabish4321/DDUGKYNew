@@ -1390,7 +1390,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                         yesNoLabPhoto.text = safeText(data.roomsPhotographs)
                         yesNoAirConditioning.text = safeText(data.airConditionRoom)
                     }
-
+                    fansRoomImage=safeText(data.fansImage)
                     setupTheoryClassRoomImageClicks(binding, data)
                 } else {
                     showToast("No data available")

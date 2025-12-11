@@ -27,6 +27,8 @@ class LivingRoomListAdapter(
             tvRoomNo.text = "${item.roomNo}"
             tvLength.text = "${item.length}"
             tvWidth.text = "${item.width}"
+            tvMaxCandidate.text="${item.totalRfCapacity}"
+
 
             ivDelete.setOnClickListener {
                 onDeleteClicked(item)
