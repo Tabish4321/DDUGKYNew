@@ -114,6 +114,9 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
         binding.trainingCenterAddress.text = center.trainingCenterAddress ?: "N/A"
         binding.senctionOrder.text = center.senctionOrder ?: "N/A"
         binding.districtName.text=center.districtName?:"N/A"
+        binding.totalCapacity.text=center.tcCapacity?:"N/A"
+        binding.femaleCapacity.text=center.tcFemaleCapacity?:"N/A"
+        binding.maleCapacity.text=center.tcMaleCapacity?:"N/A"
         // You can add more binding logic here as needed
     }
 

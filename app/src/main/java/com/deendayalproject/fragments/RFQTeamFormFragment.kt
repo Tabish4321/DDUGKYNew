@@ -2358,7 +2358,7 @@ class RFQTeamFormFragment : Fragment() {
                                     )
                                     binding.RFTioletLayout.LinLayoutCardView.visibility= View.GONE
                                     binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
-                                    ListViewToilet("Washroom")
+                                    ListViewToilet("Bathroom")
 
                                 }
 
@@ -2369,7 +2369,7 @@ class RFQTeamFormFragment : Fragment() {
 
 
                                 if (x.toiletWashroomCount!="0") {
-                                    ListViewToilet("Toilet Cum Washroom")
+                                    ListViewToilet("Toilet Cum Bathroom")
 
                                     binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
                                         R.drawable.back_black,
