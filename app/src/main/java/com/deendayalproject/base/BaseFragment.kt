@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.StringRes
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -74,6 +75,9 @@ abstract class BaseFragment<VB : ViewBinding>(
         setupObservers()
         setupClickListeners()
         loadInitialData()
+
+
+
     }
 
     override fun onDestroyView() {
@@ -370,6 +374,7 @@ abstract class BaseFragment<VB : ViewBinding>(
             }
             .show()
     }
+
 
     protected fun showBase64ImageDialog(
         base64ImageString: String?,

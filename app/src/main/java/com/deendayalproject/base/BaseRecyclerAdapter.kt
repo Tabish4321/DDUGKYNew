@@ -62,7 +62,6 @@ class BaseRecyclerAdapter<T, VB : ViewBinding>(
 
         items = newList
         diffResult.dispatchUpdatesTo(this)
-
         // Show/Hide no data view
         toggleNoDataView()
     }

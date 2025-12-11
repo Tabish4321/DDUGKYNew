@@ -21,6 +21,7 @@ object RetrofitClient {
         val tokenInterceptor = TokenInterceptor(context)
 
         val client = OkHttpClient.Builder()
+            .cache(null)
             .addInterceptor(tokenInterceptor) // ✅ Add your custom token interceptor here
             .addInterceptor(LoggingInterceptor()) // Logging should go after tokenInterceptor
             .build()

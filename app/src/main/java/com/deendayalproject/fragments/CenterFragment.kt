@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
@@ -14,6 +15,8 @@ import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.TrainingCenter
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.base.BaseFragment
+import com.deendayalproject.util.ProgressDialogUtil
+import java.lang.System.exit
 
 class CenterFragment : BaseFragment<FragmentCenterBinding>(
     FragmentCenterBinding::inflate
@@ -61,6 +64,8 @@ class CenterFragment : BaseFragment<FragmentCenterBinding>(
                 binding.districtName.text = " ${center.districtName}"
             },
             onItemClick = { center, position ->
+                ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")
+
                 AppUtil.savesanctionOrderPreference(requireContext(), center.senctionOrder)
                 AppUtil.savecenterIdPreference(requireContext(), center.trainingCenterId.toString())
 
@@ -72,11 +77,15 @@ class CenterFragment : BaseFragment<FragmentCenterBinding>(
                     center.trainingCenterName
                 )
                 findNavController().navigate(action)
+                ProgressDialogUtil.dismissProgressDialog()
+
             },
             noDataTitle = "No Training Centers",
             noDataDescription = "No training centers available at the moment",
         )
     }
+
+
 
     override fun loadInitialData() {
 

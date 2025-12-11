@@ -3,7 +3,6 @@ package com.deendayalproject.fragments
 import SharedViewModel
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
@@ -19,7 +18,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -33,7 +31,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -75,11 +72,12 @@ import com.deendayalproject.util.ProgressDialogUtil
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -908,7 +906,7 @@ class TrainingFragment : Fragment() {
     private lateinit var ivFirstAidKitPreview: ImageView
     private var base64FirstAidKit: String? = null
 
-    private val photoUploadButtons: Map<Int, String> = mapOf(
+    private val photoUploadButtons: Map<Int, String>  by lazy {mapOf(
         //        ITLAB
         (R.id.btnITLTypeofRoofItLab to "itltypeofroofitlab"),
         (R.id.btnITLFalseCellingProvide to "itlfalsecellingprovide"),
@@ -1298,7 +1296,7 @@ class TrainingFragment : Fragment() {
         (R.id.btnTCRDoes_the_room_has to "btnTCRDoes_the_room_has"),
         (R.id.btnTCRInternalSignage to "btnTCRInternalSignage"),
 
-        )
+        ) }
 
     // Final Submit Button
     private lateinit var btnSubmitFinal: Button
@@ -1313,6 +1311,7 @@ class TrainingFragment : Fragment() {
     }
 
     private fun <T : View> View.bindView(id: Int): T = findViewById(id)
+
 
     // Permission request launcher
     private val requestPermissionLauncher =
@@ -1550,8 +1549,7 @@ class TrainingFragment : Fragment() {
                 Toast.makeText(requireContext(), "Photo capture failed", Toast.LENGTH_SHORT).show()
             }
         }
-        permissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) launchCamera()
                 else Toast.makeText(
                     requireContext(),
@@ -1559,30 +1557,37 @@ class TrainingFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
     }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")
         return inflater.inflate(R.layout.fragment_training, container, false)
     }
 
     @SuppressLint("CutPasteId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding = FragmentTrainingBinding.bind(view)
-        setupExpandableSections(view)
-        setupPhotoUploadButtons(view)
+
+
+        lifecycleScope.launch(Dispatchers.Default) {
+            setupExpandableSections(view)
+            setupPhotoUploadButtons(view)
+        }
         collectSectionStatus()
         collectFinalSubmitData()
+
 
         centerId = arguments?.getString("centerId").toString()
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
         status = arguments?.getString("status")
         remarks = arguments?.getString("remarks")
         trainingCenterName = arguments?.getString("trainingCenterName")
-
         binding.tvTitle.text=trainingCenterName
         RecyClerViewUI()
 
@@ -1619,399 +1624,475 @@ class TrainingFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        //RecyClerViewUI()
-//         Initilize  IT LAB  AJIT PMAYG Crate ID
-        etITLHeightOfCelling = view.bindView(R.id.etITLHeightOfCelling)
-        etITLVentilationAreaInSqFt = view.bindView(R.id.etITLVentilationAreaInSqFt)
-        etITLSoundLevelInDb = view.bindView(R.id.etITLSoundLevelInDb)
-        etITLLanEnabledComputersInNo = view.bindView(R.id.etITLLanEnabledComputersInNo)
-        etITLTablets = view.bindView(R.id.etITLTablets)
-        etITLStoolsChairs = view.bindView(R.id.etITLStoolsChairs)
-        etITLLightsInNo = view.bindView(R.id.etITLLightsInNo)
-        etITLFansInNo = view.bindView(R.id.etITLFansInNo)
 
-        //         Office Cum(Counselling room)    Ajit Ranjan  EditText Id GET
-        etOfficeCumHeightOfCelling = view.bindView(R.id.etOfficeCumHeightOfCelling)
-        etOfficeCumAnOfficeTableNo = view.bindView(R.id.etOfficeCumAnOfficeTableNo)
-        etOfficeCumChairs = view.bindView(R.id.etOfficeCumChairs)
-        etOfficeCumPrinterCumScannerInNo = view.bindView(R.id.etOfficeCumPrinterCumScannerInNo)
-        etOfficeCumDigitalCameraInNo = view.bindView(R.id.etOfficeCumDigitalCameraInNo)
+            //RecyClerViewUI()
+//         Initilize  IT LAB  AJIT PMAYG Crate ID
+            etITLHeightOfCelling = view.bindView(R.id.etITLHeightOfCelling)
+            etITLVentilationAreaInSqFt = view.bindView(R.id.etITLVentilationAreaInSqFt)
+            etITLSoundLevelInDb = view.bindView(R.id.etITLSoundLevelInDb)
+            etITLLanEnabledComputersInNo = view.bindView(R.id.etITLLanEnabledComputersInNo)
+            etITLTablets = view.bindView(R.id.etITLTablets)
+            etITLStoolsChairs = view.bindView(R.id.etITLStoolsChairs)
+            etITLLightsInNo = view.bindView(R.id.etITLLightsInNo)
+            etITLFansInNo = view.bindView(R.id.etITLFansInNo)
+
+            //         Office Cum(Counselling room)    Ajit Ranjan  EditText Id GET
+            etOfficeCumHeightOfCelling = view.bindView(R.id.etOfficeCumHeightOfCelling)
+            etOfficeCumAnOfficeTableNo = view.bindView(R.id.etOfficeCumAnOfficeTableNo)
+            etOfficeCumChairs = view.bindView(R.id.etOfficeCumChairs)
+            etOfficeCumPrinterCumScannerInNo = view.bindView(R.id.etOfficeCumPrinterCumScannerInNo)
+            etOfficeCumDigitalCameraInNo = view.bindView(R.id.etOfficeCumDigitalCameraInNo)
 
 //        (Office room)    Ajit Ranjan  EditText Id GET
-        etORHeightOfCelling = view.bindView(R.id.etORHeightOfCelling)
-        etORAnOfficeTableNo = view.bindView(R.id.etORAnOfficeTableNo)
-        etORChairs = view.bindView(R.id.etORChairs)
-        etORPrinterCumScannerInNo = view.bindView(R.id.etORPrinterCumScannerInNo)
-        etORDigitalCameraInNo = view.bindView(R.id.etORDigitalCameraInNo)
+            etORHeightOfCelling = view.bindView(R.id.etORHeightOfCelling)
+            etORAnOfficeTableNo = view.bindView(R.id.etORAnOfficeTableNo)
+            etORChairs = view.bindView(R.id.etORChairs)
+            etORPrinterCumScannerInNo = view.bindView(R.id.etORPrinterCumScannerInNo)
+            etORDigitalCameraInNo = view.bindView(R.id.etORDigitalCameraInNo)
 //        IT COME DOMAIN LAB  Ajit Ranjan  EditText Id GET
-        etITCDLHeightOfCelling = view.bindView(R.id.etITCDLHeightOfCelling)
-        etITCDLVentilationAreaInSqFt = view.bindView(R.id.etITCDLVentilationAreaInSqFt)
-        etITCDLabSoundLevelInDb = view.bindView(R.id.etITCDLabSoundLevelInDb)
-        etITCDLLanEnabledComputersInNo = view.bindView(R.id.etITCDLLanEnabledComputersInNo)
-        etITCDLTablets = view.bindView(R.id.etITCDLTablets)
-        etITCDLStoolsChairs = view.bindView(R.id.etITCDLStoolsChairs)
-        etITCDLLightsInNo = view.bindView(R.id.etITCDLLightsInNo)
-        etITCDLFansInNo = view.bindView(R.id.etITCDLFansInNo)
-        etITCDLListofDomain = view.bindView(R.id.etITCDLListofDomain)
+            etITCDLHeightOfCelling = view.bindView(R.id.etITCDLHeightOfCelling)
+            etITCDLVentilationAreaInSqFt = view.bindView(R.id.etITCDLVentilationAreaInSqFt)
+            etITCDLabSoundLevelInDb = view.bindView(R.id.etITCDLabSoundLevelInDb)
+            etITCDLLanEnabledComputersInNo = view.bindView(R.id.etITCDLLanEnabledComputersInNo)
+            etITCDLTablets = view.bindView(R.id.etITCDLTablets)
+            etITCDLStoolsChairs = view.bindView(R.id.etITCDLStoolsChairs)
+            etITCDLLightsInNo = view.bindView(R.id.etITCDLLightsInNo)
+            etITCDLFansInNo = view.bindView(R.id.etITCDLFansInNo)
+            etITCDLListofDomain = view.bindView(R.id.etITCDLListofDomain)
 
 //        Theory Cum IT Lab Ajit Ranjan
-        etTCILListofDomain = view.bindView(R.id.etTCILListofDomain)
-        etTCILHeightOfCelling = view.bindView(R.id.etTCILHeightOfCelling)
-        etTCILVentilationAreaInSqFt = view.bindView(R.id.etTCILVentilationAreaInSqFt)
-        etTCILSoundLevelInDb = view.bindView(R.id.etTCILSoundLevelInDb)
-        etTCILLanEnabledComputersInNo = view.bindView(R.id.etTCILLanEnabledComputersInNo)
-        etTCILTablets = view.bindView(R.id.etTCILTablets)
-        etTCILStoolsChairs = view.bindView(R.id.etTCILStoolsChairs)
-        etTCILLightsInNo = view.bindView(R.id.etTCILLightsInNo)
-        etTCILFansInNo = view.bindView(R.id.etTCILFansInNo)
+            etTCILListofDomain = view.bindView(R.id.etTCILListofDomain)
+            etTCILHeightOfCelling = view.bindView(R.id.etTCILHeightOfCelling)
+            etTCILVentilationAreaInSqFt = view.bindView(R.id.etTCILVentilationAreaInSqFt)
+            etTCILSoundLevelInDb = view.bindView(R.id.etTCILSoundLevelInDb)
+            etTCILLanEnabledComputersInNo = view.bindView(R.id.etTCILLanEnabledComputersInNo)
+            etTCILTablets = view.bindView(R.id.etTCILTablets)
+            etTCILStoolsChairs = view.bindView(R.id.etTCILStoolsChairs)
+            etTCILLightsInNo = view.bindView(R.id.etTCILLightsInNo)
+            etTCILFansInNo = view.bindView(R.id.etTCILFansInNo)
 
 //        Theory Cum DOMAIN Lab Ajit Ranjan
-        etTCDLHeightOfCelling = view.bindView(R.id.etTCDLHeightOfCelling)
-        etTCDLVentilationAreaInSqFt = view.bindView(R.id.etTCDLVentilationAreaInSqFt)
-        etTCDLSoundLevelInDb = view.bindView(R.id.etTCDLSoundLevelInDb)
-        etTCDLChairForCandidatesInNo = view.bindView(R.id.etTCDLChairForCandidatesInNo)
-        etTCDLLightsInNo = view.bindView(R.id.etTCDLLightsInNo)
-        etTCDLFansInNo = view.bindView(R.id.etTCDLFansInNo)
-        etTCDLListofDomain = view.bindView(R.id.etTCDLListofDomain)
+            etTCDLHeightOfCelling = view.bindView(R.id.etTCDLHeightOfCelling)
+            etTCDLVentilationAreaInSqFt = view.bindView(R.id.etTCDLVentilationAreaInSqFt)
+            etTCDLSoundLevelInDb = view.bindView(R.id.etTCDLSoundLevelInDb)
+            etTCDLChairForCandidatesInNo = view.bindView(R.id.etTCDLChairForCandidatesInNo)
+            etTCDLLightsInNo = view.bindView(R.id.etTCDLLightsInNo)
+            etTCDLFansInNo = view.bindView(R.id.etTCDLFansInNo)
+            etTCDLListofDomain = view.bindView(R.id.etTCDLListofDomain)
 
 //        DOMAIN Lab Ajit Ranjan
-        etDLHeightOfCelling = view.bindView(R.id.etDLHeightOfCelling)
-        etDLVentilationAreaInSqFt = view.bindView(R.id.etDLVentilationAreaInSqFt)
-        etDLSoundLevelInDb = view.bindView(R.id.etDLSoundLevelInDb)
-        etDLChairForCandidatesInNo = view.bindView(R.id.etDLChairForCandidatesInNo)
-        etDLLightsInNo = view.bindView(R.id.etDLLightsInNo)
-        etDLFansInNo = view.bindView(R.id.etDLFansInNo)
-        etDLListOfDomainLab = view.bindView(R.id.etDLILListofDomain)
+            etDLHeightOfCelling = view.bindView(R.id.etDLHeightOfCelling)
+            etDLVentilationAreaInSqFt = view.bindView(R.id.etDLVentilationAreaInSqFt)
+            etDLSoundLevelInDb = view.bindView(R.id.etDLSoundLevelInDb)
+            etDLChairForCandidatesInNo = view.bindView(R.id.etDLChairForCandidatesInNo)
+            etDLLightsInNo = view.bindView(R.id.etDLLightsInNo)
+            etDLFansInNo = view.bindView(R.id.etDLFansInNo)
+            etDLListOfDomainLab = view.bindView(R.id.etDLILListofDomain)
 
 //           TCR
-        etTCRHeightOfCelling = view.bindView(R.id.etTCRHeightOfCelling)
-        etTCRVentilationAreaInSqFt = view.bindView(R.id.etTCRVentilationAreaInSqFt)
-        etTCRSoundLevelInDb = view.bindView(R.id.etTCRSoundLevelInDb)
-        ivPreviewTCRAcademicRoomInformationBoard = view.bindView(R.id.ivPreviewTCRAcademicRoomInformationBoard)
-        ivPreviewTCRCctcCamerasWithAudioFacility = view.bindView(R.id.ivPreviewTCRCctcCamerasWithAudioFacility)
-        ivPreviewivPreviewTCRInternalSignage = view.bindView(R.id.ivPreviewTCRInternalSignage)
-        etTCRChairForCandidatesInNo = view.bindView(R.id.etTCRChairForCandidatesInNo)
-        etTCRLightsInNo = view.bindView(R.id.etTCRLightsInNo)
-        etTCRFansInNo = view.bindView(R.id.etTCRFansInNo)
+            etTCRHeightOfCelling = view.bindView(R.id.etTCRHeightOfCelling)
+            etTCRVentilationAreaInSqFt = view.bindView(R.id.etTCRVentilationAreaInSqFt)
+            etTCRSoundLevelInDb = view.bindView(R.id.etTCRSoundLevelInDb)
+            ivPreviewTCRAcademicRoomInformationBoard =
+                view.bindView(R.id.ivPreviewTCRAcademicRoomInformationBoard)
+            ivPreviewTCRCctcCamerasWithAudioFacility =
+                view.bindView(R.id.ivPreviewTCRCctcCamerasWithAudioFacility)
+            ivPreviewivPreviewTCRInternalSignage = view.bindView(R.id.ivPreviewTCRInternalSignage)
+            etTCRChairForCandidatesInNo = view.bindView(R.id.etTCRChairForCandidatesInNo)
+            etTCRLightsInNo = view.bindView(R.id.etTCRLightsInNo)
+            etTCRFansInNo = view.bindView(R.id.etTCRFansInNo)
 
-        // Initialize Wash Basin views
-        etMaleToilets = view.bindView(R.id.etMaleToilets)
-        btnUploadProofMaleToilets = view.bindView(R.id.btnUploadProofMaleToilets)
-        ivPreviewMaleToiletsProof = view.bindView(R.id.ivPreviewProofMaleToilets)
 
-        btnUploadProofMaleToiletsSignage = view.bindView(R.id.btnUploadProofMaleToiletsSignage)
-        ivPreviewMaleToiletsSignageProof = view.bindView(R.id.ivPreviewProofMaleToiletsSignage)
+            // Initialize Wash Basin views
+            etMaleToilets = view.bindView(R.id.etMaleToilets)
+            btnUploadProofMaleToilets = view.bindView(R.id.btnUploadProofMaleToilets)
+            ivPreviewMaleToiletsProof = view.bindView(R.id.ivPreviewProofMaleToilets)
 
-        etFemaleToilets = view.bindView(R.id.etFemaleToilets)
-        btnUploadProofFemaleToilets = view.bindView(R.id.btnUploadProofFemaleToilets)
-        ivPreviewFemaleToiletsProof = view.bindView(R.id.ivPreviewProofFemaleToilets)
+            btnUploadProofMaleToiletsSignage = view.bindView(R.id.btnUploadProofMaleToiletsSignage)
+            ivPreviewMaleToiletsSignageProof = view.bindView(R.id.ivPreviewProofMaleToiletsSignage)
 
-        btnUploadProofFemaleToiletsSignage = view.bindView(R.id.btnUploadProofFemaleToiletsSignage)
-        ivPreviewFemaleToiletsSignageProof = view.bindView(R.id.ivPreviewProofFemaleToiletsSignage)
+            etFemaleToilets = view.bindView(R.id.etFemaleToilets)
+            btnUploadProofFemaleToilets = view.bindView(R.id.btnUploadProofFemaleToilets)
+            ivPreviewFemaleToiletsProof = view.bindView(R.id.ivPreviewProofFemaleToilets)
 
-        etMaleUrinals = view.bindView(R.id.etMaleUrinals)
-        btnUploadProofMaleUrinals = view.bindView(R.id.btnUploadProofMaleUrinals)
-        ivPreviewMaleUrinalsProof = view.bindView(R.id.ivPreviewProofMaleUrinals)
+            btnUploadProofFemaleToiletsSignage =
+                view.bindView(R.id.btnUploadProofFemaleToiletsSignage)
+            ivPreviewFemaleToiletsSignageProof =
+                view.bindView(R.id.ivPreviewProofFemaleToiletsSignage)
 
-        etMaleWashBasins = view.bindView(R.id.etMaleWashBasins)
-        btnUploadProofMaleWashBasins = view.bindView(R.id.btnUploadProofMaleWashBasins)
-        ivPreviewMaleWashBasinsProof = view.bindView(R.id.ivPreviewProofMaleWashBasins)
+            etMaleUrinals = view.bindView(R.id.etMaleUrinals)
+            btnUploadProofMaleUrinals = view.bindView(R.id.btnUploadProofMaleUrinals)
+            ivPreviewMaleUrinalsProof = view.bindView(R.id.ivPreviewProofMaleUrinals)
 
-        etFemaleWashBasins = view.bindView(R.id.etFemaleWashBasins)
-        btnUploadProofFemaleWashBasins = view.bindView(R.id.btnUploadProofFemaleWashBasins)
-        ivPreviewFemaleWashBasinsProof = view.bindView(R.id.ivPreviewProofFemaleWashBasins)
+            etMaleWashBasins = view.bindView(R.id.etMaleWashBasins)
+            btnUploadProofMaleWashBasins = view.bindView(R.id.btnUploadProofMaleWashBasins)
+            ivPreviewMaleWashBasinsProof = view.bindView(R.id.ivPreviewProofMaleWashBasins)
 
-        actvOverheadTanks = view.bindView(R.id.actvOverheadTanks)
-        btnUploadProofOverheadTanks = view.bindView(R.id.btnUploadProofOverheadTanks)
-        ivPreviewOverheadTanksProof = view.bindView(R.id.ivPreviewProofOverheadTanks)
+            etFemaleWashBasins = view.bindView(R.id.etFemaleWashBasins)
+            btnUploadProofFemaleWashBasins = view.bindView(R.id.btnUploadProofFemaleWashBasins)
+            ivPreviewFemaleWashBasinsProof = view.bindView(R.id.ivPreviewProofFemaleWashBasins)
 
-        actvTypeOfFlooring = view.bindView(R.id.actvTypeOfFlooring)
-        btnUploadProofFlooring = view.bindView(R.id.btnUploadProofFlooring)
-        ivPreviewFlooringProof = view.bindView(R.id.ivPreviewProofFlooring)
+            actvOverheadTanks = view.bindView(R.id.actvOverheadTanks)
+            btnUploadProofOverheadTanks = view.bindView(R.id.btnUploadProofOverheadTanks)
+            ivPreviewOverheadTanksProof = view.bindView(R.id.ivPreviewProofOverheadTanks)
 
-        // Initialize CCTV ImageViews
-        ivMonitorPreview = view.findViewById(R.id.ivMonitorPreview)
-        ivConformancePreview = view.findViewById(R.id.ivConformancePreview)
-        ivStoragePreview = view.findViewById(R.id.ivStoragePreview)
-        ivDVRPreview = view.findViewById(R.id.ivDVRPreview)
+            actvTypeOfFlooring = view.bindView(R.id.actvTypeOfFlooring)
+            btnUploadProofFlooring = view.bindView(R.id.btnUploadProofFlooring)
+            ivPreviewFlooringProof = view.bindView(R.id.ivPreviewProofFlooring)
 
-        // Initialize Electrical Wiring ImageViews
-        ivSwitchBoardPreview = view.findViewById(R.id.ivSwitchBoardPreview)
-        ivWireSecurityPreview = view.findViewById(R.id.ivWireSecurityPreview)
+            // Initialize CCTV ImageViews
+            ivMonitorPreview = view.findViewById(R.id.ivMonitorPreview)
+            ivConformancePreview = view.findViewById(R.id.ivConformancePreview)
+            ivStoragePreview = view.findViewById(R.id.ivStoragePreview)
+            ivDVRPreview = view.findViewById(R.id.ivDVRPreview)
 
-        // Initialize General Details ImageViews
-        ivLeakagePreview = view.findViewById(R.id.ivLeakagePreview)
-        ivStairsPreview = view.findViewById(R.id.ivStairsPreview)
-        //Initialize support infra ImageViews
-        ivFirstAidKitPreview = view.findViewById(R.id.ivFirstAidKitPreview)
-        ivFireFightingEquipmentPreview = view.findViewById(R.id.ivFireFightingEquipmentPreview)
-        ivSafeDrinkingWaterPreview = view.findViewById(R.id.ivSafeDrinkingWaterPreview)
-        spinnerFirstAidKit = view.findViewById(R.id.spinnerFirstAidKit)
-        spinnerSafeDrinkingWater = view.findViewById(R.id.spinnerSafeDrinkingWater)
-        spinnerFireFightingEquipment = view.findViewById(R.id.spinnerFireFightingEquipment)
-        ivPowerBackupPreview = view.findViewById(R.id.ivPowerBackupPreview)
-        ivBiometricDevicesPreview = view.findViewById(R.id.ivBiometricDevicesPreview)
-        ivCCTVPreview = view.findViewById(R.id.ivCCTVPreview)
-        ivDocumentStoragePreview = view.findViewById(R.id.ivDocumentStoragePreview)
-        ivPrinterScannerPreview = view.findViewById(R.id.ivPrinterScannerPreview)
-        ivDigitalCameraPreview = view.findViewById(R.id.ivDigitalCameraPreview)
-        ivGrievanceRegisterPreview = view.findViewById(R.id.ivGrievanceRegisterPreview)
-        ivMinimumEquipmentPreview = view.findViewById(R.id.ivMinimumEquipmentPreview)
-        ivDirectionBoardsPreview = view.findViewById(R.id.ivDirectionBoardsPreview)
-        etBiometricDevices = view.findViewById(R.id.etBiometricDevices)
-        etPrinterScanner = view.findViewById(R.id.etPrinterScanner)
-        etDigitalCamera = view.findViewById(R.id.etDigitalCamera)
-        spinnerPowerBackup=view.findViewById(R.id.spinnerPowerBackup)
-        spinnerCCTV=view.findViewById(R.id.spinnerCCTV)
-        spinnerDocumentStorage=view.findViewById(R.id.spinnerDocumentStorage)
-        spinnerGrievanceRegister=view.findViewById(R.id.spinnerGrievanceRegister)
-        spinnerMinimumEquipment=view.findViewById(R.id.spinnerMinimumEquipment)
-        spinnerDirectionBoards=view.findViewById(R.id.spinnerDirectionBoards)
-        // Description of other areas
-        ivProofPreview = view.findViewById(R.id.ivProofPreview)
-        ivCirculationProofPreview = view.findViewById(R.id.ivCirculationProofPreview)
-        ivOpenSpaceProofPreview = view.findViewById(R.id.ivOpenSpaceProofPreview)
-        ivParkingProofPreview = view.findViewById(R.id.ivParkingProofPreview)
-        etCorridorNo =view.findViewById(R.id.etCorridorNo)
-        etDescLength=view.findViewById(R.id.etDescLength)
-        etDescWidth =view.findViewById(R.id.etDescWidth)
-        etArea =view.findViewById(R.id.etArea)
-        etLights =view.findViewById(R.id.etLights)
-        etFans=view.findViewById(R.id.etFans)
-        etCirculationArea =view.findViewById(R.id.etCirculationArea)
-        etOpenSpace =view.findViewById(R.id.etOpenSpace)
-        etExclusiveParkingSpace =view.findViewById(R.id.etExclusiveParkingSpace)
-        // Description of Ajit Ranjnan
-        AcsdemicSpinner = view.findViewById(R.id.AcsdemicSpinner)
-        // General Details Spinners
-        lin_domain_lab = view.findViewById(R.id.lin_domain_lab)
-        lin_itlab = view.findViewById(R.id.lin_itlab)
-        lin_office_counselling_room = view.findViewById(R.id.lin_office_counselling_room)
-        lin_counselling_room = view.findViewById(R.id.lin_counselling_room)
-        lin_non_reception = view.findViewById(R.id.lin_non_reception)
-        lin_office_room = view.findViewById(R.id.lin_office_room)
-        lin_tcum_domain_lab = view.findViewById(R.id.lin_tcum_domain_lab)
-        lin_theory_cum_it_lab = view.findViewById(R.id.lin_theory_cum_it_lab)
-        lin_theory_cum_domain_lab = view.findViewById(R.id.lin_theory_cum_domain_lab)
-        lin_theory_class_room = view.findViewById(R.id.lin_theory_class_room)
-        etLength = view.findViewById(R.id.etLength)
-        etWidth = view.findViewById(R.id.etWidth)
-        tvArea = view.findViewById(R.id.tvArea)
-        etLength.visibility = View.GONE
-        etWidth.visibility = View.GONE
-        tvArea.visibility = View.GONE
-        etroomType = view.findViewById(R.id.etroomType)
-        etroomType.visibility = View.GONE
+            // Initialize Electrical Wiring ImageViews
+            ivSwitchBoardPreview = view.findViewById(R.id.ivSwitchBoardPreview)
+            ivWireSecurityPreview = view.findViewById(R.id.ivWireSecurityPreview)
+
+            // Initialize General Details ImageViews
+            ivLeakagePreview = view.findViewById(R.id.ivLeakagePreview)
+            ivStairsPreview = view.findViewById(R.id.ivStairsPreview)
+            //Initialize support infra ImageViews
+            ivFirstAidKitPreview = view.findViewById(R.id.ivFirstAidKitPreview)
+            ivFireFightingEquipmentPreview = view.findViewById(R.id.ivFireFightingEquipmentPreview)
+            ivSafeDrinkingWaterPreview = view.findViewById(R.id.ivSafeDrinkingWaterPreview)
+            spinnerFirstAidKit = view.findViewById(R.id.spinnerFirstAidKit)
+            spinnerSafeDrinkingWater = view.findViewById(R.id.spinnerSafeDrinkingWater)
+            spinnerFireFightingEquipment = view.findViewById(R.id.spinnerFireFightingEquipment)
+            ivPowerBackupPreview = view.findViewById(R.id.ivPowerBackupPreview)
+            ivBiometricDevicesPreview = view.findViewById(R.id.ivBiometricDevicesPreview)
+            ivCCTVPreview = view.findViewById(R.id.ivCCTVPreview)
+            ivDocumentStoragePreview = view.findViewById(R.id.ivDocumentStoragePreview)
+            ivPrinterScannerPreview = view.findViewById(R.id.ivPrinterScannerPreview)
+            ivDigitalCameraPreview = view.findViewById(R.id.ivDigitalCameraPreview)
+            ivGrievanceRegisterPreview = view.findViewById(R.id.ivGrievanceRegisterPreview)
+            ivMinimumEquipmentPreview = view.findViewById(R.id.ivMinimumEquipmentPreview)
+            ivDirectionBoardsPreview = view.findViewById(R.id.ivDirectionBoardsPreview)
+            etBiometricDevices = view.findViewById(R.id.etBiometricDevices)
+            etPrinterScanner = view.findViewById(R.id.etPrinterScanner)
+            etDigitalCamera = view.findViewById(R.id.etDigitalCamera)
+            spinnerPowerBackup = view.findViewById(R.id.spinnerPowerBackup)
+            spinnerCCTV = view.findViewById(R.id.spinnerCCTV)
+            spinnerDocumentStorage = view.findViewById(R.id.spinnerDocumentStorage)
+            spinnerGrievanceRegister = view.findViewById(R.id.spinnerGrievanceRegister)
+            spinnerMinimumEquipment = view.findViewById(R.id.spinnerMinimumEquipment)
+            spinnerDirectionBoards = view.findViewById(R.id.spinnerDirectionBoards)
+            // Description of other areas
+            ivProofPreview = view.findViewById(R.id.ivProofPreview)
+            ivCirculationProofPreview = view.findViewById(R.id.ivCirculationProofPreview)
+            ivOpenSpaceProofPreview = view.findViewById(R.id.ivOpenSpaceProofPreview)
+            ivParkingProofPreview = view.findViewById(R.id.ivParkingProofPreview)
+            etCorridorNo = view.findViewById(R.id.etCorridorNo)
+            etDescLength = view.findViewById(R.id.etDescLength)
+            etDescWidth = view.findViewById(R.id.etDescWidth)
+            etArea = view.findViewById(R.id.etArea)
+            etLights = view.findViewById(R.id.etLights)
+            etFans = view.findViewById(R.id.etFans)
+            etCirculationArea = view.findViewById(R.id.etCirculationArea)
+            etOpenSpace = view.findViewById(R.id.etOpenSpace)
+            etExclusiveParkingSpace = view.findViewById(R.id.etExclusiveParkingSpace)
+            // Description of Ajit Ranjnan
+            AcsdemicSpinner = view.findViewById(R.id.AcsdemicSpinner)
+            // General Details Spinners
+            lin_domain_lab = view.findViewById(R.id.lin_domain_lab)
+            lin_itlab = view.findViewById(R.id.lin_itlab)
+            lin_office_counselling_room = view.findViewById(R.id.lin_office_counselling_room)
+            lin_counselling_room = view.findViewById(R.id.lin_counselling_room)
+            lin_non_reception = view.findViewById(R.id.lin_non_reception)
+            lin_office_room = view.findViewById(R.id.lin_office_room)
+            lin_tcum_domain_lab = view.findViewById(R.id.lin_tcum_domain_lab)
+            lin_theory_cum_it_lab = view.findViewById(R.id.lin_theory_cum_it_lab)
+            lin_theory_cum_domain_lab = view.findViewById(R.id.lin_theory_cum_domain_lab)
+            lin_theory_class_room = view.findViewById(R.id.lin_theory_class_room)
+            etLength = view.findViewById(R.id.etLength)
+            etWidth = view.findViewById(R.id.etWidth)
+            tvArea = view.findViewById(R.id.tvArea)
+            etLength.visibility = View.GONE
+            etWidth.visibility = View.GONE
+            tvArea.visibility = View.GONE
+            etroomType = view.findViewById(R.id.etroomType)
+            etroomType.visibility = View.GONE
 //        etetDescriptionOfAcademic_NonAcademicAreashWidth = view.findViewById(R.id.etetDescriptionOfAcademic_NonAcademicAreashWidth)
-        btnSubmitAdddMore = view.findViewById(R.id.btnSubmitAdddMore)
-        LayoutLinear = view.findViewById(R.id.LayoutLinear)
-        RecyclerViewData = view.findViewById(R.id.RecyclerViewData)
+            btnSubmitAdddMore = view.findViewById(R.id.btnSubmitAdddMore)
+            LayoutLinear = view.findViewById(R.id.LayoutLinear)
+            RecyclerViewData = view.findViewById(R.id.RecyclerViewData)
 //        IT LAB
-        ivPreviewITLTypeofRoofItLab = view.findViewById(R.id.ivPreviewITLTypeofRoofItLab)
-        ivPreviewITLFalseCellingProvide = view.findViewById(R.id.ivPreviewITLFalseCellingProvide)
-        ivPreviewITLHeightOfCelling = view.findViewById(R.id.ivPreviewITLHeightOfCelling)
-        ivPreviewITLVentilationAreaInSqFt = view.findViewById(R.id.ivPreviewITLVentilationAreaInSqFt)
-        ivPreviewITLSoundLevelAsPerSpecifications = view.findViewById(R.id.ivPreviewITLSoundLevelAsPerSpecifications)
-        ivPreviewITLSoundLevelInDb = view.findViewById(R.id.ivPreviewITLSoundLevelInDb)
-        ivPreviewITLwhether_all_the_academic = view.findViewById(R.id.ivPreviewITLwhether_all_the_academic)
-        ivPreviewITLAcademicRoomInformationBoard = view.findViewById(R.id.ivPreviewITLAcademicRoomInformationBoard)
-        ivPreviewITLInternalSignage = view.findViewById(R.id.ivPreviewITLInternalSignage)
-        ivPreviewITLCctcCamerasWithAudioFacility = view.findViewById(R.id.ivPreviewITLCctcCamerasWithAudioFacility)
-        ivPreviewITLLanEnabledComputersInNo = view.findViewById(R.id.ivPreviewITLLanEnabledComputersInNo)
-        ivPreviewITLInternetConnections = view.findViewById(R.id.ivPreviewITLInternetConnections)
-        ivPreviewITLDoAllComputersHaveTypingTutor = view.findViewById(R.id.ivPreviewITLDoAllComputersHaveTypingTutor)
-        ivPreviewITLTablets = view.findViewById(R.id.ivPreviewITLTablets)
-        ivPreviewITLStoolsChairs = view.findViewById(R.id.ivPreviewITLStoolsChairs)
-        ivPreviewITLTrainerChair = view.findViewById(R.id.ivPreviewITLTrainerChair)
-        ivPreviewITLTrainerTable = view.findViewById(R.id.ivPreviewITLTrainerTable)
-        ivPreviewITLLightsInNo = view.findViewById(R.id.ivPreviewITLLightsInNo)
-        ivPreviewITLFansInNo = view.findViewById(R.id.ivPreviewITLFansInNo)
-        ivPreviewITLElectricaPowerBackUpForThRoom = view.findViewById(R.id.ivPreviewITLElectricaPowerBackUpForThRoom)
-        ivPreviewITLItLabPhotograph = view.findViewById(R.id.ivPreviewITLItLabPhotograph)
-        ivPreviewITLDoes_the_room_has = view.findViewById(R.id.ivPreviewITLDoes_the_room_has)
+            ivPreviewITLTypeofRoofItLab = view.findViewById(R.id.ivPreviewITLTypeofRoofItLab)
+            ivPreviewITLFalseCellingProvide =
+                view.findViewById(R.id.ivPreviewITLFalseCellingProvide)
+            ivPreviewITLHeightOfCelling = view.findViewById(R.id.ivPreviewITLHeightOfCelling)
+            ivPreviewITLVentilationAreaInSqFt =
+                view.findViewById(R.id.ivPreviewITLVentilationAreaInSqFt)
+            ivPreviewITLSoundLevelAsPerSpecifications =
+                view.findViewById(R.id.ivPreviewITLSoundLevelAsPerSpecifications)
+            ivPreviewITLSoundLevelInDb = view.findViewById(R.id.ivPreviewITLSoundLevelInDb)
+            ivPreviewITLwhether_all_the_academic =
+                view.findViewById(R.id.ivPreviewITLwhether_all_the_academic)
+            ivPreviewITLAcademicRoomInformationBoard =
+                view.findViewById(R.id.ivPreviewITLAcademicRoomInformationBoard)
+            ivPreviewITLInternalSignage = view.findViewById(R.id.ivPreviewITLInternalSignage)
+            ivPreviewITLCctcCamerasWithAudioFacility =
+                view.findViewById(R.id.ivPreviewITLCctcCamerasWithAudioFacility)
+            ivPreviewITLLanEnabledComputersInNo =
+                view.findViewById(R.id.ivPreviewITLLanEnabledComputersInNo)
+            ivPreviewITLInternetConnections =
+                view.findViewById(R.id.ivPreviewITLInternetConnections)
+            ivPreviewITLDoAllComputersHaveTypingTutor =
+                view.findViewById(R.id.ivPreviewITLDoAllComputersHaveTypingTutor)
+            ivPreviewITLTablets = view.findViewById(R.id.ivPreviewITLTablets)
+            ivPreviewITLStoolsChairs = view.findViewById(R.id.ivPreviewITLStoolsChairs)
+            ivPreviewITLTrainerChair = view.findViewById(R.id.ivPreviewITLTrainerChair)
+            ivPreviewITLTrainerTable = view.findViewById(R.id.ivPreviewITLTrainerTable)
+            ivPreviewITLLightsInNo = view.findViewById(R.id.ivPreviewITLLightsInNo)
+            ivPreviewITLFansInNo = view.findViewById(R.id.ivPreviewITLFansInNo)
+            ivPreviewITLElectricaPowerBackUpForThRoom =
+                view.findViewById(R.id.ivPreviewITLElectricaPowerBackUpForThRoom)
+            ivPreviewITLItLabPhotograph = view.findViewById(R.id.ivPreviewITLItLabPhotograph)
+            ivPreviewITLDoes_the_room_has = view.findViewById(R.id.ivPreviewITLDoes_the_room_has)
 //        Office Cum(Counselling room)
-        ivPreviewOfficeRoomPhotograph = view.findViewById(R.id.ivPreviewOfficeRoomPhotograph)
-        ivPreviewOfficeCumTypeofRoofItLab = view.findViewById(R.id.ivPreviewOfficeCumTypeofRoofItLab)
-        ivPreviewOfficeCumFalseCellingProvide = view.findViewById(R.id.ivPreviewOfficeCumFalseCellingProvide)
-        ivPreviewOfficeCumHeightOfCelling = view.findViewById(R.id.ivPreviewOfficeCumHeightOfCelling)
-        ivPreviewOCCROfficeTable = view.findViewById(R.id.ivPreviewOCCROfficeTable)
-        ivPreviewOfficeCumSplaceforSecuringDoc = view.findViewById(R.id.ivPreviewOfficeCumSplaceforSecuringDoc)
-        ivPreviewOfficeCumAnOfficeTableNo = view.findViewById(R.id.ivPreviewOfficeCumAnOfficeTableNo)
-        ivPreviewOfficeCumChairs = view.findViewById(R.id.ivPreviewOfficeCumChairs)
-        ivPreviewOfficeCumTableOfofficeCumpter = view.findViewById(R.id.ivPreviewOfficeCumTableOfofficeCumpter)
-        ivPreviewOfficeCumPrinterCumScannerInNo = view.findViewById(R.id.ivPreviewOfficeCumPrinterCumScannerInNo)
-        ivPreviewOfficeCumDigitalCameraInNo = view.findViewById(R.id.ivPreviewOfficeCumDigitalCameraInNo)
-        ivPreviewOfficeCumElectricialPowerBackup = view.findViewById(R.id.ivPreviewOfficeCumElectricialPowerBackup)
+            ivPreviewOfficeRoomPhotograph = view.findViewById(R.id.ivPreviewOfficeRoomPhotograph)
+            ivPreviewOfficeCumTypeofRoofItLab =
+                view.findViewById(R.id.ivPreviewOfficeCumTypeofRoofItLab)
+            ivPreviewOfficeCumFalseCellingProvide =
+                view.findViewById(R.id.ivPreviewOfficeCumFalseCellingProvide)
+            ivPreviewOfficeCumHeightOfCelling =
+                view.findViewById(R.id.ivPreviewOfficeCumHeightOfCelling)
+            ivPreviewOCCROfficeTable = view.findViewById(R.id.ivPreviewOCCROfficeTable)
+            ivPreviewOfficeCumSplaceforSecuringDoc =
+                view.findViewById(R.id.ivPreviewOfficeCumSplaceforSecuringDoc)
+            ivPreviewOfficeCumAnOfficeTableNo =
+                view.findViewById(R.id.ivPreviewOfficeCumAnOfficeTableNo)
+            ivPreviewOfficeCumChairs = view.findViewById(R.id.ivPreviewOfficeCumChairs)
+            ivPreviewOfficeCumTableOfofficeCumpter =
+                view.findViewById(R.id.ivPreviewOfficeCumTableOfofficeCumpter)
+            ivPreviewOfficeCumPrinterCumScannerInNo =
+                view.findViewById(R.id.ivPreviewOfficeCumPrinterCumScannerInNo)
+            ivPreviewOfficeCumDigitalCameraInNo =
+                view.findViewById(R.id.ivPreviewOfficeCumDigitalCameraInNo)
+            ivPreviewOfficeCumElectricialPowerBackup =
+                view.findViewById(R.id.ivPreviewOfficeCumElectricialPowerBackup)
 //        Reception Area
-        ivPreviewReceptionAreaPhotogragh = view.findViewById(R.id.ivPreviewReceptionAreaPhotogragh)
+            ivPreviewReceptionAreaPhotogragh =
+                view.findViewById(R.id.ivPreviewReceptionAreaPhotogragh)
 //        CounsellingRoomArea
-        ivPreviewCounsellingRoomAreaPhotograph = view.findViewById(R.id.ivPreviewCounsellingRoomAreaPhotograph)
+            ivPreviewCounsellingRoomAreaPhotograph =
+                view.findViewById(R.id.ivPreviewCounsellingRoomAreaPhotograph)
 //        Office  Room
-        ivPreviewOROfficeRoomPhotograph = view.findViewById(R.id.ivPreviewOROfficeRoomPhotograph)
-        ivPreviewORTypeofRoofItLab = view.findViewById(R.id.ivPreviewORTypeofRoofItLab)
-        ivPreviewORFalseCellingProvide = view.findViewById(R.id.ivPreviewORFalseCellingProvide)
-        ivPreviewORHeightOfCelling = view.findViewById(R.id.ivPreviewORHeightOfCelling)
-        ivPreviewORSplaceforSecuringDoc = view.findViewById(R.id.ivPreviewORSplaceforSecuringDoc)
-        ivPreviewORAnOfficeTableNo = view.findViewById(R.id.ivPreviewORAnOfficeTableNo)
-        ivPreviewORChairs = view.findViewById(R.id.ivPreviewORChairs)
-        ivPreviewORTableOfofficeCumpter = view.findViewById(R.id.ivPreviewORTableOfofficeCumpter)
-        ivPreviewORPrinterCumScannerInNo = view.findViewById(R.id.ivPreviewORPrinterCumScannerInNo)
-        ivPreviewORDigitalCameraInNo = view.findViewById(R.id.ivPreviewORDigitalCameraInNo)
-        ivPreviewORElectricialPowerBackup = view.findViewById(R.id.ivPreviewORElectricialPowerBackup)
+            ivPreviewOROfficeRoomPhotograph =
+                view.findViewById(R.id.ivPreviewOROfficeRoomPhotograph)
+            ivPreviewORTypeofRoofItLab = view.findViewById(R.id.ivPreviewORTypeofRoofItLab)
+            ivPreviewORFalseCellingProvide = view.findViewById(R.id.ivPreviewORFalseCellingProvide)
+            ivPreviewORHeightOfCelling = view.findViewById(R.id.ivPreviewORHeightOfCelling)
+            ivPreviewORSplaceforSecuringDoc =
+                view.findViewById(R.id.ivPreviewORSplaceforSecuringDoc)
+            ivPreviewORAnOfficeTableNo = view.findViewById(R.id.ivPreviewORAnOfficeTableNo)
+            ivPreviewORChairs = view.findViewById(R.id.ivPreviewORChairs)
+            ivPreviewORTableOfofficeCumpter =
+                view.findViewById(R.id.ivPreviewORTableOfofficeCumpter)
+            ivPreviewORPrinterCumScannerInNo =
+                view.findViewById(R.id.ivPreviewORPrinterCumScannerInNo)
+            ivPreviewORDigitalCameraInNo = view.findViewById(R.id.ivPreviewORDigitalCameraInNo)
+            ivPreviewORElectricialPowerBackup =
+                view.findViewById(R.id.ivPreviewORElectricialPowerBackup)
 //        It Come Domain Lab
-        ivPreviewITCDLTypeofRoofItLab = view.findViewById(R.id.ivPreviewITCDLTypeofRoofItLab)
-        ivPreviewITCDLFalseCellingProvide = view.findViewById(R.id.ivPreviewITCDLFalseCellingProvide)
-        ivPreviewITCDLabHeightOfCelling = view.findViewById(R.id.ivPreviewITCDLabHeightOfCelling)
-        ivPreviewITCDLVentilationAreaInSqFt = view.findViewById(R.id.ivPreviewITCDLVentilationAreaInSqFt)
-        ivPreviewITCDLabSoundLevelInDb = view.findViewById(R.id.ivPreviewITCDLabSoundLevelInDb)
-        ivPreviewITCDLwhether_all_the_academic = view.findViewById(R.id.ivPreviewITCDLwhether_all_the_academic)
-        ivPreviewITCDLAcademicRoomInformationBoard = view.findViewById(R.id.ivPreviewITCDLAcademicRoomInformationBoard)
-        ivPreviewITCDLInternalSignage = view.findViewById(R.id.ivPreviewITCDLInternalSignage)
-        ivPreviewITCDLCctcCamerasWithAudioFacility = view.findViewById(R.id.ivPreviewITCDLCctcCamerasWithAudioFacility)
-        ivPreviewITCDLLanEnabledComputersInNo = view.findViewById(R.id.ivPreviewITCDLLanEnabledComputersInNo)
-        ivPreviewITCDLInternetConnections = view.findViewById(R.id.ivPreviewITCDLInternetConnections)
-        ivPreviewITCDLDoAllComputersHaveTypingTutor = view.findViewById(R.id.ivPreviewITCDLDoAllComputersHaveTypingTutor)
-        ivPreviewITCDLTablets = view.findViewById(R.id.ivPreviewITCDLTablets)
-        ivPreviewITCDLStoolsChairs = view.findViewById(R.id.ivPreviewITCDLStoolsChairs)
-        ivPreviewITCDLTrainerChair = view.findViewById(R.id.ivPreviewITCDLTrainerChair)
-        ivPreviewITCDLLightsInNo = view.findViewById(R.id.ivPreviewITCDLLightsInNo)
-        ivPreviewITCDLTrainerTable = view.findViewById(R.id.ivPreviewITCDLTrainerTable)
-        ivPreviewITCDLFansInNo = view.findViewById(R.id.ivPreviewITCDLFansInNo)
-        ivPreviewITCDLElectricaPowerBackUpForThRoom = view.findViewById(R.id.ivPreviewITCDLElectricaPowerBackUpForThRoom)
-        ivPreviewITCDLItLabPhotograph = view.findViewById(R.id.ivPreviewITCDLItLabPhotograph)
-        ivPreviewITCDLListofDomain = view.findViewById(R.id.ivPreviewITCDLListofDomain)
-        ivPreviewITCDLDoes_the_room_has = view.findViewById(R.id.ivPreviewITCDLDoes_the_room_has)
+            ivPreviewITCDLTypeofRoofItLab = view.findViewById(R.id.ivPreviewITCDLTypeofRoofItLab)
+            ivPreviewITCDLFalseCellingProvide =
+                view.findViewById(R.id.ivPreviewITCDLFalseCellingProvide)
+            ivPreviewITCDLabHeightOfCelling =
+                view.findViewById(R.id.ivPreviewITCDLabHeightOfCelling)
+            ivPreviewITCDLVentilationAreaInSqFt =
+                view.findViewById(R.id.ivPreviewITCDLVentilationAreaInSqFt)
+            ivPreviewITCDLabSoundLevelInDb = view.findViewById(R.id.ivPreviewITCDLabSoundLevelInDb)
+            ivPreviewITCDLwhether_all_the_academic =
+                view.findViewById(R.id.ivPreviewITCDLwhether_all_the_academic)
+            ivPreviewITCDLAcademicRoomInformationBoard =
+                view.findViewById(R.id.ivPreviewITCDLAcademicRoomInformationBoard)
+            ivPreviewITCDLInternalSignage = view.findViewById(R.id.ivPreviewITCDLInternalSignage)
+            ivPreviewITCDLCctcCamerasWithAudioFacility =
+                view.findViewById(R.id.ivPreviewITCDLCctcCamerasWithAudioFacility)
+            ivPreviewITCDLLanEnabledComputersInNo =
+                view.findViewById(R.id.ivPreviewITCDLLanEnabledComputersInNo)
+            ivPreviewITCDLInternetConnections =
+                view.findViewById(R.id.ivPreviewITCDLInternetConnections)
+            ivPreviewITCDLDoAllComputersHaveTypingTutor =
+                view.findViewById(R.id.ivPreviewITCDLDoAllComputersHaveTypingTutor)
+            ivPreviewITCDLTablets = view.findViewById(R.id.ivPreviewITCDLTablets)
+            ivPreviewITCDLStoolsChairs = view.findViewById(R.id.ivPreviewITCDLStoolsChairs)
+            ivPreviewITCDLTrainerChair = view.findViewById(R.id.ivPreviewITCDLTrainerChair)
+            ivPreviewITCDLLightsInNo = view.findViewById(R.id.ivPreviewITCDLLightsInNo)
+            ivPreviewITCDLTrainerTable = view.findViewById(R.id.ivPreviewITCDLTrainerTable)
+            ivPreviewITCDLFansInNo = view.findViewById(R.id.ivPreviewITCDLFansInNo)
+            ivPreviewITCDLElectricaPowerBackUpForThRoom =
+                view.findViewById(R.id.ivPreviewITCDLElectricaPowerBackUpForThRoom)
+            ivPreviewITCDLItLabPhotograph = view.findViewById(R.id.ivPreviewITCDLItLabPhotograph)
+            ivPreviewITCDLListofDomain = view.findViewById(R.id.ivPreviewITCDLListofDomain)
+            ivPreviewITCDLDoes_the_room_has =
+                view.findViewById(R.id.ivPreviewITCDLDoes_the_room_has)
 
 //            Thorey Come It Lab
-        ivPreviewTCILListofDomain = view.findViewById(R.id.ivPreviewTCILListofDomain)
-        ivPreviewTCILTypeofRoofItLab = view.findViewById(R.id.ivPreviewTCILTypeofRoofItLab)
-        ivPreviewTCILFalseCellingProvide = view.findViewById(R.id.ivPreviewTCILFalseCellingProvide)
-        ivPreviewTCILHeightOfCelling = view.findViewById(R.id.ivPreviewTCILHeightOfCelling)
-        ivPreviewTCILVentilationAreaInSqFt = view.findViewById(R.id.ivPreviewTCILVentilationAreaInSqFt)
-        ivPreviewTCILSoundLevelInDb = view.findViewById(R.id.ivPreviewTCILSoundLevelInDb)
-        ivPreviewTCILwhether_all_the_academic = view.findViewById(R.id.ivPreviewTCILwhether_all_the_academic)
-        ivPreviewTCILAcademicRoomInformationBoard = view.findViewById(R.id.ivPreviewTCILAcademicRoomInformationBoard)
-        ivPreviewTCILInternalSignage = view.findViewById(R.id.ivPreviewTCILInternalSignage)
-        ivPreviewTCILCctcCamerasWithAudioFacility = view.findViewById(R.id.ivPreviewTCILCctcCamerasWithAudioFacility)
-        ivPreviewTCILLanEnabledComputersInNo = view.findViewById(R.id.ivPreviewTCILLanEnabledComputersInNo)
-        ivPreviewTCILInternetConnections = view.findViewById(R.id.ivPreviewTCILInternetConnections)
-        ivPreviewTCILDoAllComputersHaveTypingTutor = view.findViewById(R.id.ivPreviewTCILDoAllComputersHaveTypingTutor)
-        ivPreviewTCILTablets = view.findViewById(R.id.ivPreviewTCILTablets)
-        ivPreviewTCILStoolsChairs = view.findViewById(R.id.ivPreviewTCILStoolsChairs)
-        ivPreviewTCILTrainerTable = view.findViewById(R.id.ivPreviewTCILTrainerTable)
-        ivPreviewTCILTrainerChair = view.findViewById(R.id.ivPreviewTCILTrainerChair)
-        ivPreviewTCILLightsInNo = view.findViewById(R.id.ivPreviewTCILLightsInNo)
-        ivPreviewTCILFansInNo = view.findViewById(R.id.ivPreviewTCILFansInNo)
-        ivPreviewTCILElectricaPowerBackUpForThRoom = view.findViewById(R.id.ivPreviewTCILElectricaPowerBackUpForThRoom)
-        ivPreviewTCILTheoryCumItLabPhotogragh = view.findViewById(R.id.ivPreviewTCILTheoryCumItLabPhotogragh)
-        ivPreviewTCILDoes_the_room_has = view.findViewById(R.id.ivPreviewTCILDoes_the_room_has)
+            ivPreviewTCILListofDomain = view.findViewById(R.id.ivPreviewTCILListofDomain)
+            ivPreviewTCILTypeofRoofItLab = view.findViewById(R.id.ivPreviewTCILTypeofRoofItLab)
+            ivPreviewTCILFalseCellingProvide =
+                view.findViewById(R.id.ivPreviewTCILFalseCellingProvide)
+            ivPreviewTCILHeightOfCelling = view.findViewById(R.id.ivPreviewTCILHeightOfCelling)
+            ivPreviewTCILVentilationAreaInSqFt =
+                view.findViewById(R.id.ivPreviewTCILVentilationAreaInSqFt)
+            ivPreviewTCILSoundLevelInDb = view.findViewById(R.id.ivPreviewTCILSoundLevelInDb)
+            ivPreviewTCILwhether_all_the_academic =
+                view.findViewById(R.id.ivPreviewTCILwhether_all_the_academic)
+            ivPreviewTCILAcademicRoomInformationBoard =
+                view.findViewById(R.id.ivPreviewTCILAcademicRoomInformationBoard)
+            ivPreviewTCILInternalSignage = view.findViewById(R.id.ivPreviewTCILInternalSignage)
+            ivPreviewTCILCctcCamerasWithAudioFacility =
+                view.findViewById(R.id.ivPreviewTCILCctcCamerasWithAudioFacility)
+            ivPreviewTCILLanEnabledComputersInNo =
+                view.findViewById(R.id.ivPreviewTCILLanEnabledComputersInNo)
+            ivPreviewTCILInternetConnections =
+                view.findViewById(R.id.ivPreviewTCILInternetConnections)
+            ivPreviewTCILDoAllComputersHaveTypingTutor =
+                view.findViewById(R.id.ivPreviewTCILDoAllComputersHaveTypingTutor)
+            ivPreviewTCILTablets = view.findViewById(R.id.ivPreviewTCILTablets)
+            ivPreviewTCILStoolsChairs = view.findViewById(R.id.ivPreviewTCILStoolsChairs)
+            ivPreviewTCILTrainerTable = view.findViewById(R.id.ivPreviewTCILTrainerTable)
+            ivPreviewTCILTrainerChair = view.findViewById(R.id.ivPreviewTCILTrainerChair)
+            ivPreviewTCILLightsInNo = view.findViewById(R.id.ivPreviewTCILLightsInNo)
+            ivPreviewTCILFansInNo = view.findViewById(R.id.ivPreviewTCILFansInNo)
+            ivPreviewTCILElectricaPowerBackUpForThRoom =
+                view.findViewById(R.id.ivPreviewTCILElectricaPowerBackUpForThRoom)
+            ivPreviewTCILTheoryCumItLabPhotogragh =
+                view.findViewById(R.id.ivPreviewTCILTheoryCumItLabPhotogragh)
+            ivPreviewTCILDoes_the_room_has = view.findViewById(R.id.ivPreviewTCILDoes_the_room_has)
 //        Theory Cum Domain Lab Ajit Ranjan Click On Button
-        ivPreviewTCDLTypeofRoofItLab = view.findViewById(R.id.ivPreviewTCDLTypeofRoofItLab)
-        ivPreviewTCDLFalseCellingProvide = view.findViewById(R.id.ivPreviewTCDLFalseCellingProvide)
-        ivPreviewTCDLHeightOfCelling = view.findViewById(R.id.ivPreviewTCDLHeightOfCelling)
-        ivPreviewTCDLVentilationAreaInSqFt = view.findViewById(R.id.ivPreviewTCDLVentilationAreaInSqFt)
-        ivPreviewTCDLSoundLevelInDb = view.findViewById(R.id.ivPreviewTCDLSoundLevelInDb)
-        ivPreviewTCDLwhether_all_the_academic = view.findViewById(R.id.ivPreviewTCDLwhether_all_the_academic)
-        ivPreviewTCDLAcademicRoomInformationBoard = view.findViewById(R.id.ivPreviewTCDLAcademicRoomInformationBoard)
-        ivPreviewTCDLInternalSignage = view.findViewById(R.id.ivPreviewTCDLInternalSignage)
-        ivPreviewTCDLCctcCamerasWithAudioFacility = view.findViewById(R.id.ivPreviewTCDLCctcCamerasWithAudioFacility)
-        ivPreviewTCDLLcdDigitalProjector = view.findViewById(R.id.ivPreviewTCDLLcdDigitalProjector)
-        ivPreviewTCDLChairForCandidatesInNo = view.findViewById(R.id.ivPreviewTCDLChairForCandidatesInNo)
-        ivPreviewTCDLTrainerChair = view.findViewById(R.id.ivPreviewTCDLTrainerChair)
-        ivPreviewTCDLTrainerTable = view.findViewById(R.id.ivPreviewTCDLTrainerTable)
-        ivPreviewTCDLWritingBoard = view.findViewById(R.id.ivPreviewTCDLWritingBoard)
-        ivPreviewTCDLLightsInNo = view.findViewById(R.id.ivPreviewTCDLLightsInNo)
-        ivPreviewTCDLFansInNo = view.findViewById(R.id.ivPreviewTCDLFansInNo)
-        ivPreviewTCDLElectricaPowerBackUpForThRoom = view.findViewById(R.id.ivPreviewTCDLElectricaPowerBackUpForThRoom)
-        ivPreviewTCDLListofDomain = view.findViewById(R.id.ivPreviewTCDLListofDomain)
-        ivPreviewTCDLDomainLabPhotogragh = view.findViewById(R.id.ivPreviewTCDLDomainLabPhotogragh)
-        ivPreviewTCDLDoes_the_room_has = view.findViewById(R.id.ivPreviewTCDLDoes_the_room_has)
+            ivPreviewTCDLTypeofRoofItLab = view.findViewById(R.id.ivPreviewTCDLTypeofRoofItLab)
+            ivPreviewTCDLFalseCellingProvide =
+                view.findViewById(R.id.ivPreviewTCDLFalseCellingProvide)
+            ivPreviewTCDLHeightOfCelling = view.findViewById(R.id.ivPreviewTCDLHeightOfCelling)
+            ivPreviewTCDLVentilationAreaInSqFt =
+                view.findViewById(R.id.ivPreviewTCDLVentilationAreaInSqFt)
+            ivPreviewTCDLSoundLevelInDb = view.findViewById(R.id.ivPreviewTCDLSoundLevelInDb)
+            ivPreviewTCDLwhether_all_the_academic =
+                view.findViewById(R.id.ivPreviewTCDLwhether_all_the_academic)
+            ivPreviewTCDLAcademicRoomInformationBoard =
+                view.findViewById(R.id.ivPreviewTCDLAcademicRoomInformationBoard)
+            ivPreviewTCDLInternalSignage = view.findViewById(R.id.ivPreviewTCDLInternalSignage)
+            ivPreviewTCDLCctcCamerasWithAudioFacility =
+                view.findViewById(R.id.ivPreviewTCDLCctcCamerasWithAudioFacility)
+            ivPreviewTCDLLcdDigitalProjector =
+                view.findViewById(R.id.ivPreviewTCDLLcdDigitalProjector)
+            ivPreviewTCDLChairForCandidatesInNo =
+                view.findViewById(R.id.ivPreviewTCDLChairForCandidatesInNo)
+            ivPreviewTCDLTrainerChair = view.findViewById(R.id.ivPreviewTCDLTrainerChair)
+            ivPreviewTCDLTrainerTable = view.findViewById(R.id.ivPreviewTCDLTrainerTable)
+            ivPreviewTCDLWritingBoard = view.findViewById(R.id.ivPreviewTCDLWritingBoard)
+            ivPreviewTCDLLightsInNo = view.findViewById(R.id.ivPreviewTCDLLightsInNo)
+            ivPreviewTCDLFansInNo = view.findViewById(R.id.ivPreviewTCDLFansInNo)
+            ivPreviewTCDLElectricaPowerBackUpForThRoom =
+                view.findViewById(R.id.ivPreviewTCDLElectricaPowerBackUpForThRoom)
+            ivPreviewTCDLListofDomain = view.findViewById(R.id.ivPreviewTCDLListofDomain)
+            ivPreviewTCDLDomainLabPhotogragh =
+                view.findViewById(R.id.ivPreviewTCDLDomainLabPhotogragh)
+            ivPreviewTCDLDoes_the_room_has = view.findViewById(R.id.ivPreviewTCDLDoes_the_room_has)
 
 //                     Domain Lab Ajit Ranjan Click On Button
-        ivPreviewDLTypeofRoofItLab = view.findViewById(R.id.ivPreviewDLTypeofRoofItLab)
-        ivPreviewDLHeightOfCelling = view.findViewById(R.id.ivPreviewDLHeightOfCelling)
-        ivPreviewDLFalseCellingProvide = view.findViewById(R.id.ivPreviewDLFalseCellingProvide)
-        ivPreviewDLVentilationAreaInSqFt = view.findViewById(R.id.ivPreviewDLVentilationAreaInSqFt)
-        ivPreviewDLSoundLevelInDb = view.findViewById(R.id.ivPreviewDLSoundLevelInDb)
-        ivPreviewDLwhether_all_the_academic = view.findViewById(R.id.ivPreviewDLwhether_all_the_academic)
-        ivPreviewDLAcademicRoomInformationBoard = view.findViewById(R.id.ivPreviewDLAcademicRoomInformationBoard)
-        ivPreviewDLInternalSignage = view.findViewById(R.id.ivPreviewDLInternalSignage)
-        ivPreviewDLCctcCamerasWithAudioFacility = view.findViewById(R.id.ivPreviewDLCctcCamerasWithAudioFacility)
-        ivPreviewDLLcdDigitalProjector = view.findViewById(R.id.ivPreviewDLLcdDigitalProjector)
-        ivPreviewDLChairForCandidatesInNo = view.findViewById(R.id.ivPreviewDLChairForCandidatesInNo)
-        ivPreviewDLTrainerChair = view.findViewById(R.id.ivPreviewDLTrainerChair)
-        ivPreviewDLTrainerTable = view.findViewById(R.id.ivPreviewDLTrainerTable)
-        ivPreviewDLWritingBoard = view.findViewById(R.id.ivPreviewDLWritingBoard)
-        ivPreviewDLLightsInNo = view.findViewById(R.id.ivPreviewDLLightsInNo)
-        ivPreviewDLFansInNo = view.findViewById(R.id.ivPreviewDLFansInNo)
-        ivPreviewDLElectricaPowerBackUpForThRoom = view.findViewById(R.id.ivPreviewDLElectricaPowerBackUpForThRoom)
-        ivPreviewDLILListofDomain = view.findViewById(R.id.ivPreviewDLILListofDomain)
-        ivPreviewDLDomainLabPhotogragh = view.findViewById(R.id.ivPreviewDLDomainLabPhotogragh)
-        ivPreviewDLDoes_the_room_has = view.findViewById(R.id.ivPreviewDLDoes_the_room_has)
+            ivPreviewDLTypeofRoofItLab = view.findViewById(R.id.ivPreviewDLTypeofRoofItLab)
+            ivPreviewDLHeightOfCelling = view.findViewById(R.id.ivPreviewDLHeightOfCelling)
+            ivPreviewDLFalseCellingProvide = view.findViewById(R.id.ivPreviewDLFalseCellingProvide)
+            ivPreviewDLVentilationAreaInSqFt =
+                view.findViewById(R.id.ivPreviewDLVentilationAreaInSqFt)
+            ivPreviewDLSoundLevelInDb = view.findViewById(R.id.ivPreviewDLSoundLevelInDb)
+            ivPreviewDLwhether_all_the_academic =
+                view.findViewById(R.id.ivPreviewDLwhether_all_the_academic)
+            ivPreviewDLAcademicRoomInformationBoard =
+                view.findViewById(R.id.ivPreviewDLAcademicRoomInformationBoard)
+            ivPreviewDLInternalSignage = view.findViewById(R.id.ivPreviewDLInternalSignage)
+            ivPreviewDLCctcCamerasWithAudioFacility =
+                view.findViewById(R.id.ivPreviewDLCctcCamerasWithAudioFacility)
+            ivPreviewDLLcdDigitalProjector = view.findViewById(R.id.ivPreviewDLLcdDigitalProjector)
+            ivPreviewDLChairForCandidatesInNo =
+                view.findViewById(R.id.ivPreviewDLChairForCandidatesInNo)
+            ivPreviewDLTrainerChair = view.findViewById(R.id.ivPreviewDLTrainerChair)
+            ivPreviewDLTrainerTable = view.findViewById(R.id.ivPreviewDLTrainerTable)
+            ivPreviewDLWritingBoard = view.findViewById(R.id.ivPreviewDLWritingBoard)
+            ivPreviewDLLightsInNo = view.findViewById(R.id.ivPreviewDLLightsInNo)
+            ivPreviewDLFansInNo = view.findViewById(R.id.ivPreviewDLFansInNo)
+            ivPreviewDLElectricaPowerBackUpForThRoom =
+                view.findViewById(R.id.ivPreviewDLElectricaPowerBackUpForThRoom)
+            ivPreviewDLILListofDomain = view.findViewById(R.id.ivPreviewDLILListofDomain)
+            ivPreviewDLDomainLabPhotogragh = view.findViewById(R.id.ivPreviewDLDomainLabPhotogragh)
+            ivPreviewDLDoes_the_room_has = view.findViewById(R.id.ivPreviewDLDoes_the_room_has)
 
 //         TCR Ajit Ranjan (PMAYG)Theory Class Room
-        ivPreviewTCRTypeofRoofItLab = view.findViewById(R.id.ivPreviewTCRTypeofRoofItLab)
-        ivPreviewTCRFalseCellingProvide = view.findViewById(R.id.ivPreviewTCRFalseCellingProvide)
-        ivPreviewTCRHeightOfCelling = view.findViewById(R.id.ivPreviewTCRHeightOfCelling)
-        ivPreviewTCRVentilationAreaInSqFt = view.findViewById(R.id.ivPreviewTCRVentilationAreaInSqFt)
-        ivPreviewTCRSoundLevelInDb = view.findViewById(R.id.ivPreviewTCRSoundLevelInDb)
-        ivPreviewTCRwhether_all_the_academic = view.findViewById(R.id.ivPreviewTCRwhether_all_the_academic)
-        ivPreviewTCRAcademicRoomInformationBoard = view.findViewById(R.id.ivPreviewTCRAcademicRoomInformationBoard)
-        ivPreviewTCRLcdDigitalProjector = view.findViewById(R.id.ivPreviewTCRLcdDigitalProjector)
-        ivPreviewTCRChairForCandidatesInNo = view.findViewById(R.id.ivPreviewTCRChairForCandidatesInNo)
-        ivPreviewTCRTrainerChair = view.findViewById(R.id.ivPreviewTCRTrainerChair)
-        ivPreviewTCRTrainerTable = view.findViewById(R.id.ivPreviewTCRTrainerTable)
-        ivPreviewTCRWritingBoard = view.findViewById(R.id.ivPreviewTCRWritingBoard)
-        ivPreviewTCRLightsInNo = view.findViewById(R.id.ivPreviewTCRLightsInNo)
-        ivPreviewTCRFansInNo = view.findViewById(R.id.ivPreviewTCRFansInNo)
-        ivPreviewTCRElectricaPowerBackUpForThRoom = view.findViewById(R.id.ivPreviewTCRElectricaPowerBackUpForThRoom)
-        ivPreviewTCRDomainLabPhotogragh = view.findViewById(R.id.ivPreviewTCRDomainLabPhotogragh)
+            ivPreviewTCRTypeofRoofItLab = view.findViewById(R.id.ivPreviewTCRTypeofRoofItLab)
+            ivPreviewTCRFalseCellingProvide =
+                view.findViewById(R.id.ivPreviewTCRFalseCellingProvide)
+            ivPreviewTCRHeightOfCelling = view.findViewById(R.id.ivPreviewTCRHeightOfCelling)
+            ivPreviewTCRVentilationAreaInSqFt =
+                view.findViewById(R.id.ivPreviewTCRVentilationAreaInSqFt)
+            ivPreviewTCRSoundLevelInDb = view.findViewById(R.id.ivPreviewTCRSoundLevelInDb)
+            ivPreviewTCRwhether_all_the_academic =
+                view.findViewById(R.id.ivPreviewTCRwhether_all_the_academic)
+            ivPreviewTCRAcademicRoomInformationBoard =
+                view.findViewById(R.id.ivPreviewTCRAcademicRoomInformationBoard)
+            ivPreviewTCRLcdDigitalProjector =
+                view.findViewById(R.id.ivPreviewTCRLcdDigitalProjector)
+            ivPreviewTCRChairForCandidatesInNo =
+                view.findViewById(R.id.ivPreviewTCRChairForCandidatesInNo)
+            ivPreviewTCRTrainerChair = view.findViewById(R.id.ivPreviewTCRTrainerChair)
+            ivPreviewTCRTrainerTable = view.findViewById(R.id.ivPreviewTCRTrainerTable)
+            ivPreviewTCRWritingBoard = view.findViewById(R.id.ivPreviewTCRWritingBoard)
+            ivPreviewTCRLightsInNo = view.findViewById(R.id.ivPreviewTCRLightsInNo)
+            ivPreviewTCRFansInNo = view.findViewById(R.id.ivPreviewTCRFansInNo)
+            ivPreviewTCRElectricaPowerBackUpForThRoom =
+                view.findViewById(R.id.ivPreviewTCRElectricaPowerBackUpForThRoom)
+            ivPreviewTCRDomainLabPhotogragh =
+                view.findViewById(R.id.ivPreviewTCRDomainLabPhotogragh)
 
 
-        ivPreviewTCRDoes_the_room_has = view.findViewById(R.id.ivPreviewTCRDoes_the_room_has)
-        ivFireFightingEquipmentPreview = view.findViewById(R.id.ivFireFightingEquipmentPreview)
-        ivSafeDrinkingWaterPreview = view.findViewById(R.id.ivSafeDrinkingWaterPreview)
-        spinnerFirstAidKit = view.findViewById(R.id.spinnerFirstAidKit)
-        spinnerSafeDrinkingWater = view.findViewById(R.id.spinnerSafeDrinkingWater)
-        spinnerFireFightingEquipment = view.findViewById(R.id.spinnerFireFightingEquipment)
+            ivPreviewTCRDoes_the_room_has = view.findViewById(R.id.ivPreviewTCRDoes_the_room_has)
+            ivFireFightingEquipmentPreview = view.findViewById(R.id.ivFireFightingEquipmentPreview)
+            ivSafeDrinkingWaterPreview = view.findViewById(R.id.ivSafeDrinkingWaterPreview)
+            spinnerFirstAidKit = view.findViewById(R.id.spinnerFirstAidKit)
+            spinnerSafeDrinkingWater = view.findViewById(R.id.spinnerSafeDrinkingWater)
+            spinnerFireFightingEquipment = view.findViewById(R.id.spinnerFireFightingEquipment)
 
-        // ImageView preview  commmon equipment IDs
-        ivPowerBackupPreview = view.findViewById(R.id.ivPowerBackupPreview)
-        ivBiometricDevicesPreview = view.findViewById(R.id.ivBiometricDevicesPreview)
-        ivCCTVPreview = view.findViewById(R.id.ivCCTVPreview)
-        ivDocumentStoragePreview = view.findViewById(R.id.ivDocumentStoragePreview)
-        ivPrinterScannerPreview = view.findViewById(R.id.ivPrinterScannerPreview)
-        ivDigitalCameraPreview = view.findViewById(R.id.ivDigitalCameraPreview)
-        ivGrievanceRegisterPreview = view.findViewById(R.id.ivGrievanceRegisterPreview)
-        ivMinimumEquipmentPreview = view.findViewById(R.id.ivMinimumEquipmentPreview)
-        ivDirectionBoardsPreview = view.findViewById(R.id.ivDirectionBoardsPreview)
-        etBiometricDevices = view.findViewById(R.id.etBiometricDevices)
-        etPrinterScanner = view.findViewById(R.id.etPrinterScanner)
-        etDigitalCamera = view.findViewById(R.id.etDigitalCamera)
-        spinnerPowerBackup=view.findViewById(R.id.spinnerPowerBackup)
-        spinnerCCTV=view.findViewById(R.id.spinnerCCTV)
-        spinnerDocumentStorage=view.findViewById(R.id.spinnerDocumentStorage)
-        spinnerGrievanceRegister=view.findViewById(R.id.spinnerGrievanceRegister)
-        spinnerMinimumEquipment=view.findViewById(R.id.spinnerMinimumEquipment)
-        spinnerDirectionBoards=view.findViewById(R.id.spinnerDirectionBoards)
-        // Description of other areas
-        ivProofPreview = view.findViewById(R.id.ivProofPreview)
-        ivCirculationProofPreview = view.findViewById(R.id.ivCirculationProofPreview)
-        ivOpenSpaceProofPreview = view.findViewById(R.id.ivOpenSpaceProofPreview)
-        ivParkingProofPreview = view.findViewById(R.id.ivParkingProofPreview)
-        etCorridorNo =view.findViewById(R.id.etCorridorNo)
-        etDescLength=view.findViewById(R.id.etDescLength)
-        etDescWidth =view.findViewById(R.id.etDescWidth)
-        etArea =view.findViewById(R.id.etArea)
-        etLights =view.findViewById(R.id.etLights)
-        etFans=view.findViewById(R.id.etFans)
-        etCirculationArea =view.findViewById(R.id.etCirculationArea)
-        etOpenSpace =view.findViewById(R.id.etOpenSpace)
-        etExclusiveParkingSpace =view.findViewById(R.id.etExclusiveParkingSpace)
+            // ImageView preview  commmon equipment IDs
+            ivPowerBackupPreview = view.findViewById(R.id.ivPowerBackupPreview)
+            ivBiometricDevicesPreview = view.findViewById(R.id.ivBiometricDevicesPreview)
+            ivCCTVPreview = view.findViewById(R.id.ivCCTVPreview)
+            ivDocumentStoragePreview = view.findViewById(R.id.ivDocumentStoragePreview)
+            ivPrinterScannerPreview = view.findViewById(R.id.ivPrinterScannerPreview)
+            ivDigitalCameraPreview = view.findViewById(R.id.ivDigitalCameraPreview)
+            ivGrievanceRegisterPreview = view.findViewById(R.id.ivGrievanceRegisterPreview)
+            ivMinimumEquipmentPreview = view.findViewById(R.id.ivMinimumEquipmentPreview)
+            ivDirectionBoardsPreview = view.findViewById(R.id.ivDirectionBoardsPreview)
+            etBiometricDevices = view.findViewById(R.id.etBiometricDevices)
+            etPrinterScanner = view.findViewById(R.id.etPrinterScanner)
+            etDigitalCamera = view.findViewById(R.id.etDigitalCamera)
+            spinnerPowerBackup = view.findViewById(R.id.spinnerPowerBackup)
+            spinnerCCTV = view.findViewById(R.id.spinnerCCTV)
+            spinnerDocumentStorage = view.findViewById(R.id.spinnerDocumentStorage)
+            spinnerGrievanceRegister = view.findViewById(R.id.spinnerGrievanceRegister)
+            spinnerMinimumEquipment = view.findViewById(R.id.spinnerMinimumEquipment)
+            spinnerDirectionBoards = view.findViewById(R.id.spinnerDirectionBoards)
+            // Description of other areas
+            ivProofPreview = view.findViewById(R.id.ivProofPreview)
+            ivCirculationProofPreview = view.findViewById(R.id.ivCirculationProofPreview)
+            ivOpenSpaceProofPreview = view.findViewById(R.id.ivOpenSpaceProofPreview)
+            ivParkingProofPreview = view.findViewById(R.id.ivParkingProofPreview)
+            etCorridorNo = view.findViewById(R.id.etCorridorNo)
+            etDescLength = view.findViewById(R.id.etDescLength)
+            etDescWidth = view.findViewById(R.id.etDescWidth)
+            etArea = view.findViewById(R.id.etArea)
+            etLights = view.findViewById(R.id.etLights)
+            etFans = view.findViewById(R.id.etFans)
+            etCirculationArea = view.findViewById(R.id.etCirculationArea)
+            etOpenSpace = view.findViewById(R.id.etOpenSpace)
+            etExclusiveParkingSpace = view.findViewById(R.id.etExclusiveParkingSpace)
 
-        //Button Final Submit
-        btnCalculateArea = view.findViewById(R.id.btnCalculateArea)
-        btnSubmitFinal = view.findViewById(R.id.btnSubmitFinal)
+            //Button Final Submit
+            btnCalculateArea = view.findViewById(R.id.btnCalculateArea)
+            btnSubmitFinal = view.findViewById(R.id.btnSubmitFinal)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
@@ -2059,425 +2140,845 @@ class TrainingFragment : Fragment() {
 // Set adapter on AutoCompleteTextViews
         actvOverheadTanks.setAdapter(overheadTankAdapter)
         actvTypeOfFlooring.setAdapter(flooringAdapter)
-        // Setup CCTV & Electrical Spinners& upport infra spinners
-        val spinners = listOf(
 
-            R.id.spinnerMonitorAccessible, R.id.spinnerConformance, R.id.spinnerStorage,
-            R.id.spinnerDVRStaticIP, R.id.spinnerIPEnabled, R.id.spinnerResolution,
-            R.id.spinnerVideoStream, R.id.spinnerRemoteAccessBrowser, R.id.spinnerSimultaneousAccess,
-            R.id.spinnerSupportedProtocols, R.id.spinnerColorVideoAudio, R.id.spinnerStorageFacility,
-            R.id.spinnerSwitchBoards, R.id.spinnerCandidateSafety,R.id.spinnerFirstAidKit,R.id.spinnerSafeDrinkingWater,R.id.spinnerPowerBackup,R.id.spinnerCCTV,R.id.spinnerStorage,R.id.spinnerSecure
+        // Setup CCTV & Electrical Spinners& upport infra spinners
+            val spinners = listOf(
+                R.id.spinnerMonitorAccessible,
+                R.id.spinnerConformance,
+                R.id.spinnerStorage,
+                R.id.spinnerDVRStaticIP,
+                R.id.spinnerIPEnabled,
+                R.id.spinnerResolution,
+                R.id.spinnerVideoStream,
+                R.id.spinnerRemoteAccessBrowser,
+                R.id.spinnerSimultaneousAccess,
+                R.id.spinnerSupportedProtocols,
+                R.id.spinnerColorVideoAudio,
+                R.id.spinnerStorageFacility,
+                R.id.spinnerSwitchBoards,
+                R.id.spinnerCandidateSafety,
+                R.id.spinnerFirstAidKit,
+                R.id.spinnerSafeDrinkingWater,
+                R.id.spinnerPowerBackup,
+                R.id.spinnerCCTV,
+                R.id.spinnerStorage,
+                R.id.spinnerSecure
 //               IT LAB
-            , R.id.spinnerITLepbftr,R.id.spinnerITLTypeofRoofItLab,R.id.spinnerITLSoundLevelAsPerSpecifications,R.id.spinnerITLFalseCellingProvide,R.id.spinnerITLAcademicRoomInformationBoard
-            ,R.id.spinnerITLInternalSignage,R.id.spinnerITLCctcCamerasWithAudioFacility,R.id.spinnerITLabInternetConnections
-            ,R.id.spinnerITLDoAllComputersHaveTypingTutor,R.id.spinnerITLTrainerChair,R.id.spinnerITLTrainerTable
-            ,R.id.spinnerITLtLabPhotograph,R.id.spinnerITLDoes_the_room_has,
+                ,
+                R.id.spinnerITLepbftr,
+                R.id.spinnerITLTypeofRoofItLab,
+                R.id.spinnerITLSoundLevelAsPerSpecifications,
+                R.id.spinnerITLFalseCellingProvide,
+                R.id.spinnerITLAcademicRoomInformationBoard,
+                R.id.spinnerITLInternalSignage,
+                R.id.spinnerITLCctcCamerasWithAudioFacility,
+                R.id.spinnerITLabInternetConnections,
+                R.id.spinnerITLDoAllComputersHaveTypingTutor,
+                R.id.spinnerITLTrainerChair,
+                R.id.spinnerITLTrainerTable,
+                R.id.spinnerITLtLabPhotograph,
+                R.id.spinnerITLDoes_the_room_has,
 //           OCCR
-            R.id.spinnerOCCROfficeTable,R.id.spinnerOCCRCumSplaceforSecuringDoc,R.id.spinnerOCCRPhotograph,R.id.spinnerOfficeCumTypeofRoofItLab,R.id.spinnerOfficeCumFalseCellingProvide,R.id.spinnerOfficeCumLepbftr,R.id.spinnerOfficeCumTableOfofficeCumpter,
+                R.id.spinnerOCCROfficeTable,
+                R.id.spinnerOCCRCumSplaceforSecuringDoc,
+                R.id.spinnerOCCRPhotograph,
+                R.id.spinnerOfficeCumTypeofRoofItLab,
+                R.id.spinnerOfficeCumFalseCellingProvide,
+                R.id.spinnerOfficeCumLepbftr,
+                R.id.spinnerOfficeCumTableOfofficeCumpter,
 //               OfficeCum
-            R.id.spinnerReceptionAreaEPBR,
+                R.id.spinnerReceptionAreaEPBR,
 //               CounsellingRoomArea
-            R.id.spinnerCounsellingRoomAreaPhotograph,
+                R.id.spinnerCounsellingRoomAreaPhotograph,
 //               Office Room
-            R.id.spinnerORTypeofRoofItLab,
-            R.id.spinnerORSplaceforSecuringDoc,
-            R.id.spinnerROfficeRoomPhotograph,
-            R.id.spinnerORFalseCellingProvide,
-            R.id.spinnerORTableOfofficeCumpter,
-            R.id.spinnerORPOEPBFTR,
+                R.id.spinnerORTypeofRoofItLab,
+                R.id.spinnerORSplaceforSecuringDoc,
+                R.id.spinnerROfficeRoomPhotograph,
+                R.id.spinnerORFalseCellingProvide,
+                R.id.spinnerORTableOfofficeCumpter,
+                R.id.spinnerORPOEPBFTR,
 //               IT Come Domain Lab
-            R.id.spinnerITCDLSoundLevelAsPerSpecifications,
-            R.id.spinnerITCDLItLabPhotograph,
-            R.id.spinnerITCDLTypeofRoofItLab,
-            R.id.spinnerITCDLFalseCellingProvide,
-            R.id.spinnerITCDLwhether_all_the_academic,
-            R.id.spinnerITCDLAcademicRoomInformationBoard,
-            R.id.spinnerITCDLInternalSignage,
-            R.id.spinnerITCDLCctcCamerasWithAudioFacility,
-            R.id.spinnerITCDLInternetConnections,
-            R.id.spinnerITCDLDoAllComputersHaveTypingTutor,
-            R.id.spinnerITCDLTrainerChair,
-            R.id.spinnerITCDLTrainerTable,
-            R.id.spinnerITCDLElectricaPowerBackUp,
-            R.id.spinnerITCDLDoes_the_room_has,
+                R.id.spinnerITCDLSoundLevelAsPerSpecifications,
+                R.id.spinnerITCDLItLabPhotograph,
+                R.id.spinnerITCDLTypeofRoofItLab,
+                R.id.spinnerITCDLFalseCellingProvide,
+                R.id.spinnerITCDLwhether_all_the_academic,
+                R.id.spinnerITCDLAcademicRoomInformationBoard,
+                R.id.spinnerITCDLInternalSignage,
+                R.id.spinnerITCDLCctcCamerasWithAudioFacility,
+                R.id.spinnerITCDLInternetConnections,
+                R.id.spinnerITCDLDoAllComputersHaveTypingTutor,
+                R.id.spinnerITCDLTrainerChair,
+                R.id.spinnerITCDLTrainerTable,
+                R.id.spinnerITCDLElectricaPowerBackUp,
+                R.id.spinnerITCDLDoes_the_room_has,
 
 //               Theory Cum IT Lab Ajit Ranjan Spinner's Id
 
-            R.id.spinnerTCILITypeofRoofItLab,
-            R.id.spinnerTCILFalseCellingProvide,
-            R.id.spinnerTTCILSoundLevelAsPerSpecifications,
-            R.id.spinnerTCILTrainerChair,
-            R.id.spinnerTCILTrainerTable,
+                R.id.spinnerTCILITypeofRoofItLab,
+                R.id.spinnerTCILFalseCellingProvide,
+                R.id.spinnerTTCILSoundLevelAsPerSpecifications,
+                R.id.spinnerTCILTrainerChair,
+                R.id.spinnerTCILTrainerTable,
 
-            R.id.spinnerTCILwhether_all_the_academic,
-            R.id.spinnerTCILLAcademicRoomInformationBoard,
-            R.id.spinnerTCILInternalSignage,
-            R.id.spinnerTCILCctcCamerasWithAudioFacility,
-            R.id.spinnerTCILInternetConnections,
-            R.id.spinnerTCILDLDoAllComputersHaveTypingTutor,
-            R.id.spinnerTCILIPowerBackup,
-            R.id.spinnerTCILDLDoes_the_room_has,
-            R.id.spinnerTCILTheoryCumItLabPhotogragh,
+                R.id.spinnerTCILwhether_all_the_academic,
+                R.id.spinnerTCILLAcademicRoomInformationBoard,
+                R.id.spinnerTCILInternalSignage,
+                R.id.spinnerTCILCctcCamerasWithAudioFacility,
+                R.id.spinnerTCILInternetConnections,
+                R.id.spinnerTCILDLDoAllComputersHaveTypingTutor,
+                R.id.spinnerTCILIPowerBackup,
+                R.id.spinnerTCILDLDoes_the_room_has,
+                R.id.spinnerTCILTheoryCumItLabPhotogragh,
 //               Theory Cum Domain Lab Ajit Ranjan Spinner's Id
-            R.id.spinnerTCDLTypeofRoofItLab,
-            R.id.spinnerTCDLFalseCellingProvide,
-            R.id.spinnerTCDLSoundLevelAsPerSpecifications,
-            R.id.spinnerTCDLLcdDigitalProjector,
-            R.id.spinnerTCDLTrainerChair,
-            R.id.spinnerTCDLTrainerTable,
-            R.id.spinnerTCDLWritingBoard,
-            R.id.spinnerTCDLDomainLabPhotogragh,
-            R.id.spinnerTCDLwhether_all_the_academic,
-            R.id.spinnerTCDLAcademicRoomInformationBoard,
-            R.id.spinnerTCDLInternalSignage,
-            R.id.spinnerTCDLCctcCamerasWithAudioFacility,
-            R.id.spinnerTCDLPowerBackup,
-            R.id.spinnerTCDLDoes_the_room_has,
+                R.id.spinnerTCDLTypeofRoofItLab,
+                R.id.spinnerTCDLFalseCellingProvide,
+                R.id.spinnerTCDLSoundLevelAsPerSpecifications,
+                R.id.spinnerTCDLLcdDigitalProjector,
+                R.id.spinnerTCDLTrainerChair,
+                R.id.spinnerTCDLTrainerTable,
+                R.id.spinnerTCDLWritingBoard,
+                R.id.spinnerTCDLDomainLabPhotogragh,
+                R.id.spinnerTCDLwhether_all_the_academic,
+                R.id.spinnerTCDLAcademicRoomInformationBoard,
+                R.id.spinnerTCDLInternalSignage,
+                R.id.spinnerTCDLCctcCamerasWithAudioFacility,
+                R.id.spinnerTCDLPowerBackup,
+                R.id.spinnerTCDLDoes_the_room_has,
 
 //               Domain Lab Ajit Ranjan Spinner's Id
-            R.id.spinnerDLLcdDigitalProjector,
-            R.id.spinnerDLTrainerChair,
-            R.id.spinnerDLTrainerTable,
-            R.id.spinnerDLWritingBoard,
-            R.id.spinnerDLFalseCellingProvide,
-            R.id.spinnerDLTypeofRoofItLab,
-            R.id.spinnerDDLSoundLevelAsPerSpecifications,
-            R.id.spinnerDLDomainLabPhotogragh,
-            R.id.spinnerDLAcademicRoomInformationBoard,
-            R.id.spinnerDLInternalSignage,
-            R.id.spinnerDLCctcCamerasWithAudioFacility,
+                R.id.spinnerDLLcdDigitalProjector,
+                R.id.spinnerDLTrainerChair,
+                R.id.spinnerDLTrainerTable,
+                R.id.spinnerDLWritingBoard,
+                R.id.spinnerDLFalseCellingProvide,
+                R.id.spinnerDLTypeofRoofItLab,
+                R.id.spinnerDDLSoundLevelAsPerSpecifications,
+                R.id.spinnerDLDomainLabPhotogragh,
+                R.id.spinnerDLAcademicRoomInformationBoard,
+                R.id.spinnerDLInternalSignage,
+                R.id.spinnerDLCctcCamerasWithAudioFacility,
 
-            R.id.spinnerDLElectricaPowerBackUp,
-            R.id.spinnerDLwhether_all_the_academic,
-            R.id.spinnerDLDoes_the_room_has,
+                R.id.spinnerDLElectricaPowerBackUp,
+                R.id.spinnerDLwhether_all_the_academic,
+                R.id.spinnerDLDoes_the_room_has,
 //                  TCR
-            R.id.spinnerTCRTypeofRoofItLab,
-            R.id.spinnerTCRFalseCellingProvide,
-            R.id.spinnerTCRSoundLevelAsPerSpecifications,
-            R.id.spinnerTCRLcdDigitalProjector,
-            R.id.spinnerTCRTrainerChair,
-            R.id.spinnerTCRTrainerTable,
-            R.id.spinnerTCRWritingBoard,
-            R.id.spinnerTCRDomainLabPhotogragh,
-            R.id.spinnerTCRwhether_all_the_academic,
-            R.id.spinnerTCRAcademicRoomInformationBoard,
-            R.id.spinnerTCRInternalSignage,
-            R.id.spinnerTCRCctcCamerasWithAudioFacility,
-            R.id.spinnerTCRDoes_the_room_has,
-            R.id.spinnerTCRPowerBackup,
+                R.id.spinnerTCRTypeofRoofItLab,
+                R.id.spinnerTCRFalseCellingProvide,
+                R.id.spinnerTCRSoundLevelAsPerSpecifications,
+                R.id.spinnerTCRLcdDigitalProjector,
+                R.id.spinnerTCRTrainerChair,
+                R.id.spinnerTCRTrainerTable,
+                R.id.spinnerTCRWritingBoard,
+                R.id.spinnerTCRDomainLabPhotogragh,
+                R.id.spinnerTCRwhether_all_the_academic,
+                R.id.spinnerTCRAcademicRoomInformationBoard,
+                R.id.spinnerTCRInternalSignage,
+                R.id.spinnerTCRCctcCamerasWithAudioFacility,
+                R.id.spinnerTCRDoes_the_room_has,
+                R.id.spinnerTCRPowerBackup,
 
-            )
-        spinners.forEach {
-            view.findViewById<Spinner>(it).adapter = yesNoAdapter
-        }
-        val spinnersWithButtons = listOf(
-            Pair(view.findViewById<Spinner>(R.id.spinnerMonitorAccessible), view.findViewById<Button>(R.id.btnUploadMonitorPhoto)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerConformance), view.findViewById<Button>(R.id.btnUploadConformancePhoto)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerStorage), view.findViewById<Button>(R.id.btnUploadStoragePhoto)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDVRStaticIP), view.findViewById<Button>(R.id.btnUploadDVRPhoto)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerSwitchBoards), view.findViewById<Button>(R.id.btnUploadSwitchBoards)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerSecure), view.findViewById<Button>(R.id.btnUploadSecuringWires)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerLeakageCheck), view.findViewById<Button>(R.id.btnUploadLeaSkageProof)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerProtectionStairs), view.findViewById<Button>(R.id.btnUploadProtectionStairs)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTrainingCentreNameBoard), view.findViewById<Button>(R.id.btnUploadTrainingCentreNameBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerActivitySummaryBoard), view.findViewById<Button>(R.id.btnUploadActivitySummaryBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerEntitlementBoard), view.findViewById<Button>(R.id.btnUploadEntitlementBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerImportantContacts), view.findViewById<Button>(R.id.btnUploadImportantContacts)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerBasicInfoBoard), view.findViewById<Button>(R.id.btnUploadBasicInfoBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerCodeOfConductBoard), view.findViewById<Button>(R.id.btnUploadCodeOfConductBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerAttendanceSummaryBoard), view.findViewById<Button>(R.id.btnUploadAttendanceSummaryBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerFirstAidKit), view.findViewById<Button>(R.id.btnUploadFirstAidKit)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerSafeDrinkingWater), view.findViewById<Button>(R.id.btnUploadSafeDrinkingWater)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerPowerBackup), view.findViewById<Button>(R.id.btnUploadPowerBackup)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerCCTV), view.findViewById<Button>(R.id.btnUploadCCTV)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDocumentStorage), view.findViewById<Button>(R.id.btnUploadDocumentStorage)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerGrievanceRegister), view.findViewById<Button>(R.id.btnSubmitGeneralDetails)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerMinimumEquipment), view.findViewById<Button>(R.id.btnUploadMinimumEquipment)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDirectionBoards), view.findViewById<Button>(R.id.btnUploadDirectionBoards)),
+                )
+            spinners.forEach {
+                view.findViewById<Spinner>(it).adapter = yesNoAdapter
+            }
+            val spinnersWithButtons = listOf(
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerMonitorAccessible),
+                    view.findViewById<Button>(R.id.btnUploadMonitorPhoto)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerConformance),
+                    view.findViewById<Button>(R.id.btnUploadConformancePhoto)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerStorage),
+                    view.findViewById<Button>(R.id.btnUploadStoragePhoto)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDVRStaticIP),
+                    view.findViewById<Button>(R.id.btnUploadDVRPhoto)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerSwitchBoards),
+                    view.findViewById<Button>(R.id.btnUploadSwitchBoards)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerSecure),
+                    view.findViewById<Button>(R.id.btnUploadSecuringWires)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerLeakageCheck),
+                    view.findViewById<Button>(R.id.btnUploadLeaSkageProof)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerProtectionStairs),
+                    view.findViewById<Button>(R.id.btnUploadProtectionStairs)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTrainingCentreNameBoard),
+                    view.findViewById<Button>(R.id.btnUploadTrainingCentreNameBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerActivitySummaryBoard),
+                    view.findViewById<Button>(R.id.btnUploadActivitySummaryBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerEntitlementBoard),
+                    view.findViewById<Button>(R.id.btnUploadEntitlementBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerImportantContacts),
+                    view.findViewById<Button>(R.id.btnUploadImportantContacts)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerBasicInfoBoard),
+                    view.findViewById<Button>(R.id.btnUploadBasicInfoBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerCodeOfConductBoard),
+                    view.findViewById<Button>(R.id.btnUploadCodeOfConductBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerAttendanceSummaryBoard),
+                    view.findViewById<Button>(R.id.btnUploadAttendanceSummaryBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerFirstAidKit),
+                    view.findViewById<Button>(R.id.btnUploadFirstAidKit)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerSafeDrinkingWater),
+                    view.findViewById<Button>(R.id.btnUploadSafeDrinkingWater)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerPowerBackup),
+                    view.findViewById<Button>(R.id.btnUploadPowerBackup)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerCCTV),
+                    view.findViewById<Button>(R.id.btnUploadCCTV)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDocumentStorage),
+                    view.findViewById<Button>(R.id.btnUploadDocumentStorage)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerGrievanceRegister),
+                    view.findViewById<Button>(R.id.btnSubmitGeneralDetails)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerMinimumEquipment),
+                    view.findViewById<Button>(R.id.btnUploadMinimumEquipment)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDirectionBoards),
+                    view.findViewById<Button>(R.id.btnUploadDirectionBoards)
+                ),
 
 //                    It Lab  Ajit Ranjan
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLTypeofRoofItLab), view.findViewById<Button>(R.id.btnITLTypeofRoofItLab)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnITLSoundLevelAsPerSpecifications)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLepbftr), view.findViewById<Button>(R.id.btnITLElectricaPowerBackUpForThRoom)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLFalseCellingProvide), view.findViewById<Button>(R.id.btnITLFalseCellingProvide)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITLAcademicRoomInformationBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLInternalSignage), view.findViewById<Button>(R.id.btnITLInternalSignage)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnITLCctcCamerasWithAudioFacility)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLabInternetConnections), view.findViewById<Button>(R.id.btnITLInternetConnections)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLDoAllComputersHaveTypingTutor), view.findViewById<Button>(R.id.btnITLDoAllComputersHaveTypingTutor)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLTrainerChair), view.findViewById<Button>(R.id.btnITLTrainerChair)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLTrainerTable), view.findViewById<Button>(R.id.btnITLTrainerTable)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLtLabPhotograph), view.findViewById<Button>(R.id.btnITLItLabPhotograph)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITLDoes_the_room_has), view.findViewById<Button>(R.id.btnITLLDoes_the_room_has)),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLTypeofRoofItLab),
+                    view.findViewById<Button>(R.id.btnITLTypeofRoofItLab)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLSoundLevelAsPerSpecifications),
+                    view.findViewById<Button>(R.id.btnITLSoundLevelAsPerSpecifications)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLepbftr),
+                    view.findViewById<Button>(R.id.btnITLElectricaPowerBackUpForThRoom)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLFalseCellingProvide),
+                    view.findViewById<Button>(R.id.btnITLFalseCellingProvide)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLAcademicRoomInformationBoard),
+                    view.findViewById<Button>(R.id.btnITLAcademicRoomInformationBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLInternalSignage),
+                    view.findViewById<Button>(R.id.btnITLInternalSignage)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLCctcCamerasWithAudioFacility),
+                    view.findViewById<Button>(R.id.btnITLCctcCamerasWithAudioFacility)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLabInternetConnections),
+                    view.findViewById<Button>(R.id.btnITLInternetConnections)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLDoAllComputersHaveTypingTutor),
+                    view.findViewById<Button>(R.id.btnITLDoAllComputersHaveTypingTutor)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLTrainerChair),
+                    view.findViewById<Button>(R.id.btnITLTrainerChair)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLTrainerTable),
+                    view.findViewById<Button>(R.id.btnITLTrainerTable)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLtLabPhotograph),
+                    view.findViewById<Button>(R.id.btnITLItLabPhotograph)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITLDoes_the_room_has),
+                    view.findViewById<Button>(R.id.btnITLLDoes_the_room_has)
+                ),
 
 //                    Office Cum(Counselling room)   Ajit Ranjan
 
 //            Pair(view.findViewById<Spinner>(R.id.spinnerOCCROfficeTable), view.findViewById<Button>(R.id.btnUploadOCCROfficeTable)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerOCCROfficeTable), view.findViewById<Button>(R.id.btnUploadOCCROfficeTable)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerOCCRCumSplaceforSecuringDoc), view.findViewById<Button>(R.id.btnOfficeCumSplaceforSecuringDoc)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerOCCRPhotograph), view.findViewById<Button>(R.id.btnUploadOfficeRoomPhotograph)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumTypeofRoofItLab), view.findViewById<Button>(R.id.btnUploadOfficeCumTypeofRoofItLab)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumFalseCellingProvide), view.findViewById<Button>(R.id.btnOfficeCumFalseCellingProvide)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumLepbftr), view.findViewById<Button>(R.id.btnOfficeCumElectricialPowerBackup)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumTableOfofficeCumpter), view.findViewById<Button>(R.id.btnOfficeCumTableOfofficeCumpter)),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerOCCROfficeTable),
+                    view.findViewById<Button>(R.id.btnUploadOCCROfficeTable)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerOCCRCumSplaceforSecuringDoc),
+                    view.findViewById<Button>(R.id.btnOfficeCumSplaceforSecuringDoc)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerOCCRPhotograph),
+                    view.findViewById<Button>(R.id.btnUploadOfficeRoomPhotograph)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerOfficeCumTypeofRoofItLab),
+                    view.findViewById<Button>(R.id.btnUploadOfficeCumTypeofRoofItLab)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerOfficeCumFalseCellingProvide),
+                    view.findViewById<Button>(R.id.btnOfficeCumFalseCellingProvide)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerOfficeCumLepbftr),
+                    view.findViewById<Button>(R.id.btnOfficeCumElectricialPowerBackup)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerOfficeCumTableOfofficeCumpter),
+                    view.findViewById<Button>(R.id.btnOfficeCumTableOfofficeCumpter)
+                ),
 
 //            ReceptionAre
-            Pair(view.findViewById<Spinner>(R.id.spinnerReceptionAreaEPBR), view.findViewById<Button>(R.id.btnReceptionAreaPhotogragh)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerCounsellingRoomAreaPhotograph), view.findViewById<Button>(R.id.btnCounsellingRoomAreaPhotograph)),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerReceptionAreaEPBR),
+                    view.findViewById<Button>(R.id.btnReceptionAreaPhotogragh)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerCounsellingRoomAreaPhotograph),
+                    view.findViewById<Button>(R.id.btnCounsellingRoomAreaPhotograph)
+                ),
 //            Office Room
-            Pair(view.findViewById<Spinner>(R.id.spinnerORTypeofRoofItLab), view.findViewById<Button>(R.id.btnORTypeofRoofItLab)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerORSplaceforSecuringDoc), view.findViewById<Button>(R.id.btnORSplaceforSecuringDoc)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerROfficeRoomPhotograph), view.findViewById<Button>(R.id.btnOROfficeRoomPhotograph)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerORFalseCellingProvide), view.findViewById<Button>(R.id.btnORFalseCellingProvide)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerORTableOfofficeCumpter), view.findViewById<Button>(R.id.btnORTableOfofficeCumpter)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerORPOEPBFTR), view.findViewById<Button>(R.id.btnORElectricialPowerBackup)),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerORTypeofRoofItLab),
+                    view.findViewById<Button>(R.id.btnORTypeofRoofItLab)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerORSplaceforSecuringDoc),
+                    view.findViewById<Button>(R.id.btnORSplaceforSecuringDoc)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerROfficeRoomPhotograph),
+                    view.findViewById<Button>(R.id.btnOROfficeRoomPhotograph)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerORFalseCellingProvide),
+                    view.findViewById<Button>(R.id.btnORFalseCellingProvide)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerORTableOfofficeCumpter),
+                    view.findViewById<Button>(R.id.btnORTableOfofficeCumpter)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerORPOEPBFTR),
+                    view.findViewById<Button>(R.id.btnORElectricialPowerBackup)
+                ),
 
 //            IT Come Domain Lab
 //            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnITCDLabSoundLevelAsPerSpecifications)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLItLabPhotograph), view.findViewById<Button>(R.id.btnITCDLItLabPhotograph)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTypeofRoofItLab), view.findViewById<Button>(R.id.btnITCDLTypeofRoofItLab)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLFalseCellingProvide), view.findViewById<Button>(R.id.btnITCDLFalseCellingProvide)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnITDLwhether_all_the_academic)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITCDLAcademicRoomInformationBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLInternalSignage), view.findViewById<Button>(R.id.btnITCDLInternalSignage)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnITCDLCctcCamerasWithAudioFacility)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLInternetConnections), view.findViewById<Button>(R.id.btnITCDLInternetConnections)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLDoAllComputersHaveTypingTutor), view.findViewById<Button>(R.id.btnITCDLDoAllComputersHaveTypingTutor)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTrainerChair), view.findViewById<Button>(R.id.btnITCDLTrainerChair)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTrainerTable), view.findViewById<Button>(R.id.btnITCDLTrainerTable)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLElectricaPowerBackUp), view.findViewById<Button>(R.id.btnITCDLElectricaPowerBackUpForThRoom)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLDoes_the_room_has), view.findViewById<Button>(R.id.btnITCDLDoes_the_room_has)),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLItLabPhotograph),
+                    view.findViewById<Button>(R.id.btnITCDLItLabPhotograph)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLTypeofRoofItLab),
+                    view.findViewById<Button>(R.id.btnITCDLTypeofRoofItLab)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLFalseCellingProvide),
+                    view.findViewById<Button>(R.id.btnITCDLFalseCellingProvide)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLwhether_all_the_academic),
+                    view.findViewById<Button>(R.id.btnITDLwhether_all_the_academic)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLAcademicRoomInformationBoard),
+                    view.findViewById<Button>(R.id.btnITCDLAcademicRoomInformationBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLInternalSignage),
+                    view.findViewById<Button>(R.id.btnITCDLInternalSignage)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLCctcCamerasWithAudioFacility),
+                    view.findViewById<Button>(R.id.btnITCDLCctcCamerasWithAudioFacility)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLInternetConnections),
+                    view.findViewById<Button>(R.id.btnITCDLInternetConnections)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLDoAllComputersHaveTypingTutor),
+                    view.findViewById<Button>(R.id.btnITCDLDoAllComputersHaveTypingTutor)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLTrainerChair),
+                    view.findViewById<Button>(R.id.btnITCDLTrainerChair)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLTrainerTable),
+                    view.findViewById<Button>(R.id.btnITCDLTrainerTable)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLElectricaPowerBackUp),
+                    view.findViewById<Button>(R.id.btnITCDLElectricaPowerBackUpForThRoom)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLDoes_the_room_has),
+                    view.findViewById<Button>(R.id.btnITCDLDoes_the_room_has)
+                ),
 
 //                    Theory Cum IT Lab Ajit Ranjan Spinner set adapter
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILITypeofRoofItLab), view.findViewById<Button>(R.id.btnTCILTypeofRoofItLab)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILFalseCellingProvide), view.findViewById<Button>(R.id.btnTCILFalseCellingProvide)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTTCILSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnTCILSoundLevelAsPerSpecifications)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILTrainerChair), view.findViewById<Button>(R.id.btnTCILTrainerChair)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILTrainerTable), view.findViewById<Button>(R.id.btnTCILTrainerTable)),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILITypeofRoofItLab),
+                    view.findViewById<Button>(R.id.btnTCILTypeofRoofItLab)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILFalseCellingProvide),
+                    view.findViewById<Button>(R.id.btnTCILFalseCellingProvide)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTTCILSoundLevelAsPerSpecifications),
+                    view.findViewById<Button>(R.id.btnTCILSoundLevelAsPerSpecifications)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILTrainerChair),
+                    view.findViewById<Button>(R.id.btnTCILTrainerChair)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILTrainerTable),
+                    view.findViewById<Button>(R.id.btnTCILTrainerTable)
+                ),
 
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILwhether_all_the_academic), view.findViewById<Button>(R.id.btnITDLwhether_all_the_academic)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITCDLAcademicRoomInformationBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILInternalSignage), view.findViewById<Button>(R.id.btnITCDLInternalSignage)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnITCDLCctcCamerasWithAudioFacility)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILInternetConnections), view.findViewById<Button>(R.id.btnITCDLInternetConnections)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILIPowerBackup), view.findViewById<Button>(R.id.btnTCILElectricaPowerBackUpForThRoom)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILDLDoAllComputersHaveTypingTutor), view.findViewById<Button>(R.id.btnITCDLDoAllComputersHaveTypingTutor)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTrainerChair), view.findViewById<Button>(R.id.btnITCDLTrainerChair)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILDLDoes_the_room_has), view.findViewById<Button>(R.id.btnITCDLTrainerTable)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCILTheoryCumItLabPhotogragh), view.findViewById<Button>(R.id.btnTCILTheoryCumItLabPhotogragh)),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILwhether_all_the_academic),
+                    view.findViewById<Button>(R.id.btnITDLwhether_all_the_academic)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILLAcademicRoomInformationBoard),
+                    view.findViewById<Button>(R.id.btnITCDLAcademicRoomInformationBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILInternalSignage),
+                    view.findViewById<Button>(R.id.btnITCDLInternalSignage)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILCctcCamerasWithAudioFacility),
+                    view.findViewById<Button>(R.id.btnITCDLCctcCamerasWithAudioFacility)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILInternetConnections),
+                    view.findViewById<Button>(R.id.btnITCDLInternetConnections)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILIPowerBackup),
+                    view.findViewById<Button>(R.id.btnTCILElectricaPowerBackUpForThRoom)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILDLDoAllComputersHaveTypingTutor),
+                    view.findViewById<Button>(R.id.btnITCDLDoAllComputersHaveTypingTutor)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerITCDLTrainerChair),
+                    view.findViewById<Button>(R.id.btnITCDLTrainerChair)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILDLDoes_the_room_has),
+                    view.findViewById<Button>(R.id.btnITCDLTrainerTable)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCILTheoryCumItLabPhotogragh),
+                    view.findViewById<Button>(R.id.btnTCILTheoryCumItLabPhotogragh)
+                ),
 //                    Theory Cum Domain Lab Ajit Ranjan Spinner set adapter
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLTypeofRoofItLab), view.findViewById<Button>(R.id.btnTCDLTypeofRoofItLab)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLFalseCellingProvide), view.findViewById<Button>(R.id.btnTCDLFalseCellingProvide)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnTCDLSoundLevelAsPerSpecifications)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLLcdDigitalProjector), view.findViewById<Button>(R.id.btnTCDLLcdDigitalProjector)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLTrainerChair), view.findViewById<Button>(R.id.btnTCDLUploaadTrainerChair)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLTrainerTable), view.findViewById<Button>(R.id.btnTCDLTrainerTable)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLWritingBoard), view.findViewById<Button>(R.id.btnTCDLWritingBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLDomainLabPhotogragh), view.findViewById<Button>(R.id.btnTCDLDomainLabPhotogragh)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnTCDLwhether_all_the_academic)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnTCDLAcademicRoomInformationBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLInternalSignage), view.findViewById<Button>(R.id.btnTCDLInternalSignage)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnTCDLCctcCamerasWithAudioFacility)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLPowerBackup), view.findViewById<Button>(R.id.btnTCDLElectricaPowerBackUpForThRoom)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLDoes_the_room_has), view.findViewById<Button>(R.id.btnTCDLDoes_the_room_has)),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLTypeofRoofItLab),
+                    view.findViewById<Button>(R.id.btnTCDLTypeofRoofItLab)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLFalseCellingProvide),
+                    view.findViewById<Button>(R.id.btnTCDLFalseCellingProvide)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLSoundLevelAsPerSpecifications),
+                    view.findViewById<Button>(R.id.btnTCDLSoundLevelAsPerSpecifications)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLLcdDigitalProjector),
+                    view.findViewById<Button>(R.id.btnTCDLLcdDigitalProjector)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLTrainerChair),
+                    view.findViewById<Button>(R.id.btnTCDLUploaadTrainerChair)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLTrainerTable),
+                    view.findViewById<Button>(R.id.btnTCDLTrainerTable)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLWritingBoard),
+                    view.findViewById<Button>(R.id.btnTCDLWritingBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLDomainLabPhotogragh),
+                    view.findViewById<Button>(R.id.btnTCDLDomainLabPhotogragh)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLwhether_all_the_academic),
+                    view.findViewById<Button>(R.id.btnTCDLwhether_all_the_academic)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLAcademicRoomInformationBoard),
+                    view.findViewById<Button>(R.id.btnTCDLAcademicRoomInformationBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLInternalSignage),
+                    view.findViewById<Button>(R.id.btnTCDLInternalSignage)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLCctcCamerasWithAudioFacility),
+                    view.findViewById<Button>(R.id.btnTCDLCctcCamerasWithAudioFacility)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLPowerBackup),
+                    view.findViewById<Button>(R.id.btnTCDLElectricaPowerBackUpForThRoom)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCDLDoes_the_room_has),
+                    view.findViewById<Button>(R.id.btnTCDLDoes_the_room_has)
+                ),
 
-            //                    Domain Lab Ajit Ranjan Spinner set adapter
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLLcdDigitalProjector), view.findViewById<Button>(R.id.btnDLLcdDigitalProjector)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLTrainerChair), view.findViewById<Button>(R.id.btnDLUploaadTrainerChair)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLTrainerTable), view.findViewById<Button>(R.id.btnDLTrainerTable)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLWritingBoard), view.findViewById<Button>(R.id.btnDLWritingBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLFalseCellingProvide), view.findViewById<Button>(R.id.btnDLFalseCellingProvide)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLTypeofRoofItLab), view.findViewById<Button>(R.id.btnDLTypeofRoofItLab)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDDLSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnDLSoundLevelAsPerSpecifications)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLDomainLabPhotogragh), view.findViewById<Button>(R.id.btnDLDomainLabPhotogragh)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnDLAcademicRoomInformationBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLInternalSignage), view.findViewById<Button>(R.id.btnDLInternalSignage)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnDLCctcCamerasWithAudioFacility)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLElectricaPowerBackUp), view.findViewById<Button>(R.id.btnDLElectricaPowerBackUpForThRoom)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnDLwhether_all_the_academic)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLDoes_the_room_has), view.findViewById<Button>(R.id.btnDLDoes_the_room_has)),
+                //                    Domain Lab Ajit Ranjan Spinner set adapter
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLLcdDigitalProjector),
+                    view.findViewById<Button>(R.id.btnDLLcdDigitalProjector)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLTrainerChair),
+                    view.findViewById<Button>(R.id.btnDLUploaadTrainerChair)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLTrainerTable),
+                    view.findViewById<Button>(R.id.btnDLTrainerTable)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLWritingBoard),
+                    view.findViewById<Button>(R.id.btnDLWritingBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLFalseCellingProvide),
+                    view.findViewById<Button>(R.id.btnDLFalseCellingProvide)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLTypeofRoofItLab),
+                    view.findViewById<Button>(R.id.btnDLTypeofRoofItLab)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDDLSoundLevelAsPerSpecifications),
+                    view.findViewById<Button>(R.id.btnDLSoundLevelAsPerSpecifications)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLDomainLabPhotogragh),
+                    view.findViewById<Button>(R.id.btnDLDomainLabPhotogragh)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLAcademicRoomInformationBoard),
+                    view.findViewById<Button>(R.id.btnDLAcademicRoomInformationBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLInternalSignage),
+                    view.findViewById<Button>(R.id.btnDLInternalSignage)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLCctcCamerasWithAudioFacility),
+                    view.findViewById<Button>(R.id.btnDLCctcCamerasWithAudioFacility)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLElectricaPowerBackUp),
+                    view.findViewById<Button>(R.id.btnDLElectricaPowerBackUpForThRoom)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLwhether_all_the_academic),
+                    view.findViewById<Button>(R.id.btnDLwhether_all_the_academic)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerDLDoes_the_room_has),
+                    view.findViewById<Button>(R.id.btnDLDoes_the_room_has)
+                ),
 
 //                TCR
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRTypeofRoofItLab), view.findViewById<Button>(R.id.btnTCRTypeofRoofItLab)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRFalseCellingProvide), view.findViewById<Button>(R.id.btnTCRFalseCellingProvide)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnTCRSoundLevelAsPerSpecifications)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRLcdDigitalProjector), view.findViewById<Button>(R.id.btnTCRLcdDigitalProjector)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRTrainerChair), view.findViewById<Button>(R.id.btnTCRTrainerChair)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRTrainerTable), view.findViewById<Button>(R.id.btnTCRTrainerTable)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRWritingBoard), view.findViewById<Button>(R.id.btnTCRWritingBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRDomainLabPhotogragh), view.findViewById<Button>(R.id.btnTCRDomainLabPhotogragh)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRwhether_all_the_academic), view.findViewById<Button>(R.id.btnTCRwhether_all_the_academic)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnTCRAcademicRoomInformationBoard)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRInternalSignage), view.findViewById<Button>(R.id.btnTCRInternalSignage)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnTCRCctcCamerasWithAudioFacility)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRDoes_the_room_has), view.findViewById<Button>(R.id.btnTCRDoes_the_room_has)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerTCRPowerBackup), view.findViewById<Button>(R.id.btnTCRElectricaPowerBackUpForThRoom)),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRTypeofRoofItLab),
+                    view.findViewById<Button>(R.id.btnTCRTypeofRoofItLab)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRFalseCellingProvide),
+                    view.findViewById<Button>(R.id.btnTCRFalseCellingProvide)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRSoundLevelAsPerSpecifications),
+                    view.findViewById<Button>(R.id.btnTCRSoundLevelAsPerSpecifications)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRLcdDigitalProjector),
+                    view.findViewById<Button>(R.id.btnTCRLcdDigitalProjector)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRTrainerChair),
+                    view.findViewById<Button>(R.id.btnTCRTrainerChair)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRTrainerTable),
+                    view.findViewById<Button>(R.id.btnTCRTrainerTable)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRWritingBoard),
+                    view.findViewById<Button>(R.id.btnTCRWritingBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRDomainLabPhotogragh),
+                    view.findViewById<Button>(R.id.btnTCRDomainLabPhotogragh)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRwhether_all_the_academic),
+                    view.findViewById<Button>(R.id.btnTCRwhether_all_the_academic)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRAcademicRoomInformationBoard),
+                    view.findViewById<Button>(R.id.btnTCRAcademicRoomInformationBoard)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRInternalSignage),
+                    view.findViewById<Button>(R.id.btnTCRInternalSignage)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRCctcCamerasWithAudioFacility),
+                    view.findViewById<Button>(R.id.btnTCRCctcCamerasWithAudioFacility)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRDoes_the_room_has),
+                    view.findViewById<Button>(R.id.btnTCRDoes_the_room_has)
+                ),
+                Pair(
+                    view.findViewById<Spinner>(R.id.spinnerTCRPowerBackup),
+                    view.findViewById<Button>(R.id.btnTCRElectricaPowerBackUpForThRoom)
+                ),
 
-            )
+                )
 
-        spinnersWithButtons.forEach { (spinner, button) ->
-            spinner.adapter = yesNoAdapter
-            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
+            spinnersWithButtons.forEach { (spinner, button) ->
+                spinner.adapter = yesNoAdapter
+                spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
 
-                    val selected = parent.getItemAtPosition(position).toString()
+                        val selected = parent.getItemAtPosition(position).toString()
 //                    button.visibility = if (selected == "No") View.GONE else View.VISIBLE
-                    button.visibility = View.VISIBLE
-                    AppUtil.hideKeyboard(requireContext(), requireView())
+                        button.visibility = View.VISIBLE
+                        AppUtil.hideKeyboard(requireContext(), requireView())
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>) {}
                 }
-                override fun onNothingSelected(parent: AdapterView<*>) {}
             }
-        }
 
 //        It Lab    Spinner Id Ajit Ranjan
 
-        spinnerITLepbftr = view.findViewById(R.id.spinnerITLepbftr)
-        spinnerITLTypeofRoofItLab = view.findViewById(R.id.spinnerITLTypeofRoofItLab)
-        spinnerITLSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerITLSoundLevelAsPerSpecifications)
-        spinnerITLFalseCellingProvide = view.findViewById(R.id.spinnerITLFalseCellingProvide)
-        spinnerITLAcademicRoomInformationBoard = view.findViewById(R.id.spinnerITLAcademicRoomInformationBoard)
-        spinnerITLInternalSignage = view.findViewById(R.id.spinnerITLInternalSignage)
-        spinnerITLCctcCamerasWithAudioFacility = view.findViewById(R.id.spinnerITLCctcCamerasWithAudioFacility)
-        spinnerITLabInternetConnections = view.findViewById(R.id.spinnerITLabInternetConnections)
-        spinnerITLwhether_all_the_academic = view.findViewById(R.id.spinnerITLwhether_all_the_academic)
-        spinnerITLDoAllComputersHaveTypingTutor = view.findViewById(R.id.spinnerITLDoAllComputersHaveTypingTutor)
-        spinnerITLTrainerChair = view.findViewById(R.id.spinnerITLTrainerChair)
-        spinnerITLTrainerTable = view.findViewById(R.id.spinnerITLTrainerTable)
-        spinnerITLtLabPhotograph = view.findViewById(R.id.spinnerITLtLabPhotograph)
-        spinnerITLDoes_the_room_has = view.findViewById(R.id.spinnerITLDoes_the_room_has)
+            spinnerITLepbftr = view.findViewById(R.id.spinnerITLepbftr)
+            spinnerITLTypeofRoofItLab = view.findViewById(R.id.spinnerITLTypeofRoofItLab)
+            spinnerITLSoundLevelAsPerSpecifications =
+                view.findViewById(R.id.spinnerITLSoundLevelAsPerSpecifications)
+            spinnerITLFalseCellingProvide = view.findViewById(R.id.spinnerITLFalseCellingProvide)
+            spinnerITLAcademicRoomInformationBoard =
+                view.findViewById(R.id.spinnerITLAcademicRoomInformationBoard)
+            spinnerITLInternalSignage = view.findViewById(R.id.spinnerITLInternalSignage)
+            spinnerITLCctcCamerasWithAudioFacility =
+                view.findViewById(R.id.spinnerITLCctcCamerasWithAudioFacility)
+            spinnerITLabInternetConnections =
+                view.findViewById(R.id.spinnerITLabInternetConnections)
+            spinnerITLwhether_all_the_academic =
+                view.findViewById(R.id.spinnerITLwhether_all_the_academic)
+            spinnerITLDoAllComputersHaveTypingTutor =
+                view.findViewById(R.id.spinnerITLDoAllComputersHaveTypingTutor)
+            spinnerITLTrainerChair = view.findViewById(R.id.spinnerITLTrainerChair)
+            spinnerITLTrainerTable = view.findViewById(R.id.spinnerITLTrainerTable)
+            spinnerITLtLabPhotograph = view.findViewById(R.id.spinnerITLtLabPhotograph)
+            spinnerITLDoes_the_room_has = view.findViewById(R.id.spinnerITLDoes_the_room_has)
 
 //        Spinner setAdapter Ajit Ranjan
-        spinnerITLepbftr.setAdapter(yesNoAdapter)
+            spinnerITLepbftr.setAdapter(yesNoAdapter)
 
-        //    spinnerITLTypeofRoofItLab
+            //    spinnerITLTypeofRoofItLab
 //    spinnerITLSoundLevelAsPerSpecifications
-        spinnerITLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
-        spinnerITLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
-        spinnerITLFalseCellingProvide.setAdapter(yesNoAdapter)
-        spinnerITLwhether_all_the_academic.setAdapter(yesNoAdapter)
-        spinnerITLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
-        spinnerITLInternalSignage.setAdapter(yesNoAdapter)
-        spinnerITLCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
-        spinnerITLabInternetConnections.setAdapter(yesNoAdapter)
-        spinnerITLDoAllComputersHaveTypingTutor.setAdapter(yesNoAdapter)
-        spinnerITLTrainerChair.setAdapter(yesNoAdapter)
-        spinnerITLTrainerTable.setAdapter(yesNoAdapter)
-        spinnerITLtLabPhotograph.setAdapter(yesNoAdapter)
-        spinnerITLDoes_the_room_has.setAdapter(yesNoAdapter)
+            spinnerITLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+            spinnerITLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
+            spinnerITLFalseCellingProvide.setAdapter(yesNoAdapter)
+            spinnerITLwhether_all_the_academic.setAdapter(yesNoAdapter)
+            spinnerITLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
+            spinnerITLInternalSignage.setAdapter(yesNoAdapter)
+            spinnerITLCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
+            spinnerITLabInternetConnections.setAdapter(yesNoAdapter)
+            spinnerITLDoAllComputersHaveTypingTutor.setAdapter(yesNoAdapter)
+            spinnerITLTrainerChair.setAdapter(yesNoAdapter)
+            spinnerITLTrainerTable.setAdapter(yesNoAdapter)
+            spinnerITLtLabPhotograph.setAdapter(yesNoAdapter)
+            spinnerITLDoes_the_room_has.setAdapter(yesNoAdapter)
 
 //               Office Cum(Counselling room)    Spinner Id Ajit Ranjan
-        spinnerOCCROfficeTable = view.findViewById(R.id.spinnerOCCROfficeTable)
-        spinnerOCCRCumSplaceforSecuringDoc = view.findViewById(R.id.spinnerOCCRCumSplaceforSecuringDoc)
-        spinnerOCCRPhotograph = view.findViewById(R.id.spinnerOCCRPhotograph)
-        spinnerOfficeCumTypeofRoofItLab = view.findViewById(R.id.spinnerOfficeCumTypeofRoofItLab)
-        spinnerOfficeCumFalseCellingProvide = view.findViewById(R.id.spinnerOfficeCumFalseCellingProvide)
-        spinnerOfficeCumLepbftr = view.findViewById(R.id.spinnerOfficeCumLepbftr)
-        spinnerOfficeCumTableOfofficeCumpter = view.findViewById(R.id.spinnerOfficeCumTableOfofficeCumpter)
+            spinnerOCCROfficeTable = view.findViewById(R.id.spinnerOCCROfficeTable)
+            spinnerOCCRCumSplaceforSecuringDoc =
+                view.findViewById(R.id.spinnerOCCRCumSplaceforSecuringDoc)
+            spinnerOCCRPhotograph = view.findViewById(R.id.spinnerOCCRPhotograph)
+            spinnerOfficeCumTypeofRoofItLab =
+                view.findViewById(R.id.spinnerOfficeCumTypeofRoofItLab)
+            spinnerOfficeCumFalseCellingProvide =
+                view.findViewById(R.id.spinnerOfficeCumFalseCellingProvide)
+            spinnerOfficeCumLepbftr = view.findViewById(R.id.spinnerOfficeCumLepbftr)
+            spinnerOfficeCumTableOfofficeCumpter =
+                view.findViewById(R.id.spinnerOfficeCumTableOfofficeCumpter)
 //        Spinner setAdapter Ajit Ranjan  Office Cum(Counselling room)
-        spinnerOfficeCumTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
-        spinnerOfficeCumFalseCellingProvide.setAdapter(yesNoAdapter)
-        spinnerOCCRPhotograph.setAdapter(yesNoAdapter)
-        spinnerOCCROfficeTable.setAdapter(yesNoAdapter)
-        spinnerOCCRCumSplaceforSecuringDoc.setAdapter(yesNoAdapter)
-        spinnerOfficeCumLepbftr.setAdapter(yesNoAdapter)
-        spinnerOfficeCumTableOfofficeCumpter.setAdapter(yesNoAdapter)
+            spinnerOfficeCumTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+            spinnerOfficeCumFalseCellingProvide.setAdapter(yesNoAdapter)
+            spinnerOCCRPhotograph.setAdapter(yesNoAdapter)
+            spinnerOCCROfficeTable.setAdapter(yesNoAdapter)
+            spinnerOCCRCumSplaceforSecuringDoc.setAdapter(yesNoAdapter)
+            spinnerOfficeCumLepbftr.setAdapter(yesNoAdapter)
+            spinnerOfficeCumTableOfofficeCumpter.setAdapter(yesNoAdapter)
 //      ReceptionArea  Spinner Id Ajit Ranjan
 
-        spinnerReceptionAreaEPBR = view.findViewById(R.id.spinnerReceptionAreaEPBR)
-        spinnerOfficeCumLepbftr.setAdapter(yesNoAdapter)
+            spinnerReceptionAreaEPBR = view.findViewById(R.id.spinnerReceptionAreaEPBR)
+            spinnerOfficeCumLepbftr.setAdapter(yesNoAdapter)
 
 //        CounsellingRoomArea
-        spinnerCounsellingRoomAreaPhotograph = view.findViewById(R.id.spinnerCounsellingRoomAreaPhotograph)
-        spinnerCounsellingRoomAreaPhotograph.setAdapter(yesNoAdapter)
+            spinnerCounsellingRoomAreaPhotograph =
+                view.findViewById(R.id.spinnerCounsellingRoomAreaPhotograph)
+            spinnerCounsellingRoomAreaPhotograph.setAdapter(yesNoAdapter)
 
 //          Office Room
-        spinnerORTypeofRoofItLab = view.findViewById(R.id.spinnerORTypeofRoofItLab)
-        spinnerORSplaceforSecuringDoc = view.findViewById(R.id.spinnerORSplaceforSecuringDoc)
-        spinnerROfficeRoomPhotograph = view.findViewById(R.id.spinnerROfficeRoomPhotograph)
-        spinnerORFalseCellingProvide = view.findViewById(R.id.spinnerORFalseCellingProvide)
-        spinnerORTableOfofficeCumpter = view.findViewById(R.id.spinnerORTableOfofficeCumpter)
-        spinnerORPOEPBFTR = view.findViewById(R.id.spinnerORPOEPBFTR)
-        spinnerROfficeRoomPhotograph.setAdapter(yesNoAdapter)
-        spinnerORFalseCellingProvide.setAdapter(yesNoAdapter)
-        spinnerORTableOfofficeCumpter.setAdapter(yesNoAdapter)
-        spinnerORPOEPBFTR.setAdapter(yesNoAdapter)
-        spinnerORTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
-        spinnerORSplaceforSecuringDoc.setAdapter(yesNoAdapter)
+            spinnerORTypeofRoofItLab = view.findViewById(R.id.spinnerORTypeofRoofItLab)
+            spinnerORSplaceforSecuringDoc = view.findViewById(R.id.spinnerORSplaceforSecuringDoc)
+            spinnerROfficeRoomPhotograph = view.findViewById(R.id.spinnerROfficeRoomPhotograph)
+            spinnerORFalseCellingProvide = view.findViewById(R.id.spinnerORFalseCellingProvide)
+            spinnerORTableOfofficeCumpter = view.findViewById(R.id.spinnerORTableOfofficeCumpter)
+            spinnerORPOEPBFTR = view.findViewById(R.id.spinnerORPOEPBFTR)
+            spinnerROfficeRoomPhotograph.setAdapter(yesNoAdapter)
+            spinnerORFalseCellingProvide.setAdapter(yesNoAdapter)
+            spinnerORTableOfofficeCumpter.setAdapter(yesNoAdapter)
+            spinnerORPOEPBFTR.setAdapter(yesNoAdapter)
+            spinnerORTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+            spinnerORSplaceforSecuringDoc.setAdapter(yesNoAdapter)
 
 //            IT Come Domain Lab
-       spinnerITCDLSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerITCDLSoundLevelAsPerSpecifications)
-        spinnerITCDLItLabPhotograph = view.findViewById(R.id.spinnerITCDLItLabPhotograph)
-        spinnerITCDLTypeofRoofItLab = view.findViewById(R.id.spinnerITCDLTypeofRoofItLab)
-        spinnerITCDLFalseCellingProvide = view.findViewById(R.id.spinnerITCDLFalseCellingProvide)
-        spinnerITCDLwhether_all_the_academic = view.findViewById(R.id.spinnerITCDLwhether_all_the_academic)
-        spinnerITCDLAcademicRoomInformationBoard = view.findViewById(R.id.spinnerITCDLAcademicRoomInformationBoard)
-        spinnerITCDLInternalSignage = view.findViewById(R.id.spinnerITCDLInternalSignage)
-        spinnerITCDLCctcCamerasWithAudioFacility = view.findViewById(R.id.spinnerITCDLCctcCamerasWithAudioFacility)
-        spinnerITCDLInternetConnections = view.findViewById(R.id.spinnerITCDLInternetConnections)
-        spinnerITCDLDoAllComputersHaveTypingTutor = view.findViewById(R.id.spinnerITCDLDoAllComputersHaveTypingTutor)
-        spinnerITCDLTrainerChair = view.findViewById(R.id.spinnerITCDLTrainerChair)
-        spinnerITCDLTrainerTable = view.findViewById(R.id.spinnerITCDLTrainerTable)
-        spinnerITCDLElectricaPowerBackUp = view.findViewById(R.id.spinnerITCDLElectricaPowerBackUp)
-        spinnerITCDLDoes_the_room_has = view.findViewById(R.id.spinnerITCDLDoes_the_room_has)
+            spinnerITCDLSoundLevelAsPerSpecifications =
+                view.findViewById(R.id.spinnerITCDLSoundLevelAsPerSpecifications)
+            spinnerITCDLItLabPhotograph = view.findViewById(R.id.spinnerITCDLItLabPhotograph)
+            spinnerITCDLTypeofRoofItLab = view.findViewById(R.id.spinnerITCDLTypeofRoofItLab)
+            spinnerITCDLFalseCellingProvide =
+                view.findViewById(R.id.spinnerITCDLFalseCellingProvide)
+            spinnerITCDLwhether_all_the_academic =
+                view.findViewById(R.id.spinnerITCDLwhether_all_the_academic)
+            spinnerITCDLAcademicRoomInformationBoard =
+                view.findViewById(R.id.spinnerITCDLAcademicRoomInformationBoard)
+            spinnerITCDLInternalSignage = view.findViewById(R.id.spinnerITCDLInternalSignage)
+            spinnerITCDLCctcCamerasWithAudioFacility =
+                view.findViewById(R.id.spinnerITCDLCctcCamerasWithAudioFacility)
+            spinnerITCDLInternetConnections =
+                view.findViewById(R.id.spinnerITCDLInternetConnections)
+            spinnerITCDLDoAllComputersHaveTypingTutor =
+                view.findViewById(R.id.spinnerITCDLDoAllComputersHaveTypingTutor)
+            spinnerITCDLTrainerChair = view.findViewById(R.id.spinnerITCDLTrainerChair)
+            spinnerITCDLTrainerTable = view.findViewById(R.id.spinnerITCDLTrainerTable)
+            spinnerITCDLElectricaPowerBackUp =
+                view.findViewById(R.id.spinnerITCDLElectricaPowerBackUp)
+            spinnerITCDLDoes_the_room_has = view.findViewById(R.id.spinnerITCDLDoes_the_room_has)
 
-        spinnerITCDLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
-        spinnerITCDLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
-        spinnerITCDLItLabPhotograph.setAdapter(yesNoAdapter)
-        spinnerITCDLFalseCellingProvide.setAdapter(yesNoAdapter)
-        spinnerITCDLwhether_all_the_academic.setAdapter(yesNoAdapter)
-        spinnerITCDLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
-        spinnerITCDLInternalSignage.setAdapter(yesNoAdapter)
-        spinnerITCDLCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
-        spinnerITCDLInternetConnections.setAdapter(yesNoAdapter)
-        spinnerITCDLDoAllComputersHaveTypingTutor.setAdapter(yesNoAdapter)
-        spinnerITCDLTrainerChair.setAdapter(yesNoAdapter)
-        spinnerITCDLTrainerTable.setAdapter(yesNoAdapter)
-        spinnerITCDLElectricaPowerBackUp.setAdapter(yesNoAdapter)
-        spinnerITCDLDoes_the_room_has.setAdapter(yesNoAdapter)
+            spinnerITCDLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+            spinnerITCDLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
+            spinnerITCDLItLabPhotograph.setAdapter(yesNoAdapter)
+            spinnerITCDLFalseCellingProvide.setAdapter(yesNoAdapter)
+            spinnerITCDLwhether_all_the_academic.setAdapter(yesNoAdapter)
+            spinnerITCDLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
+            spinnerITCDLInternalSignage.setAdapter(yesNoAdapter)
+            spinnerITCDLCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
+            spinnerITCDLInternetConnections.setAdapter(yesNoAdapter)
+            spinnerITCDLDoAllComputersHaveTypingTutor.setAdapter(yesNoAdapter)
+            spinnerITCDLTrainerChair.setAdapter(yesNoAdapter)
+            spinnerITCDLTrainerTable.setAdapter(yesNoAdapter)
+            spinnerITCDLElectricaPowerBackUp.setAdapter(yesNoAdapter)
+            spinnerITCDLDoes_the_room_has.setAdapter(yesNoAdapter)
 
 
-        //                    Theory Cum IT Lab Ajit Ranjan Spinner set adapter
+            //                    Theory Cum IT Lab Ajit Ranjan Spinner set adapter
 
-       spinnerTCILITypeofRoofItLab = view.findViewById(R.id.spinnerTCILITypeofRoofItLab)
-        spinnerTCILFalseCellingProvide = view.findViewById(R.id.spinnerTCILFalseCellingProvide)
-        spinnerTTCILSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerTTCILSoundLevelAsPerSpecifications)
-        spinnerTCILTrainerChair = view.findViewById(R.id.spinnerTCILTrainerChair)
-        spinnerTCILTrainerTable = view.findViewById(R.id.spinnerTCILTrainerTable)
-        spinnerTCILwhether_all_the_academic = view.findViewById(R.id.spinnerTCILwhether_all_the_academic)
-        spinnerTCILLAcademicRoomInformationBoard = view.findViewById(R.id.spinnerTCILLAcademicRoomInformationBoard)
-        spinnerTCILInternalSignage = view.findViewById(R.id.spinnerTCILInternalSignage)
-        spinnerTCILCctcCamerasWithAudioFacility = view.findViewById(R.id.spinnerTCILCctcCamerasWithAudioFacility)
-        spinnerTCILInternetConnections = view.findViewById(R.id.spinnerTCILInternetConnections)
-        spinnerTCILElectricPowerBackup = view.findViewById(R.id.spinnerTCILIPowerBackup)
-        spinnerTCILDLDoAllComputersHaveTypingTutor = view.findViewById(R.id.spinnerTCILDLDoAllComputersHaveTypingTutor)
+            spinnerTCILITypeofRoofItLab = view.findViewById(R.id.spinnerTCILITypeofRoofItLab)
+            spinnerTCILFalseCellingProvide = view.findViewById(R.id.spinnerTCILFalseCellingProvide)
+            spinnerTTCILSoundLevelAsPerSpecifications =
+                view.findViewById(R.id.spinnerTTCILSoundLevelAsPerSpecifications)
+            spinnerTCILTrainerChair = view.findViewById(R.id.spinnerTCILTrainerChair)
+            spinnerTCILTrainerTable = view.findViewById(R.id.spinnerTCILTrainerTable)
+            spinnerTCILwhether_all_the_academic =
+                view.findViewById(R.id.spinnerTCILwhether_all_the_academic)
+            spinnerTCILLAcademicRoomInformationBoard =
+                view.findViewById(R.id.spinnerTCILLAcademicRoomInformationBoard)
+            spinnerTCILInternalSignage = view.findViewById(R.id.spinnerTCILInternalSignage)
+            spinnerTCILCctcCamerasWithAudioFacility =
+                view.findViewById(R.id.spinnerTCILCctcCamerasWithAudioFacility)
+            spinnerTCILInternetConnections = view.findViewById(R.id.spinnerTCILInternetConnections)
+            spinnerTCILElectricPowerBackup = view.findViewById(R.id.spinnerTCILIPowerBackup)
+            spinnerTCILDLDoAllComputersHaveTypingTutor =
+                view.findViewById(R.id.spinnerTCILDLDoAllComputersHaveTypingTutor)
 //        spinnerTCILIPEnabled = view.findViewById(R.id.spinnerTCILIPEnabled)
-        spinnerTCILDLDoes_the_room_has = view.findViewById(R.id.spinnerTCILDLDoes_the_room_has)
-        spinnerTCILTheoryCumItLabPhotogragh = view.findViewById(R.id.spinnerTCILTheoryCumItLabPhotogragh)
+            spinnerTCILDLDoes_the_room_has = view.findViewById(R.id.spinnerTCILDLDoes_the_room_has)
+            spinnerTCILTheoryCumItLabPhotogragh =
+                view.findViewById(R.id.spinnerTCILTheoryCumItLabPhotogragh)
 
 
-        spinnerTCILITypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
-        spinnerTCILFalseCellingProvide.setAdapter(yesNoAdapter)
-        spinnerTCILFalseCellingProvide.setAdapter(yesNoAdapter)
-        spinnerTCILTrainerChair.setAdapter(yesNoAdapter)
-        spinnerTCILTrainerTable.setAdapter(yesNoAdapter)
-        spinnerTCILwhether_all_the_academic.setAdapter(yesNoAdapter)
-        spinnerTCILLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
-        spinnerTCILInternalSignage.setAdapter(yesNoAdapter)
-        spinnerTCILCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
-        spinnerTCILInternetConnections.setAdapter(yesNoAdapter)
-        spinnerTCILElectricPowerBackup.setAdapter(yesNoAdapter)
-        spinnerTCILDLDoAllComputersHaveTypingTutor.setAdapter(yesNoAdapter)
+            spinnerTCILITypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+            spinnerTCILFalseCellingProvide.setAdapter(yesNoAdapter)
+            spinnerTCILFalseCellingProvide.setAdapter(yesNoAdapter)
+            spinnerTCILTrainerChair.setAdapter(yesNoAdapter)
+            spinnerTCILTrainerTable.setAdapter(yesNoAdapter)
+            spinnerTCILwhether_all_the_academic.setAdapter(yesNoAdapter)
+            spinnerTCILLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
+            spinnerTCILInternalSignage.setAdapter(yesNoAdapter)
+            spinnerTCILCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
+            spinnerTCILInternetConnections.setAdapter(yesNoAdapter)
+            spinnerTCILElectricPowerBackup.setAdapter(yesNoAdapter)
+            spinnerTCILDLDoAllComputersHaveTypingTutor.setAdapter(yesNoAdapter)
 //        spinnerTCILIPEnabled.setAdapter(yesNoAdapter)
-        spinnerTCILDLDoes_the_room_has.setAdapter(yesNoAdapter)
-        spinnerTCILTheoryCumItLabPhotogragh.setAdapter(yesNoAdapter)
+            spinnerTCILDLDoes_the_room_has.setAdapter(yesNoAdapter)
+            spinnerTCILTheoryCumItLabPhotogragh.setAdapter(yesNoAdapter)
 //        Theory Cum Domain Lab Ajit Ranjan Spinner set adapter
 
-        //              R.id.spinnerTCDLTypeofRoofItLab,
+            //              R.id.spinnerTCDLTypeofRoofItLab,
 //            R.id.spinnerTCDLFalseCellingProvide,
 //            R.id.spinnerTCDLSoundLevelAsPerSpecifications,
 //            R.id.spinnerTCDLLcdDigitalProjector,
@@ -2486,136 +2987,151 @@ class TrainingFragment : Fragment() {
 //            R.id.spinnerTCDLWritingBoard,
 //            R.id.spinnerTCDLDomainLabPhotogragh,
 
-        spinnerTCDLTypeofRoofItLab = view.findViewById(R.id.spinnerTCDLTypeofRoofItLab)
-        spinnerTCDLFalseCellingProvide = view.findViewById(R.id.spinnerTCDLFalseCellingProvide)
-        spinnerTCDLSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerTCDLSoundLevelAsPerSpecifications)
-        spinnerTCDLLcdDigitalProjector = view.findViewById(R.id.spinnerTCDLLcdDigitalProjector)
-        spinnerTCDLTrainerChair = view.findViewById(R.id.spinnerTCDLTrainerChair)
-        spinnerTCDLTrainerTable = view.findViewById(R.id.spinnerTCDLTrainerTable)
-        spinnerTCDLWritingBoard = view.findViewById(R.id.spinnerTCDLWritingBoard)
-        spinnerTCDLDomainLabPhotogragh = view.findViewById(R.id.spinnerTCDLDomainLabPhotogragh)
-        spinnerTCDLwhether_all_the_academic = view.findViewById(R.id.spinnerTCDLwhether_all_the_academic)
-        spinnerTCDLAcademicRoomInformationBoard = view.findViewById(R.id.spinnerTCDLAcademicRoomInformationBoard)
-        spinnerTCDLInternalSignage = view.findViewById(R.id.spinnerTCDLInternalSignage)
-        spinnerTCDLCctcCamerasWithAudioFacility = view.findViewById(R.id.spinnerTCDLCctcCamerasWithAudioFacility)
-        spinnerTCDLPowerBackup = view.findViewById(R.id.spinnerTCDLPowerBackup)
-        spinnerTCDLDoes_the_room_has = view.findViewById(R.id.spinnerTCDLDoes_the_room_has)
+            spinnerTCDLTypeofRoofItLab = view.findViewById(R.id.spinnerTCDLTypeofRoofItLab)
+            spinnerTCDLFalseCellingProvide = view.findViewById(R.id.spinnerTCDLFalseCellingProvide)
+            spinnerTCDLSoundLevelAsPerSpecifications =
+                view.findViewById(R.id.spinnerTCDLSoundLevelAsPerSpecifications)
+            spinnerTCDLLcdDigitalProjector = view.findViewById(R.id.spinnerTCDLLcdDigitalProjector)
+            spinnerTCDLTrainerChair = view.findViewById(R.id.spinnerTCDLTrainerChair)
+            spinnerTCDLTrainerTable = view.findViewById(R.id.spinnerTCDLTrainerTable)
+            spinnerTCDLWritingBoard = view.findViewById(R.id.spinnerTCDLWritingBoard)
+            spinnerTCDLDomainLabPhotogragh = view.findViewById(R.id.spinnerTCDLDomainLabPhotogragh)
+            spinnerTCDLwhether_all_the_academic =
+                view.findViewById(R.id.spinnerTCDLwhether_all_the_academic)
+            spinnerTCDLAcademicRoomInformationBoard =
+                view.findViewById(R.id.spinnerTCDLAcademicRoomInformationBoard)
+            spinnerTCDLInternalSignage = view.findViewById(R.id.spinnerTCDLInternalSignage)
+            spinnerTCDLCctcCamerasWithAudioFacility =
+                view.findViewById(R.id.spinnerTCDLCctcCamerasWithAudioFacility)
+            spinnerTCDLPowerBackup = view.findViewById(R.id.spinnerTCDLPowerBackup)
+            spinnerTCDLDoes_the_room_has = view.findViewById(R.id.spinnerTCDLDoes_the_room_has)
 
-        spinnerTCDLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
-        spinnerTCDLFalseCellingProvide.setAdapter(yesNoAdapter)
-        spinnerTCDLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
-        spinnerTCDLLcdDigitalProjector.setAdapter(yesNoAdapter)
-        spinnerTCDLTrainerChair.setAdapter(yesNoAdapter)
-        spinnerTCDLTrainerTable.setAdapter(yesNoAdapter)
-        spinnerTCDLWritingBoard.setAdapter(yesNoAdapter)
-        spinnerTCDLDomainLabPhotogragh.setAdapter(yesNoAdapter)
-        spinnerTCDLwhether_all_the_academic.setAdapter(yesNoAdapter)
-        spinnerTCDLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
-        spinnerTCDLInternalSignage.setAdapter(yesNoAdapter)
-        spinnerTCDLCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
-        spinnerTCDLPowerBackup.setAdapter(yesNoAdapter)
-        spinnerTCDLDoes_the_room_has.setAdapter(yesNoAdapter)
+            spinnerTCDLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+            spinnerTCDLFalseCellingProvide.setAdapter(yesNoAdapter)
+            spinnerTCDLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
+            spinnerTCDLLcdDigitalProjector.setAdapter(yesNoAdapter)
+            spinnerTCDLTrainerChair.setAdapter(yesNoAdapter)
+            spinnerTCDLTrainerTable.setAdapter(yesNoAdapter)
+            spinnerTCDLWritingBoard.setAdapter(yesNoAdapter)
+            spinnerTCDLDomainLabPhotogragh.setAdapter(yesNoAdapter)
+            spinnerTCDLwhether_all_the_academic.setAdapter(yesNoAdapter)
+            spinnerTCDLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
+            spinnerTCDLInternalSignage.setAdapter(yesNoAdapter)
+            spinnerTCDLCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
+            spinnerTCDLPowerBackup.setAdapter(yesNoAdapter)
+            spinnerTCDLDoes_the_room_has.setAdapter(yesNoAdapter)
 
-        //                    Domain Lab Ajit Ranjan Spinner set adapter
-        spinnerDLLcdDigitalProjector = view.findViewById(R.id.spinnerDLLcdDigitalProjector)
-        spinnerDLTrainerChair = view.findViewById(R.id.spinnerDLTrainerChair)
-        spinnerDLTrainerTable = view.findViewById(R.id.spinnerDLTrainerTable)
-        spinnerDLWritingBoard = view.findViewById(R.id.spinnerDLWritingBoard)
-        spinnerDLFalseCellingProvide = view.findViewById(R.id.spinnerDLFalseCellingProvide)
-        spinnerDLTypeofRoofItLab = view.findViewById(R.id.spinnerDLTypeofRoofItLab)
-        spinnerDDLSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerDDLSoundLevelAsPerSpecifications)
+            //                    Domain Lab Ajit Ranjan Spinner set adapter
+            spinnerDLLcdDigitalProjector = view.findViewById(R.id.spinnerDLLcdDigitalProjector)
+            spinnerDLTrainerChair = view.findViewById(R.id.spinnerDLTrainerChair)
+            spinnerDLTrainerTable = view.findViewById(R.id.spinnerDLTrainerTable)
+            spinnerDLWritingBoard = view.findViewById(R.id.spinnerDLWritingBoard)
+            spinnerDLFalseCellingProvide = view.findViewById(R.id.spinnerDLFalseCellingProvide)
+            spinnerDLTypeofRoofItLab = view.findViewById(R.id.spinnerDLTypeofRoofItLab)
+            spinnerDDLSoundLevelAsPerSpecifications =
+                view.findViewById(R.id.spinnerDDLSoundLevelAsPerSpecifications)
 
-        spinnerDLDomainLabPhotogragh = view.findViewById(R.id.spinnerDLDomainLabPhotogragh)
-        spinnerDLAcademicRoomInformationBoard = view.findViewById(R.id.spinnerDLAcademicRoomInformationBoard)
-        spinnerDLInternalSignage = view.findViewById(R.id.spinnerDLInternalSignage)
-        spinnerDLCctcCamerasWithAudioFacility = view.findViewById(R.id.spinnerDLCctcCamerasWithAudioFacility)
+            spinnerDLDomainLabPhotogragh = view.findViewById(R.id.spinnerDLDomainLabPhotogragh)
+            spinnerDLAcademicRoomInformationBoard =
+                view.findViewById(R.id.spinnerDLAcademicRoomInformationBoard)
+            spinnerDLInternalSignage = view.findViewById(R.id.spinnerDLInternalSignage)
+            spinnerDLCctcCamerasWithAudioFacility =
+                view.findViewById(R.id.spinnerDLCctcCamerasWithAudioFacility)
 
-        spinnerDLElectricaPowerBackUp = view.findViewById(R.id.spinnerDLElectricaPowerBackUp)
-        spinnerDLwhether_all_the_academic = view.findViewById(R.id.spinnerDLwhether_all_the_academic)
-        spinnerDLDoes_the_room_has = view.findViewById(R.id.spinnerDLDoes_the_room_has)
+            spinnerDLElectricaPowerBackUp = view.findViewById(R.id.spinnerDLElectricaPowerBackUp)
+            spinnerDLwhether_all_the_academic =
+                view.findViewById(R.id.spinnerDLwhether_all_the_academic)
+            spinnerDLDoes_the_room_has = view.findViewById(R.id.spinnerDLDoes_the_room_has)
 
 
-        spinnerDLDomainLabPhotogragh.setAdapter(yesNoAdapter)
-        spinnerDLLcdDigitalProjector.setAdapter(yesNoAdapter)
-        spinnerDLTrainerChair.setAdapter(yesNoAdapter)
-        spinnerDLTrainerTable.setAdapter(yesNoAdapter)
-        spinnerDLWritingBoard.setAdapter(yesNoAdapter)
-        spinnerDLFalseCellingProvide.setAdapter(yesNoAdapter)
-        spinnerDLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
-        spinnerDDLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
+            spinnerDLDomainLabPhotogragh.setAdapter(yesNoAdapter)
+            spinnerDLLcdDigitalProjector.setAdapter(yesNoAdapter)
+            spinnerDLTrainerChair.setAdapter(yesNoAdapter)
+            spinnerDLTrainerTable.setAdapter(yesNoAdapter)
+            spinnerDLWritingBoard.setAdapter(yesNoAdapter)
+            spinnerDLFalseCellingProvide.setAdapter(yesNoAdapter)
+            spinnerDLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+            spinnerDDLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
 
-        spinnerDLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
-        spinnerDLInternalSignage.setAdapter(yesNoAdapter)
-        spinnerDLCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
-        spinnerDLwhether_all_the_academic.setAdapter(yesNoAdapter)
-        spinnerDLElectricaPowerBackUp.setAdapter(yesNoAdapter)
-        spinnerDLDoes_the_room_has.setAdapter(yesNoAdapter)
+            spinnerDLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
+            spinnerDLInternalSignage.setAdapter(yesNoAdapter)
+            spinnerDLCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
+            spinnerDLwhether_all_the_academic.setAdapter(yesNoAdapter)
+            spinnerDLElectricaPowerBackUp.setAdapter(yesNoAdapter)
+            spinnerDLDoes_the_room_has.setAdapter(yesNoAdapter)
 
 
 //          TCR Ajit Ranjan(PMAYG)
 
-        spinnerTCRTypeofRoofItLab = view.findViewById(R.id.spinnerTCRTypeofRoofItLab)
-        spinnerTCRFalseCellingProvide = view.findViewById(R.id.spinnerTCRFalseCellingProvide)
-        spinnerTCRSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerTCRSoundLevelAsPerSpecifications)
-        spinnerTCRLcdDigitalProjector = view.findViewById(R.id.spinnerTCRLcdDigitalProjector)
-        spinnerTCRTrainerChair = view.findViewById(R.id.spinnerTCRTrainerChair)
-        spinnerTCRTrainerTable = view.findViewById(R.id.spinnerTCRTrainerTable)
-        spinnerTCRWritingBoard = view.findViewById(R.id.spinnerTCRWritingBoard)
-        spinnerTCRDomainLabPhotogragh = view.findViewById(R.id.spinnerTCRDomainLabPhotogragh)
+            spinnerTCRTypeofRoofItLab = view.findViewById(R.id.spinnerTCRTypeofRoofItLab)
+            spinnerTCRFalseCellingProvide = view.findViewById(R.id.spinnerTCRFalseCellingProvide)
+            spinnerTCRSoundLevelAsPerSpecifications =
+                view.findViewById(R.id.spinnerTCRSoundLevelAsPerSpecifications)
+            spinnerTCRLcdDigitalProjector = view.findViewById(R.id.spinnerTCRLcdDigitalProjector)
+            spinnerTCRTrainerChair = view.findViewById(R.id.spinnerTCRTrainerChair)
+            spinnerTCRTrainerTable = view.findViewById(R.id.spinnerTCRTrainerTable)
+            spinnerTCRWritingBoard = view.findViewById(R.id.spinnerTCRWritingBoard)
+            spinnerTCRDomainLabPhotogragh = view.findViewById(R.id.spinnerTCRDomainLabPhotogragh)
 
 
-        spinnerTCRwhether_all_the_academic = view.findViewById(R.id.spinnerTCRwhether_all_the_academic)
-        spinnerTCRAcademicRoomInformationBoard = view.findViewById(R.id.spinnerTCRAcademicRoomInformationBoard)
-        spinnerTCRInternalSignage = view.findViewById(R.id.spinnerTCRInternalSignage)
-        spinnerTCRCctcCamerasWithAudioFacility = view.findViewById(R.id.spinnerTCRCctcCamerasWithAudioFacility)
+            spinnerTCRwhether_all_the_academic =
+                view.findViewById(R.id.spinnerTCRwhether_all_the_academic)
+            spinnerTCRAcademicRoomInformationBoard =
+                view.findViewById(R.id.spinnerTCRAcademicRoomInformationBoard)
+            spinnerTCRInternalSignage = view.findViewById(R.id.spinnerTCRInternalSignage)
+            spinnerTCRCctcCamerasWithAudioFacility =
+                view.findViewById(R.id.spinnerTCRCctcCamerasWithAudioFacility)
 
-        spinnerTCRDoes_the_room_has = view.findViewById(R.id.spinnerTCRDoes_the_room_has)
-        spinnerTCRPowerBackup = view.findViewById(R.id.spinnerTCRPowerBackup)
+            spinnerTCRDoes_the_room_has = view.findViewById(R.id.spinnerTCRDoes_the_room_has)
+            spinnerTCRPowerBackup = view.findViewById(R.id.spinnerTCRPowerBackup)
 
-        spinnerTCRTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
-        spinnerTCRFalseCellingProvide.setAdapter(yesNoAdapter)
-        spinnerTCRSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
-        spinnerTCRLcdDigitalProjector.setAdapter(yesNoAdapter)
-        spinnerTCRTrainerChair.setAdapter(yesNoAdapter)
-        spinnerTCRTrainerTable.setAdapter(yesNoAdapter)
-        spinnerTCRWritingBoard.setAdapter(yesNoAdapter)
-        spinnerTCRDomainLabPhotogragh.setAdapter(yesNoAdapter)
-        spinnerTCRwhether_all_the_academic.setAdapter(yesNoAdapter)
-        spinnerTCRAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
-        spinnerTCRInternalSignage.setAdapter(yesNoAdapter)
-        spinnerTCRCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
-        spinnerTCRDoes_the_room_has.setAdapter(yesNoAdapter)
-        spinnerTCRPowerBackup.setAdapter(yesNoAdapter)
-        spinnerFireFightingEquipment.setAdapter(yesNoAdapter)
-       // General Details Spinners
-        spinnerLeakageCheck = view.findViewById(R.id.spinnerLeakageCheck)
-        spinnerProtectionStairs = view.findViewById(R.id.spinnerProtectionStairs)
-        spinnerDDUConformance = view.findViewById(R.id.spinnerDDUConformance)
-        spinnerCandidateSafety = view.findViewById(R.id.spinnerCandidateSafety)
+            spinnerTCRTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+            spinnerTCRFalseCellingProvide.setAdapter(yesNoAdapter)
+            spinnerTCRSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
+            spinnerTCRLcdDigitalProjector.setAdapter(yesNoAdapter)
+            spinnerTCRTrainerChair.setAdapter(yesNoAdapter)
+            spinnerTCRTrainerTable.setAdapter(yesNoAdapter)
+            spinnerTCRWritingBoard.setAdapter(yesNoAdapter)
+            spinnerTCRDomainLabPhotogragh.setAdapter(yesNoAdapter)
+            spinnerTCRwhether_all_the_academic.setAdapter(yesNoAdapter)
+            spinnerTCRAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
+            spinnerTCRInternalSignage.setAdapter(yesNoAdapter)
+            spinnerTCRCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
+            spinnerTCRDoes_the_room_has.setAdapter(yesNoAdapter)
+            spinnerTCRPowerBackup.setAdapter(yesNoAdapter)
+            spinnerFireFightingEquipment.setAdapter(yesNoAdapter)
+            // General Details Spinners
+            spinnerLeakageCheck = view.findViewById(R.id.spinnerLeakageCheck)
+            spinnerProtectionStairs = view.findViewById(R.id.spinnerProtectionStairs)
+            spinnerDDUConformance = view.findViewById(R.id.spinnerDDUConformance)
+            spinnerCandidateSafety = view.findViewById(R.id.spinnerCandidateSafety)
 
-        spinnerLeakageCheck.setAdapter(yesNoAdapter)
-        spinnerProtectionStairs.setAdapter(yesNoAdapter)
-        spinnerDDUConformance.setAdapter(yesNoAdapter)
-        spinnerCandidateSafety.setAdapter(yesNoAdapter)
+            spinnerLeakageCheck.setAdapter(yesNoAdapter)
+            spinnerProtectionStairs.setAdapter(yesNoAdapter)
+            spinnerDDUConformance.setAdapter(yesNoAdapter)
+            spinnerCandidateSafety.setAdapter(yesNoAdapter)
 
-        // signage info baords spinners
-        spinnerTcNameBoard = view.findViewById(R.id.spinnerTrainingCentreNameBoard)
-        spinnerActivityAchievementBoard = view.findViewById(R.id.spinnerActivitySummaryBoard)
-        spinnerStudentEntitlementBoard = view.findViewById(R.id.spinnerEntitlementBoard)
-        spinnerContactDetailBoard = view.findViewById(R.id.spinnerImportantContacts)
-        spinnerBasicInfoBoard = view.findViewById(R.id.spinnerBasicInfoBoard)
-        spinnerCodeConductBoard = view.findViewById(R.id.spinnerCodeOfConductBoard)
-        spinnerStudentAttendanceBoard = view.findViewById(R.id.spinnerAttendanceSummaryBoard)
+            // signage info baords spinners
+            spinnerTcNameBoard = view.findViewById(R.id.spinnerTrainingCentreNameBoard)
+            spinnerActivityAchievementBoard = view.findViewById(R.id.spinnerActivitySummaryBoard)
+            spinnerStudentEntitlementBoard = view.findViewById(R.id.spinnerEntitlementBoard)
+            spinnerContactDetailBoard = view.findViewById(R.id.spinnerImportantContacts)
+            spinnerBasicInfoBoard = view.findViewById(R.id.spinnerBasicInfoBoard)
+            spinnerCodeConductBoard = view.findViewById(R.id.spinnerCodeOfConductBoard)
+            spinnerStudentAttendanceBoard = view.findViewById(R.id.spinnerAttendanceSummaryBoard)
 
 
-        // ImageView setup
-        ivTcNameBoardPreview = view.findViewById(R.id.ivTcNameBoardPreview)
-        ivActivityAchievementBoardPreview = view.findViewById(R.id.ivActivityAchievementBoardPreview)
-        ivStudentEntitlementBoardPreview = view.findViewById(R.id.ivStudentEntitlementBoardPreview)
-        ivContactDetailBoardPreview = view.findViewById(R.id.ivContactDetailBoardPreview)
-        ivBasicInfoBoardPreview = view.findViewById(R.id.ivBasicInfoBoardPreview)
-        ivCodeConductBoardPreview = view.findViewById(R.id.ivCodeConductBoardPreview)
-        ivStudentAttendanceBoardPreview = view.findViewById(R.id.ivStudentAttendanceBoardPreview)
+            // ImageView setup
+            ivTcNameBoardPreview = view.findViewById(R.id.ivTcNameBoardPreview)
+            ivActivityAchievementBoardPreview =
+                view.findViewById(R.id.ivActivityAchievementBoardPreview)
+            ivStudentEntitlementBoardPreview =
+                view.findViewById(R.id.ivStudentEntitlementBoardPreview)
+            ivContactDetailBoardPreview = view.findViewById(R.id.ivContactDetailBoardPreview)
+            ivBasicInfoBoardPreview = view.findViewById(R.id.ivBasicInfoBoardPreview)
+            ivCodeConductBoardPreview = view.findViewById(R.id.ivCodeConductBoardPreview)
+            ivStudentAttendanceBoardPreview =
+                view.findViewById(R.id.ivStudentAttendanceBoardPreview)
 
         spinnerTcNameBoard.adapter = yesNoAdapter
         spinnerActivityAchievementBoard.adapter = yesNoAdapter
@@ -3094,7 +3610,7 @@ class TrainingFragment : Fragment() {
                 val gson = GsonBuilder().setPrettyPrinting().create()
                 val jsonResponse = gson.toJson(response)
 
-                Log.d("InsertITTabDetails", "✅ Success Response:\n$jsonResponse")
+                Log.d("TrainingFragment", "✅ insertITTabDtails Success Response:\n$jsonResponse")
                 val responseDesc = response.responseDesc
 //                AlertDialog.Builder(context)
 //                    .setTitle("Success")
@@ -3150,7 +3666,8 @@ class TrainingFragment : Fragment() {
                 // ✅ Print/log all values
                 val gson = GsonBuilder().setPrettyPrinting().create()
                 val jsonResponse = gson.toJson(response)
-                Log.d("InsertITTabDetails", "✅ Success Response:\n$jsonResponse")
+
+                Log.d("TrainingFragment", "✅ OfficeCumCounsellingroom Success Response:\n$jsonResponse")
                 val responseDesc = response.responseDesc
 
 //                AlertDialog.Builder(context)
@@ -3195,7 +3712,8 @@ class TrainingFragment : Fragment() {
                 // ✅ Print/log all values
                 val gson = GsonBuilder().setPrettyPrinting().create()
                 val jsonResponse = gson.toJson(response)
-                Log.d("InsertITTabDetails", "✅ Success Response:\n$jsonResponse")
+
+                Log.d("TrainingFragment", "✅ ReceptionAreaServices Success Response:\n$jsonResponse")
                 val Length = etLength.text.toString()
                 val Width = etWidth.text.toString()
                 val Area = tvArea.text.toString()
@@ -3255,7 +3773,8 @@ class TrainingFragment : Fragment() {
                 ProgressDialogUtil.dismissProgressDialog()
                 val gson = GsonBuilder().setPrettyPrinting().create()
                 val jsonResponse = gson.toJson(response)
-                Log.d("InsertITTabDetails", "✅ Success Response:\n$jsonResponse")
+
+                Log.d("TrainingFragment", "✅ Officeroom Success Response:\n$jsonResponse")
                 val responseDesc = response.responseDesc
 //                AlertDialog.Builder(context)
 //                    .setTitle("Success")
@@ -3301,7 +3820,7 @@ class TrainingFragment : Fragment() {
                 val gson = GsonBuilder().setPrettyPrinting().create()
                 val jsonResponse = gson.toJson(response)
 
-                Log.d("InsertITTabDetails", "✅ Success Response:\n$jsonResponse")
+                Log.d("TrainingFragment", "✅ ITComeDomainLab Success Response:\n$jsonResponse")
                 val responseDesc = response.responseDesc
 
 //                AlertDialog.Builder(context)
@@ -3357,7 +3876,7 @@ class TrainingFragment : Fragment() {
                 // ✅ Print/log all values
                 val gson = GsonBuilder().setPrettyPrinting().create()
                 val jsonResponse = gson.toJson(response)
-                Log.d("InsertITTabDetails", "✅ Success Response:\n$jsonResponse")
+                Log.d("TrainingFragment", "✅TheoryCumITLab Success Response:\n$jsonResponse")
                 val responseDesc = response.responseDesc
 //                AlertDialog.Builder(context)
 //                    .setTitle("Success")
@@ -3416,7 +3935,7 @@ class TrainingFragment : Fragment() {
                 // ✅ Print/log all values
                 val gson = GsonBuilder().setPrettyPrinting().create()
                 val jsonResponse = gson.toJson(response)
-                Log.d("InsertITTabDetails", "✅ Success Response:\n$jsonResponse")
+                Log.d("TrainingFragment", "✅TheoryCumDomainLab Success Response:\n$jsonResponse")
                 val responseDesc = response.responseDesc
 
 //                AlertDialog.Builder(context)
@@ -3471,8 +3990,7 @@ class TrainingFragment : Fragment() {
                 // ✅ Print/log all values
                 val gson = GsonBuilder().setPrettyPrinting().create()
                 val jsonResponse = gson.toJson(response)
-
-                Log.d("InsertITTabDetails", "✅ Success Response:\n$jsonResponse")
+                Log.d("TrainingFragment", "✅DomainLab Success Response:\n$jsonResponse")
                 val responseDesc = response.responseDesc
 //                AlertDialog.Builder(context)
 //                    .setTitle("Success")
@@ -3525,8 +4043,7 @@ class TrainingFragment : Fragment() {
                 // ✅ Print/log all values
                 val gson = GsonBuilder().setPrettyPrinting().create()
                 val jsonResponse = gson.toJson(response)
-
-                Log.d("InsertITTabDetails", "✅ Success Response:\n$jsonResponse")
+                Log.d("TrainingFragment", "✅TheoryClassRoom Success Response:\n$jsonResponse")
 
 //                val requestDate = response.requestDate
 //                val responseCode = response.responseCode
@@ -3835,6 +4352,7 @@ class TrainingFragment : Fragment() {
             }
         }
     }
+
     private fun setupExpandableSections(view: View) {
         val sections = listOf(
             Triple(R.id.headerTCBasicInfo, R.id.layoutTCBasicInfoContent, R.id.ivToggleTCBasicInfo),
@@ -3984,6 +4502,8 @@ class TrainingFragment : Fragment() {
                     }),
                     8 to SectionHandler(sectionsStatus.supportInfraSection, {
                         viewModel.getAvailabilitySupportInfra(request)
+                        ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")
+
                         collectTCSupportInfra(content, icon)
                     }),
                     9 to SectionHandler(sectionsStatus.commonEquipSection, {
@@ -4063,8 +4583,11 @@ class TrainingFragment : Fragment() {
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+                ProgressDialogUtil.dismissProgressDialog()
+
             }
             result.onFailure {
+                ProgressDialogUtil.dismissProgressDialog()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -4072,6 +4595,8 @@ class TrainingFragment : Fragment() {
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
+    //////////// Collect data form server...
+
 
     private fun collectTCIpEnabele(content: LinearLayout, icon: ImageView) {
 
@@ -4134,8 +4659,10 @@ class TrainingFragment : Fragment() {
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+                ProgressDialogUtil.dismissProgressDialog()
             }
             result.onFailure {
+                ProgressDialogUtil.dismissProgressDialog()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -4205,8 +4732,10 @@ class TrainingFragment : Fragment() {
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+                ProgressDialogUtil.dismissProgressDialog()
             }
             result.onFailure {
+                ProgressDialogUtil.dismissProgressDialog()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -4281,8 +4810,10 @@ class TrainingFragment : Fragment() {
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+                ProgressDialogUtil.dismissProgressDialog()
             }
             result.onFailure {
+                ProgressDialogUtil.dismissProgressDialog()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -4356,8 +4887,10 @@ class TrainingFragment : Fragment() {
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+                ProgressDialogUtil.dismissProgressDialog()
             }
             result.onFailure {
+                ProgressDialogUtil.dismissProgressDialog()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -4412,8 +4945,10 @@ class TrainingFragment : Fragment() {
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+                ProgressDialogUtil.dismissProgressDialog()
             }
             result.onFailure {
+                ProgressDialogUtil.dismissProgressDialog()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -4466,8 +5001,10 @@ class TrainingFragment : Fragment() {
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+                ProgressDialogUtil.dismissProgressDialog()
             }
             result.onFailure {
+                ProgressDialogUtil.dismissProgressDialog()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -4507,6 +5044,7 @@ class TrainingFragment : Fragment() {
 
                             updateSpinner(spinnerDetailsMap)
                             showBase64Image(imagesMap)
+
                         }
                     }
 
@@ -4524,8 +5062,12 @@ class TrainingFragment : Fragment() {
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+                ProgressDialogUtil.dismissProgressDialog()
+
             }
             result.onFailure {
+                ProgressDialogUtil.dismissProgressDialog()
+
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -4587,8 +5129,11 @@ class TrainingFragment : Fragment() {
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+                ProgressDialogUtil.dismissProgressDialog()
+
             }
             result.onFailure {
+                ProgressDialogUtil.dismissProgressDialog()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -4626,8 +5171,11 @@ class TrainingFragment : Fragment() {
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+                ProgressDialogUtil.dismissProgressDialog()
+
             }
             result.onFailure {
+                ProgressDialogUtil.dismissProgressDialog()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -4692,8 +5240,10 @@ class TrainingFragment : Fragment() {
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+                ProgressDialogUtil.dismissProgressDialog()
             }
             result.onFailure {
+                ProgressDialogUtil.dismissProgressDialog()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -6505,28 +7055,18 @@ class TrainingFragment : Fragment() {
                 storageSecuringDocumentAttachment = base64ProofOfficeCumSplaceforSecuringDoc ?: "",
                 officeComputerTable = spinnerOfficeCumTableOfofficeCumpter.selectedItem.toString(),
                 officeComputerTableAttachment = base64ProofOfficeCumTableOfofficeCumpter ?: "",
-
-
-
                 officeTable = etOfficeCumAnOfficeTableNo.text.toString(),
                 officeTableAttachment = base64ProofOCCROfficeTable ?: "",
-
-
-
                 officeChair = OfficeCumChairs.toString(),
                 officeChairAttachment = base64ProofOfficeCumChairs ?: "",
                 printerScannerAcademic = OfficeCumPrinterCumScannerInNo.toString(),
                 printerScannerAttachment = base64ProofOfficeCumPrinterCumScannerInNo ?: "",
                 digitalCameraAcademic = OfficeCumDigitalCameraInNo.toString(),
-                digitalCameraAttachment = base64ProofOfficeCumPrinterCumScannerInNo ?: "",
+                digitalCameraAttachment = base64ProofOfficeCumDigitalCameraInNo ?: "",
                 electricalPowerBackup = spinnerOfficeCumLepbftr.selectedItem.toString(),
                 electricalPowerBackupAttachment = base64ProofOfficeCumElectricialPowerBackup ?: "",
                 roomPhotograph = spinnerOCCRPhotograph.selectedItem.toString(),
-                roomPhotographAttachment = base64ProofPreviewOfficeRoomPhotograph ?: "",
-
-
-
-                )
+                roomPhotographAttachment = base64ProofPreviewOfficeRoomPhotograph ?: "",)
 
             viewModel.SubmitOfficeCumCounsellingRoomDataToServer(request, token)
         }
@@ -6592,6 +7132,7 @@ class TrainingFragment : Fragment() {
             viewModel.SubmitReceptionAreaDataToServer(request, token)
         }
     }
+
     private fun SubmitOfficeRoom() {
         ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")
         val token = requireContext()
@@ -6633,9 +7174,9 @@ class TrainingFragment : Fragment() {
                 officeComputerTable = spinnerORTableOfofficeCumpter.selectedItem.toString(),
                 officeComputerTableAttachment = base64ProofORTableOfofficeCumpter ?: "",
                 printerScannerAcademic = ORPrinterCumScannerInNo.toString(),
-                printerScannerAttachment = base64ProofOfficeCumPrinterCumScannerInNo ?: "",
+                printerScannerAttachment = base64ProofORPrinterCumScannerInNo ?: "",//base64ProofOfficeCumPrinterCumScannerInNo ?: "", // Ajeet told swap these keys...
                 digitalCameraAcademic = ORDigitalCameraInNo.toString(),
-                digitalCameraAttachment = base64ProofORPrinterCumScannerInNo ?: "",
+                digitalCameraAttachment = base64ProofORDigitalCameraInNo ?: "",
                 electricalPowerBackup = spinnerORPOEPBFTR.selectedItem.toString(),
                 electricalPowerBackupAttachment = base64ProofORElectricialPowerBackup ?: ""
             )
@@ -6899,11 +7440,7 @@ class TrainingFragment : Fragment() {
                 airConditioningRoomAttachment = base64ProofPreviewTCDLDoes_the_room_has ?: "",
                 writingBoard = spinnerTCDLWritingBoard.selectedItem.toString(),
                 writingBoardAttachment = base64ProofPreviewTCDLWritingBoard ?: ""
-
-
             )
-
-
             viewModel.SubmitTCDLDataToServer(request, token)
         }
     }
@@ -6980,17 +7517,9 @@ class TrainingFragment : Fragment() {
                 airConditioningRoomAttachment=base64ProofPreviewDLDoes_the_room_has?: "",
                 writingBoard=spinnerDLWritingBoard.selectedItem.toString(),
                 writingBoardAttachment=base64ProofPreviewDLWritingBoard?: ""
-
-
-
             )
-
-
             viewModel.SubmitDLDataToServer(request, token)
-
         }
-
-
     }
     private fun SubmitTCR() {
         ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")
@@ -7009,7 +7538,6 @@ class TrainingFragment : Fragment() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             val request = TCRRequest(
-
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 imeiNo = AppUtil.getAndroidId(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME,
@@ -7077,9 +7605,6 @@ class TrainingFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = Academicadapter
         DesriptionAcademicNon()
-
-
-
 
         val request = AcademicNonAcademicArea(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -7215,6 +7740,5 @@ class TrainingFragment : Fragment() {
     fun View.visible() {
         this.visibility = View.VISIBLE
     }
-
 
 }

@@ -25,7 +25,8 @@ class LoggingInterceptor : Interceptor {
 
         response = chain.proceed(request)
 
-        val copy = response.peekBody(Long.MAX_VALUE)
+       // val copy = response.peekBody(Long.MAX_VALUE)
+        val copy = response.peekBody(1024 * 1024)
         Log.d(TAG, "======================= RESPONSE========================================================")
         Log.d(TAG, "Code: ${response.code}\n")
         Log.d(TAG, "URL: ${response.request.url}\n")

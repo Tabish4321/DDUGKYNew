@@ -20,6 +20,7 @@ class RfModifyListAdapter(
     inner class CenterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.trainingCenterName)
         val order: TextView = view.findViewById(R.id.senctionOrder)
+        val modifyBtn: TextView =view.findViewById(R.id.btnMarkAttendance)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CenterViewHolder {
@@ -32,7 +33,7 @@ class RfModifyListAdapter(
         val center = centers[position]
         holder.name.text = "Training Center Name: ${center.trainingCenterName}"
         holder.order.text = "Sanction Order: ${center.senctionOrder}"
-        holder.itemView.setOnClickListener {
+        holder.modifyBtn.setOnClickListener {
             onItemClick(center)
         }
     }

@@ -4,9 +4,14 @@ import SharedViewModel
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.finishAffinity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.deendayalproject.BuildConfig
@@ -15,29 +20,115 @@ import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentLoginBinding
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.util.AppUtil
-import java.io.File
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(
     FragmentLoginBinding::inflate
 ) {
 
     private lateinit var viewModel: SharedViewModel
-
+    private var isProcessingLogin = false
 
     override fun initializeViews() {
-        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━LoginFragmnet━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━LoginFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
-
-        // Setup password toggle
-        AppUtil.setupPasswordToggle(binding.etPassword)
-
-        // Check for security warnings
-        //checkSecurityWarnings()
+        setupKeyboardDismissHandler()
+        setupPasswordToggle()
+        setupEditTextListeners()
         checkAutoLogin()
-        setupObservers()
-        setupClickListeners()
-        loadInitialData()
+       // setupObservers()
+       // setupClickListeners()
+        //loadInitialData()
+    }
+
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//    }
+
+    private fun setupKeyboardDismissHandler() {
+        // Use container click to dismiss keyboard on touch outside fields/button
+        binding.fragmentContainer.setOnClickListener {
+            dismissKeyboard()
+        }
+        // Removed root onTouchListener to avoid interfering with button clicks
+    }
+
+    private fun dismissKeyboard(view: View? = null) {
+        val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java) as? InputMethodManager ?: return
+        val windowToken = view?.windowToken ?: requireActivity().currentFocus?.windowToken ?: return
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    private fun showKeyboard(view: View) {
+        val imm = ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java) as? InputMethodManager ?: return
+        view.requestFocus()
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private fun setupPasswordToggle() {
+        val showPasswordDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_passwordon)
+        val hidePasswordDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_passwordtoggle)
+
+        // Set initial drawable
+        binding.etPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, hidePasswordDrawable, null)
+
+        // Set touch listener for toggle
+        binding.etPassword.setOnTouchListener { v, event ->
+            val drawableRight = binding.etPassword.compoundDrawablesRelative[2]
+            if (drawableRight != null && event.action == MotionEvent.ACTION_UP) {
+                if (event.rawX >= (binding.etPassword.right - drawableRight.bounds.width())) {
+                    togglePasswordVisibility()
+                    return@setOnTouchListener true
+                }
+            }
+            false
+        }
+    }
+
+    private fun togglePasswordVisibility() {
+        val inputType = binding.etPassword.inputType
+        val cursorPosition = binding.etPassword.selectionStart
+
+        if (inputType == android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+            // Show password
+            binding.etPassword.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            val showPasswordDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_passwordon)
+            binding.etPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, showPasswordDrawable, null)
+        } else {
+            // Hide password
+            binding.etPassword.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+            val hidePasswordDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_passwordtoggle)
+            binding.etPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, hidePasswordDrawable, null)
+        }
+
+        // Restore cursor and move to end
+        binding.etPassword.setSelection(cursorPosition)
+        binding.etPassword.post {
+            binding.etPassword.setSelection(binding.etPassword.text.length)
+        }
+    }
+
+    private fun setupEditTextListeners() {
+        binding.etUserId.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                binding.etPassword.requestFocus()
+                showKeyboard(binding.etPassword)
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        binding.etPassword.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                dismissKeyboard()
+                if (!isProcessingLogin) {
+                    handleLoginClick()
+                }
+                return@setOnEditorActionListener true
+            }
+            false
+        }
     }
 
     override fun setupObservers() {
@@ -46,7 +137,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     override fun setupClickListeners() {
         binding.btnLogin.setOnClickListener {
-            handleLoginClick()
+            if (!isProcessingLogin) {
+                handleLoginClick()
+            }
         }
     }
 
@@ -63,6 +156,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     private fun handleLoginClick() {
+        if (isProcessingLogin) return
+
+        isProcessingLogin = true
+        binding.btnLogin.isEnabled = false
+        binding.btnLogin.alpha = 0.7f
+
+        // Dismiss keyboard using button's window token to ensure click registers properly
+        dismissKeyboard(binding.btnLogin)
+
         // Set language based on preference
         if (AppUtil.getSavedLanguagePreference(requireContext()).contains("en")) {
             AppUtil.saveLanguagePreference(requireContext(), "en")
@@ -78,19 +180,29 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
         if (validateInputs(userId, password)) {
             performLogin(userId, password)
+        } else {
+            resetButtonState()
         }
+    }
+
+    private fun resetButtonState() {
+        isProcessingLogin = false
+        binding.btnLogin.isEnabled = true
+        binding.btnLogin.alpha = 1.0f
     }
 
     private fun validateInputs(userId: String, password: String): Boolean {
         if (userId.isEmpty()) {
             showToast("Please enter user ID")
             binding.etUserId.requestFocus()
+            showKeyboard(binding.etUserId)
             return false
         }
 
         if (password.isEmpty()) {
             showToast("Please enter password")
             binding.etPassword.requestFocus()
+            showKeyboard(binding.etPassword)
             return false
         }
 
@@ -113,31 +225,38 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     private fun observeLoginResult() {
         viewModel.loginResult.observe(viewLifecycleOwner) { result ->
+            resetButtonState()
             dismissProgressDialog()
 
-            handleApiResponse(
-                responseCode = result.getOrNull()?.responseCode ?: 0,
-                data = result.getOrNull(),
-                onSuccess = { data ->
-                    handleLoginSuccess(data)
-                },
-                onNoData = {
-                    showToast("No data available.")
-                },
-                onUpgradeRequired = {
-                    showToast("Please upgrade your app.")
-                },
-                onSessionExpired = {
-                    handleSessionExpired()
+            when {
+                result.isSuccess -> {
+                    val data = result.getOrNull()
+                    handleApiResponse(
+                        responseCode = data?.responseCode ?: 0,
+                        data = data,
+                        onSuccess = { responseData ->
+                            handleLoginSuccess(responseData)
+                        },
+                        onNoData = {
+                            showToast("No data available.")
+                        },
+                        onUpgradeRequired = {
+                            showToast("Please upgrade your app.")
+                        },
+                        onSessionExpired = {
+                            handleSessionExpired()
+                        }
+                    )
                 }
-            )
+                result.isFailure -> {
+                    val exception = result.exceptionOrNull()
+                    handleLoginFailure(exception as Exception?)
+                }
+            }
         }
 
-        // Handle loading state if needed
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            if (loading) {
-               // showProgressDialog("Logging in...")
-            } else {
+            if (!loading) {
                 dismissProgressDialog()
             }
         }
@@ -147,103 +266,40 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         val userId = binding.etUserId.text.toString().trim().uppercase()
         val accessToken = (data as? com.deendayalproject.model.response.LoginResponse)?.accessToken ?: ""
 
-        // Save login data
         AppUtil.saveLoginStatus(requireContext(), true)
         AppUtil.saveTokenPreference(requireContext(), accessToken)
         AppUtil.saveLoginIdPreference(requireContext(), userId)
 
-        // Log successful login
         logFragmentEvent("Login_Successful", userId)
         setUserIdentifier(userId)
 
-        // Show success message
-        //showSuccessToast("Login Successful")
+        // Clear password for security
+        binding.etPassword.text?.clear()
 
-        // Navigate to home
+        // Dismiss keyboard before navigation
+        dismissKeyboard()
+
         findNavController().navigate(R.id.action_fragmentLogin_to_homeFragment)
     }
 
-    private fun handleLoginFailure(exception: Exception) {
-        logCrashlyticsError("Login_Failed", exception)
-        AppUtil.clearPreferences(requireContext())
-        showErrorToast("Login Failed: ${exception.message}")
+    private fun handleLoginFailure(exception: Exception?) {
+        logCrashlyticsError("Login_Failed", exception ?: Exception("Unknown error"))
+        showErrorToast("Login Failed: ${exception?.message ?: "Unknown error"}")
     }
 
-    private fun checkSecurityWarnings() {
-        if (isDeviceRooted() || isRunningOnEmulator()) {
-            showSecurityWarning()
-        }
-    }
-
-    /**
-     * Checks if the device is rooted.
-     */
-    private fun isDeviceRooted(): Boolean {
-        val paths = arrayOf(
-            "/system/bin/su",
-            "/system/xbin/su",
-            "/sbin/su",
-            "/system/su",
-            "/system/bin/.ext/.su",
-            "/system/usr/we-need-root/su-backup",
-            "/system/xbin/mu"
-        )
-        return paths.any { File(it).exists() }
-    }
-
-    /**
-     * Checks if the app is running on an emulator.
-     */
-    private fun isRunningOnEmulator(): Boolean {
-        return (Build.FINGERPRINT.startsWith("generic")
-                || Build.MODEL.contains("google_sdk")
-                || Build.MODEL.lowercase().contains("emulator")
-                || Build.MODEL.lowercase().contains("android sdk built for x86")
-                || Build.HARDWARE.contains("goldfish")
-                || Build.HARDWARE.contains("ranchu")
-                || Build.MANUFACTURER.contains("Genymotion")
-                || Build.PRODUCT.contains("sdk")
-                || Build.PRODUCT.contains("google_sdk")
-                || Build.PRODUCT.contains("sdk_x86")
-                || Build.PRODUCT.contains("sdk_google")
-                || Build.PRODUCT.contains("sdk_gphone")
-                || Build.BOARD.lowercase().contains("unknown")
-                || Build.BRAND.startsWith("generic")
-                || Build.DEVICE.startsWith("generic")
-                || "google_sdk" == Build.PRODUCT)
-    }
-
-    /**
-     * Shows an alert dialog if the device is rooted or an emulator.
-     */
-    private fun showSecurityWarning() {
-        val message = when {
-            isDeviceRooted() && isRunningOnEmulator() -> "Rooted device and Emulator detected! For security reasons, this app cannot run."
-            isDeviceRooted() -> "Rooted device detected! For security reasons, this app cannot run."
-            isRunningOnEmulator() -> "Emulator detected! This app cannot run on emulators."
-            else -> return
-        }
-
-        AlertDialog.Builder(requireContext())
-            .setTitle("Security Warning")
-            .setMessage(message)
-            .setCancelable(false)
-            .setPositiveButton("Exit") { _, _ ->
-                logFragmentEvent("App_Closed_Security_Warning", message)
-                finishAffinity(requireActivity())
-            }
-            .setOnDismissListener {
-                logFragmentEvent("Security_Warning_Dismissed")
-            }
-            .show()
-    }
-
-    // Maintain original method names for compatibility if needed
+    // Legacy methods for compatibility
     fun showProgressBar() {
         showProgressDialog("Loading...")
     }
 
     fun hideProgressBar() {
         dismissProgressDialog()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Ensure keyboard is dismissed and state reset - safe call without binding access
+        dismissKeyboard()
+        isProcessingLogin = false
     }
 }

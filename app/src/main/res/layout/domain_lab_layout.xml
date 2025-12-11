@@ -373,6 +373,7 @@
                 android:textSize="@dimen/sp_18"
                 android:layout_marginTop="16dp"
                 android:drawablePadding="8dp"
+                android:visibility="gone"
                 app:drawableStartCompat="@drawable/baseline_screenshot_monitor_24"
                 app:layout_constraintTop_toBottomOf="@id/valueCCTV"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -384,7 +385,9 @@
                 android:text="@string/n_a"
                 android:layout_marginStart="@dimen/dp_35"
                 app:layout_constraintTop_toBottomOf="@id/labelLCDComputers"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
+                />
 
             <TextView
                 android:id="@+id/valueLCDComputers"
@@ -394,7 +397,9 @@
                 android:textColor="@color/color_dark_blue"
                 android:layout_marginStart="@dimen/dp_35"
                 app:layout_constraintTop_toBottomOf="@id/yesNoLCDComputers"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
+                />
 
             <!-- 14. Internet Connections -->
             <TextView

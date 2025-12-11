@@ -51,6 +51,7 @@ import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.response.RoomDetail
 import com.deendayalproject.model.response.RoomItem
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
@@ -635,140 +636,140 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 //        }
 //    }
 
-//    private fun setupImageClickListeners() {
-//        // Wash basin images
-//        binding.valueMaleToilet.setOnClickListener { showBase64ImageDialog(maleToiletImage, "Male Toilet") }
-//        binding.valueProofMaleSignageToilet.setOnClickListener { showBase64ImageDialog(maleToiletSignageImage, "Male Toilet Signage") }
-//        binding.valueMaleUrinals.setOnClickListener { showBase64ImageDialog(maleToiletUrinalsImage, "Male Urinals") }
-//        binding.valueMaleWashBasin.setOnClickListener { showBase64ImageDialog(maleToiletWashbasinImage, "Male Wash Basin") }
-//        binding.valueFemaleToilet.setOnClickListener { showBase64ImageDialog(femaleToiletImage, "Female Toilet") }
-//        binding.valueProofFemaleSignageToilet.setOnClickListener { showBase64ImageDialog(femaleToiletSignageImage, "Female Toilet Signage") }
-//        binding.valueFemaleWashBasin.setOnClickListener { showBase64ImageDialog(femaleToiletWashbasinImage, "Female Wash Basin") }
-//        binding.valueOverheadTank.setOnClickListener { showBase64ImageDialog(ovrHeadTankImage, "Overhead Tank") }
-//        binding.valueTypeOfFlooring.setOnClickListener { showBase64ImageDialog(typeOfFlooringImage, "Type of Flooring") }
+    private fun setupImageClickListeners() {
+        // Wash basin images
+        binding.valueMaleToilet.setOnClickListener { showBase64ImageDialog(maleToiletImage, "Male Toilet") }
+        binding.valueProofMaleSignageToilet.setOnClickListener { showBase64ImageDialog(maleToiletSignageImage, "Male Toilet Signage") }
+        binding.valueMaleUrinals.setOnClickListener { showBase64ImageDialog(maleToiletUrinalsImage, "Male Urinals") }
+        binding.valueMaleWashBasin.setOnClickListener { showBase64ImageDialog(maleToiletWashbasinImage, "Male Wash Basin") }
+        binding.valueFemaleToilet.setOnClickListener { showBase64ImageDialog(femaleToiletImage, "Female Toilet") }
+        binding.valueProofFemaleSignageToilet.setOnClickListener { showBase64ImageDialog(femaleToiletSignageImage, "Female Toilet Signage") }
+        binding.valueFemaleWashBasin.setOnClickListener { showBase64ImageDialog(femaleToiletWashbasinImage, "Female Wash Basin") }
+        binding.valueOverheadTank.setOnClickListener { showBase64ImageDialog(ovrHeadTankImage, "Overhead Tank") }
+        binding.valueTypeOfFlooring.setOnClickListener { showBase64ImageDialog(typeOfFlooringImage, "Type of Flooring") }
+
+        // Desc area images
+        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
+        binding.valueCirculationArea.setOnClickListener { showBase64ImageDialog(circulationAreaImage, "Circulation Area") }
+        binding.valueOpenSpace.setOnClickListener { showBase64ImageDialog(openSpaceImage, "Open Space") }
+        binding.valueParking.setOnClickListener { showBase64ImageDialog(parkingSpaceImage, "Parking Space") }
+
+        // Teaching images
+        binding.valueIsWelcomeKitAvail.setOnClickListener { showBase64ImageDialog(welcomeKitImage, "Welcome Kit") }
+
+        // General details images
+        binding.valueSignOfLiakage.setOnClickListener { showBase64ImageDialog(signOfLeakageImage, "Sign of Leakage") }
+        binding.valueProtectionOfStairs.setOnClickListener { showBase64ImageDialog(protectionStairsBalImage, "Protection of Stairs") }
+
+        // Electrical wiring images
+        binding.valueSecuringWire.setOnClickListener { showBase64ImageDialog(securingWiringImage, "Securing Wiring") }
+        binding.valueSwitchBoard.setOnClickListener { showBase64ImageDialog(switchBoardImage, "Switch Board") }
+
+        // Signage images
+        binding.signageLayout.valueCenterNameBoard.setOnClickListener { showBase64ImageDialog(tcNameBoardImage, "Training Center Name Board") }
+        binding.signageLayout.valueSummaryAcheivement.setOnClickListener { showBase64ImageDialog(activitySummaryBoardImage, "Activity Summary Achievement") }
+        binding.signageLayout.valueStudentEntitlement.setOnClickListener { showBase64ImageDialog(studentEntitlementBoardImage, "Student Entitlement Board") }
+        binding.signageLayout.valueContactDetail.setOnClickListener { showBase64ImageDialog(contactDetailImpoPeopleImage, "Contact Details") }
+        binding.signageLayout.valueBasicInfoBoard.setOnClickListener { showBase64ImageDialog(basicInfoBoardImage, "Basic Info Board") }
+        binding.signageLayout.valueCodeOfConduct.setOnClickListener { showBase64ImageDialog(codeOfConductImage, "Code of Conduct") }
+        binding.signageLayout.valueAttendanceSummary.setOnClickListener { showBase64ImageDialog(studentAttendanceImage, "Attendance Summary") }
+
+        // IP Enable images
+        binding.ipCameraLayout.valueCentralMonitor.setOnClickListener { showBase64ImageDialog(centralMonitorImage, "Central Monitor") }
+        binding.ipCameraLayout.valueConformanceCCTV.setOnClickListener { showBase64ImageDialog(conformationOfCCTVImage, "CCTV Conformance") }
+        binding.ipCameraLayout.valueStorageCCTV.setOnClickListener { showBase64ImageDialog(storageOfCCtvImage, "CCTV Storage") }
+        binding.ipCameraLayout.valueDvrStaticIP.setOnClickListener { showBase64ImageDialog(dvrImage, "DVR Static IP") }
+
+        // Common equipment images
+        binding.commonEquipmentLayout.valueElectricalPowerBackup.setOnClickListener { showBase64ImageDialog(electricPowerImage, "Electrical Power Backup") }
+        binding.commonEquipmentLayout.valueBiometricDevices.setOnClickListener { showBase64ImageDialog(installBiometricImage, "Biometric Devices") }
+        binding.commonEquipmentLayout.valueCCTVMonitor.setOnClickListener { showBase64ImageDialog(installationCCTVImage, "CCTV Monitor") }
+        binding.commonEquipmentLayout.valueStorageDocs.setOnClickListener { showBase64ImageDialog(storagePlaceSecuringDocImage, "Storage Documents") }
+        binding.commonEquipmentLayout.valuePrinterScanner.setOnClickListener { showBase64ImageDialog(printerCumImage, "Printer Scanner") }
+        binding.commonEquipmentLayout.valueDigitalCamera.setOnClickListener { showBase64ImageDialog(digitalCameraImage, "Digital Camera") }
+        binding.commonEquipmentLayout.valueGrievanceRegister.setOnClickListener { showBase64ImageDialog(grievanceImage, "Grievance Register") }
+        binding.commonEquipmentLayout.valueMinEquipment.setOnClickListener { showBase64ImageDialog(minimumEquipmentImage, "Minimum Equipment") }
+        binding.commonEquipmentLayout.valueDirectionBoards.setOnClickListener { showBase64ImageDialog(directionBoardsImage, "Direction Boards") }
+
+        // Support infra images
+        binding.availSupportInfraLayout.valueSafeDrinkingWater.setOnClickListener { showBase64ImageDialog(safeDrinkingImage, "Safe Drinking Water") }
+        binding.availSupportInfraLayout.valueFireFighting.setOnClickListener { showBase64ImageDialog(fireFightingImage, "Fire Fighting") }
+        binding.availSupportInfraLayout.valueFirstAidKit.setOnClickListener { showBase64ImageDialog(firstAidImage, "First Aid Kit") }
+
+    }
+
+
+//    private fun setupImageClickListeners() = binding.apply {
 //
-//        // Desc area images
-//        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
-//        binding.valueCirculationArea.setOnClickListener { showBase64ImageDialog(circulationAreaImage, "Circulation Area") }
-//        binding.valueOpenSpace.setOnClickListener { showBase64ImageDialog(openSpaceImage, "Open Space") }
-//        binding.valueParking.setOnClickListener { showBase64ImageDialog(parkingSpaceImage, "Parking Space") }
+//        // Wash basin + toilets
+//        valueMaleToilet.onImageDialogClick(maleToiletImage, "Male Toilet")
+//        valueProofMaleSignageToilet.onImageDialogClick(maleToiletSignageImage, "Male Toilet Signage")
+//        valueMaleUrinals.onImageDialogClick(maleToiletUrinalsImage, "Male Urinals")
+//        valueMaleWashBasin.onImageDialogClick(maleToiletWashbasinImage, "Male Wash Basin")
+//        valueFemaleToilet.onImageDialogClick(femaleToiletImage, "Female Toilet")
+//        valueProofFemaleSignageToilet.onImageDialogClick(femaleToiletSignageImage, "Female Toilet Signage")
+//        valueFemaleWashBasin.onImageDialogClick(femaleToiletWashbasinImage, "Female Wash Basin")
+//        valueOverheadTank.onImageDialogClick(ovrHeadTankImage, "Overhead Tank")
+//        valueTypeOfFlooring.onImageDialogClick(typeOfFlooringImage, "Type of Flooring")
 //
-//        // Teaching images
-//        binding.valueIsWelcomeKitAvail.setOnClickListener { showBase64ImageDialog(welcomeKitImage, "Welcome Kit") }
+//        // Description area
+//        valueFans.onImageDialogClick(fansImage, "Fans")
+//        valueCirculationArea.onImageDialogClick(circulationAreaImage, "Circulation Area")
+//        valueOpenSpace.onImageDialogClick(openSpaceImage, "Open Space")
+//        valueParking.onImageDialogClick(parkingSpaceImage, "Parking Space")
 //
-//        // General details images
-//        binding.valueSignOfLiakage.setOnClickListener { showBase64ImageDialog(signOfLeakageImage, "Sign of Leakage") }
-//        binding.valueProtectionOfStairs.setOnClickListener { showBase64ImageDialog(protectionStairsBalImage, "Protection of Stairs") }
+//        // Teaching
+//        valueIsWelcomeKitAvail.onImageDialogClick(welcomeKitImage, "Welcome Kit")
 //
-//        // Electrical wiring images
-//        binding.valueSecuringWire.setOnClickListener { showBase64ImageDialog(securingWiringImage, "Securing Wiring") }
-//        binding.valueSwitchBoard.setOnClickListener { showBase64ImageDialog(switchBoardImage, "Switch Board") }
+//        // General details
+//        valueSignOfLiakage.onImageDialogClick(signOfLeakageImage, "Sign of Leakage")
+//        valueProtectionOfStairs.onImageDialogClick(protectionStairsBalImage, "Protection of Stairs")
 //
-//        // Signage images
-//        binding.signageLayout.valueCenterNameBoard.setOnClickListener { showBase64ImageDialog(tcNameBoardImage, "Training Center Name Board") }
-//        binding.signageLayout.valueSummaryAcheivement.setOnClickListener { showBase64ImageDialog(activitySummaryBoardImage, "Activity Summary Achievement") }
-//        binding.signageLayout.valueStudentEntitlement.setOnClickListener { showBase64ImageDialog(studentEntitlementBoardImage, "Student Entitlement Board") }
-//        binding.signageLayout.valueContactDetail.setOnClickListener { showBase64ImageDialog(contactDetailImpoPeopleImage, "Contact Details") }
-//        binding.signageLayout.valueBasicInfoBoard.setOnClickListener { showBase64ImageDialog(basicInfoBoardImage, "Basic Info Board") }
-//        binding.signageLayout.valueCodeOfConduct.setOnClickListener { showBase64ImageDialog(codeOfConductImage, "Code of Conduct") }
-//        binding.signageLayout.valueAttendanceSummary.setOnClickListener { showBase64ImageDialog(studentAttendanceImage, "Attendance Summary") }
+//        // Electrical
+//        valueSecuringWire.onImageDialogClick(securingWiringImage, "Securing Wiring")
+//        valueSwitchBoard.onImageDialogClick(switchBoardImage, "Switch Board")
 //
-//        // IP Enable images
-//        binding.ipCameraLayout.valueCentralMonitor.setOnClickListener { showBase64ImageDialog(centralMonitorImage, "Central Monitor") }
-//        binding.ipCameraLayout.valueConformanceCCTV.setOnClickListener { showBase64ImageDialog(conformationOfCCTVImage, "CCTV Conformance") }
-//        binding.ipCameraLayout.valueStorageCCTV.setOnClickListener { showBase64ImageDialog(storageOfCCtvImage, "CCTV Storage") }
-//        binding.ipCameraLayout.valueDvrStaticIP.setOnClickListener { showBase64ImageDialog(dvrImage, "DVR Static IP") }
+//        // Signage
+//        signageLayout.valueCenterNameBoard.onImageDialogClick(tcNameBoardImage, "Training Center Name Board")
+//        signageLayout.valueSummaryAcheivement.onImageDialogClick(activitySummaryBoardImage, "Activity Summary Achievement")
+//        signageLayout.valueStudentEntitlement.onImageDialogClick(studentEntitlementBoardImage, "Student Entitlement Board")
+//        signageLayout.valueContactDetail.onImageDialogClick(contactDetailImpoPeopleImage, "Contact Details")
+//        signageLayout.valueBasicInfoBoard.onImageDialogClick(basicInfoBoardImage, "Basic Info Board")
+//        signageLayout.valueCodeOfConduct.onImageDialogClick(codeOfConductImage, "Code of Conduct")
+//        signageLayout.valueAttendanceSummary.onImageDialogClick(studentAttendanceImage, "Attendance Summary")
 //
-//        // Common equipment images
-//        binding.commonEquipmentLayout.valueElectricalPowerBackup.setOnClickListener { showBase64ImageDialog(electricPowerImage, "Electrical Power Backup") }
-//        binding.commonEquipmentLayout.valueBiometricDevices.setOnClickListener { showBase64ImageDialog(installBiometricImage, "Biometric Devices") }
-//        binding.commonEquipmentLayout.valueCCTVMonitor.setOnClickListener { showBase64ImageDialog(installationCCTVImage, "CCTV Monitor") }
-//        binding.commonEquipmentLayout.valueStorageDocs.setOnClickListener { showBase64ImageDialog(storagePlaceSecuringDocImage, "Storage Documents") }
-//        binding.commonEquipmentLayout.valuePrinterScanner.setOnClickListener { showBase64ImageDialog(printerCumImage, "Printer Scanner") }
-//        binding.commonEquipmentLayout.valueDigitalCamera.setOnClickListener { showBase64ImageDialog(digitalCameraImage, "Digital Camera") }
-//        binding.commonEquipmentLayout.valueGrievanceRegister.setOnClickListener { showBase64ImageDialog(grievanceImage, "Grievance Register") }
-//        binding.commonEquipmentLayout.valueMinEquipment.setOnClickListener { showBase64ImageDialog(minimumEquipmentImage, "Minimum Equipment") }
-//        binding.commonEquipmentLayout.valueDirectionBoards.setOnClickListener { showBase64ImageDialog(directionBoardsImage, "Direction Boards") }
+//        // IP enable
+//        ipCameraLayout.valueCentralMonitor.onImageDialogClick(centralMonitorImage, "Central Monitor")
+//        ipCameraLayout.valueConformanceCCTV.onImageDialogClick(conformationOfCCTVImage, "CCTV Conformance")
+//        ipCameraLayout.valueStorageCCTV.onImageDialogClick(storageOfCCtvImage, "CCTV Storage")
+//        ipCameraLayout.valueDvrStaticIP.onImageDialogClick(dvrImage, "DVR Static IP")
 //
-//        // Support infra images
-//        binding.availSupportInfraLayout.valueSafeDrinkingWater.setOnClickListener { showBase64ImageDialog(safeDrinkingImage, "Safe Drinking Water") }
-//        binding.availSupportInfraLayout.valueFireFighting.setOnClickListener { showBase64ImageDialog(fireFightingImage, "Fire Fighting") }
-//        binding.availSupportInfraLayout.valueFirstAidKit.setOnClickListener { showBase64ImageDialog(firstAidImage, "First Aid Kit") }
+//        // Common equipment
+//        commonEquipmentLayout.valueElectricalPowerBackup.onImageDialogClick(electricPowerImage, "Electrical Power Backup")
+//        commonEquipmentLayout.valueBiometricDevices.onImageDialogClick(installBiometricImage, "Biometric Devices")
+//        commonEquipmentLayout.valueCCTVMonitor.onImageDialogClick(installationCCTVImage, "CCTV Monitor")
+//        commonEquipmentLayout.valueStorageDocs.onImageDialogClick(storagePlaceSecuringDocImage, "Storage Documents")
+//        commonEquipmentLayout.valuePrinterScanner.onImageDialogClick(printerCumImage, "Printer Scanner")
+//        commonEquipmentLayout.valueDigitalCamera.onImageDialogClick(digitalCameraImage, "Digital Camera")
+//        commonEquipmentLayout.valueGrievanceRegister.onImageDialogClick(grievanceImage, "Grievance Register")
+//        commonEquipmentLayout.valueMinEquipment.onImageDialogClick(minimumEquipmentImage, "Minimum Equipment")
+//        commonEquipmentLayout.valueDirectionBoards.onImageDialogClick(directionBoardsImage, "Direction Boards")
 //
-//
-//
+//        // Support infra
+//        availSupportInfraLayout.valueSafeDrinkingWater.onImageDialogClick(safeDrinkingImage, "Safe Drinking Water")
+//        availSupportInfraLayout.valueFireFighting.onImageDialogClick(fireFightingImage, "Fire Fighting")
+//        availSupportInfraLayout.valueFirstAidKit.onImageDialogClick(firstAidImage, "First Aid Kit")
 //    }
 
 
-    private fun setupImageClickListeners() = binding.apply {
 
-        // Wash basin + toilets
-        valueMaleToilet.onImageDialogClick(maleToiletImage, "Male Toilet")
-        valueProofMaleSignageToilet.onImageDialogClick(maleToiletSignageImage, "Male Toilet Signage")
-        valueMaleUrinals.onImageDialogClick(maleToiletUrinalsImage, "Male Urinals")
-        valueMaleWashBasin.onImageDialogClick(maleToiletWashbasinImage, "Male Wash Basin")
-        valueFemaleToilet.onImageDialogClick(femaleToiletImage, "Female Toilet")
-        valueProofFemaleSignageToilet.onImageDialogClick(femaleToiletSignageImage, "Female Toilet Signage")
-        valueFemaleWashBasin.onImageDialogClick(femaleToiletWashbasinImage, "Female Wash Basin")
-        valueOverheadTank.onImageDialogClick(ovrHeadTankImage, "Overhead Tank")
-        valueTypeOfFlooring.onImageDialogClick(typeOfFlooringImage, "Type of Flooring")
-
-        // Description area
-        valueFans.onImageDialogClick(fansImage, "Fans")
-        valueCirculationArea.onImageDialogClick(circulationAreaImage, "Circulation Area")
-        valueOpenSpace.onImageDialogClick(openSpaceImage, "Open Space")
-        valueParking.onImageDialogClick(parkingSpaceImage, "Parking Space")
-
-        // Teaching
-        valueIsWelcomeKitAvail.onImageDialogClick(welcomeKitImage, "Welcome Kit")
-
-        // General details
-        valueSignOfLiakage.onImageDialogClick(signOfLeakageImage, "Sign of Leakage")
-        valueProtectionOfStairs.onImageDialogClick(protectionStairsBalImage, "Protection of Stairs")
-
-        // Electrical
-        valueSecuringWire.onImageDialogClick(securingWiringImage, "Securing Wiring")
-        valueSwitchBoard.onImageDialogClick(switchBoardImage, "Switch Board")
-
-        // Signage
-        signageLayout.valueCenterNameBoard.onImageDialogClick(tcNameBoardImage, "Training Center Name Board")
-        signageLayout.valueSummaryAcheivement.onImageDialogClick(activitySummaryBoardImage, "Activity Summary Achievement")
-        signageLayout.valueStudentEntitlement.onImageDialogClick(studentEntitlementBoardImage, "Student Entitlement Board")
-        signageLayout.valueContactDetail.onImageDialogClick(contactDetailImpoPeopleImage, "Contact Details")
-        signageLayout.valueBasicInfoBoard.onImageDialogClick(basicInfoBoardImage, "Basic Info Board")
-        signageLayout.valueCodeOfConduct.onImageDialogClick(codeOfConductImage, "Code of Conduct")
-        signageLayout.valueAttendanceSummary.onImageDialogClick(studentAttendanceImage, "Attendance Summary")
-
-        // IP enable
-        ipCameraLayout.valueCentralMonitor.onImageDialogClick(centralMonitorImage, "Central Monitor")
-        ipCameraLayout.valueConformanceCCTV.onImageDialogClick(conformationOfCCTVImage, "CCTV Conformance")
-        ipCameraLayout.valueStorageCCTV.onImageDialogClick(storageOfCCtvImage, "CCTV Storage")
-        ipCameraLayout.valueDvrStaticIP.onImageDialogClick(dvrImage, "DVR Static IP")
-
-        // Common equipment
-        commonEquipmentLayout.valueElectricalPowerBackup.onImageDialogClick(electricPowerImage, "Electrical Power Backup")
-        commonEquipmentLayout.valueBiometricDevices.onImageDialogClick(installBiometricImage, "Biometric Devices")
-        commonEquipmentLayout.valueCCTVMonitor.onImageDialogClick(installationCCTVImage, "CCTV Monitor")
-        commonEquipmentLayout.valueStorageDocs.onImageDialogClick(storagePlaceSecuringDocImage, "Storage Documents")
-        commonEquipmentLayout.valuePrinterScanner.onImageDialogClick(printerCumImage, "Printer Scanner")
-        commonEquipmentLayout.valueDigitalCamera.onImageDialogClick(digitalCameraImage, "Digital Camera")
-        commonEquipmentLayout.valueGrievanceRegister.onImageDialogClick(grievanceImage, "Grievance Register")
-        commonEquipmentLayout.valueMinEquipment.onImageDialogClick(minimumEquipmentImage, "Minimum Equipment")
-        commonEquipmentLayout.valueDirectionBoards.onImageDialogClick(directionBoardsImage, "Direction Boards")
-
-        // Support infra
-        availSupportInfraLayout.valueSafeDrinkingWater.onImageDialogClick(safeDrinkingImage, "Safe Drinking Water")
-        availSupportInfraLayout.valueFireFighting.onImageDialogClick(fireFightingImage, "Fire Fighting")
-        availSupportInfraLayout.valueFirstAidKit.onImageDialogClick(firstAidImage, "First Aid Kit")
-    }
-
-
-
-    private inline fun TextView.onImageDialogClick(base64: String, fileName: String) {
+    private  fun TextView.onImageDialogClick(base64: String, fileName: String) {
         setOnClickListener { showBase64ImageDialog(base64, fileName) }
     }
 
-    private inline fun TextView.onPdfClick(base64: String, fileName: String) {
+
+
+    private  fun TextView.onPdfClick(base64: String, fileName: String) {
         setOnClickListener { downloadAndOpenBase64Pdf(base64, fileName) }
     }
 
@@ -1359,6 +1360,11 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         viewModel.getAcademicRoomDetails(requestTcRoomDetails)
 
         viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            val jsonResponse = gson.toJson(result)
+            Log.d("getAcademicRoomDetails", "✅ Success Response:\n$jsonResponse")
+
             result.onSuccess { response ->
                 dismissProgressDialog()
                 val data = response.wrappedList.firstOrNull()
@@ -1469,7 +1475,6 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 showErrorToast("Failed: ${it.message}")
             }
         }
-
         binding.backButton.setOnClickListener { dialog.dismiss() }
     }
 
@@ -1686,7 +1691,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                     binding.yesNoLabPhoto.text = safeText(data.roomsPhotographs)
                     binding.yesNodomainrelatedequipPhoto.text = safeText(data.domainEquipment)
                     binding.yesNoStools.text = safeText(data.candidateChair)
-
+                    fansImage= safeText(data.fansImage)
                     setupItCumDomainLabImageClicks(binding, data)
                 } else {
                     showToast("No data available")
@@ -1921,6 +1926,9 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         viewModel.getAcademicRoomDetails(requestTcRoomDetails)
 
         viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            val jsonResponse = gson.toJson(result)
+            Log.d("showDomainLabDialog", "✅ Success Response:\n$jsonResponse")
             result.onSuccess { response ->
                 dismissProgressDialog()
                 val data = response.wrappedList.firstOrNull()
@@ -1947,9 +1955,6 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                         yesNodomainrelatedequipPhoto.text = safeText(data.domainEquipment)
                         yesNoAirConditioning.text = safeText(data.airConditionRoom)
                     }
-
-
-
                     setupDomainLabImageClicks(binding, data)
                 } else {
                     showToast("No data available")
@@ -1982,7 +1987,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
            valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
            valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
            valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
-           valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
+           valueFans.setOnClickListener { showBase64ImageDialog(fansRoomImage, "Fans") }
            valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
            valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "Domain Lab Photo") }
            valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(domainEquipmentImage, "Domain Related Equipment") }
@@ -2249,6 +2254,9 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                     data = it.wrappedList,
                     onSuccess = { data ->
                         data?.forEach { x ->
+                            val gson = GsonBuilder().setPrettyPrinting().create()
+                            val jsonResponse = gson.toJson(x)
+                            Log.d("collectTCToiletAndWash", "✅ Success Response:\n$jsonResponse")
                             maleToiletImage = x.maleToiletImage
                             maleToiletSignageImage = x.maleToiletSignageImage
                             maleToiletUrinalsImage = x.maleUrinalImage
@@ -2277,6 +2285,9 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
     private fun collectTCDescOtherArea() {
         viewModel.getDescriptionOtherArea.observe(viewLifecycleOwner) { result ->
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            val jsonResponse = gson.toJson(result)
+            Log.d("QTrainingFragment", "✅collectTCDescOtherArea Success Response:\n$jsonResponse")
             result.onSuccess {
                 handleApiResponse(
                     responseCode = it.responseCode,
@@ -2585,6 +2596,9 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
     private fun collectAllRoomDetails() {
         viewModel.getAcademicRoomDetails.observe(viewLifecycleOwner) { result ->
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            val jsonResponse = gson.toJson(result)
+            Log.d("QTrainingFragment", "✅collectAllRoomDetails Success Response:\n$jsonResponse")
             result.onSuccess {
                 handleApiResponse(
                     responseCode = it.responseCode,

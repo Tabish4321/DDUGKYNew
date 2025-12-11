@@ -1,7 +1,6 @@
 package com.deendayalproject.fragments
 
 
-
 import SharedViewModel
 import android.Manifest
 import android.annotation.SuppressLint
@@ -13,9 +12,19 @@ import android.os.Bundle
 import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Base64
 import android.util.Log
-import android.view.*
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -23,15 +32,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import android.util.Base64
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
-import com.deendayalproject.adapter.LivingRoomListAdapter
 import com.deendayalproject.R
 import com.deendayalproject.adapter.BlockAdapter
 import com.deendayalproject.adapter.DistrictAdapter
 import com.deendayalproject.adapter.IndoorGameAdapter
+import com.deendayalproject.adapter.LivingRoomListAdapter
 import com.deendayalproject.adapter.PanchayatAdapter
 import com.deendayalproject.adapter.StateAdapter
 import com.deendayalproject.adapter.ToiletAdapter
@@ -60,7 +68,6 @@ import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.ToiletDeleteList
-import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.UrinalWashbasinReq
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
@@ -79,12 +86,11 @@ import com.google.android.gms.location.Priority
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.String
+import java.util.Date
+import java.util.Locale
 
 class ResidentialFacilityFragment : Fragment() {
 
@@ -595,8 +601,6 @@ class ResidentialFacilityFragment : Fragment() {
                         }
 
 
-
-
                         "Urinals" -> {
                             binding.urinalWashbasin.ivUrinalPreview.setImageURI(photoUri)
                             binding.urinalWashbasin.ivUrinalPreview.visibility = View.VISIBLE
@@ -615,10 +619,9 @@ class ResidentialFacilityFragment : Fragment() {
                         "OverHead" -> {
                             binding.urinalWashbasin.ivOverHeadPreview.setImageURI(photoUri)
                             binding.urinalWashbasin.ivOverHeadPreview.visibility = View.VISIBLE
-                            base64OverHeadTankDocFile=
+                            base64OverHeadTankDocFile =
                                 AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
-
 
 
                         "FoodPreparedTraining" -> {
@@ -652,15 +655,12 @@ class ResidentialFacilityFragment : Fragment() {
                         }
 
 
-
                         "DiningAndRecreationArea" -> {
                             binding.ivDiningAndRecreactionAreaPreview.setImageURI(photoUri)
                             binding.ivDiningAndRecreactionAreaPreview.visibility = View.VISIBLE
                             base64RecreationDiningAreaDocFile =
                                 AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
-
-
 
 
                         "IndoorGame" -> {
@@ -766,17 +766,13 @@ class ResidentialFacilityFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) launchCamera()
                 else Toast.makeText(
-                    requireContext(),
-                    "Camera permission is required.",
-                    Toast.LENGTH_SHORT
+                    requireContext(), "Camera permission is required.", Toast.LENGTH_SHORT
                 ).show()
             }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
 
@@ -803,6 +799,7 @@ class ResidentialFacilityFragment : Fragment() {
         observeViewModelLivingAreaList()
         observeViewModelToiletList()
         observeDeleteToiletResponse()
+
         setupToiletRecyclerView()
         setupReceptionAreaSpinner()
         collectSectionStatus()
@@ -826,10 +823,7 @@ class ResidentialFacilityFragment : Fragment() {
         binding.spinnerDiningRecreationAreaSeparate.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
+                    parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
                     val selected = yesNoList[position]
 
@@ -838,7 +832,8 @@ class ResidentialFacilityFragment : Fragment() {
                         binding.llForNotSeperateHide.gone()
                     } else {
                         binding.llForSeperateHide.gone()
-                        binding.llForNotSeperateHide.visible()                    }
+                        binding.llForNotSeperateHide.visible()
+                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -859,16 +854,15 @@ class ResidentialFacilityFragment : Fragment() {
         viewModel.getStateList(request, AppUtil.getSavedTokenPreference(requireContext()))
 
 
-        val sectionReq =
-            SectionReq(
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME,
-                imeiNo = AppUtil.getAndroidId(requireContext()),
-                tcId = centerId,
-                sanctionOrder = sanctionOrder,
-                facilityId = facilityId
+        val sectionReq = SectionReq(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            tcId = centerId,
+            sanctionOrder = sanctionOrder,
+            facilityId = facilityId
 
-            )
+        )
 
         viewModel.getRFSectionStatus(sectionReq)
         showProgressBar()
@@ -877,22 +871,23 @@ class ResidentialFacilityFragment : Fragment() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         binding.btnBack.setOnClickListener {
+            //  requireActivity().onBackPressedDispatcher.onBackPressed()
+            //  findNavController().popBackStack()
             findNavController().navigateUp()
         }
 
 
         binding.btnFinalSubmi.setOnClickListener {
 
-            val finalSubmitReq =
-                RfFinalSubmitReq(
-                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                    appVersion = BuildConfig.VERSION_NAME,
-                    imeiNo = AppUtil.getAndroidId(requireContext()),
-                    tcId = centerId,
-                    sanctionOrder = sanctionOrder,
-                    facilityId = facilityId
+            val finalSubmitReq = RfFinalSubmitReq(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                tcId = centerId,
+                sanctionOrder = sanctionOrder,
+                facilityId = facilityId
 
-                )
+            )
 
             viewModel.insertRFFinalSubmission(finalSubmitReq)
             showProgressBar()
@@ -1023,16 +1018,15 @@ class ResidentialFacilityFragment : Fragment() {
 
 
             } else {
-                val sectionReq =
-                    SectionReq(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        tcId = centerId,
-                        sanctionOrder = sanctionOrder,
-                        facilityId = facilityId
+                val sectionReq = SectionReq(
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    appVersion = BuildConfig.VERSION_NAME,
+                    imeiNo = AppUtil.getAndroidId(requireContext()),
+                    tcId = centerId,
+                    sanctionOrder = sanctionOrder,
+                    facilityId = facilityId
 
-                    )
+                )
 
                 viewModel.getRFSectionStatus(sectionReq)
                 showProgressBar()
@@ -1077,16 +1071,15 @@ class ResidentialFacilityFragment : Fragment() {
 
             } else {
 
-                val sectionReq =
-                    SectionReq(
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        appVersion = BuildConfig.VERSION_NAME,
-                        imeiNo = AppUtil.getAndroidId(requireContext()),
-                        tcId = centerId,
-                        sanctionOrder = sanctionOrder,
-                        facilityId = facilityId
+                val sectionReq = SectionReq(
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    appVersion = BuildConfig.VERSION_NAME,
+                    imeiNo = AppUtil.getAndroidId(requireContext()),
+                    tcId = centerId,
+                    sanctionOrder = sanctionOrder,
+                    facilityId = facilityId
 
-                    )
+                )
 
                 viewModel.getRFSectionStatus(sectionReq)
                 showProgressBar()
@@ -1206,16 +1199,15 @@ class ResidentialFacilityFragment : Fragment() {
                     binding.ivToggleIndoorGameDetail.setImageResource(R.drawable.outline_arrow_upward_24)
                     isIndoorGameVisible = false
                 } else {
-                    val sectionReq =
-                        SectionReq(
-                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                            appVersion = BuildConfig.VERSION_NAME,
-                            imeiNo = AppUtil.getAndroidId(requireContext()),
-                            tcId = centerId,
-                            sanctionOrder = sanctionOrder,
-                            facilityId = facilityId
+                    val sectionReq = SectionReq(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        tcId = centerId,
+                        sanctionOrder = sanctionOrder,
+                        facilityId = facilityId
 
-                        )
+                    )
 
                     viewModel.getRFSectionStatus(sectionReq)
                     showProgressBar()
@@ -1320,9 +1312,7 @@ class ResidentialFacilityFragment : Fragment() {
 
             if (gameName.isEmpty() || base64IndoorGameDocFile == "") {
                 Toast.makeText(
-                    requireContext(),
-                    "Please enter game name and Upload Pic",
-                    Toast.LENGTH_SHORT
+                    requireContext(), "Please enter game name and Upload Pic", Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
             }
@@ -1384,16 +1374,15 @@ class ResidentialFacilityFragment : Fragment() {
                         binding.layoutTCBasicInfoContent.gone()
                         isBasicInfoVisible = true
 
-                        val sectionReq =
-                            SectionReq(
-                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                appVersion = BuildConfig.VERSION_NAME,
-                                imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerId,
-                                sanctionOrder = sanctionOrder,
-                                facilityId = facilityId
+                        val sectionReq = SectionReq(
+                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                            appVersion = BuildConfig.VERSION_NAME,
+                            imeiNo = AppUtil.getAndroidId(requireContext()),
+                            tcId = centerId,
+                            sanctionOrder = sanctionOrder,
+                            facilityId = facilityId
 
-                            )
+                        )
 
                         viewModel.getRFSectionStatus(sectionReq)
                         showProgressBar()
@@ -1433,16 +1422,15 @@ class ResidentialFacilityFragment : Fragment() {
                         ).show()
                         binding.layoutInfraDetailComplianceContent.gone()
                         isInfraVisible = true
-                        val sectionReq =
-                            SectionReq(
-                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                appVersion = BuildConfig.VERSION_NAME,
-                                imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerId,
-                                sanctionOrder = sanctionOrder,
-                                facilityId = facilityId
+                        val sectionReq = SectionReq(
+                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                            appVersion = BuildConfig.VERSION_NAME,
+                            imeiNo = AppUtil.getAndroidId(requireContext()),
+                            tcId = centerId,
+                            sanctionOrder = sanctionOrder,
+                            facilityId = facilityId
 
-                            )
+                        )
 
                         viewModel.getRFSectionStatus(sectionReq)
                         showProgressBar()
@@ -1479,22 +1467,20 @@ class ResidentialFacilityFragment : Fragment() {
                         Toast.makeText(
                             requireContext(),
 
-                            "Living Area submitted successfully!",
-                            Toast.LENGTH_SHORT
+                            "Living Area submitted successfully!", Toast.LENGTH_SHORT
                         ).show()
 
                         binding.layoutLivingAreaInfoContent.gone()
                         binding.hideRectcler.gone()
                         isLivingAreaVisible = true
-                        val sectionReq =
-                            SectionReq(
-                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                appVersion = BuildConfig.VERSION_NAME,
-                                imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerId,
-                                sanctionOrder = sanctionOrder,
-                                facilityId = facilityId
-                            )
+                        val sectionReq = SectionReq(
+                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                            appVersion = BuildConfig.VERSION_NAME,
+                            imeiNo = AppUtil.getAndroidId(requireContext()),
+                            tcId = centerId,
+                            sanctionOrder = sanctionOrder,
+                            facilityId = facilityId
+                        )
                         viewModel.getRFSectionStatus(sectionReq)
                         showProgressBar()
                     }
@@ -1534,16 +1520,15 @@ class ResidentialFacilityFragment : Fragment() {
                         binding.layoutToiletsContent.gone()
                         binding.hideRecyclerToilet.gone()
                         isLivingAreaVisible = true
-                        val sectionReq =
-                            SectionReq(
-                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                appVersion = BuildConfig.VERSION_NAME,
-                                imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerId,
-                                sanctionOrder = sanctionOrder,
-                                facilityId = facilityId
+                        val sectionReq = SectionReq(
+                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                            appVersion = BuildConfig.VERSION_NAME,
+                            imeiNo = AppUtil.getAndroidId(requireContext()),
+                            tcId = centerId,
+                            sanctionOrder = sanctionOrder,
+                            facilityId = facilityId
 
-                            )
+                        )
 
                         viewModel.getRFSectionStatus(sectionReq)
                         showProgressBar()
@@ -1584,16 +1569,15 @@ class ResidentialFacilityFragment : Fragment() {
                         binding.urinalWashbasin.layoutUrinalWashbasinContent.gone()
                         isToiletsAdditionalVisible = true
 
-                        val sectionReq =
-                            SectionReq(
-                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                appVersion = BuildConfig.VERSION_NAME,
-                                imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerId,
-                                sanctionOrder = sanctionOrder,
-                                facilityId = facilityId
+                        val sectionReq = SectionReq(
+                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                            appVersion = BuildConfig.VERSION_NAME,
+                            imeiNo = AppUtil.getAndroidId(requireContext()),
+                            tcId = centerId,
+                            sanctionOrder = sanctionOrder,
+                            facilityId = facilityId
 
-                            )
+                        )
 
                         viewModel.getRFSectionStatus(sectionReq)
                         showProgressBar()
@@ -1637,16 +1621,15 @@ class ResidentialFacilityFragment : Fragment() {
 
                         binding.layoutNonLivingAreaContent.gone()
                         isNonLivingVisible = true
-                        val sectionReq =
-                            SectionReq(
-                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                appVersion = BuildConfig.VERSION_NAME,
-                                imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerId,
-                                sanctionOrder = sanctionOrder,
-                                facilityId = facilityId
+                        val sectionReq = SectionReq(
+                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                            appVersion = BuildConfig.VERSION_NAME,
+                            imeiNo = AppUtil.getAndroidId(requireContext()),
+                            tcId = centerId,
+                            sanctionOrder = sanctionOrder,
+                            facilityId = facilityId
 
-                            )
+                        )
 
                         viewModel.getRFSectionStatus(sectionReq)
                         showProgressBar()
@@ -1685,16 +1668,15 @@ class ResidentialFacilityFragment : Fragment() {
 
                         binding.layoutIndoorGameDetailContent.gone()
                         isIndoorGameVisible = true
-                        val sectionReq =
-                            SectionReq(
-                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                appVersion = BuildConfig.VERSION_NAME,
-                                imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerId,
-                                sanctionOrder = sanctionOrder,
-                                facilityId = facilityId
+                        val sectionReq = SectionReq(
+                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                            appVersion = BuildConfig.VERSION_NAME,
+                            imeiNo = AppUtil.getAndroidId(requireContext()),
+                            tcId = centerId,
+                            sanctionOrder = sanctionOrder,
+                            facilityId = facilityId
 
-                            )
+                        )
 
                         viewModel.getRFSectionStatus(sectionReq)
                         showProgressBar()
@@ -1735,16 +1717,15 @@ class ResidentialFacilityFragment : Fragment() {
 
                         binding.layoutRfAvailableContent.gone()
                         isResidentialFaVisible = true
-                        val sectionReq =
-                            SectionReq(
-                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                appVersion = BuildConfig.VERSION_NAME,
-                                imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerId,
-                                sanctionOrder = sanctionOrder,
-                                facilityId = facilityId
+                        val sectionReq = SectionReq(
+                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                            appVersion = BuildConfig.VERSION_NAME,
+                            imeiNo = AppUtil.getAndroidId(requireContext()),
+                            tcId = centerId,
+                            sanctionOrder = sanctionOrder,
+                            facilityId = facilityId
 
-                            )
+                        )
 
                         viewModel.getRFSectionStatus(sectionReq)
                         showProgressBar()
@@ -1785,16 +1766,15 @@ class ResidentialFacilityFragment : Fragment() {
 
                         binding.layoutSfAvailableContent.gone()
                         isSupportFaVisible = true
-                        val sectionReq =
-                            SectionReq(
-                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                                appVersion = BuildConfig.VERSION_NAME,
-                                imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerId,
-                                sanctionOrder = sanctionOrder,
-                                facilityId = facilityId
+                        val sectionReq = SectionReq(
+                            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                            appVersion = BuildConfig.VERSION_NAME,
+                            imeiNo = AppUtil.getAndroidId(requireContext()),
+                            tcId = centerId,
+                            sanctionOrder = sanctionOrder,
+                            facilityId = facilityId
 
-                            )
+                        )
 
                         viewModel.getRFSectionStatus(sectionReq)
                         showProgressBar()
@@ -1820,10 +1800,7 @@ class ResidentialFacilityFragment : Fragment() {
 
         spinnerState.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                parentView: AdapterView<*>?,
-                selectedItemView: View?,
-                position: Int,
-                id: Long
+                parentView: AdapterView<*>?, selectedItemView: View?, position: Int, id: Long
             ) {
                 if (position == 0) {
                     selectedStateCode = "0"
@@ -1848,8 +1825,7 @@ class ResidentialFacilityFragment : Fragment() {
                         stateCode = selectedStateCode,
                     )
                     viewModel.getDistrictList(
-                        request,
-                        AppUtil.getSavedTokenPreference(requireContext())
+                        request, AppUtil.getSavedTokenPreference(requireContext())
                     )
                 }
             }
@@ -1857,13 +1833,10 @@ class ResidentialFacilityFragment : Fragment() {
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
         }
 
-        spinnerDistrict.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        spinnerDistrict.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SetTextI18n")
             override fun onItemSelected(
-                parentView: AdapterView<*>?,
-                selectedItemView: View?,
-                position: Int,
-                id: Long
+                parentView: AdapterView<*>?, selectedItemView: View?, position: Int, id: Long
             ) {
                 if (position == 0) {
                     selectedDistrictCode = "0"
@@ -1875,7 +1848,7 @@ class ResidentialFacilityFragment : Fragment() {
                     spinnerGp.setSelection(0)
                 } else {
                     val districtModel =
-                        (spinnerDistrict.getAdapter() as DistrictAdapter).getItem(position)
+                        (spinnerDistrict.adapter as DistrictAdapter).getItem(position)
                     selectedDistrictCode = districtModel!!.districtCode
 
                     val request = BlockRequest(
@@ -1883,22 +1856,18 @@ class ResidentialFacilityFragment : Fragment() {
                         districtCode = selectedDistrictCode,
                     )
                     viewModel.getBlockList(
-                        request,
-                        AppUtil.getSavedTokenPreference(requireContext())
+                        request, AppUtil.getSavedTokenPreference(requireContext())
                     )
                     // Toast.makeText(applicationContext,""+selectedStateCode,Toast.LENGTH_LONG).show()
                 }
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
-        })
-        spinnerBlock.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        }
+        spinnerBlock.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SetTextI18n")
             override fun onItemSelected(
-                parentView: AdapterView<*>?,
-                selectedItemView: View?,
-                position: Int,
-                id: Long
+                parentView: AdapterView<*>?, selectedItemView: View?, position: Int, id: Long
             ) {
                 if (position == 0) {
                     selectedBlockCode = "0"
@@ -1907,7 +1876,7 @@ class ResidentialFacilityFragment : Fragment() {
                     spinnerVillage.setSelection(0)
                     spinnerGp.setSelection(0)
                 } else {
-                    val blockModel = (spinnerBlock.getAdapter() as BlockAdapter).getItem(position)
+                    val blockModel = (spinnerBlock.adapter as BlockAdapter).getItem(position)
                     selectedBlockCode = blockModel!!.blockCode
 
                     val request = GpRequest(
@@ -1920,46 +1889,37 @@ class ResidentialFacilityFragment : Fragment() {
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
-        })
-        spinnerGp.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        }
+        spinnerGp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SetTextI18n")
             override fun onItemSelected(
-                parentView: AdapterView<*>?,
-                selectedItemView: View?,
-                position: Int,
-                id: Long
+                parentView: AdapterView<*>?, selectedItemView: View?, position: Int, id: Long
             ) {
                 if (position == 0) {
                     selectedGpCode = "0"
                     selectedVillageCode = "0"
                     spinnerVillage.setSelection(0)
                 } else {
-                    val gpModel = (spinnerGp.getAdapter() as PanchayatAdapter).getItem(position)
+                    val gpModel = (spinnerGp.adapter as PanchayatAdapter).getItem(position)
                     selectedGpCode = gpModel!!.gpCode
-
-
                     val requestVill = VillageReq(
                         appVersion = BuildConfig.VERSION_NAME,
                         gpCode = selectedGpCode,
                     )
                     viewModel.getVillageList(
-                        requestVill,
-                        AppUtil.getSavedTokenPreference(requireContext())
+                        requestVill, AppUtil.getSavedTokenPreference(requireContext())
                     )
 
                 }
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
-        })
+        }
 
-        spinnerVillage.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        spinnerVillage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SetTextI18n")
             override fun onItemSelected(
-                parentView: AdapterView<*>?,
-                selectedItemView: View?,
-                position: Int,
-                id: Long
+                parentView: AdapterView<*>?, selectedItemView: View?, position: Int, id: Long
             ) {
                 if (position == 0) {
 
@@ -1967,7 +1927,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                 } else {
                     val villageModel =
-                        (spinnerVillage.getAdapter() as VillageAdapter).getItem(position)
+                        (spinnerVillage.adapter as VillageAdapter).getItem(position)
                     selectedVillageCode = villageModel!!.villageCode
 
 
@@ -1975,15 +1935,13 @@ class ResidentialFacilityFragment : Fragment() {
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
-        })
+        }
 
 
 
 
         setupAutoAreaCalculationForRoom(
-            binding.etRoomLength,
-            binding.etRoomWidth,
-            binding.etRoomArea
+            binding.etRoomLength, binding.etRoomWidth, binding.etRoomArea
         )
 
 
@@ -1991,20 +1949,14 @@ class ResidentialFacilityFragment : Fragment() {
 
 
         setupAutoAreaCalculation(
-            binding.etKitchenLength,
-            binding.etKitchenWidth,
-            binding.etKitchenArea
+            binding.etKitchenLength, binding.etKitchenWidth, binding.etKitchenArea
         )
 
         setupAutoAreaCalculation(
-            binding.etDiningLength,
-            binding.etDiningWidth,
-            binding.etDiningArea
+            binding.etDiningLength, binding.etDiningWidth, binding.etDiningArea
         )
         setupAutoAreaCalculation(
-            binding.etRecreationLength,
-            binding.etRecreationWidth,
-            binding.etRecreationArea
+            binding.etRecreationLength, binding.etRecreationWidth, binding.etRecreationArea
         )
 
 
@@ -2102,7 +2054,6 @@ class ResidentialFacilityFragment : Fragment() {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
         binding.spinnerFacilityType.adapter = facilityTypeAdapter
-
 
 
         val ownershipOfBuildingAdapter = ArrayAdapter(
@@ -2468,9 +2419,7 @@ class ResidentialFacilityFragment : Fragment() {
         view.findViewById<Button>(R.id.btnSubmitToiletInfo).setOnClickListener {
             if (validateToiletInfoForm(view)) submitRFToiletForm(view)
             else Toast.makeText(
-                requireContext(),
-                "Complete all Toilets  fields and photos.",
-                Toast.LENGTH_LONG
+                requireContext(), "Complete all Toilets  fields and photos.", Toast.LENGTH_LONG
             ).show()
         }
 
@@ -2490,13 +2439,6 @@ class ResidentialFacilityFragment : Fragment() {
                 Toast.LENGTH_LONG
             ).show()
         }
-
-
-
-
-
-
-
 
         view.findViewById<Button>(R.id.btnSubmitNonLivingAreaInfo).setOnClickListener {
             if (validateNonLivingAreaInfoForm(view)) submitRFNonLivingAreaForm(view)
@@ -2530,6 +2472,7 @@ class ResidentialFacilityFragment : Fragment() {
     private fun observeState() {
         viewModel.stateList.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
+                hideProgressBar()
                 when (response.responseCode) {
                     200 -> populateSpinnerState(
                         (response.wrappedList ?: emptyList()) as ArrayList<StateModel?>,
@@ -2537,25 +2480,20 @@ class ResidentialFacilityFragment : Fragment() {
                     )
 
                     202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "No data available.", Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
             }
             result.onFailure {
+                hideProgressBar()
                 Toast.makeText(
-                    requireContext(),
-                    "Failed: ${it.message}",
-                    Toast.LENGTH_SHORT
+                    requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -2565,6 +2503,7 @@ class ResidentialFacilityFragment : Fragment() {
     private fun observeDistrict() {
         viewModel.districtList.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
+                hideProgressBar()
                 when (response.responseCode) {
                     200 -> populateSpinnerDistrict(
                         (response.wrappedList ?: emptyList()) as ArrayList<DistrictModel?>,
@@ -2572,21 +2511,18 @@ class ResidentialFacilityFragment : Fragment() {
                     )
 
                     202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "No data available.", Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
             }
             result.onFailure {
+                hideProgressBar()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -2595,28 +2531,25 @@ class ResidentialFacilityFragment : Fragment() {
     private fun observeBlock() {
         viewModel.blockList.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
+                hideProgressBar()
                 when (response.responseCode) {
                     200 -> populateSpinnerBlock(
-                        (response.wrappedList ?: emptyList()) as ArrayList<BlockModel>,
-                        spinnerBlock
+                        (response.wrappedList ?: emptyList()) as ArrayList<BlockModel>, spinnerBlock
                     )
 
                     202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "No data available.", Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
             }
             result.onFailure {
+                hideProgressBar()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -2625,28 +2558,25 @@ class ResidentialFacilityFragment : Fragment() {
     private fun observeGp() {
         viewModel.gpList.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
+                hideProgressBar()
                 when (response.responseCode) {
                     200 -> populateSpinnerGp(
-                        (response.wrappedList ?: emptyList()) as ArrayList<GpModel?>,
-                        spinnerGp
+                        (response.wrappedList ?: emptyList()) as ArrayList<GpModel?>, spinnerGp
                     )
 
                     202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "No data available.", Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
             }
             result.onFailure {
+                hideProgressBar()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -2655,6 +2585,8 @@ class ResidentialFacilityFragment : Fragment() {
     private fun observeVillage() {
         viewModel.villageList.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
+                hideProgressBar()
+
                 when (response.responseCode) {
                     200 -> populateSpinnerVillage(
                         (response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>,
@@ -2662,21 +2594,19 @@ class ResidentialFacilityFragment : Fragment() {
                     )
 
                     202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "No data available.", Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
             }
             result.onFailure {
+                hideProgressBar()
+
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -2684,8 +2614,7 @@ class ResidentialFacilityFragment : Fragment() {
 
 
     private fun populateSpinnerState(
-        alStateModel: ArrayList<StateModel?>,
-        sp: Spinner
+        alStateModel: ArrayList<StateModel?>, sp: Spinner
     ): StateAdapter? {
 
         if (alStateModel.isNotEmpty()) {
@@ -2700,8 +2629,7 @@ class ResidentialFacilityFragment : Fragment() {
     }
 
     private fun populateSpinnerDistrict(
-        alStateModel: java.util.ArrayList<DistrictModel?>,
-        sp: Spinner
+        alStateModel: ArrayList<DistrictModel?>, sp: Spinner
     ) {
         if (!alStateModel.isEmpty() && alStateModel.size > 0) {
             alStateModel!!.add(0, DistrictModel("--Select--", "0"))
@@ -2724,7 +2652,7 @@ class ResidentialFacilityFragment : Fragment() {
         }
     }
 
-    private fun populateSpinnerGp(alStateModel: java.util.ArrayList<GpModel?>, sp: Spinner) {
+    private fun populateSpinnerGp(alStateModel: ArrayList<GpModel?>, sp: Spinner) {
         if (!alStateModel.isEmpty() && alStateModel.size > 0) {
             alStateModel!!.add(0, GpModel("--Select--", "0"))
             val dbAdapter = PanchayatAdapter(
@@ -2737,8 +2665,7 @@ class ResidentialFacilityFragment : Fragment() {
 
 
     private fun populateSpinnerVillage(
-        alStateModel: java.util.ArrayList<VillageModel?>,
-        sp: Spinner
+        alStateModel: ArrayList<VillageModel?>, sp: Spinner
     ) {
         if (!alStateModel.isEmpty() && alStateModel.size > 0) {
             alStateModel!!.add(0, VillageModel("--Select--", "0"))
@@ -2910,11 +2837,9 @@ class ResidentialFacilityFragment : Fragment() {
 
     private fun checkAndLaunchCamera() {
         if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.CAMERA
+                requireContext(), Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED
-        )
-            launchCamera()
+        ) launchCamera()
         else permissionLauncher.launch(Manifest.permission.CAMERA)
     }
 
@@ -2926,9 +2851,7 @@ class ResidentialFacilityFragment : Fragment() {
             return
         }
         photoUri = FileProvider.getUriForFile(
-            requireContext(),
-            "${requireContext().packageName}.provider",
-            photoFile
+            requireContext(), "${requireContext().packageName}.provider", photoFile
         )
         cameraLauncher.launch(photoUri)
     }
@@ -2971,13 +2894,11 @@ class ResidentialFacilityFragment : Fragment() {
             false
         if (!checkTextInput(etEmail, "Email Id")) isValid = false
         if (!checkTextInput(
-                etDistanceFromBusStand,
-                "Approximate Distance from a Prominent Bus Stand (In Mtrs.)"
+                etDistanceFromBusStand, "Approximate Distance from a Prominent Bus Stand (In Mtrs.)"
             )
         ) isValid = false
         if (!checkTextInput(
-                etDistanceFromAutoStand,
-                "Approximate Distance from an Auto Stand (In Mtrs.)"
+                etDistanceFromAutoStand, "Approximate Distance from an Auto Stand (In Mtrs.)"
             )
         ) isValid = false
         if (!checkTextInput(
@@ -3009,8 +2930,7 @@ class ResidentialFacilityFragment : Fragment() {
         isValid = isValid && checkSpinner(spinnerOwnerBuilding, "Ownership of Building")
         isValid = isValid && checkSpinner(spinnerRoofOfBuilding, "Roof of the Building")
         isValid = isValid && checkSpinner(
-            spinnerWhetherStructurallySound,
-            "Whether it is Structurally Sound"
+            spinnerWhetherStructurallySound, "Whether it is Structurally Sound"
         )
         isValid = isValid && checkSpinner(spinnerVisibleSignOfLeakage, "Visible Signs of Leakages")
         isValid =
@@ -3055,19 +2975,13 @@ class ResidentialFacilityFragment : Fragment() {
             "Upload image for Protection of Stairs"
         )
         isValid = isValid && validateImageIfYes(
-            spinnerCorridor,
-            base64CorridorDocFile,
-            "Upload image for Corridor"
+            spinnerCorridor, base64CorridorDocFile, "Upload image for Corridor"
         )
         isValid = isValid && validateImageIfYes(
-            spinnerSecuringWires,
-            base64SecuringWiresDocFile,
-            "Upload image for Securing Wires"
+            spinnerSecuringWires, base64SecuringWiresDocFile, "Upload image for Securing Wires"
         )
         isValid = isValid && validateImageIfYes(
-            spinnerSwitchBoards,
-            base64SwitchBoardsDocFile,
-            "Upload image for Switch Boards"
+            spinnerSwitchBoards, base64SwitchBoardsDocFile, "Upload image for Switch Boards"
         )
         isValid = isValid && validateImageIfYes(
             spinnerHostelNameBoard,
@@ -3080,14 +2994,10 @@ class ResidentialFacilityFragment : Fragment() {
             "Upload image for Entitlement Board"
         )
         isValid = isValid && validateImageIfYes(
-            spinnerContactDetail,
-            base64ContactDetailDocFile,
-            "Upload image for Contact Detail"
+            spinnerContactDetail, base64ContactDetailDocFile, "Upload image for Contact Detail"
         )
         isValid = isValid && validateImageIfYes(
-            spinnerBasicInfoBoard,
-            base64BasicInfoBoardDocFile,
-            "Upload image for Basic Info Board"
+            spinnerBasicInfoBoard, base64BasicInfoBoardDocFile, "Upload image for Basic Info Board"
         )
         isValid = isValid && validateImageIfYes(
             spinnerFoodSpecificationBoard,
@@ -3110,8 +3020,7 @@ class ResidentialFacilityFragment : Fragment() {
         if (!checkSpinner(spinnerAirConditioning, "Does the room has Air Conditioning ?")) isValid =
             false
         if (!checkSpinner(
-                spinnerLivingAreaInfoBoard,
-                "Living Area Information Board as per SF 5.1 B4 ?"
+                spinnerLivingAreaInfoBoard, "Living Area Information Board as per SF 5.1 B4 ?"
             )
         ) isValid = false
 
@@ -3124,8 +3033,7 @@ class ResidentialFacilityFragment : Fragment() {
         if (!checkTextInput(etMattress, "Mattress (In No.)")) isValid = false
         if (!checkTextInput(etBedSheet, "Bed Sheet (In No.)")) isValid = false
         if (!checkTextInput(
-                etCupboard,
-                "Cupboard / Almirah / Trunk with Locking Arrangements (In No.)"
+                etCupboard, "Cupboard / Almirah / Trunk with Locking Arrangements (In No.)"
             )
         ) isValid = false
         if (!checkTextInput(etLivingAreaLights, "Lights")) isValid = false
@@ -3134,9 +3042,7 @@ class ResidentialFacilityFragment : Fragment() {
 
 
         isValid = isValid && validateImageIfYes(
-            spinnerCeiling,
-            base64CeilingDocFile,
-            "Upload image for False Ceiling Provided"
+            spinnerCeiling, base64CeilingDocFile, "Upload image for False Ceiling Provided"
         )
         isValid = isValid && validateImageIfYes(
             spinnerAirConditioning,
@@ -3149,11 +3055,8 @@ class ResidentialFacilityFragment : Fragment() {
             "Upload image for Living Area Info Board"
         )
 
-        if (base64TypeLivingRoofDocFile == null
-            || base64CotDocFile == null || base64MattressDocFile == null || base64BedSheetDocFile == null || base64CupBoardDocFile == null
-            || base64LightsDocFile == null || base64FansDocFile == null
-            || base64AirHieghtOfCelingDocFile == null || base64WindowAreaDocFile == null
-        ) isValid = false
+        if (base64TypeLivingRoofDocFile == null || base64CotDocFile == null || base64MattressDocFile == null || base64BedSheetDocFile == null || base64CupBoardDocFile == null || base64LightsDocFile == null || base64FansDocFile == null || base64AirHieghtOfCelingDocFile == null || base64WindowAreaDocFile == null) isValid =
+            false
 
         return isValid
     }
@@ -3182,13 +3085,11 @@ class ResidentialFacilityFragment : Fragment() {
         var isValid = true
 
 
-
         // Validate all required Spinners
         if (!checkSpinner(spinnerToiletType, "Toilet Type")) isValid = false
         if (!checkSpinner(spinnerToiletFlooringType, "Type of Flooring")) isValid = false
         if (!checkSpinner(spinnerConnectionToRunningWater, "Connection To Running Water")) isValid =
-            false
-        /* if (!checkSpinner(spinnerOverheadTanks, "Overhead Tanks")) isValid = false
+            false/* if (!checkSpinner(spinnerOverheadTanks, "Overhead Tanks")) isValid = false
 
 
         // Validate required TextInputEditTexts
@@ -3196,7 +3097,7 @@ class ResidentialFacilityFragment : Fragment() {
         if (!checkTextInput(etFemaleUrinal, "Female Urinals")) isValid = false
         if (!checkTextInput(etFemaleWashbasins, "Female Washbasins")) isValid = false*/
 
-        if (base64LightsInToiletDocFile == null || base64ToiletFlooringDocFile == null ) isValid =
+        if (base64LightsInToiletDocFile == null || base64ToiletFlooringDocFile == null) isValid =
             false
         isValid = isValid && validateImageIfYes(
             spinnerConnectionToRunningWater,
@@ -3218,7 +3119,7 @@ class ResidentialFacilityFragment : Fragment() {
         if (!checkTextInput(etFemaleUrinal, "Female Urinals")) isValid = false
         if (!checkTextInput(etFemaleWashbasins, "Female Washbasins")) isValid = false
 
-        if (base64UrinalsDocFile == "" || base64WashBasinDocFile == "" ) isValid = false
+        if (base64UrinalsDocFile == "" || base64WashBasinDocFile == "") isValid = false
 
 
 
@@ -3234,20 +3135,26 @@ class ResidentialFacilityFragment : Fragment() {
     }
 
 
-
-
-
     private fun validateNonLivingAreaInfoForm(view: View): Boolean {
         var isValid = true
         // Validate all required Spinners
-        if (!checkSpinner(spinnerFoodPreparedTrainingCenter, "Whether Food for the Candidates is being Prepared in the Premises of the Training Center?"))
-            isValid = false
-        if (!checkSpinner(spinnerDiningRecreationAreaSeparate, "Are the Dining and Recreation Area Separate?"))
-            isValid = false
-        if (!checkSpinner(spinnerIsReceptionAreaAva, "Is Reception area is available?"))
-            isValid = false
-        if (!checkSpinner(spinnerTvAvailable, "Whether TV with a Cable or Satellite Connection is Available for Viewing?"))
-            isValid = false
+        if (!checkSpinner(
+                spinnerFoodPreparedTrainingCenter,
+                "Whether Food for the Candidates is being Prepared in the Premises of the Training Center?"
+            )
+        ) isValid = false
+        if (!checkSpinner(
+                spinnerDiningRecreationAreaSeparate,
+                "Are the Dining and Recreation Area Separate?"
+            )
+        ) isValid = false
+        if (!checkSpinner(spinnerIsReceptionAreaAva, "Is Reception area is available?")) isValid =
+            false
+        if (!checkSpinner(
+                spinnerTvAvailable,
+                "Whether TV with a Cable or Satellite Connection is Available for Viewing?"
+            )
+        ) isValid = false
 
         if (selectedRfFoodPre == "Yes") {
 
@@ -3257,16 +3164,17 @@ class ResidentialFacilityFragment : Fragment() {
 
         // Validate required TextInputEditTexts
         if (!checkTextInput(etStoolsChairsBenches, "No.of Stools/Chairs/Benches")) isValid = false
-        if (spinnerDiningRecreationAreaSeparate.selectedItem.toString()=="Yes")
-        {
+        if (spinnerDiningRecreationAreaSeparate.selectedItem.toString() == "Yes") {
             if (!checkTextInput(etDiningLength, "Length (in ft)")) isValid = false
             if (!checkTextInput(etDiningWidth, "Width (in ft)")) isValid = false
             if (!checkTextInput(etRecreationLength, "Length (in ft)")) isValid = false
             if (!checkTextInput(etRecreationWidth, "Width (in ft)")) isValid = false
 
-        } else{
-            if (!checkTextInput(binding.etDiningAndRecreactionWidth, "Length (in ft)")) isValid = false
-            if (!checkTextInput(binding.etDiningAndRecreactionLength, "Width (in ft)")) isValid = false
+        } else {
+            if (!checkTextInput(binding.etDiningAndRecreactionWidth, "Length (in ft)")) isValid =
+                false
+            if (!checkTextInput(binding.etDiningAndRecreactionLength, "Width (in ft)")) isValid =
+                false
 
         }
 
@@ -3292,9 +3200,7 @@ class ResidentialFacilityFragment : Fragment() {
             "Upload image for Food Preparation"
         )
         isValid = isValid && validateImageIfYes(
-            spinnerIsReceptionAreaAva,
-            base64ReceptionAreaDocFile,
-            "Upload image for Reception Area"
+            spinnerIsReceptionAreaAva, base64ReceptionAreaDocFile, "Upload image for Reception Area"
         )
         return isValid
     }
@@ -3308,18 +3214,15 @@ class ResidentialFacilityFragment : Fragment() {
             )
         ) isValid = false
         if (!checkSpinner(
-                spinnerWardenWhereMalesStay,
-                "Warden/care taker for hostels where males stay?"
+                spinnerWardenWhereMalesStay, "Warden/care taker for hostels where males stay?"
             )
         ) isValid = false
         if (!checkSpinner(
-                spinnerWardenWhereLadyStay,
-                "Lady warden/caretaker for hostels where females stay?"
+                spinnerWardenWhereLadyStay, "Lady warden/caretaker for hostels where females stay?"
             )
         ) isValid = false
         if (!checkSpinner(
-                spinnerSecurityGaurdsAvailable,
-                "Are Security Gaurds Available ?"
+                spinnerSecurityGaurdsAvailable, "Are Security Gaurds Available ?"
             )
         ) isValid = false
         if (!checkSpinner(
@@ -3381,22 +3284,19 @@ class ResidentialFacilityFragment : Fragment() {
             false
         if (!checkSpinner(spinnerFirstAidKitAvailable, "First Aid Kit?")) isValid = false
         if (!checkSpinner(
-                spinnerFireFightingEquipmentAvailable,
-                "Fire-fighting Equipment?"
+                spinnerFireFightingEquipmentAvailable, "Fire-fighting Equipment?"
             )
         ) isValid = false
         if (!checkSpinner(spinnerBiometricDeviceAvailable, "Biometric Device?")) isValid = false
         if (!checkSpinner(
-                spinnerElectricalPowerBackupAvailable,
-                "Electrical Power Backup?"
+                spinnerElectricalPowerBackupAvailable, "Electrical Power Backup?"
             )
         ) isValid = false
         if (!checkSpinner(spinnerGrievanceRegisterAvailable, "Grievance Register?")) isValid = false
 
 
-        if (base64SafeDrinkingDocFile == null || base64FirstAidKitDocFile == null || base64FireFightingEquipmentDocFile == null
-            || base64BiometricDeviceDocFile == null || base64ElectricalPowerDocFile == null || base64GrievanceRegisterDocFile == null
-        ) isValid = false
+        if (base64SafeDrinkingDocFile == null || base64FirstAidKitDocFile == null || base64FireFightingEquipmentDocFile == null || base64BiometricDeviceDocFile == null || base64ElectricalPowerDocFile == null || base64GrievanceRegisterDocFile == null) isValid =
+            false
 
         isValid = isValid && validateImageIfYes(
             spinnerSafeDrinikingAvailable,
@@ -3438,9 +3338,7 @@ class ResidentialFacilityFragment : Fragment() {
     }
 
     private fun calculateAndShowArea(
-        etLength: EditText,
-        etWidth: EditText,
-        tvArea: TextView
+        etLength: EditText, etWidth: EditText, tvArea: TextView
     ) {
         val lengthStr = etLength.text.toString().trim()
         val widthStr = etWidth.text.toString().trim()
@@ -3457,9 +3355,7 @@ class ResidentialFacilityFragment : Fragment() {
     }
 
     private fun setupAutoAreaCalculation(
-        etLengths: EditText,
-        etWidths: EditText,
-        tvAreas: TextView
+        etLengths: EditText, etWidths: EditText, tvAreas: TextView
     ) {
         val watcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -3476,9 +3372,7 @@ class ResidentialFacilityFragment : Fragment() {
 
 
     private fun calculateAndShowAreaForRoom(
-        etLength: EditText,
-        etWidth: EditText,
-        tvArea: TextView
+        etLength: EditText, etWidth: EditText, tvArea: TextView
     ) {
         val lengthStr = etLength.text.toString().trim()
         val widthStr = etWidth.text.toString().trim()
@@ -3505,9 +3399,7 @@ class ResidentialFacilityFragment : Fragment() {
     }
 
     private fun setupAutoAreaCalculationForRoom(
-        etLengths: EditText,
-        etWidths: EditText,
-        tvAreas: TextView
+        etLengths: EditText, etWidths: EditText, tvAreas: TextView
     ) {
         val watcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -3525,22 +3417,18 @@ class ResidentialFacilityFragment : Fragment() {
 
     private fun hasLocationPermission(): Boolean {
         val fineLocation = ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
+            requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
         )
         val coarseLocation = ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
         )
-        return fineLocation == PackageManager.PERMISSION_GRANTED ||
-                coarseLocation == PackageManager.PERMISSION_GRANTED
+        return fineLocation == PackageManager.PERMISSION_GRANTED || coarseLocation == PackageManager.PERMISSION_GRANTED
     }
 
     private fun requestLocationPermission() {
         requestPermissionLauncher.launch(
             arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
             )
         )
     }
@@ -3552,18 +3440,17 @@ class ResidentialFacilityFragment : Fragment() {
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
                 if (location != null) {
-                    binding.tvLatLang.text = location.latitude.toString() + "," + location.longitude.toString()
+                    binding.tvLatLang.text =
+                        location.latitude.toString() + "," + location.longitude.toString()
                     latValue = location.latitude.toString()
                     langValue = location.longitude.toString()
                 } else {
-                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT)
+                        .show()
                 }
-            }
-            .addOnFailureListener {
+            }.addOnFailureListener {
                 Toast.makeText(
-                    requireContext(),
-                    "Failed to get location: ${it.message}",
-                    Toast.LENGTH_SHORT
+                    requireContext(), "Failed to get location: ${it.message}", Toast.LENGTH_SHORT
                 ).show()
             }
     }
@@ -3573,51 +3460,50 @@ class ResidentialFacilityFragment : Fragment() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
 
-        val request =
-            insertRfBasicInfoReq(
-                sanctionOrder = sanctionOrder,
-                trainingCentre = centerId.toInt(),
-                schemeName = "DDUGKY",
-                residentialFacilityName = etFacilityName.text.toString(),
-                residentialType =binding.spinnerFacilityType.selectedItem.toString(),
-                residentialCenterLocation = "",
-                houseNo = etHouseNo.text.toString(),
-                streetNo1 = etStreet.text.toString(),
-                streetNo2 = "",
-                landMark = etLandmark.text.toString(),
-                stateCode = selectedStateCode,
-                districtCode = selectedDistrictCode,
-                blockCode = selectedBlockCode,
-                gpCode = selectedGpCode,
-                villageCode = selectedVillageCode,
-                policeStation = etPoliceStation.text.toString(),
-                pincode = etPinCode.text.toString(),
-                mobile = etMobile.text.toString(),
-                residentialFacilityPhoneNo = etPhone.text.toString(),
-                email = etEmail.text.toString(),
-                typeOfArea = spinnerTypeOfArea.selectedItem.toString(),
-                latitude = latValue,
-                longitude = langValue,
-                geoAddress = "",
-                categoryOfTC = spinnerCatOfTCLocation.selectedItem.toString(),
-                distBusStand = etDistanceFromBusStand.text.toString(),
-                distAutoStand = etDistanceFromAutoStand.text.toString(),
-                distRailStand = etDistanceFromRailwayStand.text.toString(),
-                distfromTC = etDistanceFromTrainingToResidentialCentre.text.toString(),
-                pickUpDrop = spinnerPickupAndDropFacility.selectedItem.toString(),
-                wardName = etWardenName.text.toString(),
-                wardGender = spinnerWardenGender.selectedItem.toString(),
-                wardEmployeeId = etWardenEmpID.text.toString(),
-                wardAddress = etWardenAddress.text.toString(),
-                wardEmail = etWardenEmailId.text.toString(),
-                wardMobile = etWardenMobile.text.toString(),
-                empLetterFile = base64ALDocFile!!,
-                policeVerificationFile = base64PVDocFile!!,
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME,
-                imeiNo = AppUtil.getAndroidId(requireContext()),
-                resFacilityId = facilityId.toInt()
-            )
+        val request = insertRfBasicInfoReq(
+            sanctionOrder = sanctionOrder,
+            trainingCentre = centerId.toInt(),
+            schemeName = "DDUGKY",
+            residentialFacilityName = etFacilityName.text.toString(),
+            residentialType = binding.spinnerFacilityType.selectedItem.toString(),
+            residentialCenterLocation = "",
+            houseNo = etHouseNo.text.toString(),
+            streetNo1 = etStreet.text.toString(),
+            streetNo2 = "",
+            landMark = etLandmark.text.toString(),
+            stateCode = selectedStateCode,
+            districtCode = selectedDistrictCode,
+            blockCode = selectedBlockCode,
+            gpCode = selectedGpCode,
+            villageCode = selectedVillageCode,
+            policeStation = etPoliceStation.text.toString(),
+            pincode = etPinCode.text.toString(),
+            mobile = etMobile.text.toString(),
+            residentialFacilityPhoneNo = etPhone.text.toString(),
+            email = etEmail.text.toString(),
+            typeOfArea = spinnerTypeOfArea.selectedItem.toString(),
+            latitude = latValue,
+            longitude = langValue,
+            geoAddress = "",
+            categoryOfTC = spinnerCatOfTCLocation.selectedItem.toString(),
+            distBusStand = etDistanceFromBusStand.text.toString(),
+            distAutoStand = etDistanceFromAutoStand.text.toString(),
+            distRailStand = etDistanceFromRailwayStand.text.toString(),
+            distfromTC = etDistanceFromTrainingToResidentialCentre.text.toString(),
+            pickUpDrop = spinnerPickupAndDropFacility.selectedItem.toString(),
+            wardName = etWardenName.text.toString(),
+            wardGender = spinnerWardenGender.selectedItem.toString(),
+            wardEmployeeId = etWardenEmpID.text.toString(),
+            wardAddress = etWardenAddress.text.toString(),
+            wardEmail = etWardenEmailId.text.toString(),
+            wardMobile = etWardenMobile.text.toString(),
+            empLetterFile = base64ALDocFile!!,
+            policeVerificationFile = base64PVDocFile!!,
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            resFacilityId = facilityId.toInt()
+        )
 
         viewModel.SubmitRfBasicInformationToServer(request, token)
         showProgressBar()
@@ -3628,49 +3514,48 @@ class ResidentialFacilityFragment : Fragment() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
 
-        val request =
-            InsertRfInfraDetaiReq(
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME,
-                imeiNo = AppUtil.getAndroidId(requireContext()),
-                sanctionOrder = sanctionOrder,
-                trainingCentre = centerId.toInt(),
-                facilityId = facilityId.toInt(),
-                ownership = spinnerOwnerBuilding.selectedItem.toString(),
-                buildingArea = etAreaOfBuilding.text.toString(),
-                roof = spinnerRoofOfBuilding.selectedItem.toString(),
-                plastering = spinnerWhetherStructurallySound.selectedItem.toString(),
-                empLetterFile = base64OwnerBuildingDocFile!!,
-                buildingPlan = base64BuildingAreaDocFile!!,
-                photosBuilding = base64RoofOfBuildingDocFile!!,
-                photosWalls = base64WhetherStructurallySoundDocFile!!,
-                leakages = spinnerVisibleSignOfLeakage.selectedItem.toString(),
-                conformanceDDU = spinnerConformanceDDUGKY.selectedItem.toString(),
-                protectionStairs = spinnerProtectionofStairs.selectedItem.toString(),
-                circulatingArea = etCirculatingArea.text.toString(),
-                corridor = spinnerCorridor.selectedItem.toString(),
-                securingWiresDone = spinnerSecuringWires.selectedItem.toString(),
-                switchBoardsPanelBoards = spinnerSwitchBoards.selectedItem.toString(),
-                hostelNameBoard = spinnerHostelNameBoard.selectedItem.toString(),
-                studentEntitlementBoard = spinnerEntitlementBoard.selectedItem.toString(),
-                contactDetailImportantPeople = spinnerContactDetail.selectedItem.toString(),
-                basicInformationBoard = spinnerBasicInfoBoard.selectedItem.toString(),
-                foodSpecificationBoard = spinnerFoodSpecificationBoard.selectedItem.toString(),
-                openSpaceArea = etAreaForOutDoorGames.text.toString(),
-                leakagesProof = base64SignOfLeakageDocFile!!,
-                conformanceDDUProof = base64ConformanceDDUGKYDocFile!!,
-                protectionStairsProof = base64ProtectionofStairsDocFile!!,
-                circulatingAreaProof = base64CirculatingAreaProof!!,
-                corridorProof = base64CorridorDocFile!!,
-                securingWiresDoneProof = base64SecuringWiresDocFile!!,
-                switchBoardsPanelBoardsProof = base64SwitchBoardsDocFile!!,
-                hostelNameBoardProof = base64HostelNameBoardDocFile!!,
-                studentEntitlementBoardProof = base64EntitlementBoardDocFile!!,
-                contactDetailImportantPeopleproof = base64ContactDetailDocFile!!,
-                basicInformationBoardproof = base64BasicInfoBoardDocFile!!,
-                foodSpecificationBoardproof = base64FoodSpecificationBoardDocFile!!
+        val request = InsertRfInfraDetaiReq(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            sanctionOrder = sanctionOrder,
+            trainingCentre = centerId.toInt(),
+            facilityId = facilityId.toInt(),
+            ownership = spinnerOwnerBuilding.selectedItem.toString(),
+            buildingArea = etAreaOfBuilding.text.toString(),
+            roof = spinnerRoofOfBuilding.selectedItem.toString(),
+            plastering = spinnerWhetherStructurallySound.selectedItem.toString(),
+            empLetterFile = base64OwnerBuildingDocFile!!,
+            buildingPlan = base64BuildingAreaDocFile!!,
+            photosBuilding = base64RoofOfBuildingDocFile!!,
+            photosWalls = base64WhetherStructurallySoundDocFile!!,
+            leakages = spinnerVisibleSignOfLeakage.selectedItem.toString(),
+            conformanceDDU = spinnerConformanceDDUGKY.selectedItem.toString(),
+            protectionStairs = spinnerProtectionofStairs.selectedItem.toString(),
+            circulatingArea = etCirculatingArea.text.toString(),
+            corridor = spinnerCorridor.selectedItem.toString(),
+            securingWiresDone = spinnerSecuringWires.selectedItem.toString(),
+            switchBoardsPanelBoards = spinnerSwitchBoards.selectedItem.toString(),
+            hostelNameBoard = spinnerHostelNameBoard.selectedItem.toString(),
+            studentEntitlementBoard = spinnerEntitlementBoard.selectedItem.toString(),
+            contactDetailImportantPeople = spinnerContactDetail.selectedItem.toString(),
+            basicInformationBoard = spinnerBasicInfoBoard.selectedItem.toString(),
+            foodSpecificationBoard = spinnerFoodSpecificationBoard.selectedItem.toString(),
+            openSpaceArea = etAreaForOutDoorGames.text.toString(),
+            leakagesProof = base64SignOfLeakageDocFile!!,
+            conformanceDDUProof = base64ConformanceDDUGKYDocFile!!,
+            protectionStairsProof = base64ProtectionofStairsDocFile!!,
+            circulatingAreaProof = base64CirculatingAreaProof!!,
+            corridorProof = base64CorridorDocFile!!,
+            securingWiresDoneProof = base64SecuringWiresDocFile!!,
+            switchBoardsPanelBoardsProof = base64SwitchBoardsDocFile!!,
+            hostelNameBoardProof = base64HostelNameBoardDocFile!!,
+            studentEntitlementBoardProof = base64EntitlementBoardDocFile!!,
+            contactDetailImportantPeopleproof = base64ContactDetailDocFile!!,
+            basicInformationBoardproof = base64BasicInfoBoardDocFile!!,
+            foodSpecificationBoardproof = base64FoodSpecificationBoardDocFile!!
 
-            )
+        )
 
         viewModel.SubmitRfInfraDetailsAndComlianceToServer(request, token)
         showProgressBar()
@@ -3682,44 +3567,43 @@ class ResidentialFacilityFragment : Fragment() {
             .getString("ACCESS_TOKEN", "") ?: ""
 
 
-        val request =
-            InsertLivingAreaReq(
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME,
-                imeiNo = AppUtil.getAndroidId(requireContext()),
-                sanctionOrder = sanctionOrder,
-                trainingCentre = centerId.toInt(),
-                facilityId = facilityId.toInt(),
-                roofType = spinnerTypeLivingRoof.selectedItem.toString(),
-                typeOfRoofFilePath = base64TypeLivingRoofDocFile!!,
-                falseCeiling = spinnerCeiling.selectedItem.toString(),
-                falseCeilingFilePath = base64CeilingDocFile!!,
-                ceilingHeight = etHeightOfCeiling.text.toString(),
-                length = etRoomLength.text.toString(),
-                width = etRoomWidth.text.toString(),
-                area = etRoomArea.text.toString(),
-                windowArea = etRoomWindowArea.text.toString(),
-                airConditioning = spinnerAirConditioning.selectedItem.toString(),
-                airConditioningFilePath = base64AirConditioningDocFile!!,
-                cot = etCot.text.toString(),
-                cotFilePath = base64CotDocFile!!,
-                mattress = etMattress.text.toString(),
-                mattressFilePath = base64MattressDocFile!!,
-                bedSheet = etBedSheet.text.toString(),
-                bedSheetFilePath = base64BedSheetDocFile!!,
-                storage = etCupboard.text.toString(),
-                storageFilePath = base64CupBoardDocFile!!,
-                infoBoard = spinnerLivingAreaInfoBoard.selectedItem.toString(),
-                infoBoardFilePath = base64LivingAreaInfoBoardDocFile!!,
-                studentsPermitted = selectedRoomPermitted.toString(),
-                lights = etLivingAreaLights.text.toString(),
-                lightsFilePath = base64LightsDocFile!!,
-                fans = etLivingAreaFans.text.toString(),
-                fansFilePath = base64FansDocFile!!,
-                ceilingHeightFilePath = base64AirHieghtOfCelingDocFile!!,
-                areaFilePath = "",
-                windowAreaFilePath = base64WindowAreaDocFile!!
-            )
+        val request = InsertLivingAreaReq(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            sanctionOrder = sanctionOrder,
+            trainingCentre = centerId.toInt(),
+            facilityId = facilityId.toInt(),
+            roofType = spinnerTypeLivingRoof.selectedItem.toString(),
+            typeOfRoofFilePath = base64TypeLivingRoofDocFile!!,
+            falseCeiling = spinnerCeiling.selectedItem.toString(),
+            falseCeilingFilePath = base64CeilingDocFile!!,
+            ceilingHeight = etHeightOfCeiling.text.toString(),
+            length = etRoomLength.text.toString(),
+            width = etRoomWidth.text.toString(),
+            area = etRoomArea.text.toString(),
+            windowArea = etRoomWindowArea.text.toString(),
+            airConditioning = spinnerAirConditioning.selectedItem.toString(),
+            airConditioningFilePath = base64AirConditioningDocFile!!,
+            cot = etCot.text.toString(),
+            cotFilePath = base64CotDocFile!!,
+            mattress = etMattress.text.toString(),
+            mattressFilePath = base64MattressDocFile!!,
+            bedSheet = etBedSheet.text.toString(),
+            bedSheetFilePath = base64BedSheetDocFile!!,
+            storage = etCupboard.text.toString(),
+            storageFilePath = base64CupBoardDocFile!!,
+            infoBoard = spinnerLivingAreaInfoBoard.selectedItem.toString(),
+            infoBoardFilePath = base64LivingAreaInfoBoardDocFile!!,
+            studentsPermitted = selectedRoomPermitted.toString(),
+            lights = etLivingAreaLights.text.toString(),
+            lightsFilePath = base64LightsDocFile!!,
+            fans = etLivingAreaFans.text.toString(),
+            fansFilePath = base64FansDocFile!!,
+            ceilingHeightFilePath = base64AirHieghtOfCelingDocFile!!,
+            areaFilePath = "",
+            windowAreaFilePath = base64WindowAreaDocFile!!
+        )
 
         viewModel.SubmitRfLivingAreaInformationToServer(request, token)
         showProgressBar()
@@ -3731,91 +3615,88 @@ class ResidentialFacilityFragment : Fragment() {
             .getString("ACCESS_TOKEN", "") ?: ""
 
 
-        val request =
-            InsertToiletDataReq(
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME,
-                imeiNo = AppUtil.getAndroidId(requireContext()),
-                sanctionOrder = sanctionOrder,
-                trainingCentre = centerId.toInt(),
-                facilityId = facilityId.toInt(),
-                type = spinnerToiletType.selectedItem.toString(),
-                lights = binding.etLightsInToilet.text.toString().toIntOrNull() ?: 0,
-                proofLight = base64LightsInToiletDocFile!!,
-                flooring = spinnerToiletFlooringType.selectedItem.toString(),
-                proofFloor = base64ToiletFlooringDocFile!!,
-                runningWater = spinnerConnectionToRunningWater.selectedItem.toString(),
-                runningWaterFile = base64RunningWaterDocFile!!
-            )
+        val request = InsertToiletDataReq(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            sanctionOrder = sanctionOrder,
+            trainingCentre = centerId.toInt(),
+            facilityId = facilityId.toInt(),
+            type = spinnerToiletType.selectedItem.toString(),
+            lights = binding.etLightsInToilet.text.toString().toIntOrNull() ?: 0,
+            proofLight = base64LightsInToiletDocFile!!,
+            flooring = spinnerToiletFlooringType.selectedItem.toString(),
+            proofFloor = base64ToiletFlooringDocFile!!,
+            runningWater = spinnerConnectionToRunningWater.selectedItem.toString(),
+            runningWaterFile = base64RunningWaterDocFile!!
+        )
 
         viewModel.SubmitRfToiletDataToServer(request, token)
         showProgressBar()
     }
 
 
-
     private fun submitRFAdditionalToiletForm(view: View) {
 
 
-
-        val request =
-            UrinalWashbasinReq(
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME,
-                imeiNo = AppUtil.getAndroidId(requireContext()),
-                sanctionOrder = sanctionOrder,
-                trainingCentre = centerId.toInt(),
-                facilityId = facilityId.toInt(),
-                urinal = binding.urinalWashbasin.etFemaleUrinal.text.toString().toIntOrNull() ?: 0,
-                washbasin = binding.urinalWashbasin.etFemaleWashbasins.text.toString().toIntOrNull() ?: 0,
-                overheadTank = binding.urinalWashbasin.spinnerOverheadTanks.selectedItem.toString(),
-                urinalFile = base64UrinalsDocFile!!,
-                washbasinFile = base64WashBasinDocFile!!,
-                overheadTankFile = base64OverHeadTankDocFile!!
-            )
+        val request = UrinalWashbasinReq(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            sanctionOrder = sanctionOrder,
+            trainingCentre = centerId.toInt(),
+            facilityId = facilityId.toInt(),
+            urinal = binding.urinalWashbasin.etFemaleUrinal.text.toString().toIntOrNull() ?: 0,
+            washbasin = binding.urinalWashbasin.etFemaleWashbasins.text.toString().toIntOrNull()
+                ?: 0,
+            overheadTank = binding.urinalWashbasin.spinnerOverheadTanks.selectedItem.toString(),
+            urinalFile = base64UrinalsDocFile!!,
+            washbasinFile = base64WashBasinDocFile!!,
+            overheadTankFile = base64OverHeadTankDocFile!!
+        )
 
         viewModel.insertRfToiletWashRoomDetail(request)
         showProgressBar()
     }
 
 
-
     private fun submitRFNonLivingAreaForm(view: View) {
 
-        val request =
-            InsertNonLivingReq(
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME,
-                imeiNo = AppUtil.getAndroidId(requireContext()),
-                sanctionOrder = sanctionOrder,
-                trainingCentre = centerId.toInt(),
-                facilityId = facilityId.toInt(),
-                preparedFood = spinnerFoodPreparedTrainingCenter.selectedItem.toString(),
-                preparedFoodFile = base64FoodPreparedTrainingDocFile!!,
-                kitchenLength = etKitchenLength.text.toString().toDoubleOrNull() ?: 0.0,
-                kitchenWidth = etKitchenWidth.text.toString().toDoubleOrNull() ?: 0.0,
-                kitchenArea = etKitchenArea.text.toString().toDoubleOrNull() ?: 0.0,
-                separateAreas = spinnerDiningRecreationAreaSeparate.selectedItem.toString(),
-                noOfSeats = etStoolsChairsBenches.text.toString().toIntOrNull() ?: 0,
-                washArea = etWashArea.text.toString(),
-                tvAvailable = spinnerTvAvailable.selectedItem.toString(),
-                diningLength = binding.etDiningLength.text.toString().toDoubleOrNull() ?: 0.0,
-                diningArea = binding.etDiningArea.text.toString().toDoubleOrNull() ?: 0.0,
-                diningWidth = binding.etDiningWidth.text.toString().toDoubleOrNull() ?: 0.0,
-                recreationLength = binding.etRecreationLength.text.toString().toDoubleOrNull()
-                    ?: 0.0,
-                recreationWidth = binding.etRecreationWidth.text.toString().toDoubleOrNull() ?: 0.0,
-                recreationArea = binding.etRecreationArea.text.toString().toDoubleOrNull() ?: 0.0,
-                receptionArea = binding.spinnerReceptionArea.selectedItem.toString(),
-                receptionAreaFile = base64ReceptionAreaDocFile!!,
+        val request = InsertNonLivingReq(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            sanctionOrder = sanctionOrder,
+            trainingCentre = centerId.toInt(),
+            facilityId = facilityId.toInt(),
+            preparedFood = spinnerFoodPreparedTrainingCenter.selectedItem.toString(),
+            preparedFoodFile = base64FoodPreparedTrainingDocFile!!,
+            kitchenLength = etKitchenLength.text.toString().toDoubleOrNull() ?: 0.0,
+            kitchenWidth = etKitchenWidth.text.toString().toDoubleOrNull() ?: 0.0,
+            kitchenArea = etKitchenArea.text.toString().toDoubleOrNull() ?: 0.0,
+            separateAreas = spinnerDiningRecreationAreaSeparate.selectedItem.toString(),
+            noOfSeats = etStoolsChairsBenches.text.toString().toIntOrNull() ?: 0,
+            washArea = etWashArea.text.toString(),
+            tvAvailable = spinnerTvAvailable.selectedItem.toString(),
+            diningLength = binding.etDiningLength.text.toString().toDoubleOrNull() ?: 0.0,
+            diningArea = binding.etDiningArea.text.toString().toDoubleOrNull() ?: 0.0,
+            diningWidth = binding.etDiningWidth.text.toString().toDoubleOrNull() ?: 0.0,
+            recreationLength = binding.etRecreationLength.text.toString().toDoubleOrNull() ?: 0.0,
+            recreationWidth = binding.etRecreationWidth.text.toString().toDoubleOrNull() ?: 0.0,
+            recreationArea = binding.etRecreationArea.text.toString().toDoubleOrNull() ?: 0.0,
+            receptionArea = binding.spinnerReceptionArea.selectedItem.toString(),
+            receptionAreaFile = base64ReceptionAreaDocFile!!,
 
-                diningRecreationLength =  binding.etDiningAndRecreactionLength.text.toString().toDoubleOrNull() ?: 0.0,
-                diningRecreationWidth =  binding.etDiningAndRecreactionWidth.text.toString().toDoubleOrNull() ?: 0.0,
-                diningRecreationArea =  binding.etDiningAndRecreactionArea.text.toString().toDoubleOrNull() ?: 0.0,
-                diningRecreationAreaFile = base64RecreationDiningAreaDocFile!!,
-                diningAreaFile = base64DinningAreaDocFile!!,
-                recreationAreaFile = base64RecreationAreaDocFile!!
-            )
+            diningRecreationLength = binding.etDiningAndRecreactionLength.text.toString()
+                .toDoubleOrNull() ?: 0.0,
+            diningRecreationWidth = binding.etDiningAndRecreactionWidth.text.toString()
+                .toDoubleOrNull() ?: 0.0,
+            diningRecreationArea = binding.etDiningAndRecreactionArea.text.toString()
+                .toDoubleOrNull() ?: 0.0,
+            diningRecreationAreaFile = base64RecreationDiningAreaDocFile!!,
+            diningAreaFile = base64DinningAreaDocFile!!,
+            recreationAreaFile = base64RecreationAreaDocFile!!
+        )
 
         viewModel.SubmitRfNonLivingAreaDataToServer(request)
         showProgressBar()
@@ -3826,21 +3707,19 @@ class ResidentialFacilityFragment : Fragment() {
 
         val finalArray = indoorGamesList.map { game ->
             IndoorGameItem(
-                indoreGameName = game.gameName,
-                indoreGameFile = game.gamePhoto
+                indoreGameName = game.gameName, indoreGameFile = game.gamePhoto
             )
         }
 
-        val request =
-            IndoorGamesRequest(
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME,
-                imeiNo = AppUtil.getAndroidId(requireContext()),
-                sanctionOrder = sanctionOrder,
-                trainingCentre = centerId.toInt(),
-                facilityId = facilityId.toInt(),
-                finalArray = finalArray
-            )
+        val request = IndoorGamesRequest(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            sanctionOrder = sanctionOrder,
+            trainingCentre = centerId.toInt(),
+            facilityId = facilityId.toInt(),
+            finalArray = finalArray
+        )
 
         viewModel.SubmitRfIndoorGameDetails(request)
         showProgressBar()
@@ -3848,27 +3727,26 @@ class ResidentialFacilityFragment : Fragment() {
 
     private fun SubmitRfAvaibilityDetails(view: View) {
 
-        val request =
-            InsertResidentialFacility(
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME,
-                imeiNo = AppUtil.getAndroidId(requireContext()),
-                sanctionOrder = sanctionOrder,
-                trainingCentre = centerId.toInt(),
-                hostelsSeparated = spinnerWhetherHostelsSeparated.selectedItem.toString(),
-                hostelsSeparatedFile = base64WhetherHostelsSeparatedDocFile!!,
-                wardenCaretakerMale = spinnerWardenWhereMalesStay.selectedItem.toString(),
-                wardenCaretakerMaleFile = base64WardenWhereMalesStayDocFile!!,
-                wardenCaretakerFemale = spinnerWardenWhereLadyStay.selectedItem.toString(),
-                wardenCaretakerFemaleFile = base64WardenWhereLadyStayDocFile!!,
-                securityGuards = spinnerSecurityGaurdsAvailable.selectedItem.toString(),
-                securityGuardsFile = base64SecurityGaurdsDocFile!!,
-                femaleDoctor = spinnerWhetherFemaleDoctorAvailable.selectedItem.toString(),
-                femaleDoctorFile = base64WhetherFemaleDoctorDocFile!!,
-                maleDoctor = spinnerWhetherMaleDoctorAvailable.selectedItem.toString(),
-                maleDoctorFile = base64WhetherMaleDoctorDocFile!!,
-                facilityId = facilityId
-            )
+        val request = InsertResidentialFacility(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            sanctionOrder = sanctionOrder,
+            trainingCentre = centerId.toInt(),
+            hostelsSeparated = spinnerWhetherHostelsSeparated.selectedItem.toString(),
+            hostelsSeparatedFile = base64WhetherHostelsSeparatedDocFile!!,
+            wardenCaretakerMale = spinnerWardenWhereMalesStay.selectedItem.toString(),
+            wardenCaretakerMaleFile = base64WardenWhereMalesStayDocFile!!,
+            wardenCaretakerFemale = spinnerWardenWhereLadyStay.selectedItem.toString(),
+            wardenCaretakerFemaleFile = base64WardenWhereLadyStayDocFile!!,
+            securityGuards = spinnerSecurityGaurdsAvailable.selectedItem.toString(),
+            securityGuardsFile = base64SecurityGaurdsDocFile!!,
+            femaleDoctor = spinnerWhetherFemaleDoctorAvailable.selectedItem.toString(),
+            femaleDoctorFile = base64WhetherFemaleDoctorDocFile!!,
+            maleDoctor = spinnerWhetherMaleDoctorAvailable.selectedItem.toString(),
+            maleDoctorFile = base64WhetherMaleDoctorDocFile!!,
+            facilityId = facilityId
+        )
 
         viewModel.SubmitRfAvaibilityDetails(request)
         showProgressBar()
@@ -3877,27 +3755,26 @@ class ResidentialFacilityFragment : Fragment() {
 
     private fun SubmitRfSupportFacilitiesDetails(view: View) {
 
-        val request =
-            InsertSupportFacilitiesReq(
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME,
-                imeiNo = AppUtil.getAndroidId(requireContext()),
-                sanctionOrder = sanctionOrder,
-                trainingCentre = centerId.toInt(),
-                safeDrinking = spinnerSafeDrinikingAvailable.selectedItem.toString(),
-                safeDrinkingFile = base64SafeDrinkingDocFile!!,
-                firstAidKit = spinnerFirstAidKitAvailable.selectedItem.toString(),
-                firstAidKitFile = base64FirstAidKitDocFile!!,
-                fireFighting = spinnerFireFightingEquipmentAvailable.selectedItem.toString(),
-                fireFightingFile = base64FireFightingEquipmentDocFile!!,
-                biometricDevice = spinnerBiometricDeviceAvailable.selectedItem.toString(),
-                biometricDeviceFile = base64BiometricDeviceDocFile!!,
-                powerBackup = spinnerElectricalPowerBackupAvailable.selectedItem.toString(),
-                powerBackupFile = base64ElectricalPowerDocFile!!,
-                grievanceRegister = spinnerGrievanceRegisterAvailable.selectedItem.toString(),
-                grievanceRegisterFile = base64GrievanceRegisterDocFile!!,
-                facilityId = facilityId
-            )
+        val request = InsertSupportFacilitiesReq(
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            appVersion = BuildConfig.VERSION_NAME,
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            sanctionOrder = sanctionOrder,
+            trainingCentre = centerId.toInt(),
+            safeDrinking = spinnerSafeDrinikingAvailable.selectedItem.toString(),
+            safeDrinkingFile = base64SafeDrinkingDocFile!!,
+            firstAidKit = spinnerFirstAidKitAvailable.selectedItem.toString(),
+            firstAidKitFile = base64FirstAidKitDocFile!!,
+            fireFighting = spinnerFireFightingEquipmentAvailable.selectedItem.toString(),
+            fireFightingFile = base64FireFightingEquipmentDocFile!!,
+            biometricDevice = spinnerBiometricDeviceAvailable.selectedItem.toString(),
+            biometricDeviceFile = base64BiometricDeviceDocFile!!,
+            powerBackup = spinnerElectricalPowerBackupAvailable.selectedItem.toString(),
+            powerBackupFile = base64ElectricalPowerDocFile!!,
+            grievanceRegister = spinnerGrievanceRegisterAvailable.selectedItem.toString(),
+            grievanceRegisterFile = base64GrievanceRegisterDocFile!!,
+            facilityId = facilityId
+        )
 
         viewModel.SubmitRfSupportFacilitiesDetails(request)
         showProgressBar()
@@ -3951,15 +3828,11 @@ class ResidentialFacilityFragment : Fragment() {
                     }
 
                     202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "No data available.", Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
@@ -4005,9 +3878,7 @@ class ResidentialFacilityFragment : Fragment() {
             result.onFailure {
                 hideProgressBar()
                 Toast.makeText(
-                    requireContext(),
-                    "Room Deletion failed: ${it.message}",
-                    Toast.LENGTH_LONG
+                    requireContext(), "Room Deletion failed: ${it.message}", Toast.LENGTH_LONG
                 ).show()
             }
         }
@@ -4020,8 +3891,7 @@ class ResidentialFacilityFragment : Fragment() {
             deletedToiletItem = toiletItem
 
             val deleteRequest = ToiletDeleteList(
-                appVersion = BuildConfig.VERSION_NAME,
-                rfToiletId = toiletItem.rfToiletId.toString()
+                appVersion = BuildConfig.VERSION_NAME, rfToiletId = toiletItem.rfToiletId.toString()
             )
 
             viewModel.deleteToiletRoom(deleteRequest)
@@ -4043,15 +3913,11 @@ class ResidentialFacilityFragment : Fragment() {
                     }
 
                     202 -> Toast.makeText(
-                        requireContext(),
-                        "No Toilet data available.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "No Toilet data available.", Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
@@ -4115,10 +3981,7 @@ class ResidentialFacilityFragment : Fragment() {
         binding.spinnerFoodPreparedTrainingCenter.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    position: Int,
-                    id: Long
+                    parent: AdapterView<*>, view: View?, position: Int, id: Long
                 ) {
                     selectedRfFoodPre = parent.getItemAtPosition(position).toString()
 
@@ -4138,14 +4001,12 @@ class ResidentialFacilityFragment : Fragment() {
     }
 
 
-
     private fun validateImageIfNo(spinner: Spinner, base64: String?, message: String): Boolean {
         return if (spinner.selectedItem.toString() == "No" && base64.isNullOrEmpty()) {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             false
         } else true
     }
-
 
 
     private fun collectSectionStatus() {
@@ -4189,15 +4050,11 @@ class ResidentialFacilityFragment : Fragment() {
                     }
 
                     202 -> Toast.makeText(
-                        requireContext(),
-                        it.responseDesc,
-                        Toast.LENGTH_SHORT
+                        requireContext(), it.responseDesc, Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
@@ -4216,10 +4073,9 @@ class ResidentialFacilityFragment : Fragment() {
     fun showEditSectionDialog(sectionName: String, onYesClicked: () -> Unit) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_edit_section, null)
 
-        val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setView(dialogView)
-            .setCancelable(false)
-            .create()
+        val dialog =
+            MaterialAlertDialogBuilder(requireContext()).setView(dialogView).setCancelable(false)
+                .create()
 
         val tvMessage = dialogView.findViewById<TextView>(R.id.tvMessage)
         val btnYes = dialogView.findViewById<MaterialButton>(R.id.btnYes)
@@ -4233,16 +4089,15 @@ class ResidentialFacilityFragment : Fragment() {
         }
 
         btnNo.setOnClickListener {
-            val sectionReq =
-                SectionReq(
-                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                    appVersion = BuildConfig.VERSION_NAME,
-                    imeiNo = AppUtil.getAndroidId(requireContext()),
-                    sanctionOrder = sanctionOrder,
-                    tcId = centerId,
-                    facilityId = facilityId
+            val sectionReq = SectionReq(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                sanctionOrder = sanctionOrder,
+                tcId = centerId,
+                facilityId = facilityId
 
-                )
+            )
 
             viewModel.getRFSectionStatus(sectionReq)
             showProgressBar()
@@ -4267,10 +4122,9 @@ class ResidentialFacilityFragment : Fragment() {
     fun showEditRemarksDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_edit_section, null)
 
-        val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setView(dialogView)
-            .setCancelable(false)
-            .create()
+        val dialog =
+            MaterialAlertDialogBuilder(requireContext()).setView(dialogView).setCancelable(false)
+                .create()
 
         val tvMessage = dialogView.findViewById<TextView>(R.id.tvMessage)
         val btnYes = dialogView.findViewById<MaterialButton>(R.id.btnYes)
@@ -4310,8 +4164,7 @@ class ResidentialFacilityFragment : Fragment() {
                                 appVersion = BuildConfig.VERSION_NAME,
                             )
                             viewModel.getStateList(
-                                request,
-                                AppUtil.getSavedTokenPreference(requireContext())
+                                request, AppUtil.getSavedTokenPreference(requireContext())
                             )
 
                             binding.etFacilityName.setText(x.residentialFacilityName)
@@ -4320,8 +4173,7 @@ class ResidentialFacilityFragment : Fragment() {
                             binding.etStreet.setText(x.streetNo1)
                             binding.etLandmark.setText(x.landmark)
                             setSpinnerValue(spinnerState, x.stateName!!)
-                            observeState()
-                            /*setSpinnerValue(spinnerDistrict, x.districtName!!)
+                            observeState()/*setSpinnerValue(spinnerDistrict, x.districtName!!)
                             setSpinnerValue(spinnerBlock, x.blockName!!)
                             setSpinnerValue(spinnerGp, x.gpName!!)
                             setSpinnerValue(spinnerVillage, x.villageName!!)*/
@@ -4335,7 +4187,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             binding.etPoliceStation.setText(x.policeStation)
                             binding.etPinCode.setText(x.pincode)
-                            binding.tvLatLang.setText(x.latitude + "," + x.longitude)
+                            binding.tvLatLang.text = x.latitude + "," + x.longitude
                             binding.etMobile.setText(x.mobile)
                             binding.etPhone.setText(x.residentialFacilitiesPhNo)
                             binding.etEmail.setText(x.email)
@@ -4356,8 +4208,7 @@ class ResidentialFacilityFragment : Fragment() {
                             base64ALDocFile = x.empLetterImage
 
                             setBase64ToImage(
-                                binding.ivPoliceVerificationDocPreview,
-                                x.policeVerfictnImage
+                                binding.ivPoliceVerificationDocPreview, x.policeVerfictnImage
                             )
                             setBase64ToImage(binding.ivAppointmentLetterDocPreview, base64ALDocFile)
 
@@ -4368,15 +4219,11 @@ class ResidentialFacilityFragment : Fragment() {
                     }
 
                     202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "No data available.", Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
@@ -4413,8 +4260,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             binding.etAreaOfBuilding.setText(x.buildingArea)
                             setBase64ToImage(
-                                binding.ivAreaOfBuildingDocPreview,
-                                x.buildingPhotosFile
+                                binding.ivAreaOfBuildingDocPreview, x.buildingPhotosFile
                             )
                             base64BuildingAreaDocFile = x.buildingPhotosFile
                             binding.ivAreaOfBuildingDocPreview.visible()
@@ -4422,8 +4268,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerRoofOfBuilding, x.roof!!)
                             setBase64ToImage(
-                                binding.ivRoofOfBuildingPreview,
-                                x.buildingPlanFile
+                                binding.ivRoofOfBuildingPreview, x.buildingPlanFile
                             )// missing
                             base64RoofOfBuildingDocFile = x.buildingPlanFile
                             binding.ivRoofOfBuildingPreview.visible()
@@ -4431,8 +4276,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerWhetherStructurallySound, x.plastring!!)
                             setBase64ToImage(
-                                binding.ivWhetherStructurallySoundPreview,
-                                x.wallPhotosFile
+                                binding.ivWhetherStructurallySoundPreview, x.wallPhotosFile
                             )
                             base64WhetherStructurallySoundDocFile = x.wallPhotosFile
                             binding.ivWhetherStructurallySoundPreview.visible()
@@ -4446,16 +4290,14 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerConformanceDDUGKY, x.conformanceDdu!!)
                             setBase64ToImage(
-                                binding.ivConformanceDDUGKYPreview,
-                                x.conformanceDduProofFile
+                                binding.ivConformanceDDUGKYPreview, x.conformanceDduProofFile
                             )
                             base64ConformanceDDUGKYDocFile = x.conformanceDduProofFile
                             binding.ivConformanceDDUGKYPreview.visible()
 
                             setSpinnerValue(spinnerProtectionofStairs, x.protectionStairs!!)
                             setBase64ToImage(
-                                binding.ivProtectionofStairsPreview,
-                                x.protectionStairsProofFile
+                                binding.ivProtectionofStairsPreview, x.protectionStairsProofFile
                             )
                             base64ProtectionofStairsDocFile = x.protectionStairsProofFile
                             binding.ivProtectionofStairsPreview.visible()
@@ -4463,8 +4305,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             binding.etCirculatingArea.setText(x.circulatingArea)
                             setBase64ToImage(
-                                binding.ivCirculationAreaDocPreview,
-                                x.circulatingAreaProofFile
+                                binding.ivCirculationAreaDocPreview, x.circulatingAreaProofFile
                             )
                             base64CirculatingAreaProof = x.circulatingAreaProofFile
                             binding.ivCirculationAreaDocPreview.visible()
@@ -4478,8 +4319,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerSecuringWires, x.securingWiresDone!!)
                             setBase64ToImage(
-                                binding.ivSecuringWiresPreview,
-                                x.securingWiresDoneProofFile
+                                binding.ivSecuringWiresPreview, x.securingWiresDoneProofFile
                             )
                             base64SecuringWiresDocFile = x.securingWiresDoneProofFile
                             binding.ivSecuringWiresPreview.visible()
@@ -4487,8 +4327,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerSwitchBoards, x.switchBoardsPanelBoards!!)
                             setBase64ToImage(
-                                binding.ivSwitchBoardsPreview,
-                                x.switchBoardsPanelBoardsProofFile
+                                binding.ivSwitchBoardsPreview, x.switchBoardsPanelBoardsProofFile
                             )
                             base64SwitchBoardsDocFile = x.switchBoardsPanelBoardsProofFile
                             binding.ivSwitchBoardsPreview.visible()
@@ -4496,8 +4335,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerHostelNameBoard, x.hostelNameBoard!!)
                             setBase64ToImage(
-                                binding.ivHostelNameBoardPreview,
-                                x.hostelNameBoardProofFile
+                                binding.ivHostelNameBoardPreview, x.hostelNameBoardProofFile
                             )
                             base64HostelNameBoardDocFile = x.hostelNameBoardProofFile
                             binding.ivHostelNameBoardPreview.visible()
@@ -4522,16 +4360,14 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerBasicInfoBoard, x.basicInformationBoard!!)
                             setBase64ToImage(
-                                binding.ivBasicInfoBoardPreview,
-                                x.basicInformationBoardproofFile
+                                binding.ivBasicInfoBoardPreview, x.basicInformationBoardproofFile
                             )
                             base64BasicInfoBoardDocFile = x.basicInformationBoardproofFile
                             binding.ivBasicInfoBoardPreview.visible()
 
 
                             setSpinnerValue(
-                                spinnerFoodSpecificationBoard,
-                                x.foodSpecificationBoard!!
+                                spinnerFoodSpecificationBoard, x.foodSpecificationBoard!!
                             )
                             setBase64ToImage(
                                 binding.ivFoodSpecificationBoardPreview,
@@ -4548,6 +4384,76 @@ class ResidentialFacilityFragment : Fragment() {
                     }
 
                     202 -> Toast.makeText(
+                        requireContext(), "No data available.", Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+
+
+    private fun CollectGetToiletWashbasinDetails() {
+        viewModel.getToiletWashbasinDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                when (it.responseCode) {
+                    200 -> {
+
+                        for (x in it.wrappedList) {
+
+                            binding.urinalWashbasin.layoutUrinalWashbasinContent.visible()
+
+                            binding.urinalWashbasin.etFemaleWashbasins.setText(x.washbasin)
+                            binding.urinalWashbasin.etFemaleUrinal.setText(x.urinal)
+                            binding.urinalWashbasin.etFemaleWashbasins.setText(x.washbasin)
+                            setSpinnerValue(
+                                binding.urinalWashbasin.spinnerOverheadTanks,
+                                x.overheadTank
+                            )
+
+
+                            setBase64ToImage(
+                                binding.urinalWashbasin.ivWashBasinPreview, x.washbasinFile
+                            )
+
+                            base64WashBasinDocFile = x.washbasinFile
+
+                            binding.urinalWashbasin.ivWashBasinPreview.visible()
+
+                            setBase64ToImage(
+                                binding.urinalWashbasin.ivUrinalPreview, x.urinalFile
+                            )
+                            base64UrinalsDocFile = x.urinalFile
+
+
+                            binding.urinalWashbasin.ivUrinalPreview.visible()
+
+
+
+                            setBase64ToImage(
+                                binding.urinalWashbasin.ivOverHeadPreview, x.overheadTankFile
+                            )
+                            base64OverHeadTankDocFile = x.overheadTankFile
+
+
+                            binding.urinalWashbasin.ivOverHeadPreview.visible()
+                        }
+
+
+                    }
+
+                    202 -> Toast.makeText(
                         requireContext(),
                         "No data available.",
                         Toast.LENGTH_SHORT
@@ -4564,73 +4470,6 @@ class ResidentialFacilityFragment : Fragment() {
             }
             result.onFailure {
                 hideProgressBar()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    }
-
-
-
-    private fun CollectGetToiletWashbasinDetails() {
-        viewModel.getToiletWashbasinDetails.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                hideProgressBar()
-                when (it.responseCode) {
-                    200 ->{
-
-                        for (x in it.wrappedList){
-
-                            binding.urinalWashbasin.layoutUrinalWashbasinContent.visible()
-
-                            binding.urinalWashbasin.etFemaleWashbasins.setText(x.washbasin)
-                            binding.urinalWashbasin.etFemaleUrinal.setText(x.urinal)
-                            binding.urinalWashbasin.etFemaleWashbasins.setText(x.washbasin)
-                            setSpinnerValue(binding.urinalWashbasin.spinnerOverheadTanks, x.overheadTank)
-
-
-                            setBase64ToImage(
-                                binding.urinalWashbasin.ivWashBasinPreview,
-                                x.washbasinFile
-                            )
-
-                            base64WashBasinDocFile = x.washbasinFile
-
-                            binding.urinalWashbasin.ivWashBasinPreview.visible()
-
-                            setBase64ToImage(
-                                binding.urinalWashbasin.ivUrinalPreview,
-                                x.urinalFile
-                            )
-                            base64UrinalsDocFile = x.urinalFile
-
-
-                            binding.urinalWashbasin.ivUrinalPreview.visible()
-
-
-
-                            setBase64ToImage(
-                                binding.urinalWashbasin.ivOverHeadPreview,
-                                x.overheadTankFile
-                            )
-                            base64OverHeadTankDocFile = x.overheadTankFile
-
-
-                            binding.urinalWashbasin.ivOverHeadPreview.visible()
-                        }
-
-
-
-
-
-                    }
-                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
-            }
-            result.onFailure {
-                hideProgressBar()
 
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
@@ -4639,9 +4478,6 @@ class ResidentialFacilityFragment : Fragment() {
 
         }
     }
-
-
-
 
 
     private fun NonAreaInformation() {
@@ -4658,15 +4494,14 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerFoodPreparedTrainingCenter, x.preparedFood)
                             setBase64ToImage(
-                                binding.ivFoodPreparedTrainingPreview,
-                                x.preprationFoodPdf
+                                binding.ivFoodPreparedTrainingPreview, x.preprationFoodPdf
                             )
                             binding.ivFoodPreparedTrainingPreview.visible()
                             base64FoodPreparedTrainingDocFile = x.preprationFoodPdf
 
                             binding.etKitchenLength.setText(x.kitchenLength)
                             binding.etKitchenWidth.setText(x.kitchenWidth)
-                            binding.etKitchenArea.setText(x.kitchenArea)
+                            binding.etKitchenArea.text = x.kitchenArea
 
                             setSpinnerValue(spinnerDiningRecreationAreaSeparate, x.separateAreas)
 
@@ -4676,14 +4511,17 @@ class ResidentialFacilityFragment : Fragment() {
                             setSpinnerValue(spinnerTvAvailable, x.tvAvailable)
                             binding.etDiningLength.setText(x.diningLength)
                             binding.etDiningWidth.setText(x.diningWidth)
-                            binding.etDiningArea.setText(x.diningArea)
+                            binding.etDiningArea.text = x.diningArea
 
 
                             binding.etDiningAndRecreactionLength.setText(x.diningRecreationLengh)
                             binding.etDiningAndRecreactionWidth.setText(x.diningRecreationWidth)
-                            binding.etDiningAndRecreactionArea.setText(x.diningRecreationArea)
+                            binding.etDiningAndRecreactionArea.text = x.diningRecreationArea
 
-                            setBase64ToImage(binding.ivDiningAndRecreactionAreaPreview, x.diningRecreationAreaFile)
+                            setBase64ToImage(
+                                binding.ivDiningAndRecreactionAreaPreview,
+                                x.diningRecreationAreaFile
+                            )
 
                             base64RecreationDiningAreaDocFile = x.diningRecreationAreaFile
                             binding.ivDiningAndRecreactionAreaPreview.visible()
@@ -4694,10 +4532,9 @@ class ResidentialFacilityFragment : Fragment() {
 
                             binding.etRecreationLength.setText(x.recreationLength)
                             binding.etRecreationWidth.setText(x.recreationWidth)
-                            binding.etRecreationArea.setText(x.recreationArea)
+                            binding.etRecreationArea.text = x.recreationArea
                             setSpinnerValue(
-                                spinnerIsReceptionAreaAva,
-                                x.receptionArea
+                                spinnerIsReceptionAreaAva, x.receptionArea
                             ) // selection of Yes No Showing area value
                             setBase64ToImage(binding.ivReceptionAreaPreview, x.receptionAreaPdf)
                             binding.etWashArea.setText(x.washArea) //  getting blank
@@ -4709,15 +4546,11 @@ class ResidentialFacilityFragment : Fragment() {
                     }
 
                     202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "No data available.", Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
@@ -4746,8 +4579,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerWhetherHostelsSeparated, x.hostelsSeparated)
                             setBase64ToImage(
-                                binding.ivWhetherHostelsSeparatedPreview,
-                                x.hostelsSeparatedPdf
+                                binding.ivWhetherHostelsSeparatedPreview, x.hostelsSeparatedPdf
                             )
                             binding.ivWhetherHostelsSeparatedPreview.visible()
                             base64WhetherHostelsSeparatedDocFile = x.hostelsSeparatedPdf
@@ -4755,8 +4587,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerWardenWhereMalesStay, x.wardenCaretakerMale)
                             setBase64ToImage(
-                                binding.ivWardenWhereMalesStayPreview,
-                                x.wardenCaretakerMalePdf
+                                binding.ivWardenWhereMalesStayPreview, x.wardenCaretakerMalePdf
                             )
                             binding.ivWardenWhereMalesStayPreview.visible()
                             base64WardenWhereMalesStayDocFile = x.wardenCaretakerMalePdf
@@ -4764,8 +4595,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerWardenWhereLadyStay, x.wardenCaretakerFemale)
                             setBase64ToImage(
-                                binding.ivWardenWhereLadyStayPreview,
-                                x.wardenCaretakerFemalePdf
+                                binding.ivWardenWhereLadyStayPreview, x.wardenCaretakerFemalePdf
                             )
                             binding.ivWardenWhereLadyStayPreview.visible()
                             base64WardenWhereLadyStayDocFile = x.wardenCaretakerFemalePdf
@@ -4779,8 +4609,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerWhetherFemaleDoctorAvailable, x.femaleDoctor)
                             setBase64ToImage(
-                                binding.ivWhetherFemaleDoctorPreview,
-                                x.femaleDoctorPdf
+                                binding.ivWhetherFemaleDoctorPreview, x.femaleDoctorPdf
                             )
                             binding.ivWhetherFemaleDoctorPreview.visible()
                             base64WhetherFemaleDoctorDocFile = x.femaleDoctorPdf
@@ -4798,9 +4627,7 @@ class ResidentialFacilityFragment : Fragment() {
 
 
                         Toast.makeText(
-                            requireContext(),
-                            "No data available.",
-                            Toast.LENGTH_SHORT
+                            requireContext(), "No data available.", Toast.LENGTH_SHORT
                         ).show()
 
                     }
@@ -4809,16 +4636,13 @@ class ResidentialFacilityFragment : Fragment() {
                     301 -> {
 
                         Toast.makeText(
-                            requireContext(),
-                            "Please upgrade your app.",
-                            Toast.LENGTH_SHORT
+                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                         ).show()
                     }
 
 
                     401 -> AppUtil.showSessionExpiredDialog(
-                        findNavController(),
-                        requireContext()
+                        findNavController(), requireContext()
                     )
                 }
             }
@@ -4826,8 +4650,7 @@ class ResidentialFacilityFragment : Fragment() {
             result.onFailure {
 
                 hideProgressBar()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -4859,8 +4682,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerFireFightingEquipmentAvailable, x.fireFighting)
                             setBase64ToImage(
-                                binding.ivFireFightingEquipmentPreview,
-                                x.fireFightingPdf
+                                binding.ivFireFightingEquipmentPreview, x.fireFightingPdf
                             )
                             binding.ivFireFightingEquipmentPreview.visible()
                             base64FireFightingEquipmentDocFile = x.fireFightingPdf
@@ -4879,8 +4701,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                             setSpinnerValue(spinnerGrievanceRegisterAvailable, x.grievanceRegister)
                             setBase64ToImage(
-                                binding.ivGrievanceRegisterPreview,
-                                x.grievanceRegisterPdf
+                                binding.ivGrievanceRegisterPreview, x.grievanceRegisterPdf
                             )
                             binding.ivGrievanceRegisterPreview.visible()
                             base64GrievanceRegisterDocFile = x.grievanceRegisterPdf
@@ -4893,9 +4714,7 @@ class ResidentialFacilityFragment : Fragment() {
 
 
                         Toast.makeText(
-                            requireContext(),
-                            "No data available.",
-                            Toast.LENGTH_SHORT
+                            requireContext(), "No data available.", Toast.LENGTH_SHORT
                         ).show()
 
                     }
@@ -4904,16 +4723,13 @@ class ResidentialFacilityFragment : Fragment() {
                     301 -> {
 
                         Toast.makeText(
-                            requireContext(),
-                            "Please upgrade your app.",
-                            Toast.LENGTH_SHORT
+                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                         ).show()
                     }
 
 
                     401 -> AppUtil.showSessionExpiredDialog(
-                        findNavController(),
-                        requireContext()
+                        findNavController(), requireContext()
                     )
                 }
             }
@@ -4921,8 +4737,7 @@ class ResidentialFacilityFragment : Fragment() {
             result.onFailure {
 
                 hideProgressBar()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -4948,9 +4763,7 @@ class ResidentialFacilityFragment : Fragment() {
 
 
                         Toast.makeText(
-                            requireContext(),
-                            it.responseDesc,
-                            Toast.LENGTH_SHORT
+                            requireContext(), it.responseDesc, Toast.LENGTH_SHORT
                         ).show()
 
                     }
@@ -4959,16 +4772,13 @@ class ResidentialFacilityFragment : Fragment() {
                     301 -> {
 
                         Toast.makeText(
-                            requireContext(),
-                            "Please upgrade your app.",
-                            Toast.LENGTH_SHORT
+                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                         ).show()
                     }
 
 
                     401 -> AppUtil.showSessionExpiredDialog(
-                        findNavController(),
-                        requireContext()
+                        findNavController(), requireContext()
                     )
                 }
 
@@ -5076,7 +4886,8 @@ class ResidentialFacilityFragment : Fragment() {
                     200 -> {
                         binding.layoutIndoorGameDetailContent.visible()
 
-                        val wrappedList = response.wrappedList // list of IndoorRFGameResponseDetails
+                        val wrappedList =
+                            response.wrappedList // list of IndoorRFGameResponseDetails
 
                         // Clear the old list before adding new data
                         indoorGamesList.clear()
@@ -5097,17 +4908,13 @@ class ResidentialFacilityFragment : Fragment() {
 
                     202 -> {
                         Toast.makeText(
-                            requireContext(),
-                            "No data available.",
-                            Toast.LENGTH_SHORT
+                            requireContext(), "No data available.", Toast.LENGTH_SHORT
                         ).show()
                     }
 
                     301 -> {
                         Toast.makeText(
-                            requireContext(),
-                            "Please upgrade your app.",
-                            Toast.LENGTH_SHORT
+                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
                         ).show()
                     }
 
@@ -5142,7 +4949,6 @@ class ResidentialFacilityFragment : Fragment() {
         binding.ivLightsInToiletPreview.visibility = View.GONE
         binding.ivToiletFlooringPreview.visibility = View.GONE
         binding.ivRunningWaterPreview.visibility = View.GONE
-
 
 
     }
