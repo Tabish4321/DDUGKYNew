@@ -60,10 +60,6 @@ class AcademicAreaAdapter(
             val roomNo = center.roomNo
             val roomType = center.roomType
 
-
-
-
-
             AlertDialog.Builder(context)
                 .setTitle("Confirm Delete")
                 .setMessage("Are you sure you want to delete RoomNo = $roomNo?")

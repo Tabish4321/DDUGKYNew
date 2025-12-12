@@ -32,6 +32,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━LoginFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+
+        binding.versionText.text = "v${BuildConfig.VERSION_NAME}"
+
         setupKeyboardDismissHandler()
         setupPasswordToggle()
         setupEditTextListeners()
@@ -288,13 +291,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     // Legacy methods for compatibility
-    fun showProgressBar() {
-        showProgressDialog("Loading...")
-    }
-
-    fun hideProgressBar() {
-        dismissProgressDialog()
-    }
+//    fun showProgressBar() {
+//        showProgressDialog("Loading...")
+//    }
+//
+//    fun hideProgressBar() {
+//        dismissProgressDialog()
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

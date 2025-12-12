@@ -85,8 +85,6 @@ class CenterFragment : BaseFragment<FragmentCenterBinding>(
         )
     }
 
-
-
     override fun loadInitialData() {
 
         val request = TrainingCenterRequest(

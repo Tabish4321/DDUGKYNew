@@ -1,4 +1,5 @@
 import android.util.Log
+import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.RequestBody
 import okhttp3.Response
@@ -31,7 +32,10 @@ class LoggingInterceptor : Interceptor {
         Log.d(TAG, "Code: ${response.code}\n")
         Log.d(TAG, "URL: ${response.request.url}\n")
         Log.d(TAG, "Body: ${copy.string()}\n")
-      //  Log.d(TAG, "Message : ${ response.message}\n")
+
+
+
+        //  Log.d(TAG, "Message : ${ response.message}\n")
 
 
         Log.d(TAG, "━━━━━━━━━━━━━━━━━END━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")

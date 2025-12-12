@@ -11,6 +11,7 @@ plugins {
 android {
     namespace = "com.deendayalproject"
     compileSdk = 35
+    ndkVersion = "26.1.10909125"
 
     defaultConfig {
         applicationId = "com.deendayalproject"
@@ -18,6 +19,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,6 +52,8 @@ android {
         viewBinding = true
         buildConfig = true
     }
+
+
 }
 
 dependencies {
