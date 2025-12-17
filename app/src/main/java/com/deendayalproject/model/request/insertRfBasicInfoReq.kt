@@ -42,6 +42,9 @@ data class insertRfBasicInfoReq(
     val loginId: String,
     val appVersion: String,
     val imeiNo: String,
-    val resFacilityId: Int
+    val resFacilityId: Int,
+    val locality:String,
+    val ulbCode:String,
+    val wardCode:String
 )
 

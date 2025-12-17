@@ -129,7 +129,13 @@ bindingInflater = FragmentHomeBinding::inflate
                         formBinding.tvFormName.text = form.formName
                     },
                     onItemClick = { form, _ ->
-                        handleFormClick(form)
+                        if( AppUtil.getSavedLoginIdPreference(requireContext()) !="DDUGKYUSER"){
+                            handleFormClick(form)
+                        }else{
+                            val action = HomeFragmentDirections.actionHomeFragmentToQTeamFormFragment("1", "DDUGKY Training Center", "S2025")
+                            findNavController().navigate(action)
+
+                        }
                     }
                 )
 

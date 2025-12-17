@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -32,6 +33,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
@@ -68,8 +70,10 @@ import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.ToiletDeleteList
+import com.deendayalproject.model.request.ULBReq
 import com.deendayalproject.model.request.UrinalWashbasinReq
 import com.deendayalproject.model.request.VillageReq
+import com.deendayalproject.model.request.WardReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.BlockModel
 import com.deendayalproject.model.response.DistrictModel
@@ -78,7 +82,9 @@ import com.deendayalproject.model.response.LivingRoomListItem
 import com.deendayalproject.model.response.SectionRFData
 import com.deendayalproject.model.response.StateModel
 import com.deendayalproject.model.response.ToiletItem
+import com.deendayalproject.model.response.UlbItem
 import com.deendayalproject.model.response.VillageModel
+import com.deendayalproject.model.response.WardItem
 import com.deendayalproject.util.AppUtil
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -86,6 +92,7 @@ import com.google.android.gms.location.Priority
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -335,6 +342,7 @@ class ResidentialFacilityFragment : Fragment() {
     private val indoorGamesList = mutableListOf<IndoorGame>()
     private var gameCounter = 1
     var selectedStateCode = "0"
+    var selectedLgdDistrictCode = "0"
     var selectedDistrictCode = "0"
     var selectedBlockCode = "0"
     var selectedGpCode = "0"
@@ -345,6 +353,16 @@ class ResidentialFacilityFragment : Fragment() {
     var status = ""
     var remarks = ""
     val yesNoList = listOf("--Select--", "Yes", "No")
+
+    private lateinit var spinnerAreaType: Spinner // Urban/Rural selector
+    private lateinit var villageContainer: LinearLayout
+    private lateinit var urbanContainer: LinearLayout
+    private lateinit var spinnerSelectULB: Spinner
+    private lateinit var spinnerSelectWard: Spinner
+
+    private var urbanULBs = emptyList<UlbItem>()
+
+    private var urbanWards = emptyList<WardItem>()
 
 
     private val requestPermissionLauncher =
@@ -790,6 +808,8 @@ class ResidentialFacilityFragment : Fragment() {
 
 
 
+
+
         centerId = arguments?.getString("centerId").toString()
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
         facilityId = arguments?.getString("facilityId").toString()
@@ -815,8 +835,12 @@ class ResidentialFacilityFragment : Fragment() {
         observeBlock()
         observeGp()
         observeVillage()
+        collectUlbResponse()
+        collectWardResponse()
 
+        setupAreaTypeSpinner()
 
+        setupUrbanSpinners()
 
 
 
@@ -922,7 +946,7 @@ class ResidentialFacilityFragment : Fragment() {
         // Expand all section
 
 
-        binding.headerTCBasicInfo.setOnClickListener {
+        binding.basicInfoInclude?.headerTCBasicInfo?.setOnClickListener {
 
             if (sectionsStatus.basiInfoSection > 0) {
                 showEditSectionDialog("Basic Info") {
@@ -945,13 +969,13 @@ class ResidentialFacilityFragment : Fragment() {
             } else {
 
                 if (isBasicInfoVisible) {
-                    binding.layoutTCBasicInfoContent.visible()
-                    binding.ivToggleTCBasicInfo.setImageResource(R.drawable.outline_arrow_upward_24)
+                    binding.basicInfoInclude?.layoutTCBasicInfoContent?.visible()
+                    binding.basicInfoInclude?.ivToggleTCBasicInfo?.setImageResource(R.drawable.outline_arrow_upward_24)
 
                     isBasicInfoVisible = false
                 } else {
-                    binding.layoutTCBasicInfoContent.gone()
-                    binding.ivToggleTCBasicInfo.setImageResource(R.drawable.ic_dropdown_arrow)
+                    binding.basicInfoInclude?.layoutTCBasicInfoContent?.gone()
+                    binding.basicInfoInclude?.ivToggleTCBasicInfo?.setImageResource(R.drawable.ic_dropdown_arrow)
                     isBasicInfoVisible = true
                 }
             }
@@ -1371,7 +1395,7 @@ class ResidentialFacilityFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        binding.layoutTCBasicInfoContent.gone()
+                        binding.basicInfoInclude?.layoutTCBasicInfoContent?.gone()
                         isBasicInfoVisible = true
 
                         val sectionReq = SectionReq(
@@ -1847,8 +1871,8 @@ class ResidentialFacilityFragment : Fragment() {
                     spinnerBlock.setSelection(0)
                     spinnerGp.setSelection(0)
                 } else {
-                    val districtModel =
-                        (spinnerDistrict.adapter as DistrictAdapter).getItem(position)
+                    val districtModel = (spinnerDistrict.adapter as DistrictAdapter).getItem(position)
+                    selectedLgdDistrictCode = districtModel!!.lgdDistrictCode
                     selectedDistrictCode = districtModel!!.districtCode
 
                     val request = BlockRequest(
@@ -1937,16 +1961,9 @@ class ResidentialFacilityFragment : Fragment() {
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
         }
 
-
-
-
         setupAutoAreaCalculationForRoom(
             binding.etRoomLength, binding.etRoomWidth, binding.etRoomArea
         )
-
-
-
-
 
         setupAutoAreaCalculation(
             binding.etKitchenLength, binding.etKitchenWidth, binding.etKitchenArea
@@ -2053,7 +2070,7 @@ class ResidentialFacilityFragment : Fragment() {
         ).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
-        binding.spinnerFacilityType.adapter = facilityTypeAdapter
+        binding.basicInfoInclude?.spinnerFacilityType?.adapter = facilityTypeAdapter
 
 
         val ownershipOfBuildingAdapter = ArrayAdapter(
@@ -2320,14 +2337,6 @@ class ResidentialFacilityFragment : Fragment() {
             checkAndLaunchCamera()
         }
 
-
-
-
-
-
-
-
-
         view.findViewById<TextView>(R.id.btnUploadIndoorGame).setOnClickListener {
             currentPhotoTarget = "IndoorGame"
             checkAndLaunchCamera()
@@ -2479,9 +2488,7 @@ class ResidentialFacilityFragment : Fragment() {
                         spinnerState
                     )
 
-                    202 -> Toast.makeText(
-                        requireContext(), "No data available.", Toast.LENGTH_SHORT
-                    ).show()
+                 //   202 -> { //Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()}
 
                     301 -> Toast.makeText(
                         requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
@@ -2504,15 +2511,12 @@ class ResidentialFacilityFragment : Fragment() {
         viewModel.districtList.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 hideProgressBar()
+                var dist: ArrayList<DistrictModel> =response.wrappedList
                 when (response.responseCode) {
-                    200 -> populateSpinnerDistrict(
-                        (response.wrappedList ?: emptyList()) as ArrayList<DistrictModel?>,
-                        spinnerDistrict
-                    )
 
-                    202 -> Toast.makeText(
-                        requireContext(), "No data available.", Toast.LENGTH_SHORT
-                    ).show()
+                    200 -> populateSpinnerDistrict(dist as ArrayList<DistrictModel?>, spinnerDistrict)
+
+                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
 
                     301 -> Toast.makeText(
                         requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
@@ -2537,9 +2541,7 @@ class ResidentialFacilityFragment : Fragment() {
                         (response.wrappedList ?: emptyList()) as ArrayList<BlockModel>, spinnerBlock
                     )
 
-                    202 -> Toast.makeText(
-                        requireContext(), "No data available.", Toast.LENGTH_SHORT
-                    ).show()
+             //       202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
 
                     301 -> Toast.makeText(
                         requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
@@ -2564,9 +2566,7 @@ class ResidentialFacilityFragment : Fragment() {
                         (response.wrappedList ?: emptyList()) as ArrayList<GpModel?>, spinnerGp
                     )
 
-                    202 -> Toast.makeText(
-                        requireContext(), "No data available.", Toast.LENGTH_SHORT
-                    ).show()
+                   // 202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
 
                     301 -> Toast.makeText(
                         requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
@@ -2632,7 +2632,7 @@ class ResidentialFacilityFragment : Fragment() {
         alStateModel: ArrayList<DistrictModel?>, sp: Spinner
     ) {
         if (!alStateModel.isEmpty() && alStateModel.size > 0) {
-            alStateModel!!.add(0, DistrictModel("--Select--", "0"))
+            alStateModel!!.add(0, DistrictModel("--Select--", "0","0"))
             val dbAdapter = DistrictAdapter(
                 requireContext(), android.R.layout.simple_spinner_item, alStateModel
             )
@@ -2669,9 +2669,7 @@ class ResidentialFacilityFragment : Fragment() {
     ) {
         if (!alStateModel.isEmpty() && alStateModel.size > 0) {
             alStateModel!!.add(0, VillageModel("--Select--", "0"))
-            val dbAdapter = VillageAdapter(
-                requireContext(), android.R.layout.simple_spinner_item, alStateModel
-            )
+            val dbAdapter = VillageAdapter(requireContext(), android.R.layout.simple_spinner_item, alStateModel)
             dbAdapter.notifyDataSetChanged()
             sp.adapter = dbAdapter
         }
@@ -2832,6 +2830,13 @@ class ResidentialFacilityFragment : Fragment() {
         spinnerGrievanceRegisterAvailable =
             view.findViewById(R.id.spinnerGrievanceRegisterAvailable)
 
+
+        spinnerAreaType = view.findViewById(R.id.spinnerSelectType) // Make sure this spinner exists in your XML
+        villageContainer = view.findViewById(R.id.village_container)
+        urbanContainer = view.findViewById(R.id.urban_container)
+        spinnerSelectULB = view.findViewById(R.id.spinnerSelectULB)
+        spinnerSelectWard = view.findViewById(R.id.spinnerSelectWard)
+
     }
 
 
@@ -2867,20 +2872,252 @@ class ResidentialFacilityFragment : Fragment() {
         }
     }
 
+    private fun ulbAdapterinitialize(urbanULBs: List<UlbItem>){
+
+            val ulbAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, urbanULBs.mapNotNull { it.ulbName }).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        spinnerSelectULB.adapter = ulbAdapter
+        ulbAdapter.notifyDataSetChanged()
+    }
+
+    private fun wardAdapterinitialize(urbanWards:List<WardItem>){
+        val wardAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            urbanWards.mapNotNull { it.wardName }
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        spinnerSelectWard.adapter = wardAdapter
+        wardAdapter.notifyDataSetChanged()
+        //urbanWards.any(spinnerSelectULB.selectedItem.toString())
+        // You can add item selection listeners if needed
+        spinnerSelectULB.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                viewModel.getWardAPI(
+                    WardReq(
+                        BuildConfig.VERSION_NAME,
+                        AppUtil.getSavedLoginIdPreference(requireContext()),
+                        ulbHashMap[spinnerSelectULB.selectedItem.toString()].toString()
+                    ),AppUtil.getSavedTokenPreference(requireContext()))
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+
+    private fun setupUrbanSpinners() {
+        // Setup ULB spinner
+        ulbAdapterinitialize(urbanULBs)
+
+        // Setup Ward spinner
+        wardAdapterinitialize(urbanWards)
+    }
+
+    private fun setupAreaTypeSpinner() {
+        val areaTypeList = listOf("--Select--", "Rural", "Urban")
+        val areaTypeAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            areaTypeList
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+
+        spinnerAreaType.adapter = areaTypeAdapter
+
+        spinnerAreaType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                when (position) {
+                    0 -> {
+                        // "--Select--"
+                        villageContainer.gone()
+                        urbanContainer.gone()
+                    }
+                    1 -> {
+                        // "Rural" selected
+                        villageContainer.visible()
+                        urbanContainer.gone()
+
+                        val request = BlockRequest(
+                            appVersion = BuildConfig.VERSION_NAME,
+                            districtCode = selectedDistrictCode,
+                        )
+                        viewModel.getBlockList(
+                            request, AppUtil.getSavedTokenPreference(requireContext())
+                        )
+
+//                        val requestVill = VillageReq(
+//                            appVersion = BuildConfig.VERSION_NAME,
+//                            gpCode = selectedDistrictCode,
+//                        )
+//
+//
+//                        viewModel.getVillageList(
+//                            requestVill, AppUtil.getSavedTokenPreference(requireContext())
+//                        )
+
+
+                       // viewModel.getVillageList(ULBReq(BuildConfig.VERSION_NAME,userPreferences.getUseID(),selectedDistrictLgdCodeItem),AppUtil.getSavedTokenPreference(requireContext()))
+
+
+                        // Ensure village fields are mandatory for validation
+                        setupVillageValidation(true)
+                        setupUrbanValidation(false)
+                    }
+                    2 -> {
+                        // "Urban" selected
+                        villageContainer.gone()
+                        urbanContainer.visible()
+
+                        viewModel.getUlbAPI(
+                            ULBReq(
+                                BuildConfig.VERSION_NAME,
+                                AppUtil.getSavedLoginIdPreference(requireContext()),
+                                selectedLgdDistrictCode
+                            ),AppUtil.getSavedTokenPreference(requireContext()))
+
+                        setupVillageValidation(false)
+                        setupUrbanValidation(true)
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                villageContainer.gone()
+                urbanContainer.gone()
+            }
+        }
+    }
+
+    var ulbHashMap: HashMap<String, String> = hashMapOf()
+
+    private fun collectUlbResponse() {
+        viewModel.getUlbList.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                hideProgressBar()
+
+                when (response.responseCode) {
+                    200 ->{
+//                        response.wrappedList.forEach { it ->
+//                            urbanULBs
+//                        }
+                        var urbanulbN: List<UlbItem> = response.wrappedList.mapNotNull { it }
+                        urbanulbN.forEach { ulbItem ->
+                            ulbHashMap[ulbItem.ulbName] = ulbItem.ulbCode
+                        }
+                        ulbAdapterinitialize(urbanulbN)
+                    }
+
+                      //  populateSpinnerVillage((response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>, spinnerSelectULB )
+
+                    202 -> Toast.makeText(
+                        requireContext(), "No data available.", Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                hideProgressBar()
+
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+    }
+
+    var wardHashMap: HashMap<String, String> = hashMapOf()
+
+
+    private fun collectWardResponse() {
+        lifecycleScope.launch {
+            viewModel.getWardAPI.observe(viewLifecycleOwner) { it ->
+                it.onSuccess { response ->
+                    hideProgressBar()
+
+                    when (response.responseCode) {
+                        200 ->{
+                           var urbanWardsN: List<WardItem> = response.wrappedList.mapNotNull { it }
+// This will filter out
+                            urbanWardsN.forEach { ulbItem ->
+                                wardHashMap[ulbItem.wardName] = ulbItem.wardCode
+                            }
+                            wardAdapterinitialize(urbanWardsN)
+                        }
+
+                        //  populateSpinnerVillage((response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>, spinnerSelectULB )
+
+                        202 -> Toast.makeText(
+                            requireContext(), "No data available.", Toast.LENGTH_SHORT
+                        ).show()
+
+                        301 -> Toast.makeText(
+                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                        ).show()
+
+                        401 -> AppUtil.showSessionExpiredDialog(
+                            findNavController(),
+                            requireContext()
+                        )
+                    }
+                }
+                it.onFailure {
+                    hideProgressBar()
+
+                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+    }
+
+
+
+
+
+
     private fun validateBasicInfoForm(view: View): Boolean {
         var isValid = true
+        // Validate Select type selection
+        if (!checkSpinner(spinnerAreaType, "Area Type")) isValid = false
+
+        // Check if Rural is selected
+        if (spinnerAreaType.selectedItemPosition == 1) { // Rural
+            if (!checkSpinner(spinnerBlock, "Block")) isValid = false
+            if (!checkSpinner(spinnerGp, "Gram Panchayat")) isValid = false
+            if (!checkSpinner(spinnerVillage, "Village")) isValid = false
+        }
+
+        // Check if Urban is selected
+        if (spinnerAreaType.selectedItemPosition == 2) { // Urban
+            if (!checkSpinner(spinnerSelectULB, "ULB")) isValid = false
+            if (!checkSpinner(spinnerSelectWard, "Ward")) isValid = false
+        }
 
         // Validate all required Spinners
         if (!checkSpinner(spinnerState, "State")) isValid = false
         if (!checkSpinner(spinnerDistrict, "District")) isValid = false
-        if (!checkSpinner(spinnerBlock, "Block")) isValid = false
-        if (!checkSpinner(spinnerGp, "Gp")) isValid = false
-        if (!checkSpinner(spinnerVillage, "Village")) isValid = false
+       // if (!checkSpinner(spinnerBlock, "Block")) isValid = false
+      //  if (!checkSpinner(spinnerVillage, "Village")) isValid = false
+     //   if (!checkSpinner(spinnerGp, "Gp")) isValid = false
         if (!checkSpinner(spinnerTypeOfArea, "TypeOfArea")) isValid = false
         if (!checkSpinner(spinnerCatOfTCLocation, "Category Of Location")) isValid = false
         if (!checkSpinner(spinnerPickupAndDropFacility, "PickupAndDropFacility")) isValid = false
         if (!checkSpinner(spinnerWardenGender, "Warden Gender")) isValid = false
-        if (!checkSpinner(binding.spinnerFacilityType, "Residential Facility type")) isValid = false
+        if (!checkSpinner(binding.basicInfoInclude!!.spinnerFacilityType  , "Residential Facility type")) isValid = false
 
         // Validate required TextInputEditTexts
         if (!checkTextInput(etFacilityName, "Residential Facility Name")) isValid = false
@@ -2921,6 +3158,32 @@ class ResidentialFacilityFragment : Fragment() {
         return isValid
 
 
+    }
+
+    private fun setupVillageValidation(isMandatory: Boolean) {
+        if (isMandatory) {
+            // Make village fields mandatory
+            spinnerBlock.isEnabled = true
+            spinnerGp.isEnabled = true
+            spinnerVillage.isEnabled = true
+        } else {
+            // Optional - you can clear selections if needed
+             spinnerBlock.setSelection(0)
+             spinnerGp.setSelection(0)
+             spinnerVillage.setSelection(0)
+        }
+    }
+
+    private fun setupUrbanValidation(isMandatory: Boolean) {
+        if (isMandatory) {
+            // Make urban fields mandatory
+            spinnerSelectULB.isEnabled = true
+            spinnerSelectWard.isEnabled = true
+        } else {
+            // Optional - you can clear selections if needed
+             spinnerSelectULB.setSelection(0)
+             spinnerSelectWard.setSelection(0)
+        }
     }
 
     private fun validateInfraInfoForm(view: View): Boolean {
@@ -3440,7 +3703,7 @@ class ResidentialFacilityFragment : Fragment() {
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
                 if (location != null) {
-                    binding.tvLatLang.text =
+                    binding.basicInfoInclude?.tvLatLang?.text =
                         location.latitude.toString() + "," + location.longitude.toString()
                     latValue = location.latitude.toString()
                     langValue = location.longitude.toString()
@@ -3460,12 +3723,28 @@ class ResidentialFacilityFragment : Fragment() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
 
+
+        val areaType = when (spinnerAreaType.selectedItemPosition) {
+            1 -> "Rural"
+            2 -> "Urban"
+            else -> ""
+        }
+
+        // Get urban/rural specific data
+        val ulbName = if (spinnerAreaType.selectedItemPosition == 2) {
+            spinnerSelectULB.selectedItem.toString()
+        } else ""
+
+        val wardName = if (spinnerAreaType.selectedItemPosition == 2) {
+            spinnerSelectWard.selectedItem.toString()
+        } else ""
+
         val request = insertRfBasicInfoReq(
             sanctionOrder = sanctionOrder,
             trainingCentre = centerId.toInt(),
             schemeName = "DDUGKY",
             residentialFacilityName = etFacilityName.text.toString(),
-            residentialType = binding.spinnerFacilityType.selectedItem.toString(),
+            residentialType = binding.basicInfoInclude?.spinnerFacilityType?.selectedItem.toString(),
             residentialCenterLocation = "",
             houseNo = etHouseNo.text.toString(),
             streetNo1 = etStreet.text.toString(),
@@ -3502,7 +3781,10 @@ class ResidentialFacilityFragment : Fragment() {
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
             imeiNo = AppUtil.getAndroidId(requireContext()),
-            resFacilityId = facilityId.toInt()
+            resFacilityId = facilityId.toInt(),
+            locality = areaType,
+            wardCode = wardHashMap[spinnerSelectWard.selectedItem.toString()].toString(),
+            ulbCode = ulbHashMap[spinnerSelectULB.selectedItem.toString()].toString()
         )
 
         viewModel.SubmitRfBasicInformationToServer(request, token)
@@ -4020,7 +4302,7 @@ class ResidentialFacilityFragment : Fragment() {
                         sectionsStatus = it.wrappedList.get(0)
 
                         if (sectionsStatus.basiInfoSection > 0) {
-                            binding.ivToggleTCBasicInfo.setImageResource(R.drawable.ic_verified)
+                            binding.basicInfoInclude?.ivToggleTCBasicInfo?.setImageResource(R.drawable.ic_verified)
                         }
                         if (sectionsStatus.infraDtlComplianceSection > 0) {
                             binding.ivToggleInfraDetailCompliance.setImageResource(R.drawable.ic_verified)
@@ -4102,7 +4384,7 @@ class ResidentialFacilityFragment : Fragment() {
             viewModel.getRFSectionStatus(sectionReq)
             showProgressBar()
 
-            binding.layoutTCBasicInfoContent.gone()
+            binding.basicInfoInclude?.layoutTCBasicInfoContent?.gone()
             binding.layoutInfraDetailComplianceContent.gone()
             binding.layoutLivingAreaInfoContent.gone()
             binding.layoutToiletsContent.gone()
@@ -4153,8 +4435,8 @@ class ResidentialFacilityFragment : Fragment() {
                 hideProgressBar()
                 when (it.responseCode) {
                     200 -> {
-                        binding.layoutTCBasicInfoContent.visible()
-                        binding.ivToggleTCBasicInfo.setImageResource(R.drawable.outline_arrow_upward_24)
+                        binding.basicInfoInclude?.layoutTCBasicInfoContent?.visible()
+                        binding.basicInfoInclude?.ivToggleTCBasicInfo?.setImageResource(R.drawable.outline_arrow_upward_24)
                         isBasicInfoVisible = false
 
                         val tcInfoData = it.wrappedList
@@ -4167,11 +4449,24 @@ class ResidentialFacilityFragment : Fragment() {
                                 request, AppUtil.getSavedTokenPreference(requireContext())
                             )
 
-                            binding.etFacilityName.setText(x.residentialFacilityName)
+
+//                            x.areaType?.let { areaType ->
+//                                setSpinnerValue(spinnerAreaType, areaType)
+//
+//                                if (areaType == "Urban") {
+//                                    setSpinnerValue(spinnerSelectULB, x.ulbName)
+//                                    setSpinnerValue(spinnerSelectWard, x.wardName)
+//                                }
+//                            }
+
+
+
+
+                            binding.basicInfoInclude?.etFacilityName?.setText(x.residentialFacilityName)
                             setSpinnerValue(spinnerWardenGender, x.residentialType!!)
-                            binding.etHouseNo.setText(x.houseNo)
-                            binding.etStreet.setText(x.streetNo1)
-                            binding.etLandmark.setText(x.landmark)
+                            binding.basicInfoInclude?.etHouseNo?.setText(x.houseNo)
+                            binding.basicInfoInclude?.etStreet?.setText(x.streetNo1)
+                            binding.basicInfoInclude?.etLandmark?.setText(x.landmark)
                             setSpinnerValue(spinnerState, x.stateName!!)
                             observeState()/*setSpinnerValue(spinnerDistrict, x.districtName!!)
                             setSpinnerValue(spinnerBlock, x.blockName!!)
@@ -4185,35 +4480,35 @@ class ResidentialFacilityFragment : Fragment() {
                             selectedVillageCode = x.villageCode.toString()
 
 
-                            binding.etPoliceStation.setText(x.policeStation)
-                            binding.etPinCode.setText(x.pincode)
-                            binding.tvLatLang.text = x.latitude + "," + x.longitude
-                            binding.etMobile.setText(x.mobile)
-                            binding.etPhone.setText(x.residentialFacilitiesPhNo)
-                            binding.etEmail.setText(x.email)
+                            binding.basicInfoInclude?.etPoliceStation?.setText(x.policeStation)
+                            binding.basicInfoInclude?.etPinCode?.setText(x.pincode)
+                            binding.basicInfoInclude?.tvLatLang?.text = x.latitude + "," + x.longitude
+                            binding.basicInfoInclude?.etMobile?.setText(x.mobile)
+                            binding.basicInfoInclude?.etPhone?.setText(x.residentialFacilitiesPhNo)
+                            binding.basicInfoInclude?.etEmail?.setText(x.email)
                             setSpinnerValue(spinnerTypeOfArea, x.typeOfArea!!)
                             setSpinnerValue(spinnerCatOfTCLocation, x.categoryOfTc!!)
                             setSpinnerValue(spinnerPickupAndDropFacility, x.pickUpDrop!!)
                             setSpinnerValue(spinnerWardenGender, x.wardgender!!)
-                            binding.etDistanceFromBusStand.setText(x.distBusStand)
-                            binding.etDistanceFromAutoStand.setText(x.distAutoStand)
-                            binding.etDistanceFromRailwayStand.setText(x.distRailStand)
-                            binding.etDistanceFromTrainingToResidentialCentre.setText(x.distFromTc)
-                            binding.etWardenName.setText(x.wardName)
-                            binding.etWardenEmpID.setText(x.wardEmpId)
-                            binding.etWardenAddress.setText(x.wardAddress)
-                            binding.etWardenEmailId.setText(x.wardEmail)
-                            binding.etWardenMobile.setText(x.wardMobile)
+                            binding.basicInfoInclude?.etDistanceFromBusStand?.setText(x.distBusStand)
+                            binding.basicInfoInclude?.etDistanceFromAutoStand?.setText(x.distAutoStand)
+                            binding.basicInfoInclude?.etDistanceFromRailwayStand?.setText(x.distRailStand)
+                            binding.basicInfoInclude?.etDistanceFromTrainingToResidentialCentre?.setText(x.distFromTc)
+                            binding.basicInfoInclude?.etWardenName?.setText(x.wardName)
+                            binding.basicInfoInclude?.etWardenEmpID?.setText(x.wardEmpId)
+                            binding.basicInfoInclude?.etWardenAddress?.setText(x.wardAddress)
+                            binding.basicInfoInclude?.etWardenEmailId?.setText(x.wardEmail)
+                            binding.basicInfoInclude?.etWardenMobile?.setText(x.wardMobile)
                             base64PVDocFile = x.policeVerfictnImage
                             base64ALDocFile = x.empLetterImage
 
                             setBase64ToImage(
-                                binding.ivPoliceVerificationDocPreview, x.policeVerfictnImage
+                                binding.basicInfoInclude!!.ivPoliceVerificationDocPreview, x.policeVerfictnImage
                             )
-                            setBase64ToImage(binding.ivAppointmentLetterDocPreview, base64ALDocFile)
+                            setBase64ToImage(binding.basicInfoInclude!!.ivAppointmentLetterDocPreview, base64ALDocFile)
 
-                            binding.ivPoliceVerificationDocPreview.visible()
-                            binding.ivAppointmentLetterDocPreview.visible()
+                            binding.basicInfoInclude?.ivPoliceVerificationDocPreview?.visible()
+                            binding.basicInfoInclude?.ivAppointmentLetterDocPreview?.visible()
 
                         }
                     }

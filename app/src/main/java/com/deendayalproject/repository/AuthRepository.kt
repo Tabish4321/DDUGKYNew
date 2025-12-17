@@ -19,7 +19,9 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
                 val body = response.body()
                 if (body?.responseCode == 200 && !body.accessToken.isNullOrEmpty()) {
                     Result.success(body)
-                } else {
+                } else if(body?.responseDesc == "DDUGKYUSERDESC"){
+                    Result.success(body)
+                }else {
                     Result.failure(Exception(body?.responseDesc ?: "Login failed"))
                 }
             } else {
@@ -33,7 +35,8 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
     }
 
     suspend fun fetchModules(request: ModulesRequest, token: String): Result<ModuleResponse> {
-        return safeApiCallWithToken(token) {
+        return if(request.loginId == "DDUGKYUSER")safeApiCall{  apiService.fetchModules(request)  }
+          else safeApiCallWithToken(token) {
             apiService.fetchModules(request)
         }
     }

@@ -611,6 +611,10 @@
     <string name="roomarea">RoomArea</string>
     <string name="select_state">Select State</string>
     <string name="district_tc">District(TC)</string>
+    <string name="select_type">Select Type</string>
+    <string name="select_ULB">Select ULB</string>
+    <string name="select_Ward">Select ward</string>
+
     <string name="basic_information">Basic Information</string>
     <string name="residential_facility_name">Residential Facility Name</string>
     <string name="residential_facility_type">Residential Facility type</string>
@@ -620,6 +624,8 @@
     <string name="block">Block</string>
     <string name="gram_panchayat">Gram Panchayat</string>
     <string name="village_ward_no">Village/Ward No.</string>
+    <string name="village_no">Village</string>
+
     <string name="pincode">Pincode</string>
     <string name="mobile_no">Mobile No.</string>
     <string name="residential_facility_phone_no_with_std_code">Residential Facility Phone No. with STD Code</string>

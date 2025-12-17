@@ -87,7 +87,6 @@ import java.util.Locale
 class TrainingFragment : Fragment() {
     private lateinit var Academicadapter: AcademicAreaAdapter
     private var centersList = mutableListOf<wrappedList>()
-
     private var RoomNumber: String = ""
     private var RoomType: String = ""
     private lateinit var btnSubmitAdddMore: Button
@@ -108,7 +107,6 @@ class TrainingFragment : Fragment() {
     private lateinit var lin_theory_cum_it_lab: LinearLayout
     private lateinit var lin_theory_cum_domain_lab: LinearLayout
     private lateinit var lin_theory_class_room: LinearLayout
-
     private lateinit var AcsdemicSpinner: Spinner
     private lateinit var spinnerITLTypeofRoofItLab: Spinner
     private lateinit var spinnerITLSoundLevelAsPerSpecifications: Spinner
@@ -2817,8 +2815,7 @@ class TrainingFragment : Fragment() {
             spinnerITLSoundLevelAsPerSpecifications =
                 view.findViewById(R.id.spinnerITLSoundLevelAsPerSpecifications)
             spinnerITLFalseCellingProvide = view.findViewById(R.id.spinnerITLFalseCellingProvide)
-            spinnerITLAcademicRoomInformationBoard =
-                view.findViewById(R.id.spinnerITLAcademicRoomInformationBoard)
+            spinnerITLAcademicRoomInformationBoard = view.findViewById(R.id.spinnerITLAcademicRoomInformationBoard)
             spinnerITLInternalSignage = view.findViewById(R.id.spinnerITLInternalSignage)
             spinnerITLCctcCamerasWithAudioFacility =
                 view.findViewById(R.id.spinnerITLCctcCamerasWithAudioFacility)
@@ -7013,12 +7010,8 @@ class TrainingFragment : Fragment() {
                 airConditioningRoom = spinnerITLDoes_the_room_has.selectedItem.toString(),
                 airConditioningRoomAttachment = base64ProofITLDoes_the_room_has ?: "",
             )
-
             viewModel.SubmitITLABDataToServer(request, token)
-
         }
-
-
     }
     //    Office Cum(Counselling room)    Ajit Ranjan
     private fun SubmitOfficeCumCounsellingRoom() {
@@ -7078,7 +7071,6 @@ class TrainingFragment : Fragment() {
             .getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
 
-
         val Length = etLength.text.toString()
         val Width = etWidth.text.toString()
         val Area = tvArea.text.toString()
@@ -7097,9 +7089,7 @@ class TrainingFragment : Fragment() {
 
                 roomPhotograph = spinnerReceptionAreaEPBR.selectedItem.toString(),
                 roomPhotographAttachment = base64ProofPreviewReceptionAreaPhotogragh ?: "",
-
                 )
-
             viewModel.SubmitReceptionAreaDataToServer(request, token)
         }
     }
@@ -7125,9 +7115,7 @@ class TrainingFragment : Fragment() {
                 roomArea = Area,
 
                 roomPhotograph = spinnerCounsellingRoomAreaPhotograph.selectedItem.toString(),
-                roomPhotographAttachment = base64ProofPreviewCounsellingRoomPhotogragh ?: "",
-
-                )
+                roomPhotographAttachment = base64ProofPreviewCounsellingRoomPhotogragh ?: "",)
 
             viewModel.SubmitReceptionAreaDataToServer(request, token)
         }
@@ -7148,7 +7136,6 @@ class TrainingFragment : Fragment() {
         val ORDigitalCameraInNo = etORDigitalCameraInNo.text.toString()
         lifecycleScope.launch(Dispatchers.IO) {
             val request = OfficeRoomDetailsRequest(
-
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 imeiNo = AppUtil.getAndroidId(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME, tcId = centerId,
@@ -7174,20 +7161,15 @@ class TrainingFragment : Fragment() {
                 officeComputerTable = spinnerORTableOfofficeCumpter.selectedItem.toString(),
                 officeComputerTableAttachment = base64ProofORTableOfofficeCumpter ?: "",
                 printerScannerAcademic = ORPrinterCumScannerInNo.toString(),
-                printerScannerAttachment = base64ProofORPrinterCumScannerInNo ?: "",//base64ProofOfficeCumPrinterCumScannerInNo ?: "", // Ajeet told swap these keys...
+                printerScannerAttachment = base64ProofORPrinterCumScannerInNo ?: "",//base64ProofOfficeCumPrinterCumScannerInNo ?: "",
                 digitalCameraAcademic = ORDigitalCameraInNo.toString(),
                 digitalCameraAttachment = base64ProofORDigitalCameraInNo ?: "",
                 electricalPowerBackup = spinnerORPOEPBFTR.selectedItem.toString(),
                 electricalPowerBackupAttachment = base64ProofORElectricialPowerBackup ?: ""
             )
-
-
             viewModel.SubmitOfficeRoomDataToServer(request, token)
         }
     }
-
-
-
 
     private fun SubmitITComeDomainLab() {
         ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")
@@ -7198,7 +7180,6 @@ class TrainingFragment : Fragment() {
         val Width = etWidth.text.toString()
         val Area = tvArea.text.toString()
 
-
         val ITCDLHeightOfCelling = etITCDLHeightOfCelling.text.toString().toIntOrNull() ?: 0
         val ITCDLVentilationAreaInSqFt = etITCDLVentilationAreaInSqFt.text.toString().toIntOrNull() ?: 0
         val ITCDLabSoundLevelInDb = etITCDLabSoundLevelInDb.text.toString().toIntOrNull() ?: 0
@@ -7208,7 +7189,6 @@ class TrainingFragment : Fragment() {
         val ITCDLLightsInNo = etITCDLLightsInNo.text.toString()
         val ITCDLFansInNo = etITCDLFansInNo.text.toString()
         val ListofDomain = etITCDLListofDomain.text.toString()
-
 
         lifecycleScope.launch(Dispatchers.IO) {
             val request = ITComeDomainLabDetailsRequest(
@@ -7601,11 +7581,9 @@ class TrainingFragment : Fragment() {
         Academicadapter = AcademicAreaAdapter(centersList)
         RoomNumber=AppUtil.gettopValuePreference(requireContext())
 
-
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = Academicadapter
         DesriptionAcademicNon()
-
         val request = AcademicNonAcademicArea(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext()),

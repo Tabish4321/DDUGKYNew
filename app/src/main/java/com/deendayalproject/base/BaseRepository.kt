@@ -1,7 +1,6 @@
 package com.deendayalproject.base
 
 import android.content.Context
-import com.deendayalproject.network.ApiService
 
 abstract class BaseRepository<T : Any>(private val context: Context) {
 

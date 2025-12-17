@@ -57,8 +57,10 @@ import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.ToiletRoomReq
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.request.ULBReq
 import com.deendayalproject.model.request.UrinalWashbasinReq
 import com.deendayalproject.model.request.VillageReq
+import com.deendayalproject.model.request.WardReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AddNewRFRes
@@ -120,9 +122,13 @@ import com.deendayalproject.model.response.ToiletRoomInformationViewRes
 import com.deendayalproject.model.response.ToiletViewRes
 import com.deendayalproject.model.response.TrainingCenterInfoRes
 import com.deendayalproject.model.response.TrainingCenterResponse
+import com.deendayalproject.model.response.UlbRes
 import com.deendayalproject.model.response.VillageRes
+import com.deendayalproject.model.response.WardRes
+import com.deendayalproject.util.ApiConstant
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
@@ -400,7 +406,8 @@ interface ApiService {
     suspend fun getRfBasicInfoo(@Body request: RfCommonReq) : Response<ResidentialFacilityQTeam>
 
 
-//    Ajit Ranjan create 21/October/2025  CompliancesRFQTReqRFQT
+//    Ajit Ranjan cre
+    //    ate 21/October/2025  CompliancesRFQTReqRFQT
 
 
     @POST(value ="getRfInfraDetailsAndComliance")
@@ -568,5 +575,16 @@ interface ApiService {
     suspend fun getToiletWashbasinDetails
                 (@Body request: GetUrinalWashReq) :
             Response<GetUrinalWashRes>
+
+
+
+    @POST("ulbList")
+    suspend fun getUlbAPI( @Body ulbReq: ULBReq): Response<UlbRes>
+
+    @POST("wardList")
+    suspend fun getWardAPI(
+        @Body wardReq: WardReq
+    ): Response<WardRes>
+
 
 }

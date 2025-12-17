@@ -6,5 +6,7 @@
     <cache-path
         name="pdfs"
         path="." />
+    <cache-path name="cache" path="." />
+
 </paths>
 

@@ -1,3 +1,6 @@
+import com.android.build.gradle.ProguardFiles.getDefaultProguardFile
+import org.gradle.internal.impldep.com.jcraft.jsch.ConfigRepository.defaultConfig
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -19,8 +22,6 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -44,18 +45,23 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = "11"
-    }
 
     buildFeatures {
         viewBinding = true
         buildConfig = true
     }
 
+// ✅ Kotlin JVM target set properly
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = "11"
+        }
+    }
+    kapt {
+        correctErrorTypes = true
+    }
 
 }
-
 dependencies {
     // AndroidX
     implementation("androidx.core:core-ktx:1.12.0")
@@ -93,11 +99,12 @@ dependencies {
     // Location Services
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
+//    implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
+//    implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
     // Firebase
 //    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
 //    implementation("com.google.firebase:firebase-crashlytics-ktx")
 //    implementation("com.google.firebase:firebase-analytics-ktx")
-
 
 
     // Testing
@@ -106,6 +113,3 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 
-kapt {
-    correctErrorTypes = true
-}

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.deendayalproject.model.request.*
 import com.deendayalproject.model.response.*
 import com.deendayalproject.repository.repomanager.RepositoryManager
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
@@ -790,6 +791,33 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             resultLiveData = _villageList
         )
     }
+
+
+    private val _getUlbList = MutableLiveData<Result<UlbRes>>()
+    val getUlbList: LiveData<Result<UlbRes>> = _getUlbList
+
+
+    fun getUlbAPI(ulbReq: ULBReq,header :String){
+        handleApiCall(
+            apiCall = { repositoryManager.location.getUlbAPI(ulbReq, header) },
+            resultLiveData = _getUlbList
+        )
+    }
+
+
+    private val _getWardAPI = MutableLiveData<Result<WardRes>>()
+    val getWardAPI: LiveData<Result<WardRes>> = _getWardAPI
+
+    fun getWardAPI(wardReq: WardReq,header :String){
+        handleApiCall(
+            apiCall = { repositoryManager.location.getWardAPI(wardReq, header) },
+            resultLiveData = _getWardAPI
+        )
+
+    }
+
+
+
 
     // Ajit Ranjan (RecyclerView)
     fun DesriptionAcademicNonList(request: AcademicNonAcademicArea, token: String) {

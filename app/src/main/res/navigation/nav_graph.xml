@@ -50,7 +50,20 @@
         <action
             android:id="@+id/action_homeFragment_to_fieldVerificationFragment"
             app:destination="@id/fieldVerificationListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_QTeamFormFragment"
+            app:destination="@id/QTeamFormFragment">
 
+                <argument
+                    android:name="centerId"
+                    app:argType="string"/>
+                <argument
+                    android:name="centerName"
+                    app:argType="string"/>
+                <argument
+                    android:name="sanctionOrder"
+                    app:argType="string"/>
+            </action>
 
     </fragment>
 

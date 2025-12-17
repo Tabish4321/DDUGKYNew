@@ -57,7 +57,9 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URLEncoder
+import java.util.Date
 import kotlin.getValue
+import kotlin.random.Random
 
 class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
     bindingInflater = FragmentQTeamFormBinding::inflate
@@ -775,35 +777,34 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
 
 
-    private fun setupPdfClickListeners() {
-        binding.tvSelfDeclarationPdf.onPdfClick(selfDeclarationPdf,"selfDeclarationPdf.pdf")
-        binding.apply {
-            tvPhotosOfBuildingPdf.onPdfClick(buildingPdf, "buildingPdf.pdf")
-            tvSchematicBuildingPlanPdf.onPdfClick(schematicPdf, "schematicPdf.pdf")
-            tvInternalExternalWallsPdf.onPdfClick(internalExternalWallPdf, "internalExternalWallsPdf.pdf")
-        }
-    }
-
-
 //    private fun setupPdfClickListeners() {
-//
-//
-//        binding.tvSelfDeclarationPdf.setOnClickListener {
-//            downloadAndOpenBase64Pdf(selfDeclarationPdf, "selfDeclarationPdf.pdf")
-//        }
-//
-//        binding.tvPhotosOfBuildingPdf.setOnClickListener {
-//            downloadAndOpenBase64Pdf(buildingPdf, "buildingPdf.pdf")
-//        }
-//
-//        binding.tvSchematicBuildingPlanPdf.setOnClickListener {
-//            downloadAndOpenBase64Pdf(schematicPdf, "schematicPdf.pdf")
-//        }
-//
-//        binding.tvInternalExternalWallsPdf.setOnClickListener {
-//            downloadAndOpenBase64Pdf(internalExternalWallPdf, "internalExternalWallsPdf.pdf")
+//        binding.tvSelfDeclarationPdf.onPdfClick(selfDeclarationPdf,"selfDeclarationPdf.pdf")
+//        binding.apply {
+//            tvPhotosOfBuildingPdf.onPdfClick(buildingPdf, "buildingPdf.pdf")
+//            tvSchematicBuildingPlanPdf.onPdfClick(schematicPdf, "schematicPdf.pdf")
+//            tvInternalExternalWallsPdf.onPdfClick(internalExternalWallPdf, "internalExternalWallsPdf.pdf")
 //        }
 //    }
+
+
+    private fun setupPdfClickListeners() {
+
+        binding.tvSelfDeclarationPdf.setOnClickListener {
+            downloadAndOpenBase64Pdf(selfDeclarationPdf, "selfDeclarationPdf.pdf")
+        }
+
+        binding.tvPhotosOfBuildingPdf.setOnClickListener {
+            downloadAndOpenBase64Pdf(buildingPdf, "buildingPdf.pdf")
+        }
+
+        binding.tvSchematicBuildingPlanPdf.setOnClickListener {
+            downloadAndOpenBase64Pdf(schematicPdf, "schematicPdf.pdf")
+        }
+
+        binding.tvInternalExternalWallsPdf.setOnClickListener {
+            downloadAndOpenBase64Pdf(internalExternalWallPdf, "internalExternalWallsPdf.pdf")
+        }
+    }
 
     private fun setupNavigationButtons() {
         binding.apply {
@@ -2026,6 +2027,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                        yesNoFalseCeiling.text = safeText(data.falseCeiling)
                        yesNoHeightCeiling.text = safeText(data.ceilingHeight)
                        yesNoVentilationArea.text = safeText(data.ventilationArea)
+
                        yesNoSoundLevel.text = safeText(data.soundLevel)
                        yesNoSoundProofAC.text = safeText(data.centerSoundProof)
                        yesNoInfoBoard.text = safeText(data.roomInfoBoard)
@@ -2092,8 +2094,9 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
     }
 
+
     @SuppressLint("Recycle")
-    private fun downloadAndOpenBase64Pdf(base64: String, fileName: String = "document.pdf") {
+    private fun downloadAndOpenBase64Pdf(base64: String, fileName: String = "document.pdf${Random(2)}") {
         try {
             val cleanBase64 = base64
                 .replace("data:application/pdf;base64,", "")
@@ -2115,7 +2118,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             requireContext().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
 
             showToast("PDF downloaded to Downloads: ${file.name}")
-            openBase64Pdf(base64)
+            openBase64Pdf(cleanBase64)
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -2188,6 +2191,11 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                     responseCode = it.responseCode,
                     data = it.wrappedList,
                     onSuccess = { data ->
+                        val tcInfoData = it.wrappedList
+                        val gson = GsonBuilder().setPrettyPrinting().create()
+                        val jsonResponse = gson.toJson(data)
+
+                        Log.d("RFQTeamFrom", "NonAreaInformation Success Response:\n$jsonResponse")
                         data?.forEach { x ->
                             binding.tvOwnershipOfBuilding.text = x.buildingOwner
                             binding.tvAreaOfBuilding.text = x.buildingArea

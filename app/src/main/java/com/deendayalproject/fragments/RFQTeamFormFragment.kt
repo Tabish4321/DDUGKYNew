@@ -46,6 +46,7 @@ import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.ToiletRoomReq
 import com.deendayalproject.model.response.IndoorRFGameResponseDetails
 import com.deendayalproject.util.AppUtil
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -159,19 +160,17 @@ class RFQTeamFormFragment : Fragment() {
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
         facilityId = arguments?.getInt("facilityId",0)!!
         val token = AppUtil.getSavedTokenPreference(requireContext())
-//
-//
+
         val TokeValue=token
-//
-//
+
         binding.residentialfacilityqteamInfoLayout.PoliceVerificationStatus.setOnClickListener {
             showBase64ImageDialog(requireContext(), RFQTBasicInfoPdf, "police verification ")
-//
+
         }
 
         binding.residentialfacilityqteamInfoLayout.AppointmentLetter.setOnClickListener {
             showBase64ImageDialog(requireContext(), RFQTBasicInfoAppointMent, "police verification ")
-//
+
         }
 
 //                  Non Room Information ImageView Click 03/11/2025
@@ -179,7 +178,6 @@ class RFQTeamFormFragment : Fragment() {
 
 
         binding.RFNonLivingAreaLayout.ReceptionAreaFile.setOnClickListener {
-
 
             showBase64ImageDialog(requireContext(), ReceptionAreaPdf, "Preview")
 
@@ -918,6 +916,11 @@ class RFQTeamFormFragment : Fragment() {
                     200 -> {
 
                         val tcInfoData = it.wrappedList
+                        val gson = GsonBuilder().setPrettyPrinting().create()
+                        val jsonResponse = gson.toJson(tcInfoData)
+
+                        Log.d("RFQTeamFrom", "NonAreaInformation Success Response:\n$jsonResponse")
+
                         for (x in tcInfoData) {
 
 

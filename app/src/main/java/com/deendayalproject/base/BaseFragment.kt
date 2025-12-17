@@ -1,5 +1,6 @@
 package com.deendayalproject.base
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
@@ -33,6 +34,7 @@ import com.deendayalproject.util.ModernProgressDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.FileOutputStream
 
 abstract class BaseFragment<VB : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB
@@ -423,6 +425,49 @@ abstract class BaseFragment<VB : ViewBinding>(
             logCrashlyticsError("showBase64ImageDialog", e)
         }
     }
+
+//    @SuppressLint("Recycle")
+//    fun openBase64Pdf(base64: String, context: Context = requireContext()) {
+//        try {
+//            val cleanBase64 = base64
+//                .replace("data:application/pdf;base64,", "")
+//                .replace("\n", "")
+//                .replace("\r", "")
+//                .trim()
+//
+//            val pdfBytes = Base64.decode(cleanBase64, Base64.NO_WRAP)
+//
+//
+//            if (pdfBytes.size < 4 ||
+//                pdfBytes[0] != 0x25.toByte() || // %
+//                pdfBytes[1] != 0x50.toByte() || // P
+//                pdfBytes[2] != 0x44.toByte() || // D
+//                pdfBytes[3] != 0x46.toByte()    // F
+//            ) {
+//                showToast("Invalid PDF format")
+//                return
+//            }
+//
+//            val pdfFile = File(context.cacheDir, "base64_preview.pdf")
+//            FileOutputStream(pdfFile).use { it.write(pdfBytes) }
+//
+//            val uri = FileProvider.getUriForFile(
+//                context,
+//                "${context.packageName}.provider",
+//                pdfFile
+//            )
+//
+//            val intent = Intent(Intent.ACTION_VIEW).apply {
+//                setDataAndType(uri, "application/pdf")
+//                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//            }
+//            context.startActivity(intent)
+//
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            showToast("Failed to open PDF")
+//        }
+//    }
 
     protected fun openBase64Pdf(base64: String, context: Context = requireContext()) {
         try {
