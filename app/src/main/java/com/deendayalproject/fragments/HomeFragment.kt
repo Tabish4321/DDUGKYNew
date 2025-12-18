@@ -27,6 +27,7 @@ import com.deendayalproject.model.response.Form
 import com.deendayalproject.model.response.Module
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.NoDataHelper
+import com.deendayalproject.util.ProgressDialogUtil
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(
 bindingInflater = FragmentHomeBinding::inflate
@@ -213,7 +214,8 @@ bindingInflater = FragmentHomeBinding::inflate
         )
 
         Log.d("HomeFragment", "Using token: $token")
-        dismissProgressDialog()
+        //dismissProgressDialog()
+        showProgressDialog("Loading....")
         viewModel.fetch(request, "Bearer $token")
     }
 

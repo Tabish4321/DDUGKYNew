@@ -1363,6 +1363,11 @@ class RFQTeamFormFragment : Fragment() {
                             200 -> {
                                 val tcInfoData = it.wrappedList
                                 for (x in tcInfoData) {
+                                    val gson = GsonBuilder().setPrettyPrinting().create()
+                                    val jsonResponse = gson.toJson(x)
+
+                                    Log.d("RFQTeamFormFragment", "✅ fLivingAreaInformation Success Response:\n$jsonResponse")
+
                                     val dialogBinding = RoominformationPopdialogBinding.inflate(layoutInflater)
                                     val dialog = AlertDialog.Builder(requireContext())
                                         .setView(dialogBinding.root)
@@ -1393,7 +1398,7 @@ class RFQTeamFormFragment : Fragment() {
 
                                     // ✅ Set Image Click Listeners
                                     dialogBinding.LiaBasicInformationBoardFile.setOnClickListener {
-                                        showBase64ImageDialog(requireContext(), "", "Room Preview")
+                                        showBase64ImageDialog(requireContext(),"", "Room Preview")
                                     }
                                     dialogBinding.laiTypeOfRoofFile.setOnClickListener {
                                         showBase64ImageDialog(requireContext(), x.roofTypePdf, "Room Preview")
@@ -1655,7 +1660,7 @@ class RFQTeamFormFragment : Fragment() {
                             RFfireFightingFile = x.fireFightingPdf
                             RFbiometricDeviceFile = x.biometricDevicePdf
                             RFpowerBackupFile = x.powerBackupPdf
-                            RFgrievanceRegisterFile = x.biometricDevicePdf
+                            RFgrievanceRegisterFile =x.grievanceRegisterPdf //x.biometricDevicePdf
                         }
 
                     }

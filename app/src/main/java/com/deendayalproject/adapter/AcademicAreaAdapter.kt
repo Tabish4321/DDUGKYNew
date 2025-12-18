@@ -122,8 +122,8 @@ class AcademicAreaAdapter(
 
                 val body = jsonBody.toRequestBody(mediaType)
                 val request = Request.Builder()
-                    .url("https://kaushal.dord.gov.in/demobackend/ddugkyapp/deleteAcademicRoom")
-                    //.url("https://kaushal.rural.gov.in/backend/ddugkyapp/deleteAcademicRoom")
+                   // .url("https://kaushal.dord.gov.in/demobackend/ddugkyapp/deleteAcademicRoom")
+                    .url("https://kaushal.rural.gov.in/backend/ddugkyapp/deleteAcademicRoom")
                     .post(body)
                     .addHeader("ddugkyappauth", "Bearer $token")
                     .addHeader("Content-Type", "application/json")

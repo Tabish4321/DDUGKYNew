@@ -62,6 +62,17 @@
             android:padding="@dimen/dp_10"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <TextView
+                android:id="@+id/LiaBasicInformationBoardFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/LiaBasicInformationBoard" />
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyleLarge"
@@ -654,19 +665,6 @@
                 android:text="@string/n_a"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/labellaiBasicInformationBoard" />
-
-            <TextView
-                android:id="@+id/LiaBasicInformationBoardFile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/view"
-                android:textColor="@color/color_dark_blue"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/LiaBasicInformationBoard" />
-
-
-
 
 
             <TextView
