@@ -75,14 +75,14 @@ class RfMultipleListFragment : Fragment() {
             viewModel.saveInitialResidentialFacility(request)
 
             observeViewAddNewRF()
-            showProgressBar()
+         //   showProgressBar()
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
         observeViewModel()
-        showProgressBar()
+      //  showProgressBar()
 
 
         binding.toolbar.btnBack.setOnClickListener {

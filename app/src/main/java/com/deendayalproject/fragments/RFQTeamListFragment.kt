@@ -158,7 +158,7 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
             }
 
             // Optional: Also update the progress bar visibility
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+           // binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 

@@ -19,6 +19,7 @@ data class LivingAreaInformation(
     val airConditionPdf: String?,
     val ceilingHeightPdf: String?,
     val infoBoard: String?,
+    val infoBoardPdf :String?,
     val roofTypePdf: String?,
     val ceilingHeight: String?,
     val falseCeilingPdf: String?,

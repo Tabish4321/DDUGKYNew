@@ -1398,7 +1398,7 @@ class RFQTeamFormFragment : Fragment() {
 
                                     // ✅ Set Image Click Listeners
                                     dialogBinding.LiaBasicInformationBoardFile.setOnClickListener {
-                                        showBase64ImageDialog(requireContext(),"", "Room Preview")
+                                        showBase64ImageDialog(requireContext(),x.infoBoardPdf, "Info Board Preview")
                                     }
                                     dialogBinding.laiTypeOfRoofFile.setOnClickListener {
                                         showBase64ImageDialog(requireContext(), x.roofTypePdf, "Room Preview")
