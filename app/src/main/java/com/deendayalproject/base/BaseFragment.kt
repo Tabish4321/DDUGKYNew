@@ -406,21 +406,9 @@ abstract class BaseFragment<VB : ViewBinding>(
                 null
             }
 
-            if (bitmap != null) {
-                imageView.setImageBitmap(bitmap)
-            } else {
-                imageView.setImageResource(R.drawable.no_image)
-            }
+            val dialog = ImagePreviewDialogFragment.newInstance(title, bitmap)
+            dialog.show(parentFragmentManager, "ImagePreviewDialog")
 
-            imageView.adjustViewBounds = true
-            imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-            imageView.setPadding(20, 20, 20, 20)
-
-            AlertDialog.Builder(context)
-                .setTitle(title)
-                .setView(imageView)
-                .setPositiveButton("Close") { dialog, _ -> dialog.dismiss() }
-                .show()
         } catch (e: Exception) {
             logCrashlyticsError("showBase64ImageDialog", e)
         }

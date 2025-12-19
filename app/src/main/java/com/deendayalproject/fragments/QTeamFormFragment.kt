@@ -1347,6 +1347,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             .setView(binding.root)
             .create()
         dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
 
         val requestTcRoomDetails = AllRoomDetaisReques(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -1436,6 +1438,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             .setView(binding.root)
             .create()
         dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
 
         val requestTcRoomDetails = AllRoomDetaisReques(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -1500,6 +1504,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             .setView(binding.root)
             .create()
         dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
 
         val requestTcRoomDetails = AllRoomDetaisReques(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -1543,6 +1549,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             .setView(binding.root)
             .create()
         dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
 
         val requestTcRoomDetails = AllRoomDetaisReques(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -1586,6 +1594,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             .setView(binding.root)
             .create()
         dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
 
         val requestTcRoomDetails = AllRoomDetaisReques(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -1652,6 +1662,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             .setView(binding.root)
             .create()
         dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
 
         val requestTcRoomDetails = AllRoomDetaisReques(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -1739,6 +1751,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             .setView(binding.root)
             .create()
         dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+
 
         val requestTcRoomDetails = AllRoomDetaisReques(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -1827,6 +1841,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             .setView(binding.root)
             .create()
         dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
 
         val requestTcRoomDetails = AllRoomDetaisReques(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -1913,6 +1929,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             .setView(binding.root)
             .create()
         dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
 
         val requestTcRoomDetails = AllRoomDetaisReques(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -2004,6 +2022,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             .setView(binding.root)
             .create()
         dialog.show()
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+
 
         val requestTcRoomDetails = AllRoomDetaisReques(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -2620,6 +2640,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                             digitalProjectorImage = x.digitalProjectorImage ?: ""
                             officeComputer = x.officeComputer ?: ""
                             printerScannerImage = x.printerScannerImage ?: ""
+                            digitalCameraImage = x.digitalCameraImage?:""
                             centerSoundProof = x.centerSoundProof ?: ""
                             falseCeiling = x.falseCeiling ?: ""
                             tablet = x.tablet.toString()

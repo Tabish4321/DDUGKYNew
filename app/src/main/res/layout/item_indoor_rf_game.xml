@@ -21,16 +21,27 @@
                 android:id="@+id/tvGameName"
                 android:text="@string/indoor_game_name"
                 android:textStyle="bold" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="@color/light_blue"
-                android:id="@+id/tvGameView"
-                android:text="View"
-                android:textStyle="bold" />
-        </LinearLayout>
+
+
+
+                <TextView
+                    android:id="@+id/tvGameView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:textSize="12sp"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:drawableStart="@drawable/ic_view"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    />
+
+            </LinearLayout>
+
+
+
+
 
 
 </LinearLayout>

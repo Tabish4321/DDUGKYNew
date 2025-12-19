@@ -52,17 +52,15 @@
         android:text="120"
         android:textSize="14sp" />
 
-
-
-
     <TextView
         android:id="@+id/btnView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textColor="@color/color_dark_blue"
         android:text="@string/view"
-        android:textSize="12sp" />
+        android:textColor="@color/color_dark_blue"
+        android:textSize="12sp"
+        android:drawablePadding="@dimen/dp_5"
+        android:drawableStart="@drawable/ic_view"
+        android:fontFamily="@font/avenir_next_semi_bold" />
 
 </LinearLayout>

@@ -2942,7 +2942,7 @@ class ResidentialFacilityFragment : Fragment() {
                                 WardItem(
                                     "0", "--Select--"
                                 )
-                            ).plus(response.wrappedList.mapNotNull { it })
+                            ).plus(response.wrappedList.map { it })
                             urbanWardsN.forEach { ulbItem ->
                                 wardHashMap[ulbItem.wardName] = ulbItem.wardCode
                             }
@@ -3261,8 +3261,6 @@ class ResidentialFacilityFragment : Fragment() {
         ) isValid = false
         if (!checkTextInput(etLivingAreaLights, "Lights")) isValid = false
         if (!checkTextInput(etLivingAreaFans, "Fans")) isValid = false
-
-
 
         isValid = isValid && validateImageIfYes(
             spinnerCeiling, base64CeilingDocFile, "Upload image for False Ceiling Provided"
@@ -4454,7 +4452,7 @@ class ResidentialFacilityFragment : Fragment() {
                             binding.basicInfoInclude?.etDistanceFromTrainingToResidentialCentre?.setText(
                                 x.distFromTc
                             )
-                            binding.basicInfoInclude?.etWardenName?.setText(x.wardName)
+                            binding.basicInfoInclude?.etWardenName?.setText(x.wardenName)
                             binding.basicInfoInclude?.etWardenEmpID?.setText(x.wardEmpId)
                             binding.basicInfoInclude?.etWardenAddress?.setText(x.wardAddress)
                             binding.basicInfoInclude?.etWardenEmailId?.setText(x.wardEmail)
