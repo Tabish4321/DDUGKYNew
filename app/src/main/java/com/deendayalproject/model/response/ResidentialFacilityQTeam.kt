@@ -44,6 +44,7 @@ data class FacilityQTeam(
     val empLetterImage: String?,
     val villageCode: String?,
     val wardName: String?,
+    val wardenName: String?,
     val wardgender: String?,
     val residentialCenterLocation: String?,
     val pickUpDrop: String?,

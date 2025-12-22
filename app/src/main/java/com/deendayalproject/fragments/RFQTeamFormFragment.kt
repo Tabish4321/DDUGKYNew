@@ -30,6 +30,7 @@ import com.deendayalproject.R
 import com.deendayalproject.adapter.IndoorGameRFAdapter
 import com.deendayalproject.adapter.LivingAreaInformationAdapter
 import com.deendayalproject.adapter.RFToiletAdapter
+import com.deendayalproject.base.ImagePreviewDialogFragment
 import com.deendayalproject.databinding.RfQteamFormFagmentBinding
 import com.deendayalproject.databinding.RoominformationPopdialogBinding
 //import com.deendayalproject.databinding.RoominformationDialogboxLayoutBinding
@@ -341,7 +342,6 @@ class RFQTeamFormFragment : Fragment() {
                         hideProgressBar()
                         val tcInfoData = it.wrappedList
                         for (x in tcInfoData) {
-
                             binding.residentialfacilityqteamInfoLayout.ResidentialFacilityName.text =
                                 safeText(x.residentialFacilityName)
                             binding.residentialfacilityqteamInfoLayout.ResidentialFacilityType.text =
@@ -378,11 +378,10 @@ class RFQTeamFormFragment : Fragment() {
                             binding.residentialfacilityqteamInfoLayout.ApproximateDistanceFrom.text =
                                 safeText(x.distBusStand)
                             binding.residentialfacilityqteamInfoLayout.DistanceFromTheTrainingCenter.text = safeText(x.distFromTc)
-                            binding.residentialfacilityqteamInfoLayout.AvailabilityOfPick.text = safeText(x.distRailStand)
+                            binding.residentialfacilityqteamInfoLayout.AvailabilityOfPick.text = safeText(x.pickUpDrop)
                             binding.residentialfacilityqteamInfoLayout.DistanceFromRailwayStand.text = safeText(x.distRailStand)
-
                             binding.residentialfacilityqteamInfoLayout.DistanceFromAutoTraining.text = safeText(x.distAutoStand)
-                            binding.residentialfacilityqteamInfoLayout.WadrenName.text = safeText(x.wardName)
+                            binding.residentialfacilityqteamInfoLayout.WadrenName.text = safeText(x.wardenName)
                             binding.residentialfacilityqteamInfoLayout.WardenGender.text = safeText(x.wardgender)
                             binding.residentialfacilityqteamInfoLayout.WardenAddress.text = safeText(x.wardAddress)
                             binding.residentialfacilityqteamInfoLayout.WardenEmployeeId.text = safeText(x.wardEmpId)
@@ -2113,20 +2112,9 @@ class RFQTeamFormFragment : Fragment() {
                 when (it.responseCode) {
 
                     200 ->{
-
-
                         hideProgressBar()
                         adapter.updateData(it.wrappedList ?: emptyList())
-
-
                     }
-
-
-
-
-
-
-
 
                     202 -> {
                         hideProgressBar()
@@ -2170,10 +2158,6 @@ class RFQTeamFormFragment : Fragment() {
     }
     private  fun ToiletDetails()
     {
-
-
-
-
         viewModel.ToiletRoomInformationView.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 when (it.responseCode) {
@@ -2469,57 +2453,24 @@ class RFQTeamFormFragment : Fragment() {
             sanctionOrder = sanctionOrder,
             facilityId = facilityId,
             toiletType=toiletType
-
         )
 
         viewModel.getToiletRoomListView(livingRoomlistViewReq)
-
         showProgressBar()
-
-
-
-
         viewModel.ToiletRoomListView.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 when (it.responseCode) {
-
-
-                    200 ->
-
-                    {
+                    200 -> {
                         hideProgressBar()
                         adapterToilet.updateData(it.wrappedList ?: emptyList())
                         val tcInfoData = it.wrappedList
                         for (x in tcInfoData) {
-
                             rfToiletId=x.rfToiletId
-
-
                         }
-
-
-
                     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     202 ->
-
-
                     {
-
                         adapterToilet.updateData(emptyList())
                         adapterToilet.updateData(mutableListOf())
                         hideProgressBar()
@@ -2544,7 +2495,6 @@ class RFQTeamFormFragment : Fragment() {
                     401 ->  {
 
                         hideProgressBar()
-
                         AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                     }
                 }
@@ -2617,7 +2567,6 @@ class RFQTeamFormFragment : Fragment() {
 
     private fun showBase64ImageDialog(context: Context, base64ImageString: String?, title: String = "Image") {
         val imageView = ImageView(context)
-
         // Decode Base64 → Bitmap
         val bitmap: Bitmap? = if (!base64ImageString.isNullOrBlank()) {
             try {
@@ -2635,27 +2584,9 @@ class RFQTeamFormFragment : Fragment() {
         } else {
             null
         }
-
-        // If bitmap is null → show default image
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap)
-        } else {
-            imageView.setImageResource(R.drawable.no_image) // your fallback drawable
-        }
-
-        imageView.adjustViewBounds = true
-        imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-        imageView.setPadding(20, 20, 20, 20)
-
-        // Show in dialog
-        AlertDialog.Builder(context)
-            .setTitle(title)
-            .setView(imageView)
-            .setPositiveButton("Close") { dialog, _ -> dialog.dismiss() }
-            .show()
+        val dialog = ImagePreviewDialogFragment.newInstance(title, bitmap)
+        dialog.show(parentFragmentManager, "ImagePreviewDialog")
     }
-
-
 
     fun showProgressBar() {
         if (context != null && isAdded && progress?.isShowing == false) {
@@ -2668,13 +2599,6 @@ class RFQTeamFormFragment : Fragment() {
             progress?.dismiss()
         }
     }
-
-
-
-
-
-
-
 }
 
 

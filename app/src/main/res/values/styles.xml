@@ -117,8 +117,22 @@
             <item name="cornerSize">50%</item>
         </style>
 
+    <style name="ThemeOverlay.App.RoundedDialog" parent="ThemeOverlay.Material3.Dialog">
+        <item name="dialogCornerRadius">28dp</item>
+    </style>
 
 
+    <style name="DividerStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginVertical">8dp</item>
+        <item name="android:background">@color/color_light_grey</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.CornerFull" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 
 
 </resources>
