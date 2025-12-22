@@ -20,7 +20,7 @@ android {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
-        versionCode = 2
+        versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,8 +28,6 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-
-
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -45,6 +43,13 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    // ✅ FIX: 16 KB page-size Play Store rejection bypass
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
     }
 
 
@@ -65,6 +70,27 @@ android {
 
 }
 dependencies {
+    implementation("com.thoughtworks.xstream:xstream:1.4.7") {
+        exclude(group = "xmlpull", module = "xmlpull")
+    }
+    implementation("org.apache.santuario:xmlsec:2.0.3") {
+        exclude(group = "org.codehaus.woodstox")
+    }
+
+    implementation("com.fasterxml.jackson.core:jackson-core:2.15.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.0")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.0")
+    implementation("javax.xml.stream:stax-api:1.0-2")
+    implementation("com.fasterxml.woodstox:woodstox-core:6.5.1")
+    implementation("org.bouncycastle:bcprov-jdk16:1.46")
+    implementation("javax.xml.crypto:jsr105-api:1.0.1")
+
+
+
+
+
+
+
     // AndroidX
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

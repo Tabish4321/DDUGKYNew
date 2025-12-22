@@ -64,6 +64,9 @@
                     android:name="sanctionOrder"
                     app:argType="string"/>
             </action>
+        <action
+            android:id="@+id/action_homeFragment_to_attendanceBatchListFragment"
+            app:destination="@id/attendanceBatchListFragment" />
 
     </fragment>
 
@@ -345,6 +348,38 @@
                 app:argType="string"/>
         </action>
     </fragment>
+    <fragment
+        android:id="@+id/attendanceBatchListFragment"
+        android:name="com.deendayalproject.fragments.AttendanceBatchListFragment"
+        android:label="AttendanceBatchListFragment"
+        tools:layout="@layout/fragment_attendance_batch_list"
+        >
+        <action
+            android:id="@+id/action_attendanceBatchListFragment_to_attendanceCandidateListFragment"
+            app:destination="@id/attendanceCandidateListFragment" />
+        <action
+            android:id="@+id/action_attendanceBatchListFragment_to_facultyAttendanceFragment"
+            app:destination="@id/facultyAttendanceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/attendanceCandidateListFragment"
+        android:name="com.deendayalproject.fragments.AttendanceCandidateListFragment"
+        android:label="AttendanceCandidateListFragment"
+        tools:layout="@layout/fragment_attendance_candidate_list">
+        <action
+            android:id="@+id/action_attendanceCandidateListFragment_to_candidateAttendanceFragment"
+            app:destination="@id/candidateAttendanceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/candidateAttendanceFragment"
+        android:name="com.deendayalproject.fragments.CandidateAttendanceFragment"
+        android:label="CandidateAttendanceFragment"
+        tools:layout="@layout/fragment_candidate_attendance"/>
+    <fragment
+        android:id="@+id/facultyAttendanceFragment"
+        android:name="com.deendayalproject.fragments.FacultyAttendanceFragment"
+        android:label="FacultyAttendanceFragment"
+        tools:layout="@layout/fragment_faculty_attendance"/>
 
 
 </navigation>
