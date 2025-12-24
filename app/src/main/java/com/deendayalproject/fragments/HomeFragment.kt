@@ -195,6 +195,11 @@ bindingInflater = FragmentHomeBinding::inflate
 
             "FIELD_VERIFICATION_FORM" ->
                 navigate(R.id.action_homeFragment_to_fieldVerificationFragment)
+
+            "DDUGKY_CANDIDATE_ATTENDANCE_APP" ->
+                navigate(R.id.action_homeFragment_to_attendanceBatchListFragment)
+
+
         }
     }
 

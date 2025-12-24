@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
-import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.response.wrappedList
 import com.deendayalproject.util.AppUtil
 import okhttp3.MediaType.Companion.toMediaType
