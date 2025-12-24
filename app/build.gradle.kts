@@ -1,5 +1,3 @@
-import com.android.build.gradle.ProguardFiles.getDefaultProguardFile
-import org.gradle.internal.impldep.com.jcraft.jsch.ConfigRepository.defaultConfig
 
 plugins {
     id("com.android.application")
@@ -7,8 +5,6 @@ plugins {
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
-   // id("com.google.gms.google-services")
-   // id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -44,23 +40,19 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-
     buildFeatures {
         viewBinding = true
         buildConfig = true
     }
-
-// ✅ Kotlin JVM target set properly
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = "11"
-        }
-    }
-    kapt {
-        correctErrorTypes = true
-    }
-
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
+
 dependencies {
     // AndroidX
     implementation("androidx.core:core-ktx:1.12.0")
@@ -135,7 +127,7 @@ dependencies {
         kapt("com.github.bumptech.glide:compiler:4.16.0")
 
     }
-
-
 }
-
+kapt {
+    correctErrorTypes = false
+}

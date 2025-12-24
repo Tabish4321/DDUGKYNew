@@ -324,6 +324,7 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var spinnerElectricalPowerBackupAvailable: Spinner
     private lateinit var spinnerGrievanceRegisterAvailable: Spinner
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     private lateinit var livingRoomAdapter: LivingRoomListAdapter
     private lateinit var ToiletAdapter: ToiletAdapter
 
@@ -373,6 +374,8 @@ class ResidentialFacilityFragment : Fragment() {
                     .show()
             }
         }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -1328,6 +1331,8 @@ class ResidentialFacilityFragment : Fragment() {
         } else {
             requestLocationPermission()
         }
+
+
 
 
         // All submit response
@@ -3660,11 +3665,11 @@ class ResidentialFacilityFragment : Fragment() {
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
                 if (location != null) {
-                    binding.basicInfoInclude?.tvLatLang?.text =
-                        location.latitude.toString() + "," + location.longitude.toString()
+                    binding.basicInfoInclude?.tvLatLang?.text = location.latitude.toString() + "," + location.longitude.toString()
                     latValue = location.latitude.toString()
                     langValue = location.longitude.toString()
                 } else {
+
                     Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT)
                         .show()
                 }

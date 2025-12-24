@@ -387,8 +387,6 @@ abstract class BaseFragment<VB : ViewBinding>(
         context: Context = requireContext()
     ) {
         try {
-            val imageView = ImageView(context)
-
             val bitmap: Bitmap? = if (!base64ImageString.isNullOrBlank()) {
                 try {
                     val cleanBase64 = base64ImageString
@@ -414,48 +412,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         }
     }
 
-//    @SuppressLint("Recycle")
-//    fun openBase64Pdf(base64: String, context: Context = requireContext()) {
-//        try {
-//            val cleanBase64 = base64
-//                .replace("data:application/pdf;base64,", "")
-//                .replace("\n", "")
-//                .replace("\r", "")
-//                .trim()
-//
-//            val pdfBytes = Base64.decode(cleanBase64, Base64.NO_WRAP)
-//
-//
-//            if (pdfBytes.size < 4 ||
-//                pdfBytes[0] != 0x25.toByte() || // %
-//                pdfBytes[1] != 0x50.toByte() || // P
-//                pdfBytes[2] != 0x44.toByte() || // D
-//                pdfBytes[3] != 0x46.toByte()    // F
-//            ) {
-//                showToast("Invalid PDF format")
-//                return
-//            }
-//
-//            val pdfFile = File(context.cacheDir, "base64_preview.pdf")
-//            FileOutputStream(pdfFile).use { it.write(pdfBytes) }
-//
-//            val uri = FileProvider.getUriForFile(
-//                context,
-//                "${context.packageName}.provider",
-//                pdfFile
-//            )
-//
-//            val intent = Intent(Intent.ACTION_VIEW).apply {
-//                setDataAndType(uri, "application/pdf")
-//                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//            }
-//            context.startActivity(intent)
-//
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            showToast("Failed to open PDF")
-//        }
-//    }
+
 
     protected fun openBase64Pdf(base64: String, context: Context = requireContext()) {
         try {

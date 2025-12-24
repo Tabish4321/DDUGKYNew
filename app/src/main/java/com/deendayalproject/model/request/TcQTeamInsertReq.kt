@@ -32,6 +32,10 @@ data class TcQTeamInsertReq(
     val tcSupportInfraStatus: String,
     val tcSupportInfraRemark: String,
     val tcStandardFormStatus: String,
-    val tcStandardFormRemark: String
+    val tcStandardFormRemark: String,
+    val latitude: String?,
+    val longitude: String
+
+
 )
 
