@@ -356,10 +356,25 @@
         >
         <action
             android:id="@+id/action_attendanceBatchListFragment_to_attendanceCandidateListFragment"
-            app:destination="@id/attendanceCandidateListFragment" />
+            app:destination="@id/attendanceCandidateListFragment" >
+            <argument
+                android:name="batchId"
+                app:argType="string" />
+            <argument
+                android:name="batchName"
+                app:argType="string" />
+
+        </action>
         <action
             android:id="@+id/action_attendanceBatchListFragment_to_facultyAttendanceFragment"
-            app:destination="@id/facultyAttendanceFragment" />
+            app:destination="@id/facultyAttendanceFragment" >
+            <argument
+                android:name="batchId"
+                app:argType="string" />
+            <argument
+                android:name="batchName"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/attendanceCandidateListFragment"
@@ -368,7 +383,40 @@
         tools:layout="@layout/fragment_attendance_candidate_list">
         <action
             android:id="@+id/action_attendanceCandidateListFragment_to_candidateAttendanceFragment"
-            app:destination="@id/candidateAttendanceFragment" />
+            app:destination="@id/candidateAttendanceFragment" >
+            <argument
+                android:name="candidateId"
+                app:argType="string" />
+            <argument
+                android:name="candidateName"
+                app:argType="string" />
+            <argument
+                android:name="candidateMobile"
+                app:argType="string" />
+            <argument
+                android:name="candidateEmail"
+                app:argType="string" />
+            <argument
+                android:name="candidateGender"
+                app:argType="string" />
+            <argument
+                android:name="candidateDob"
+                app:argType="string" />
+            <argument
+                android:name="candidateDp"
+                app:argType="string" />
+            <argument
+                android:name="batchId"
+                app:argType="string" />
+            <argument
+                android:name="candidateRollNo"
+                app:argType="string" />
+            <argument
+                android:name="aadhaarNo"
+                app:argType="string" />
+
+
+        </action>
     </fragment>
     <fragment
         android:id="@+id/candidateAttendanceFragment"

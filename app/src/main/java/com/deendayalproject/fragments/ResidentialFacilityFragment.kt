@@ -2889,7 +2889,7 @@ class ResidentialFacilityFragment : Fragment() {
     }
 
 
-    private fun collectUlbResponse() {
+    private fun collectUlbResponse()    {
         viewModel.getUlbList.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 hideProgressBar()

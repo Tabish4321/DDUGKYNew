@@ -882,6 +882,24 @@
     <string name="no_centers_found">No training centers found</string>
 
     <string name="calculate">Calculate</string>
+    <string name="candidate_name">Candidate Name</string>
+    <string name="roll_no">Roll No.</string>
+    <string name="login_id">Login Id.</string>
+    <string name="gender">Gender</string>
+    <string name="date_of_birth">Date Of Birth:</string>
+    <string name="mark_today_attention">Mark today Attendance</string>
+    <string name="check_in">Check In</string>
+    <string name="check_out">Check Out</string>
+    <string name="total_hours">Total Hours</string>
+    <string name="_00_00_am">00:00 AM</string>
+    <string name="batch_id">Batch Id\n</string>
+    <string name="batch_name">Batch Name</string>
+    <string name="contact_number">Mobile Number</string>
+    <string name="attendance_marked">Attendance Marked</string>
+    <string name="name">Name:</string>
+    <string name="careof">Care Of:</string>
+    <string name="ok">Ok</string>
+    <string name="failed_attendance">Mark Failed Try Again</string>
 
 
 </resources>

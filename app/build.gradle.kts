@@ -14,7 +14,6 @@ plugins {
 android {
     namespace = "com.deendayalproject"
     compileSdk = 35
-    ndkVersion = "26.1.10909125"
 
     defaultConfig {
         applicationId = "com.deendayalproject"
@@ -28,8 +27,6 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-
-
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -133,6 +130,10 @@ dependencies {
     }
     implementation("com.thoughtworks.xstream:xstream:1.4.7") {
         exclude(group = "xmlpull", module = "xmlpull")
+
+        implementation("com.github.bumptech.glide:glide:4.16.0")
+        kapt("com.github.bumptech.glide:compiler:4.16.0")
+
     }
 
 

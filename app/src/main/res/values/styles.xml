@@ -45,6 +45,7 @@
         <item name="android:background">@drawable/shape_rectangle_green</item>
         <item name="android:fontFamily">@font/avenir_next_demi_bold</item>
         <item name="android:gravity">start|center_vertical</item>
+        <item name="android:paddingVertical">@dimen/dp_10</item>
         <item name="android:paddingStart">@dimen/dp_10</item>
         <item name="android:paddingEnd">@dimen/dp_10</item>
     </style>
