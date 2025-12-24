@@ -290,14 +290,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         showErrorToast("Login Failed: ${exception?.message ?: "Unknown error"}")
     }
 
-    // Legacy methods for compatibility
-//    fun showProgressBar() {
-//        showProgressDialog("Loading...")
-//    }
-//
-//    fun hideProgressBar() {
-//        dismissProgressDialog()
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -30,9 +30,9 @@
         android:theme="@style/Theme.Ddugky"
         android:usesCleartextTraffic="false"
         tools:targetApi="30"
-        android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
         >
 
+        <!--        android:windowSoftInputMode="stateAlwaysHidden|adjustResize"-->
 
         <provider
             android:name="androidx.core.content.FileProvider"

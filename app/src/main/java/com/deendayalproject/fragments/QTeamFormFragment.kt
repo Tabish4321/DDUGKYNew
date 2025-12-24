@@ -1,11 +1,13 @@
 package com.deendayalproject.fragments
 
 import SharedViewModel
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,6 +36,8 @@ import android.os.Environment
 import android.util.Base64
 import android.util.Log
 import android.widget.ImageView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -51,6 +55,9 @@ import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.response.RoomDetail
 import com.deendayalproject.model.response.RoomItem
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -245,10 +252,10 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
     private var safeDrinkingImage = ""
     private var fireFightingImage = ""
     private var firstAidImage = ""
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
+    private var latValue: String = ""
+    private var langValue: String = ""
 
 
     override fun initializeViews() {
@@ -261,6 +268,12 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         sanctionOrder = arguments?.getString("sanctionOrder").toString() ?: ""
 
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        if (hasLocationPermission()) {
+            getCurrentLocation()
+        } else {
+            requestLocationPermission()
+        }
 
         request = TrainingCenterInfo(
             appVersion = BuildConfig.VERSION_NAME,
@@ -501,6 +514,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         }
     }
 
+
+
     private fun toggleRemarks(label: View, editText: View, show: Boolean) {
         label.visibility = if (show) View.VISIBLE else View.GONE
         editText.visibility = if (show) View.VISIBLE else View.GONE
@@ -508,135 +523,6 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
 
 
-
-//    private fun setupSpinnerListeners() {
-//        binding.trainingCenterInfoLayout.SpinnerTcInfo.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcInfoApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcInfoApproval == "Send for modification",
-//                binding.trainingCenterInfoLayout.InfoRemarks,
-//                binding.trainingCenterInfoLayout.etInfoRemarks
-//            )
-//        }
-//
-//        binding.SpinnerDescAcademia.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcDescAcademiaApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcDescAcademiaApproval == "Send for modification",
-//                binding.DescAcademiaRemarks,
-//                binding.etDescAcademiaRemarks
-//            )
-//        }
-//
-//        binding.SpinnerTcInfra.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcInfraApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcInfraApproval == "Send for modification",
-//                binding.InfraRemarks,
-//                binding.etInfraRemarks
-//            )
-//        }
-//
-//        binding.SpinnerBasin.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcBasinApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcBasinApproval == "Send for modification",
-//                binding.BasinRemarks,
-//                binding.etBasinRemarks
-//            )
-//        }
-//
-//        binding.SpinnerDescOtherArea.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcDescOtherAreaApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcDescOtherAreaApproval == "Send for modification",
-//                binding.DescOtherAreaRemarks,
-//                binding.etDescOtherAreaRemarks
-//            )
-//        }
-//
-//        binding.SpinnerTeaching.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcTeachingApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcTeachingApproval == "Send for modification",
-//                binding.TeachingRemarks,
-//                binding.etTeachingRemarks
-//            )
-//        }
-//
-//        binding.SpinnerGeneral.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcGeneralApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcGeneralApproval == "Send for modification",
-//                binding.GeneralRemarks,
-//                binding.etGeneralRemarks
-//            )
-//        }
-//
-//        binding.SpinnerElectrical.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcElectricalApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcElectricalApproval == "Send for modification",
-//                binding.ElectricalRemarks,
-//                binding.etElectricalRemarks
-//            )
-//        }
-//
-//        binding.signageLayout.SpinnerSignage.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcSignageApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcSignageApproval == "Send for modification",
-//                binding.signageLayout.SignageRemarks,
-//                binding.signageLayout.etSignageRemarks
-//            )
-//        }
-//
-//        binding.ipCameraLayout.SpinnerIpEnable.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcIpEnableApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcIpEnableApproval == "Send for modification",
-//                binding.ipCameraLayout.IpEnableRemarks,
-//                binding.ipCameraLayout.etIpEnableRemarks
-//            )
-//        }
-//
-//        binding.commonEquipmentLayout.SpinnerCommonEquipment.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcCommonEquipmentApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcCommonEquipmentApproval == "Send for modification",
-//                binding.commonEquipmentLayout.CommonEquipmentRemarks,
-//                binding.commonEquipmentLayout.etCommonEquipmentRemarks
-//            )
-//        }
-//
-//        binding.availSupportInfraLayout.SpinnerAvailSupportInfra.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcAvailSupportInfraApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcAvailSupportInfraApproval == "Send for modification",
-//                binding.availSupportInfraLayout.AvailSupportInfraRemarks,
-//                binding.availSupportInfraLayout.etAvailSupportInfraRemarks
-//            )
-//        }
-//
-//        binding.availOfStandardFormsLayout.SpinnerAvailOfStandardForms.setOnItemClickListener { parent, _, position, _ ->
-//            selectedTcAvailOfStandardFormApproval = parent.getItemAtPosition(position).toString()
-//            toggleRemarksVisibility(
-//                selectedTcAvailOfStandardFormApproval == "Send for modification",
-//                binding.availOfStandardFormsLayout.AvailOfStandardFormsRemarks,
-//                binding.availOfStandardFormsLayout.etAvailOfStandardFormsRemarks
-//            )
-//        }
-//    }
-//
-//    private fun toggleRemarksVisibility(show: Boolean, remarksLabel: View, remarksEditText: View) {
-//        if (show) {
-//            remarksLabel.show()
-//            remarksEditText.show()
-//        } else {
-//            remarksLabel.hide()
-//            remarksEditText.hide()
-//        }
-//    }
 
     private fun setupImageClickListeners() {
         // Wash basin images
@@ -1139,10 +1025,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             selectedTcAvailSupportInfraRemarks = binding.availSupportInfraLayout.etAvailSupportInfraRemarks.text.toString()
             if (!validateRemarks(selectedTcAvailSupportInfraRemarks)) return
         } else selectedTcAvailSupportInfraRemarks = ""
-
-
         viewModel.getAvailabilityStandardForms(request)
-
         navigateToNextSection(
             binding.availSupportInfraLayout.trainingAvailSupportInfraExpand,
             binding.availSupportInfraLayout.viewAvailSupportInfra,
@@ -1251,6 +1134,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             imeiNo = AppUtil.getAndroidId(requireContext()),
             tcId = centerId.toInt(),
             sanctionOrder = sanctionOrder,
+            latitude = latValue,
+            longitude = langValue,
 
             tcInfoStatus = mapApproval(selectedTcInfoApproval),
             tcInfoRemark = selectedTcInfoRemarks,
@@ -1290,6 +1175,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
             tcStandardFormStatus = mapApproval(selectedTcAvailOfStandardFormApproval),
             tcStandardFormRemark = selectedTcAvailOfStandardFormRemarks
+
         )
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -1305,6 +1191,60 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.scroll.post {
             binding.scroll.smoothScrollTo(0, 0)
         }
+    }
+
+    private fun hasLocationPermission(): Boolean {
+        val fineLocation = ContextCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        val coarseLocation = ContextCompat.checkSelfPermission(
+            requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+        return fineLocation == PackageManager.PERMISSION_GRANTED || coarseLocation == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestLocationPermission() {
+        requestPermissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
+    }
+
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val fineLocationGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
+            val coarseLocationGranted =
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
+
+            if (fineLocationGranted || coarseLocationGranted) {
+                getCurrentLocation()
+            } else {
+                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+    @SuppressLint("MissingPermission", "SetTextI18n")
+    private fun getCurrentLocation() {
+        // Uses high accuracy priority for precise location
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                   // binding.basicInfoInclude?.tvLatLang?.text = location.latitude.toString() + "," + location.longitude.toString()
+                    latValue = location.latitude.toString()
+                    langValue = location.longitude.toString()
+                } else {
+
+                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }.addOnFailureListener {
+                Toast.makeText(
+                    requireContext(), "Failed to get location: ${it.message}", Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 
     private fun showTrainerStaffDialog() {
@@ -1523,6 +1463,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             result.onSuccess { response ->
                 dismissProgressDialog()
                 val data = response.wrappedList.firstOrNull()
+                Log.d("getAcademicRoomDetails", response.toString())
+
                 if (data != null) {
                     binding.yesNoReceptionAreaPhoto.text = safeText(data.roomsPhotographs)
                     binding.valueReceptionAreaPhoto.setOnClickListener {

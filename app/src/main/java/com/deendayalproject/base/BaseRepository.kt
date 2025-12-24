@@ -1,6 +1,9 @@
 package com.deendayalproject.base
 
 import android.content.Context
+import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 
 abstract class BaseRepository<T : Any>(private val context: Context) {
 
@@ -14,7 +17,15 @@ abstract class BaseRepository<T : Any>(private val context: Context) {
         return try {
             val response = apiCall()
             if (response.isSuccessful) {
-                response.body()?.let { Result.success(it) }
+                Log.e("API_CHECK", "API method invoked")
+
+                val body = response.body()
+                val json = Gson().toJson(body)
+                Log.d("Api", json)
+
+                response.body()?.let {
+                    Result.success(it)
+                }
                     ?: Result.failure(Exception("Empty response body"))
             } else {
                 when (response.code()) {
