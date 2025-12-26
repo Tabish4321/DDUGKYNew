@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Ddugky</string>
+    <string name="batch_id">Batch Id\n</string>
+    <string name="batch_name">Batch Name</string>
 </resources>

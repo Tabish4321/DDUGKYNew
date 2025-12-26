@@ -6,8 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.deendayalproject.model.request.*
 import com.deendayalproject.model.response.*
 import com.deendayalproject.repository.repomanager.RepositoryManager
+import com.deendayalproject.uidai.ekyc.UidaiKycRequest
+import com.deendayalproject.uidai.ekyc.UidaiResp
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -726,6 +731,20 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         handleApiCall(
             apiCall = { repositoryManager.academic.getAcademicRoomDetails(request) },
             resultLiveData = _getAcademicRoomDetails
+        )
+    }
+
+
+
+    private val _postOnAUAFaceAuthNREGA = MutableLiveData<Result<UidaiResp>>()
+    val postOnAUAFaceAuthNREGA: LiveData<Result<UidaiResp>> = _postOnAUAFaceAuthNREGA
+
+
+
+    fun postOnAUAFaceAuthNREGA(url:String, uidaiKycRequest: UidaiKycRequest){
+        handleApiCall(
+            apiCall = { repositoryManager.academic.postOnAUAFaceAuthNREGA(url,uidaiKycRequest) },
+            resultLiveData = _postOnAUAFaceAuthNREGA
         )
     }
 

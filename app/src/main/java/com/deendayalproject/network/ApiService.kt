@@ -125,12 +125,15 @@ import com.deendayalproject.model.response.TrainingCenterResponse
 import com.deendayalproject.model.response.UlbRes
 import com.deendayalproject.model.response.VillageRes
 import com.deendayalproject.model.response.WardRes
+import com.deendayalproject.uidai.ekyc.UidaiKycRequest
+import com.deendayalproject.uidai.ekyc.UidaiResp
 import com.deendayalproject.util.ApiConstant
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Url
 
 interface ApiService {
 
@@ -585,6 +588,13 @@ interface ApiService {
     suspend fun getWardAPI(
         @Body wardReq: WardReq
     ): Response<WardRes>
+
+
+    @POST
+    suspend fun postOnAUAFaceAuthNREGA(
+        @Url url: String,
+        @Body request: UidaiKycRequest
+    ): Response<UidaiResp>
 
 
 }

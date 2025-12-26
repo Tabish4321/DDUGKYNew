@@ -6925,9 +6925,6 @@ class TrainingFragment : Fragment() {
     }
 
 
-
-
-
 //       ItLab    Ajit Ranjan
 
     private fun submitItLab() {
@@ -7594,8 +7591,6 @@ class TrainingFragment : Fragment() {
         viewModel.DesriptionAcademicNonList(request, AppUtil.getSavedTokenPreference(requireContext()))
 
     }
-
-
 
     private fun DesriptionAcademicNon(){
         viewModel.AcademicNonAcademicResponse.observe(viewLifecycleOwner) { result ->

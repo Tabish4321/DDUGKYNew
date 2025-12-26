@@ -867,5 +867,7 @@
     <string name="no_data_description">अभी कुछ दिखाने के लिए नहीं है। कृपया बाद में जांचें।</string>
     <string name="english">अंग्रेजी\n</string>
     <string name="hindi">हिंदी\n</string>
+    <string name="batch_id">Batch Id\n</string>
+    <string name="batch_name">Batch Name</string>
 
 </resources>

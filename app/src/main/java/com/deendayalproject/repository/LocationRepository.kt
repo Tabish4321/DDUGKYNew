@@ -1,6 +1,7 @@
 package com.deendayalproject.repository
 
 import android.content.Context
+import com.bumptech.glide.load.engine.Resource
 import com.deendayalproject.base.BaseRepository
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.DistrictRequest
@@ -17,7 +18,10 @@ import com.deendayalproject.model.response.UlbRes
 import com.deendayalproject.model.response.VillageRes
 import com.deendayalproject.model.response.WardRes
 import com.deendayalproject.network.ApiService
+import com.deendayalproject.uidai.ekyc.UidaiKycRequest
+import com.deendayalproject.uidai.ekyc.UidaiResp
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 class LocationRepository(context: Context) : BaseRepository<ApiService>(context) {
 
@@ -55,7 +59,6 @@ class LocationRepository(context: Context) : BaseRepository<ApiService>(context)
         safeApiCallWithToken(token = header) {
             apiService.getWardAPI(wardReq)
         }
-
 
 
 

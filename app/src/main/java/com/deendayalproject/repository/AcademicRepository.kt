@@ -17,6 +17,8 @@ import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
 import com.deendayalproject.network.ApiService
+import com.deendayalproject.uidai.ekyc.UidaiKycRequest
+import com.deendayalproject.uidai.ekyc.UidaiResp
 
 class AcademicRepository(context: Context) : BaseRepository<ApiService>(context) {
 
@@ -74,4 +76,10 @@ class AcademicRepository(context: Context) : BaseRepository<ApiService>(context)
         safeApiCall {
             apiService.getAcademicRoomDetails(request)
         }
+
+    suspend fun postOnAUAFaceAuthNREGA(url:String, uidaiKycRequest: UidaiKycRequest): Result<UidaiResp> =
+        safeApiCall {
+            apiService.postOnAUAFaceAuthNREGA(url,uidaiKycRequest)        }
+
+
 }

@@ -1,4 +1,890 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+
+    <string name="training_center_info">Training center information</string>
+    <string name="hint_distance_bus_stand">Approximate Distance from a prominent Bus Stand (In Mtrs)</string>
+    <string name="hint_distance_auto_stand">Approximate Distance from an Auto Stand (In Mtrs)</string>
+    <string name="hint_distance_railway_station">Approximate Distance from a Railway Station (In Mtrs)</string>
+    <string name="hint_latitude">Latitude</string>
+    <string name="hint_longitude">Longitude</string>
+
+    <string name="title_ip_enabled_camera">IP enabled camera</string>
+    <string name="label_ip_enabled">IP Enabled</string>
+    <string name="label_resolution">Resolution - 1080p HD @ 25 FPS or better</string>
+    <string name="label_video_stream">Video Stream - Dual H.264 or better</string>
+    <string name="label_remote_browser">Remote Access - Via web browser for Configuration, Viewing &amp; Control</string>
+    <string name="label_simultaneous_access">Remote Access - Minimum 10 users simultaneously</string>
+    <string name="label_supported_protocols">Supported Protocols - IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP etc.</string>
+    <string name="label_color_video_audio">Color Video with Audio</string>
+    <string name="label_storage_facility">Storage Facility to keep recording till project closure</string>
+    <string name="label_monitor_accessible">Central Monitor accessible to Centre Incharge</string>
+    <string name="btn_click_photo">Click photo</string>
+    <string name="label_conformance">Conformance of CCTV to DDU-GKY as per Chapter 5 of SOP</string>
+    <string name="label_storage_recording">Storage of CCTV Recorded Material</string>
+    <string name="label_dvr_static_ip">DVR Connected to Working Static IP as per SF 5.2B</string>
+    <string name="btn_submit_cctv">Submit</string>
+
+
+    <string name="toilets_wash_basins_section_title">Toilets &amp; Wash Basins</string>
+    <string name="male_toilets">Male Toilets (In No.)</string>
+    <string name="proof_male_toilets">Proof of Male Toilets</string>
+    <string name="proof_male_toilets_signage">Proof of Male Toilets Signage</string>
+    <string name="female_toilets">Female Toilets (In No.)</string>
+    <string name="proof_female_toilets">Proof of Female Toilets</string>
+    <string name="proof_female_toilets_signage">Proof of Female Toilets Signage</string>
+    <string name="male_urinals">Male Urinals (In No.)</string>
+    <string name="proof_male_urinals">Proof of Male Urinals</string>
+    <string name="male_wash_basins">Male Wash Basins (In No.)</string>
+    <string name="proof_male_wash_basins">Proof of Male Wash Basins</string>
+    <string name="female_wash_basins">Female Wash Basins (In No.)</string>
+    <string name="proof_female_wash_basins">Proof of Female Wash Basins</string>
+    <string name="proof_overhead_tanks">Proof of Overhead Tanks</string>
+    <string name="proof_flooring">Proof of Flooring</string>
+    <string name="upload">Upload</string>
+    <string name="submit_toilet_wash_basin">Submit</string>
+
+
+    <!-- Section Header -->
+
+    <!-- TextInput Hints -->
+
+    <string name="length">Length</string>
+    <string name="width">Width</string>
+    <string name="area">Area</string>
+    <string name="fans">Fans</string>
+    <string name="circulation_area_hint">Circulation Area (In Sq. Ft.)</string>
+    <string name="open_space_hint">Open Space for People to Gather and Interact (In Sq. Ft.)</string>
+    <string name="exclusive_parking_space_hint">Exclusive Parking Space (No. of Bicycle Parking Slots)</string>
+
+    <!-- Section Titles -->
+    <string name="proof_upload">Proof Upload</string>
+    <string name="circulation_area_title">Ener Circulation Area (In Sq. Ft.)</string>
+    <string name="circulation_proof_upload">Circulation Area Proof Upload</string>
+    <string name="open_space_proof_upload">Open Space Proof Upload</string>
+    <string name="parking_space_proof_upload">Parking Space Proof Upload</string>
+
+    <!-- Button Labels -->
+    <string name="upload_proof">Upload Proof</string>
+    <string name="upload_circulation_proof">Upload Circulation Proof</string>
+    <string name="upload_open_space_proof">Upload Open Space Proof</string>
+    <string name="upload_parking_proof">Upload Parking Proof</string>
+
+
     <string name="app_name">Ddugky</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="electrical_wiring_title">Electrical Wiring &amp; Standards</string>
+    <string name="securing_of_wires">Securing of Wires</string>
+    <string name="switch_boards_panel_boards">Switch Boards &amp; Panel Boards</string>
+    <string name="upload_photos">Upload photos</string>
+
+    <string name="general_details_title">General Details</string>
+    <string name="leakage_check_title">Visible signs of Leakages from Walls and Roof (RCC &amp; Non-RCC)</string>
+    <string name="upload_photos_general">Upload photos</string>
+    <string name="protection_of_stairs_title">Protection of Stairs, Balconies and Other Locations</string>
+    <string name="ddu_look_and_feel_title">Conformance to DDU-GKY Look and Feel Standards (4.2.1)</string>
+    <string name="candidate_safety_title">Can the Candidates Safely come to the Centre When Training is Conducted</string>
+
+    <string name="signages_info_boards_title">Signages &amp; Information Boards</string>
+    <string name="training_centre_name_board">Training Centre Name Board (SF-4.2B)</string>
+    <string name="activity_summary_board">Activity Summary and Achievement Board (SF-4.2D)</string>
+    <string name="entitlement_responsibilities_board">Student Entitlement &amp; Responsibilities Board (SF-4.2M)</string>
+    <string name="important_contacts_board">Contact Detail of Important People (SF-4.2E)</string>
+    <string name="basic_info_board">Basic Information Board at Training Centre (SF-4.2G)</string>
+    <string name="code_of_conduct_board">Code of Conduct Board for Candidates (SF-4.2J)</string>
+    <string name="attendance_summary_board">Student Attendance &amp; Entitlement Summary Info Board (SF-4.2N)</string>
+
+
+    <string name="common_equipment_title">Common Equipment</string>
+    <string name="electrical_power_backup">Electrical Power Backup</string>
+    <string name="biometric_devices_installation">Installation of Biometric Devices</string>
+    <string name="enter_details_hint">Enter details</string>
+    <string name="cctv_monitor_installation">Installation of CCTV Monitor</string>
+    <string name="document_storage_place">Storage Place for Securing Documents</string>
+    <string name="printer_scanner_quantity">Printer Cum Scanner (In No.)</string>
+    <string name="digital_camera_quantity">Digital Camera (In No.)</string>
+    <string name="grievance_register">Grievance Register</string>
+    <string name="minimum_equipment_sf_5_1p">Minimum Equipment as per SF 5.1P</string>
+    <string name="direction_boards">Direction Boards</string>
+
+
+    <string name="theory_classroom_title">Theory Class Room Details</string>
+    <string name="room_number_label">Room No.</string>
+    <string name="room_number_hint">Enter Room Number</string>
+    <string name="room_allocation_type_label">Room Allocation Type</string>
+    <string name="length_label">Length (In Sq Ft.)</string>
+    <string name="length_hint">Enter length in sq ft</string>
+    <string name="width_label">Width (In Sq Ft.)</string>
+    <string name="width_hint">Enter width in sq ft</string>
+    <string name="area_label">Area (In Sq Ft.)</string>
+    <string name="area_hint">Enter area or auto-calculate</string>
+    <string name="max_candidates_label">Max Permissible Candidates</string>
+    <string name="max_candidates_hint">Enter maximum number of candidates</string>
+    <string name="roof_type_label">Type of Roof</string>
+    <string name="false_ceiling_label">False Ceiling Provided?</string>
+    <string name="ceiling_height_label">Height of Ceiling (In ft)</string>
+    <string name="ceiling_height_hint">Enter ceiling height in ft</string>
+    <string name="ventilation_area_label">Ventilation Area (In Sq. ft)</string>
+    <string name="ventilation_area_hint">Enter ventilation area</string>
+    <string name="sound_specification_label">Sound level as per Specifications</string>
+    <string name="sound_db_label">Sound level (In dB)</string>
+    <string name="sound_db_hint">Enter dB level</string>
+    <string name="upload_photos_theory_classroom">Upload Photos</string>
+
+
+    <string name="trainers_section_title">Available Trainers and Other Staff</string>
+    <string name="profile_type_label">Profile Type</string>
+    <string name="trainer_name_label">Trainer/Staff Name</string>
+    <string name="designation_label">Designation</string>
+    <string name="engagement_type_label">Engagement Type</string>
+    <string name="domain_type_label">Domain/Non-Domain</string>
+    <string name="assigned_courses_label">Assigned Courses</string>
+    <string name="tot_certified_label">Whether TOT Certified?</string>
+    <string name="tot_certification_number_label">TOT Certification No.</string>
+    <string name="tot_certification_number_hint">Enter Certification Number</string>
+
+
+    <string name="cctv_section_title">IP Enabled Camera</string>
+    <string name="ip_enabled_label">IP Enabled</string>
+    <string name="resolution_label">Resolution - 1080p HD @ 25 FPS or better</string>
+    <string name="video_stream_label">Video Stream - Dual H.264 or better</string>
+    <string name="remote_access_browser_label">Remote Access - Via web browser for Configuration, Viewing &amp; control</string>
+    <string name="remote_access_simultaneous_label">Remote Access - Simultaneously access at any time at minimum 10 users</string>
+    <string name="supported_protocols_label">Supported Protocols - As per system design for real-time live monitoring and recording using IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP etc.</string>
+    <string name="color_video_audio_label">Color Video with Audio</string>
+    <string name="storage_facility_label">Storage facility to keep the complete recording till closure of project</string>
+    <string name="monitor_accessible_label">Central Monitor is easily Accessible to Centre Incharge</string>
+    <string name="click_photo">Click photo</string>
+    <string name="conformance_label">Conformance of CCTV to DDU-GKY as Provided in Chapter 5 of SOP</string>
+    <string name="storage_recorded_material_label">Storage of the CCTV Recorded Material</string>
+    <string name="dvr_static_ip_label">DVR is Connected to Working Static IP as per SF 5.2B</string>
+    <string name="submit_button">Submit</string>
+
+
+    <string name="infrastructure_section_title">Infrastructure</string>
+    <string name="ownership_building_label">Ownership of Building (Own / Rent / Govt)</string>
+    <string name="area_building_label">Area of the Building (Sq. Ft.)</string>
+    <string name="roof_building_label">Roof of the Building</string>
+    <string name="structurally_sound_label">If non-RCC, Structurally Sound on Visual Inspection?</string>
+    <string name="plastering_painting_label">Plastering &amp; Painting of Internal/External Walls and Ceiling</string>
+    <string name="upload_declaration_label">Upload Self Declaration Statement</string>
+    <string name="choose_file_button">Choose File</string>
+    <string name="upload_building_plan_label">Upload Schematic Building Plan</string>
+    <string name="upload_roof_photos_label">Upload Photos of Building, Ceiling, Roof (PDF)</string>
+    <string name="upload_wall_photos_label">Upload Photos of Internal &amp; External Walls (PDF)</string>
+    <string name="choose_pdf_button">Choose PDF</string>
+
+
+    <string name="tc_basic_info_title">Training center information</string>
+    <string name="scheme_name_label">Scheme Name</string>
+    <string name="project_state_label">Project State</string>
+    <string name="sanction_order_no_label">Sanction Order No</string>
+    <string name="training_centre_name_hint">Name of Training Centre</string>
+    <string name="nature_training_centre_label">Nature of Training Centre</string>
+    <string name="type_of_area_label">Type of Area</string>
+    <string name="address_type_label">Address Type</string>
+    <string name="house_no_hint">House No./ Bld. No./ Apt. No.</string>
+    <string name="street_road_lane_hint">Street/ Road/ Lane</string>
+    <string name="area_locality_sector_hint">Area/ Locality/ Sector</string>
+    <string name="landmark_hint">Landmark</string>
+    <string name="state_ut_tc_label">State/UT (TC)</string>
+    <string name="district_tc_label">District (TC)</string>
+    <string name="block_label">Block</string>
+    <string name="gram_panchayat_label">Gram Panchayat</string>
+    <string name="village_ward_no_hint">Village/Ward No.</string>
+    <string name="police_station_hint">Police Station</string>
+    <string name="pincode_hint">Pincode</string>
+    <string name="mobile_no_hint">Mobile No.</string>
+    <string name="phone_std_code_hint">Training Centre Phone No. with STD Code</string>
+    <string name="email_id_hint">Email Id</string>
+    <string name="centre_incharge_details_label">Centre Incharge Details</string>
+
+
+    <string-array name="academic_room_types">
+        <item>Select Room Type</item>
+        <item>IT Lab</item>
+        <item>Office Cum Counselling Room</item>
+        <item>Office Room</item>
+        <item>IT Cum Domain Lab</item>
+        <item>Theory Cum IT Lab</item>
+        <item>Theory Cum Domain Lab</item>
+        <item>Domain Lab</item>
+        <item>Theory Class Room</item>
+    </string-array>
+
+
+    <string name="training_list">Training List</string>
+    <string name="training_center_address">Training Center Address</string>
+    <string name="training_center_name">Training Center Name</string>
+
+    <string name="sanction_order">Sanction Order</string>
+    <string name="district_name">District Name</string>
+    <string name="center_name">Center Name</string>
+    <string name="sanction_order_no">Sanction order no</string>
+    <string name="type_of_training_center">Type of training center</string>
+    <string name="nature_of_training_center">Nature of training center</string>
+    <string name="special_area">Special area</string>
+    <string name="training_center_email">Training center Email</string>
+    <string name="center123_gmail_com">center123@gmail.com</string>
+    <string name="training_center_mobile">Training Center Mobile</string>
+    <string name="training_center_landline">Training Center Landline (with STD code)</string>
+    <string name="mobile_number_value">+91-9876543210</string>
+    <string name="landline_number_value">011-23456789</string>
+    <string name="parliamentary_constituency">Parliamentary Constituency</string>
+    <string name="assembly_constituency">Assembly Constituency</string>
+    <string name="parliamentary_constituency_value">New Delhi</string>
+    <string name="assembly_constituency_value">Rajiv chowk</string>
+    <string name="training_center_infrastructure">Training center infrastructure</string>
+    <string name="training_center_information">Training center information</string>
+    <string name="center_incharge">Center Incharge</string>
+    <string name="center_incharge_value">Inchare Name</string>
+    <string name="center_incharge_mobile">Center Incharge Mobile No</string>
+    <string name="center_incharge_mobile_value">+919876543210</string>
+    <string name="center_incharge_email">Center Incharge Email ID</string>
+    <string name="center_incharge_email_value">Inchare@example.com</string>
+    <string name="trainers_and_other_staffs">Trainers and other staffs</string>
+    <string name="view"><u>View</u></string>
+    <string name="profile_type">Profile Type</string>
+    <string name="trainer_staff_name">Trainer/Staff Name</string>
+    <string name="designation">Designation</string>
+    <string name="engagement_type">Engagement Type</string>
+    <string name="domain_non_domain">Domain / Non-Domain</string>
+    <string name="assigned_course">Assigned Course</string>
+    <string name="whether_tot_certificate">Whether TOT Certificate</string>
+    <string name="tot_certificate_no">TOT Certificate No</string>
+    <string name="scheme_name">Scheme Name</string>
+    <string name="project_state">Project State</string>
+    <string name="type_of_area">Address Type</string>
+    <string name="bus">Approximate Distance from a prominent Bus Stand (In Mtrs)</string>
+    <string name="auto">Approximate Distance from an Auto Stand (In Mtrs)</string>
+    <string name="Railway">Approximate Distance from a Railway Station (In Mtrs)</string>
+    <string name="latitude_and_longitude">Latitude and Longitude</string>
+    <string name="select_approval">Select Approval</string>
+    <string name="remarks">Remarks</string>
+    <string name="select_approvals">Select Approval<font color='#FF0000'>*</font></string>
+    <string name="remarkss">Remarks<font color='#FF0000'>*</font></string>
+    <string name="save_and_next">Save and next</string>
+    <string name="ownership_of_building">Ownership of Building</string>
+    <string name="area_of_the_building_sq_ft">Area of the Building (Sq.ft)</string>
+    <string name="roof_of_the_building">Roof of the Building</string>
+    <string name="plastering_painting_internal_external">Plastering Painting (Internal External)</string>
+    <string name="self_declaration_statement_pdf">Self-declaration statement (PDF)</string>
+    <string name="photos_of_building_ceiling_and_roof_pdf">Photos of building, ceiling and roof (PDF)</string>
+    <string name="schematic_building_plan_pdf">Schematic building plan (PDF)</string>
+    <string name="photos_of_internal_external_walls_and_ceiling_pdf">Photos of internal/external walls and ceiling (PDF)</string>
+    <string name="previous">Previous</string>
+    <string name="type_of_roof">Type of Roof</string>
+    <string name="n_a">N/A</string>
+    <string name="false_ceiling_provided">False Ceiling Provided</string>
+    <string name="height_of_ceiling_in_ft">Height of Ceiling (In ft)</string>
+    <string name="sound_level_in_db">Sound Level (In dB)</string>
+    <string name="ventilation_area_in_sq_ft">Ventilation Area (In Sq. ft)</string>
+    <string name="whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning">Whether all the Academic Centres have been Sound Proofed with Air Conditioning</string>
+    <string name="internal_signage">Internal Signage</string>
+    <string name="academic_room_information_board">Academic Room Information Board</string>
+    <string name="lan_enabled_computers_in_no">LAN Enabled Computers (In No.)</string>
+    <string name="cctv_cameras_with_audio_facility">CCTV Cameras with Audio Facility</string>
+    <string name="internet_connections">Internet Connections</string>
+    <string name="do_all_computers_have_typing_tutor">Do all Computers have Typing Tutor</string>
+    <string name="tablets_in_no">Tablets (In No.)</string>
+    <string name="stools_chairs_in_no">Stools/Chairs (In No.)</string>
+    <string name="trainer_chair">Trainer Chair</string>
+    <string name="trainer_table">Trainer Table</string>
+    <string name="lights_in_no">Lights (In No.)</string>
+    <string name="electrical_power_backup_for_the_room">Electrical Power Backup for the Room</string>
+    <string name="fans_in_no">Fans (In No.)</string>
+    <string name="it_lab_photograph">IT Lab Photograph</string>
+    <string name="does_the_room_have_air_conditioning">Does the room have Air Conditioning?</string>
+    <string name="office_room_photograph">Office Room Photograph</string>
+    <string name="storage_place_for_securing_documents">Storage Place for Securing Documents</string>
+    <string name="an_office_table_in_no">An Office Table (In No.)</string>
+    <string name="digital_camera_in_no">Digital Camera (In No.)</string>
+    <string name="printer_cum_scanner_in_no">Printer Cum Scanner (In No.)</string>
+    <string name="table_for_office_computer">Table for Office Computer</string>
+    <string name="chairs_in_no">Chairs (In No.)</string>
+    <string name="reception_area_photogragh">Reception Area Photograph</string>
+    <string name="counselling_area_photograph">Counselling Area Photograph</string>
+    <string name="counselling_room">Counselling Room</string>
+    <string name="reception_area">Reception Area</string>
+    <string name="training_center_verification">Training center verification</string>
+    <string name="it_lab">IT LAB</string>
+    <string name="office_cum_counselling_room">Office Cum Counselling room</string>
+    <string name="office_room">Office Room</string>
+    <string name="it_cum_domain_lab_photogragh">IT cum Domain Lab Photograph</string>
+    <string name="theory_cum_domain_lab_photogragh">Theory Cum Domain Lab Photograph</string>
+    <string name="theory_cum_it_lab_photogragh">Theory Cum IT Lab Photograph</string>
+    <string name="list_of_domain_related_equip">List of Domain Related Equipment as per Specifications given by Certifying Agency (In No.)</string>
+    <string name="it_cum_domain_lab">IT cum Domain Lab</string>
+    <string name="theory_cum_it_lab">Theory Cum IT Lab</string>
+    <string name="theory_cum_domain_lab">Theory Cum Domain Lab</string>
+    <string name="domain_lab">Domain Lab</string>
+    <string name="lcd_digital_projector">LCD/Digital Projector</string>
+    <string name="chair_for_candidates_in_no">Chair for Candidates (In No.)</string>
+    <string name="writing_board">Writing Board</string>
+    <string name="domain_lab_photogragh">Domain Lab Photograph</string>
+    <string name="theory_class_room">Theory Class Room</string>
+    <string name="theory_class_room_photograph">Theory Class Room Photograph</string>
+    <string name="description_of_academic_non_academic_areas">Description of Academic/Non-Academic Areas</string>
+    <string name="toilets_and_wash_basins">Toilets and Wash Basins</string>
+    <string name="male_toilets_in_no">Male Toilets (In No.)</string>
+    <string name="female_toilets_in_no">Female Toilets (In No.)</string>
+    <string name="proof_of_male_toilets_signage">Proof of Male Toilets Signage</string>
+    <string name="proof_of_female_toilets_signage">Proof of Female Toilets Signage</string>
+    <string name="male_urinals_in_no">Male Urinals (In No.)</string>
+    <string name="male_wash_basins_in_no">Male Wash Basins (In No.)</string>
+    <string name="female_wash_basins_in_no">Female Wash Basins (In No.)</string>
+    <string name="overhead_tanks">Overhead Tanks</string>
+    <string name="type_of_flooring">Type of Flooring</string>
+    <string name="description_of_other_areas">Description of Other Areas</string>
+    <string name="corridor_no">Corridor No.</string>
+    <string name="length_in_ft">Length (In Ft.)</string>
+    <string name="width_in_ft">Width (In Ft.)</string>
+    <string name="area_in_sq_ft">Area (In Sq. Ft.)</string>
+    <string name="lights">Lights</string>
+    <string name="circulation_area_in_sq_ft">Circulation Area (In Sq. Ft.)</string>
+    <string name="open_space_for_people_to_gather_and_interact_in_sq_ft">Open Space for People to Gather and Interact (In Sq. Ft.)</string>
+    <string name="exclusive_parking_space_no_in_terms_of_bicycle_parking_slots">Exclusive Parking Space(No. in terms of Bicycle Parking Slots)</string>
+    <string name="availability_of_teaching_learning_materials">Availability of Teaching Learning Materials</string>
+    <string name="trade">Trade</string>
+    <string name="nature_of_training_proposed">Nature of Training Proposed</string>
+    <string name="is_the_available_trades_as_per_project_execution_readiness_assessment_at_project_hq_s">Is the Available Trades as Per Project Execution Readiness Assessment at Project HQ\'s ?</string>
+    <string name="is_training_plan_available_as_per_sf_4_1a">Is Training Plan Available as per SF-4.1A ?</string>
+    <string name="is_domain_curriculum_available_as_per_sf_4_2a">Is Domain Curriculum Available as per SF 4.2A ?</string>
+    <string name="is_activity_cum_lesson_planner_available_as_per_sf_4_5a">Is Activity-cum-Lesson Planner Available as per SF-4.5A ?</string>
+    <string name="is_welcome_kit_available_as_per_sf_5_1c2">Is Welcome Kit Available as per SF-5.1C2 ?</string>
+    <string name="name_of_certifying_agency">Name of Certifying Agency</string>
+    <string name="assessment_material_availability">Assessment Material Availability ?</string>
+    <string name="general_details">General Details</string>
+    <string name="visible_signs_of_leakages_from_walls_and_roof_applicable_for_both_rcc_and_non_rcc_structures">Visible signs of Leakages from Walls and Roof - Applicable for both RCC and Non RCC Structures</string>
+    <string name="protection_of_stairs_balconies_and_other_locations">Protection of Stairs, Balconies and Other Locations</string>
+    <string name="conformance_to_ddu_gky_look_and_feel_standards_as_per_sub_section_4_2_1">Conformance to DDU-GKY Look and Feel Standards as per sub section 4.2.1</string>
+    <string name="can_the_candidates_safely_come_to_the_centre_when_training_is_conducted">Can the Candidates Safely come to the Centre When Training is Conducted</string>
+    <string name="electrical_wiring_and_standards">Electrical Wiring and Standards</string>
+    <string name="signages_and_information_boards">Signages and Information Boards</string>
+    <string name="activity_summary_and_achievement_board_sf_4_2d">Activity Summary and Achievement Board (SF-4.2D)</string>
+    <string name="training_centre_name_board_sf_4_2b">Training Centre Name Board (SF- 4.2B)</string>
+    <string name="code_of_conduct_board_for_candidates_sf_4_2j">Code of Conduct Board for Candidates (SF-4.2J)</string>
+    <string name="student_attendance_and_entitlement_summary_information_board_sf_4_2n">Student Attendance and Entitlement Summary Information Board (SF-4.2N)</string>
+    <string name="basic_information_board_at_training_centre_sf_4_2g">Basic Information Board at Training Centre (SF-4.2G)</string>
+    <string name="contact_detail_of_important_people_sf_4_2e">Contact Detail of Important People (SF-4.2E)</string>
+    <string name="student_entitlement_board_and_responsibilities_board_sf_4_2m">Student Entitlement Board and Responsibilities Board (SF-4.2M)</string>
+    <string name="ip_enabled_camera">IP Enabled Camera</string>
+    <string name="central_monitor_is_easily_accessible_to_centre_incharge">Central Monitor is easily Accessible to Centre Incharge</string>
+    <string name="conformance_of_cctv_to_ddu_gky_as_provided_in_chapter_5_of_sop">Conformance of CCTV to DDU-GKY as Provided in Chapter 5 of SOP</string>
+    <string name="storage_of_the_cctv_recorded_material">Storage of the CCTV Recorded Material</string>
+    <string name="dvr_is_connected_to_working_static_ip_as_per_sf_5_2b">DVR is Connected to Working Static IP as per SF 5.2B</string>
+    <string name="ip_enabled">IP Enabled</string>
+    <string name="resolution_1080_hd_25_fps_or_better">Resolution - 1080 HD @25 FPS or better</string>
+    <string name="video_stream_dual_h_264_or_better">Video Stream - Dual H.264 or better</string>
+    <string name="remote_access_via_web_browser_for_configuration_viewing_and_control">Remote Access - Via web browser for configuration, viewing and control</string>
+    <string name="storage_facility_to_keep_complete_recording_till_closure_of_project">Storage facility to keep complete recording till closure of project</string>
+    <string name="color_video_with_audio">Color video with audio</string>
+    <string name="supported_protocols_ipv4_http_tcp_rtsp_rtp_icmp_udp_dns_dhcp_etc">Supported protocols - IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP, etc.</string>
+    <string name="remote_access_simultaneous_access_at_minimum_10_users">Remote Access - Simultaneous access at minimum 10 users</string>
+    <string name="common_equipment">Common Equipment</string>
+    <string name="safe_drinking_water">Safe Drinking Water</string>
+    <string name="first_aid_kit">First Aid Kit</string>
+    <string name="fire_fighting_equipment">Fire Fighting Equipment</string>
+    <string name="availability_of_support_infrastructure">Availability of Support Infrastructure</string>
+    <string name="installation_of_biometric_devices">Installation of Biometric Devices *</string>
+    <string name="installation_of_cctv_monitor">Installation of CCTV Monitor</string>
+    <string name="minimum_equipment_as_per_sf_5_1p">Minimum Equipment as per SF 5.1P</string>
+    <string name="availability_of_standard_forms">Availability of Standard Forms</string>
+    <string name="sf_4_1a_plan_of_training">SF 4.1A : Plan of Training</string>
+
+    <string name="sf_4_1c_activity_cum_lesson_planner">SF 4.1C : Activity Cum Lesson Planner</string>
+
+    <string name="sf_4_3h_on_the_job_training_plan">SF 4.3H : On the Job Training Plan for the Batch</string>
+
+    <string name="sf_4_5a_daily_distribution_of_tablets">SF 4.5A : Daily Distribution of Tablets</string>
+
+    <string name="sf_5_1a2_training_center_name_board">SF 4.2O: (Dully filled and signed form along with proofs)</string>
+
+    <string name="sf_5_1b1_activity_summary_and_achievement_board">SF 4.2P: (Dully filled and signed form along with proofs) if applicable</string>
+
+
+    <string name="sf_5_1b2_contact_details_of_important_people">SF 5.1B2 : Contact Details of Important People</string>
+    <!-- SF 5.1C1 – SF 5.1C3 -->
+    <string name="sf_5_1c1_student_entitlement_banner">SF 4.2N: Student Attendance and Entitlement Summary Information</string>
+    <string name="sf_5_1c2_welcome_kit_to_trainees">SF 5.1C2 : Welcome Kit to Trainees</string>
+    <string name="sf_5_1c3_first_aid_kit">SF 5.1C3 : First Aid Kit</string>
+
+    <!-- SF 5.1E1 – SF 5.1E2 -->
+    <string name="sf_5_1e1_summary_of_staff">SF 5.1E1 : Summary of Staff Deployed at the Training Centre</string>
+    <string name="sf_5_1e2_trainers_profile">SF 5.1E2 : Trainers Profile</string>
+
+    <!-- SF 5.1F – SF 5.1G2 -->
+    <string name="sf_5_1f_candidate_id_template">SF 5.1F : Candidate ID Template</string>
+    <string name="sf_5_1g1_index_of_candidate_dossier">SF 5.1G1 : Index of Individual Candidate Dossier</string>
+    <string name="sf_5_1g2_parents_consent_form">SF 5.1G2 : Parents Consent Form</string>
+
+    <!-- SF 5.1H1 – SF 5.1H2 -->
+    <string name="sf_5_1h1_batch_summary">SF 5.1H1 : Batch Summary as on Day of Batch Freezing</string>
+    <string name="sf_5_1h2_list_of_candidates">SF 5.1H2 : List of Candidates in the Batch and their Profile</string>
+
+    <!-- SF 5.1I – SF 5.1K -->
+    <string name="sf_5_1i_attendance_register_candidates">SF 5.1I : Attendance Registers for Candidates (as per Biometric)</string>
+    <string name="sf_5_1j_attendance_register_trainers">SF 5.1J : Attendance Registers for Trainers (as per Biometric)</string>
+    <string name="sf_5_1k_checklist_items_given">SF 5.1K : Checklist of Items Given to Candidates</string>
+
+    <!-- SF 5.1L1 – SF 5.1L2 -->
+    <string name="sf_5_1l1_candidate_feedback_form">SF 5.1L1 : Candidate Feedback Form</string>
+    <string name="sf_5_1l2_summary_feedback_candidates">SF 5.1L2 : Summary of the Feedback Given by the Candidates in SF 5.1L1 On Completion of Training Programme</string>
+
+    <!-- SF 5.1M – SF 5.1N -->
+    <string name="sf_5_1m_summary_evaluation_assessment">SF 5.1M : Summary of Evaluation and Assessment Done</string>
+    <string name="sf_5_1n_ta_da_calculation_record">SF 5.1N : TA/ DA Calculation Record (Batch Wise) To be Linked with Biometric Attendance</string>
+
+    <!-- SF 5.1O1 – SF 5.1O2 -->
+    <string name="sf_5_1o1_training_certificate">SF 5.1O1 : Training Certificate</string>
+    <string name="sf_5_1o2_training_completion_certificate">SF 5.1O2 : Training Completion Certificate Distribution Record</string>
+
+    <!-- SF 5.1P – SF 5.1Q -->
+    <string name="sf_5_1p_list_of_equipment_training_centre">SF 5.1P : List of Equipment in the Training Centre</string>
+    <string name="sf_5_1q_list_of_equipment_accommodation">SF 5.1Q : List of Equipment in the Trainees Accommodation Facilities (Applicable for Residential Training only)</string>
+
+    <!-- SF 5.1R – SF 5.1S -->
+    <string name="sf_5_1r_instructions_opening_hybrid_centres">SF 5.1R : Instructions for Opening Hybrid Training Centres</string>
+    <string name="sf_5_1s_bare_minimum_items">SF 5.1S : Bare Minimum Items to be Ensured to Start Training Pending CTSA/SRLM Due Diligence Visit</string>
+
+    <!-- SF 5.2A – SF 5.2B -->
+    <string name="sf_5_2a_training_centre_inspection">SF 5.2A : Training Centre Inspection</string>
+    <string name="sf_5_2b_cctv_specifications">SF 5.2B : CCTV- Specifications, Location and Recording, Review and Storage</string>
+
+    <!-- SF 5.3A -->
+    <string name="sf_5_3a_specification_of_uniform">SF 5.3A : Specification of Uniform</string>
+
+    <!-- SF 5.1F to SF 5.1O1 -->
+
+    <string name="sf_51f_candidate_id_template">SF 5.1F : Candidate ID Template</string>
+    <string name="sf_51g1_candidate_dossier_index">SF 5.1G1 : Index of Individual Candidate Dossier</string>
+    <string name="sf_51g2_parents_consent_form">SF 5.1G2 : Parents Consent Form</string>
+    <string name="sf_51h1_batch_summary"> SF 4.3B Batch freeze summary</string>
+    <string name="sf_51h2_candidates_list_profile">SF 5.1H2 : List of Candidates in the Batch and their Profile</string>
+    <string name="sf_51i_attendance_candidates">SF 5.1I : Attendance Registers for Candidates (as per Biometric)</string>
+    <string name="sf_51j_attendance_trainers">SF 5.1J : Attendance Registers for Trainers (as per Biometric)</string>
+    <string name="sf_51k_checklist_items_candidates">SF 5.1K : Checklist of Items Given to Candidates</string>
+    <string name="sf_51l1_candidate_feedback_form">SF 5.1L1 : Candidate Feedback Form</string>
+    <string name="sf_51l2_feedback_summary">SF 5.1L2 : Summary of the Feedback Given by the Candidates</string>
+    <string name="sf_51m_summary_evaluation_assessment">SF 5.1M : Summary of Evaluation and Assessment Done</string>
+    <string name="sf_51n_ta_da_record">SF 5.1N : TA/ DA Calculation Record (Batch Wise) To be Linked with Biometric Attendance</string>
+    <string name="sf_51o1_training_certificate">SF 5.1O1 : Training Certificate</string>
+    <string name="sf_5_3a_uniform_spec">SF 5.3A : Specification of Uniform</string>
+
+
+    <string name="sf_51o2_training_completion_certificate_distribution_record">SF 5.1O2 : Training Completion Certificate Distribution Record</string>
+    <string name="sf_51p_equipment_training_centre">SF 5.1P : List of Equipment in the Training Centre</string>
+    <string name="sf_51q_equipment_trainees_accommodation">SF 5.1Q : List of Equipment in the Trainees Accommodation Facilities (Applicable for Residential Training only)</string>
+    <string name="sf_51r_instructions_hybrid_training">SF 5.1R : Instructions for Opening Hybrid Training Centres</string>
+    <string name="sf_51s_bare_minimum_items">SF 5.1S : Bare Minimum Items to be Ensured to Start Training Pending CTSA/SRLM Due Diligence Visit</string>
+    <string name="sf_52a_training_centre_inspection">SF 5.2A : Training Centre Inspection</string>
+    <string name="sf_52b_cctv_specification">SF 5.2B : CCTV - Specifications, Location and Recording, Review and Storage</string>
+    <string name="sf_51o2_training_completion_certificate">SF 5.1O2 : Training Completion Certificate Distribution Record</string>
+    <string name="sf_51q_equipment_accommodation">SF 5.1Q : List of Equipment in the Trainees Accommodation Facilities (Applicable for Residential Training only)</string>
+    <string name="sf_51r_opening_hybrid_centres">SF 5.1R : Instructions for Opening Hybrid Training Centres</string>
+    <string name="sf_52b_cctv_specifications">SF 4.2AH: IP Enabled Camera</string>
+
+
+    <string name="sf_54a_assessment_certification">SF 5.4A : Assessment and Certification of Candidates</string>
+    <string name="sf_61a_letter_srlm_info_mobilization">SF 6.1A : Letter to SRLM Seeking Information on Mobilization Plan</string>
+    <string name="sf_61b_letter_from_srlm_mobilization">SF 6.1B : Letter from SRLM Regarding Mobilization Plan</string>
+    <string name="sf_61c_on_field_registration">SF 6.1C : On Field Registration of Candidates</string>
+    <string name="sf_62a1_overview_aptitude_test">SF 6.2A1 : Overview of Aptitude Test</string>
+    <string name="sf_62a2_counselling_content">SF 6.2A2 : Content for Counselling for Each Trade</string>
+    <string name="sf_62a3_candidate_application">SF 6.2A3 : Candidate Application Form</string>
+    <string name="sf_62a4_list_admitted_candidates">SF 6.2A4 : List of Candidates Who Were Enrolled</string>
+    <string name="sf_62b_final_batch_list">SF 6.2B : List of Candidates in the Final Batch</string>
+    <string name="sf_63a1_batch_details">SF 6.3A1 : Batch Details</string>
+    <string name="sf_63a2_batch_enrollment_summary">SF 6.3A2 : Batch Enrollment Summary</string>
+    <string name="sf_63a3_batch_freeze_summary">SF 6.3A3 : Batch Freeze Summary</string>
+    <string name="sf_63a4_batch_completion_summary">SF 6.3A4 : Batch Completion Summary</string>
+    <string name="sf_63a5_list_enrolled_candidates">SF 6.3A5 : List of Candidates Who Were Enrolled</string>
+    <string name="sf_51t_daily_failure_report">SF 5.1T : Daily Failure Items Report</string>
+
+    <string name="sf_51u_15days_summary_centre_status">SF 5.1U : 15 Days Summary of Centre Status</string>
+    <!-- SF 6.1A -->
+    <string name="sf_61a_letter_mobilization_plan">SF 6.1A : Letter to SRLM Seeking Information on Mobilization Plan</string>
+
+    <!-- SF 6.1B -->
+    <string name="sf_61b_letter_from_srlm">SF 6.1B : Letter from SRLM Regarding Mobilization Plan</string>
+
+    <!-- SF 6.2A3 -->
+    <string name="sf_62a3_candidate_application_form">SF 6.2A3 : Candidate Application Form</string>
+
+    <!-- SF 6.2B -->
+    <string name="sf_62b_list_final_batch">SF 6.2B : List of Candidates in the Final Batch</string>
+    <string name="sf_63a6_candidates_after_freezing">SF 6.3A6 : List of Candidates After Freezing of the Batch</string>
+    <string name="sf_63a7_candidates_after_completion">SF 6.3A7 : List of Candidates After Completion of Training of the Batch</string>
+    <!--    <string name="submit">Submit</string>-->
+    <string name="switch_boards_and_panel_boards">Switch Boards and Panel Boards</string>
+    <string name="storage_facility_to_keep_recording_till_project_closure">Storage Facility to keep recording till project closure</string>
+    <string name="central_monitor_accessible_to_centre_incharge">Central Monitor accessible to Centre Incharge</string>
+    <string name="sf_4_3n_performance_evaluation_plan_for_candidates">SF 4.3N Performance Evaluation Plan for Candidates</string>
+    <string name="sf_4_3o_performance_evaluation_plan_for_trainers">SF 4.3O Performance Evaluation Plan for Trainers</string>
+    <string name="sf_4_3d_list_of_candidates_after_freezing_of_the_batch">SF 4.3D List of candidates after freezing of the batch</string>
+
+
+    <!--    AJIT RANJAN PMAY-G-->
+    <string name="submit">Submit</string>
+    <string name="add_more">Add More</string>
+    <string name="does_the_room_has_air_conditioning">Does the room has Air Conditioning ?</string>
+    <!--    <string name="it_lab_photograph">IT Lab Photogragh</string>-->
+    <string name="electrica_power_back_up_for_the_room">Electrical Power Back up for the Room</string>
+    <!--    <string name="fans">Fans (In No.)</string>-->
+    <!--    <string name="lights">Lights (In No.)</string>-->
+    <!--    <string name="trainer_table">Trainer Table</string>-->
+    <!--    <string name="trainer_chair">Trainer Chair</string>-->
+    <string name="stools_chairs">Stools/Chairs (In No.)</string>
+    <string name="tablets">Tablets (In No.)</string>
+    <!--    <string name="do_all_computers_have_typing_tutor">Do all Computers have Typing Tutor</string>-->
+    <!--    <string name="internet_connections">Internet Connections</string>-->
+    <string name="lan_enabled_computers">LAN Enabled Computers (In No.)</string>
+    <string name="cctc_cameras_with_audio_facility">CCTV Cameras with Audio Facility</string>
+    <!--    <string name="internal_signage">Internal Signage</string>-->
+    <!--    <string name="academic_room_information_board">Academic Room Information Board</string>-->
+    <string name="whether_all_the_academic_centres">Whether all the Academic Centres have been Sound Proofed with Air Conditioning</string>
+    <string name="sound_level">Sound level (In dB)</string>
+    <string name="sound_level_as_per_specifications">Sound level as per Specifications</string>
+    <string name="ventilation_area">Ventilation Area (In Sq. ft)</string>
+    <string name="height_of_ceiling">Height of Ceiling(In ft)</string>
+    <!--    <string name="false_ceiling_provided">False Ceiling Provided</string>-->
+    <string name="typeofroof_academic">Type of Roof</string>
+
+    <string name="description_of_academic_non_academic_areass">Description of Academic/Non-Academic Areas</string>
+    <string name="description_of_academic_non_academic_areas_length">Description of Academic/Non-Academic Areas/Length (In Ft.)</string>
+    <string name="description_of_academic_non_academic_areas_width">Description of Academic/Non-Academic Areas/Width (In Ft.)</string>
+    <string name="description_of_academic_non_academic_areas_area">Calculate Areas</string>
+    <string name="electrical_power_backup_for_the_office_room">Electrical Power Back up for Office Room</string>
+
+    <!--     Prrof of IT LAB -->
+
+    <string name="proof_of_type_of_roof">Proof of Type of Roof</string>
+    <string name="proof_of_false_celling">Proof of False Celling </string>
+    <string name="proof_of_height_celling_in_ft">Proof of False Celling </string>
+    <string name="proof_of_ventilation_area_sq_ft">Proof of Ventilation Area (In Sq.ft) Celling </string>
+    <string name="proof_of_sound_level_as_per_specifications">Proof of Sound Level As per Specifications</string>
+    <string name="proof_of_sound_level_in_db">Proof of Sound Level (In dB)</string>
+    <string name="proof_of_whether_all">Proof of Whether all the Academic Centres have been Sound Proofed with Air Conditioning</string>
+    <string name="proof_of_academic_room_information_board">Proof of Academic Room Information Board</string>
+    <string name="proof_of_internal_signage">Proof of Internal Signage</string>
+    <string name="proof_of_cctc_cameras_audio_facility">Proof of CCTV Cameras Audio Facility</string>
+    <string name="proof_of_lan_enabled_in_no">Proof of LAN Enabled (In No.)</string>
+    <string name="proof_of_lan_internet_conncetion">Proof of Internet Connection</string>
+    <string name="proof_of_tablets">Proof of Tablets</string>
+    <string name="proof_of_lan_do_all_computers_have_typing_tutor">Proof of Do all Computers have Typing Tutor</string>
+    <string name="proof_of_lan_tablets_in_no">Proof of Tablets(In No.)</string>
+    <string name="proof_of_stools_chairs_in_no">Proof of Stools/Chairs (In No.)</string>
+    <string name="proof_of_triner_chairs">Proof of Trainer Chair</string>
+    <string name="proof_of_triner_table">Proof of Trainer Table</string>
+    <string name="proof_of_lights_in_no">Proof of Lights(In No.)</string>
+    <string name="proof_of_writing_board_in_no">Proof of Writing Board(In No.)</string>
+    <string name="proof_of_fans_in_no">Proof of Fans(In No.)</string>
+    <string name="proof_of_writing_board">Proof of Writing Board</string>
+    <string name="proof_of_theory_class_room_photograph">Proof of Theory Class Room Photograph</string>
+    <string name="proof_of_theory_cum_domain_lab">Proof of Theory Cum Domain Lab Photograph</string>
+    <string name="proof_of_doman_lab_photograph">Proof of Domain Lab Photograph</string>
+    <string name="proof_of_chair_for_candidates">Proof of Chair for Candidates (In No.)</string>
+    <string name="proof_of_lcd_digital_projector">Proof of LCD/Digital Projector</string>
+    <string name="proof_of_theory_cum_it_Lab_photograph">Proof of Theory Cum IT Lab Photograph</string>
+    <string name="proof_of_electrical_power_backup_for_the_room">Proof of Electrical Power Backup for the Room</string>
+    <string name="proof_of_it_lab_photograph">Proof of IT Lab Photograph</string>
+    <string name="proof_of_it_list_of_domain">Proof of List of Domain Related Equipment as per Specifications given by Certifying Agency (In No.)</string>
+
+    <!--     Office Cum Counselling room -->
+
+    <string name="office_cum_proof_of_does_the_room_has_air_conditioning">Proof of Does the room has Air Conditioning ?</string>
+    <string name="office_cum_proof_of_office_room_photogragh">Proof of Office Room Photogragh</string>
+    <string name="office_cum_proof_of_type_of_roof">Proof of Type of Roof</string>
+    <string name="office_cum_proof_of_an_office_table_no">Proof of An Office Table (In No.)</string>
+    <string name="office_cum_proof_of_storage_place_for">Proof of Storage Place for Securing Documents</string>
+    <string name="office_cum_proof_of_chairs_in_no">Proof of Chairs (In No.)</string>
+    <string name="office_cum_proof_of_table_for_office_computer">Proof of Table for Office Computer</string>
+    <string name="office_cum_proof_of_printer_cum_scanner">Proof of Printer Cum Scanner (In No.)</string>
+    <string name="office_cum_proof_of_digital_camera_in_no">Proof of Digital Camera (In No.)</string>
+    <string name="office_cum_proof_of_electrical_power_back_up_for_the_room">Proof of Electrical Power Back up for the Room</string>
+
+    <!--     Reception Area Photogragh -->
+
+    <string name="proof_of_reception_area">Proof of Reception Area Photogragh </string>
+    <string name="roomtype">RoomType</string>
+    <string name="roomno">RoomNo</string>
+    <string name="roomlength">RoomLength</string>
+    <string name="roomarea">RoomArea</string>
+    <string name="select_state">Select State</string>
+    <string name="district_tc">District(TC)</string>
+    <string name="select_type">Select Type</string>
+    <string name="select_ULB">Select ULB</string>
+    <string name="select_Ward">Select ward</string>
+
+    <string name="basic_information">Basic Information</string>
+    <string name="residential_facility_name">Residential Facility Name</string>
+    <string name="residential_facility_type">Residential Facility type</string>
+    <string name="house_no">House No.</string>
+    <string name="street">Street</string>
+    <string name="landmark">Landmark</string>
+    <string name="block">Block</string>
+    <string name="gram_panchayat">Gram Panchayat</string>
+    <string name="village_ward_no">Village/Ward No.</string>
+    <string name="village_no">Village</string>
+
+    <string name="pincode">Pincode</string>
+    <string name="mobile_no">Mobile No.</string>
+    <string name="residential_facility_phone_no_with_std_code">Residential Facility Phone No. with STD Code</string>
+    <string name="email_id">Email Id</string>
+    <string name="type_of_area1">Type of Area</string>
+    <string name="category_of_tc_location_x_y_z_any_other_area">Category of TC location X / Y / Z /Any other area</string>
+    <string name="category_of_tc_location">Category of Tc Location</string>
+    <string name="police_station">Police Station</string>
+    <string name="approximate_distance_from_a_prominent_bus_stand_in_mtrs">Approximate Distance from a Prominent Bus Stand (In Mtrs.)</string>
+    <string name="approximate_distance_from_an_auto_stand_in_mtrs">Approximate Distance from an Auto Stand (In Mtrs.)</string>
+    <string name="approximate_distance_from_a_prominent_railway_station_in_mtrs">Approximate Distance from a Prominent Railway Station (In Mtrs.)</string>
+    <string name="distance_from_the_training_centre_to_residential_centre_in_kms">Distance from the Training Centre to Residential Centre (In Kms.)</string>
+    <string name="availability_of_pick_up_and_drop_facility">Availability of Pick-up and Drop Facility</string>
+    <string name="warden_s_name">Warden Name</string>
+    <string name="warden_gender">Warden Gender</string>
+    <string name="warden_employee_id">Warden Employee ID</string>
+    <string name="warden_address">Warden Address</string>
+    <string name="warden_email_id">Warden Email Id</string>
+    <string name="warden_mobile_no">Warden Mobile No.</string>
+    <string name="police_verification_status">Police Verification Status</string>
+    <string name="appointment_letter">Appointment Letter</string>
+
+    <string name="whether_it_is_structurally_sound_on_visual_inspection_plastering_and_painting_of_internal_and_external_walls_and_ceiling">Whether it is Structurally Sound on Visual Inspection Plastering and Painting of Internal and External Walls and Ceiling</string>
+    <string name="conformance_to_ddu_gky_look_and_feel_standards_as_per_sub_section_5_1_1">Conformance to DDU-GKY look and feel Standards as per sub section 5.1.1</string>
+    <string name="corridor">Corridor</string>
+    <string name="securing_of_wires_done">Securing of Wires Done</string>
+    <string name="hostel_name_board">Hostel Name Board</string>
+    <string name="circulating_area">Circulating Area</string>
+    <string name="student_entitlement_board_and_responsibilities_board">Student Entitlement Board and Responsibilities Board</string>
+    <string name="residential_signages_and_information_boards">Residential Signages and Information Boards</string>
+    <string name="contact_detail_of_important_people">Contact Detail of Important People</string>
+    <string name="basic_information_board">Basic Information Board</string>
+    <string name="food_specification_board">Food Specification Board</string>
+    <string name="infrastructure_details_and_compliances">Infrastructure Details and Compliances</string>
+    <string name="toilets">Toilets</string>
+    <string name="indoor_game_details">Indoor Game Details</string>
+    <string name="non_living_areas">Non-Living Areas</string>
+    <string name="living_area_information">Living Area Information</string>
+    <string name="toilet_room_information">Toilet Room Information</string>
+    <string name="area_of_the_building_sq_ft_include_corridors_but_exclude_open_to_sky_spaces_like_court_yards_etc">Area of the Building (Sq. Ft.) (Include Corridors but Exclude Open to Sky Spaces Like Court Yards etc)</string>
+    <string name="residential_areas">Residential Areas</string>
+    <string name="type_of_roof_rcc_non_rcc">Type of Roof(RCC/Non RCC)</string>
+    <string name="window_area_in_sq_ft">Window Area (In Sq. ft)</string>
+    <string name="sleeping_and_storing_material">Sleeping and Storing Material</string>
+    <string name="cot_in_no"> <font color='#FF0000'><u>Note: 1 bunk bed = 2 Cot</u></font> </string>
+    <string name="cot_in_no_hint">Cot (In No.)</string>
+    <string name="mattress_in_no">Mattress (In No.)</string>
+    <string name="bed_sheet_in_no">Bed Sheet (In No.)</string>
+    <string name="cupboard_almirah_trunk_with_locking_arrangements_in_no">Cupboard / Almirah / Trunk with Locking Arrangements (In No.)</string>
+    <string name="living_area_information_board_as_per_sf_5_1_b4">Living Area Information Board as per SF 5.1 B4</string>
+    <string name="number_of_students_permitted">Number of Students Permitted</string>
+
+    <string name="connection_to_running_water">Connection To Running Water</string>
+    <string name="female_urinals">Urinals</string>
+    <string name="female_washbasins">Washbasins</string>
+    <string name="maximum_no_of_candidates_permissible">Maximum No. of Candidates Permissible</string>
+    <string name="sanction_letter_no_and_date">Sanction letter No. and date</string>
+    <string name="sanction_letter_no_and_date1">Sanction letter No. and date</string>
+    <string name="lable_area">Lable Area</string>
+    <string name="residential_facility_q_team">Residential Facility Q Team</string>
+    <string name="whether_food_for_the_candidates_is_being_prepared_in_the_premises_of_the_training_center">Whether Food for the Candidates is being Prepared in the Premises of the Training Center?</string>
+    <string name="recreation_and_dining_areas">Recreation and Dining Areas</string>
+    <string name="kitchen">Kitchen</string>
+    <string name="are_the_dining_and_recreation_area_separate">Are the Dining and Recreation Area Separate?</string>
+    <string name="no_of_stools_chairs_benches">No.of Stools/Chairs/Benches</string>
+    <string name="wash_area">Wash Area</string>
+    <string name="whether_tv_with_a_cable_or_satellite_connection_is_available_for_viewing">Whether TV with a Cable or Satellite Connection is Available for Viewing?</string>
+    <string name="dining_area">Dining Area</string>
+    <string name="recreation_area">Recreation Area</string>
+    <string name="indoor_game_name">Indoor Game Name</string>
+    <string name="add_more_game">+ Add Game</string>
+    <string name="residential_facilities_available">Residential Facilities Available</string>
+    <string name="whether_hostels_for_male_and_female_candidates_separated">Whether Hostels for Male and Female Candidates Separated?</string>
+    <string name="warden_care_taker_for_hostels_where_males_stay">Warden/care taker for hostels where males stay?</string>
+    <string name="lady_warden_caretaker_for_hostels_where_females_stay">Lady warden/caretaker for hostels where females stay?</string>
+    <string name="are_security_gaurds_available">Are Security Gaurds Available ?</string>
+    <string name="whether_female_doctor_on_call_is_available_or_not">Whether Female Doctor on call is Available or Not ?</string>
+    <string name="whether_male_doctor_on_call_is_available_or_not">Whether Male Doctor on call is Available or Not?</string>
+    <string name="safe_driniking_available">Safe Driniking Available ?</string>
+    <string name="biometric_device">Biometric Device?</string>
+    <string name="open_space_area">Open Space Area</string>
+    <string name="residential_facility">Residential Facility</string>
+    <string name="add_living_area">+Add Living Area</string>
+
+    <string name="close">close</string>
+
+    <!-- Field Verification Organization Details -->
+    <string name="field_ver_head">Field Verification </string>
+    <string name="field_ver_list">Field Verification List </string>
+    <string name="field_ver_organization_details">Organization Details </string>
+    <string name="field_ver_industry_existence">Proof of Industry Existence for a Minimum of Three Years </string>
+    <string name="field_ver_valid_govt_note_doc">To be verified with a valid government - issued document. </string>
+    <string name="field_ver_valid_epfo_esic_doc">The industry must possess a valid EPFO, ESIC, or Factory Registration Number. </string>
+    <string name="field_ver_valid_epfo_esic_note_doc">To be verified with a valid PF Registration, ESIC Registration, or Factory Registration Certificate. </string>
+
+    <string name="field_ver_epfo_challan_doc">EPFO Challans for the Last Six Months. </string>
+    <string name="field_ver_valid_epfo_challan_note_doc">The latest six months’ EPFO challans must be verified, and the highest monthly numbers among them shall be considered for determining target allocation.</string>
+
+    <string name="field_ver_valid_industry_doc">The industry must have a valid TIN, TAN, and GST Number. </string>
+    <string name="field_ver_valid_industry_note_doc">GST Certificate, TAN, or TIN Certificate must be verified as part of the mandatory documentation. </string>
+
+    <string name="field_ver_valid_bank_doc">The industry must have a valid bank account number linked to Aadhaar and/or PAN. </string>
+    <string name="field_ver_valid_bank_note_doc">A letter from the bank confirming that the organization’s bank account is linked with Aadhaar and/or PAN must be submitted. </string>
+
+    <string name="field_ver_valid_manpower_doc">The industry must not be engaged in manpower supply or operate as a manpower agency. </string>
+    <string name="field_ver_valid_manpower_note_doc">It is mandatory to verify the organization’s past placement records to ensure that it is not functioning as a manpower supply agency. </string>
+
+
+    <!-- Field Verification Financial Details -->
+    <string name="field_ver_financial">Financial </string>
+
+    <string name="field_ver_industry_turnover_fin">The industry must have an annual turnover of ₹25 crore or more in each of the last three financial years. </string>
+    <string name="field_ver_industry_turnover_note_fin">A Chartered Accountant (CA) Certificate or audited Balance Sheet.</string>
+
+    <string name="field_ver_industry_networth_fin">The industry must have a positive net worth in at least two out of the last three financial years. </string>
+    <string name="field_ver_industry_networth_note_fin">A Chartered Accountant (CA) Certificate or audited Balance Sheet. </string>
+
+    <string name="fin_balance_sheet_button">Balance Sheet (last 3 years)</string>
+    <string name="fin_turnover_button">Turnover</string>
+    <string name="fin_annual_turnover">Annual Turnover</string>
+    <string name="fin_net_worth">Net Worth</string>
+
+    <!-- Field Verification Training Details -->
+    <string name="field_ver_training">Training </string>
+
+    <string name="field_ver_exp_training">The organization must have prior training experience of more than two years. </string>
+    <string name="field_ver_exp_note_training">Sanction letters or project approval orders / Proof of targets allocated and achieved / Project completion certificates / Records of training programs conducted in collaboration with corporates or for in-house staff / MoUs or Work Orders with Government or Corporate entities.</string>
+
+    <string name="field_ver_hrs_training">Total Number of Training Hours Proposed. </string>
+    <string name="field_ver_hrs_note_training">A minimum of 576 hours and a maximum of 2304 hours of training is permissible for each proposed course. </string>
+
+    <string name="field_ver_course_content_training">Is there any repetition or clubbing of course content? (Yes/No). </string>
+    <string name="field_ver_course_content_note_training">If Yes, the SRLM must instruct the PIA to revise and remove the repeated course content before accepting the proposal. Repetition of course content is not permitted in clubbed courses under any circumstances.</string>
+
+    <string name="field_ver_nsqf_courses_training">The industry must be willing to provide basic training as per NSQF-aligned courses. </string>
+    <string name="field_ver_nsqf_courses_note_training">A commitment letter must be provided by the Captive Employer on the official letterhead of the organization, duly signed and stamped by the Authorized Signatory. </string>
+
+    <string name="field_ver_500_cand_training">The industry must be willing to commit to training a minimum of 500 candidates over a period of three years. </string>
+    <string name="field_ver_500_cand_note_training">The commitments provided by the Captive Employer must be verified as per the prescribed formats – FORM I and FORM II.</string>
+
+    <string name="field_ver_job_training">Is the industry willing to provide additional tailor-made training based on specific job requirements? (Yes/No) </string>
+    <string name="field_ver_job_note_training">To be verified in cases where the industry expresses willingness to provide any add-on or supplementary training beyond the standard curriculum. </string>
+
+    <string name="field_ver_domain_training">Trainers delivering domain-specific training must be ToT (Training of Trainers) certified. </string>
+    <string name="field_ver_domain_note_training">The commitments provided by the Captive Employer must be verified as per the prescribed formats – FORM I and FORM II.</string>
+
+    <string name="train_target_button">View Target</string>
+    <string name="train_NSQF_course_button">View NSQF Courses Declaration</string>
+    <string name="train_commitment1_button">Form 1</string>
+    <string name="train_commitment2_button">Form 2</string>
+    <string name="train_tailor_button">View Tailor Training Doc</string>
+    <string name="train_domain1_button">Form 1</string>
+    <string name="train_domain2_button">Form 2</string>
+
+
+
+    <!-- Field Verification Training Infrastructure Details -->
+    <string name="field_ver_training_infra">Training Infrastructure </string>
+
+    <string name="field_ver_nsqf_training_infra">The training centre must comply with NSQF norms and industry-specified standards. </string>
+    <string name="field_ver_nsqf_note_training_infra">The availability of the training center must be substantiated through any of the following supporting documents: Photographs / Self-declaration / Lease agreement, ownership document / Any other valid proof of operational readiness.</string>
+
+    <string name="field_ver_res_training_infra">Residential facility must be available for the courses proposed as residential. </string>
+    <string name="field_ver_res_note_training_infra">The availability of residential facilities must be supported with appropriate documentation: Photographs  / Self-declaration / Lease or ownership documents / Any other reliable evidence. </string>
+
+    <!-- Field Verification Assessment & Certification Details -->
+    <string name="field_ver_cert">Assessment &amp; Certification </string>
+
+    <string name="field_ver_provide_cert">Commitment to provide assessment and certification through a government-recognized awarding body. </string>
+    <string name="field_ver_provide_note_cert">Commitment letter submitted by the Captive Employer on the organization’s official letterhead, duly signed and stamped by the Authorized Signatory.</string>
+
+    <string name="field_ver_res_conduct_cert">Commitment to conduct assessments for all trained candidates and ensure certification for a minimum of 70% of candidates across all job roles in which training has been imparted. </string>
+    <string name="field_ver_conduct_note_cert">Commitment letter submitted by the Captive Employer on the organization’s official letterhead, duly signed and stamped by the Authorized Signatory. </string>
+
+    <!-- Field Verification Placement Details -->
+    <string name="field_ver_placement">Placement </string>
+
+    <string name="field_ver_500_empl_placement">The organization must have provided employment to at least 500 individuals through its own establishment or subsidiary agencies/companies within the last three years from the date of application. </string>
+    <string name="field_ver_empl_note_placement">Details to be verified by the list of candidates submitted by Captive Employer alongwith the PF /ESIC Number/ Sanction Order of the Govt. Projects/Declaration of the placement by Captive Employer.</string>
+
+    <string name="field_ver_70_per_cand_placement">Commitment to provide placement to at least 70% of the trained candidates in the organization’s own establishment or affiliate companies for a minimum duration of six months. </string>
+    <string name="field_ver_empl_off_letter_note_placement">Commitment letter submitted by the Captive Employer on the organization’s official letterhead, duly signed and stamped by the Authorized Signatory. </string>
+
+    <string name="field_ver_70_per_less_cand_coursewise_placement">Commitment to provide placement to at least 70% of the trained candidates from training courses of less than six months\' duration, with a minimum salary of ₹10,000 or the applicable minimum wage—whichever is higher. </string>
+    <string name="field_ver_empl_off_letter_coursewise_less_note_placement">Commitment letter submitted by the Captive Employer on the organization’s official letterhead, duly signed and stamped by the Authorized Signatory.</string>
+
+    <string name="field_ver_70_per_more_cand_coursewise_placement">Commitment to provide placement to at least 70% of the trained candidates from training courses of more than six months\' duration, with a minimum salary of ₹12,000 or the applicable minimum wage—whichever is higher. </string>
+    <string name="field_ver_empl_off_letter_coursewise_more_note_placement">Commitment letter submitted by the Captive Employer on the organization’s official letterhead, duly signed and stamped by the Authorized Signatory.</string>
+
+    <!-- Field Verification Placement Details -->
+    <string name="field_ver_field">Field Visit </string>
+
+    <string name="field_ver_geo_factory_field">Geo Tagging of Head Quarter and Factory Location(s). </string>
+    <string name="field_ver_ctsa_off_note_field">The above details are to be captured and verified during the field visit by the concerned State/UT representative or CTSA officer.</string>
+
+
+
+    <string name="training_center_id">Training Center ID</string>
+    <string name="toilet_id">Toilet Id</string>
+    <string name="delete">Delete</string>
+    <string name="add_more_toilet">+Add Toilet</string>
+    <string name="training_center">Training Center</string>
+    <string name="toiletid">ToiletId</string>
+    <string name="toilet_type">Toilet Type</string>
+    <string name="proof_og_image_it_cum_domain_lab_photograph">Proof og Image IT cum Domain Lab Photograph</string>
+    <string name="kitchen_length">Kitchen Length</string>
+    <string name="prepared_food">Prepared Food</string>
+    <string name="recreation_width">Recreation Width</string>
+    <string name="kitchen_area">Kitchen Area</string>
+    <string name="kitchen_width">Kitchen Width</string>
+    <string name="inddor_game_id">Inddor Game Id</string>
+    <string name="male_doctor">Male Doctor</string>
+    <string name="female_doctor">Female Doctor</string>
+    <string name="warden_caretaker_female">Warden Caretaker Female</string>
+    <string name="warden_caretaker_male">Warden Caretaker Male</string>
+    <string name="hostels_separated">Hostels Separated</string>
+    <string name="security_guards">Security Guards</string>
+    <string name="is_reception_area_available">Is reception area available?</string>
+    <string name="support_facilities_available">Support Facilities Available</string>
+    <string name="residential_facility_srlm">Residential Facility SRLM</string>
+    <string name="warden_details">Warden Details</string>
+    <string name="conformance_to_standards">Conformance to Standards</string>
+    <string name="do_you_want_to_edit_this_section">Do you want to edit this section?</string>
+    <string name="add_new_residential_facility">Add New Residential Facility</string>
+    <string name="tc_female_capacity_12">Tc Female Capacity : 12</string>
+    <string name="tc_male_capacity_12">Tc Male Capacity : 12</string>
+    <string name="tc_total_capacity_24">Tc Total Capacity: 24</string>
+    <string name="number_of_seats">Number Of Seats</string>
+    <string name="dining_length">Dining Length</string>
+    <string name="dining_width">Dining Width</string>
+    <string name="max_candidate">Max Candidate</string>
+    <string name="residential_multiple_list">Residential Multiple List</string>
+    <string name="common_dining_and_recreation">Common Dining and Recreation</string>
+    <string name="urinal_washbasin_overhead">Urinal/WashBasin/OverHead</string>
+
+    <string name="under_text"><u>2</u></string>
+    <string name="bathroom">Bathroom</string>
+    <string name="toilet_and_bathroom">Toilet Cum Bathroom</string>
+    <string name="urinals">Urinals</string>
+    <string name="washbasins">Washbasins</string>
+    <string name="flooring">Flooring</string>
+
+
+    <string name="no_data_title">No Data Found</string>
+    <string name="no_data_description">Nothing to show right now. Please check back later.</string>
+    <string name="english">English\n</string>
+    <string name="hindi">Hindi\n</string>
+
+    <string name="training_center_name_format">Training Center Name: %s</string>
+    <string name="training_center_address_format">Training Center Address: %s</string>
+    <string name="sanction_order_format">Sanction Order: %s</string>
+    <string name="district_name_format">District Name: %s</string>
+    <string name="no_data_available">No Data Available</string>
+    <string name="no_centers_found">No training centers found</string>
+
+    <string name="calculate">Calculate</string>
+    <string name="candidate_name">Candidate Name</string>
+    <string name="batch_id">Batch Id\n</string>
+    <string name="batch_name">Batch Name</string>
+
+
 </resources>
