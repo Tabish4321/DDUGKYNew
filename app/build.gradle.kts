@@ -107,8 +107,8 @@ dependencies {
 
 
 
-    implementation ("org.bouncycastle:bcprov-jdk16:1.46")
-    implementation ("javax.xml.crypto:jsr105-api:1.0.1")
+    implementation("org.bouncycastle:bcprov-jdk16:1.46")
+    implementation("javax.xml.crypto:jsr105-api:1.0.1")
     implementation("com.fasterxml.jackson.core:jackson-core:2.15.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.0")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.0")

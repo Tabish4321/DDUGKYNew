@@ -187,7 +187,6 @@ class CandidateAttendanceFragment : BaseFragment<FragmentCandidateAttendanceBind
 
         // Handle OK button click
         okButton.setOnClickListener {
-
             bottomSheetDialog.dismiss()
             findNavController().navigateUp()
         }
