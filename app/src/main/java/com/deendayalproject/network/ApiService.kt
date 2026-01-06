@@ -3,6 +3,10 @@ package com.deendayalproject.network
 import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.AddNewRFReq
 import com.deendayalproject.model.request.AllRoomDetaisReques
+import com.deendayalproject.model.request.AttendanceBatchListReq
+import com.deendayalproject.model.request.AttendanceCandidateListReq
+import com.deendayalproject.model.request.AttendanceCheckReq
+import com.deendayalproject.model.request.AttendanceInsertReq
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.CompliancesRFQTReq
@@ -18,6 +22,7 @@ import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
 import com.deendayalproject.model.request.IndoorGamesRequest
+import com.deendayalproject.model.request.InsertFacultyAttendance
 import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertNonLivingReq
 import com.deendayalproject.model.request.InsertResidentialFacility
@@ -65,6 +70,10 @@ import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AddNewRFRes
 import com.deendayalproject.model.response.AllRoomDetailResponse
+import com.deendayalproject.model.response.AttendanceBatchRes
+import com.deendayalproject.model.response.AttendanceCandidateRes
+import com.deendayalproject.model.response.AttendanceCheckRes
+import com.deendayalproject.model.response.AttendanceInsertRes
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
 import com.deendayalproject.model.response.CommonEquipmentRes
@@ -72,6 +81,7 @@ import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.DistrictResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
+import com.deendayalproject.model.response.FacultyDetailsRes
 import com.deendayalproject.model.response.FieldVerificationDetailResponse
 import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
@@ -595,6 +605,48 @@ interface ApiService {
         @Url url: String,
         @Body request: UidaiKycRequest
     ): Response<UidaiResp>
+
+
+    @POST("onGoingBatchList")
+    suspend fun getAttendanceBatchListAPI(
+        @Body attendanceBatchListReq: AttendanceBatchListReq
+    ): Response<AttendanceBatchRes>
+
+
+
+    @POST("onGoingBatchCandidateList")
+    suspend fun getAttendanceCandidateListAPI(
+        @Body attendanceCandidateListReq: AttendanceCandidateListReq
+    ): Response<AttendanceCandidateRes>
+
+
+    @POST("attandanceCheck")
+    suspend fun getAttendanceCheckAPI(
+        @Body attendanceCheckReq: AttendanceCheckReq
+    ): Response<AttendanceCheckRes>
+
+
+    @POST("insertAttandance")
+    suspend fun insertAttendance(
+        @Body attendanceInsertReq: AttendanceInsertReq
+    ): Response<AttendanceInsertRes>
+
+
+
+
+    @POST("onGoingBatchFaculty")
+    suspend fun getFacultyDetails(
+        @Body attendanceCandidateListReq: AttendanceCandidateListReq
+    ): Response<FacultyDetailsRes>
+
+
+
+
+    @POST("insertFacultyAttandance")
+    suspend fun insertFacultyAttandance(
+        @Body insertFacultyAttendance: InsertFacultyAttendance
+    ): Response<AttendanceInsertRes>
+
 
 
 }

@@ -47,7 +47,8 @@ class AttendanceBatchAdapter ( private val batchList: List<AttendanceBatch>
                                 // Option 1: Navigate to candidate attendance screen
                                 val action =
                                     AttendanceBatchListFragmentDirections.actionAttendanceBatchListFragmentToAttendanceCandidateListFragment(
-                                        (data.batchCode ?: "0").toString(), data.batchName ?: "Batch Name"
+                                        (data.batchId ?: 0),data.batchRegNumber, data.batchName ?: "Batch Name"
+
                                     )
                                 binding.root.findNavController().navigate(action)
                             }
@@ -55,7 +56,7 @@ class AttendanceBatchAdapter ( private val batchList: List<AttendanceBatch>
                                 // Option 2: Navigate to self attendance screen (create this action in nav_graph)
                                 val action =
                                     AttendanceBatchListFragmentDirections.actionAttendanceBatchListFragmentToFacultyAttendanceFragment(
-                                        (data.batchCode ?: "0").toString(), data.batchName ?: "Batch Name"
+                                        (data.batchId ?: 0), data.batchName ?: "Batch Name"
                                     )
                                 binding.root.findNavController().navigate(action)
                             }

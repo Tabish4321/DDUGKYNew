@@ -838,6 +838,91 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
 
 
+    private val _getAttendanceBatchListAPI = MutableLiveData<Result<AttendanceBatchRes>>()
+    val getAttendanceBatchListAPI: LiveData<Result<AttendanceBatchRes>> = _getAttendanceBatchListAPI
+
+    fun getAttendanceBatchListAPI(attendanceBatchListReq: AttendanceBatchListReq,header :String){
+        handleApiCall(
+            apiCall = { repositoryManager.location.getAttendanceBatchListAPI(attendanceBatchListReq, header) },
+            resultLiveData = _getAttendanceBatchListAPI
+        )
+
+    }
+
+
+
+
+    private val _getAttendanceCandidateListAPI = MutableLiveData<Result<AttendanceCandidateRes>>()
+    val getAttendanceCandidateListAPI: LiveData<Result<AttendanceCandidateRes>> = _getAttendanceCandidateListAPI
+
+    fun getAttendanceCandidateListAPI(attendanceCandidateListReq: AttendanceCandidateListReq,header :String){
+        handleApiCall(
+            apiCall = { repositoryManager.location.getAttendanceCandidateListAPI(attendanceCandidateListReq, header) },
+            resultLiveData = _getAttendanceCandidateListAPI
+        )
+
+    }
+
+
+
+
+
+    private val _getAttendanceCheckAPI = MutableLiveData<Result<AttendanceCheckRes>>()
+    val getAttendanceCheckAPI: LiveData<Result<AttendanceCheckRes>> = _getAttendanceCheckAPI
+
+        fun getAttendanceCheckAPI(attendanceCheckReq: AttendanceCheckReq,header :String){
+        handleApiCall(
+            apiCall = { repositoryManager.location.getAttendanceCheckAPI(attendanceCheckReq, header) },
+            resultLiveData = _getAttendanceCheckAPI
+        )
+
+    }
+
+
+    private val _insertAttendance = MutableLiveData<Result<AttendanceInsertRes>>()
+    val insertAttendance: LiveData<Result<AttendanceInsertRes>> = _insertAttendance
+
+    fun insertAttendance(attendanceInsertReq: AttendanceInsertReq,header :String){
+        handleApiCall(
+            apiCall = { repositoryManager.location.insertAttendance(attendanceInsertReq, header) },
+            resultLiveData = _insertAttendance
+        )
+
+    }
+
+
+
+    private val _insertFacultyAttandance = MutableLiveData<Result<AttendanceInsertRes>>()
+    val insertFacultyAttandance: LiveData<Result<AttendanceInsertRes>> = _insertFacultyAttandance
+
+    fun insertFacultyAttandance(insertFacultyAttendance: InsertFacultyAttendance,header :String){
+        handleApiCall(
+            apiCall = { repositoryManager.location.insertFacultyAttandance(insertFacultyAttendance, header) },
+            resultLiveData = _insertFacultyAttandance
+        )
+
+    }
+
+
+
+
+
+    private val _getFacultyDetails = MutableLiveData<Result<FacultyDetailsRes>>()
+    val getFacultyDetails: LiveData<Result<FacultyDetailsRes>> = _getFacultyDetails
+
+    fun getFacultyDetails(attendanceCandidateListReq: AttendanceCandidateListReq,header :String){
+        handleApiCall(
+            apiCall = { repositoryManager.location.getFacultyDetails(attendanceCandidateListReq, header) },
+            resultLiveData = _getFacultyDetails
+        )
+
+    }
+
+
+
+
+
+
     // Ajit Ranjan (RecyclerView)
     fun DesriptionAcademicNonList(request: AcademicNonAcademicArea, token: String) {
         handleApiCall(

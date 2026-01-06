@@ -859,6 +859,7 @@ class RFQTeamFormFragment : Fragment() {
 
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
+
             }
 
 
@@ -878,8 +879,6 @@ class RFQTeamFormFragment : Fragment() {
 
 
 
-
-
         }
 
 
@@ -891,20 +890,7 @@ class RFQTeamFormFragment : Fragment() {
         }
 
 
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
 
     @SuppressLint("SetTextI18n", "SuspiciousIndentation")
 
@@ -965,7 +951,7 @@ class RFQTeamFormFragment : Fragment() {
 
 
                             PreparedFoodFile=x.preprationFoodPdf
-                            ReceptionAreaPdf= x.receptionAreaPdf.toString()
+                            ReceptionAreaPdf= x.receptionAreaPdf
 
                             if (x.separateAreas=="Yes"){
                                 binding.RFNonLivingAreaLayout.recreationFile.visibility=View.VISIBLE

@@ -17,8 +17,8 @@ object AppConstant {
     const val PRODUCTION: String = "P"
     const val WADH_KEY: String = "sgydIC09zzy6f8Lb3xaAqzKquKe9lFcNR9uTvYxFp+A="
     var LANGUAGE = "en"
-
-
+    const val ENCRYPT_IV_KEY = "\$10A80\$10A80\$10A"
+    const val ENCRYPT_KEY = "\$10A80\$10A80\$10A"
 
 
 

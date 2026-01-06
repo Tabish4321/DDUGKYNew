@@ -6,7 +6,9 @@ data class AttendanceCheckRes(
     val responseDesc: String,
     val responseMsg: String?,
     val appCode: String?
+    
 )
+
 
 data class AttendanceData(
     val checkIn: String,
@@ -16,4 +18,6 @@ data class AttendanceData(
     val radius: Int,
     val attendanceFlag: String,
     val longitude: String
+
 )
+

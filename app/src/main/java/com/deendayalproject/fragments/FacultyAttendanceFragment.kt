@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.location.Location
+import android.os.Build
 import android.os.SystemClock
 import android.util.Base64
 import android.util.Log
@@ -21,14 +22,18 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentFacultyAttendanceBinding
+import com.deendayalproject.model.request.AttendanceCandidateListReq
+import com.deendayalproject.model.request.InsertFacultyAttendance
 import com.deendayalproject.model.response.FacultyAttendance
 import com.deendayalproject.model.response.FacultyDetailsRes
 import com.deendayalproject.uidai.XstreamCommonMethods
@@ -37,6 +42,7 @@ import com.deendayalproject.uidai.capture.CaptureResponse
 import com.deendayalproject.uidai.ekyc.IntentResponse
 import com.deendayalproject.uidai.ekyc.UidaiKycRequest
 import com.deendayalproject.uidai.ekyc.UidaiResp
+import com.deendayalproject.util.AESCryptography
 import com.deendayalproject.util.AppConstant
 import com.deendayalproject.util.AppConstant.LANGUAGE
 import com.deendayalproject.util.AppConstant.PRODUCTION
@@ -64,15 +70,17 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
     private lateinit var viewModel: SharedViewModel
 
-    private var batchId = ""
+    private var batchId = 0
     private var checkIn = ""
     private var totalHours = ""
+    private var trainerCode = 0
+    private var batchRegNo =""
     private var checkOut = ""
     private var attendanceFlag = ""
     private var decryptedAadhaar = ""
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
-    private var radius: Float = 1000000f
+    private var radius: Float = 10000000000f
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var intentResponse: IntentResponse? = null
     private val neededPermissions = arrayOf(Manifest.permission.CAMERA)
@@ -97,65 +105,23 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
     override fun initializeViews() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
         startClock()
-        batchId = arguments?.getString("batchId").toString()
+        batchId = arguments?.getInt("batchId",0)!!
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         checkLocationPermission()
         binding.tvCurrentDate.text= AppUtil.getCurrentDateForAttendance()
 
 
-        val facultyResponse = FacultyAttendanceDummy.response
-        val facultyList = facultyResponse.wrappedList
 
+        viewModel.getFacultyDetails(
+            AttendanceCandidateListReq(batchId.toInt(),
+                BuildConfig.VERSION_NAME
+            ), AppUtil.getSavedTokenPreference(requireContext())
+        )
 
-        for (x in facultyList) {
+        showProgressDialog("Loading...")
 
-            binding.tvAadhaarName.text= x.facultyName
-            binding.tvRollNoValue.text= x.loginId
-            binding.tvAaadharMobile.text= x.mobileNo
-            binding.tvEmailMobile.text= x.emailId
-            binding.tvAaadharGender.text= x.gender
-            binding.tvAaadharDob.text= x.dob
-
-            /*decryptedAadhaar = AESCryptography.decryptIntoString(x.aadhaarNo,
-                AppConstant.Constants.ENCRYPT_KEY,
-                AppConstant.Constants.ENCRYPT_IV_KEY)*/
-
-            latitude= x.latitude.toDouble()
-            longitude= x.langitude.toDouble()
-            radius= x.radius.toFloat()
-            attendanceFlag = x.attendanceFlag
-            checkIn = x.checkIn//00:00
-            checkOut = x.checkOut
-            totalHours= x.totalHours
-            facultyName= x.facultyName
-
-
-            getCurrentLocation { location ->
-                if (location != null) {
-                   // val isInside = isUserInsideGeofence(location, latitude, longitude, radius)
-                     val isInside = isUserInsideGeofence(location, 26.2153, 84.3588, radius)
-                    if (isInside) {
-
-                        //    findNavController().navigate(SdrListFragmentDirections.actionSdrListFragmentToSdrVisitReport(formName,instituteName,finYear,instituteId))
-                    } else {
-                        showAlertGeoFancingDialog(requireContext(),"Alert","❌ You are outside the institute area")
-
-                    }
-                } else {
-                    toastLong("❌ Failed to retrieve current location")
-                    showAlertGeoFancingDialog(requireContext(),"Alert","❌ Failed to retrieve current location Kindly on your gps from settings")
-                }
-            }
-
-            binding.tvCheckInValue.text= x.checkIn
-            binding.tvCheckOutValue.text= x.checkOut
-            binding.tvTotalHoursValue.text= x.totalHours
-
-
-        }
-
-
+        collectFacultyDetails()
 
 
     }
@@ -169,12 +135,11 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
 
 
-            if (attendanceFlag=="checkin"){
+            if (attendanceFlag=="checkout"){
                 //for audit
-                showProgressDialog("Loading...")
-
-                invokeCaptureIntent()
-                /* val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+                //showProgressDialog("Loading...")
+               // invokeCaptureIntent()
+                 val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
                  val currentTime = LocalTime.now()
                  val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))  // ✅ 24-hour format\
                  val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
@@ -182,13 +147,21 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
 
 
-                     commonViewModel.insertFacultyAttendanceApi(AppUtil.getSavedTokenPreference(requireContext()),
-                         InsertFacultyReq(BuildConfig.VERSION_NAME,batchId,currentDate,"checkin",formattedTime,
-                             "","",userPreferences.getUseID(),AppUtil.getAndroidId(requireContext()),
-                             AppUtil.getSavedOrgIdPreference(requireContext()),AppUtil.getSavedHRIdPreference(requireContext()),
-                             AppUtil.getSavedEntityPreference(requireContext())))
+                viewModel.insertFacultyAttandance(
+                    InsertFacultyAttendance(
+                        BuildConfig.VERSION_NAME,
+                        batchId,
+                        trainerCode.toString(),
+                        batchRegNo,
+                        formattedTime,
+                        "",
+                        currentDate,
+                        "",
+                        AppUtil.getAndroidId(requireContext())
 
-                     collectAttendanceInsertResponse()*/
+                    ),AppUtil.getSavedTokenPreference(requireContext()))
+
+                collectFacultyInsertAttendance()
 
 
 
@@ -209,11 +182,11 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
             if (attendanceFlag=="checkout"){
 
                 //for audit
-                showProgressDialog("Loading...")
-                invokeCaptureIntent()
+               // showProgressDialog("Loading...")
+               // invokeCaptureIntent()
 
 
-                /* val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+                 val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
                  val currentTime = LocalTime.now()
                  val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))  // ✅ 24-hour format\
                  val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
@@ -229,14 +202,21 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                  val totalHoursValue = String.format("%02d:%02d:%02d", hours, minutes, seconds)
 
 
-                 commonViewModel.insertFacultyAttendanceApi(AppUtil.getSavedTokenPreference(requireContext()),
-                     InsertFacultyReq(BuildConfig.VERSION_NAME,batchId,currentDate,"checkout","",
-                         formattedTime,totalHoursValue,userPreferences.getUseID(),AppUtil.getAndroidId(requireContext()),
-                         AppUtil.getSavedOrgIdPreference(requireContext()),AppUtil.getSavedHRIdPreference(requireContext()),
-                         AppUtil.getSavedEntityPreference(requireContext())))
+                viewModel.insertFacultyAttandance(
+                    InsertFacultyAttendance(
+                        BuildConfig.VERSION_NAME,
+                        batchId,
+                        trainerCode.toString(),
+                        batchRegNo,
+                        "",
+                        formattedTime,
+                        currentDate,
+                        totalHoursValue,
+                        AppUtil.getAndroidId(requireContext())
 
-                 collectAttendanceInsertResponse()*/
+                    ),AppUtil.getSavedTokenPreference(requireContext()))
 
+                collectFacultyInsertAttendance()
 
             }
 
@@ -312,35 +292,6 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
 
 
-    object FacultyAttendanceDummy {
-
-        val response = FacultyDetailsRes(
-            wrappedList = listOf(
-                FacultyAttendance(
-                    langitude = "85.1376",
-                    latitude = "25.5941",
-                    loginId = "FAC001",
-                    facultyName = "Rajesh Kumar",
-                    gender = "Male",
-                    dob = "1985-06-15",
-                    aadhaarNo = "XXXX-XXXX-1111",
-                    emailId = "rajesh.kumar@gov.in",
-                    mobileNo = "9876543210",
-                    batchId = 101,
-                    batchRegNo = "BATCH-REG-101",
-                    checkIn = "09:30 AM",
-                    checkOut = "17:30 PM",
-                    totalHours = "8h 40m",
-                    radius = 100000000,
-                    attendanceFlag = "checkout"
-                )
-            ),
-            responseCode = 200,
-            responseDesc = "Success",
-            responseMsg = "Static faculty attendance data loaded",
-            appCode = null
-        )
-    }
     private fun showAlertGeoFancingDialog(context: Context, title: String, message: String) {
         val builder = androidx.appcompat.app.AlertDialog.Builder(context)
         builder.setTitle(title)
@@ -392,6 +343,8 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
     private fun handleCaptureResponse(captureResponse: String) {
         try {
 
+
+          //  toastShort(decryptedAadhaar)
             // Parse the capture response XML to an object
             val response = CaptureResponse.fromXML(captureResponse)
 
@@ -534,7 +487,61 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
 
 
-                                showBottomSheet(userPhotoUIADI,name,gender,dob,careOf)
+                                val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+                                val currentTime = LocalTime.now()
+                                val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))  // ✅ 24-hour format\
+                                val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+
+
+                                if (attendanceFlag== "checkin"){
+
+
+                                    viewModel.insertFacultyAttandance(
+                                        InsertFacultyAttendance(
+                                            BuildConfig.VERSION_NAME,
+                                            batchId,
+                                            trainerCode.toString(),
+                                            batchRegNo,
+                                            formattedTime,
+                                            "",
+                                            currentDate,
+                                            "",
+                                            AppUtil.getAndroidId(requireContext())
+
+                                        ),AppUtil.getSavedTokenPreference(requireContext()))
+                                }
+                                else{
+
+                                    val checkInTime = LocalTime.parse(checkIn, timeFormatter)
+                                    val checkOutTime = LocalTime.parse(formattedTime, timeFormatter)
+                                    val duration = Duration.between(checkInTime, checkOutTime)
+
+
+                                    val hours = duration.toHours()
+                                    val minutes = (duration.toMinutes() % 60)
+                                    val seconds = (duration.seconds % 60)
+
+                                    val totalHoursValue = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+
+
+                                    viewModel.insertFacultyAttandance(
+                                        InsertFacultyAttendance(
+                                            BuildConfig.VERSION_NAME,
+                                            batchId,
+                                            trainerCode.toString(),
+                                            batchRegNo,
+                                            "",
+                                            formattedTime,
+                                            currentDate,
+                                            totalHoursValue,
+                                            AppUtil.getAndroidId(requireContext())
+
+                                        ),AppUtil.getSavedTokenPreference(requireContext()))
+
+
+                                }
+
+                                collectFacultyInsertAttendance()
 
 
                             }
@@ -632,6 +639,127 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
     }
 
 
+    private fun collectFacultyDetails() {
+        lifecycleScope.launch {
+            viewModel.getFacultyDetails.observe(viewLifecycleOwner) { it ->
+                it.onSuccess { response ->
+                    dismissProgressDialog()
+
+                    when (response.responseCode) {
+                        200 -> {
+                            for (x in response.wrappedList) {
+
+                                binding.tvAadhaarName.text= x.facultyName
+                                binding.tvRollNoValue.text= x.loginId.toString()
+                                binding.tvAaadharMobile.text= x.mobileNo
+                                binding.tvEmailMobile.text= x.emailId
+                                binding.tvAaadharGender.text= x.gender
+                                binding.tvAaadharDob.text= x.dob
+
+                                decryptedAadhaar = AESCryptography.decryptIntoString(x.aadhaarNo,
+                                    AppConstant.ENCRYPT_KEY,
+                                    AppConstant.ENCRYPT_IV_KEY)
+
+                                latitude= x.latitude.toDouble()
+                                longitude= x.langitude.toDouble()
+                                //radius= x.radius.toFloat()
+                                attendanceFlag = x.attendanceFlag
+                                checkIn = x.checkIn//00:00
+                                checkOut = x.checkOut
+                                totalHours= x.totalHours
+                                facultyName= x.facultyName
+                                trainerCode= x.loginId
+                                batchRegNo= x.batchRegNo
+
+
+
+
+                                binding.tvCheckInValue.text= x.checkIn
+                                binding.tvCheckOutValue.text= x.checkOut
+                                binding.tvTotalHoursValue.text= x.totalHours
+
+
+                            }
+                            getCurrentLocation { location ->
+                                if (location != null) {
+                                     val isInside = isUserInsideGeofence(location, latitude, longitude, radius)
+                                  //  val isInside = isUserInsideGeofence(location, 26.2153, 84.3588, radius)
+                                    if (isInside) {
+
+                                        //    findNavController().navigate(SdrListFragmentDirections.actionSdrListFragmentToSdrVisitReport(formName,instituteName,finYear,instituteId))
+                                    } else {
+                                        showAlertGeoFancingDialog(requireContext(),"Alert","❌ You are outside the institute area")
+
+                                    }
+                                } else {
+                                    toastLong("❌ Failed to retrieve current location")
+                                    showAlertGeoFancingDialog(requireContext(),"Alert","❌ Failed to retrieve current location Kindly on your gps from settings")
+                                }
+                            }
+
+                        }
+
+                        //  populateSpinnerVillage((response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>, spinnerSelectULB )
+
+                        202 -> Toast.makeText(
+                            requireContext(), "No data available.", Toast.LENGTH_SHORT
+                        ).show()
+
+                        301 -> Toast.makeText(
+                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                        ).show()
+
+                        401 -> AppUtil.showSessionExpiredDialog(
+                            findNavController(), requireContext()
+                        )
+                    }
+                }
+                it.onFailure {
+                    dismissProgressDialog()
+
+                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+    }
+    private fun collectFacultyInsertAttendance() {
+        lifecycleScope.launch {
+            viewModel.insertFacultyAttandance.observe(viewLifecycleOwner) { it ->
+                it.onSuccess { response ->
+                    dismissProgressDialog()
+
+                    when (response.responseCode) {
+                        200 -> {
+
+                            showBottomSheet(userPhotoUIADI,name,gender,dob,careOf)
+
+                        }
+
+                        //  populateSpinnerVillage((response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>, spinnerSelectULB )
+
+                        202 -> Toast.makeText(
+                            requireContext(), "No data available.", Toast.LENGTH_SHORT
+                        ).show()
+
+                        301 -> Toast.makeText(
+                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                        ).show()
+
+                        401 -> AppUtil.showSessionExpiredDialog(
+                            findNavController(), requireContext()
+                        )
+                    }
+                }
+                it.onFailure {
+                    dismissProgressDialog()
+
+                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+    }
 
 
 
