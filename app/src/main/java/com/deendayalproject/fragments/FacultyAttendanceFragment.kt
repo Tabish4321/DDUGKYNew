@@ -135,11 +135,11 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
 
 
-            if (attendanceFlag=="checkout"){
+            if (attendanceFlag=="checkin"){
                 //for audit
-                //showProgressDialog("Loading...")
-               // invokeCaptureIntent()
-                 val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+                showProgressDialog("Loading...")
+                invokeCaptureIntent()
+                /* val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
                  val currentTime = LocalTime.now()
                  val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))  // ✅ 24-hour format\
                  val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
@@ -161,7 +161,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
                     ),AppUtil.getSavedTokenPreference(requireContext()))
 
-                collectFacultyInsertAttendance()
+                collectFacultyInsertAttendance()*/
 
 
 
@@ -182,11 +182,11 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
             if (attendanceFlag=="checkout"){
 
                 //for audit
-               // showProgressDialog("Loading...")
-               // invokeCaptureIntent()
+                showProgressDialog("Loading...")
+                invokeCaptureIntent()
 
 
-                 val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+              /*   val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
                  val currentTime = LocalTime.now()
                  val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))  // ✅ 24-hour format\
                  val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
@@ -216,7 +216,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
                     ),AppUtil.getSavedTokenPreference(requireContext()))
 
-                collectFacultyInsertAttendance()
+                collectFacultyInsertAttendance()*/
 
             }
 
@@ -354,8 +354,8 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                 // Process the response to generate the PoiType or other required fields
                 val poiType = XstreamCommonMethods.processPidBlockEkyc(
                     response.toXML(),
-                    //decryptedAadhaar,
-                     "939625617876",
+                    decryptedAadhaar,
+                     //"",
                     false,
                     requireContext()
                 )
