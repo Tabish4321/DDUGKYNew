@@ -23,8 +23,7 @@
             android:background="@drawable/nav_header_gradient"
             android:elevation="8dp"
             app:contentInsetStart="0dp"
-            app:contentInsetStartWithNavigation="0dp"
-            >
+            app:contentInsetStartWithNavigation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -84,7 +83,6 @@
                     android:shadowRadius="4"
                     android:layout_marginStart="12dp"
                     app:layout_constraintStart_toEndOf="@id/btnBack"
-                    app:layout_constraintEnd_toStartOf="@id/changeLanguage"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0" />

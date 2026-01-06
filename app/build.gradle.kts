@@ -15,7 +15,7 @@ android {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
-        versionCode = 2
+        versionCode = 3
         versionName = "1.1.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,7 +31,7 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = true
+            isDebuggable = false
         }
     }
 
@@ -124,6 +124,7 @@ dependencies {
     }
     implementation("com.thoughtworks.xstream:xstream:1.4.7") {
         exclude(group = "xmlpull", module = "xmlpull")
+        exclude(group="xpp3", module="xpp3_min")
 
         implementation("com.github.bumptech.glide:glide:4.16.0")
         kapt("com.github.bumptech.glide:compiler:4.16.0")
