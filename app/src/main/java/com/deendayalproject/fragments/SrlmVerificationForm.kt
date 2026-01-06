@@ -2101,23 +2101,18 @@ class SrlmVerificationForm : Fragment() {
             closeButton.setOnClickListener {
                 dialog.dismiss()
             }
-
             dialog.show()
         }
-
 
         binding.trainingCenterInfoLayout.btnInfoNext.setOnClickListener {
             if (selectedTcInfoApproval.isEmpty()) {
                 Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
-
             }
-
             if (selectedTcInfoApproval == "Send for modification") {
                 selectedTcInfoRemarks =
                     binding.trainingCenterInfoLayout.etInfoRemarks.text.toString()
-
                 if (selectedTcInfoRemarks.isEmpty()) {
                     Toast.makeText(
                         requireContext(),
@@ -2129,7 +2124,6 @@ class SrlmVerificationForm : Fragment() {
             } else selectedTcInfoRemarks = ""
 
             // Common UI updates
-
             val requestTcInfraReq = TrainingCenterInfo(
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -2138,8 +2132,6 @@ class SrlmVerificationForm : Fragment() {
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getTrainerCenterInfra(requestTcInfraReq)
-
-
 
             binding.trainingCenterInfoLayout.trainingInfoExpand.visibility = View.GONE
             binding.trainingCenterInfoLayout.viewInfo.visibility = View.GONE
@@ -2155,16 +2147,13 @@ class SrlmVerificationForm : Fragment() {
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
             }
-
         }
-
 
         binding.btnInfraNext.setOnClickListener {
             if (selectedTcInfraApproval.isEmpty()) {
                 Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
-
             }
 
             if (selectedTcInfraApproval == "Send for modification") {
@@ -2179,8 +2168,6 @@ class SrlmVerificationForm : Fragment() {
                 }
             } else selectedTcInfraRemarks = ""
 
-
-
             val requestTcInfraReq = TrainingCenterInfo(
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -2190,38 +2177,26 @@ class SrlmVerificationForm : Fragment() {
             )
             viewModel.getTcAcademicNonAcademicArea(requestTcInfraReq)
 
-
-
             // Common UI updates
             binding.trainingInfraExpand.visibility = View.GONE
+
             binding.viewInfra.visibility = View.GONE
-            binding.tvTrainInfra.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
+            binding.tvTrainInfra.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
             binding.mainDescAcademia.visibility = View.VISIBLE
             binding.viewDescAcademia.visibility = View.VISIBLE
-
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
             }
-
         }
         binding.btnInfraPrevious.setOnClickListener {
-
             binding.trainingCenterInfoLayout.trainingInfoExpand.visibility = View.VISIBLE
             binding.trainingCenterInfoLayout.viewInfo.visibility = View.VISIBLE
             binding.mainInfra.visibility = View.GONE
             binding.viewInfra.visibility = View.GONE
-
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
             }
-
         }
-
 
         binding.btnDescAcademiaNext.setOnClickListener {
             if (selectedTcDescAcademiaApproval.isEmpty()) {
@@ -2252,8 +2227,6 @@ class SrlmVerificationForm : Fragment() {
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getTcToiletWashBasin(requestTcInfraReq)
-
-
 
             // Common UI updates
             binding.trainingDescAcademiaExpand.visibility = View.GONE

@@ -400,8 +400,7 @@ object AppUtil {
     }
 
     fun getSavedLanguagePreference(context: Context): String {
-        val sharedPreferences =
-            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         return sharedPreferences.getString("language_code", "en") ?: "en" // Default to English
     }
 

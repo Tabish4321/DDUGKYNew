@@ -187,7 +187,100 @@
                     android:ellipsize="end"
                     tools:text="Bhopal" />
             </LinearLayout>
+
+
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/total_capacity_24"
+                android:contentDescription="District" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/sp_14">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Capacity"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_12"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/totalCapacity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_14"
+                    android:fontFamily="@font/avenir_next_medium"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="N/A" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/dp_10">
+
+            <ImageView
+                android:id="@+id/residenctial_icon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/baseline_boy_24"
+                android:contentDescription="District" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/sp_14">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Residential Type"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_12"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/residenctialType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_14"
+                    android:fontFamily="@font/avenir_next_medium"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="" />
+
+            </LinearLayout>
+        </LinearLayout>
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

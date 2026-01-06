@@ -147,17 +147,14 @@ interface ApiService {
     @POST("getTrainingCenterList")
     suspend fun getTrainingCenterList(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
 
-
     @POST(value = "getTrainingCenterVerificationList")
     suspend fun getQTeamTrainingList(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
 
     @POST(value ="getCaptivePiaList")
     suspend fun getFieldVerificationList(@Body request: FieldVerificationListRequest) : Response<FieldVerificationListResponse>
 
-
     @POST(value = "getTrainingCenterVerificationSRLM")
     suspend fun getTrainingCenterVerificationSRLM(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
-
 
     @POST(value = "getResidentialFacilitiesList")
     suspend fun getResidentialFacilitiesList(@Body request: TrainingCenterRequest): Response<RfListResponse>
@@ -167,11 +164,10 @@ interface ApiService {
         @Body request: FieldVerificationFinalSubmit
     ): Response<FieldVerificationDetailResponse>
 
-
     @POST(value = "insertCCTVCompliance")
     suspend fun insertCCTVCompliance(@Body request: CCTVComplianceRequest): Response<CCTVComplianceResponse>
 
-    @POST("getCaptiveOrganizationDetails") // TODO: replace with actual endpoint path
+    @POST("getCaptiveOrganizationDetails")
     suspend fun getFieldVerificationDetail(
         @Body request: FieldVerificationDetailRequest
     ): Response<FieldVerificationDetailResponse>
@@ -265,35 +261,26 @@ interface ApiService {
     @POST(value = "getElectricalWiringStandard")
     suspend fun getElectricalWiringStandard(@Body request: TrainingCenterInfo): Response<ElectricalWireRes>
 
-
     @POST(value = "getSignagesAndInfoBoard")
     suspend fun getSignagesAndInfoBoard(@Body request: TrainingCenterInfo): Response<SignageInfo>
-
 
     @POST(value ="getIpEnabledcamera")
     suspend fun getIpEnabledcamera(@Body request: TrainingCenterInfo) : Response<IpEnableRes>
 
-
     @POST(value ="getCommonEquipment")
     suspend fun getCommonEquipment(@Body request: TrainingCenterInfo) : Response<CommonEquipmentRes>
-
 
     @POST(value ="getAvailabilitySupportInfra")
     suspend fun getAvailabilitySupportInfra(@Body request: TrainingCenterInfo) : Response<SupportInfrastructureResponse>
 
-
     @POST(value ="getAvailabilityStandardForms")
     suspend fun getAvailabilityStandardForms(@Body request: TrainingCenterInfo) : Response<StandardFormResponse>
-
-
 
     @POST(value ="getAcademicRoomDetails")
     suspend fun getAcademicRoomDetails(@Body request: AllRoomDetaisReques) : Response<AllRoomDetailResponse>
 
-
     @POST(value ="insertQTeamVerification")
     suspend fun insertQTeamVerification(@Body request: TcQTeamInsertReq) : Response<InsertTcGeneralDetailsResponse>
-
 
     @POST(value ="insertSrlmVerification")
     suspend fun insertSrlmVerification(@Body request: TcQTeamInsertReq) : Response<InsertTcGeneralDetailsResponse>
@@ -319,21 +306,15 @@ interface ApiService {
     @POST("getVillageList")
     suspend fun getVillageList(@Body request: VillageReq): Response<VillageRes>
 
-
-
-
     //    Ajit Ranjan TcAcademicNonAcademicArea
 //      @POST("deleteAcademicRoom")
-//
 ////    suspend fun deleteRoom(@Body request: DeleteRoomRequest) : Response<DeleteRoomResponse>
 //
 //     fun deleteRoom(@Body request: DeleteRoomRequest): Call<DeleteRoomResponse>
     @POST(value = "getTcAcademicNonAcademicArea")
     suspend fun getTcAcademicNonAcademic(@Body request: AcademicNonAcademicArea) : Response<AcademicNonAcademicResponse>
 
-
 // Ajit Ranjan ITLAB
-
 
     @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
     suspend fun insertITLabBasicInfo(@Body request: ITLabDetailsRequest) : Response<ITLAbDetailsErrorResponse>
@@ -342,40 +323,27 @@ interface ApiService {
     @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
     suspend fun insertOfficeCumCounsellingroomBasicInfo(@Body request: SubmitOfficeCumCounsellingRoomDetailsRequest) : Response<ITLAbDetailsErrorResponse>
 
-
-
-
     //    Ajit Ranjan  ReceptionArea
     @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
     suspend fun insertReceptionAreaBasicInfo(@Body request: ReceptionAreaRoomDetailsRequest) : Response<ITLAbDetailsErrorResponse>
-
-
-
 
     //    Ajit Ranjan  OfficeRoom
     @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
     suspend fun insertOfficeroomBasicInfo(@Body request: OfficeRoomDetailsRequest) : Response<ITLAbDetailsErrorResponse>
 
-
     //    Ajit Ranjan  ItComeDomainlab
     @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
     suspend fun insertItComeDomainlabBasicInfo(@Body request: ITComeDomainLabDetailsRequest) : Response<ITLAbDetailsErrorResponse>
-
 
 //    Theory Cum IT Lab
 
     @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
     suspend fun inserttheorycumitlabBasicInfo(@Body request: TCITLDomainLabDetailsRequest) : Response<ITLAbDetailsErrorResponse>
 
-
-
-
 //    Theory Cum Domain Lab
 
     @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
     suspend fun inserttheorycumdomainlabBasicInfo(@Body request: TCDLRequest) : Response<ITLAbDetailsErrorResponse>
-
-
 
 //    Theory Cum Domain Lab
 
@@ -385,15 +353,11 @@ interface ApiService {
     @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
     suspend fun inserttheoryClassroomBasicInfo(@Body request: TCRRequest) : Response<ITLAbDetailsErrorResponse>
 
-
     @POST(value = "insertRfBasicInformation")
     suspend fun insertRfBasicInformation(@Body request: insertRfBasicInfoReq): Response<ITLAbDetailsErrorResponse>
 
-
-
     @POST(value = "insertRfInfraDetailsAndComliance")
     suspend fun insertRfInfraDetailsAndComliance(@Body request: InsertRfInfraDetaiReq) : Response<ITLAbDetailsErrorResponse>
-
 
     @POST(value = "insertRfLivingAreaInformation")
     suspend fun insertRfLivingAreaInformation(@Body request: InsertLivingAreaReq) : Response<ITLAbDetailsErrorResponse>
@@ -402,16 +366,12 @@ interface ApiService {
     @POST(value ="getRFQteamVerificationList")
     suspend fun getRFQteamVerificationList(@Body request: ResidentialFacilityQTeamRequest) : Response<RfQTeamListRes>
 
-
-
     //    GetRfBasicInformation AjitRanjan 17/10/2025
     @POST(value ="getRfBasicInformation")
     suspend fun getRfBasicInfoo(@Body request: RfCommonReq) : Response<ResidentialFacilityQTeam>
 
-
 //    Ajit Ranjan cre
     //    ate 21/October/2025  CompliancesRFQTReqRFQT
-
 
     @POST(value ="getRfInfraDetailsAndComliance")
     suspend fun getgetCompliancesRFQTReqRFQT(@Body request: CompliancesRFQTReq) : Response<InfrastructureDetailsandCompliancesRFQT>
@@ -426,7 +386,6 @@ interface ApiService {
 
 //    Ajit Ranjan create 27/October/2025  toiletRoomListView
 
-
     @POST(value ="toiletRoomListView")
     suspend fun getToiletRoomListView(@Body request: ToiletRoomInformationReq) : Response<ToiletViewRes>
 
@@ -437,8 +396,6 @@ interface ApiService {
                 (@Body request: ToiletRoomReq) :
             Response<ToiletRoomInformationViewRes>
 
-
-
     @POST(value ="livingRoomListView")
     suspend fun getRfLivingRoomListView(@Body request: LivingRoomReq) : Response<LivingAreaListRes>
 
@@ -447,20 +404,14 @@ interface ApiService {
     @POST(value ="deleteLivingRoom")
     suspend fun deleteLivingRoom(@Body request: DeleteLivingRoomList) : Response<LivingAreaDelete>
 
-
     @POST(value ="toiletRoomListView")
     suspend fun getRfToiletListView(@Body request: LivingRoomReq) : Response<ToiletListRes>
-
-
-
 
     @POST(value ="toiletSectionListView")
     suspend fun toiletSectionListView(@Body request: LivingRoomReq) : Response<ToiletListRes>
 
     @POST(value ="deleteToiletRoom")
     suspend fun deleteToiletRoom(@Body request: ToiletDeleteList) : Response<LivingAreaDelete>
-
-
 
     @POST(value = "insertRfToiletRoomInformation")
     suspend fun insertRfToiletRoomInformation(@Body request: InsertToiletDataReq) : Response<ITLAbDetailsErrorResponse>
@@ -471,18 +422,11 @@ interface ApiService {
     @POST(value = "insertRfIndoorGameDetails")
     suspend fun insertRfIndoorGameDetails(@Body request: IndoorGamesRequest) : Response<ITLAbDetailsErrorResponse>
 
-
     @POST(value = "insertResidentialFacilitiesAvailable")
     suspend fun insertResidentialFacilitiesAvailable(@Body request: InsertResidentialFacility) : Response<ITLAbDetailsErrorResponse>
 
-
-
     @POST(value = "insertRFSupportFacilitiesAvailable")
     suspend fun insertRFSupportFacilitiesAvailable(@Body request: InsertSupportFacilitiesReq) : Response<ITLAbDetailsErrorResponse>
-
-
-
-
 
 //    Ajit Ranjan create 03/Novmber/2025  getRfNonLivingAreaInformation
     @POST(value ="getRfNonLivingAreaInformation")
@@ -490,19 +434,11 @@ interface ApiService {
                 (@Body request: LivingRoomListViewRQ) :
             Response<NonAreaInformationRoom>
 
-
-
-
-
-
 //    Ajit Ranjan create 04/Novmber/2025  getRfIndoorGameDetails
     @POST(value ="getRfIndoorGameDetails")
     suspend fun getRfIndoorGameDetails
                 (@Body request: RFGameRequest) :
             Response<IndoorRFGameResponse>
-
-
-
 
     //    Ajit Ranjan create 06/Novmber/2025  getResidentialFacilitiesAvailable
     @POST(value ="getResidentialFacilitiesAvailable")
@@ -510,9 +446,7 @@ interface ApiService {
                 (@Body request: RfCommonReq) :
             Response<RFResidintialFacilityResponse>
 
-
 //    Ajit Ranjan create 07/Novmber/2025  getRFSupportFacilitiesAvailable
-
     @POST(value = "getRFSupportFacilitiesAvailable")
     suspend fun getRFSupportFacilitiesAvailable(@Body request: RFGameRequest):
             Response<RFSupportFacilitiesAvailableResponse>
@@ -526,32 +460,20 @@ interface ApiService {
     @POST(value = "insertRFSrlmVerification")
     suspend fun getFinalSubmitInsertRFinsertRFSrlmVerificationData(@Body request: RFQteamVerificationRequest): Response<FinalSubmitRes>
 
-
-
-
 //    Ajit Ranjan create 07/Novmber/2025  getRFSRLMVerification
 
     @POST(value = "getRFSRLMVerification")
     suspend fun getRFSRLMVerification(@Body request: TrainingCenterRequest): Response<RfQTeamListRes>
-
-
-
-
-
 
     @POST(value ="getRFSectionStatus")
     suspend fun getRFSectionStatus
                 (@Body request: SectionReq) :
             Response<SectionResponse>
 
-
-
-
     @POST(value ="insertRFFinalSubmission")
     suspend fun insertRFFinalSubmission
                 (@Body request: RfFinalSubmitReq) :
             Response<RfFinalSubmitRes>
-
 
     @POST(value ="saveInitialResidentialFacility")
     suspend fun saveInitialResidentialFacility
@@ -562,7 +484,6 @@ interface ApiService {
     suspend fun getResidentialList
                 (@Body request: ModifyRfList) :
             Response<ModifyRFRes>
-
 
 //    Ajit Ranjan create 17/Nov/2025  getToiletCountList
     @POST(value ="getToiletCountList")
@@ -579,8 +500,6 @@ interface ApiService {
                 (@Body request: GetUrinalWashReq) :
             Response<GetUrinalWashRes>
 
-
-
     @POST("ulbList")
     suspend fun getUlbAPI( @Body ulbReq: ULBReq): Response<UlbRes>
 
@@ -595,6 +514,5 @@ interface ApiService {
         @Url url: String,
         @Body request: UidaiKycRequest
     ): Response<UidaiResp>
-
 
 }

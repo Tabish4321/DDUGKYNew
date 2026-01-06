@@ -139,12 +139,12 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
                         //    findNavController().navigate(SdrListFragmentDirections.actionSdrListFragmentToSdrVisitReport(formName,instituteName,finYear,instituteId))
                     } else {
-                        showAlertGeoFancingDialog(requireContext(),"Alert","❌ You are outside the institute area")
+                        showAlertGeoFancingDialog(requireContext(),"Alert"," You are outside the institute area")
 
                     }
                 } else {
-                    toastLong("❌ Failed to retrieve current location")
-                    showAlertGeoFancingDialog(requireContext(),"Alert","❌ Failed to retrieve current location Kindly on your gps from settings")
+                    toastLong(" Failed to retrieve current location")
+                    showAlertGeoFancingDialog(requireContext(),"Alert"," Failed to retrieve current location Kindly on your gps from settings")
                 }
             }
 

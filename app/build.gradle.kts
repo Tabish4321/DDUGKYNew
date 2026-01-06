@@ -1,3 +1,5 @@
+import java.util.Properties
+import kotlin.apply
 
 plugins {
     id("com.android.application")
@@ -11,12 +13,15 @@ android {
     namespace = "com.deendayalproject"
     compileSdk = 35
 
+    val  keystorePropertiesFile = rootProject.file("keystore.properties")
+    val  projectProperties=readProperties(keystorePropertiesFile)
+
     defaultConfig {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
         versionCode = 2
-        versionName = "1.0"
+        versionName = "1.1.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -24,14 +29,27 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
+            isCrunchPngs = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
+            buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
+            buildConfigField("String", "CRYPLIBAES", projectProperties["CRYPLIBAES"] as String)
+            buildConfigField("String", "WADH_KEY", projectProperties["WADH_KEY"] as String)
+            buildConfigField("String", "FACE_AUTH_UIADI", projectProperties["FACE_AUTH_UIADI"] as String)
+            buildConfigField("String", "CAPTURE_INTENT", projectProperties["CAPTURE_INTENT"] as String)
         }
         getByName("debug") {
             isMinifyEnabled = false
             isDebuggable = true
+            buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
+            buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
+            buildConfigField("String", "CRYPLIBAES", projectProperties["CRYPLIBAES"] as String)
+            buildConfigField("String", "WADH_KEY", projectProperties["WADH_KEY"] as String)
+            buildConfigField("String", "FACE_AUTH_UIADI", projectProperties["FACE_AUTH_UIADI"] as String)
+            buildConfigField("String", "CAPTURE_INTENT", projectProperties["CAPTURE_INTENT"] as String)
         }
     }
 
@@ -49,6 +67,12 @@ android {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = "11"
+    }
+}
+
+fun readProperties(propertiesFile: File) = Properties().apply {
+    propertiesFile.inputStream().use { fis ->
+        load(fis)
     }
 }
 
@@ -128,6 +152,7 @@ dependencies {
 
     }
 }
+
 kapt {
     correctErrorTypes = false
 }

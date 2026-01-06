@@ -202,7 +202,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             return false
         }
 
-        if (password.isEmpty()) {
+        if (password.isEmpty())
+        {
             showToast("Please enter password")
             binding.etPassword.requestFocus()
             showKeyboard(binding.etPassword)

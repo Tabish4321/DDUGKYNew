@@ -7598,7 +7598,7 @@ class TrainingFragment : Fragment() {
                 when (it.responseCode) {
                     200 -> {
                         // ✅ Get list from API and update adapter
-                        val list = it.wrappedList ?: emptyList()
+                        val list = it.wrappedList
                         Academicadapter.updateData(list)
 
                         // ✅ Print largest roomNo in Logcat

@@ -1,4 +1,5 @@
 package com.deendayalproject.adapter
+import RetrofitClient.BASE_URL
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -109,8 +110,9 @@ class AcademicAreaAdapter(
 
                 val jsonBody = """
                     {
-                        "loginId": "$loginId",
+                        "loginId": "$loginId", 
                         "imeiNo": "$imeiNo",
+                        
                         "appVersion": "$appVersion",
                         "tcId": "$tcId",
                         "sanctionOrder": "$sanctionOrder",
@@ -121,12 +123,12 @@ class AcademicAreaAdapter(
 
                 val body = jsonBody.toRequestBody(mediaType)
                 val request = Request.Builder()
-                   // .url("https://kaushal.dord.gov.in/demobackend/ddugkyapp/deleteAcademicRoom")
-                    .url("https://kaushal.rural.gov.in/backend/ddugkyapp/deleteAcademicRoom")
+                    .url("${RetrofitClient.getUrl()}deleteAcademicRoom")
                     .post(body)
                     .addHeader("ddugkyappauth", "Bearer $token")
                     .addHeader("Content-Type", "application/json")
                     .build()
+
 
                 val response = client.newCall(request).execute()
                 val responseBody = response.body?.string()
@@ -144,7 +146,7 @@ class AcademicAreaAdapter(
                         }
                     }
                 } else {
-                    Log.e("DeleteAPI", "❌ Failed: ${response.code} | Body: $responseBody")
+                    Log.e("DeleteAPI", "Failed: ${response.code} | Body: $responseBody")
                     activity?.runOnUiThread {
                         Toast.makeText(context, "Delete failed (${response.code})", Toast.LENGTH_SHORT).show()
                     }

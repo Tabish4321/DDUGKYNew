@@ -839,30 +839,19 @@ class RFQTeamFormFragment : Fragment() {
             } else {
                 selectedRFToiletAdditionalSanctionRemarks = ""
             }
-
             // ✅ Step 3: Proceed only if validation successful
-
-
-
             binding.RFTioletAdditionalSectionLayout.AdditionalSectionExpand.visibility = View.GONE
             binding.RFTioletAdditionalSectionLayout.viewToiletAdditionalSection.visibility = View.GONE
             binding.tvRFConstraintLayoutNonLivingArea.visibility = View.VISIBLE
-
-
-
             binding.RFTioletAdditionalSectionLayout.tvToiletAdditionalSection.setCompoundDrawablesWithIntrinsicBounds(
                 R.drawable.toilet,
                 0,
                 R.drawable.ic_verified,
                 0
             )
-
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
             }
-
-
-
 
 // ✅ Step 4: Proceed to API call for Non-Living Area Information
             val requestLRLVRQ = LivingRoomListViewRQ(
@@ -874,12 +863,6 @@ class RFQTeamFormFragment : Fragment() {
 
             viewModel.getRfNonLivingAreaInformation(requestLRLVRQ)
             NonAreaInformation()
-
-
-
-
-
-
         }
 
 
@@ -890,24 +873,9 @@ class RFQTeamFormFragment : Fragment() {
 
         }
 
-
-
-
-
-
-
-
-
     }
 
-
-
-
-
-
-
     @SuppressLint("SetTextI18n", "SuspiciousIndentation")
-
     private fun NonAreaInformation() {
         viewModel.NonAreaInformationRoom.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
@@ -921,9 +889,6 @@ class RFQTeamFormFragment : Fragment() {
                         Log.d("RFQTeamFrom", "NonAreaInformation Success Response:\n$jsonResponse")
 
                         for (x in tcInfoData) {
-
-
-
                             binding.RFNonLivingAreaLayout.WhetherFoodFor.text = safeText(x.preparedFood)
                             binding.RFNonLivingAreaLayout.reTheDiningAndRecreationAreaSeparate.text = safeText(x.separateAreas)
                             binding.RFNonLivingAreaLayout.NoOfStoolsChairsBenches.text = safeText(x.noOfSeats)
@@ -972,7 +937,6 @@ class RFQTeamFormFragment : Fragment() {
                                 binding.RFNonLivingAreaLayout.LinLayOutrecreationAndDiningNo.visibility=View.VISIBLE
                                 binding.RFNonLivingAreaLayout.recreationAndDiningYes.visibility=View.GONE
                                 binding.RFNonLivingAreaLayout.recreationAndDiningFile.visibility=View.GONE
-
                             }
                             else{
 
@@ -981,7 +945,6 @@ class RFQTeamFormFragment : Fragment() {
                                 binding.RFNonLivingAreaLayout.LinLayOutrecreationAndDiningNo.visibility=View.GONE
                                 binding.RFNonLivingAreaLayout.recreationFile.visibility=View.GONE
                             }
-
                         }
                     }
 
@@ -1132,9 +1095,6 @@ class RFQTeamFormFragment : Fragment() {
                             binding.infrastructureDetailsAndCompliancesLayout.FoodSpecificationBoard.text = x.foodSpecificationBoard
                             binding.infrastructureDetailsAndCompliancesLayout.Area.text = x.openSpaceArea
 
-
-
-
                             binding.infrastructureDetailsAndCompliancesLayout.OnwershipOfBuldingFile.setOnClickListener {
                                 showBase64ImageDialog(requireContext(), x.selfDeclaration, "RFQInfraDetailbuildingPhotosFile")
 //                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
@@ -1143,7 +1103,7 @@ class RFQTeamFormFragment : Fragment() {
 
                             binding.infrastructureDetailsAndCompliancesLayout.BuildingAreaSQFPlanFile.setOnClickListener {
                                 showBase64ImageDialog(requireContext(), x.buildingPlanFile, "")
-//
+
                             }
 
 
