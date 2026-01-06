@@ -84,6 +84,7 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
 //        }
     }
 
+
     override fun loadInitialData() {
         // Make API call
         fetchResidentialFacilityQTeamList()
@@ -153,7 +154,6 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
             } else {
                 dismissProgressDialog()
             }
-
            // binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
@@ -164,30 +164,25 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
         binding.senctionOrder.text = safeText(center.senctionOrder)
         binding.districtName.text =safeText(center.districtName)
         binding.totalCapacity.text=center.finalRfCapacity?:"N/A"
-        if(center.residentialType.equals("male",ignoreCase = true)){
-            binding.residenctialIcon.setImageResource(R.drawable.baseline_boy_24)
-            binding.residenctialType.text="Male"
-        }else{
-            binding.residenctialIcon.setImageResource(R.drawable.baseline_girl_24)
-            binding.residenctialType.text="Female"
-        }
-
+        binding.residenctialIcon.setImageResource(
+            if (center.residentialType.equals("Male"))
+                R.drawable.baseline_boy_24
+            else
+                R.drawable.baseline_girl_24
+        )
+        binding.residenctialType.text= center.residentialType
     }
-
     private fun navigateToForm(center: RfCenter) {
         try {
             // Safely handle null values
-            val action =
-                RFQTeamListFragmentDirections.actionRFQTeamListFragmentToRFQTeamFormFragment(
+            val action = RFQTeamListFragmentDirections.actionRFQTeamListFragmentToRFQTeamFormFragment(
                     center.trainingCenterId.toString(),
                     center.trainingCenterName,
                     center.senctionOrder,
                     center.facilityId
                 )
             findNavController().navigate(action)
-
            // findNavController().navigate(action)
-
         } catch (e: Exception) {
             logCrashlyticsError("navigateToForm", e)
             showErrorToast("Failed to navigate: ${e.message}")
@@ -199,6 +194,4 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
         clearRecyclerViewData(binding.recyclerView.id)
         super.onDestroyView()
     }
-
-
 }
