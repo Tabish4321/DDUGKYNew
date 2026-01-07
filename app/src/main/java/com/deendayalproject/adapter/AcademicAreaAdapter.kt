@@ -1,5 +1,4 @@
 package com.deendayalproject.adapter
-import RetrofitClient.BASE_URL
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context

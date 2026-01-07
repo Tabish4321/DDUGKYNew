@@ -212,17 +212,6 @@ object AppUtil {
         return sharedPreferences.getString("facilityId", "") ?: ""
     }
 
-
-
-
-
-
-
-
-
-
-
-
     fun sha512Hash(input: String): String {
         val digest = MessageDigest.getInstance("SHA-512")
         val hashBytes = digest.digest(input.toByteArray(Charsets.UTF_8))

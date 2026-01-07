@@ -1,6 +1,7 @@
 package com.deendayalproject.repository
 
 import android.content.Context
+import com.deendayalproject.BuildConfig.USER_NAME_FOR_APP
 import com.deendayalproject.base.BaseRepository
 import com.deendayalproject.network.ApiService
 import com.deendayalproject.model.LoginErrorResponse
@@ -19,7 +20,7 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
                 val body = response.body()
                 if (body?.responseCode == 200 && !body.accessToken.isNullOrEmpty()) {
                     Result.success(body)
-                } else if(body?.responseDesc == "DDUGKYUSERDESC"){
+                } else if(body?.responseDesc == USER_NAME_FOR_APP){
                     Result.success(body)
                 }else {
                     Result.failure(Exception(body?.responseDesc ?: "Login failed"))
@@ -35,7 +36,7 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
     }
 
     suspend fun fetchModules(request: ModulesRequest, token: String): Result<ModuleResponse> {
-        return if(request.loginId == "DDUGKYUSER")safeApiCall{  apiService.fetchModules(request)  }
+        return if(request.loginId == USER_NAME_FOR_APP)safeApiCall{  apiService.fetchModules(request)  }
           else safeApiCallWithToken(token) {
             apiService.fetchModules(request)
         }

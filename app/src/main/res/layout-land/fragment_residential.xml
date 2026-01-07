@@ -79,7 +79,6 @@
                     android:shadowRadius="4"
                     android:layout_marginStart="12dp"
                     app:layout_constraintStart_toEndOf="@id/btnBack"
-                    app:layout_constraintEnd_toStartOf="@id/changeLanguage"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_bias="0" />

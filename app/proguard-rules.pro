@@ -1,19 +1,16 @@
 # ---------- Attributes ----------
 -keepattributes *Annotation*, Signature, Exceptions, InnerClasses, RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
 
-
 # ---------- Kotlin ----------
 -keep class kotlin.** { *; }
 -dontwarn kotlin.**
 -keep class kotlinx.coroutines.** { *; }
 -dontwarn kotlinx.coroutines.**
 
-
 # ---------- ViewModel ----------
 -keepclassmembers class * extends androidx.lifecycle.ViewModel {
     public <init>(...);
 }
-
 
 # ---------- Hilt / Dagger ----------
 -keep class dagger.hilt.internal.** { *; }
@@ -43,6 +40,10 @@
 
 # ---------- Models ----------
 -keep class com.deendayalproject.model.** { *; }
+-keep class com.deendayalproject.uidai.** { *; }
+
+
+
 
 # ---------- Parcelable ----------
 -keepclassmembers class * implements android.os.Parcelable {
@@ -60,6 +61,15 @@
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
+
+
+
+#-------------Xstream------------
+-dontwarn java.awt.**
+-dontwarn javax.swing.**
+-dontwarn com.thoughtworks.xstream.converters.extended.**
+-dontwarn aQute.bnd.annotation.spi.**
+
 
 # ---------- Debug Info ----------
 -keepattributes SourceFile,LineNumberTable

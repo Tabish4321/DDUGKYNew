@@ -20,38 +20,101 @@ android {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
-        versionCode = 2
-        versionName = "1.1.2"
+        versionCode = 3
+        versionName = "1.1.4"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+
+//    buildTypes {
+//        getByName("release") {
+//            isMinifyEnabled = true
+//            isShrinkResources = true
+//            isCrunchPngs = true
+//            isDebuggable = false
+//
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
+//            buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
+//            buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
+//            buildConfigField("String", "CRYPLIBAES", projectProperties["CRYPLIBAES"] as String)
+//            buildConfigField("String", "WADH_KEY", projectProperties["WADH_KEY"] as String)
+//            buildConfigField("String", "FACE_AUTH_UIADI", projectProperties["FACE_AUTH_UIADI"] as String)
+//            buildConfigField("String", "CAPTURE_INTENT", projectProperties["CAPTURE_INTENT"] as String)
+//            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
+//        }
+//        getByName("debug") {
+//            isMinifyEnabled = false
+//            isDebuggable = true
+//            buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
+//            buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
+//            buildConfigField("String", "CRYPLIBAES", projectProperties["CRYPLIBAES"] as String)
+//            buildConfigField("String", "WADH_KEY", projectProperties["WADH_KEY"] as String)
+//            buildConfigField("String", "FACE_AUTH_UIADI", projectProperties["FACE_AUTH_UIADI"] as String)
+//            buildConfigField("String", "CAPTURE_INTENT", projectProperties["CAPTURE_INTENT"] as String)
+//            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
+//        }
+//        create("demo") {
+//            isMinifyEnabled = false
+//            isDebuggable = true
+//            buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
+//            buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
+//            buildConfigField("String", "CRYPLIBAES", projectProperties["CRYPLIBAES"] as String)
+//            buildConfigField("String", "WADH_KEY", projectProperties["WADH_KEY"] as String)
+//            buildConfigField("String", "FACE_AUTH_UIADI", projectProperties["FACE_AUTH_UIADI"] as String)
+//            buildConfigField("String", "CAPTURE_INTENT", projectProperties["CAPTURE_INTENT"] as String)
+//            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
+//        }
+//    }
 
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            isCrunchPngs = true
+            isDebuggable = false
+            applicationIdSuffix = ""
+            versionNameSuffix = ""
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
-            buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
-            buildConfigField("String", "CRYPLIBAES", projectProperties["CRYPLIBAES"] as String)
-            buildConfigField("String", "WADH_KEY", projectProperties["WADH_KEY"] as String)
-            buildConfigField("String", "FACE_AUTH_UIADI", projectProperties["FACE_AUTH_UIADI"] as String)
-            buildConfigField("String", "CAPTURE_INTENT", projectProperties["CAPTURE_INTENT"] as String)
         }
         getByName("debug") {
             isMinifyEnabled = false
             isDebuggable = true
-            buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
-            buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
-            buildConfigField("String", "CRYPLIBAES", projectProperties["CRYPLIBAES"] as String)
-            buildConfigField("String", "WADH_KEY", projectProperties["WADH_KEY"] as String)
-            buildConfigField("String", "FACE_AUTH_UIADI", projectProperties["FACE_AUTH_UIADI"] as String)
-            buildConfigField("String", "CAPTURE_INTENT", projectProperties["CAPTURE_INTENT"] as String)
         }
     }
+
+    defaultConfig {
+        buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
+        buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
+        buildConfigField("String", "CRYPLIBAES", projectProperties["CRYPLIBAES"] as String)
+        buildConfigField("String", "WADH_KEY", projectProperties["WADH_KEY"] as String)
+        buildConfigField("String", "FACE_AUTH_UIADI", projectProperties["FACE_AUTH_UIADI"] as String)
+        buildConfigField("String", "CAPTURE_INTENT", projectProperties["CAPTURE_INTENT"] as String)
+        buildConfigField("String", "USER_NAME_FOR_APP", projectProperties["USER_NAME_FOR_APP"] as String)
+
+    }
+
+
+    flavorDimensions += "environment"
+
+    productFlavors {
+        create("prod") {
+            dimension = "environment"
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
+        }
+
+        create("demo") {
+            dimension = "environment"
+            applicationIdSuffix = ".demo"
+            versionNameSuffix = "-demo"
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
+        }
+    }
+
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -128,9 +191,6 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
 
-
-
-
     implementation("org.bouncycastle:bcprov-jdk16:1.46")
     implementation("javax.xml.crypto:jsr105-api:1.0.1")
     implementation("com.fasterxml.jackson.core:jackson-core:2.15.0")
@@ -144,8 +204,10 @@ dependencies {
     implementation("org.apache.santuario:xmlsec:2.0.3") {
         exclude(group = "org.codehaus.woodstox")
     }
+
     implementation("com.thoughtworks.xstream:xstream:1.4.7") {
         exclude(group = "xmlpull", module = "xmlpull")
+        exclude(group="xpp3", module="xpp3_min")
 
         implementation("com.github.bumptech.glide:glide:4.16.0")
         kapt("com.github.bumptech.glide:compiler:4.16.0")

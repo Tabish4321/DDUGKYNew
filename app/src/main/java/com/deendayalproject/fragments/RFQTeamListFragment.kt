@@ -174,7 +174,6 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
     }
     private fun navigateToForm(center: RfCenter) {
         try {
-            // Safely handle null values
             val action = RFQTeamListFragmentDirections.actionRFQTeamListFragmentToRFQTeamFormFragment(
                     center.trainingCenterId.toString(),
                     center.trainingCenterName,
@@ -190,7 +189,6 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
     }
 
     override fun onDestroyView() {
-        // Clear recycler view data
         clearRecyclerViewData(binding.recyclerView.id)
         super.onDestroyView()
     }
