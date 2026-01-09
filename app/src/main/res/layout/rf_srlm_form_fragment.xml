@@ -16,47 +16,12 @@
         android:clipToPadding="false"
         android:clipChildren="false">
 
-        <androidx.appcompat.widget.Toolbar
+        <include
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_100"
-            android:background="@color/color_dark_blue"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_constraintTop_toTopOf="parent"
+            layout="@layout/layout_toolbar_base"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/backButton"
-                android:layout_marginStart="@dimen/dp_20"
-                android:padding="@dimen/dp_5"
-                android:scaleType="fitCenter"
-                android:src="@drawable/back_arrow"/>
-            <TextView
-                android:layout_width="@dimen/dp_100"
-                android:layout_height="wrap_content"
-                android:text="@string/residential_facility_srlm"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_16"/>
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="150dp"
-                android:layout_height="@dimen/dp_60"
-                android:layout_gravity="end"
-                android:id="@+id/logo"
-                android:background="@color/white"
-                android:padding="@dimen/dp_5"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ddy_logo"
-                app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
-
-
-
-        </androidx.appcompat.widget.Toolbar>
-
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -71,7 +36,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvTrainingInfo"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_20"
@@ -94,7 +59,7 @@
         <!--        tvinfrastructure_details_and_compliances-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvinfrastructure_details_and_compliances"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -119,7 +84,7 @@
         <!--        Living Area Information -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvlivingareainformation"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -143,7 +108,7 @@
         <!--        RFTiolet -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvRFTiolet"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -170,7 +135,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvRFtoiletAdditionalSection"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -199,7 +164,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvRFConstraintLayoutNonLivingArea"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -224,7 +189,7 @@
         <!--        RFIndoorGame Ajit Ranjan 04/11/2025 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvRFConstraintLayoutIndoorGame"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -248,7 +213,7 @@
         <!--        RFResidentialFacilitiesAvailable Ajit Ranjan 04/11/2025 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/RFResidentialConstraintLayoutFacilitiesAvailable"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -273,7 +238,7 @@
         <!--        RFRFSupportFacilitiesAvailable Ajit Ranjan 07/11/2025 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/RFRFSupportFacilitiesAvailable"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

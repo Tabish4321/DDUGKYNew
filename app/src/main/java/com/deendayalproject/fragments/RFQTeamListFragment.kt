@@ -154,7 +154,6 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
             } else {
                 dismissProgressDialog()
             }
-           // binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 

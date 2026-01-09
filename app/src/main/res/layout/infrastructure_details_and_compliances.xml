@@ -21,7 +21,6 @@
             android:layout_height="match_parent"
             android:id="@+id/tvIDC"
             android:gravity="center"
-
             android:fontFamily="@font/avenir_next_semi_bold"
             android:text="@string/infrastructure_details_and_compliances"
             android:textColor="@color/light_blue"
@@ -815,8 +814,8 @@
             android:id="@+id/IDCRemarks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
             android:text="@string/remarkss"
+            android:layout_marginTop="@dimen/dp_20"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             android:visibility="gone"
@@ -825,13 +824,14 @@
 
         <EditText
             android:id="@+id/etIDCRemarks"
+            android:visibility="gone"
             style="@style/EditText"
-            android:background="@drawable/edittext_background"
             android:hint="@string/remarks"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/edittext_background"
             android:padding="12dp"
             android:textColor="@android:color/black"
             android:textSize="16sp"
-            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/IDCRemarks" />
 

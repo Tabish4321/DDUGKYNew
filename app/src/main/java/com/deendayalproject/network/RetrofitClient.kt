@@ -11,15 +11,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitClient {
     fun getUrl()= BuildConfig.BASE_URL
     fun getApiService(context: Context): ApiService {
-
         val tokenInterceptor = TokenInterceptor(context)
-
         val client = OkHttpClient.Builder()
             .cache(null)
             .addInterceptor(tokenInterceptor)
             .addInterceptor(LoggingInterceptor())
             .build()
-
         return Retrofit.Builder()
             .baseUrl(getUrl())
             .client(client)
@@ -27,6 +24,4 @@ object RetrofitClient {
             .build()
             .create(ApiService::class.java)
     }
-
-    
 }

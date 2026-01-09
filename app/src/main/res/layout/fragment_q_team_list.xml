@@ -5,49 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_100"
-        android:background="@color/color_dark_blue"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
-        >
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/backButton"
-            android:layout_marginStart="@dimen/dp_20"
-            android:padding="@dimen/dp_5"
-            android:scaleType="fitCenter"
-            android:src="@drawable/back_arrow"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/training_list"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_16"/>
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="150dp"
-            android:layout_height="@dimen/dp_60"
-            android:layout_marginStart="@dimen/dp_100"
-            android:background="@color/white"
-            android:padding="@dimen/dp_5"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ddy_logo"
-            app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
-
-
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <include layout="@layout/layout_toolbar_base" />
+    <include
+         android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar_base" />
 
 
     <ProgressBar

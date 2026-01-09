@@ -64,7 +64,7 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
     }
 
     override fun setupClickListeners() {
-        binding.backButton.setOnClickListener {
+        binding.toolbar.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
     }

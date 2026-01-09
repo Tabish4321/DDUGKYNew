@@ -10,64 +10,23 @@ plugins {
 }
 
 android {
+
+
     namespace = "com.deendayalproject"
     compileSdk = 35
 
     val  keystorePropertiesFile = rootProject.file("keystore.properties")
     val  projectProperties=readProperties(keystorePropertiesFile)
 
+
     defaultConfig {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.1.4"
+        versionCode = 4
+        versionName = "1.1.5"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
-
-//    buildTypes {
-//        getByName("release") {
-//            isMinifyEnabled = true
-//            isShrinkResources = true
-//            isCrunchPngs = true
-//            isDebuggable = false
-//
-//            proguardFiles(
-//                getDefaultProguardFile("proguard-android-optimize.txt"),
-//                "proguard-rules.pro"
-//            )
-//            buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
-//            buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
-//            buildConfigField("String", "CRYPLIBAES", projectProperties["CRYPLIBAES"] as String)
-//            buildConfigField("String", "WADH_KEY", projectProperties["WADH_KEY"] as String)
-//            buildConfigField("String", "FACE_AUTH_UIADI", projectProperties["FACE_AUTH_UIADI"] as String)
-//            buildConfigField("String", "CAPTURE_INTENT", projectProperties["CAPTURE_INTENT"] as String)
-//            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
-//        }
-//        getByName("debug") {
-//            isMinifyEnabled = false
-//            isDebuggable = true
-//            buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
-//            buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
-//            buildConfigField("String", "CRYPLIBAES", projectProperties["CRYPLIBAES"] as String)
-//            buildConfigField("String", "WADH_KEY", projectProperties["WADH_KEY"] as String)
-//            buildConfigField("String", "FACE_AUTH_UIADI", projectProperties["FACE_AUTH_UIADI"] as String)
-//            buildConfigField("String", "CAPTURE_INTENT", projectProperties["CAPTURE_INTENT"] as String)
-//            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
-//        }
-//        create("demo") {
-//            isMinifyEnabled = false
-//            isDebuggable = true
-//            buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
-//            buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
-//            buildConfigField("String", "CRYPLIBAES", projectProperties["CRYPLIBAES"] as String)
-//            buildConfigField("String", "WADH_KEY", projectProperties["WADH_KEY"] as String)
-//            buildConfigField("String", "FACE_AUTH_UIADI", projectProperties["FACE_AUTH_UIADI"] as String)
-//            buildConfigField("String", "CAPTURE_INTENT", projectProperties["CAPTURE_INTENT"] as String)
-//            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
-//        }
-//    }
 
     buildTypes {
         getByName("release") {
@@ -86,7 +45,6 @@ android {
             isDebuggable = true
         }
     }
-
     defaultConfig {
         buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
         buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
@@ -95,7 +53,6 @@ android {
         buildConfigField("String", "FACE_AUTH_UIADI", projectProperties["FACE_AUTH_UIADI"] as String)
         buildConfigField("String", "CAPTURE_INTENT", projectProperties["CAPTURE_INTENT"] as String)
         buildConfigField("String", "USER_NAME_FOR_APP", projectProperties["USER_NAME_FOR_APP"] as String)
-
     }
 
 
@@ -109,12 +66,12 @@ android {
 
         create("demo") {
             dimension = "environment"
-            applicationIdSuffix = ".demo"
-            versionNameSuffix = "-demo"
+            applicationIdSuffix = ""
+
+            versionNameSuffix = ""
             buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
         }
     }
-
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
