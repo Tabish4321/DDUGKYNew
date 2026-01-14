@@ -11,7 +11,7 @@ val appCode: String?
 
 data class FacultyAttendance(
     val langitude: String,
-    val loginId: String,
+    val loginId: Int,
     val aadhaarNo: String,
     val gender: String,
     val totalHours: String,

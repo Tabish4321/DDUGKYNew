@@ -2,15 +2,22 @@ package com.deendayalproject.fragments
 
 
 import SharedViewModel
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.adapter.AttendanceCandidateAdapter
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentAttendanceCandidateListBinding
+import com.deendayalproject.model.request.AttendanceBatchListReq
+import com.deendayalproject.model.request.AttendanceCandidateListReq
 import com.deendayalproject.model.response.AttendanceCandidateRes
 import com.deendayalproject.model.response.Candidate
+import com.deendayalproject.util.AppUtil
+import kotlinx.coroutines.launch
 import kotlin.getValue
 
 
@@ -22,8 +29,9 @@ class AttendanceCandidateListFragment : BaseFragment<FragmentAttendanceCandidate
         private lateinit var candidateListAdapter: AttendanceCandidateAdapter
         private var AttendanceCandidateList = mutableListOf<Candidate>()
 
-        private var batchId = ""
+        private var batchId = 0
         private var batchName = ""
+        private var batchRegNo = ""
 
 
 
@@ -31,19 +39,22 @@ class AttendanceCandidateListFragment : BaseFragment<FragmentAttendanceCandidate
             viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
 
-            batchId = arguments?.getString("batchId").toString()
+
+            batchId = arguments?.getInt("batchId",0)!!
             batchName = arguments?.getString("batchName").toString()
-            val response = AttendanceCandidateDummy.response
+            batchRegNo = arguments?.getString("batchRegNo").toString()
 
             setupRecyclerView()
+            collectCandidateListRes()
 
-            AttendanceCandidateList.clear()
+            viewModel.getAttendanceCandidateListAPI(
+                AttendanceCandidateListReq(batchId,
+                    BuildConfig.VERSION_NAME
+                ), AppUtil.getSavedTokenPreference(requireContext())
+            )
 
-            for (x in response.wrappedList)
-            {
+            showProgressDialog("Loading...")
 
-                AttendanceCandidateList.add(x)
-            }
 
         }
 
@@ -64,47 +75,54 @@ class AttendanceCandidateListFragment : BaseFragment<FragmentAttendanceCandidate
 
         private fun setupRecyclerView() {
 
-            candidateListAdapter = AttendanceCandidateAdapter(AttendanceCandidateList)
+            candidateListAdapter = AttendanceCandidateAdapter(AttendanceCandidateList, candidateRegNo = batchRegNo)
             binding.recyclerViewCandidates.layoutManager = LinearLayoutManager(requireContext())
             binding.recyclerViewCandidates.adapter = candidateListAdapter
         }
 
-    object AttendanceCandidateDummy {
+    private fun collectCandidateListRes() {
+        lifecycleScope.launch {
+            viewModel.getAttendanceCandidateListAPI.observe(viewLifecycleOwner) { it ->
+                it.onSuccess { response ->
+                    dismissProgressDialog()
 
-        val response = AttendanceCandidateRes(
-            wrappedList = listOf(
-                Candidate(
-                    "Rahul Kumar",
-                    101,
-                    "9876543210",
-                    1,
-                    "CAND001",
-                    "Patna, Bihar",
-                    "1998-05-12",
-                    "rahul@gmail.com",
-                    "Male",
-                    "XXXX-XXXX-1234",
-                    ""
-                ),
-                Candidate(
-                    "Anita Devi",
-                    102,
-                    "9123456780",
-                    1,
-                    "CAND002",
-                    "Gaya, Bihar",
-                    "1999-09-20",
-                    "anita@gmail.com",
-                    "Female",
-                    "XXXX-XXXX-5678",
-                    ""
-                )
-            ),
-            responseCode = 200,
-            responseDesc = "Success",
-            responseMsg = "Static data",
-            appCode = null
-        )
+                    when (response.responseCode) {
+                        200 -> {
+
+                            AttendanceCandidateList.clear()
+
+                            for (x in response.wrappedList)
+                            {
+
+                                AttendanceCandidateList.add(x)
+                            }
+                            candidateListAdapter.notifyDataSetChanged()
+
+                        }
+
+                        //  populateSpinnerVillage((response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>, spinnerSelectULB )
+
+                        202 -> Toast.makeText(
+                            requireContext(), "No data available.", Toast.LENGTH_SHORT
+                        ).show()
+
+                        301 -> Toast.makeText(
+                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                        ).show()
+
+                        401 -> AppUtil.showSessionExpiredDialog(
+                            findNavController(), requireContext()
+                        )
+                    }
+                }
+                it.onFailure {
+                    dismissProgressDialog()
+
+                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
     }
 
 }

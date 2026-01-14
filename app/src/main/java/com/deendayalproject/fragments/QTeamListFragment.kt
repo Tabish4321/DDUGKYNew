@@ -122,14 +122,14 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
     private fun handleTrainingCenterClick(center: TrainingCenter) {
         logFragmentEvent("Training_Center_Clicked", center.trainingCenterId.toString())
         navigateToForm(center)
-        checkGeofence(center) { inside, location ->
-            if (inside) {
-                navigateToForm(center)
-            } else {
-                showErrorToast("You are outside the training center area")
-            }
-
-        }
+//        checkGeofence(center) { inside, location ->
+//            if (inside) {
+//                navigateToForm(center)
+//            } else {
+//                showErrorToast("You are outside the training center area")
+//            }
+//
+//        }
     }
 
     private fun navigateToForm(center: TrainingCenter) {

@@ -5201,4 +5201,9 @@ class ResidentialFacilityFragment : Fragment() {
         binding.ivToiletFlooringPreview.visibility = View.GONE
         binding.ivRunningWaterPreview.visibility = View.GONE
     }
+
+
+
+
+
 }

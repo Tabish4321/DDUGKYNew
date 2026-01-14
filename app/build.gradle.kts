@@ -1,6 +1,5 @@
 import java.util.Properties
 import kotlin.apply
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -10,8 +9,6 @@ plugins {
 }
 
 android {
-
-
     namespace = "com.deendayalproject"
     compileSdk = 35
 
@@ -67,7 +64,6 @@ android {
         create("demo") {
             dimension = "environment"
             applicationIdSuffix = ""
-
             versionNameSuffix = ""
             buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
         }
@@ -126,6 +122,7 @@ dependencies {
     // Hilt
     implementation("com.google.dagger:hilt-android:2.51")
     implementation(libs.androidx.datastore.core.android)
+
     kapt("com.google.dagger:hilt-compiler:2.51")
     kapt("androidx.hilt:hilt-compiler:1.1.0")
 
@@ -148,6 +145,9 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
 
+
+
+
     implementation("org.bouncycastle:bcprov-jdk16:1.46")
     implementation("javax.xml.crypto:jsr105-api:1.0.1")
     implementation("com.fasterxml.jackson.core:jackson-core:2.15.0")
@@ -161,7 +161,6 @@ dependencies {
     implementation("org.apache.santuario:xmlsec:2.0.3") {
         exclude(group = "org.codehaus.woodstox")
     }
-
     implementation("com.thoughtworks.xstream:xstream:1.4.7") {
         exclude(group = "xmlpull", module = "xmlpull")
         exclude(group="xpp3", module="xpp3_min")
@@ -171,7 +170,6 @@ dependencies {
 
     }
 }
-
 kapt {
     correctErrorTypes = false
 }

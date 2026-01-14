@@ -22,6 +22,11 @@ object AppConstant {
     const val WADH_KEY=BuildConfig.WADH_KEY
     var LANGUAGE = "en"
 
+    const val ENCRYPT_IV_KEY = "\$10A80\$10A80\$10A"
+    const val ENCRYPT_KEY = "\$10A80\$10A80\$10A"
+
+
+
 }
 
 

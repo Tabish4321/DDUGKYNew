@@ -3,15 +3,25 @@ package com.deendayalproject.repository
 import android.content.Context
 import com.bumptech.glide.load.engine.Resource
 import com.deendayalproject.base.BaseRepository
+import com.deendayalproject.model.request.AttendanceBatchListReq
+import com.deendayalproject.model.request.AttendanceCandidateListReq
+import com.deendayalproject.model.request.AttendanceCheckReq
+import com.deendayalproject.model.request.AttendanceInsertReq
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.GpRequest
+import com.deendayalproject.model.request.InsertFacultyAttendance
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.ULBReq
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.WardReq
+import com.deendayalproject.model.response.AttendanceBatchRes
+import com.deendayalproject.model.response.AttendanceCandidateRes
+import com.deendayalproject.model.response.AttendanceCheckRes
+import com.deendayalproject.model.response.AttendanceInsertRes
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.DistrictResponse
+import com.deendayalproject.model.response.FacultyDetailsRes
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.StateResponse
 import com.deendayalproject.model.response.UlbRes
@@ -59,6 +69,48 @@ class LocationRepository(context: Context) : BaseRepository<ApiService>(context)
         safeApiCallWithToken(token = header) {
             apiService.getWardAPI(wardReq)
         }
+
+
+    suspend fun getAttendanceBatchListAPI(attendanceBatchListReq: AttendanceBatchListReq, header :String): Result<AttendanceBatchRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.getAttendanceBatchListAPI(attendanceBatchListReq)
+        }
+
+
+
+
+    suspend fun getAttendanceCandidateListAPI(attendanceCandidateListReq: AttendanceCandidateListReq, header :String): Result<AttendanceCandidateRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.getAttendanceCandidateListAPI(attendanceCandidateListReq)
+        }
+
+
+
+    suspend fun getAttendanceCheckAPI(attendanceCheckReq: AttendanceCheckReq, header :String): Result<AttendanceCheckRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.getAttendanceCheckAPI(attendanceCheckReq)
+        }
+
+
+    suspend fun insertAttendance(attendanceInsertReq: AttendanceInsertReq, header :String): Result<AttendanceInsertRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.insertAttendance(attendanceInsertReq)
+        }
+
+
+    suspend fun insertFacultyAttandance(insertFacultyAttendance: InsertFacultyAttendance, header :String): Result<AttendanceInsertRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.insertFacultyAttandance(insertFacultyAttendance)
+        }
+
+
+
+    suspend fun getFacultyDetails(attendanceCandidateListReq: AttendanceCandidateListReq, header :String): Result<FacultyDetailsRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.getFacultyDetails(attendanceCandidateListReq)
+        }
+
+
 
 
 
