@@ -398,8 +398,7 @@ class SrlmVerificationForm : Fragment() {
                     latValue = location.latitude.toString()
                     langValue = location.longitude.toString()
                 } else {
-                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT).show()
                 }
             }.addOnFailureListener {
                 Toast.makeText(
@@ -411,9 +410,6 @@ class SrlmVerificationForm : Fragment() {
 
 
     private fun listener() {
-
-
-
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = DescriptionAcademiaAdapter(academiaList) { room ->
@@ -2620,7 +2616,6 @@ class SrlmVerificationForm : Fragment() {
 
         }
         binding.signageLayout.btnSignagePrevious.setOnClickListener {
-
             binding.trainingElectricalDetailsExpand.visibility = View.VISIBLE
             binding.viewElectricalDetails.visibility = View.VISIBLE
             binding.mainSignageBoardDetails.visibility = View.GONE
@@ -2652,8 +2647,6 @@ class SrlmVerificationForm : Fragment() {
                 }
             } else selectedTcIpEnableRemarks = ""
 
-
-
             val requestTcInfraReq = TrainingCenterInfo(
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -2663,11 +2656,9 @@ class SrlmVerificationForm : Fragment() {
             )
             viewModel.getCommonEquipment(requestTcInfraReq)
 
-
             // Common UI updates
             binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.GONE
             binding.ipCameraLayout.trainingIPEnableCameralDetailsExpand.visibility = View.GONE
-
             binding.ipCameraLayout.tvTrainIPEnableCameraDetails.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
@@ -2676,36 +2667,28 @@ class SrlmVerificationForm : Fragment() {
             )
             binding.mainCommonEquipmentDetails.visibility = View.VISIBLE
             binding.commonEquipmentLayout.viewCommonEquipmentDetails.visibility = View.VISIBLE
-
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
             }
 
         }
         binding.ipCameraLayout.btnIpEnablePrevious.setOnClickListener {
-
             binding.signageLayout.trainingSignageBoardlDetailsExpand.visibility = View.VISIBLE
             binding.signageLayout.viewSignageBoardDetails.visibility = View.VISIBLE
             binding.mainIPEnableCameraDetails.visibility = View.GONE
             binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.GONE
-
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
             }
-
         }
 
         binding.commonEquipmentLayout.btnCommonEquipmentNext.setOnClickListener {
             if (selectedTcCommonEquipmentApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-
             }
-
             if (selectedTcCommonEquipmentApproval == "Send for modification") {
-                selectedTcCommonEquipmentRemarks =
-                    binding.commonEquipmentLayout.etCommonEquipmentRemarks.text.toString()
+                selectedTcCommonEquipmentRemarks = binding.commonEquipmentLayout.etCommonEquipmentRemarks.text.toString()
                 if (selectedTcCommonEquipmentRemarks.isEmpty()) {
                     Toast.makeText(
                         requireContext(),
@@ -2717,7 +2700,6 @@ class SrlmVerificationForm : Fragment() {
             } else selectedTcCommonEquipmentRemarks = ""
             // Common UI updates
 
-
             val requestTcInfraReq = TrainingCenterInfo(
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -2727,18 +2709,14 @@ class SrlmVerificationForm : Fragment() {
             )
             viewModel.getAvailabilitySupportInfra(requestTcInfraReq)
 
-
             binding.commonEquipmentLayout.viewCommonEquipmentDetails.visibility = View.GONE
-            binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand.visibility =
-                View.GONE
-
+            binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand.visibility = View.GONE
             binding.commonEquipmentLayout.tvTrainCommonEquipmentDetails.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
                 R.drawable.ic_verified,
                 0
             )
-
 
             binding.mainAvailSupportInfra.visibility = View.VISIBLE
             binding.availSupportInfraLayout.viewAvailSupportInfra.visibility = View.VISIBLE
@@ -2749,7 +2727,6 @@ class SrlmVerificationForm : Fragment() {
 
         }
         binding.commonEquipmentLayout.btnCommonEquipmentPrevious.setOnClickListener {
-
             binding.ipCameraLayout.trainingIPEnableCameralDetailsExpand.visibility = View.VISIBLE
             binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.VISIBLE
 
@@ -2767,7 +2744,6 @@ class SrlmVerificationForm : Fragment() {
                 Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
-
             }
 
             if (selectedTcAvailSupportInfraApproval == "Send for modification") {
@@ -2915,14 +2891,10 @@ class SrlmVerificationForm : Fragment() {
 
                     // Show progress bar
                     binding.progressBar.visibility = View.VISIBLE
-
-
                     viewLifecycleOwner.lifecycleScope.launch {
-
                         // Call API
 
                         viewModel.insertSrlmVerification(requestTcQTeamSubmit)
-
                     }
 
 

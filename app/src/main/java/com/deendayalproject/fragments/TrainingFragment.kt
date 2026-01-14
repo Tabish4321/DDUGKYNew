@@ -3328,6 +3328,7 @@ class TrainingFragment : Fragment() {
                 Toast.LENGTH_LONG
             ).show()
 //            SubmitTCR()
+
         }
 
         tvArea.isFocusable = false
@@ -3350,17 +3351,10 @@ class TrainingFragment : Fragment() {
         btnCalculateArea.setOnClickListener {
             val length = etDescLength.text.toString().toDoubleOrNull() ?: 0.0
             val width = etDescWidth.text.toString().toDoubleOrNull() ?: 0.0
-
             etArea.setText("${length * width}")
         }
-
-
         view.findViewById<Button>(R.id.btnSubmitAdddMore).setOnClickListener {
-
-
-
             LayoutLinear.visibility = View.VISIBLE
-
         }
 
         // Spinner values
@@ -3390,14 +3384,12 @@ class TrainingFragment : Fragment() {
                 id: Long
             ) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
-
 //                if (selectedItem == "Select Area") return
                 RoomType=selectedItem
 //                    Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT)
 //                    .show()
                 when (selectedItem) {
                     "Select Area" -> {
-
                         etLength.visibility = View.GONE
                         etWidth.visibility = View.GONE
                         tvArea.visibility = View.GONE
@@ -3598,7 +3590,6 @@ class TrainingFragment : Fragment() {
 
 //         It Lab  Ajit Ranjan PMAYG
         viewModel.insertITTabDtails.observe(viewLifecycleOwner) {
-
                 result ->
             result.onSuccess { response ->
                 // ✅ Dismiss progress dialog
@@ -3609,15 +3600,8 @@ class TrainingFragment : Fragment() {
 
                 Log.d("TrainingFragment", "✅ insertITTabDtails Success Response:\n$jsonResponse")
                 val responseDesc = response.responseDesc
-//                AlertDialog.Builder(context)
-//                    .setTitle("Success")
-//                    .setCancelable(false)
-//                    .setMessage(responseDesc)
-//                    .setPositiveButton("Yes") { _, _ ->
+
                 RecyClerViewUI()
-//                        findNavController().navigateUp()  // ✅ go back
-//                    }
-//                    .show()
                 val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutdescription_of_academicContent)
                 otherAreaSection?.let { AppUtil.clearAllInputs(it) }
                 base64ProofPreviewITLTypeofRoofItLab= null

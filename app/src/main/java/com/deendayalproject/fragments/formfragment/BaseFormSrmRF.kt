@@ -1491,7 +1491,7 @@ open class BaseFormSrmRF  : Fragment() {
                             RFfireFightingFile = x.fireFightingPdf
                             RFbiometricDeviceFile = x.biometricDevicePdf
                             RFpowerBackupFile = x.powerBackupPdf
-                            RFgrievanceRegisterFile = x.biometricDevicePdf
+                            RFgrievanceRegisterFile = x.grievanceRegisterPdf
                         }
                     }
                     202 -> {

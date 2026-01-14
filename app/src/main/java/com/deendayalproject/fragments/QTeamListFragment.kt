@@ -121,20 +121,15 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
 
     private fun handleTrainingCenterClick(center: TrainingCenter) {
         logFragmentEvent("Training_Center_Clicked", center.trainingCenterId.toString())
-
-        // Check if geofencing is required (commented out in original)
-        // For now, directly navigate without geofence check
         navigateToForm(center)
-
-        /* Uncomment if geofencing is needed:
         checkGeofence(center) { inside, location ->
             if (inside) {
                 navigateToForm(center)
             } else {
                 showErrorToast("You are outside the training center area")
             }
+
         }
-        */
     }
 
     private fun navigateToForm(center: TrainingCenter) {
@@ -221,9 +216,7 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
             locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             return
         }
-
         showProgressDialog("Checking location...")
-
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
                 dismissProgressDialog()

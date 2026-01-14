@@ -1,9 +1,14 @@
 package com.deendayalproject.fragments
 
 import SharedViewModel
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,6 +22,8 @@ import com.deendayalproject.databinding.ItemQteamLayoutBinding
 import com.deendayalproject.model.request.TrainingCenter
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.util.AppUtil
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.Priority
 
 class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
     FragmentSrlmListLayoutBinding::inflate
@@ -24,6 +31,11 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
 
     private lateinit var viewModel: SharedViewModel
     private var trainingCentersList: MutableList<TrainingCenter> = mutableListOf()
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var radius = 500000000f
+
+    //private var latitude = 0.0
+    //private var longitude = 0.0
 
 
     override fun initializeViews() {
@@ -80,6 +92,7 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
 
                 itemBinding.root.setOnClickListener {
                     onItemClick(center)
+                   // handleTrainingCenterClick(center)
                 }
             },
             noDataConfig = NoDataConfig(
@@ -97,7 +110,6 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
             center.senctionOrder
         )
         findNavController().navigate(action)
-
         logFragmentEvent("Training_Center_Selected", center.trainingCenterName)
     }
 
@@ -110,6 +122,9 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
                 data = result.getOrNull()?.wrappedList,
                 onSuccess = { data ->
                     data?.let {
+ //                       Log.d("CHECk LAN ,LAt---->",data.toString())
+//                        latitude=data.firstOrNull()?.latitude!!.toDouble()
+//                        longitude=data.firstOrNull()?.longitude!!.toDouble()
                         trainingCentersList.clear()
                         trainingCentersList.addAll(it)
                         updateRecyclerViewData(binding.recyclerView.id, trainingCentersList)
@@ -134,6 +149,84 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
         }
     }
 
+    private fun isUserInGeofence(
+        userLat: Double,
+        userLng: Double,
+        centerLat: Double,
+        centerLng: Double,
+        radiusInMeters: Float
+    ): Boolean {
+        val results = FloatArray(1)
+        Location.distanceBetween(userLat, userLng, centerLat, centerLng, results)
+        return results[0] <= radiusInMeters
+    }
+
+
+
+    private val locationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                logFragmentEvent("Location_Permission_Granted")
+            } else {
+                showToast(" Location permission denied")
+                logFragmentEvent("Location_Permission_Denied")
+            }
+        }
+
+    private fun handleTrainingCenterClick(center: TrainingCenter) {
+        logFragmentEvent("Training_Center_Clicked", center.trainingCenterId.toString())
+        onItemClick(center)
+        checkGeofence(center) { inside, location ->
+            if (inside) {
+                onItemClick(center)
+            } else {
+                showErrorToast("You are outside the training center area")
+            }
+
+
+        }
+    }
+
+
+    private fun checkGeofence(center: TrainingCenter, onResult: (Boolean, Location?) -> Unit) {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            return
+        }
+        showProgressDialog("Checking location...")
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener { location ->
+                dismissProgressDialog()
+                if (location != null) {
+                    val inside = isUserInGeofence(
+                        userLat = location.latitude,
+                        userLng = location.longitude,
+                        centerLat =  center.latitude!!.toDouble(),
+                        centerLng =  center.longitude!!.toDouble(),
+                        radiusInMeters = radius
+                    )
+
+                    onResult(inside, location)
+                    logFragmentEvent("Geofence_Check", "Inside: $inside")
+                } else {
+                    showToast("Location not available")
+                    onResult(false, null)
+                }
+            }
+            .addOnFailureListener { exception ->
+                dismissProgressDialog()
+                logCrashlyticsError("checkGeofence", exception)
+                showErrorToast("Failed to get location")
+                onResult(false, null)
+            }
+    }
+
+
+
     // Maintain original method names for compatibility
     fun showProgressBar() {
         showProgressDialog("Loading training centers...")
@@ -143,7 +236,7 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
         dismissProgressDialog()
     }
 
-    // Optional helper methods
+
 //    fun updateTrainingCentersData(newList: List<TrainingCenter>) {
 //        trainingCentersList.clear()
 //        trainingCentersList.addAll(newList)
