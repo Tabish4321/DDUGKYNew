@@ -6,7 +6,6 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
 }
-
 android {
     namespace = "com.deendayalproject"
     compileSdk = 35
@@ -16,7 +15,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 3
-        versionName = "1.1.3"
+        versionName = "1.1.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -45,14 +44,11 @@ android {
         buildConfig = true
     }
 }
-
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = "11"
     }
 }
-
-
 dependencies {
     // AndroidX
     implementation("androidx.core:core-ktx:1.12.0")

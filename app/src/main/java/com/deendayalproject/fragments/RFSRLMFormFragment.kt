@@ -288,10 +288,6 @@ class RFSRLMFormFragment : Fragment() {
 
         }
 
-
-
-
-
         // TrainingCenterInfo API
         val requestTcInfo = RfCommonReq(
             appVersion = BuildConfig.VERSION_NAME,
@@ -306,7 +302,7 @@ class RFSRLMFormFragment : Fragment() {
         showProgressBar()
 
 
-        binding.backButton.setOnClickListener {
+        binding.btnBack.setOnClickListener {
 
             findNavController().navigateUp()
         }
