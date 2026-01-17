@@ -12,5 +12,6 @@ data class TrainingCenter(
     val status: String,
     val remarks: String,
     val latitude: String?,
-    val longitude: String?
+    val longitude: String?,
+    val radius:String?
 )
