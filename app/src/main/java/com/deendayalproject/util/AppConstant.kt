@@ -1,8 +1,5 @@
 package com.deendayalproject.util
 
-import com.deendayalproject.BuildConfig
-
-
 object AppConstant {
 
     const val PREF_NAME = "MyAppPreferences"
@@ -21,6 +18,10 @@ object AppConstant {
     const val PRODUCTION: String = "P"
     const val WADH_KEY=BuildConfig.WADH_KEY
     var LANGUAGE = "en"
+    const val ENCRYPT_IV_KEY = "\$10A80\$10A80\$10A"
+    const val ENCRYPT_KEY = "\$10A80\$10A80\$10A"
+
+
 
 }
 

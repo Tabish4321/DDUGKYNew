@@ -12,5 +12,5 @@ data class AttendanceBatchRes(
 data class AttendanceBatch(
     val batchName: String,
     val batchRegNumber: String,
-    val batchCode: Int
+    val batchId: Int
 )

@@ -359,6 +359,9 @@
             app:destination="@id/attendanceCandidateListFragment" >
             <argument
                 android:name="batchId"
+                app:argType="integer" />
+            <argument
+                android:name="batchRegNo"
                 app:argType="string" />
             <argument
                 android:name="batchName"
@@ -370,7 +373,7 @@
             app:destination="@id/facultyAttendanceFragment" >
             <argument
                 android:name="batchId"
-                app:argType="string" />
+                app:argType="integer" />
             <argument
                 android:name="batchName"
                 app:argType="string" />
@@ -408,6 +411,11 @@
             <argument
                 android:name="batchId"
                 app:argType="string" />
+
+            <argument
+                android:name="batchRegNo"
+                app:argType="string" />
+
             <argument
                 android:name="candidateRollNo"
                 app:argType="string" />

@@ -13,6 +13,8 @@ constraintlayout = "2.1.4"
 lifecycle = "2.7.0"
 firebase-bom = "32.7.2"
 datastore-core-android = "1.2.0"
+navigation-fragment-ktx = "2.9.6"
+navigation-ui-ktx = "2.9.6"
 
 [libraries]
 # AndroidX
@@ -58,6 +60,8 @@ junit = { group = "junit", name = "junit", version = "4.13.2" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version = "1.1.5" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version = "3.5.1" }
 androidx-datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastore-core-android" }
+navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation-fragment-ktx" }
+navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation-ui-ktx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

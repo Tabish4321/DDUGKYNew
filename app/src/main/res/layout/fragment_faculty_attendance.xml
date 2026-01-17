@@ -51,7 +51,7 @@
                 android:id="@+id/tvRollNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/login_id"
+                android:text="Trainer Code"
                 android:layout_marginTop="@dimen/dp_12"
                 android:fontFamily="@font/avenir_next_semi_bold"
                 android:textColor="@color/color_dark_green"

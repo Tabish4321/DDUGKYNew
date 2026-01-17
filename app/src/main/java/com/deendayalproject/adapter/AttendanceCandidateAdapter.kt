@@ -16,7 +16,8 @@ import com.deendayalproject.fragments.AttendanceCandidateListFragmentDirections
 
 
 class AttendanceCandidateAdapter(
-    private val candidateList: List<Candidate>
+    private val candidateList: List<Candidate>,
+    private val candidateRegNo: String = ""
 ) : RecyclerView.Adapter<AttendanceCandidateAdapter.CandidateViewHolder>() {
 
 
@@ -73,7 +74,6 @@ class AttendanceCandidateAdapter(
             binding.tvDate.text= AppUtil.getCurrentDateForAttendance()
             candidateId= candidate.candidateId
             rollNo= candidate.rollNo.toString()
-            var aadhhaarNo= candidate.adhaarNo
 
 
 
@@ -81,12 +81,18 @@ class AttendanceCandidateAdapter(
             binding.btnMarkAttendance.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION && position < candidateList.size) {
+                    var dp = ""
+                    if (candidate.candidateProfilePic != null){
+
+                       dp = candidate.candidateProfilePic
+                    }
+                    else dp = ""
 
 
                     val action = AttendanceCandidateListFragmentDirections
                         .actionAttendanceCandidateListFragmentToCandidateAttendanceFragment(candidate.candidateId,candidate.candidateName,candidate.mobileNo,candidate.emailId
-                            ,candidate.gender,candidate.dateOfBirth,candidate.candidateProfilePic,
-                            candidate.batchId.toString(),candidate.rollNo.toString(),aadhhaarNo
+                            ,candidate.gender,candidate.dateOfBirth,dp,
+                            candidate.batchId.toString(),candidateRegNo,candidate.rollNo.toString(),candidate.adhaarNo
                         )
 
                     binding.root.findNavController().navigate(action)
