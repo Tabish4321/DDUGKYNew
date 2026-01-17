@@ -67,7 +67,6 @@ android {
         create("demo") {
             dimension = "environment"
             applicationIdSuffix = ""
-
             versionNameSuffix = ""
             buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
         }

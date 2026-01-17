@@ -1,7 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Ddugky" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:windowSplashScreenBackground">@color/white</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ddy_logo</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimarynew</item>
+        <item name="postSplashScreenTheme">@style/Theme.Ddugky</item>
+        <!-- Customize your light theme here. -->
+        <item name="android:windowBackground">@color/white</item>
     </style>
 </resources>

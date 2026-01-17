@@ -1,5 +1,7 @@
 package com.deendayalproject.util
 
+import com.deendayalproject.BuildConfig
+
 object AppConstant {
 
     const val PREF_NAME = "MyAppPreferences"

@@ -32,7 +32,7 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
     private lateinit var viewModel: SharedViewModel
     private var trainingCentersList: MutableList<TrainingCenter> = mutableListOf()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-   // private var radius = 500000000f
+    // private var radius = 500000000f
     //private var latitude = 0.0
     //private var longitude = 0.0
 
@@ -207,7 +207,6 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
                         centerLng =  center.longitude!!.toDouble(),
                         radiusInMeters = center.radius!!.toFloat()
                     )
-
                     onResult(inside, location)
                     logFragmentEvent("Geofence_Check", "Inside: $inside")
                 } else {
