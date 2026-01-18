@@ -31,7 +31,6 @@ import com.deendayalproject.model.response.Trainer
 import com.deendayalproject.util.AppUtil
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.location.Location
 import android.net.Uri
 import android.os.Environment
 import android.util.Base64
@@ -259,27 +258,6 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
     private var latValue: String = ""
     private var langValue: String = ""
 
-    //private var latitude = 26.2153  // Example geofence latitude
-    //private var longitude = 84.3588  // Example geofence longitude
-    private var radius = 50000000f  // 100 meters radius
-
-
-    private fun isUserInsideGeofence(
-        currentLocation: Location,
-        lat: Double,
-        lng: Double,
-        radius: Float
-    ): Boolean {
-        val targetLocation = Location("").apply {
-            latitude = lat
-            longitude = lng
-        }
-        val distance = currentLocation.distanceTo(targetLocation)
-        return distance <= radius
-    }
-
-
-
 
     override fun initializeViews() {
         Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━QTeamFormFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
@@ -297,9 +275,6 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         } else {
             requestLocationPermission()
         }
-
-
-
 
         request = TrainingCenterInfo(
             appVersion = BuildConfig.VERSION_NAME,

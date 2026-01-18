@@ -24,7 +24,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 4
-        versionName = "1.1.2" //1.2.6
+        versionName = "1.2.7" //1.2.6
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -42,7 +42,7 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = true
+            isDebuggable = false
         }
     }
     defaultConfig {
@@ -68,7 +68,7 @@ android {
             dimension = "environment"
             applicationIdSuffix = ""
             versionNameSuffix = ""
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
         }
     }
 

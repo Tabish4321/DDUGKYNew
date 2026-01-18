@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -23,6 +24,7 @@ import com.deendayalproject.model.request.TrainingCenter
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.util.AppUtil
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 
 class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
@@ -41,6 +43,8 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
         Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━SrlmVerListFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        checkLocationPermission()
         setupToolbar(
             binding.root,
             titleRes = R.string.training_list,
@@ -173,7 +177,7 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
 
     private fun handleTrainingCenterClick(center: TrainingCenter) {
         logFragmentEvent("Training_Center_Clicked", center.trainingCenterId.toString())
-        onItemClick(center)
+        //onItemClick(center)
         checkGeofence(center) { inside, location ->
             if (inside) {
                 onItemClick(center)
@@ -184,6 +188,21 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
 
         }
     }
+
+    private fun checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1001
+            )
+        }
+    }
+
 
 
     private fun checkGeofence(center: TrainingCenter, onResult: (Boolean, Location?) -> Unit) {
@@ -203,7 +222,7 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
                     val inside = isUserInGeofence(
                         userLat = location.latitude,
                         userLng = location.longitude,
-                        centerLat =  center.latitude!!.toDouble(),
+                        centerLat =  center.letitude!!.toDouble(),
                         centerLng =  center.longitude!!.toDouble(),
                         radiusInMeters = center.radius!!.toFloat()
                     )

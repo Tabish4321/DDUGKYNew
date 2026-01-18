@@ -566,9 +566,6 @@ class CandidateAttendanceFragment : BaseFragment<FragmentCandidateAttendanceBind
                                         // val isInside = isUserInsideGeofence(location, 26.2153, 84.3588, radius)
                                         if (isInside) {
 
-
-
-
                                         } else {
                                             showAlertGeoFancingDialog(requireContext(),"Alert","❌ You are outside the institute area")
 
