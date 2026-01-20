@@ -1,0 +1,10 @@
+<changelist name="Uncommitted_changes_before_Update_at_20-01-2026_10_46_[Changes]" date="1768886456054" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_20-01-2026_10_46_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 20-01-2026 10:46 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="app/prod/release/baselineProfiles/1/app-prod-release.dm" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/prod/release/baselineProfiles/0/app-prod-release.dm" />
+  </binary>
+</changelist>

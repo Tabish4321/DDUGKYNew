@@ -36,25 +36,25 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         binding.versionText.text = "v${BuildConfig.VERSION_NAME}"
 
         setupKeyboardDismissHandler()
+        disableCopyPaste()
         setupPasswordToggle()
         setupEditTextListeners()
         checkAutoLogin()
-       // setupObservers()
-       // setupClickListeners()
-        //loadInitialData()
+        disableScreenshots()
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//    }
 
     private fun setupKeyboardDismissHandler() {
-        // Use container click to dismiss keyboard on touch outside fields/button
         binding.fragmentContainer.setOnClickListener {
             dismissKeyboard()
         }
-        // Removed root onTouchListener to avoid interfering with button clicks
+    }
+
+    private fun disableScreenshots() {
+        requireActivity().window.setFlags(
+            android.view.WindowManager.LayoutParams.FLAG_SECURE,
+            android.view.WindowManager.LayoutParams.FLAG_SECURE
+        )
     }
 
     private fun dismissKeyboard(view: View? = null) {
@@ -159,6 +159,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     private fun handleLoginClick() {
+
+        if (!validateDeviceSecurity()) {
+            resetButtonState()
+            return
+        }
+
         if (isProcessingLogin) return
 
         isProcessingLogin = true
@@ -224,6 +230,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         )
 
         logNetworkCall("Login API", "POST")
+
         viewModel.loginUser(request)
     }
 
@@ -298,4 +305,65 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         dismissKeyboard()
         isProcessingLogin = false
     }
+
+    private fun disableCopyPaste() {
+
+        fun disable(editText: android.widget.EditText) {
+            editText.setTextIsSelectable(false)
+            editText.customSelectionActionModeCallback =
+                object : android.view.ActionMode.Callback {
+                    override fun onCreateActionMode(mode: android.view.ActionMode?, menu: android.view.Menu?) = false
+                    override fun onPrepareActionMode(mode: android.view.ActionMode?, menu: android.view.Menu?) = false
+                    override fun onActionItemClicked(mode: android.view.ActionMode?, item: android.view.MenuItem?) = false
+                    override fun onDestroyActionMode(mode: android.view.ActionMode?) {}
+                }
+            editText.isLongClickable = false
+        }
+
+        disable(binding.etUserId)
+        disable(binding.etPassword)
+    }
+
+    private fun isDeviceRooted(): Boolean {
+        val paths = arrayOf(
+            "/system/app/Superuser.apk",
+            "/system/bin/su",
+            "/system/xbin/su",
+            "/data/local/xbin/su",
+            "/data/local/bin/su",
+            "/system/sd/xbin/su"
+        )
+        return paths.any { java.io.File(it).exists() }
+    }
+
+    private fun isEmulator(): Boolean {
+        return (
+                Build.FINGERPRINT.startsWith("generic")
+                        || Build.MODEL.contains("google_sdk")
+                        || Build.MODEL.lowercase().contains("emulator")
+                        || Build.MODEL.contains("Android SDK built for x86")
+                        || Build.MANUFACTURER.contains("Genymotion")
+                        || Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")
+                        || "google_sdk" == Build.PRODUCT
+                )
+    }
+
+    private fun validateDeviceSecurity(): Boolean {
+
+        if (isEmulator()) {
+            showErrorToast("Login is not allowed on Emulator")
+            requireActivity().finishAffinity()
+            return false
+        }
+
+        if (isDeviceRooted()) {
+            showErrorToast("Login is not allowed on Rooted Device")
+            requireActivity().finishAffinity()
+            return false
+        }
+
+        return true
+    }
+
+
 }

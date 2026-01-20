@@ -94,7 +94,7 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
                 itemBinding.tcTotalCap.text = "Training Center Total Capacity: ${center.tcCapacity}"
 
                 itemBinding.root.setOnClickListener {
-                    // onItemClick(center)
+                    //onItemClick(center)
                     handleTrainingCenterClick(center)
                 }
             },
@@ -226,6 +226,7 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
                         centerLng =  center.longitude!!.toDouble(),
                         radiusInMeters = center.radius!!.toFloat()
                     )
+
                     onResult(inside, location)
                     logFragmentEvent("Geofence_Check", "Inside: $inside")
                 } else {

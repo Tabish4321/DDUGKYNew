@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -62,10 +63,10 @@ abstract class BaseFragment<VB : ViewBinding>(
         savedInstanceState: Bundle?
     ): View? {
         _binding = bindingInflater(inflater)
-        requireActivity().window.setSoftInputMode(
-            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-        )
 
+        requireActivity().window.setSoftInputMode(
+            SOFT_INPUT_ADJUST_RESIZE
+        )
         //Log.d("FRAGMENT NAME", "")
         return binding.root
     }
@@ -80,8 +81,6 @@ abstract class BaseFragment<VB : ViewBinding>(
         setupObservers()
         setupClickListeners()
         loadInitialData()
-
-
 
     }
 
@@ -327,11 +326,11 @@ abstract class BaseFragment<VB : ViewBinding>(
     }
 
     protected fun showSuccessToast(message: String) {
-        showToast("✅ $message")
+        showToast(" $message")
     }
 
     protected fun showErrorToast(message: String) {
-        showToast("❌ $message")
+        showToast(" $message")
         logCrashlyticsError("showErrorToast", Exception(message))
     }
 
@@ -341,6 +340,8 @@ abstract class BaseFragment<VB : ViewBinding>(
         onSuccess: ((T?) -> Unit)? = null,
         onNoData: (() -> Unit)? = null,
         onUpgradeRequired: (() -> Unit)? = null,
+
+
         onSessionExpired: (() -> Unit)? = null,
         onCustomResponse: ((Int) -> Unit)? = null
     ) {

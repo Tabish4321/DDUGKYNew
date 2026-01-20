@@ -2826,11 +2826,20 @@ class ResidentialFacilityFragment : Fragment() {
         cameraLauncher.launch(photoUri)
     }
 
+
     private fun createImageFile(): File? {
-        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return try {
-            File.createTempFile("JPEG_${timestamp}_", ".jpg", storageDir)
+            val tempDir = requireContext().cacheDir
+            File.createTempFile(
+                "img_",
+                ".jpg",
+                tempDir
+            ).apply {
+                setReadable(false, false)
+                setWritable(false, false)
+                setReadable(true, true)
+                setWritable(true, true)
+            }
         } catch (e: IOException) {
             e.printStackTrace()
             null

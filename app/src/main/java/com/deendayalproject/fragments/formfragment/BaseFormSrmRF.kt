@@ -1621,14 +1621,14 @@ open class BaseFormSrmRF  : Fragment() {
         remarksEditText: EditText,
         remarksTextView: TextView
     ) {
+        remarksEditText.visibility = View.VISIBLE
+        remarksTextView.visibility = View.VISIBLE
         if (selectedValue == "Send for modification") {
             setApproval("M")
-            remarksEditText.visibility = View.VISIBLE
-            remarksTextView.visibility = View.VISIBLE
+            remarksTextView.text=requireContext().getString(R.string.remarkss)
         } else {
             setApproval("A")
-            remarksEditText.visibility = View.GONE
-            remarksTextView.visibility = View.GONE
+            remarksTextView.text=requireContext().getString(R.string.remarkWitouStar)
         }
     }
 
@@ -1641,7 +1641,6 @@ open class BaseFormSrmRF  : Fragment() {
             toast("Kindly select Approval first")
             return false
         }
-
         if (approval == "M") {
             val remarksText = remarksEditText.text.toString().trim()
             if (remarksText.isEmpty()) {
@@ -1649,7 +1648,6 @@ open class BaseFormSrmRF  : Fragment() {
                 return false
             }
         }
-
         return true
     }
 

@@ -24,7 +24,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 4
-        versionName = "1.2.7" //1.1.2
+        versionName = "1.2.8" //1.1.2 //1.2.7
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -42,7 +42,7 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = false
+            isDebuggable = true
         }
     }
     defaultConfig {
@@ -55,9 +55,7 @@ android {
         buildConfigField("String", "USER_NAME_FOR_APP", projectProperties["USER_NAME_FOR_APP"] as String)
     }
 
-
     flavorDimensions += "environment"
-
     productFlavors {
         create("prod") {
             dimension = "environment"
