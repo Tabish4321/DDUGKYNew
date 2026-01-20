@@ -156,6 +156,7 @@ interface ApiService {
     @POST("getTrainingCenterList")
     suspend fun getTrainingCenterList(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
 
+
     @POST(value = "getTrainingCenterVerificationList")
     suspend fun getQTeamTrainingList(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
 
@@ -179,7 +180,7 @@ interface ApiService {
     @POST(value = "insertCCTVCompliance")
     suspend fun insertCCTVCompliance(@Body request: CCTVComplianceRequest): Response<CCTVComplianceResponse>
 
-    @POST("getCaptiveOrganizationDetails")
+    @POST("getCaptiveOrganizationDetails") // TODO: replace with actual endpoint path
     suspend fun getFieldVerificationDetail(
         @Body request: FieldVerificationDetailRequest
     ): Response<FieldVerificationDetailResponse>

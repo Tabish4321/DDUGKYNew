@@ -9,7 +9,7 @@ import com.deendayalproject.util.AppUtil
 class RFSRLMFormFragment : BaseFormSrmRF() {
 
     override fun tvtitle() {
-        super.tvtitle()
+        //super.tvtitle()
         binding.toolbar.tvTitle.text=getString(R.string.residential_facility_srlm)
     }
 

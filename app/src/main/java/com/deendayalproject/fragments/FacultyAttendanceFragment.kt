@@ -129,6 +129,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
     override fun setupObservers() {
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun setupClickListeners() {
 
         binding.btnCheckIn.setOnClickListener {
@@ -309,6 +310,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private val startUidaiAuthResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             try {
@@ -340,6 +342,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
             }
         }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun handleCaptureResponse(captureResponse: String) {
         try {
 
@@ -410,6 +413,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun invokeCaptureIntent() {
 
         try {
@@ -440,6 +444,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun collectFaceAuthResponse() {
 
         viewModel.postOnAUAFaceAuthNREGA
