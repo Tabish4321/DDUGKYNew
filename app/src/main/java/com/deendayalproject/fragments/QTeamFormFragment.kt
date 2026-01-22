@@ -2079,7 +2079,6 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
             val uri = Uri.fromFile(file)
             requireContext().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
-
             showToast("PDF downloaded to Downloads: ${file.name}")
             openBase64Pdf(cleanBase64)
 

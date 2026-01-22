@@ -2595,7 +2595,7 @@ class ResidentialFacilityFragment : Fragment() {
         alStateModel: ArrayList<DistrictModel?>, sp: Spinner
     ) {
         if (!alStateModel.isEmpty() && alStateModel.size > 0) {
-            alStateModel!!.add(0, DistrictModel("--Select--", "0", "0"))
+            alStateModel.add(0, DistrictModel("--Select--", "0", "0"))
             val dbAdapter = DistrictAdapter(
                 requireContext(), android.R.layout.simple_spinner_item, alStateModel
             )
@@ -3395,7 +3395,6 @@ class ResidentialFacilityFragment : Fragment() {
             if (!checkTextInput(etKitchenLength, "Length (In ft)")) isValid = false
             if (!checkTextInput(etKitchenWidth, "Width (In ft)")) isValid = false
         }
-
         // Validate required TextInputEditTexts
         if (!checkTextInput(etStoolsChairsBenches, "No.of Stools/Chairs/Benches")) isValid = false
         if (spinnerDiningRecreationAreaSeparate.selectedItem.toString() == "Yes") {

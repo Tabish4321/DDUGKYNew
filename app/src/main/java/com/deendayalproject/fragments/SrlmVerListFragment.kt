@@ -94,8 +94,8 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
                 itemBinding.tcTotalCap.text = "Training Center Total Capacity: ${center.tcCapacity}"
 
                 itemBinding.root.setOnClickListener {
-                    //onItemClick(center)
-                    handleTrainingCenterClick(center)
+                    onItemClick(center)
+                    //handleTrainingCenterClick(center)
                 }
             },
             noDataConfig = NoDataConfig(
@@ -184,8 +184,6 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
             } else {
                 showErrorToast("You are outside the training center area")
             }
-
-
         }
     }
 

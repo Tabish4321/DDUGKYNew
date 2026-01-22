@@ -24,7 +24,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 4
-        versionName = "1.2.8" //1.1.2 //1.2.7
+        versionName = "1.2.9" //1.1.2 //1.2.7
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -42,7 +42,7 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = true
+            isDebuggable = false
         }
     }
     defaultConfig {
@@ -73,6 +73,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+
+
+
     }
 
     buildFeatures {
