@@ -47,6 +47,7 @@ import com.deendayalproject.model.response.CountList
 import com.deendayalproject.model.response.LivingAreaInformation
 import com.deendayalproject.model.response.ToiletRoomInformationDataResponse
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.util.roundHalfUp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -814,10 +815,10 @@ open class BaseFormSrmRF  : Fragment() {
         }
     }
 
+
     // -----------------------------------------
     // DATA LOADING METHODS
     // -----------------------------------------
-
     @SuppressLint("SetTextI18n")
     private fun collectTCInfoResponse() {
         viewModel.ResidentialFacilityQTeam.observe(viewLifecycleOwner) { result ->
@@ -1526,7 +1527,9 @@ open class BaseFormSrmRF  : Fragment() {
             .create()
         dialog.show()
 
-        val noOfStudentPermitted = x.windowArea?.toDouble()?.div(25.0) ?: 0.0
+        //val noOfStudentPermitted = x.windowArea?.toDouble()?.div(25.0) ?: 0.0
+        val noOfStudentPermitted = x.area?.toDouble()?.div(25.0)!!.roundHalfUp() ?: 0
+
         with(dialogBinding) {
             laiTypeOfRoof.text = safeText(x.roofType)
             laiFalseCelling.text = safeText(x.falseCeiling)
@@ -1543,7 +1546,6 @@ open class BaseFormSrmRF  : Fragment() {
             laiLights.text = safeText(x.lights.toString())
             laiStorage.text = safeText(x.storage.toString())
             LiaBasicInformationBoard.text = safeText(x.infoBoard.toString())
-
             LiaBasicInformationBoardFile.setOnClickListener {
                 showBase64ImageDialog(requireContext(), "", "Room Preview")
             }
@@ -1578,7 +1580,6 @@ open class BaseFormSrmRF  : Fragment() {
                 showBase64ImageDialog(requireContext(), x.storagePdf, "Storage Preview")
             }
         }
-
         dialogBinding.backButton.setOnClickListener { dialog.dismiss() }
     }
 
@@ -1608,8 +1609,6 @@ open class BaseFormSrmRF  : Fragment() {
 
         binding.backButton.setOnClickListener { dialog.dismiss() }
     }
-
-
 
     // -----------------------------------------
     // HELPER METHODS

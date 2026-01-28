@@ -45,12 +45,22 @@ import androidx.fragment.app.Fragment
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.google.android.material.snackbar.Snackbar
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.contract
+
+
+
+fun Double.roundHalfUp(): Int =
+    BigDecimal.valueOf(this)
+        .setScale(0, RoundingMode.HALF_UP)
+        .toInt()
+
 
 
 /**

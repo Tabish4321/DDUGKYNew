@@ -86,6 +86,7 @@ import com.deendayalproject.model.response.UlbItem
 import com.deendayalproject.model.response.VillageModel
 import com.deendayalproject.model.response.WardItem
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.util.roundHalfUp
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -3621,15 +3622,14 @@ class ResidentialFacilityFragment : Fragment() {
 
         val value = etRoomArea.text.toString().toDoubleOrNull()
         if (value != null) {
-            selectedRoomPermitted = (value / 25).toInt()
+            selectedRoomPermitted = (value / 25).roundHalfUp()
             Log.d("Result", "Approx value: $selectedRoomPermitted")
             binding.etStudentsPermitted.text = selectedRoomPermitted.toString()
         } else {
             Toast.makeText(context, "Please enter a valid number", Toast.LENGTH_SHORT).show()
         }
-
-
     }
+
 
     private fun setupAutoAreaCalculationForRoom(
         etLengths: EditText, etWidths: EditText, tvAreas: TextView

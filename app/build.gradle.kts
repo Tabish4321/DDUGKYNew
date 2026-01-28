@@ -10,8 +10,6 @@ plugins {
 }
 
 android {
-
-
     namespace = "com.deendayalproject"
     compileSdk = 35
 
@@ -24,7 +22,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 4
-        versionName = "1.2.9" //1.1.2 //1.2.7
+        versionName = "1.3.1" //1.1.2 //1.2.9
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -32,7 +30,7 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            isDebuggable = false
+            isDebuggable = true
             applicationIdSuffix = ""
             versionNameSuffix = ""
             proguardFiles(
@@ -42,9 +40,10 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = false
+            isDebuggable = true
         }
     }
+
     defaultConfig {
         buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
         buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
@@ -60,22 +59,19 @@ android {
         create("prod") {
             dimension = "environment"
             buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
-        }
+        } //BASE_URL_LIVE
 
         create("demo") {
             dimension = "environment"
             applicationIdSuffix = ""
             versionNameSuffix = ""
             buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
-        }
+        }//BASE_URL_DEMO
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-
-
-
     }
 
     buildFeatures {

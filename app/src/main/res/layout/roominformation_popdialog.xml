@@ -127,7 +127,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/roof"
-                            android:tint="@color/color_dark_green" />
+                            app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labelaiTypeOfRoof"
@@ -206,7 +206,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/ic_roof"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiFalseCelling"
@@ -285,7 +285,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/ic_roof"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiHeightofCelling"
@@ -365,7 +365,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/ic_roof"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labelroof_building_label"
@@ -444,7 +444,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/lan"
-                            android:tint="@color/color_dark_green" />
+                            app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiLength"
@@ -523,7 +523,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/lan"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiWidth"
@@ -602,7 +602,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/area"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiArea"
@@ -681,7 +681,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/baseline_videostream"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiwindowsArea"
@@ -774,7 +774,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/internet"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiCotInNo"
@@ -853,7 +853,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/office_room"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiMattersInNo"
@@ -932,7 +932,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/office_room"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiBedSheetInNo"
@@ -1011,7 +1011,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/audio"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiAirCondtion"
@@ -1090,7 +1090,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/light"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/LabellaiLights"
@@ -1169,7 +1169,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/baseline_note_alt_24"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiStorage"
@@ -1248,7 +1248,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/board"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiBasicInformationBoard"
@@ -1327,7 +1327,7 @@
                             android:layout_height="@dimen/dp_24"
                             android:layout_marginEnd="@dimen/dp_12"
                             android:src="@drawable/baseline_person_2_24"
-                            android:tint="@color/color_dark_green" />
+                           app:tint="@color/color_dark_green" />
 
                         <TextView
                             android:id="@+id/labellaiNoOfStudentPermitted"

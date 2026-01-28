@@ -29,9 +29,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ddugky"
         android:usesCleartextTraffic="false"
-        tools:targetApi="30">
-
-        <!--        android:windowSoftInputMode="stateAlwaysHidden|adjustResize"-->
+        tools:targetApi="30"
+        >
 
         <provider
             android:name="androidx.core.content.FileProvider"

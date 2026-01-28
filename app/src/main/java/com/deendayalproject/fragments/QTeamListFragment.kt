@@ -33,9 +33,9 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
     private lateinit var viewModel: SharedViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    private var latitude = 26.2153
-    private var longitude = 84.3588
-    private var radius = 500000000f
+//    private var latitude = 26.2153
+//    private var longitude = 84.3588
+//    private var radius = 500000000f
 
 
     // Location permission launcher
@@ -224,15 +224,15 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
             .addOnSuccessListener { location ->
                 dismissProgressDialog()
                 if (location != null) {
-                    val inside = isUserInGeofence(
-                        userLat = location.latitude,
-                        userLng = location.longitude,
-                        centerLat = latitude, // Use center's actual lat/lng if available
-                        centerLng = longitude,
-                        radiusInMeters = radius
-                    )
-                    onResult(inside, location)
-                    logFragmentEvent("Geofence_Check", "Inside: $inside")
+//                    val inside = isUserInGeofence(
+//                        userLat = location.latitude,
+//                        userLng = location.longitude,
+//                        centerLat = latitude, // Use center's actual lat/lng if available
+//                        centerLng = longitude,
+//                        radiusInMeters = radius
+//                    )
+                   // onResult(inside, location)
+                  //  logFragmentEvent("Geofence_Check", "Inside: $inside")
                 } else {
                     showToast("Location not available")
                     onResult(false, null)

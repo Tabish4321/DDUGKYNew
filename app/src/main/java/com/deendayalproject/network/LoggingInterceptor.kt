@@ -19,8 +19,10 @@ class LoggingInterceptor : Interceptor {
         Log.d(TAG, "Method: ${request.method}\n")
         Log.d(TAG, "Headers: ${request.headers}\n")
 
-
+        val gson = GsonBuilder().setPrettyPrinting().create()
         request.body?.let {
+            val jsonResponse = gson.toJson(it)
+            Log.d(TAG, "Body: ${jsonResponse}\n")
             Log.d(TAG, "Body: ${bodyToString(it)}\n")
         }
 
@@ -32,8 +34,6 @@ class LoggingInterceptor : Interceptor {
         Log.d(TAG, "Code: ${response.code}\n")
         Log.d(TAG, "URL: ${response.request.url}\n")
         Log.d(TAG, "Body: ${copy.string()}\n")
-
-
 
         //  Log.d(TAG, "Message : ${ response.message}\n")
 
