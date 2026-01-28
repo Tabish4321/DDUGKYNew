@@ -45,6 +45,8 @@ import androidx.fragment.app.Fragment
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.google.android.material.snackbar.Snackbar
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -57,6 +59,11 @@ import kotlin.contracts.contract
  * View visibility extensions
  */
 
+
+fun Double.roundOff(): Int =
+    BigDecimal.valueOf(this)
+        .setScale(0, RoundingMode.HALF_UP)
+        .toInt()
 fun View.gone() = run { visibility = View.GONE }
 
 fun View.visible() = run { visibility = View.VISIBLE }

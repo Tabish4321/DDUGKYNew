@@ -47,6 +47,7 @@ import com.deendayalproject.model.response.CountList
 import com.deendayalproject.model.response.LivingAreaInformation
 import com.deendayalproject.model.response.ToiletRoomInformationDataResponse
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.util.roundOff
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -1526,7 +1527,9 @@ open class BaseFormSrmRF  : Fragment() {
             .create()
         dialog.show()
 
-        val noOfStudentPermitted = x.windowArea?.toDouble()?.div(25.0) ?: 0.0
+      //  val noOfStudentPermitted = x.windowArea?.toDouble()?.div(25.0) ?: 0.0
+        val noOfStudentPermitted = x.area?.toDouble()?.div(25.0)!!.roundOff() ?: 0
+
         with(dialogBinding) {
             laiTypeOfRoof.text = safeText(x.roofType)
             laiFalseCelling.text = safeText(x.falseCeiling)
@@ -1634,7 +1637,7 @@ open class BaseFormSrmRF  : Fragment() {
 
     private fun validateApprovalAndRemarks(
         approval: String,
-        currentRemarks: String,
+        currentRemarks: String="",
         remarksEditText: EditText
     ): Boolean {
         if (approval.isEmpty()) {

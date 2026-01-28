@@ -24,11 +24,12 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 4
-        versionName = "1.2.9" //1.1.2 //1.2.7
+        versionName = "1.3.1" //1.1.2 //1.3.1
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
