@@ -67,6 +67,11 @@ fun Double.roundHalfUp(): Int =
  * View visibility extensions
  */
 
+
+fun Double.roundOff(): Int =
+    BigDecimal.valueOf(this)
+        .setScale(0, RoundingMode.HALF_UP)
+        .toInt()
 fun View.gone() = run { visibility = View.GONE }
 
 fun View.visible() = run { visibility = View.VISIBLE }

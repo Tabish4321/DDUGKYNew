@@ -10,6 +10,8 @@ plugins {
 }
 
 android {
+
+
     namespace = "com.deendayalproject"
     compileSdk = 35
 
@@ -30,7 +32,7 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            isDebuggable = true
+            isDebuggable = false
             applicationIdSuffix = ""
             versionNameSuffix = ""
             proguardFiles(
@@ -40,10 +42,9 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = true
+            isDebuggable = false
         }
     }
-
     defaultConfig {
         buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
         buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
@@ -72,6 +73,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+
+
+
     }
 
     buildFeatures {
