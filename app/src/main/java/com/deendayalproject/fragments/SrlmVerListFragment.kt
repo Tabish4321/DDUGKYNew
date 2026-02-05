@@ -140,15 +140,16 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
                 onUpgradeRequired = {
                     showToast("Please upgrade your app.")
                 },
+
                 onSessionExpired = {
                     handleSessionExpired()
                 }
             )
         }
 
-        viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-        }
+//        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+//            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+//        }
     }
 
     private fun isUserInGeofence(

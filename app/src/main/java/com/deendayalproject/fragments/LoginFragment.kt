@@ -69,6 +69,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 
+
     private fun setupPasswordToggle() {
         val showPasswordDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_passwordon)
         val hidePasswordDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_passwordtoggle)

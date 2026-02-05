@@ -47,6 +47,7 @@ import com.deendayalproject.model.response.CountList
 import com.deendayalproject.model.response.LivingAreaInformation
 import com.deendayalproject.model.response.ToiletRoomInformationDataResponse
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.util.roundHalfUp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -1010,8 +1011,7 @@ open class BaseFormSrmRF  : Fragment() {
             )
             viewModel.getRfLivingAreaInformation(requestTcRoomDetails)
             showProgress()
-
-            viewModel.fLivingAreaInformation.removeObservers(viewLifecycleOwner)
+           // viewModel.fLivingAreaInformation.removeObservers(viewLifecycleOwner)
             viewModel.fLivingAreaInformation.observe(viewLifecycleOwner) { result ->
                 result.onSuccess {
                     hideProgress()
@@ -1547,7 +1547,7 @@ open class BaseFormSrmRF  : Fragment() {
             LiaBasicInformationBoard.text = safeText(x.infoBoard.toString())
 
             LiaBasicInformationBoardFile.setOnClickListener {
-                showBase64ImageDialog(requireContext(), "", "Room Preview")
+                showBase64ImageDialog(requireContext(), x.infoBoardPdf, "Information Board ")
             }
             laiTypeOfRoofFile.setOnClickListener {
                 showBase64ImageDialog(requireContext(), x.roofTypePdf, "Room Preview")

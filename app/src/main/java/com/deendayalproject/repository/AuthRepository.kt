@@ -12,7 +12,6 @@ import com.deendayalproject.model.response.ModuleResponse
 import com.google.gson.Gson
 
 class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
-
     suspend fun loginUser(request: LoginRequest): Result<LoginResponse> {
         return try {
             val response = apiService.loginUser(request)
@@ -20,7 +19,7 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
                 val body = response.body()
                 if (body?.responseCode == 200 && !body.accessToken.isNullOrEmpty()) {
                     Result.success(body)
-                } else if(body?.responseDesc == USER_NAME_FOR_APP){
+                } else if(body?.responseDesc == "DDUGKYUSERDESC"){
                     Result.success(body)
                 }else {
                     Result.failure(Exception(body?.responseDesc ?: "Login failed"))

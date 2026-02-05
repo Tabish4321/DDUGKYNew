@@ -78,6 +78,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         logFragmentEvent("Fragment_Created", this::class.java.simpleName)
 
         initializeViews()
+
         setupObservers()
         setupClickListeners()
         loadInitialData()

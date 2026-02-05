@@ -16,6 +16,13 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.deendayalproject.R
 import com.deendayalproject.util.KeyboardUtils
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.deendayalproject.network.SessionManager
+import com.deendayalproject.util.AppUtil.showSessionExpiredDialog
+import kotlinx.coroutines.launch
+
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -34,6 +41,7 @@ open class BaseActivity : AppCompatActivity() {
             ?: throw IllegalStateException("NavHostFragment not found in activity_main.xml")
 
         navController = navHostFragment.findNavController()
+        observeSessionExpired()
 
         onBackPressedDispatcher.addCallback(
             this,
@@ -65,10 +73,28 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun observeSessionExpired() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                SessionManager.sessionExpired.collect {
+                    showSessionExpiredDialog(
+                        navController = navController,
+                        context = this@BaseActivity
+                    )
+                }
+            }
+        }
+    }
+
+
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         if (currentFocus != null) {
             KeyboardUtils.hide(this)
-        }
+        }else if (ev.flags and MotionEvent.FLAG_WINDOW_IS_OBSCURED != 0) {
+                return true
+            }
+
         return super.dispatchTouchEvent(ev)
     }
 

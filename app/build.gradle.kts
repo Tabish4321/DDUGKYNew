@@ -10,8 +10,6 @@ plugins {
 }
 
 android {
-
-
     namespace = "com.deendayalproject"
     compileSdk = 35
 
@@ -23,7 +21,7 @@ android {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
-        versionCode = 4
+        versionCode = 5
         versionName = "1.3.1" //1.1.2 //1.2.9
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,7 +30,7 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            isDebuggable = false
+            isDebuggable = true
             applicationIdSuffix = ""
             versionNameSuffix = ""
             proguardFiles(
@@ -42,7 +40,7 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = false
+            isDebuggable = true
         }
     }
     defaultConfig {
@@ -73,9 +71,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-
-
-
     }
 
     buildFeatures {

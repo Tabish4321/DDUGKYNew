@@ -3,6 +3,7 @@ import android.os.Build
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.network.TokenInterceptor
 import com.deendayalproject.network.ApiService
+import com.deendayalproject.network.AuthInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,6 +15,7 @@ object RetrofitClient {
         val tokenInterceptor = TokenInterceptor(context)
         val client = OkHttpClient.Builder()
             .cache(null)
+            .addInterceptor (AuthInterceptor() )
             .addInterceptor(tokenInterceptor)
             .addInterceptor(LoggingInterceptor())
             .build()
@@ -25,3 +27,4 @@ object RetrofitClient {
             .create(ApiService::class.java)
     }
 }
+

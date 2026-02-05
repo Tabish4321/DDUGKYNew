@@ -473,8 +473,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         _loading.postValue(true)
         viewModelScope.launch {
             val result = repositoryManager.auth.loginUser(request)
-            result.onSuccess { response ->
-            }
+            result.onSuccess { response -> }
             result.onFailure { throwable ->
                 if (throwable is retrofit2.HttpException && throwable.code() == 401) {
                     _sessionExpired.postValue(true)

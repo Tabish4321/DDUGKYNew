@@ -296,6 +296,10 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
     }
 
     override fun setupObservers() {
+        if(AppUtil.getSavedLoginIdPreference(requireContext()) == BuildConfig.USER_NAME_FOR_APP){
+            dismissProgressDialog()
+            return
+        }
         collectTCInfoResponse()
         collectTCStaffResponse()
         collectTCElectrical()
@@ -313,40 +317,24 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         collectAllRoomDetails()
         collectQTeamInsertRes()
     }
-    private lateinit var request: TrainingCenterInfo // Declare but don't initialize here
+    private lateinit var request: TrainingCenterInfo
 
     override fun setupClickListeners() {
         setupAllClickListeners()
     }
 
+
+
     override fun loadInitialData() {
-        // Load basic center info and staff
+        if(AppUtil.getSavedLoginIdPreference(requireContext()) == BuildConfig.USER_NAME_FOR_APP){
+            binding.toolbar.btnBack.visibility= View.GONE
+            dismissProgressDialog()
+            return
+        }
 
         viewModel.getTrainerCenterInfo(request)
         viewModel.getTcStaffDetails(request)
     }
-
-//    private fun setupRecyclerView() {
-//        setupRecyclerView(
-//            recyclerView = binding.recyclerView,
-//            items = academiaList,
-//            layoutManager = LinearLayoutManager(requireContext()),
-//            bindingInflater = { inflater, parent, _ ->
-//                DescriptionAcademiaLayoutBinding.inflate(inflater, parent, false)
-//            },
-//            onBind = { room, binding, _ ->
-//                binding.tvMaxCandidate.text = room.maxPermissibleCandidate
-//                binding.tvLength.text = room.roomLength
-//                binding.tvWidth.text = room.roomWidth
-//                binding.tvArea.text = room.roomArea
-//                binding.tvRoomType.text = room.roomType
-//
-//                binding.btnView.setOnClickListener {
-//                    handleRoomItemClick(room)
-//                }
-//            }
-//        )
-//    }
 
 
     private fun setupRecyclerView() {
@@ -588,70 +576,6 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
     }
 
 
-//    private fun setupImageClickListeners() = binding.apply {
-//
-//        // Wash basin + toilets
-//        valueMaleToilet.onImageDialogClick(maleToiletImage, "Male Toilet")
-//        valueProofMaleSignageToilet.onImageDialogClick(maleToiletSignageImage, "Male Toilet Signage")
-//        valueMaleUrinals.onImageDialogClick(maleToiletUrinalsImage, "Male Urinals")
-//        valueMaleWashBasin.onImageDialogClick(maleToiletWashbasinImage, "Male Wash Basin")
-//        valueFemaleToilet.onImageDialogClick(femaleToiletImage, "Female Toilet")
-//        valueProofFemaleSignageToilet.onImageDialogClick(femaleToiletSignageImage, "Female Toilet Signage")
-//        valueFemaleWashBasin.onImageDialogClick(femaleToiletWashbasinImage, "Female Wash Basin")
-//        valueOverheadTank.onImageDialogClick(ovrHeadTankImage, "Overhead Tank")
-//        valueTypeOfFlooring.onImageDialogClick(typeOfFlooringImage, "Type of Flooring")
-//
-//        // Description area
-//        valueFans.onImageDialogClick(fansImage, "Fans")
-//        valueCirculationArea.onImageDialogClick(circulationAreaImage, "Circulation Area")
-//        valueOpenSpace.onImageDialogClick(openSpaceImage, "Open Space")
-//        valueParking.onImageDialogClick(parkingSpaceImage, "Parking Space")
-//
-//        // Teaching
-//        valueIsWelcomeKitAvail.onImageDialogClick(welcomeKitImage, "Welcome Kit")
-//
-//        // General details
-//        valueSignOfLiakage.onImageDialogClick(signOfLeakageImage, "Sign of Leakage")
-//        valueProtectionOfStairs.onImageDialogClick(protectionStairsBalImage, "Protection of Stairs")
-//
-//        // Electrical
-//        valueSecuringWire.onImageDialogClick(securingWiringImage, "Securing Wiring")
-//        valueSwitchBoard.onImageDialogClick(switchBoardImage, "Switch Board")
-//
-//        // Signage
-//        signageLayout.valueCenterNameBoard.onImageDialogClick(tcNameBoardImage, "Training Center Name Board")
-//        signageLayout.valueSummaryAcheivement.onImageDialogClick(activitySummaryBoardImage, "Activity Summary Achievement")
-//        signageLayout.valueStudentEntitlement.onImageDialogClick(studentEntitlementBoardImage, "Student Entitlement Board")
-//        signageLayout.valueContactDetail.onImageDialogClick(contactDetailImpoPeopleImage, "Contact Details")
-//        signageLayout.valueBasicInfoBoard.onImageDialogClick(basicInfoBoardImage, "Basic Info Board")
-//        signageLayout.valueCodeOfConduct.onImageDialogClick(codeOfConductImage, "Code of Conduct")
-//        signageLayout.valueAttendanceSummary.onImageDialogClick(studentAttendanceImage, "Attendance Summary")
-//
-//        // IP enable
-//        ipCameraLayout.valueCentralMonitor.onImageDialogClick(centralMonitorImage, "Central Monitor")
-//        ipCameraLayout.valueConformanceCCTV.onImageDialogClick(conformationOfCCTVImage, "CCTV Conformance")
-//        ipCameraLayout.valueStorageCCTV.onImageDialogClick(storageOfCCtvImage, "CCTV Storage")
-//        ipCameraLayout.valueDvrStaticIP.onImageDialogClick(dvrImage, "DVR Static IP")
-//
-//        // Common equipment
-//        commonEquipmentLayout.valueElectricalPowerBackup.onImageDialogClick(electricPowerImage, "Electrical Power Backup")
-//        commonEquipmentLayout.valueBiometricDevices.onImageDialogClick(installBiometricImage, "Biometric Devices")
-//        commonEquipmentLayout.valueCCTVMonitor.onImageDialogClick(installationCCTVImage, "CCTV Monitor")
-//        commonEquipmentLayout.valueStorageDocs.onImageDialogClick(storagePlaceSecuringDocImage, "Storage Documents")
-//        commonEquipmentLayout.valuePrinterScanner.onImageDialogClick(printerCumImage, "Printer Scanner")
-//        commonEquipmentLayout.valueDigitalCamera.onImageDialogClick(digitalCameraImage, "Digital Camera")
-//        commonEquipmentLayout.valueGrievanceRegister.onImageDialogClick(grievanceImage, "Grievance Register")
-//        commonEquipmentLayout.valueMinEquipment.onImageDialogClick(minimumEquipmentImage, "Minimum Equipment")
-//        commonEquipmentLayout.valueDirectionBoards.onImageDialogClick(directionBoardsImage, "Direction Boards")
-//
-//        // Support infra
-//        availSupportInfraLayout.valueSafeDrinkingWater.onImageDialogClick(safeDrinkingImage, "Safe Drinking Water")
-//        availSupportInfraLayout.valueFireFighting.onImageDialogClick(fireFightingImage, "Fire Fighting")
-//        availSupportInfraLayout.valueFirstAidKit.onImageDialogClick(firstAidImage, "First Aid Kit")
-//    }
-
-
-
     private  fun TextView.onImageDialogClick(base64: String, fileName: String) {
         setOnClickListener { showBase64ImageDialog(base64, fileName) }
     }
@@ -661,17 +585,6 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
     private  fun TextView.onPdfClick(base64: String, fileName: String) {
         setOnClickListener { downloadAndOpenBase64Pdf(base64, fileName) }
     }
-
-
-
-//    private fun setupPdfClickListeners() {
-//        binding.tvSelfDeclarationPdf.onPdfClick(selfDeclarationPdf,"selfDeclarationPdf.pdf")
-//        binding.apply {
-//            tvPhotosOfBuildingPdf.onPdfClick(buildingPdf, "buildingPdf.pdf")
-//            tvSchematicBuildingPlanPdf.onPdfClick(schematicPdf, "schematicPdf.pdf")
-//            tvInternalExternalWallsPdf.onPdfClick(internalExternalWallPdf, "internalExternalWallsPdf.pdf")
-//        }
-//    }
 
 
     private fun setupPdfClickListeners() {
@@ -1127,8 +1040,15 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             .show()
     }
 
+
     private fun submitQTeamForm() {
         showProgressDialog("Submitting...")
+        if(AppUtil.getSavedLoginIdPreference(requireContext()) == BuildConfig.USER_NAME_FOR_APP){
+            showToast("Data SuccessFully Saved.")
+            dismissProgressDialog()
+            findNavController().popBackStack()
+            return
+        }
         val requestTcQTeamSubmit = TcQTeamInsertReq(
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -1178,6 +1098,9 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             tcStandardFormRemark = selectedTcAvailOfStandardFormRemarks
 
         )
+
+
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.insertQTeamVerification(requestTcQTeamSubmit)
@@ -2029,7 +1952,6 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
     }
 
     private fun setupTheoryCumDomainLabImageClicks(binding: TheoryCumDomainLabLayoutBinding, data: Any) {
-
         binding.apply {
             valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Type of Roof") }
             valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
@@ -2177,25 +2099,6 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             }
         }
     }
-
-//    private fun collectTCAcademiaNonAcademia() {
-//        viewModel.getTcAcademicNonAcademicArea.observe(viewLifecycleOwner) { result ->
-//            result.onSuccess {
-//                handleApiResponse(
-//                    responseCode = it.responseCode,
-//                    data = it.wrappedList,
-//                    onSuccess = { data ->
-//                        academiaList.clear()
-//                        data?.let { it1 -> academiaList.addAll(it1) }
-//                        updateRecyclerViewData(binding.recyclerView.id, academiaList)
-//                    }
-//                )
-//            }
-//            result.onFailure {
-//                showErrorToast("Failed: ${it.message}")
-//            }
-//        }
-//    }
 
     private fun collectTCAcademiaNonAcademia() {
         viewModel.getTcAcademicNonAcademicArea.observe(viewLifecycleOwner) { result ->
