@@ -41,7 +41,6 @@ class RFSRLMFormFragment : BaseFormSrmRF() {
             addToiletRemark = selectedRFToiletAdditionalSanctionRemarks,
             facilityId = facilityId
         )
-
         viewModel.getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(requestTcInfraReq)
         collectFinalSubmitData()
         showProgress()
