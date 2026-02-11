@@ -16,6 +16,7 @@ import com.deendayalproject.model.request.TrainingCenter
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.util.ProgressDialogUtil
+import com.deendayalproject.util.gone
 import java.lang.System.exit
 
 class CenterFragment : BaseFragment<FragmentCenterBinding>(
@@ -62,6 +63,9 @@ class CenterFragment : BaseFragment<FragmentCenterBinding>(
                 binding.trainingCenterAddress.text = "${center.trainingCenterAddress}"
                 binding.senctionOrder.text = " ${center.senctionOrder}"
                 binding.districtName.text = " ${center.districtName}"
+                binding.maleCapacityContainer.gone()
+                binding.femaleCapacityContainer.gone()
+                binding.totalCapacityContainer.gone()
             },
             onItemClick = { center, position ->
                 ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")

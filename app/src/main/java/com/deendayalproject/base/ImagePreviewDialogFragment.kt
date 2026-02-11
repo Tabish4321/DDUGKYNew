@@ -34,19 +34,15 @@ class ImagePreviewDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         setStyle(STYLE_NORMAL, R.style.ThemeOverlay_App_RoundedDialog)
-
         _binding = DialogImagePreviewBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val title = arguments?.getString(ARG_TITLE) ?: ""
         val bitmap = arguments?.getParcelable<Bitmap>(ARG_BITMAP)
-
         binding.textViewTitle.text = title
-
         if (bitmap != null) {
             binding.textNoImage.visibility = View.GONE
             binding.imageViewPreview.setImageBitmap(bitmap)
@@ -54,11 +50,9 @@ class ImagePreviewDialogFragment : DialogFragment() {
             binding.textNoImage.visibility = View.VISIBLE
             binding.imageViewPreview.setImageResource(R.drawable.no_data)
         }
-
         binding.buttonClose.setOnClickListener {
             dismiss()
         }
-
         dialog?.window?.setLayout(
             (resources.displayMetrics.widthPixels * 1).toInt(),
             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -66,6 +60,8 @@ class ImagePreviewDialogFragment : DialogFragment() {
     }
 
     override fun onDestroyView() {
+
+
         super.onDestroyView()
         _binding = null
     }

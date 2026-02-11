@@ -8,7 +8,6 @@
     android:fillViewport="true"
     android:background="@color/color_light_grey">
 
-    <!-- Toolbar / Title (common id 'toolbar' used by many fragments) -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

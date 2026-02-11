@@ -198,6 +198,7 @@
 
 
         <LinearLayout
+            android:id="@+id/femaleCapacityContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -248,6 +249,7 @@
 
 
         <LinearLayout
+            android:id="@+id/maleCapacityContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -297,6 +299,7 @@
 
 
         <LinearLayout
+            android:id="@+id/totalCapacityContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

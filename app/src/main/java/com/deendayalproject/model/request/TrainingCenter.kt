@@ -10,5 +10,9 @@ data class TrainingCenter(
     val tcFemaleCapacity: String,
     val tcCapacity: String,
     val status: String,
-    val remarks: String
+    val remarks: String,
+    val letitude: String?,
+    //val latitude: String?,
+    val longitude: String?,
+    val radius: Int?
 )

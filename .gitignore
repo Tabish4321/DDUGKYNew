@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+.idea/misc.xml
+app/prod/release/output-metadata.json
+app/release/output-metadata.json

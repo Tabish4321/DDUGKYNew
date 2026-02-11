@@ -41,6 +41,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.adapter.AcademicAreaAdapter
+import com.deendayalproject.base.GenericMessageDialog
 import com.deendayalproject.databinding.FragmentTrainingBinding
 import com.deendayalproject.model.SectionHandler
 import com.deendayalproject.model.request.AcademicNonAcademicArea
@@ -1569,9 +1570,7 @@ class TrainingFragment : Fragment() {
     @SuppressLint("CutPasteId")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding = FragmentTrainingBinding.bind(view)
-
 
         lifecycleScope.launch(Dispatchers.Default) {
             setupExpandableSections(view)
@@ -1579,8 +1578,6 @@ class TrainingFragment : Fragment() {
         }
         collectSectionStatus()
         collectFinalSubmitData()
-
-
         centerId = arguments?.getString("centerId").toString()
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
         status = arguments?.getString("status")
@@ -3328,6 +3325,7 @@ class TrainingFragment : Fragment() {
                 Toast.LENGTH_LONG
             ).show()
 //            SubmitTCR()
+
         }
 
         tvArea.isFocusable = false
@@ -3350,17 +3348,10 @@ class TrainingFragment : Fragment() {
         btnCalculateArea.setOnClickListener {
             val length = etDescLength.text.toString().toDoubleOrNull() ?: 0.0
             val width = etDescWidth.text.toString().toDoubleOrNull() ?: 0.0
-
             etArea.setText("${length * width}")
         }
-
-
         view.findViewById<Button>(R.id.btnSubmitAdddMore).setOnClickListener {
-
-
-
             LayoutLinear.visibility = View.VISIBLE
-
         }
 
         // Spinner values
@@ -3390,14 +3381,12 @@ class TrainingFragment : Fragment() {
                 id: Long
             ) {
                 val selectedItem = parent.getItemAtPosition(position).toString()
-
 //                if (selectedItem == "Select Area") return
                 RoomType=selectedItem
 //                    Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT)
 //                    .show()
                 when (selectedItem) {
                     "Select Area" -> {
-
                         etLength.visibility = View.GONE
                         etWidth.visibility = View.GONE
                         tvArea.visibility = View.GONE
@@ -3598,7 +3587,6 @@ class TrainingFragment : Fragment() {
 
 //         It Lab  Ajit Ranjan PMAYG
         viewModel.insertITTabDtails.observe(viewLifecycleOwner) {
-
                 result ->
             result.onSuccess { response ->
                 // ✅ Dismiss progress dialog
@@ -3609,15 +3597,8 @@ class TrainingFragment : Fragment() {
 
                 Log.d("TrainingFragment", "✅ insertITTabDtails Success Response:\n$jsonResponse")
                 val responseDesc = response.responseDesc
-//                AlertDialog.Builder(context)
-//                    .setTitle("Success")
-//                    .setCancelable(false)
-//                    .setMessage(responseDesc)
-//                    .setPositiveButton("Yes") { _, _ ->
+
                 RecyClerViewUI()
-//                        findNavController().navigateUp()  // ✅ go back
-//                    }
-//                    .show()
                 val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutdescription_of_academicContent)
                 otherAreaSection?.let { AppUtil.clearAllInputs(it) }
                 base64ProofPreviewITLTypeofRoofItLab= null
@@ -3731,39 +3712,21 @@ class TrainingFragment : Fragment() {
 
                     )
 
-
-
-
-
-
-
-
-
-//                    val responseDesc = response.responseDesc
-//                    AlertDialog.Builder(context)
-//                        .setTitle("Success")
-//                        .setCancelable(false)
-//                        .setMessage(responseDesc)
-//                        .setPositiveButton("Yes") { _, _ ->
                 RecyClerViewUI()
-//                        findNavController().navigateUp()  // ✅ go back
-//                        }
-//                        .show()
                 val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutdescription_of_academicContent)
                 otherAreaSection?.let { AppUtil.clearAllInputs(it) }
                 base64ProofPreviewReceptionAreaPhotogragh= null
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(
-                    requireContext(),
-//                    " Description Of ReceptionArea details submission failed: ${it.message}",
-                    " details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Description Of ReceptionArea Submission Failed",
+                    message = "\n\nReason:\n${it.message}"
+                )
             }
         }
+
         //        Office Room  Ajit Ranjan PMAYG
         viewModel.Officeroom.observe(viewLifecycleOwner){ result ->
             result.onSuccess { response ->
@@ -3800,11 +3763,12 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(
-                    requireContext(),
-                    " Description Of Office Room details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Submission Failed",
+                    message = "Description Of Office Room details submission failed:.\n\nReason:\n${it.message}"
+                )
 
             }
         }
@@ -3813,21 +3777,12 @@ class TrainingFragment : Fragment() {
                 result ->
             result.onSuccess { response ->
                 ProgressDialogUtil.dismissProgressDialog()
-                // ✅ Print/log all values
                 val gson = GsonBuilder().setPrettyPrinting().create()
                 val jsonResponse = gson.toJson(response)
 
                 Log.d("TrainingFragment", "✅ ITComeDomainLab Success Response:\n$jsonResponse")
                 val responseDesc = response.responseDesc
-
-//                AlertDialog.Builder(context)
-//                    .setTitle("Success")
-//                    .setCancelable(false)
-//                    .setMessage(responseDesc)
-//                    .setPositiveButton("Yes") { _, _ ->
                 RecyClerViewUI()
-//                    }
-//                    .show()
                 val otherAreaSection = view?.findViewById<ViewGroup>(R.id.layoutdescription_of_academicContent)
                 otherAreaSection?.let { AppUtil.clearAllInputs(it) }
                 base64ProofPreviewITCDLTypeofRoofItLab= null
@@ -3855,12 +3810,11 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(
-                    requireContext(),
-                    " Description Of Academic/Non-Academic Areas(IT Come Domain Lab) details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Description Of Academic(IT Come Domain Lab) Submission Failed",
+                    message = "\n\nReason:\n${it.message}"
+                )
             }
         }
 //        Theory Cum IT Lab  Ajit Ranjan PMAYG
@@ -3915,11 +3869,11 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(
-                    requireContext(),
-                    " Description Of Academic/Non-Academic Areas( Theory Cum IT Lab) details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = " Theory Cum IT Lab Submission Failed",
+                    message = "\n\nReason:\n${it.message}"
+                )
 
             }
         }
@@ -3969,12 +3923,11 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(
-                    requireContext(),
-                    " Description Of Academic/Non-Academic Areas( Theory Cum Domain Lab) details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Theory Cum Domain Lab Submission Failed",
+                    message = "\n\nReason:\n${it.message}"
+                )
             }
         }
 
@@ -4022,11 +3975,11 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(
-                    requireContext(),
-                    " Description Of Academic/Non-Academic Areas(Domain Lab) details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Domain Lab Submission Failed",
+                    message = "\n\nReason:\n${it.message}"
+                )
 
             }
         }
@@ -4078,11 +4031,11 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(
-                    requireContext(),
-                    " Description Of Academic/Non-Academic Areas(Theory Class Room) details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Theory Class Room Submission Failed",
+                    message = "\n\nReason:\n${it.message}"
+                )
 
             }
         }
@@ -4138,11 +4091,11 @@ class TrainingFragment : Fragment() {
 
             }
             result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "Electrical submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Electrical Submission Failed",
+                    message = "\n\nReason:\n${it.message}"
+                )
             }
         }
         viewModel.insertGeneralDetails.observe(viewLifecycleOwner) { result ->
@@ -4166,11 +4119,11 @@ class TrainingFragment : Fragment() {
 
             }
             result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "General details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Submission Failed",
+                    message = "General details submission failed:\n\nReason:\n${it.message}"
+                )
             }
         }
         viewModel.insertTCInfoDetails.observe(viewLifecycleOwner) { result ->
@@ -4193,11 +4146,11 @@ class TrainingFragment : Fragment() {
                 viewModel.getSectionsStatusData(requestTcInfraReq)
             }
             result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "Training details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Submission Failed",
+                    message = "raining details submission failed:\n\nReason:\n${it.message}"
+                )
             }
         }
         viewModel.insertSignagesInfoBoardsDetails.observe(viewLifecycleOwner) { result ->
@@ -4221,11 +4174,11 @@ class TrainingFragment : Fragment() {
 
             }
             result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "Signages&InfoBoards details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Submission Failed",
+                    message = "Signages&InfoBoards details submission failed:\n\nReason:\n${it.message}"
+                )
             }
         }
         viewModel.insertSupportInfraDetails.observe(viewLifecycleOwner) { result ->
@@ -4250,12 +4203,11 @@ class TrainingFragment : Fragment() {
 
             }
             result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "Support Infrastructure details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
-
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Submission Failed",
+                    message = "Support Infrastructure details submission failed:\n\nReason:\n${it.message}"
+                )
             }
         }
         viewModel.insertCommonEquipDetails.observe(viewLifecycleOwner) { result ->
@@ -4281,12 +4233,12 @@ class TrainingFragment : Fragment() {
 
             }
             result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    " Common equipment details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
 
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Submission Failed",
+                    message = "Common equipment details submission failed: \n\nReason:\n${it.message}"
+                )
             }
         }
         viewModel.insertDescAreaDetails.observe(viewLifecycleOwner) { result ->
@@ -4310,11 +4262,12 @@ class TrainingFragment : Fragment() {
 
             }
             result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    " Description of other area  details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Submission Failed",
+                    message = "Description of other area  details submission failed: \n\nReason:\n${it.message}"
+                )
 
             }
         }
@@ -4340,11 +4293,12 @@ class TrainingFragment : Fragment() {
 
             }
             result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    " Toilet & WashBasin details submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+
+                GenericMessageDialog.show(
+                    context = requireContext(),
+                    title = "Submission Failed",
+                    message = "Toilet & WashBasin details submission failed: \n\nReason:\n${it.message}"
+                )
 
             }
         }
@@ -7363,9 +7317,6 @@ class TrainingFragment : Fragment() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             val request = TCDLRequest(
-
-
-//
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 imeiNo = AppUtil.getAndroidId(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME,
@@ -7598,7 +7549,7 @@ class TrainingFragment : Fragment() {
                 when (it.responseCode) {
                     200 -> {
                         // ✅ Get list from API and update adapter
-                        val list = it.wrappedList ?: emptyList()
+                        val list = it.wrappedList
                         Academicadapter.updateData(list)
 
                         // ✅ Print largest roomNo in Logcat

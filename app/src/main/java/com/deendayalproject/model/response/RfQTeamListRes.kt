@@ -16,5 +16,7 @@ data class RfCenter(
     val trainingCenterName: String,
     val districtName: String,
     val status: String,
-    val facilityId: Int
+    val facilityId: Int,
+    val finalRfCapacity: String,
+    val residentialType : String
 )

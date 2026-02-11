@@ -84,6 +84,7 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
 //        }
     }
 
+
     override fun loadInitialData() {
         // Make API call
         fetchResidentialFacilityQTeamList()
@@ -92,19 +93,16 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
     private fun fetchResidentialFacilityQTeamList() {
         val token = AppUtil.getSavedTokenPreference(requireContext()).orEmpty()
         val loginId = AppUtil.getSavedLoginIdPreference(requireContext()).orEmpty()
-
         if (loginId.isEmpty()) {
             showErrorToast("Login ID not found")
             handleSessionExpired()
             return
         }
-
         val request = ResidentialFacilityQTeamRequest(
             loginId = loginId,
             appVersion = BuildConfig.VERSION_NAME,
             imeiNo = AppUtil.getAndroidId(requireContext()).orEmpty()
         )
-
         viewModel.fetchResidentialFacilityQTeamList(request, token)
     }
 
@@ -156,65 +154,41 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
             } else {
                 dismissProgressDialog()
             }
-
-            // Optional: Also update the progress bar visibility
-           // binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 
     private fun bindCenterItem(center: RfCenter, binding: RfItemQteamLayoutBinding) {
-        // Handle null values safely
         binding.trainingCenterName.text = safeText(center.trainingCenterName)
-//        getStrings(
-//            R.string.training_center_name_format,
-//            safeText(center.trainingCenterName)
-//        )
-
         binding.trainingCenterAddress.text = safeText(center.trainingCenterAddress)
-//            getStrings(
-//            R.string.training_center_address_format,
-//            safeText(center.trainingCenterAddress)
-//        )
-
         binding.senctionOrder.text = safeText(center.senctionOrder)
-//            getStrings(
-//            R.string.sanction_order_format,
-//            safeText(center.senctionOrder)
-//        )
-
         binding.districtName.text =safeText(center.districtName)
-//            getStrings(
-//            R.string.district_name_format,
-//            safeText(center.districtName)
-//        )
+        binding.totalCapacity.text=center.finalRfCapacity?:"N/A"
+        binding.residenctialIcon.setImageResource(
+            if (center.residentialType.equals("Male"))
+                R.drawable.baseline_boy_24
+            else
+                R.drawable.baseline_girl_24
+        )
+        binding.residenctialType.text= center.residentialType
     }
-
     private fun navigateToForm(center: RfCenter) {
         try {
-            // Safely handle null values
-            val action =
-                RFQTeamListFragmentDirections.actionRFQTeamListFragmentToRFQTeamFormFragment(
+            val action = RFQTeamListFragmentDirections.actionRFQTeamListFragmentToRFQTeamFormFragment(
                     center.trainingCenterId.toString(),
                     center.trainingCenterName,
                     center.senctionOrder,
                     center.facilityId
                 )
             findNavController().navigate(action)
-
            // findNavController().navigate(action)
-
         } catch (e: Exception) {
             logCrashlyticsError("navigateToForm", e)
             showErrorToast("Failed to navigate: ${e.message}")
         }
     }
 
-    // Optional: Override for additional cleanup
     override fun onDestroyView() {
-        // Clear recycler view data
         clearRecyclerViewData(binding.recyclerView.id)
         super.onDestroyView()
     }
-
-
 }

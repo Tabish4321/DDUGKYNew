@@ -81,23 +81,35 @@ object AppUtil {
         return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
     }
 
-    fun showSessionExpiredDialog(navController: NavController, context: Context) {
-        if (isSessionDialogShown) return // Prevent showing multiple dialogs
+    @Volatile
+    private var isSessionDialogShown = false
 
-        isSessionDialogShown = true // Set flag to true when dialog is shown
+    fun showSessionExpiredDialog(
+        navController: NavController,
+        context: Context
+    ) {
+        if (isSessionDialogShown) return
 
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle("Session Expired")
-        builder.setMessage("Your session has expired. Please log in again.")
-        builder.setCancelable(false) // Prevent dismissing on outside touch or back press
+        val activity = context as? Activity ?: return
+        if (activity.isFinishing || activity.isDestroyed) return
 
-        builder.setPositiveButton("OK") { dialog, _ ->
-            dialog.dismiss()
-            logoutUser(navController, context)
-        }
-        val alertDialog = builder.create()
-        alertDialog.show()
+        isSessionDialogShown = true
+
+        AlertDialog.Builder(activity)
+            .setTitle("Session Expired")
+            .setMessage("Your session has expired. Please log in again.")
+            .setCancelable(false)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+                isSessionDialogShown = false
+                logoutUser(navController, activity)
+            }
+            .setOnDismissListener {
+                isSessionDialogShown = false
+            }.show()
     }
+
+
 
     fun hasStoragePermission(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -124,7 +136,6 @@ object AppUtil {
                 .setPopUpTo(navController.graph.startDestinationId, true) // Clear everything
                 .build()
         )
-
         isSessionDialogShown = false // Reset flag after navigation
     }
     fun hideKeyboard(activity: Activity) {
@@ -212,17 +223,6 @@ object AppUtil {
         return sharedPreferences.getString("facilityId", "") ?: ""
     }
 
-
-
-
-
-
-
-
-
-
-
-
     fun sha512Hash(input: String): String {
         val digest = MessageDigest.getInstance("SHA-512")
         val hashBytes = digest.digest(input.toByteArray(Charsets.UTF_8))
@@ -241,7 +241,6 @@ object AppUtil {
         return dateFormat.format(calendar.time)
     }
 
-    private var isSessionDialogShown = false // Flag to prevent multiple dialogs
 
     /*  fun showSessionExpiredDialog(navController: NavController, context: Context) {
           if (isSessionDialogShown) return // Prevent showing multiple dialogs
@@ -400,8 +399,7 @@ object AppUtil {
     }
 
     fun getSavedLanguagePreference(context: Context): String {
-        val sharedPreferences =
-            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        val sharedPreferences = context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         return sharedPreferences.getString("language_code", "en") ?: "en" // Default to English
     }
 

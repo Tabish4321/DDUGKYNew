@@ -86,6 +86,7 @@ import com.deendayalproject.model.response.UlbItem
 import com.deendayalproject.model.response.VillageModel
 import com.deendayalproject.model.response.WardItem
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.util.roundHalfUp
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -2595,7 +2596,7 @@ class ResidentialFacilityFragment : Fragment() {
         alStateModel: ArrayList<DistrictModel?>, sp: Spinner
     ) {
         if (!alStateModel.isEmpty() && alStateModel.size > 0) {
-            alStateModel!!.add(0, DistrictModel("--Select--", "0", "0"))
+            alStateModel.add(0, DistrictModel("--Select--", "0", "0"))
             val dbAdapter = DistrictAdapter(
                 requireContext(), android.R.layout.simple_spinner_item, alStateModel
             )
@@ -2826,11 +2827,20 @@ class ResidentialFacilityFragment : Fragment() {
         cameraLauncher.launch(photoUri)
     }
 
+
     private fun createImageFile(): File? {
-        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return try {
-            File.createTempFile("JPEG_${timestamp}_", ".jpg", storageDir)
+            val tempDir = requireContext().cacheDir
+            File.createTempFile(
+                "img_",
+                ".jpg",
+                tempDir
+            ).apply {
+                setReadable(false, false)
+                setWritable(false, false)
+                setReadable(true, true)
+                setWritable(true, true)
+            }
         } catch (e: IOException) {
             e.printStackTrace()
             null
@@ -3386,7 +3396,6 @@ class ResidentialFacilityFragment : Fragment() {
             if (!checkTextInput(etKitchenLength, "Length (In ft)")) isValid = false
             if (!checkTextInput(etKitchenWidth, "Width (In ft)")) isValid = false
         }
-
         // Validate required TextInputEditTexts
         if (!checkTextInput(etStoolsChairsBenches, "No.of Stools/Chairs/Benches")) isValid = false
         if (spinnerDiningRecreationAreaSeparate.selectedItem.toString() == "Yes") {
@@ -3613,15 +3622,14 @@ class ResidentialFacilityFragment : Fragment() {
 
         val value = etRoomArea.text.toString().toDoubleOrNull()
         if (value != null) {
-            selectedRoomPermitted = (value / 25).toInt()
+            selectedRoomPermitted = (value / 25).roundHalfUp()
             Log.d("Result", "Approx value: $selectedRoomPermitted")
             binding.etStudentsPermitted.text = selectedRoomPermitted.toString()
         } else {
             Toast.makeText(context, "Please enter a valid number", Toast.LENGTH_SHORT).show()
         }
-
-
     }
+
 
     private fun setupAutoAreaCalculationForRoom(
         etLengths: EditText, etWidths: EditText, tvAreas: TextView

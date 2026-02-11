@@ -33,9 +33,9 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
     private lateinit var viewModel: SharedViewModel
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    private var latitude = 26.2153
-    private var longitude = 84.3588
-    private var radius = 500000000f
+//    private var latitude = 26.2153
+//    private var longitude = 84.3588
+//    private var radius = 500000000f
 
 
     // Location permission launcher
@@ -64,7 +64,7 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
     }
 
     override fun setupClickListeners() {
-        binding.backButton.setOnClickListener {
+        binding.toolbar.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
     }
@@ -121,9 +121,6 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
 
     private fun handleTrainingCenterClick(center: TrainingCenter) {
         logFragmentEvent("Training_Center_Clicked", center.trainingCenterId.toString())
-
-        // Check if geofencing is required (commented out in original)
-        // For now, directly navigate without geofence check
         navigateToForm(center)
 
         /* Uncomment if geofencing is needed:
@@ -221,22 +218,21 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
             locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             return
         }
-
         showProgressDialog("Checking location...")
 
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
                 dismissProgressDialog()
                 if (location != null) {
-                    val inside = isUserInGeofence(
-                        userLat = location.latitude,
-                        userLng = location.longitude,
-                        centerLat = latitude, // Use center's actual lat/lng if available
-                        centerLng = longitude,
-                        radiusInMeters = radius
-                    )
-                    onResult(inside, location)
-                    logFragmentEvent("Geofence_Check", "Inside: $inside")
+//                    val inside = isUserInGeofence(
+//                        userLat = location.latitude,
+//                        userLng = location.longitude,
+//                        centerLat = latitude, // Use center's actual lat/lng if available
+//                        centerLng = longitude,
+//                        radiusInMeters = radius
+//                    )
+                   // onResult(inside, location)
+                  //  logFragmentEvent("Geofence_Check", "Inside: $inside")
                 } else {
                     showToast("Location not available")
                     onResult(false, null)

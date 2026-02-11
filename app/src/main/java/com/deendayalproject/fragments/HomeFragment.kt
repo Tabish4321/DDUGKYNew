@@ -130,13 +130,7 @@ bindingInflater = FragmentHomeBinding::inflate
                         formBinding.tvFormName.text = form.formName
                     },
                     onItemClick = { form, _ ->
-                        if( AppUtil.getSavedLoginIdPreference(requireContext()) !="DDUGKYUSER"){
-                            handleFormClick(form)
-                        }else{
-                            val action = HomeFragmentDirections.actionHomeFragmentToQTeamFormFragment("1", "DDUGKY Training Center", "S2025")
-                            findNavController().navigate(action)
-
-                        }
+                        handleFormClick(form)
                     }
                 )
 
@@ -289,7 +283,13 @@ bindingInflater = FragmentHomeBinding::inflate
     }
 
     override fun loadInitialData() {
-        fetchModules()
-        setupRecycler()
+        if(AppUtil.getSavedLoginIdPreference(requireContext()) == BuildConfig.USER_NAME_FOR_APP){
+            val action = HomeFragmentDirections.actionHomeFragmentToQTeamFormFragment("1", "DDUGKY Training Center", "S2025")
+            findNavController().navigate(action)
+        }else{
+            fetchModules()
+            setupRecycler()
+        }
+
     }
 }

@@ -137,7 +137,6 @@ import com.deendayalproject.model.response.VillageRes
 import com.deendayalproject.model.response.WardRes
 import com.deendayalproject.uidai.ekyc.UidaiKycRequest
 import com.deendayalproject.uidai.ekyc.UidaiResp
-import com.deendayalproject.util.ApiConstant
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header

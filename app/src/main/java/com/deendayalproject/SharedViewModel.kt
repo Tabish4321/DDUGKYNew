@@ -382,6 +382,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+
     // Field Verification Methods
     fun getFieldVerificationDetail(request: FieldVerificationDetailRequest) {
         handleApiCall(
@@ -445,7 +446,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         handleApiCall(
             apiCall = {
                 repositoryManager.fieldVerification.submitFieldVerification(request)
-
             },
             resultLiveData = _submitFieldVerification
         )
@@ -473,9 +473,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         _loading.postValue(true)
         viewModelScope.launch {
             val result = repositoryManager.auth.loginUser(request)
-            result.onSuccess { response ->
-                // Handle success if needed
-            }
+            result.onSuccess { response -> }
             result.onFailure { throwable ->
                 if (throwable is retrofit2.HttpException && throwable.code() == 401) {
                     _sessionExpired.postValue(true)

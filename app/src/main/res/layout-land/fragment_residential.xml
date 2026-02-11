@@ -21,6 +21,71 @@
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="12dp"
+                android:paddingEnd="16dp">
+
+                <!-- Back Button - Modern ripple + larger tap area -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBack"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:icon="@drawable/back_arrow"
+                    app:iconTint="@color/white"
+                    app:iconSize="24dp"
+                    app:backgroundTint="@android:color/transparent"
+                    app:cornerRadius="24dp"
+                    app:rippleColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <!-- DDU-GKY Logo - Slightly bigger & rounded -->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/logo_img"
+                    android:layout_width="160dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ddy_logo"
+                    android:scaleType="fitCenter"
+                    android:elevation="6dp"
+                    android:padding="8dp"
+                    android:background="@color/white_brilliant"
+                    app:shapeAppearanceOverlay="@style/RoundedTopCorners"
+                    app:layout_constraintStart_toEndOf="@id/btnBack"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    android:layout_marginStart="8dp"
+                    android:visibility="gone" />
+
+                <!-- Screen Title - Modern bold with subtle shadow -->
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/residential_facility"
+                    android:textColor="@color/white"
+                    android:textSize="21sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/avenir_next_demi_bold"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:shadowColor="#80000000"
+                    android:shadowDx="0"
+                    android:shadowDy="2"
+                    android:shadowRadius="4"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toEndOf="@id/btnBack"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0" />
+
+                <!-- Profile Pic - Circle with border -->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.Toolbar>
 
         <!-- BASIC INFORMATION -->
@@ -3972,72 +4037,6 @@
                         android:textStyle="bold" />
 
                 </LinearLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="16dp">
-
-                    <!-- Back Button - Modern ripple + larger tap area -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnBack"
-                        style="@style/Widget.Material3.Button.IconButton"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        app:backgroundTint="@android:color/transparent"
-                        app:cornerRadius="24dp"
-                        app:icon="@drawable/back_arrow"
-                        app:iconSize="24dp"
-                        app:iconTint="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:rippleColor="@color/white" />
-
-                    <!-- DDU-GKY Logo - Slightly bigger & rounded -->
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/logo_img"
-                        android:layout_width="160dp"
-                        android:layout_height="64dp"
-                        android:layout_marginStart="8dp"
-                        android:background="@color/white_brilliant"
-                        android:elevation="6dp"
-                        android:padding="8dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ddy_logo"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toEndOf="@id/btnBack"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:shapeAppearanceOverlay="@style/RoundedTopCorners" />
-
-                    <!-- Screen Title - Modern bold with subtle shadow -->
-                    <TextView
-                        android:id="@+id/tvTitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/avenir_next_demi_bold"
-                        android:maxLines="2"
-                        android:shadowColor="#80000000"
-                        android:shadowDx="0"
-                        android:shadowDy="2"
-                        android:shadowRadius="4"
-                        android:text="@string/residential_facility"
-                        android:textColor="@color/white"
-                        android:textSize="21sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toEndOf="@id/btnBack"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <!-- Profile Pic - Circle with border -->
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
 

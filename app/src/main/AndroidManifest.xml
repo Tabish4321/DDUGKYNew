@@ -18,8 +18,8 @@
 
     <application
         android:name=".MyApplication"
-        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:allowBackup="true"
         android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -31,8 +31,6 @@
         android:usesCleartextTraffic="false"
         tools:targetApi="30"
         >
-
-        <!--        android:windowSoftInputMode="stateAlwaysHidden|adjustResize"-->
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -46,8 +44,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="locked"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            tools:ignore="IntentFilterExportedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

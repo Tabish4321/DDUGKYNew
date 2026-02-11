@@ -566,9 +566,6 @@ class CandidateAttendanceFragment : BaseFragment<FragmentCandidateAttendanceBind
                                         // val isInside = isUserInsideGeofence(location, 26.2153, 84.3588, radius)
                                         if (isInside) {
 
-
-
-
                                         } else {
                                             showAlertGeoFancingDialog(requireContext(),"Alert","❌ You are outside the institute area")
 
@@ -627,6 +624,7 @@ class CandidateAttendanceFragment : BaseFragment<FragmentCandidateAttendanceBind
         dialog.show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private val startUidaiAuthResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             try {
@@ -658,6 +656,7 @@ class CandidateAttendanceFragment : BaseFragment<FragmentCandidateAttendanceBind
             }
         }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun handleCaptureResponse(captureResponse: String) {
         try {
 
@@ -727,14 +726,15 @@ class CandidateAttendanceFragment : BaseFragment<FragmentCandidateAttendanceBind
 
 
     private fun invokeCaptureIntent() {
-
         try {
             val intent1 = Intent(AppConstant.CAPTURE_INTENT)
             intent1.putExtra(
                 AppConstant.CAPTURE_INTENT_REQUEST,
                 createPidOptions(getTransactionID(), "auth")
             )
-            startUidaiAuthResult.launch(intent1)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startUidaiAuthResult.launch(intent1)
+            }
 
             // val packageName = "com.example.otherapp" // Replace with the target app's package name
             val intent =
@@ -746,9 +746,7 @@ class CandidateAttendanceFragment : BaseFragment<FragmentCandidateAttendanceBind
             if (intent != null) {
                 startActivity(intent)
             }
-        } catch (exp: Exception) {
-        }
-
+        } catch (exp: Exception) { }
     }
 
     private fun createPidOptions(txnId: String, purpose: String): String {

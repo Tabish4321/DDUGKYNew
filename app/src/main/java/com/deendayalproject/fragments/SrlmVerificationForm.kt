@@ -54,6 +54,7 @@ import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.response.RoomDetail
 import com.deendayalproject.model.response.RoomItem
+import com.deendayalproject.util.toastShort
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -61,6 +62,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
+import kotlin.random.Random
 
 class SrlmVerificationForm : Fragment() {
     private val progress: androidx.appcompat.app.AlertDialog? by lazy {
@@ -398,8 +400,7 @@ class SrlmVerificationForm : Fragment() {
                     latValue = location.latitude.toString()
                     langValue = location.longitude.toString()
                 } else {
-                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT).show()
                 }
             }.addOnFailureListener {
                 Toast.makeText(
@@ -411,9 +412,6 @@ class SrlmVerificationForm : Fragment() {
 
 
     private fun listener() {
-
-
-
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = DescriptionAcademiaAdapter(academiaList) { room ->
@@ -1861,37 +1859,31 @@ class SrlmVerificationForm : Fragment() {
         binding.tvSelfDeclarationPdf.setOnClickListener {
 
 
-            downloadAndOpenBase64Pdf(requireContext(), selfDeclarationPdf, "selfDeclarationPdf.pdf")
+            downloadAndOpenBase64Pdf( selfDeclarationPdf, "selfDeclarationPdf.pdf")
 
 
         }
 
 
         binding.tvPhotosOfBuildingPdf.setOnClickListener {
-            downloadAndOpenBase64Pdf(requireContext(), buildingPdf, "buildingPdf.pdf")
+            downloadAndOpenBase64Pdf( buildingPdf, "buildingPdf.pdf")
 
 
         }
 
 
         binding.tvSchematicBuildingPlanPdf.setOnClickListener {
-            downloadAndOpenBase64Pdf(requireContext(), schematicPdf, "schematicPdf.pdf")
+            downloadAndOpenBase64Pdf( schematicPdf, "schematicPdf.pdf")
 
         }
 
 
         binding.tvInternalExternalWallsPdf.setOnClickListener {
-            downloadAndOpenBase64Pdf(requireContext(), schematicPdf, "schematicPdf.pdf")
+            downloadAndOpenBase64Pdf( schematicPdf, "schematicPdf.pdf")
 
         }
 
-
-
-
-
         //Availability Teaching  image set
-
-
         binding.valueIsWelcomeKitAvail.setOnClickListener {
 
             showBase64ImageDialog(requireContext(), welcomeKitImage, "welcome Kit Image")
@@ -1910,6 +1902,7 @@ class SrlmVerificationForm : Fragment() {
         binding.valueProtectionOfStairs.setOnClickListener {
 
             showBase64ImageDialog(requireContext(), protectionStairsBalImage, "protection Stairs Balcony Image")
+
 
         }
 
@@ -1934,7 +1927,6 @@ class SrlmVerificationForm : Fragment() {
             showBase64ImageDialog(requireContext(), tcNameBoardImage, "Training Center Name Board")
 
         }
-
 
         binding.signageLayout.valueSummaryAcheivement.setOnClickListener {
 
@@ -2101,23 +2093,18 @@ class SrlmVerificationForm : Fragment() {
             closeButton.setOnClickListener {
                 dialog.dismiss()
             }
-
             dialog.show()
         }
-
 
         binding.trainingCenterInfoLayout.btnInfoNext.setOnClickListener {
             if (selectedTcInfoApproval.isEmpty()) {
                 Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
-
             }
-
             if (selectedTcInfoApproval == "Send for modification") {
                 selectedTcInfoRemarks =
                     binding.trainingCenterInfoLayout.etInfoRemarks.text.toString()
-
                 if (selectedTcInfoRemarks.isEmpty()) {
                     Toast.makeText(
                         requireContext(),
@@ -2129,7 +2116,6 @@ class SrlmVerificationForm : Fragment() {
             } else selectedTcInfoRemarks = ""
 
             // Common UI updates
-
             val requestTcInfraReq = TrainingCenterInfo(
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -2138,8 +2124,6 @@ class SrlmVerificationForm : Fragment() {
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getTrainerCenterInfra(requestTcInfraReq)
-
-
 
             binding.trainingCenterInfoLayout.trainingInfoExpand.visibility = View.GONE
             binding.trainingCenterInfoLayout.viewInfo.visibility = View.GONE
@@ -2155,16 +2139,13 @@ class SrlmVerificationForm : Fragment() {
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
             }
-
         }
-
 
         binding.btnInfraNext.setOnClickListener {
             if (selectedTcInfraApproval.isEmpty()) {
                 Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
-
             }
 
             if (selectedTcInfraApproval == "Send for modification") {
@@ -2179,8 +2160,6 @@ class SrlmVerificationForm : Fragment() {
                 }
             } else selectedTcInfraRemarks = ""
 
-
-
             val requestTcInfraReq = TrainingCenterInfo(
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -2190,38 +2169,26 @@ class SrlmVerificationForm : Fragment() {
             )
             viewModel.getTcAcademicNonAcademicArea(requestTcInfraReq)
 
-
-
             // Common UI updates
             binding.trainingInfraExpand.visibility = View.GONE
+
             binding.viewInfra.visibility = View.GONE
-            binding.tvTrainInfra.setCompoundDrawablesWithIntrinsicBounds(
-                0,
-                0,
-                R.drawable.ic_verified,
-                0
-            )
+            binding.tvTrainInfra.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
             binding.mainDescAcademia.visibility = View.VISIBLE
             binding.viewDescAcademia.visibility = View.VISIBLE
-
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
             }
-
         }
         binding.btnInfraPrevious.setOnClickListener {
-
             binding.trainingCenterInfoLayout.trainingInfoExpand.visibility = View.VISIBLE
             binding.trainingCenterInfoLayout.viewInfo.visibility = View.VISIBLE
             binding.mainInfra.visibility = View.GONE
             binding.viewInfra.visibility = View.GONE
-
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
             }
-
         }
-
 
         binding.btnDescAcademiaNext.setOnClickListener {
             if (selectedTcDescAcademiaApproval.isEmpty()) {
@@ -2252,8 +2219,6 @@ class SrlmVerificationForm : Fragment() {
                 imeiNo = AppUtil.getAndroidId(requireContext())
             )
             viewModel.getTcToiletWashBasin(requestTcInfraReq)
-
-
 
             // Common UI updates
             binding.trainingDescAcademiaExpand.visibility = View.GONE
@@ -2647,7 +2612,6 @@ class SrlmVerificationForm : Fragment() {
 
         }
         binding.signageLayout.btnSignagePrevious.setOnClickListener {
-
             binding.trainingElectricalDetailsExpand.visibility = View.VISIBLE
             binding.viewElectricalDetails.visibility = View.VISIBLE
             binding.mainSignageBoardDetails.visibility = View.GONE
@@ -2679,8 +2643,6 @@ class SrlmVerificationForm : Fragment() {
                 }
             } else selectedTcIpEnableRemarks = ""
 
-
-
             val requestTcInfraReq = TrainingCenterInfo(
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -2690,11 +2652,9 @@ class SrlmVerificationForm : Fragment() {
             )
             viewModel.getCommonEquipment(requestTcInfraReq)
 
-
             // Common UI updates
             binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.GONE
             binding.ipCameraLayout.trainingIPEnableCameralDetailsExpand.visibility = View.GONE
-
             binding.ipCameraLayout.tvTrainIPEnableCameraDetails.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
@@ -2703,36 +2663,28 @@ class SrlmVerificationForm : Fragment() {
             )
             binding.mainCommonEquipmentDetails.visibility = View.VISIBLE
             binding.commonEquipmentLayout.viewCommonEquipmentDetails.visibility = View.VISIBLE
-
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
             }
 
         }
         binding.ipCameraLayout.btnIpEnablePrevious.setOnClickListener {
-
             binding.signageLayout.trainingSignageBoardlDetailsExpand.visibility = View.VISIBLE
             binding.signageLayout.viewSignageBoardDetails.visibility = View.VISIBLE
             binding.mainIPEnableCameraDetails.visibility = View.GONE
             binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.GONE
-
             binding.scroll.post {
                 binding.scroll.smoothScrollTo(0, 0)
             }
-
         }
 
         binding.commonEquipmentLayout.btnCommonEquipmentNext.setOnClickListener {
             if (selectedTcCommonEquipmentApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-
             }
-
             if (selectedTcCommonEquipmentApproval == "Send for modification") {
-                selectedTcCommonEquipmentRemarks =
-                    binding.commonEquipmentLayout.etCommonEquipmentRemarks.text.toString()
+                selectedTcCommonEquipmentRemarks = binding.commonEquipmentLayout.etCommonEquipmentRemarks.text.toString()
                 if (selectedTcCommonEquipmentRemarks.isEmpty()) {
                     Toast.makeText(
                         requireContext(),
@@ -2744,7 +2696,6 @@ class SrlmVerificationForm : Fragment() {
             } else selectedTcCommonEquipmentRemarks = ""
             // Common UI updates
 
-
             val requestTcInfraReq = TrainingCenterInfo(
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -2754,18 +2705,14 @@ class SrlmVerificationForm : Fragment() {
             )
             viewModel.getAvailabilitySupportInfra(requestTcInfraReq)
 
-
             binding.commonEquipmentLayout.viewCommonEquipmentDetails.visibility = View.GONE
-            binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand.visibility =
-                View.GONE
-
+            binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand.visibility = View.GONE
             binding.commonEquipmentLayout.tvTrainCommonEquipmentDetails.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
                 R.drawable.ic_verified,
                 0
             )
-
 
             binding.mainAvailSupportInfra.visibility = View.VISIBLE
             binding.availSupportInfraLayout.viewAvailSupportInfra.visibility = View.VISIBLE
@@ -2776,7 +2723,6 @@ class SrlmVerificationForm : Fragment() {
 
         }
         binding.commonEquipmentLayout.btnCommonEquipmentPrevious.setOnClickListener {
-
             binding.ipCameraLayout.trainingIPEnableCameralDetailsExpand.visibility = View.VISIBLE
             binding.ipCameraLayout.viewIPEnableCameraDetails.visibility = View.VISIBLE
 
@@ -2794,7 +2740,6 @@ class SrlmVerificationForm : Fragment() {
                 Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
-
             }
 
             if (selectedTcAvailSupportInfraApproval == "Send for modification") {
@@ -2942,14 +2887,10 @@ class SrlmVerificationForm : Fragment() {
 
                     // Show progress bar
                     binding.progressBar.visibility = View.VISIBLE
-
-
                     viewLifecycleOwner.lifecycleScope.launch {
-
                         // Call API
 
                         viewModel.insertSrlmVerification(requestTcQTeamSubmit)
-
                     }
 
 
@@ -3909,114 +3850,62 @@ class SrlmVerificationForm : Fragment() {
 
 
 
-    @SuppressLint("Recycle")
-    private fun downloadAndOpenBase64Pdf(context: Context, base64: String, fileName: String = "document.pdf") {
+    protected fun downloadAndOpenBase64Pdf(
+        base64: String,
+        filenames:String="",
+        context: Context = requireContext()
+    ) {
         try {
-            // 1️⃣ Clean the Base64 (remove prefix if present)
             val cleanBase64 = base64
                 .replace("data:application/pdf;base64,", "")
-                .trim()
+                .replace("\\s".toRegex(), "")   // 🔥 IMPORTANT
 
-            // 2️⃣ Decode Base64 into bytes
-            val pdfBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
-            if (pdfBytes.isEmpty()) {
-                Toast.makeText(context, "Invalid PDF data", Toast.LENGTH_SHORT).show()
+            val pdfBytes = Base64.decode(cleanBase64, Base64.NO_WRAP)
+
+            // Validate bytes
+            if (pdfBytes.size < 4 ||
+                pdfBytes[0] != 0x25.toByte() || // %
+                pdfBytes[1] != 0x50.toByte() || // P
+                pdfBytes[2] != 0x44.toByte() || // D
+                pdfBytes[3] != 0x46.toByte()    // F
+            ) {
+                toastShort("Invalid PDF data")
                 return
             }
 
-            // 3️⃣ Define destination (Downloads folder)
-            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            if (!downloadsDir.exists()) downloadsDir.mkdirs()
+            val pdfFile = File.createTempFile(
+                "temp_pdf_",
+                ".pdf",
+                context.cacheDir
+            )
 
-            val file = File(downloadsDir, fileName)
-
-            // 4️⃣ Write PDF bytes to file
-            FileOutputStream(file).use { it.write(pdfBytes) }
-
-            // 5️⃣ Notify media scanner
-            val uri = Uri.fromFile(file)
-            context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
-
-            Toast.makeText(context, "PDF downloaded to Downloads: ${file.name}", Toast.LENGTH_LONG).show()
-
-            // 6️⃣ Open the PDF after saving
-            openBase64Pdf(context, base64)
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
-    }
-    private fun openBase64Pdf(context: Context, base64: String) {
-        try {
-            // 1. Clean Base64 (remove header if present)
-            val cleanBase64 = base64
-                .replace("data:application/pdf;base64,", "")
-                .trim()
-
-            // 2. Decode Base64
-            val pdfBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
-
-            // 3. Verify PDF header
-            if (pdfBytes.isEmpty() || !String(pdfBytes.copyOfRange(0, 4)).startsWith("%PDF")) {
-                Toast.makeText(context, "Invalid PDF data", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            // 4. Save temporarily in cache
-            val pdfFile = File.createTempFile("temp_", ".pdf", context.cacheDir)
             pdfFile.outputStream().use { it.write(pdfBytes) }
 
-            // 5. Get URI via FileProvider
-            val uri: Uri = FileProvider.getUriForFile(
+            val uri = FileProvider.getUriForFile(
                 context,
-                context.packageName + ".provider",  // must match manifest authority
+                "${context.packageName}.provider",
                 pdfFile
             )
 
-            // 6. Create intent
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 setDataAndType(uri, "application/pdf")
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
 
-            // 7. Check if any app can handle PDFs
             if (intent.resolveActivity(context.packageManager) != null) {
-                context.startActivity(Intent.createChooser(intent, "Open PDF with"))
+                context.startActivity(
+                    Intent.createChooser(intent, "Open PDF")
+                )
             } else {
-                Toast.makeText(context, "No PDF viewer installed", Toast.LENGTH_SHORT).show()
+                toastShort("No PDF viewer installed")
             }
 
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(context, "Failed to open PDF", Toast.LENGTH_SHORT).show()
+            toastShort("Failed to open PDF")
         }
     }
 
-//    private fun showBase64ImageDialog(context: Context, base64ImageString: String?, title: String = "Image") {
-//
-//        // Decode Base64 → Bitmap
-//        val bitmap: Bitmap? = if (!base64ImageString.isNullOrBlank()) {
-//            try {
-//                val cleanBase64 = base64ImageString
-//                    .replace("data:image/png;base64,", "")
-//                    .replace("data:image/jpg;base64,", "")
-//                    .replace("data:image/jpeg;base64,", "")
-//                    .replace("\\s".toRegex(), "")
-//
-//                val decodedBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
-//                BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
-//            } catch (e: Exception) {
-//                null
-//            }
-//        } else {
-//            null
-//        }
-//
-//        // If bitmap is null → show default image
-//        val dialog = ImagePreviewDialogFragment.newInstance(title, bitmap)
-//        dialog.show(parentFragmentManager, "ImagePreviewDialog")
-//    }
 
     private fun showBase64ImageDialog(context: Context ,
         base64ImageString: String?,

@@ -262,6 +262,7 @@
     <string name="remarks">Remarks</string>
     <string name="select_approvals">Select Approval<font color='#FF0000'>*</font></string>
     <string name="remarkss">Remarks<font color='#FF0000'>*</font></string>
+    <string name="remarkWitouStar">Remarks</string>
     <string name="save_and_next">Save and next</string>
     <string name="ownership_of_building">Ownership of Building</string>
     <string name="area_of_the_building_sq_ft">Area of the Building (Sq.ft)</string>

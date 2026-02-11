@@ -25,7 +25,7 @@ class RFSrlmListFragment : BaseFragment<RfSrlmListFragmentBinding>(
 
     override fun initializeViews() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
-        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━RFSrlmListFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        Log.d("FRAGMENT NAME",  "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━RFSrlmListFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         setupToolbar(
             binding.root,
@@ -43,10 +43,13 @@ class RFSrlmListFragment : BaseFragment<RfSrlmListFragmentBinding>(
             },
             onBind = { center, binding, position ->
                 binding.apply {
-                    trainingCenterName.text = "Training Center Name: ${center.trainingCenterName}"
-                    trainingCenterAddress.text = "Training Center Address: ${center.trainingCenterAddress}"
-                    senctionOrder.text = "Sanction Order: ${center.senctionOrder}"
-                    districtName.text = "District Name: ${center.districtName}"
+                    trainingCenterName.text = center.trainingCenterName
+                    trainingCenterAddress.text = center.trainingCenterAddress
+                    senctionOrder.text =  center.senctionOrder
+                    districtName.text =  center.districtName
+                    totalCapacity.text = center.finalRfCapacity
+                    residenctialType.text=center.residentialType
+
                 }
             },
             onItemClick = { center, position ->

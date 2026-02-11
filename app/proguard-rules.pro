@@ -1,19 +1,16 @@
 # ---------- Attributes ----------
 -keepattributes *Annotation*, Signature, Exceptions, InnerClasses, RuntimeVisibleAnnotations, RuntimeVisibleParameterAnnotations
 
-
 # ---------- Kotlin ----------
 -keep class kotlin.** { *; }
 -dontwarn kotlin.**
 -keep class kotlinx.coroutines.** { *; }
 -dontwarn kotlinx.coroutines.**
 
-
 # ---------- ViewModel ----------
 -keepclassmembers class * extends androidx.lifecycle.ViewModel {
     public <init>(...);
 }
-
 
 # ---------- Hilt / Dagger ----------
 -keep class dagger.hilt.internal.** { *; }

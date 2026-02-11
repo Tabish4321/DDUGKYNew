@@ -1,33 +1,30 @@
 import android.content.Context
+import android.os.Build
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.network.TokenInterceptor
 import com.deendayalproject.network.ApiService
+import com.deendayalproject.network.AuthInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-
-     //private const val BASE_URL = "https://kaushal.rural.gov.in/backend/ddugkyapp/"   //Live
-    // private const val BASE_URL ="http://10.197.183.148:7003/ddugkyapp/"
-     private const val BASE_URL = "https://kaushal.dord.gov.in/demobackend/ddugkyapp/"     // Demo
-    // private const val BASE_URL ="http://10.0.2.2:7003/ddugkyapp/"
-
+    fun getUrl()= BuildConfig.BASE_URL
     fun getApiService(context: Context): ApiService {
-
         val tokenInterceptor = TokenInterceptor(context)
-
         val client = OkHttpClient.Builder()
             .cache(null)
+            .addInterceptor (AuthInterceptor() )
             .addInterceptor(tokenInterceptor)
             .addInterceptor(LoggingInterceptor())
             .build()
-
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(getUrl())
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
     }
 }
+

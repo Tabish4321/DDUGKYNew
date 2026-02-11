@@ -14,6 +14,7 @@ import com.deendayalproject.repository.VerificationRepository
 class RepositoryManager private constructor(context: Context) {
 
     companion object {
+
         @Volatile
         private var INSTANCE: RepositoryManager? = null
 

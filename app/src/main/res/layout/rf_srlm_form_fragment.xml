@@ -16,83 +16,12 @@
         android:clipToPadding="false"
         android:clipChildren="false">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/universalToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@drawable/nav_header_gradient"
-            android:elevation="8dp"
-            app:contentInsetStart="0dp"
-            app:contentInsetStartWithNavigation="0dp"
-            tools:ignore="MissingConstraints">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="12dp"
-                android:paddingEnd="16dp">
-
-                <!-- Back Button - Modern ripple + larger tap area -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnBack"
-                    style="@style/Widget.Material3.Button.IconButton"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    app:icon="@drawable/back_arrow"
-                    app:iconTint="@color/white"
-                    app:iconSize="24dp"
-                    app:backgroundTint="@android:color/transparent"
-                    app:cornerRadius="24dp"
-                    app:rippleColor="@color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-
-                <!-- DDU-GKY Logo - Slightly bigger & rounded -->
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/logo_img"
-                    android:layout_width="160dp"
-                    android:layout_height="64dp"
-                    android:src="@drawable/ddy_logo"
-                    android:scaleType="fitCenter"
-                    android:elevation="6dp"
-                    android:padding="8dp"
-                    android:background="@color/white_brilliant"
-                    app:shapeAppearanceOverlay="@style/RoundedTopCorners"
-                    app:layout_constraintStart_toEndOf="@id/btnBack"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    android:layout_marginStart="8dp"
-                    android:visibility="gone" />
-
-                <!-- Screen Title - Modern bold with subtle shadow -->
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/residential_facility_srlm"
-                    android:textColor="@color/white"
-                    android:textSize="21sp"
-                    android:textStyle="bold"
-                    android:fontFamily="@font/avenir_next_demi_bold"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:shadowColor="#80000000"
-                    android:shadowDx="0"
-                    android:shadowDy="2"
-                    android:shadowRadius="4"
-                    android:layout_marginStart="12dp"
-                    app:layout_constraintStart_toEndOf="@id/btnBack"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0" />
-
-                <!-- Profile Pic - Circle with border -->
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.appcompat.widget.Toolbar>
-
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_toolbar_base"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -107,14 +36,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvTrainingInfo"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_20"
             android:elevation="@dimen/dp_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/universalToolbar">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
             <!--            android:visibility="gone"-->
 
 
@@ -130,7 +59,7 @@
         <!--        tvinfrastructure_details_and_compliances-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvinfrastructure_details_and_compliances"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -155,7 +84,7 @@
         <!--        Living Area Information -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvlivingareainformation"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -179,7 +108,7 @@
         <!--        RFTiolet -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvRFTiolet"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -202,14 +131,11 @@
 
 
 
-
-
-
         <!--AdditionalSection-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvRFtoiletAdditionalSection"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -231,11 +157,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
-
-
-
         <!--        RFNonLivingArea Ajit Ranjan 03/11/2025 -->
 
 
@@ -243,7 +164,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvRFConstraintLayoutNonLivingArea"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -268,7 +189,7 @@
         <!--        RFIndoorGame Ajit Ranjan 04/11/2025 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tvRFConstraintLayoutIndoorGame"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -292,7 +213,7 @@
         <!--        RFResidentialFacilitiesAvailable Ajit Ranjan 04/11/2025 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/RFResidentialConstraintLayoutFacilitiesAvailable"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -317,7 +238,7 @@
         <!--        RFRFSupportFacilitiesAvailable Ajit Ranjan 07/11/2025 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/RFRFSupportFacilitiesAvailable"
-            style="@style/editTextHome"
+            style="@style/cardViewTheme"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

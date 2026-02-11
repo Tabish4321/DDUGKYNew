@@ -129,6 +129,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
     override fun setupObservers() {
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun setupClickListeners() {
 
         binding.btnCheckIn.setOnClickListener {
@@ -186,37 +187,37 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                 invokeCaptureIntent()
 
 
-              /*   val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
-                 val currentTime = LocalTime.now()
-                 val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))  // ✅ 24-hour format\
-                 val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-                 val checkInTime = LocalTime.parse(checkIn, timeFormatter)
-                 val checkOutTime = LocalTime.parse(formattedTime, timeFormatter)
-                 val duration = Duration.between(checkInTime, checkOutTime)
+                /*   val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+                   val currentTime = LocalTime.now()
+                   val formattedTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"))  // ✅ 24-hour format\
+                   val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+                   val checkInTime = LocalTime.parse(checkIn, timeFormatter)
+                   val checkOutTime = LocalTime.parse(formattedTime, timeFormatter)
+                   val duration = Duration.between(checkInTime, checkOutTime)
 
 
-                 val hours = duration.toHours()
-                 val minutes = (duration.toMinutes() % 60)
-                 val seconds = (duration.seconds % 60)
+                   val hours = duration.toHours()
+                   val minutes = (duration.toMinutes() % 60)
+                   val seconds = (duration.seconds % 60)
 
-                 val totalHoursValue = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+                   val totalHoursValue = String.format("%02d:%02d:%02d", hours, minutes, seconds)
 
 
-                viewModel.insertFacultyAttandance(
-                    InsertFacultyAttendance(
-                        BuildConfig.VERSION_NAME,
-                        batchId,
-                        trainerCode.toString(),
-                        batchRegNo,
-                        "",
-                        formattedTime,
-                        currentDate,
-                        totalHoursValue,
-                        AppUtil.getAndroidId(requireContext())
+                  viewModel.insertFacultyAttandance(
+                      InsertFacultyAttendance(
+                          BuildConfig.VERSION_NAME,
+                          batchId,
+                          trainerCode.toString(),
+                          batchRegNo,
+                          "",
+                          formattedTime,
+                          currentDate,
+                          totalHoursValue,
+                          AppUtil.getAndroidId(requireContext())
 
-                    ),AppUtil.getSavedTokenPreference(requireContext()))
+                      ),AppUtil.getSavedTokenPreference(requireContext()))
 
-                collectFacultyInsertAttendance()*/
+                  collectFacultyInsertAttendance()*/
 
             }
 
@@ -309,6 +310,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private val startUidaiAuthResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             try {
@@ -340,11 +342,12 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
             }
         }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun handleCaptureResponse(captureResponse: String) {
         try {
 
 
-          //  toastShort(decryptedAadhaar)
+            //  toastShort(decryptedAadhaar)
             // Parse the capture response XML to an object
             val response = CaptureResponse.fromXML(captureResponse)
 
@@ -410,6 +413,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun invokeCaptureIntent() {
 
         try {
@@ -440,6 +444,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun collectFaceAuthResponse() {
 
         viewModel.postOnAUAFaceAuthNREGA
@@ -682,8 +687,8 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                             }
                             getCurrentLocation { location ->
                                 if (location != null) {
-                                     val isInside = isUserInsideGeofence(location, latitude, longitude, radius)
-                                  //  val isInside = isUserInsideGeofence(location, 26.2153, 84.3588, radius)
+                                    val isInside = isUserInsideGeofence(location, latitude, longitude, radius)
+                                    //  val isInside = isUserInsideGeofence(location, 26.2153, 84.3588, radius)
                                     if (isInside) {
 
                                         //    findNavController().navigate(SdrListFragmentDirections.actionSdrListFragmentToSdrVisitReport(formName,instituteName,finYear,instituteId))

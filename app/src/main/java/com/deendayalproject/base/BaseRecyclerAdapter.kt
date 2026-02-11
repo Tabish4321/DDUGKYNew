@@ -81,7 +81,6 @@ class BaseRecyclerAdapter<T, VB : ViewBinding>(
         }
     }
 
-    // Initialize no data view state
     init {
         toggleNoDataView()
     }

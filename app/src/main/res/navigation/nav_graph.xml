@@ -271,13 +271,13 @@
 
     <fragment
         android:id="@+id/RFQTeamFormFragment"
-        android:name="com.deendayalproject.fragments.RFQTeamFormFragment"
+        android:name="com.deendayalproject.fragments.formfragment.RFQTeamFormFragment"
         android:label="RFQTeamFormFragment"
         tools:layout="@layout/rf_qteam_form_fagment"
         />
     <fragment
         android:id="@+id/RFSRLMFormFragment"
-        android:name="com.deendayalproject.fragments.RFSRLMFormFragment"
+        android:name="com.deendayalproject.fragments.formfragment.RFSRLMFormFragment"
         android:label="RFSRLMFormFragment"
         tools:layout="@layout/rf_srlm_form_fragment"/>
 

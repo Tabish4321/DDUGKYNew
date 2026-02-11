@@ -15,6 +15,7 @@ import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.TrainingCenterItem
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.base.BaseFragment
+import com.deendayalproject.util.gone
 
 class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
     FragmentRfCenterBinding::inflate
@@ -49,6 +50,9 @@ class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
                 binding.trainingCenterAddress.text = " ${center.trainingCenterAddress}"
                 binding.senctionOrder.text = " ${center.senctionOrder}"
                 binding.districtName.text = "${center.districtName}"
+                binding.maleCapacityContainer.gone()
+                binding.femaleCapacityContainer.gone()
+                binding.totalCapacityContainer.gone()
             },
             onItemClick = { center, position ->
                 handleItemClick(center)
