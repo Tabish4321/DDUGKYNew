@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_fragmentLogin_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_fragmentLogin_to_inspectionBasicDetailsFragment"
+            app:destination="@id/inspectionBasicDetailsFragment" />
 
 
     </fragment>
@@ -436,6 +439,10 @@
         android:name="com.deendayalproject.fragments.FacultyAttendanceFragment"
         android:label="FacultyAttendanceFragment"
         tools:layout="@layout/fragment_faculty_attendance"/>
+    <fragment
+        android:id="@+id/inspectionBasicDetailsFragment"
+        android:name="com.deendayalproject.fragments.composeui.InspectionBasicDetailsFragment"
+        android:label="InspectionBasicDetailsFragment" />
 
 
 </navigation>

@@ -17,12 +17,16 @@ android {
     val  projectProperties=readProperties(keystorePropertiesFile)
 
 
+
+
+
+
     defaultConfig {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
-        versionCode = 5
-        versionName = "1.3.2" //1.1.2 //1.2.9
+        versionCode = 9
+        versionName = "1.3.2" //1.1.2
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -69,19 +73,26 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.11"
+    }
+
 
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
+
     }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 
@@ -121,6 +132,8 @@ dependencies {
     // Hilt
     implementation("com.google.dagger:hilt-android:2.51")
     implementation(libs.androidx.datastore.core.android)
+    implementation(libs.androidx.runtime)
+    implementation(libs.androidx.material3)
     kapt("com.google.dagger:hilt-compiler:2.51")
     kapt("androidx.hilt:hilt-compiler:1.1.0")
 
@@ -165,6 +178,20 @@ dependencies {
         kapt("com.github.bumptech.glide:compiler:4.16.0")
 
     }
+
+    //Compose
+
+    implementation(platform("androidx.compose:compose-bom:2024.04.01"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.compose.material:material-icons-extended")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
+
+
+
 }
 
 kapt {

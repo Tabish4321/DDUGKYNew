@@ -21,6 +21,8 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.StringRes
 import androidx.core.content.FileProvider
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -67,12 +69,13 @@ abstract class BaseFragment<VB : ViewBinding>(
         requireActivity().window.setSoftInputMode(
             SOFT_INPUT_ADJUST_RESIZE
         )
-        //Log.d("FRAGMENT NAME", "")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
 
         // Log fragment creation for crash analytics
         logFragmentEvent("Fragment_Created", this::class.java.simpleName)

@@ -140,6 +140,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     override fun setupClickListeners() {
+
+
+        binding.imgLogo.setOnClickListener {
+
+            findNavController().navigate(R.id.action_fragmentLogin_to_inspectionBasicDetailsFragment)
+        }
+
+
+
+
         binding.btnLogin.setOnClickListener {
             if (!isProcessingLogin) {
                 handleLoginClick()
