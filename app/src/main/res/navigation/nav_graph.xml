@@ -15,9 +15,10 @@
         <action
             android:id="@+id/action_fragmentLogin_to_homeFragment"
             app:destination="@id/homeFragment" />
+
         <action
-            android:id="@+id/action_fragmentLogin_to_inspectionBasicDetailsFragment"
-            app:destination="@id/inspectionBasicDetailsFragment" />
+            android:id="@+id/action_fragmentLogin_to_inspectionListFragment"
+            app:destination="@id/inspectionListFragment" />
 
 
     </fragment>
@@ -442,7 +443,62 @@
     <fragment
         android:id="@+id/inspectionBasicDetailsFragment"
         android:name="com.deendayalproject.fragments.composeui.InspectionBasicDetailsFragment"
-        android:label="InspectionBasicDetailsFragment" />
+        android:label="InspectionBasicDetailsFragment" >
+        <action
+            android:id="@+id/action_inspectionBasicDetailsFragment_to_previousInspectionEditFragment"
+            app:destination="@id/previousInspectionEditFragment" >
+
+            <argument
+                android:name="dateOfInspection"
+                app:argType="string" />
+
+            <argument
+                android:name="conductedBy"
+                app:argType="string" />
+
+            <argument
+                android:name="observation"
+                app:argType="string" />
+            <argument
+                android:name="actionTaken"
+                app:argType="string" />
+            <argument
+                android:name="remarks"
+                app:argType="string" />
+
+
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/inspectionListFragment"
+        android:name="com.deendayalproject.fragments.InspectionListFragment"
+        android:label="InspectionListFragment" >
+        <action
+            android:id="@+id/action_inspectionListFragment_to_inspectionBasicDetailsFragment"
+            app:destination="@id/inspectionBasicDetailsFragment" >
+
+
+            <argument
+                android:name="prnNumber"
+                app:argType="string" />
+
+            <argument
+                android:name="sanctionOrder"
+                app:argType="string" />
+
+            <argument
+                android:name="inspectionType"
+                app:argType="string" />
+            <argument
+                android:name="trainingCenterId"
+                app:argType="integer" />
+
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/previousInspectionEditFragment"
+        android:name="com.deendayalproject.fragments.PreviousInspectionEditFragment"
+        android:label="PreviousInspectionEditFragment" />
 
 
 </navigation>

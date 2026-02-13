@@ -144,7 +144,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
         binding.imgLogo.setOnClickListener {
 
-            findNavController().navigate(R.id.action_fragmentLogin_to_inspectionBasicDetailsFragment)
+            findNavController().navigate(R.id.action_fragmentLogin_to_inspectionListFragment)
         }
 
 

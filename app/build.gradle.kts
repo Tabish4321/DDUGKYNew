@@ -134,6 +134,8 @@ dependencies {
     implementation(libs.androidx.datastore.core.android)
     implementation(libs.androidx.runtime)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui)
     kapt("com.google.dagger:hilt-compiler:2.51")
     kapt("androidx.hilt:hilt-compiler:1.1.0")
 

@@ -24,34 +24,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import com.deendayalproject.R
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PremiumTopBar(
-    currentStep: Int,
+    dynamicTitle: String,
     onBackClick: () -> Unit
 ) {
 
-    val dynamicTitle = when (currentStep) {
-        1 -> "Inspection Summary"
-        2 -> "Training Center Details"
-        3 -> "Review & Submit"
-        else -> "Inspection"
-    }
+
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .statusBarsPadding()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.primary,
-                        MaterialTheme.colorScheme.primaryContainer
-                    )
-                )
-            )
+            .background(colorResource(id = R.color.soft_navy_blue))
+
     ) {
 
         androidx.compose.material3.TopAppBar(

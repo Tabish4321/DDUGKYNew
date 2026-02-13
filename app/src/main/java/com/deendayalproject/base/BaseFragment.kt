@@ -1,6 +1,5 @@
 package com.deendayalproject.base
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
@@ -10,15 +9,11 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.annotation.StringRes
 import androidx.core.content.FileProvider
 import androidx.core.view.WindowCompat
@@ -33,11 +28,9 @@ import androidx.viewbinding.ViewBinding
 import com.deendayalproject.R
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.ModernProgressDialog
-//import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileOutputStream
 
 abstract class BaseFragment<VB : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB
@@ -103,6 +96,21 @@ abstract class BaseFragment<VB : ViewBinding>(
     abstract fun loadInitialData()
 
     // ==================== MODERN PROGRESS DIALOG ====================
+
+    fun hideStatusBar() {
+        val window = requireActivity().window
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            hide(android.view.WindowInsets.Type.statusBars())
+            systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+    }
+
+
+
 
     protected fun showProgressDialog(message: String? = null, cancelable: Boolean = false) {
         try {

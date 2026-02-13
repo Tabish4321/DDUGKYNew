@@ -39,6 +39,7 @@ fun DropdownField(label: String, options: List<String>) {
 
         ExposedDropdownMenu(
             expanded = expanded,
+
             onDismissRequest = { expanded = false }
         ) {
             options.forEach {
