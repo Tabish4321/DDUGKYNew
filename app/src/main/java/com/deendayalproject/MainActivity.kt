@@ -20,7 +20,6 @@ class MainActivity : BaseActivity() {
 
     }
 
-
     private fun disableScreenshots() {
         this.window.setFlags(
             android.view.WindowManager.LayoutParams.FLAG_SECURE,

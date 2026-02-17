@@ -46,6 +46,21 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/no_data" />
 
+            <TextView
+                android:id="@+id/tvCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:background="@drawable/bg_count_circle"
+                android:padding="8dp"
+                android:layout_gravity="top|end"
+                android:layout_marginEnd="10dp"
+                android:visibility="gone"
+                />
+
             <!-- No Image Text (initially hidden) -->
             <TextView
                 android:id="@+id/textNoImage"

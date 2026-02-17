@@ -1,5 +1,6 @@
 package com.deendayalproject.fragments
 
+import android.graphics.drawable.GradientDrawable
 import SharedViewModel
 import android.Manifest
 import android.annotation.SuppressLint
@@ -8,6 +9,8 @@ import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -15,6 +18,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Base64
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,8 +27,10 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -42,12 +48,14 @@ import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.adapter.AcademicAreaAdapter
 import com.deendayalproject.base.GenericMessageDialog
+import com.deendayalproject.base.ImagePreviewDialogFragment
 import com.deendayalproject.databinding.FragmentTrainingBinding
 import com.deendayalproject.model.SectionHandler
 import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
+import com.deendayalproject.model.request.FansCountReq
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
@@ -66,6 +74,9 @@ import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.response.SectionStatus
 import com.deendayalproject.model.response.wrappedList
+import com.deendayalproject.objectDetactionUtil.ObjectType
+import com.deendayalproject.objectDetactionUtil.showCountBadge
+import com.deendayalproject.objectDetactionUtil.showLoaderBadge
 import com.deendayalproject.util.AppConstant.STATUS_QM
 import com.deendayalproject.util.AppConstant.STATUS_SM
 import com.deendayalproject.util.AppUtil
@@ -77,13 +88,12 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.collections.set
 
 class TrainingFragment : Fragment() {
     private lateinit var Academicadapter: AcademicAreaAdapter
@@ -1307,6 +1317,7 @@ class TrainingFragment : Fragment() {
                 checkAndLaunchCamera()
             }
         }
+
     }
 
     private fun <T : View> View.bindView(id: Int): T = findViewById(id)
@@ -1325,14 +1336,351 @@ class TrainingFragment : Fragment() {
             }
         }
 
+
     private fun setPhotoPreview(
         iv: ImageView,
         base64Setter: (String) -> Unit,
         uri: Uri
     ) {
+        val objectType = imageTypeMap[iv.id]
+        objectType?.let {
+            clearBadge(iv)
+            showLoaderBadge(iv,requireContext())
+        }
         iv.setImageURI(uri)
         iv.visibility = View.VISIBLE
-        AppUtil.imageUriToBase64(requireContext(), uri)?.let { base64Setter(it) }
+        AppUtil.imageUriToBase64N(requireContext(), uri)?.let { base64 ->
+            base64Setter(base64)
+            objectType?.let { type ->
+                //observeObjectCount(base64, iv)
+                 observeObjectCount(base64, iv, type.toString())
+            }
+            iv.setOnClickListener {
+                val dialog = ImagePreviewDialogFragment.newInstance(objectType.toString() ?: "Image", base64ToBitmap(base64))
+                dialog.show(parentFragmentManager, "ImagePreviewDialog")
+            }
+        }
+    }
+
+
+
+
+    fun base64ToBitmap(base64Str: String): Bitmap? {
+        return try {
+            val decodedBytes = Base64.decode(base64Str, Base64.DEFAULT)
+            BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+
+
+    private var currentBadgeTarget: ImageView? = null
+
+
+    private val imageTypeMap = mapOf(
+        // Office Equipment
+//        R.id.ivDocumentStoragePreview to ObjectType.DOCUMENT_STORAGE,
+//        R.id.ivPrinterScannerPreview to ObjectType.PRINTER_SCANNER,
+//        R.id.ivDigitalCameraPreview to ObjectType.DIGITAL_CAMERA,
+//        R.id.ivDigitalCameraPreview to ObjectType.DIGITAL_CAMERA,
+
+        R.id.ivPreviewProofMaleToilets to ObjectType.FAN,
+        R.id.ivPreviewOfficeCumAnOfficeTableNo to ObjectType.TABLE,
+        R.id.ivPreviewOfficeCumTableOfofficeCumpter to ObjectType.TABLE,
+        R.id.ivPreviewORAnOfficeTableNo to ObjectType.TABLE,
+        R.id.ivPreviewORTableOfofficeCumpter to ObjectType.TABLE,
+
+        // Furniture - Chairs
+        R.id.ivPreviewITLStoolsChairs to ObjectType.CHAIR,
+        R.id.ivPreviewITLTrainerChair to ObjectType.CHAIR,
+        R.id.ivPreviewOfficeCumChairs to ObjectType.CHAIR,
+        R.id.ivPreviewORChairs to ObjectType.CHAIR,
+        R.id.ivPreviewITCDLTrainerChair to ObjectType.CHAIR,
+        R.id.ivPreviewITCDLStoolsChairs to ObjectType.CHAIR,
+        R.id.ivPreviewTCILStoolsChairs to ObjectType.CHAIR,
+        R.id.ivPreviewTCILTrainerChair to ObjectType.CHAIR,
+        R.id.ivPreviewTCDLChairForCandidatesInNo to ObjectType.CHAIR,
+        R.id.ivPreviewTCDLTrainerChair to ObjectType.CHAIR,
+        R.id.ivPreviewDLChairForCandidatesInNo to ObjectType.CHAIR,
+        R.id.ivPreviewDLTrainerChair to ObjectType.CHAIR,
+        R.id.ivPreviewTCRChairForCandidatesInNo to ObjectType.CHAIR,
+        R.id.ivPreviewTCRTrainerChair to ObjectType.CHAIR,
+
+        // Furniture - Tables
+        R.id.ivPreviewITLTrainerTable to ObjectType.TABLE,
+        R.id.ivPreviewOfficeCumTableOfofficeCumpter to ObjectType.TABLE,
+        R.id.ivPreviewORTableOfofficeCumpter to ObjectType.TABLE,
+        R.id.ivPreviewITCDLTrainerTable to ObjectType.TABLE,
+        R.id.ivPreviewTCILTrainerTable to ObjectType.TABLE,
+        R.id.ivPreviewTCDLTrainerTable to ObjectType.TABLE,
+        R.id.ivPreviewDLTrainerTable to ObjectType.TABLE,
+        R.id.ivPreviewTCRTrainerTable to ObjectType.TABLE,
+
+        // Lighting & Fans
+        R.id.ivPreviewITLLightsInNo to ObjectType.LIGHT,
+        R.id.ivPreviewITLFansInNo to ObjectType.FAN,
+        R.id.ivPreviewITCDLLightsInNo to ObjectType.LIGHT,
+        R.id.ivPreviewITCDLFansInNo to ObjectType.FAN,
+        R.id.ivPreviewTCILLightsInNo to ObjectType.LIGHT,
+        R.id.ivPreviewTCILFansInNo to ObjectType.FAN,
+        R.id.ivPreviewTCDLLightsInNo to ObjectType.LIGHT,
+        R.id.ivPreviewTCDLFansInNo to ObjectType.FAN,
+        R.id.ivPreviewDLLightsInNo to ObjectType.LIGHT,
+        R.id.ivPreviewDLFansInNo to ObjectType.FAN,
+        R.id.ivPreviewTCRLightsInNo to ObjectType.LIGHT,
+        R.id.ivPreviewTCRFansInNo to ObjectType.FAN,
+
+        // Monitor & Basic Equipment
+//        R.id.ivMonitorPreview to ObjectType.MONITOR,
+//        R.id.ivConformancePreview to ObjectType.CONFORMANCE,
+//        R.id.ivStoragePreview to ObjectType.STORAGE,
+//        R.id.ivDVRPreview to ObjectType.DVR,
+//        R.id.ivSwitchBoardPreview to ObjectType.SWITCH_BOARD,
+//        R.id.ivWireSecurityPreview to ObjectType.WIRE_SECURITY,
+//        R.id.ivLeakagePreview to ObjectType.LEAKAGE,
+//        R.id.ivStairsPreview to ObjectType.STAIRS,
+
+        // Boards & Signage
+//        R.id.ivTcNameBoardPreview to ObjectType.TC_NAME_BOARD,
+//        R.id.ivActivityAchievementBoardPreview to ObjectType.ACTIVITY_ACHIEVEMENT_BOARD,
+//        R.id.ivStudentEntitlementBoardPreview to ObjectType.STUDENT_ENTITLEMENT_BOARD,
+//        R.id.ivContactDetailBoardPreview to ObjectType.CONTACT_DETAIL_BOARD,
+//        R.id.ivBasicInfoBoardPreview to ObjectType.BASIC_INFO_BOARD,
+//        R.id.ivCodeConductBoardPreview to ObjectType.CODE_CONDUCT_BOARD,
+//        R.id.ivStudentAttendanceBoardPreview to ObjectType.STUDENT_ATTENDANCE_BOARD,
+//        R.id.ivDirectionBoardsPreview to ObjectType.DIRECTION_BOARDS,
+
+        // Safety & Emergency Equipment
+//        R.id.ivSafeDrinkingWaterPreview to ObjectType.SAFE_DRINKING_WATER,
+//        R.id.ivFireFightingEquipmentPreview to ObjectType.FIRE_FIGHTING_EQUIPMENT,
+//        R.id.ivFirstAidKitPreview to ObjectType.FIRST_AID_KIT,
+
+        // Power & Electrical
+//        R.id.ivPowerBackupPreview to ObjectType.POWER_BACKUP,
+//        R.id.ivPreviewITLItLabPhotograph to ObjectType.IT_LAB_PHOTOGRAPH,
+//        R.id.ivPreviewITLElectricaPowerBackUpForThRoom to ObjectType.ELECTRICAL_POWER_BACKUP,
+//        R.id.ivPreviewOfficeCumElectricialPowerBackup to ObjectType.ELECTRICAL_POWER_BACKUP,
+//        R.id.ivPreviewORElectricialPowerBackup to ObjectType.ELECTRICAL_POWER_BACKUP,
+//        R.id.ivPreviewITCDLElectricaPowerBackUpForThRoom to ObjectType.ELECTRICAL_POWER_BACKUP,
+//        R.id.ivPreviewTCILElectricaPowerBackUpForThRoom to ObjectType.ELECTRICAL_POWER_BACKUP,
+//        R.id.ivPreviewTCDLElectricaPowerBackUpForThRoom to ObjectType.ELECTRICAL_POWER_BACKUP,
+//        R.id.ivPreviewDLElectricaPowerBackUpForThRoom to ObjectType.ELECTRICAL_POWER_BACKUP,
+//        R.id.ivPreviewTCRElectricaPowerBackUpForThRoom to ObjectType.ELECTRICAL_POWER_BACKUP,
+
+        // Security & Surveillance
+//        R.id.ivBiometricDevicesPreview to ObjectType.BIOMETRIC_DEVICES,
+//        R.id.ivCCTVPreview to ObjectType.CCTV,
+//        R.id.ivPreviewITLCctcCamerasWithAudioFacility to ObjectType.CCTV_WITH_AUDIO,
+//        R.id.ivPreviewITCDLCctcCamerasWithAudioFacility to ObjectType.CCTV_WITH_AUDIO,
+//        R.id.ivPreviewTCILCctcCamerasWithAudioFacility to ObjectType.CCTV_WITH_AUDIO,
+//        R.id.ivPreviewTCDLCctcCamerasWithAudioFacility to ObjectType.CCTV_WITH_AUDIO,
+//        R.id.ivPreviewDLCctcCamerasWithAudioFacility to ObjectType.CCTV_WITH_AUDIO,
+//        R.id.ivPreviewTCRCctcCamerasWithAudioFacility to ObjectType.CCTV_WITH_AUDIO,
+
+
+
+
+
+
+
+//        R.id.ivPreviewOfficeCumPrinterCumScannerInNo to ObjectType.PRINTER_SCANNER,
+//        R.id.ivPreviewORPrinterCumScannerInNo to ObjectType.PRINTER_SCANNER,
+//        R.id.ivPreviewOfficeCumDigitalCameraInNo to ObjectType.DIGITAL_CAMERA,
+//        R.id.ivPreviewORDigitalCameraInNo to ObjectType.DIGITAL_CAMERA,
+
+        // IT Lab Equipment
+//        R.id.ivPreviewITLLanEnabledComputersInNo to ObjectType.LAN_COMPUTER,
+//        R.id.ivPreviewITLInternetConnections to ObjectType.INTERNET_CONNECTION,
+//        R.id.ivPreviewITLTablets to ObjectType.TABLET,
+//        R.id.ivPreviewITCDLLanEnabledComputersInNo to ObjectType.LAN_COMPUTER,
+//        R.id.ivPreviewITCDLInternetConnections to ObjectType.INTERNET_CONNECTION,
+//        R.id.ivPreviewITCDLTablets to ObjectType.TABLET,
+//        R.id.ivPreviewITCDLDoAllComputersHaveTypingTutor to ObjectType.TYPING_TUTOR,
+//        R.id.ivPreviewTCILLanEnabledComputersInNo to ObjectType.LAN_COMPUTER,
+//        R.id.ivPreviewTCILInternetConnections to ObjectType.INTERNET_CONNECTION,
+//        R.id.ivPreviewTCILDoAllComputersHaveTypingTutor to ObjectType.TYPING_TUTOR,
+//        R.id.ivPreviewTCILTablets to ObjectType.TABLET,
+
+
+        // Infrastructure - Roof, Ceiling, Height
+//        R.id.ivPreviewITLTypeofRoofItLab to ObjectType.ROOF_TYPE,
+//        R.id.ivPreviewITLFalseCellingProvide to ObjectType.FALSE_CEILING,
+//        R.id.ivPreviewITLHeightOfCelling to ObjectType.CEILING_HEIGHT,
+//        R.id.ivPreviewOfficeCumTypeofRoofItLab to ObjectType.ROOF_TYPE,
+//        R.id.ivPreviewOfficeCumFalseCellingProvide to ObjectType.FALSE_CEILING,
+//        R.id.ivPreviewOfficeCumHeightOfCelling to ObjectType.CEILING_HEIGHT,
+//        R.id.ivPreviewORTypeofRoofItLab to ObjectType.ROOF_TYPE,
+//        R.id.ivPreviewORFalseCellingProvide to ObjectType.FALSE_CEILING,
+//        R.id.ivPreviewORHeightOfCelling to ObjectType.CEILING_HEIGHT,
+//        R.id.ivPreviewITCDLTypeofRoofItLab to ObjectType.ROOF_TYPE,
+//        R.id.ivPreviewITCDLFalseCellingProvide to ObjectType.FALSE_CEILING,
+//        R.id.ivPreviewITCDLabHeightOfCelling to ObjectType.CEILING_HEIGHT,
+//        R.id.ivPreviewTCILTypeofRoofItLab to ObjectType.ROOF_TYPE,
+//        R.id.ivPreviewTCILFalseCellingProvide to ObjectType.FALSE_CEILING,
+//        R.id.ivPreviewTCILHeightOfCelling to ObjectType.CEILING_HEIGHT,
+//        R.id.ivPreviewTCDLTypeofRoofItLab to ObjectType.ROOF_TYPE,
+//        R.id.ivPreviewTCDLFalseCellingProvide to ObjectType.FALSE_CEILING,
+//        R.id.ivPreviewTCDLHeightOfCelling to ObjectType.CEILING_HEIGHT,
+//        R.id.ivPreviewDLTypeofRoofItLab to ObjectType.ROOF_TYPE,
+//        R.id.ivPreviewDLFalseCellingProvide to ObjectType.FALSE_CEILING,
+//        R.id.ivPreviewDLHeightOfCelling to ObjectType.CEILING_HEIGHT,
+//        R.id.ivPreviewTCRTypeofRoofItLab to ObjectType.ROOF_TYPE,
+//        R.id.ivPreviewTCRFalseCellingProvide to ObjectType.FALSE_CEILING,
+//        R.id.ivPreviewTCRHeightOfCelling to ObjectType.CEILING_HEIGHT,
+
+        // Infrastructure - Ventilation & Sound
+//        R.id.ivPreviewITLVentilationAreaInSqFt to ObjectType.VENTILATION_AREA,
+//        R.id.ivPreviewITLSoundLevelInDb to ObjectType.SOUND_LEVEL,
+//        R.id.ivPreviewITCDLVentilationAreaInSqFt to ObjectType.VENTILATION_AREA,
+//        R.id.ivPreviewITCDLabSoundLevelInDb to ObjectType.SOUND_LEVEL,
+//        R.id.ivPreviewTCILVentilationAreaInSqFt to ObjectType.VENTILATION_AREA,
+//                R.id.ivPreviewTCDLVentilationAreaInSqFt to ObjectType.VENTILATION_AREA,
+//        R.id.ivPreviewTCDLSoundLevelInDb to ObjectType.SOUND_LEVEL,
+//        R.id.ivPreviewDLVentilationAreaInSqFt to ObjectType.VENTILATION_AREA,
+//        R.id.ivPreviewDLSoundLevelInDb to ObjectType.SOUND_LEVEL,
+//        R.id.ivPreviewTCRVentilationAreaInSqFt to ObjectType.VENTILATION_AREA,
+//        R.id.ivPreviewTCRSoundLevelInDb to ObjectType.SOUND_LEVEL,
+
+
+
+        // Academic Room Features
+//        R.id.ivPreviewITLwhether_all_the_academic to ObjectType.ACADEMIC_ROOM,
+//        R.id.ivPreviewITLAcademicRoomInformationBoard to ObjectType.ACADEMIC_INFO_BOARD,
+//        R.id.ivPreviewITLInternalSignage to ObjectType.INTERNAL_SIGNAGE,
+//        R.id.ivPreviewITLDoes_the_room_has to ObjectType.ROOM_FEATURE,
+//        R.id.ivPreviewITCDLwhether_all_the_academic to ObjectType.ACADEMIC_ROOM,
+//        R.id.ivPreviewITCDLAcademicRoomInformationBoard to ObjectType.ACADEMIC_INFO_BOARD,
+//        R.id.ivPreviewITCDLInternalSignage to ObjectType.INTERNAL_SIGNAGE,
+//        R.id.ivPreviewITCDLDoes_the_room_has to ObjectType.ROOM_FEATURE,
+//        R.id.ivPreviewTCILwhether_all_the_academic to ObjectType.ACADEMIC_ROOM,
+//        R.id.ivPreviewTCILAcademicRoomInformationBoard to ObjectType.ACADEMIC_INFO_BOARD,
+//        R.id.ivPreviewTCILInternalSignage to ObjectType.INTERNAL_SIGNAGE,
+//        R.id.ivPreviewTCILDoes_the_room_has to ObjectType.ROOM_FEATURE,
+//        R.id.ivPreviewTCDLwhether_all_the_academic to ObjectType.ACADEMIC_ROOM,
+//        R.id.ivPreviewTCDLAcademicRoomInformationBoard to ObjectType.ACADEMIC_INFO_BOARD,
+//        R.id.ivPreviewTCDLInternalSignage to ObjectType.INTERNAL_SIGNAGE,
+//        R.id.ivPreviewTCDLDoes_the_room_has to ObjectType.ROOM_FEATURE,
+//        R.id.ivPreviewDLwhether_all_the_academic to ObjectType.ACADEMIC_ROOM,
+//        R.id.ivPreviewDLAcademicRoomInformationBoard to ObjectType.ACADEMIC_INFO_BOARD,
+//        R.id.ivPreviewDLInternalSignage to ObjectType.INTERNAL_SIGNAGE,
+//        R.id.ivPreviewDLDoes_the_room_has to ObjectType.ROOM_FEATURE,
+//        R.id.ivPreviewTCRwhether_all_the_academic to ObjectType.ACADEMIC_ROOM,
+//        R.id.ivPreviewTCRAcademicRoomInformationBoard to ObjectType.ACADEMIC_INFO_BOARD,
+//        R.id.ivPreviewTCRInternalSignage to ObjectType.INTERNAL_SIGNAGE,
+//        R.id.ivPreviewTCRDoes_the_room_has to ObjectType.ROOM_FEATURE,
+
+        // Domain & Lab Related
+//        R.id.ivPreviewITCDLListofDomain to ObjectType.DOMAIN_LIST,
+//        R.id.ivPreviewTCILListofDomain to ObjectType.DOMAIN_LIST,
+//        R.id.ivPreviewTCDLListofDomain to ObjectType.DOMAIN_LIST,
+//        R.id.ivPreviewDLILListofDomain to ObjectType.DOMAIN_LIST,
+//        R.id.ivPreviewITCDLItLabPhotograph to ObjectType.LAB_PHOTOGRAPH,
+//        R.id.ivPreviewTCILTheoryCumItLabPhotogragh to ObjectType.THEORY_CUM_LAB_PHOTOGRAPH,
+//        R.id.ivPreviewTCDLDomainLabPhotogragh to ObjectType.DOMAIN_LAB_PHOTOGRAPH,
+//        R.id.ivPreviewDLDomainLabPhotogragh to ObjectType.DOMAIN_LAB_PHOTOGRAPH,
+//        R.id.ivPreviewTCRDomainLabPhotogragh to ObjectType.DOMAIN_LAB_PHOTOGRAPH,
+//
+//        // Projectors & Writing Boards
+//        R.id.ivPreviewTCDLLcdDigitalProjector to ObjectType.LCD_PROJECTOR,
+//        R.id.ivPreviewDLLcdDigitalProjector to ObjectType.LCD_PROJECTOR,
+//        R.id.ivPreviewTCRLcdDigitalProjector to ObjectType.LCD_PROJECTOR,
+//        R.id.ivPreviewTCDLWritingBoard to ObjectType.WRITING_BOARD,
+//        R.id.ivPreviewDLWritingBoard to ObjectType.WRITING_BOARD,
+//        R.id.ivPreviewTCRWritingBoard to ObjectType.WRITING_BOARD,
+
+
+
+        // Toilets & Washroom Proofs
+//        R.id.ivPreviewProofMaleToilets to ObjectType.MALE_TOILET,
+//        R.id.ivPreviewProofMaleToiletsSignage to ObjectType.MALE_TOILET_SIGNAGE,
+//        R.id.ivPreviewProofFemaleToilets to ObjectType.FEMALE_TOILET,
+//        R.id.ivPreviewProofFemaleToiletsSignage to ObjectType.FEMALE_TOILET_SIGNAGE,
+//        R.id.ivPreviewProofMaleUrinals to ObjectType.MALE_URINAL,
+//        R.id.ivPreviewProofMaleWashBasins to ObjectType.MALE_WASH_BASIN,
+//        R.id.ivPreviewProofFemaleWashBasins to ObjectType.FEMALE_WASH_BASIN,
+
+        // Water, Flooring & Parking
+//        R.id.ivPreviewProofOverheadTanks to ObjectType.OVERHEAD_TANK,
+//        R.id.ivPreviewProofFlooring to ObjectType.FLOORING,
+//        R.id.ivOpenSpaceProofPreview to ObjectType.OPEN_SPACE,
+//        R.id.ivParkingProofPreview to ObjectType.PARKING_SPACE,
+
+        // General Proof Uploads
+//        R.id.ivProofPreview to ObjectType.PROOF_UPLOAD,
+//        R.id.ivCirculationProofPreview to ObjectType.CIRCULATION_PROOF,
+
+        // Grievance & Minimum Equipment
+//        R.id.ivGrievanceRegisterPreview to ObjectType.GRIEVANCE_REGISTER,
+//        R.id.ivMinimumEquipmentPreview to ObjectType.MINIMUM_EQUIPMENT,
+
+        // Office Room Photographs
+//        R.id.ivPreviewOfficeRoomPhotograph to ObjectType.OFFICE_ROOM_PHOTOGRAPH,
+//        R.id.ivPreviewReceptionAreaPhotogragh to ObjectType.RECEPTION_AREA_PHOTOGRAPH,
+//        R.id.ivPreviewCounsellingRoomAreaPhotograph to ObjectType.COUNSELLING_ROOM_PHOTOGRAPH,
+//        R.id.ivPreviewOROfficeRoomPhotograph to ObjectType.OFFICE_ROOM_PHOTOGRAPH,
+
+        // Office Cum Storage
+//        R.id.ivPreviewOfficeCumSplaceforSecuringDoc to ObjectType.DOCUMENT_SECURING_PLACE,
+//        R.id.ivPreviewORSplaceforSecuringDoc to ObjectType.DOCUMENT_SECURING_PLACE,
+
+        // Special Cases - Individual
+//        R.id.ivPreviewITLSoundLevelAsPerSpecifications to ObjectType.SOUND_LEVEL_SPECIFICATION,
+//        R.id.ivGrievanceRegisterPreview to ObjectType.GRIEVANCE_REGISTER,
+//        R.id.ivMinimumEquipmentPreview to ObjectType.MINIMUM_EQUIPMENT,
+//        R.id.ivProofPreview to ObjectType.PROOF_UPLOAD,
+//        R.id.ivCirculationProofPreview to ObjectType.CIRCULATION_PROOF
+    )
+    private fun clearBadge(iv: ImageView) {
+        val parent = iv.parent
+        if (parent is FrameLayout) {
+            parent.findViewWithTag<View>("BADGE")?.let {
+                parent.removeView(it)
+            }
+        }
+    }
+
+
+    private fun observeObjectCount(
+        fansImage: String = "",
+        targetIv: ImageView,
+        objects:String
+    ) {
+        currentBadgeTarget = targetIv
+        viewModel.getFansCountAPI(
+            FansCountReq(
+                appVersion = BuildConfig.VERSION_NAME,
+                fansAttachment = fansImage,
+                detObject=  objects
+            ),AppUtil.getSavedTokenPreference(requireContext()
+        ))
+
+       // viewModel.getFansCountAPI.removeObservers(viewLifecycleOwner)
+        viewModel.getFansCountAPI.observe(viewLifecycleOwner) { result ->
+            val target = currentBadgeTarget ?: return@observe
+
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+                        showCountBadge(target, it.facilityId,requireContext())
+                    }
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app first.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            result.onFailure {
+                Toast.makeText(
+                    requireContext(),
+                    "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
 
@@ -6882,9 +7230,6 @@ class TrainingFragment : Fragment() {
 //       ItLab    Ajit Ranjan
 
     private fun submitItLab() {
-
-
-
 
         val token = requireContext()
             .getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)

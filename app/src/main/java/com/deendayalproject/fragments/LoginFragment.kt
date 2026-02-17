@@ -1,6 +1,16 @@
 package com.deendayalproject.fragments
 
+
+import android.graphics.Color
+import android.graphics.Typeface
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
+
+import android.provider.Settings
 import SharedViewModel
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +30,8 @@ import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentLoginBinding
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.util.validateDeviceSecurity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(
     FragmentLoginBinding::inflate
@@ -161,7 +173,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     private fun handleLoginClick() {
 
-        if (!validateDeviceSecurity()) {
+        if (!validateDeviceSecurity(requireContext())) {
             resetButtonState()
             return
         }
@@ -227,7 +239,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             loginId = userId,
             password = AppUtil.sha512Hash(password),
             imeiNo = AppUtil.getAndroidId(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME
+            appVersion = BuildConfig.VERSION_NAME,
+            ""
         )
 
         logNetworkCall("Login API", "POST")
@@ -325,46 +338,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         disable(binding.etPassword)
     }
 
-    private fun isDeviceRooted(): Boolean {
-        val paths = arrayOf(
-            "/system/app/Superuser.apk",
-            "/system/bin/su",
-            "/system/xbin/su",
-            "/data/local/xbin/su",
-            "/data/local/bin/su",
-            "/system/sd/xbin/su"
-        )
-        return paths.any { java.io.File(it).exists() }
-    }
-
-    private fun isEmulator(): Boolean {
-        return (
-                Build.FINGERPRINT.startsWith("generic")
-                        || Build.MODEL.contains("google_sdk")
-                        || Build.MODEL.lowercase().contains("emulator")
-                        || Build.MODEL.contains("Android SDK built for x86")
-                        || Build.MANUFACTURER.contains("Genymotion")
-                        || Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")
-                        || "google_sdk" == Build.PRODUCT
-                )
-    }
-
-    private fun validateDeviceSecurity(): Boolean {
-
-        if (isEmulator()) {
-            showErrorToast("Login is not allowed on Emulator")
-            requireActivity().finishAffinity()
-            return false
-        }
-
-        if (isDeviceRooted()) {
-            showErrorToast("Login is not allowed on Rooted Device")
-            requireActivity().finishAffinity()
-            return false
-        }
-
-        return true
-    }
 
 
 }

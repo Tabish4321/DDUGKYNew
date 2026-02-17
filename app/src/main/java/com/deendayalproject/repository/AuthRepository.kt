@@ -1,5 +1,6 @@
 package com.deendayalproject.repository
 
+import android.R.attr.version
 import android.content.Context
 import com.deendayalproject.BuildConfig.USER_NAME_FOR_APP
 import com.deendayalproject.base.BaseRepository
@@ -7,22 +8,29 @@ import com.deendayalproject.network.ApiService
 import com.deendayalproject.model.LoginErrorResponse
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
+import com.deendayalproject.model.request.SaltRequest
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.util.AppUtil
 import com.google.gson.Gson
 
 class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
     suspend fun loginUser(request: LoginRequest): Result<LoginResponse> {
         return try {
-            val response = apiService.loginUser(request)
+            val saltResp = apiService.getSalt(SaltRequest(request.loginId))
+            val saltedRequest = request.copy(
+                nonce = saltResp.nonce
+            )
+
+            val response = apiService.loginUser(saltedRequest)
             if (response.isSuccessful) {
                 val body = response.body()
-                if (body?.responseCode == 200 && !body.accessToken.isNullOrEmpty()) {
-                    Result.success(body)
-                } else if(body?.responseDesc == "DDUGKYUSERDESC"){
-                    Result.success(body)
-                }else {
-                    Result.failure(Exception(body?.responseDesc ?: "Login failed"))
+                when {
+                    body?.responseCode == 200 && body.accessToken.isNotEmpty() -> Result.success(body)
+
+                    body?.responseDesc == "DDUGKYUSERDESC" -> Result.success(body)
+
+                    else -> Result.failure(Exception(body?.responseDesc ?: "Login failed"))
                 }
             } else {
                 val error = response.errorBody()?.string()
@@ -40,4 +48,11 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
             apiService.fetchModules(request)
         }
     }
+
+    suspend fun logOutUser( token: String): Result<LoginResponse>{
+       return safeApiCallWithToken(token) {
+            apiService.logOutUser()
+        }
+    }
+
 }

@@ -60,28 +60,43 @@ bindingInflater = FragmentHomeBinding::inflate
     }
 
     private fun setupDrawerClicks() {
-//        binding.profilePic.setOnClickListener {
-//            binding.drawerLayout.openDrawer(GravityCompat.START)
-//        }
-
         binding.navigationView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_logout -> {
-                    Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show()
-                    AppUtil.saveLoginStatus(requireContext(), false)
 
-                    findNavController().navigate(
-                        R.id.fragmentLogin,
-                        null,
-                        androidx.navigation.NavOptions.Builder()
-                            .setPopUpTo(findNavController().graph.startDestinationId, true)
-                            .build()
-                    )
-
+                    viewModel.getLogOutAPI( AppUtil.getSavedTokenPreference(requireContext()))
+                    viewModel.modules.observe(viewLifecycleOwner) { response ->
+                        response.onSuccess { result ->
+                            when (result.responseCode) {
+                                200 -> {
+                                    Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show()
+                                    AppUtil.saveLoginStatus(requireContext(), false)
+                                    findNavController().navigate(
+                                        R.id.fragmentLogin,
+                                        null,
+                                        androidx.navigation.NavOptions.Builder()
+                                            .setPopUpTo(findNavController().graph.startDestinationId, true)
+                                            .build()
+                                    )
+                                }
+                                301 ->Toast.makeText(
+                                    requireContext(),
+                                    "Please upgrade your app first.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        response.onFailure {
+                            Toast.makeText(
+                                requireContext(),
+                                "Something went wrong. Try again.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
-
                 else -> false
             }
         }

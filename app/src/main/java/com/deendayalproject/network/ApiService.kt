@@ -14,6 +14,7 @@ import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
+import com.deendayalproject.model.request.FansCountReq
 import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
@@ -43,6 +44,7 @@ import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.RfCommonReq
 import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
+import com.deendayalproject.model.request.SaltRequest
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
@@ -82,6 +84,7 @@ import com.deendayalproject.model.response.DistrictResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.FacultyDetailsRes
+import com.deendayalproject.model.response.FansCountRes
 import com.deendayalproject.model.response.FieldVerificationDetailResponse
 import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
@@ -102,6 +105,7 @@ import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModifyRFRes
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.NonAreaInformationRoom
+import com.deendayalproject.model.response.NonceResponse
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
@@ -109,6 +113,7 @@ import com.deendayalproject.model.response.RfFinalSubmitRes
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
 import com.deendayalproject.model.response.RfQTeamListRes
+import com.deendayalproject.model.response.SaltResponse
 import com.deendayalproject.model.response.SectionResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
@@ -150,6 +155,15 @@ interface ApiService {
     @POST("login")
     suspend fun loginUser(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
+    @Headers("Content-Type: application/json")
+    @POST("logout")
+    suspend fun logOutUser(): Response<LoginResponse>
+
+    @POST("get-nonce")
+    suspend fun getSalt(
+        @Body request: SaltRequest
+    ): NonceResponse
+
     @POST("modulenforms")
     suspend fun fetchModules(@Body request: ModulesRequest): Response<ModuleResponse>
 
@@ -180,7 +194,7 @@ interface ApiService {
     @POST(value = "insertCCTVCompliance")
     suspend fun insertCCTVCompliance(@Body request: CCTVComplianceRequest): Response<CCTVComplianceResponse>
 
-    @POST("getCaptiveOrganizationDetails") // TODO: replace with actual endpoint path
+    @POST("getCaptiveOrganizationDetails")
     suspend fun getFieldVerificationDetail(
         @Body request: FieldVerificationDetailRequest
     ): Response<FieldVerificationDetailResponse>
@@ -645,6 +659,11 @@ interface ApiService {
     suspend fun insertFacultyAttandance(
         @Body insertFacultyAttendance: InsertFacultyAttendance
     ): Response<AttendanceInsertRes>
+
+    @POST("getFansCount")
+    suspend fun getFansCountAPI(
+        @Body fansCountReq: FansCountReq
+    ): Response<FansCountRes>
 
 
 

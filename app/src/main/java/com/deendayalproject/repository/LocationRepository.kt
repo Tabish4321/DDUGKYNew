@@ -9,6 +9,7 @@ import com.deendayalproject.model.request.AttendanceCheckReq
 import com.deendayalproject.model.request.AttendanceInsertReq
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.DistrictRequest
+import com.deendayalproject.model.request.FansCountReq
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.InsertFacultyAttendance
 import com.deendayalproject.model.request.StateRequest
@@ -22,6 +23,7 @@ import com.deendayalproject.model.response.AttendanceInsertRes
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.DistrictResponse
 import com.deendayalproject.model.response.FacultyDetailsRes
+import com.deendayalproject.model.response.FansCountRes
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.StateResponse
 import com.deendayalproject.model.response.UlbRes
@@ -112,6 +114,9 @@ class LocationRepository(context: Context) : BaseRepository<ApiService>(context)
 
 
 
+
+    suspend fun getFansCountAPI(req: FansCountReq,header :String): Result<FansCountRes> =
+        safeApiCallWithToken(token = header) {  apiService.getFansCountAPI(req) }
 
 
 }

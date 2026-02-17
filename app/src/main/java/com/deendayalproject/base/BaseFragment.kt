@@ -414,6 +414,36 @@ abstract class BaseFragment<VB : ViewBinding>(
         }
     }
 
+    protected fun showBase64ImageWithCountDialog(
+        base64ImageString: String?,
+        title: String = "Image",
+        count: String = "",
+    ) {
+        try {
+            val bitmap: Bitmap? = if (!base64ImageString.isNullOrBlank()) {
+                try {
+                    val cleanBase64 = base64ImageString
+                        .replace("data:image/png;base64,", "")
+                        .replace("data:image/jpg;base64,", "")
+                        .replace("data:image/jpeg;base64,", "")
+                        .replace("\\s".toRegex(), "")
+
+                    val decodedBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
+                    BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                } catch (e: Exception) {
+                    null
+                }
+            } else {
+                null
+            }
+            val dialog = ImagePreviewDialogFragment.newInstance(title = title,bitmap= bitmap, count = count)
+            dialog.show(parentFragmentManager, "ImagePreviewDialog")
+
+        } catch (e: Exception) {
+            logCrashlyticsError("showBase64ImageDialog", e)
+        }
+    }
+
 
 
     protected fun openBase64Pdf(base64: String, context: Context = requireContext()) {

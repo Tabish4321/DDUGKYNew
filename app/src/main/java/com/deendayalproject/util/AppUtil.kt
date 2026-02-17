@@ -523,34 +523,42 @@ object AppUtil {
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 
-
-/*
-    fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 1024): String? {
-        return try {
-            val options = BitmapFactory.Options()
-            options.inJustDecodeBounds = true
-
-            context.contentResolver.openInputStream(uri).use { stream ->
-                BitmapFactory.decodeStream(stream, null, options)
-            }
-
-            options.inSampleSize = calculateInSampleSize(options, maxSize, maxSize)
-            options.inJustDecodeBounds = false
-
-            val bitmap = context.contentResolver.openInputStream(uri).use { stream ->
-                BitmapFactory.decodeStream(stream, null, options)
-            } ?: return null
-
-            val outputStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
-            val byteArray = outputStream.toByteArray()
-            Base64.encodeToString(byteArray, Base64.NO_WRAP)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+    fun compressBitmap(bitmap: Bitmap): Bitmap {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream)
+        val bytes = stream.toByteArray()
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
     }
-*/
+
+
+
+    /*
+        fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 1024): String? {
+            return try {
+                val options = BitmapFactory.Options()
+                options.inJustDecodeBounds = true
+
+                context.contentResolver.openInputStream(uri).use { stream ->
+                    BitmapFactory.decodeStream(stream, null, options)
+                }
+
+                options.inSampleSize = calculateInSampleSize(options, maxSize, maxSize)
+                options.inJustDecodeBounds = false
+
+                val bitmap = context.contentResolver.openInputStream(uri).use { stream ->
+                    BitmapFactory.decodeStream(stream, null, options)
+                } ?: return null
+
+                val outputStream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
+                val byteArray = outputStream.toByteArray()
+                Base64.encodeToString(byteArray, Base64.NO_WRAP)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+    */
 
 //    fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 800): String? {
 //        return try {
@@ -581,7 +589,29 @@ object AppUtil {
 //            null
 //        }
 //    }
-fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 800): String? {
+
+    fun imageUriToBase64N(context: Context, uri: Uri): String? {
+        return try {
+
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+
+            // ✅ COMPRESS HERE
+            val outputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
+            val compressedBytes = outputStream.toByteArray()
+
+            // Convert to Base64
+            Base64.encodeToString(compressedBytes, Base64.DEFAULT)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+
+    fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 800): String? {
     return try {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true

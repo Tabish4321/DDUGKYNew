@@ -89,8 +89,7 @@ open class BaseActivity : AppCompatActivity() {
 
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        if (currentFocus != null) {
-            KeyboardUtils.hide(this)
+        if (currentFocus != null) { KeyboardUtils.hide(this)
         }else if (ev.flags and MotionEvent.FLAG_WINDOW_IS_OBSCURED != 0) {
                 return true
             }

@@ -511,6 +511,38 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
     }
 
 
+    private fun observeFansCount(fansImage: String,title: String) {
+        viewModel.getFansCountAPI.removeObservers(viewLifecycleOwner)
+        viewModel.getFansCountAPI.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+                        showBase64ImageWithCountDialog(
+                            base64ImageString=fansImage,
+                          title =   title,
+                            count = "${it.facilityId}"
+                        )
+                    }
+                    301 ->Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app first.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            result.onFailure {
+                Toast.makeText(
+                    requireContext(),
+                     "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+
+
+
 
 
     private fun setupImageClickListeners() {
@@ -526,7 +558,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.valueTypeOfFlooring.setOnClickListener { showBase64ImageDialog(typeOfFlooringImage, "Type of Flooring") }
 
         // Desc area images
-        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
+        binding.valueFans.setOnClickListener {
+            observeFansCount(fansImage = fansImage, title = "Fans") } // showBase64ImageDialog(fansImage, "Fans")
         binding.valueCirculationArea.setOnClickListener { showBase64ImageDialog(circulationAreaImage, "Circulation Area") }
         binding.valueOpenSpace.setOnClickListener { showBase64ImageDialog(openSpaceImage, "Open Space") }
         binding.valueParking.setOnClickListener { showBase64ImageDialog(parkingSpaceImage, "Parking Space") }
@@ -543,6 +576,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.valueSwitchBoard.setOnClickListener { showBase64ImageDialog(switchBoardImage, "Switch Board") }
 
         // Signage images
+
         binding.signageLayout.valueCenterNameBoard.setOnClickListener { showBase64ImageDialog(tcNameBoardImage, "Training Center Name Board") }
         binding.signageLayout.valueSummaryAcheivement.setOnClickListener { showBase64ImageDialog(activitySummaryBoardImage, "Activity Summary Achievement") }
         binding.signageLayout.valueStudentEntitlement.setOnClickListener { showBase64ImageDialog(studentEntitlementBoardImage, "Student Entitlement Board") }
@@ -1603,7 +1637,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
         binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
         binding.valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
-        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
+        binding.valueFans.setOnClickListener { observeFansCount(fansImage, "Fans") } //showBase64ImageDialog(fansImage, "Fans") }
         binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
         binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
         binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "IT cum Domain Lab Photo") }
@@ -1782,7 +1816,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
         binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
         binding.valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
-        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
+        binding.valueFans.setOnClickListener {observeFansCount(fansImage = fansImage, title = "Fans") }// showBase64ImageDialog(fansImage, "Fans") }
         binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
         binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
         binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "IT Lab Photo") }
