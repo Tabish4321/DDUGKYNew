@@ -1,11 +1,18 @@
 package com.deendayalproject.fragments
 
 
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.navigation.findNavController
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.PreviousInspectionEditFragmentBinding
-import com.deendayalproject.fragments.composeui.PreviousInspectionComplete
+import com.deendayalproject.fragments.composeui.PreviousInspectionDueComplete
+import com.deendayalproject.model.response.PreviousObservationRes
+import kotlinx.coroutines.delay
 
 class PreviousInspectionEditFragment : BaseFragment<PreviousInspectionEditFragmentBinding>(
     bindingInflater = PreviousInspectionEditFragmentBinding::inflate
@@ -14,20 +21,34 @@ class PreviousInspectionEditFragment : BaseFragment<PreviousInspectionEditFragme
 
     private var dateOfInspection = ""
     private var conductedBy = ""
-    private var observation = ""
-    private var actionTaken = ""
-    private var remarks = ""
 
     override fun initializeViews() {
+
+
+
+        val sampleObservationList = listOf(
+            PreviousObservationRes(
+                title = "External Assessment completed",
+                conductedBy = "Rahul",
+                remarks = "Need Improvement"
+            ),
+            PreviousObservationRes(
+                title = "OJT verification done by the PIA Q.Team",
+                conductedBy = "Rahul",
+                remarks = "Need Improvement"
+            ),
+            PreviousObservationRes(
+                title = "Action taken by the PIA for replacement ",
+                conductedBy = "Rahul",
+                remarks = "Need Improvement"
+            ),
+        )
 
 
 
 
         dateOfInspection = arguments?.getString("dateOfInspection").toString()
         conductedBy = arguments?.getString("conductedBy").toString()
-        observation = arguments?.getString("observation").toString()
-        actionTaken = arguments?.getString("actionTaken").toString()
-        remarks = arguments?.getString("remarks").toString()
 
 
 
@@ -36,29 +57,30 @@ class PreviousInspectionEditFragment : BaseFragment<PreviousInspectionEditFragme
                 ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
             )
             setContent {
+                val navController = findNavController()
 
-                PreviousInspectionComplete(
-                    dateOfInspection,
-                    conductedBy,
-                    observation,
-                    actionTaken,
-                    remarks,
-                    onSubmit = { answer, remarks ->
+                var isLoading by remember { mutableStateOf(true) }
 
-                        // 🔥 Call API here
+                LaunchedEffect(Unit) {
+                    delay(1000)
+                    isLoading = false
+                }
 
 
-                      /*  viewModel.submitCompliance(
-                            inspectionId = inspectionItem?.id ?: 0,
-                            status = answer,
-                            remarks = remarks
-                        )*/
-                    },
-
+                PreviousInspectionDueComplete(
+                    observationItems = sampleObservationList,
                     onBackClick = {
-                        findNavController().popBackStack()
+                        navController.popBackStack()
+                    },
+                    isLoading,
+                    onSubmit = { uiState ->
+
+
+
+                        // 🔥 Yaha API call karo
                     }
                 )
+
 
 
 

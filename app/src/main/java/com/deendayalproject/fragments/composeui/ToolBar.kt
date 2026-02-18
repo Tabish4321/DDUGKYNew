@@ -40,7 +40,7 @@ fun PremiumTopBar(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(colorResource(id = R.color.soft_navy_blue))
+            .background(colorResource(id = R.color.color_dark_blue))
 
     ) {
 

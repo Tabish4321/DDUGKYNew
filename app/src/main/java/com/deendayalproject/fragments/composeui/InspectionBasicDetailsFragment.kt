@@ -30,11 +30,15 @@ import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.InspectionBasicFragmentBinding
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.colorResource
 import androidx.core.os.bundleOf
 import com.deendayalproject.R
 import androidx.navigation.fragment.findNavController
 import com.deendayalproject.fragments.InspectionListFragmentDirections
+import com.deendayalproject.model.response.CandidateListInspectionRes
+import kotlinx.coroutines.delay
 
 
 class InspectionBasicDetailsFragment : BaseFragment<InspectionBasicFragmentBinding>(
@@ -52,7 +56,6 @@ class InspectionBasicDetailsFragment : BaseFragment<InspectionBasicFragmentBindi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hideStatusBar()
 
     }
 
@@ -72,18 +75,31 @@ class InspectionBasicDetailsFragment : BaseFragment<InspectionBasicFragmentBindi
                 ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
             )
             setContent {
+
+
+                var isLoading by remember { mutableStateOf(true) }
+
+                LaunchedEffect(Unit) {
+                    delay(1000)
+                    isLoading = false
+                }
+
+
+
+
                 InspectionModernScreen(
                     prnNumber,
                     sanctionOrder,
                     inspectionType,
                     trainingCenterId.toString(),
+                    isLoading = isLoading,
                     onEditClick = { inspectionId ->
 
 
 
                         findNavController().navigate(
                             InspectionBasicDetailsFragmentDirections.actionInspectionBasicDetailsFragmentToPreviousInspectionEditFragment
-                                (inspectionId.date,inspectionId.conductedBy,inspectionId.observations,inspectionId.actionTaken,inspectionId.remarks)
+                                (inspectionId.date,inspectionId.conductedBy)
                         )
 
                     }
@@ -108,29 +124,82 @@ class InspectionBasicDetailsFragment : BaseFragment<InspectionBasicFragmentBindi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InspectionModernScreen( prnNumber: String, sanctionLetter: String,inspectionType: String,trainingCenterId: String,
-                            onEditClick: (PreviousInspectionItemResponse) -> Unit ) {
+                            isLoading: Boolean, onEditClick: (PreviousInspectionItemResponse) -> Unit ) {
 
     var currentStep by remember { mutableStateOf(1) }
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current
+    var selectedCandidate by remember {
+        mutableStateOf<CandidateListInspectionRes?>(null)
+    }
+
+    val toolbarTitle = when (currentStep) {
+        1 -> "Training Center Details"
+        2 -> "Candidate Verification List"
+        3 -> "Final Review"
+        else -> "Inspection"
+    }
+
+
+
+
+
+
+  // candidate data
+
+
+    val sampleCandidateList = listOf(
+        CandidateListInspectionRes(
+            candidateId = 123456789,
+            name = "Rahul Kumar",
+            rollNumber = "RN001",
+            contactNumber = "9876543210"
+        ),
+        CandidateListInspectionRes(
+            candidateId = 123456789,
+            name = "Amit Sharma",
+            rollNumber = "RN002",
+            contactNumber = "9123456789"
+        ),
+        CandidateListInspectionRes(
+            candidateId = 123456789,
+            name = "Priya Singh",
+            rollNumber = "RN003",
+            contactNumber = "9988776655"
+        ),
+        CandidateListInspectionRes(
+            candidateId = 123456789,
+            name = "Naman Singh",
+            rollNumber = "RN004",
+            contactNumber = "9988776655"
+        ),
+        CandidateListInspectionRes(
+            candidateId = 123456789,
+            name = "Pankaj",
+            rollNumber = "RN005",
+            contactNumber = "9988776655"
+        )
+    )
+
+
+
+
+
+
+
+    // inspection data
 
     val sampleInspectionList = listOf(
         PreviousInspectionItemResponse(
             1,
             "12 Jan 2026",
             "Rahul Sharma",
-            "Lab setup completed",
-            "Minor corrections",
-            "All good",
-            "Complied"
+            "Inspection"
         ),
         PreviousInspectionItemResponse(
             2,
             "05 Feb 2026",
             "Amit Verma",
-            "Safety issue found",
-            "Pending action",
-            "Need improvement",
-            "Not Complied"
+            "Due Diligence"
         )
     )
 
@@ -138,7 +207,7 @@ fun InspectionModernScreen( prnNumber: String, sanctionLetter: String,inspection
     Scaffold(
         topBar = {
             PremiumTopBar(
-                "Training Center Details",
+                toolbarTitle,
                 onBackClick = {
                     backDispatcher?.onBackPressedDispatcher?.onBackPressed()
                 }
@@ -179,54 +248,121 @@ fun InspectionModernScreen( prnNumber: String, sanctionLetter: String,inspection
         }
     ) { padding ->
 
-        Column(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize().background(colorResource(id = R.color.white)),
-        ) {
 
-            // 🔹 FIXED HEADER (Not Scrollable)
-            InspectionProgressHeader(currentStep)
 
-            // 🔹 SCROLLABLE CONTENT
-            LazyColumn(
+
+        LazyColumn {
+            item {
+                CandidateDataPreviousBatchCard(
+                    candidate = sampleCandidateList,
+                    onVerifyCandidateClick = { candidate ->
+                        selectedCandidate = candidate   // ✅
+                    }
+                )
+            }
+        }
+
+
+
+        if (currentStep == 2 && selectedCandidate != null) {
+
+            CandidateVerificationBottomSheet(
+                candidateData = selectedCandidate!!,
+                onDismiss = { selectedCandidate = null },
+                onSubmit = {
+                    selectedCandidate = null
+                }
+            )
+        }
+
+
+
+
+
+        if (isLoading) {
+
+            Box(modifier = Modifier.padding(padding)) {
+                ShimmerTrainingList()
+            }
+
+        } else {
+
+
+            Column(
                 modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                    .padding(padding)
+                    .fillMaxSize().background(colorResource(id = R.color.white)),
+            )
+            {
+
+                // 🔹 FIXED HEADER (Not Scrollable)
+                InspectionProgressHeader(currentStep)
+
+                // 🔹 SCROLLABLE CONTENT
+                LazyColumn(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
 
 
-            ) {
+                    ) {
 
-                when (currentStep) {
+                    when (currentStep) {
 
-                    1 -> {
-                        item { TrainingCenterDetails(prnNumber,sanctionLetter,inspectionType,trainingCenterId)
+                        1 -> {
+                            item {
+                                TrainingCenterDetails(
+                                    prnNumber,
+                                    sanctionLetter,
+                                    inspectionType,
+                                    trainingCenterId
+                                )
 
 
-                            PreviousInspectionSection(
-                                items = sampleInspectionList,
-                                onEditClick = { selectedItem ->
+                                PreviousInspectionSection(
+                                    items = sampleInspectionList,
+                                    onEditClick = { selectedItem ->
 
                                         onEditClick(selectedItem)
 
-                                }
-                            )
+                                    }
+                                )
+
+
+                            }
 
 
                         }
 
+                        2 -> {
 
-                    }
 
-                    2 -> {
-                        item { }
 
-                    }
+                            item {  CandidateDataPreviousBatchCard(
+                                candidate = sampleCandidateList,
+                                onVerifyCandidateClick = {
 
-                    3 -> {
-                        item { Text("Final Review Screen") }
+
+                                    selectedCandidate = it  // ✅ Only state change
+
+
+
+                                }
+                            )
+                            }
+
+
+
+
+                            item { }
+
+                        }
+
+                        3 -> {
+                            item { Text("Final Review Screen") }
+                        }
                     }
                 }
             }

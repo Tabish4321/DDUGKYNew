@@ -270,6 +270,7 @@ bindingInflater = FragmentHomeBinding::inflate
     override fun initializeViews() {
         Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━HomeFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
+        hideStatusBar()
         setupNavHeader()
         setupViewModel()
         }

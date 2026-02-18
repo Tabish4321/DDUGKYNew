@@ -456,15 +456,7 @@
                 android:name="conductedBy"
                 app:argType="string" />
 
-            <argument
-                android:name="observation"
-                app:argType="string" />
-            <argument
-                android:name="actionTaken"
-                app:argType="string" />
-            <argument
-                android:name="remarks"
-                app:argType="string" />
+
 
 
         </action>

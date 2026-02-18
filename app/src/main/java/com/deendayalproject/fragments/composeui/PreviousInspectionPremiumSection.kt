@@ -17,8 +17,6 @@ import com.deendayalproject.R
 
 
 
-
-
 @Composable
 fun PreviousInspectionSection(
     items: List<PreviousInspectionItemResponse>,
@@ -31,9 +29,10 @@ fun PreviousInspectionSection(
 
         // 🔥 Section Title
         Text(
-            text = "Previous Inspection",
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold
+            text = "Previous Inspection/ Due Diligence",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(top = 16.dp)
         )
 
         items.forEach { item ->
@@ -93,7 +92,14 @@ fun PreviousInspectionSection(
 
                     Divider()
 
-                    // 👤 Conducted By
+                    // 👤 Type
+                    InfoRowLabel(
+                        label = "Type",
+                        value = item.type
+                    )
+
+
+
                     InfoRowLabel(
                         label = "Inspection Conducted By",
                         value = item.conductedBy

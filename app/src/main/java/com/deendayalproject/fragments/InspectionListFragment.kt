@@ -33,8 +33,6 @@ class InspectionListFragment : BaseFragment<InspectionListFragmentBinding>(
 
 
 
-
-
         binding.composeInspectionListView.apply {
             setViewCompositionStrategy(
                 ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
@@ -48,15 +46,18 @@ class InspectionListFragment : BaseFragment<InspectionListFragmentBinding>(
                     isLoading = false
                 }
 
+
                 TrainingCenterListScreen(
                     items = sampleList,
-                    isLoading = isLoading
-                ) { selectedItem ->
+                    isLoading = isLoading,
+                    onBackClick = { findNavController().navigateUp() },
+                    onItemClick = { selectedItem ->
+                        findNavController().navigate(
+                            InspectionListFragmentDirections.actionInspectionListFragmentToInspectionBasicDetailsFragment(selectedItem.prnNumber,selectedItem.sanctionLetterNo,selectedItem.inspectionType,selectedItem.id)
+                        )
+                    }
+                )
 
-                    findNavController().navigate(
-                        InspectionListFragmentDirections.actionInspectionListFragmentToInspectionBasicDetailsFragment(selectedItem.prnNumber,selectedItem.sanctionLetterNo,selectedItem.inspectionType,selectedItem.id)
-                    )
-                }
             }
 
         }

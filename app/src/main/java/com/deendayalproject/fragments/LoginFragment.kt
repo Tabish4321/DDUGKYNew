@@ -34,7 +34,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
         binding.versionText.text = "v${BuildConfig.VERSION_NAME}"
-
+        hideStatusBar()
         setupKeyboardDismissHandler()
         disableCopyPaste()
         setupPasswordToggle()
