@@ -41,7 +41,7 @@ android {
         getByName("debug") {
 
             isMinifyEnabled = false
-            isDebuggable = true
+            isDebuggable = false
         }
     }
     defaultConfig {

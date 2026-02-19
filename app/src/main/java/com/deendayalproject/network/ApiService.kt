@@ -170,7 +170,6 @@ interface ApiService {
     @POST("getTrainingCenterList")
     suspend fun getTrainingCenterList(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
 
-
     @POST(value = "getTrainingCenterVerificationList")
     suspend fun getQTeamTrainingList(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
 

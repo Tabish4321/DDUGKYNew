@@ -2,6 +2,7 @@ package com.deendayalproject.repository
 
 import android.R.attr.version
 import android.content.Context
+import android.widget.Toast
 import com.deendayalproject.BuildConfig.USER_NAME_FOR_APP
 import com.deendayalproject.base.BaseRepository
 import com.deendayalproject.network.ApiService
@@ -21,6 +22,10 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
             val saltedRequest = request.copy(
                 nonce = saltResp.nonce
             )
+
+            if(saltResp.responseCode==404){
+                Toast.makeText(context.applicationContext, saltResp?.responseDesc ?: "Invalid Login ID.", Toast.LENGTH_SHORT).show()
+            }
 
             val response = apiService.loginUser(saltedRequest)
             if (response.isSuccessful) {
