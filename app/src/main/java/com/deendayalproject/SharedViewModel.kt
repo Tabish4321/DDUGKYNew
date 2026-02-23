@@ -3,6 +3,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.model.request.*
 import com.deendayalproject.model.response.*
 import com.deendayalproject.repository.repomanager.RepositoryManager
@@ -1277,4 +1278,68 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             resultLiveData = _ToiletCountListView
         )
     }
+
+
+//    private val _getFansCountAPI = MutableLiveData<Result<FansCountRes>>()
+//    val getFansCountAPI: LiveData<Result<FansCountRes>> = _getFansCountAPI
+//
+//
+//    fun getFansCountAPI(request: FansCountReq,token: String) {
+//        handleApiCall(
+//            apiCall = { repositoryManager.location.getFansCountAPI(request,token) },
+//            resultLiveData = _getFansCountAPI
+//        )
+//    }
+
+    private val _getLogOutAPI = MutableLiveData<Result<LoginResponse>>()
+    val getLogOutAPI: LiveData<Result<LoginResponse>> = _getLogOutAPI
+
+    fun getLogOutAPI(token: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.auth.logOutUser(token)},
+            resultLiveData = _getLogOutAPI
+        )
+    }
+
+
+
+
+
+//    private val _fansState = MutableLiveData<UiState>()
+//    val fansState: LiveData<UiState> = _fansState
+//
+//    fun getFansCount(base64: String) {
+//
+//        val request = FansCountReq(
+//            appVersion = BuildConfig.VERSION_NAME,
+//            fansAttachment = base64
+//        )
+//        _fansState.value = UiState.Loading
+//
+//        viewModelScope.launch {
+//
+//            val result = repositoryManager.location.getFansCountAPI(request)
+//
+//            if (result.isSuccess && result. != null) {
+//
+//                val data = result.body()!!
+//
+//                if (data.responseCode == 200) {
+//                    _fansState.value =
+//                        FansUiState.ShowResult(base64, data.facilityId)
+//                } else {
+//                    _fansState.value =
+//                        FansUiState.Error(data.responseDesc)
+//                }
+//
+//            } else {
+//                _fansState.value =
+//                    FansUiState.Error("API Failed")
+//            }
+//        }
+//    }
+
+
+
+
 }

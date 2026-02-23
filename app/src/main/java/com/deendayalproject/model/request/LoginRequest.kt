@@ -4,5 +4,6 @@ data class LoginRequest(
     val loginId: String,
     val password: String,
     val imeiNo: String,
-    val appVersion: String
+    val appVersion: String,
+    val nonce : String
 )

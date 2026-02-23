@@ -10,7 +10,7 @@ class TokenInterceptor(private val context: Context) : Interceptor {
         val originalRequest = chain.request()
 
         // Skip token header for login endpoint if needed
-        if (originalRequest.url.encodedPath.endsWith("/ddugkyapp/login")) {
+        if (originalRequest.url.encodedPath.endsWith("/ddugkyapp/login") || originalRequest.url.encodedPath.endsWith("/ddugkyapp/get-nonce")) {
             return chain.proceed(originalRequest)
         }
 

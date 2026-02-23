@@ -9,6 +9,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.content.ContextCompat
@@ -20,6 +21,7 @@ import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentLoginBinding
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.util.toastShort
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(
     FragmentLoginBinding::inflate
@@ -28,6 +30,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private lateinit var viewModel: SharedViewModel
     private var isProcessingLogin = false
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun initializeViews() {
         Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━LoginFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
@@ -233,11 +236,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private fun performLogin(userId: String, password: String) {
         showProgressDialog("Logging in...")
 
+
+        toastShort(password)
+
         val request = LoginRequest(
             loginId = userId,
             password = AppUtil.sha512Hash(password),
             imeiNo = AppUtil.getAndroidId(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME
+            appVersion = BuildConfig.VERSION_NAME,
+            ""
+
         )
 
         logNetworkCall("Login API", "POST")

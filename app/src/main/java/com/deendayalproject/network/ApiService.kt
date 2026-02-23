@@ -43,6 +43,7 @@ import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.RfCommonReq
 import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
+import com.deendayalproject.model.request.SaltRequest
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
@@ -102,6 +103,7 @@ import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModifyRFRes
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.NonAreaInformationRoom
+import com.deendayalproject.model.response.NonceResponse
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
@@ -149,6 +151,15 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     @POST("login")
     suspend fun loginUser(@Body loginRequest: LoginRequest): Response<LoginResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("logout")
+    suspend fun logOutUser(): Response<LoginResponse>
+
+    @POST("get-nonce")
+    suspend fun getSalt(
+        @Body request: SaltRequest
+    ): NonceResponse
 
     @POST("modulenforms")
     suspend fun fetchModules(@Body request: ModulesRequest): Response<ModuleResponse>

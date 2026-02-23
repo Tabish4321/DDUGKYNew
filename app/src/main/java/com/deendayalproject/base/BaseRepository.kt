@@ -5,7 +5,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
-abstract class BaseRepository<T : Any>(private val context: Context) {
+abstract class BaseRepository<T : Any>(val context: Context) {
 
     protected val apiService: T by lazy {
         RetrofitClient.getApiService(context) as T
