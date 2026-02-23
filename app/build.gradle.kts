@@ -17,16 +17,12 @@ android {
     val  projectProperties=readProperties(keystorePropertiesFile)
 
 
-
-
-
-
     defaultConfig {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
         versionCode = 9
-        versionName = "1.3.2" //1.1.2
+        versionName = "1.1.3" //1.1.3 D,1.3.2 L
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -61,14 +57,14 @@ android {
     productFlavors {
         create("prod") {
             dimension = "environment"
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
         } //BASE_URL_LIVE
 
         create("demo") {
             dimension = "environment"
             applicationIdSuffix = ""
             versionNameSuffix = ""
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
         }//BASE_URL_DEMO
     }
 

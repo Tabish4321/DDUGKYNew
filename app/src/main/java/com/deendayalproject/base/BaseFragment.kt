@@ -1,5 +1,6 @@
 package com.deendayalproject.base
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
@@ -7,6 +8,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.view.LayoutInflater
@@ -14,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.content.FileProvider
 import androidx.core.view.WindowCompat
@@ -97,6 +100,8 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     // ==================== MODERN PROGRESS DIALOG ====================
 
+    @RequiresApi(Build.VERSION_CODES.R)
+    @SuppressLint("WrongConstant")
     fun hideStatusBar() {
         val window = requireActivity().window
 

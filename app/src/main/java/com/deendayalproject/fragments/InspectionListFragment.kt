@@ -23,10 +23,10 @@ class InspectionListFragment : BaseFragment<InspectionListFragmentBinding>(
 
 
     private val sampleList = listOf(
-        TrainingCenterListInspecRes(1, "2505000007", "SL-001/2026", "TC Lucknow, Uttar Pradesh", "Surprised"),
-        TrainingCenterListInspecRes(2,"2505000008","SL-002/2026","TC Delhi, New Delhi","Planned"),
-        TrainingCenterListInspecRes(3,"2505000009","SL-003/2026","TC Patna, Bihar","Planned"),
-        TrainingCenterListInspecRes(4,"2505000010","SL-004/2026","TC Jaipur, Rajasthan","Surprised")
+        TrainingCenterListInspecRes(1, "2505000007", "SL-001/2026",  "Surprised"),
+        TrainingCenterListInspecRes(2,"2505000008","SL-002/2026","Planned"),
+        TrainingCenterListInspecRes(3,"2505000009","SL-003/2026","Planned"),
+        TrainingCenterListInspecRes(4,"2505000010","SL-004/2026","Surprised")
     )
 
     override fun initializeViews() {
