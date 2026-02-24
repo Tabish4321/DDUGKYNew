@@ -1,4 +1,4 @@
-package com.deendayalproject.fragments.composeui
+package com.deendayalproject.fragments.composeui.trainingCenListAandDetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.R
+import com.deendayalproject.fragments.composeui.common.PremiumTopBar
+import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
 import com.deendayalproject.model.response.TrainingCenterListInspecRes
 
 @Composable

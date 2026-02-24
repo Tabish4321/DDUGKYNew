@@ -1,4 +1,4 @@
-package com.deendayalproject.fragments.composeui
+package com.deendayalproject.fragments.composeui.trainingCenListAandDetails
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.CardDefaults
 import androidx.compose.ui.res.colorResource
 import com.deendayalproject.R
+import com.deendayalproject.fragments.composeui.common.InfoRow
 
 
 @Composable

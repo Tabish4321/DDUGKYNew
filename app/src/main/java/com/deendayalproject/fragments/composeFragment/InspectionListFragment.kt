@@ -1,4 +1,4 @@
-package com.deendayalproject.fragments
+package com.deendayalproject.fragments.composeFragment
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.navigation.fragment.findNavController
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.InspectionListFragmentBinding
-import com.deendayalproject.fragments.composeui.TrainingCenterListScreen
+import com.deendayalproject.fragments.composeui.trainingCenListAandDetails.TrainingCenterListScreen
 import com.deendayalproject.model.response.TrainingCenterListInspecRes
 import kotlinx.coroutines.delay
 
@@ -23,10 +23,10 @@ class InspectionListFragment : BaseFragment<InspectionListFragmentBinding>(
 
 
     private val sampleList = listOf(
-        TrainingCenterListInspecRes(1, "2505000007", "SL-001/2026",  "Surprised"),
-        TrainingCenterListInspecRes(2,"2505000008","SL-002/2026","Planned"),
-        TrainingCenterListInspecRes(3,"2505000009","SL-003/2026","Planned"),
-        TrainingCenterListInspecRes(4,"2505000010","SL-004/2026","Surprised")
+        TrainingCenterListInspecRes(1, "2505000007", "SL-001/2026", "Surprised"),
+        TrainingCenterListInspecRes(2, "2505000008", "SL-002/2026", "Planned"),
+        TrainingCenterListInspecRes(3, "2505000009", "SL-003/2026", "Planned"),
+        TrainingCenterListInspecRes(4, "2505000010", "SL-004/2026", "Surprised")
     )
 
     override fun initializeViews() {
@@ -53,7 +53,12 @@ class InspectionListFragment : BaseFragment<InspectionListFragmentBinding>(
                     onBackClick = { findNavController().navigateUp() },
                     onItemClick = { selectedItem ->
                         findNavController().navigate(
-                            InspectionListFragmentDirections.actionInspectionListFragmentToInspectionBasicDetailsFragment(selectedItem.prnNumber,selectedItem.sanctionLetterNo,selectedItem.inspectionType,selectedItem.id)
+                            InspectionListFragmentDirections.actionInspectionListFragmentToInspectionBasicDetailsFragment(
+                                selectedItem.prnNumber,
+                                selectedItem.sanctionLetterNo,
+                                selectedItem.inspectionType,
+                                selectedItem.id
+                            )
                         )
                     }
                 )

@@ -1,4 +1,4 @@
-package com.deendayalproject.fragments.composeui
+package com.deendayalproject.fragments.composeui.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,7 +21,11 @@ import androidx.compose.ui.unit.dp
 fun MultiLineEditText(
     value: String,
     onValueChange: (String) -> Unit,
-    isError: Boolean = false
+    label: String,
+    isRequired: Boolean = false,
+    isError: Boolean = false,
+    maxLength: Int = 300,
+    placeholder: String = "Write details here..."
 ) {
 
     Column(
@@ -29,53 +33,70 @@ fun MultiLineEditText(
         modifier = Modifier.fillMaxWidth()
     ) {
 
+        // 🔹 Label
         Text(
-            text = "Enter Remarks",
+            text = if (isRequired) "$label *" else label,
             style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.SemiBold,
+            color = if (isError)
+                MaterialTheme.colorScheme.error
+            else
+                MaterialTheme.colorScheme.onSurface
         )
 
+        // 🔹 Text Field
         OutlinedTextField(
             value = value,
             onValueChange = {
-                if (it.length <= 300) { // limit
+                if (it.length <= maxLength) {
                     onValueChange(it)
                 }
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 120.dp),
+                .heightIn(min = 110.dp),
+
             placeholder = {
-                Text("Write detailed remarks here...")
+                Text(
+                    text = placeholder,
+                    style = MaterialTheme.typography.bodyMedium
+                )
             },
-            shape = RoundedCornerShape(16.dp),
+
+            shape = RoundedCornerShape(14.dp),
             isError = isError,
-            maxLines = 6,
             minLines = 4,
+            maxLines = 6,
+
             supportingText = {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
+
                     if (isError) {
                         Text(
-                            text = "Remarks required",
-                            color = MaterialTheme.colorScheme.error
+                            text = "This field is required",
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.labelSmall
                         )
                     }
 
                     Text(
-                        text = "${value.length}/300",
-                        style = MaterialTheme.typography.labelSmall
+                        text = "${value.length}/$maxLength",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             },
+
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                 unfocusedBorderColor = MaterialTheme.colorScheme.outline,
                 errorBorderColor = MaterialTheme.colorScheme.error,
                 focusedContainerColor = MaterialTheme.colorScheme.surface,
-                unfocusedContainerColor = MaterialTheme.colorScheme.surface
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                errorContainerColor = MaterialTheme.colorScheme.surface
             )
         )
     }

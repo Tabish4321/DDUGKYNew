@@ -1,4 +1,4 @@
-package com.deendayalproject.fragments.composeui
+package com.deendayalproject.fragments.composeFragment
 
 import PreviousInspectionItemResponse
 import android.os.Bundle
@@ -33,11 +33,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.colorResource
-import androidx.core.os.bundleOf
 import com.deendayalproject.R
 import androidx.navigation.fragment.findNavController
-import com.deendayalproject.fragments.InspectionListFragmentDirections
+import com.deendayalproject.fragments.composeui.previous_inspection.CandidateVerificationBottomSheet
+import com.deendayalproject.fragments.composeui.common.InspectionProgressHeader
+import com.deendayalproject.fragments.composeui.previous_inspection.PreviousInspectionSection
+import com.deendayalproject.fragments.composeui.trainingCenListAandDetails.TrainingCenterDetails
+import com.deendayalproject.fragments.composeui.batchAndCandidate.BatchListSection
+import com.deendayalproject.fragments.composeui.batchAndCandidate.CandidateDataPreviousBatchCard
+import com.deendayalproject.fragments.composeui.common.PremiumTopBar
+import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
 import com.deendayalproject.model.response.CandidateListInspectionRes
+import com.deendayalproject.model.response.batchListRes
 import kotlinx.coroutines.delay
 
 
@@ -132,16 +139,30 @@ fun InspectionModernScreen( prnNumber: String, sanctionLetter: String,inspection
         mutableStateOf<CandidateListInspectionRes?>(null)
     }
 
+    var selectedBatch by remember { mutableStateOf<batchListRes?>(null) }
+
     val toolbarTitle = when (currentStep) {
         1 -> "Training Center Details"
-        2 -> "Candidate Verification List"
+        2 -> {
+            if (selectedBatch != null)
+                "Candidate List"
+            else
+            "Previous Batch List"
+        }
         3 -> "Final Review"
         else -> "Inspection"
     }
 
 
 
+// Batch data
 
+
+    val sampleBatchList = listOf(
+        batchListRes(1, "BATCH-001"),
+        batchListRes(2, "BATCH-002"),
+        batchListRes(3, "BATCH-003")
+    )
 
 
   // candidate data
@@ -182,10 +203,6 @@ fun InspectionModernScreen( prnNumber: String, sanctionLetter: String,inspection
 
 
 
-
-
-
-
     // inspection data
 
     val sampleInspectionList = listOf(
@@ -209,14 +226,30 @@ fun InspectionModernScreen( prnNumber: String, sanctionLetter: String,inspection
             PremiumTopBar(
                 toolbarTitle,
                 onBackClick = {
-                    backDispatcher?.onBackPressedDispatcher?.onBackPressed()
+                    //backDispatcher?.onBackPressedDispatcher?.onBackPressed()
+
+                    if (currentStep > 1) {
+
+
+                        // 🔥 IMPORTANT LOGIC HERE
+                        if (currentStep == 2 && selectedBatch != null) {
+                            selectedBatch = null   // Back to Batch List
+                        } else {
+                            currentStep--
+                        }
+
+
+                    } else
+                        backDispatcher?.onBackPressedDispatcher?.onBackPressed()
                 }
             )
         },
 
         bottomBar = {
-            Surface(tonalElevation = 8.dp,
-                color = colorResource(R.color.white)) {
+            Surface(
+                tonalElevation = 8.dp,
+                color = colorResource(R.color.white)
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -226,7 +259,16 @@ fun InspectionModernScreen( prnNumber: String, sanctionLetter: String,inspection
 
                     if (currentStep > 1) {
                         OutlinedButton(
-                            onClick = { currentStep-- },
+                            onClick = {
+
+                                // 🔥 IMPORTANT LOGIC HERE
+                                if (currentStep == 2 && selectedBatch != null) {
+                                    selectedBatch = null   // Back to Batch List
+                                } else {
+                                    currentStep--
+                                }
+
+                            },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(50)
                         ) {
@@ -249,18 +291,6 @@ fun InspectionModernScreen( prnNumber: String, sanctionLetter: String,inspection
     ) { padding ->
 
 
-
-
-        LazyColumn {
-            item {
-                CandidateDataPreviousBatchCard(
-                    candidate = sampleCandidateList,
-                    onVerifyCandidateClick = { candidate ->
-                        selectedCandidate = candidate   // ✅
-                    }
-                )
-            }
-        }
 
 
 
@@ -339,20 +369,30 @@ fun InspectionModernScreen( prnNumber: String, sanctionLetter: String,inspection
                         2 -> {
 
 
+                            if (selectedBatch == null) {
 
-                            item {  CandidateDataPreviousBatchCard(
-                                candidate = sampleCandidateList,
-                                onVerifyCandidateClick = {
-
-
-                                    selectedCandidate = it  // ✅ Only state change
-
-
-
+                                // 🔹 Show Batch List First
+                                item {
+                                    BatchListSection(
+                                        batchList = sampleBatchList,
+                                        onBatchClick = { batch ->
+                                            selectedBatch = batch   // 🔥 open candidate list
+                                        }
+                                    )
                                 }
-                            )
-                            }
 
+                            } else {
+
+                                // 🔹 Show Candidate List After Batch Click
+                                item {
+                                    CandidateDataPreviousBatchCard(
+                                        candidate = sampleCandidateList,
+                                        onVerifyCandidateClick = {
+                                            selectedCandidate = it
+                                        }
+                                    )
+                                }
+                            }
 
 
 

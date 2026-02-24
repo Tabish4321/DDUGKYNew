@@ -1,5 +1,4 @@
-package com.deendayalproject.fragments
-
+package com.deendayalproject.fragments.composeFragment
 
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -10,7 +9,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.navigation.findNavController
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.PreviousInspectionEditFragmentBinding
-import com.deendayalproject.fragments.composeui.PreviousInspectionDueComplete
+import com.deendayalproject.fragments.composeui.previous_inspection.PreviousInspectionDueAllObserver
 import com.deendayalproject.model.response.PreviousObservationRes
 import kotlinx.coroutines.delay
 
@@ -67,14 +66,13 @@ class PreviousInspectionEditFragment : BaseFragment<PreviousInspectionEditFragme
                 }
 
 
-                PreviousInspectionDueComplete(
+                PreviousInspectionDueAllObserver(
                     observationItems = sampleObservationList,
                     onBackClick = {
                         navController.popBackStack()
                     },
                     isLoading,
                     onSubmit = { uiState ->
-
 
 
                         // 🔥 Yaha API call karo

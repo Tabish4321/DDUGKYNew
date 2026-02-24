@@ -1,4 +1,4 @@
-package com.deendayalproject.fragments.composeui
+package com.deendayalproject.fragments.composeui.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.animation.core.*

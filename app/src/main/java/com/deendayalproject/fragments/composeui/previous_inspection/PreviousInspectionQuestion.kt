@@ -1,4 +1,4 @@
-package com.deendayalproject.fragments.composeui
+package com.deendayalproject.fragments.composeui.previous_inspection
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.deendayalproject.fragments.composeui.common.MultiLineEditText
+import com.deendayalproject.fragments.composeui.common.PremiumChoiceChip
 
 @Composable
 fun ComplianceQuestionItem(
@@ -55,8 +57,12 @@ fun ComplianceQuestionItem(
             MultiLineEditText(
                 value = remarks,
                 onValueChange = onRemarksChange,
-                isError = remarks.isBlank()
+                label = "Remarks"
+
+                //isError = remarks.isBlank()
             )
         }
+
+
     }
 }

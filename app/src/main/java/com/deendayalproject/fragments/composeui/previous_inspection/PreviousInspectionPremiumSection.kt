@@ -1,4 +1,4 @@
-package com.deendayalproject.fragments.composeui
+package com.deendayalproject.fragments.composeui.previous_inspection
 
 import PreviousInspectionItemResponse
 import androidx.compose.foundation.layout.*

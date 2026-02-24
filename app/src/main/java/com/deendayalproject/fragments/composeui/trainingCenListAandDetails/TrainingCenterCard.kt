@@ -1,6 +1,5 @@
-package com.deendayalproject.fragments.composeui
+package com.deendayalproject.fragments.composeui.trainingCenListAandDetails
 
-import androidx.annotation.ColorRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.R
+import com.deendayalproject.fragments.composeui.common.InfoRow
 import com.deendayalproject.model.response.TrainingCenterListInspecRes
 
 @Composable
@@ -32,7 +32,7 @@ fun TrainingCenterCard(
             containerColor = colorResource(id = R.color.white)
         ),
         shape = RoundedCornerShape(20.dp),
-        elevation = androidx.compose.material3.CardDefaults.cardElevation(
+        elevation = CardDefaults.cardElevation(
             defaultElevation = 14.dp
         ),
         modifier = Modifier

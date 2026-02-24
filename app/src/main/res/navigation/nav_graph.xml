@@ -442,7 +442,7 @@
         tools:layout="@layout/fragment_faculty_attendance"/>
     <fragment
         android:id="@+id/inspectionBasicDetailsFragment"
-        android:name="com.deendayalproject.fragments.composeui.InspectionBasicDetailsFragment"
+        android:name="com.deendayalproject.fragments.composeFragment.InspectionBasicDetailsFragment"
         android:label="InspectionBasicDetailsFragment" >
         <action
             android:id="@+id/action_inspectionBasicDetailsFragment_to_previousInspectionEditFragment"
@@ -463,7 +463,7 @@
     </fragment>
     <fragment
         android:id="@+id/inspectionListFragment"
-        android:name="com.deendayalproject.fragments.InspectionListFragment"
+        android:name="com.deendayalproject.fragments.composeFragment.InspectionListFragment"
         android:label="InspectionListFragment" >
         <action
             android:id="@+id/action_inspectionListFragment_to_inspectionBasicDetailsFragment"
@@ -489,7 +489,7 @@
     </fragment>
     <fragment
         android:id="@+id/previousInspectionEditFragment"
-        android:name="com.deendayalproject.fragments.PreviousInspectionEditFragment"
+        android:name="com.deendayalproject.fragments.composeFragment.PreviousInspectionEditFragment"
         android:label="PreviousInspectionEditFragment" />
 
 

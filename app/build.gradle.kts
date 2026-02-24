@@ -187,6 +187,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
 
 
 

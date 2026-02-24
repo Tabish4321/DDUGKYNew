@@ -1,4 +1,4 @@
-package com.deendayalproject.fragments.composeui
+package com.deendayalproject.fragments.composeui.previous_inspection
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.PendingActions
 import androidx.compose.material3.*
 import androidx.compose.material3.CardDefaults
@@ -27,16 +26,19 @@ import com.deendayalproject.model.response.PreviousObservationUiState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.ui.draw.rotate
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-
+import com.deendayalproject.fragments.composeui.common.InfoRow
+import com.deendayalproject.fragments.composeui.common.PremiumTopBar
+import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
 
 
 @Composable
-fun PreviousInspectionDueComplete(
+fun PreviousInspectionDueAllObserver(
     observationItems: List<PreviousObservationRes>,
     onBackClick: () -> Unit,
     isLoading: Boolean,
     onSubmit: (PreviousObservationUiState) -> Unit
-) {
+)
+{
 
     val observationList = remember {
         mutableStateListOf<PreviousObservationUiState>().apply {
