@@ -240,7 +240,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             password = AppUtil.sha512Hash(password),
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
-            ""
         )
 
         logNetworkCall("Login API", "POST")

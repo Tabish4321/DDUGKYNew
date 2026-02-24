@@ -1282,16 +1282,16 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
 
-    private val _getFansCountAPI = MutableLiveData<Result<FansCountRes>>()
-    val getFansCountAPI: LiveData<Result<FansCountRes>> = _getFansCountAPI
-
-
-    fun getFansCountAPI(request: FansCountReq,token: String) {
-        handleApiCall(
-            apiCall = { repositoryManager.location.getFansCountAPI(request,token) },
-            resultLiveData = _getFansCountAPI
-        )
-    }
+//    private val _getFansCountAPI = MutableLiveData<Result<FansCountRes>>()
+//    val getFansCountAPI: LiveData<Result<FansCountRes>> = _getFansCountAPI
+//
+//
+//    fun getFansCountAPI(request: FansCountReq,token: String) {
+//        handleApiCall(
+//            apiCall = { repositoryManager.location.getFansCountAPI(request,token) },
+//            resultLiveData = _getFansCountAPI
+//        )
+//    }
 
     private val _getLogOutAPI = MutableLiveData<Result<LoginResponse>>()
     val getLogOutAPI: LiveData<Result<LoginResponse>> = _getLogOutAPI

@@ -1,5 +1,6 @@
 package com.deendayalproject.base
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -19,6 +21,8 @@ import com.deendayalproject.util.KeyboardUtils
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.deendayalproject.network.AppUpdateManager
+import com.deendayalproject.network.AppUpdateNotifier
 import com.deendayalproject.network.SessionManager
 import com.deendayalproject.util.AppUtil.showSessionExpiredDialog
 import kotlinx.coroutines.launch
@@ -30,6 +34,7 @@ open class BaseActivity : AppCompatActivity() {
     private var doubleBackToExit = false
     private val TAG = "BaseActivityLog"
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate: BaseActivity started")
@@ -42,6 +47,7 @@ open class BaseActivity : AppCompatActivity() {
 
         navController = navHostFragment.findNavController()
         observeSessionExpired()
+        observeAppUpdate()
 
         onBackPressedDispatcher.addCallback(
             this,
@@ -81,6 +87,21 @@ open class BaseActivity : AppCompatActivity() {
                     showSessionExpiredDialog(
                         navController = navController,
                         context = this@BaseActivity
+                    )
+                }
+            }
+        }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun observeAppUpdate(){
+        lifecycleScope.launchWhenStarted {
+            AppUpdateNotifier.updateRequired.collect { required ->
+                if (required) {
+                    AppUpdateManager.checkAndUpdate(
+                        this@BaseActivity,
+                        "https://kaushal.rural.gov.in/backendApi/api/downloadDdugkyApp"
                     )
                 }
             }

@@ -1336,31 +1336,40 @@ class TrainingFragment : Fragment() {
             }
         }
 
-
     private fun setPhotoPreview(
         iv: ImageView,
         base64Setter: (String) -> Unit,
         uri: Uri
     ) {
-        val objectType = imageTypeMap[iv.id]
-        objectType?.let {
-            clearBadge(iv)
-            showLoaderBadge(iv,requireContext())
-        }
         iv.setImageURI(uri)
         iv.visibility = View.VISIBLE
-        AppUtil.imageUriToBase64N(requireContext(), uri)?.let { base64 ->
-            base64Setter(base64)
-            objectType?.let { type ->
-                //observeObjectCount(base64, iv)
-                 observeObjectCount(base64, iv, type.toString())
-            }
-            iv.setOnClickListener {
-                val dialog = ImagePreviewDialogFragment.newInstance(objectType.toString() ?: "Image", base64ToBitmap(base64))
-                dialog.show(parentFragmentManager, "ImagePreviewDialog")
-            }
-        }
+        AppUtil.imageUriToBase64(requireContext(), uri)?.let { base64Setter(it) }
     }
+
+//    private fun setPhotoPreview(
+//        iv: ImageView,
+//        base64Setter: (String) -> Unit,
+//        uri: Uri
+//    ) {
+//        val objectType = imageTypeMap[iv.id]
+//        objectType?.let {
+//            clearBadge(iv)
+//            showLoaderBadge(iv,requireContext())
+//        }
+//        iv.setImageURI(uri)
+//        iv.visibility = View.VISIBLE
+//        AppUtil.imageUriToBase64N(requireContext(), uri)?.let { base64 ->
+//            base64Setter(base64)
+//            objectType?.let { type ->
+//                //observeObjectCount(base64, iv)
+//                 observeObjectCount(base64, iv, type.toString())
+//            }
+//            iv.setOnClickListener {
+//                val dialog = ImagePreviewDialogFragment.newInstance(objectType.toString() ?: "Image", base64ToBitmap(base64))
+//                dialog.show(parentFragmentManager, "ImagePreviewDialog")
+//            }
+//        }
+//    }
 
 
 
@@ -1643,45 +1652,45 @@ class TrainingFragment : Fragment() {
     }
 
 
-    private fun observeObjectCount(
-        fansImage: String = "",
-        targetIv: ImageView,
-        objects:String
-    ) {
-        currentBadgeTarget = targetIv
-        viewModel.getFansCountAPI(
-            FansCountReq(
-                appVersion = BuildConfig.VERSION_NAME,
-                fansAttachment = fansImage,
-                detObject=  objects
-            ),AppUtil.getSavedTokenPreference(requireContext()
-        ))
-
-       // viewModel.getFansCountAPI.removeObservers(viewLifecycleOwner)
-        viewModel.getFansCountAPI.observe(viewLifecycleOwner) { result ->
-            val target = currentBadgeTarget ?: return@observe
-
-            result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-                        showCountBadge(target, it.facilityId,requireContext())
-                    }
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app first.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-            result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "Something went wrong",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
+//    private fun observeObjectCount(
+//        fansImage: String = "",
+//        targetIv: ImageView,
+//        objects:String
+//    ) {
+//        currentBadgeTarget = targetIv
+//        viewModel.getFansCountAPI(
+//            FansCountReq(
+//                appVersion = BuildConfig.VERSION_NAME,
+//                fansAttachment = fansImage,
+//                detObject=  objects
+//            ),AppUtil.getSavedTokenPreference(requireContext()
+//        ))
+//
+//       // viewModel.getFansCountAPI.removeObservers(viewLifecycleOwner)
+////        viewModel.getFansCountAPI.observe(viewLifecycleOwner) { result ->
+////            val target = currentBadgeTarget ?: return@observe
+////
+////            result.onSuccess {
+////                when (it.responseCode) {
+////                    200 -> {
+////                        showCountBadge(target, it.facilityId,requireContext())
+////                    }
+////                    301 -> Toast.makeText(
+////                        requireContext(),
+////                        "Please upgrade your app first.",
+////                        Toast.LENGTH_SHORT
+////                    ).show()
+////                }
+////            }
+////            result.onFailure {
+////                Toast.makeText(
+////                    requireContext(),
+////                    "Something went wrong",
+////                    Toast.LENGTH_SHORT
+////                ).show()
+////            }
+////        }
+//    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

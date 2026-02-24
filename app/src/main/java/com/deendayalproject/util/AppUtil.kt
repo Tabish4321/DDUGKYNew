@@ -231,6 +231,8 @@ object AppUtil {
         return hashBytes.joinToString("") { "%02x".format(it) }
     }
 
+
+
     fun createFileName(userId: Int?): String {
         return "${userId}_${System.currentTimeMillis()}.jpg"
     }

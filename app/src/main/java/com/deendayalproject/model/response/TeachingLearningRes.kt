@@ -18,5 +18,6 @@ data class TrainingPlanItem(
     val domainCurriculum: String?,
     val trainingNature: String?,
     val assessmentMaterial: String?,
-    val tradesAvailable: String?
+    val tradesAvailable: String?,
+    val tradeName: String?,
 )

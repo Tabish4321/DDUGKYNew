@@ -8,6 +8,7 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import com.deendayalproject.base.BaseActivity
 import com.deendayalproject.util.FullScreenHelper
+import com.deendayalproject.util.validateDeviceSecurity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -17,7 +18,11 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         disableScreenshots()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        validateDeviceSecurity(this)
     }
 
     private fun disableScreenshots() {
@@ -26,6 +31,4 @@ class MainActivity : BaseActivity() {
             android.view.WindowManager.LayoutParams.FLAG_SECURE
         )
     }
-
-
 }

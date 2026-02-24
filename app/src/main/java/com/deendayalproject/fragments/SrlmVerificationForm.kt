@@ -532,9 +532,7 @@ class SrlmVerificationForm : Fragment() {
                                     showBase64ImageDialog(requireContext(), lightsImage, "Lights Image")
                                 }
 
-                                binding.valueFans.setOnClickListener {
-                                    observeFansCount(fansImage = fansRoomImage, title = "Fans Image")}
-                                    //showBase64ImageDialog(requireContext(), fansRoomImage, "Fans Image") }
+                                binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), fansRoomImage, "Fans Image") }
 
                                 binding.valuePowerBackup.setOnClickListener {
                                     showBase64ImageDialog(requireContext(), ecPowerBackupImage, "Power Backup Image")
@@ -927,7 +925,7 @@ class SrlmVerificationForm : Fragment() {
                                 binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerChairImage, "Trainer Chair") }
                                 binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerTableImage, "Trainer Table") }
                                 binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), data.lightsImage, "Lights") }
-                                binding.valueFans.setOnClickListener {observeFansCount(data.fansImage, "Fans") }
+                                binding.valueFans.setOnClickListener {showBase64ImageDialog(requireContext(),data.fansImage, "Fans") }
                                 binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup") }
                                 binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(requireContext(), data.airConditionRoomImage, "Air Conditioning") }
                                 binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "IT cum Domain Lab Photo") }
@@ -1020,7 +1018,7 @@ class SrlmVerificationForm : Fragment() {
                                 binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerChairImage, "Trainer Chair") }
                                 binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerTableImage, "Trainer Table") }
                                 binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), data.lightsImage, "Lights") }
-                                binding.valueFans.setOnClickListener {observeFansCount(data.fansImage, "Fans")}
+                                binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), data.fansImage, "Fans") }
                                 binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup") }
                                 binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "IT Lab Photograph") }
                                 binding.valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.domainEquipmentImage, "Domain Equipment") }
@@ -1221,12 +1219,12 @@ class SrlmVerificationForm : Fragment() {
 
                         binding.yesNoFans.text = safeText(fans)
                         binding.valueFans.setOnClickListener {
-                            observeFansCount(fansRoomImage, "Fans")
-//                            showBase64ImageDialog(
-//                                requireContext(),
-//                                fansRoomImage,
-//                                "Fans"
-//                            )
+                           // observeFansCount(fansRoomImage, "Fans")
+                            showBase64ImageDialog(
+                                requireContext(),
+                                fansRoomImage,
+                                "Fans"
+                            )
                         }
 
                         binding.yesNoPowerBackup.text = safeText(ecPowerBackup)
@@ -1339,7 +1337,7 @@ class SrlmVerificationForm : Fragment() {
                                 binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerChairImage, "Trainer Chair") }
                                 binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerTableImage, "Trainer Table") }
                                 binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), data.lightsImage, "Lights") }
-                                binding.valueFans.setOnClickListener { observeFansCount( data.fansImage, "Fans") }
+                                binding.valueFans.setOnClickListener {showBase64ImageDialog(requireContext(), data.fansImage, "Fans") }
                                 binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup") }
                                 binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(requireContext(), data.airConditionRoomImage, "Air Conditioning") }
                                 binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "IT Lab Photo") }
@@ -1427,7 +1425,7 @@ class SrlmVerificationForm : Fragment() {
                                 binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerChairImage, "Trainer Chair") }
                                 binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerTableImage, "Trainer Table") }
                                 binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), data.lightsImage, "Lights") }
-                                binding.valueFans.setOnClickListener { observeFansCount(fansImage = data.fansImage, title = "Fans") }
+                                binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), data.fansImage, title = "Fans") }
                                 binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup") }
                                 binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "Domain Lab Photo") }
                                 binding.valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.domainEquipmentImage, "Domain Related Equipment") }
@@ -3254,7 +3252,7 @@ class SrlmVerificationForm : Fragment() {
 
 
 
-                            binding.yesNoTrade.text= x.trade
+                            binding.yesNoTrade.text= x.tradeName
                             binding.yesNoNatureofTraining.text= x.trainingNature
                             binding.yesNoTradeAsPerProject.text= x.tradesAvailable
                             binding.yesNoIsTrainingPlanAvail.text= x.trainingPlan
@@ -3967,34 +3965,34 @@ class SrlmVerificationForm : Fragment() {
     }
 
 
-    private fun observeFansCount(fansImage: String?,title: String) {
-        viewModel.getFansCountAPI.removeObservers(viewLifecycleOwner)
-        viewModel.getFansCountAPI.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                when (it.responseCode) {
-                    200 -> {
-                        showBase64ImageWithCountDialog(
-                            base64ImageString=fansImage,
-                            title=title,
-                           count = "${it.facilityId}"
-                        )
-                    }
-                    301 ->Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app first.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-            result.onFailure {
-                Toast.makeText(
-                    requireContext(),
-                    "Something went wrong",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
+//    private fun observeFansCount(fansImage: String?,title: String) {
+//        viewModel.getFansCountAPI.removeObservers(viewLifecycleOwner)
+//        viewModel.getFansCountAPI.observe(viewLifecycleOwner) { result ->
+//            result.onSuccess {
+//                when (it.responseCode) {
+//                    200 -> {
+//                        showBase64ImageWithCountDialog(
+//                            base64ImageString=fansImage,
+//                            title=title,
+//                           count = "${it.facilityId}"
+//                        )
+//                    }
+//                    301 ->Toast.makeText(
+//                        requireContext(),
+//                        "Please upgrade your app first.",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//            result.onFailure {
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Something went wrong",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
+//    }
 
     protected fun showBase64ImageWithCountDialog(
         base64ImageString: String?,

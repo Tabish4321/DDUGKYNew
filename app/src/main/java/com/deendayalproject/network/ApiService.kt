@@ -164,6 +164,7 @@ interface ApiService {
         @Body request: SaltRequest
     ): NonceResponse
 
+
     @POST("modulenforms")
     suspend fun fetchModules(@Body request: ModulesRequest): Response<ModuleResponse>
 
@@ -659,10 +660,10 @@ interface ApiService {
         @Body insertFacultyAttendance: InsertFacultyAttendance
     ): Response<AttendanceInsertRes>
 
-    @POST("getFansCount")
-    suspend fun getFansCountAPI(
-        @Body fansCountReq: FansCountReq
-    ): Response<FansCountRes>
+//    @POST("getFansCount")
+//    suspend fun getFansCountAPI(
+//        @Body fansCountReq: FansCountReq
+//    ): Response<FansCountRes>
 
 
 
