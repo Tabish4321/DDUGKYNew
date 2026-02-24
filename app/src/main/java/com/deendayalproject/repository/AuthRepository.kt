@@ -30,6 +30,7 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
                 Toast.makeText(context.applicationContext, saltResp?.responseDesc ?: "Invalid Login ID.", Toast.LENGTH_SHORT).show()
             }
 
+
             val response = apiService.loginUser(saltedRequest)
             if (response.isSuccessful) {
                 val body = response.body()
