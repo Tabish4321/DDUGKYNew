@@ -47,6 +47,7 @@ import com.deendayalproject.model.response.CountList
 import com.deendayalproject.model.response.LivingAreaInformation
 import com.deendayalproject.model.response.ToiletRoomInformationDataResponse
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.util.isNull
 import com.deendayalproject.util.roundHalfUp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -1322,7 +1323,9 @@ open class BaseFormSrmRF  : Fragment() {
                                 }
 
                                 PreparedFoodFile = x.preprationFoodPdf
-                                ReceptionAreaPdf = x.receptionAreaPdf.toString()
+                                if( !x.receptionAreaPdf.isNull){
+                                    ReceptionAreaPdf = x.receptionAreaPdf
+                                }
 
                                 if (x.separateAreas == "Yes") {
                                     recreationFile.visibility = View.VISIBLE

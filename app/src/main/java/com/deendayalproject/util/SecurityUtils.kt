@@ -86,25 +86,25 @@ private fun isUsbDebuggingEnabled(context: Context): Boolean {
         return false
     }
 
-//    if (isDeveloperOptionsEnabled(context)) {
-//        showSecurityDialog(
-//            "Disable Developer Options to continue",
-//            context = context
-//        ) {
-//            (context as Activity).finishAffinity()
-//        }
-//        return false
-//    }
+    if (isDeveloperOptionsEnabled(context)) {
+        showSecurityDialog(
+            "Disable Developer Options to continue",
+            context = context
+        ) {
+            (context as Activity).finishAffinity()
+        }
+        return false
+    }
 
-//    if (isUsbDebuggingEnabled(context)) {
-//        showSecurityDialog(
-//            "USB Debugging must be disabled",
-//            context = context
-//        ) {
-//            (context as Activity).finishAffinity()
-//        }
-//        return false
-//    }
+    if (isUsbDebuggingEnabled(context)) {
+        showSecurityDialog(
+            "USB Debugging must be disabled",
+            context = context
+        ) {
+            (context as Activity).finishAffinity()
+        }
+        return false
+    }
 
     return true
 }

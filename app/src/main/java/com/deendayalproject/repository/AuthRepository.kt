@@ -21,10 +21,10 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
 
         return try {
             val saltResp = apiService.getSalt(SaltRequest(request.loginId))
-            val concatPassWord = saltResp.nonce.trim() + request. password.trim()
-            val saltedRequest = request.copy(
-                password = AppUtil.sha512Hash(concatPassWord)
-            )
+            val concatPassWord = saltResp.nonce.trim() +
+                    request. password.trim()
+            val saltedRequest = request.copy(password = AppUtil.sha512Hash(concatPassWord))
+
 
             if(saltResp.responseCode==404){
                 Toast.makeText(context.applicationContext, saltResp?.responseDesc ?: "Invalid Login ID.", Toast.LENGTH_SHORT).show()
