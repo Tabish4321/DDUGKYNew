@@ -40,7 +40,7 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = true
+            isDebuggable = false
         }
     }
     defaultConfig {
@@ -165,6 +165,8 @@ dependencies {
         kapt("com.github.bumptech.glide:compiler:4.16.0")
 
     }
+
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 }
 
 kapt {

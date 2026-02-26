@@ -50,7 +50,7 @@ class AttendanceCandidateListFragment : BaseFragment<FragmentAttendanceCandidate
             viewModel.getAttendanceCandidateListAPI(
                 AttendanceCandidateListReq(batchId,
                     BuildConfig.VERSION_NAME
-                ), AppUtil.getSavedTokenPreference(requireContext())
+                ), ""
             )
 
             showProgressDialog("Loading...")

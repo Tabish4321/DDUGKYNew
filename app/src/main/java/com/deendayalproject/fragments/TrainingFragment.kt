@@ -7893,7 +7893,7 @@ class TrainingFragment : Fragment() {
             tcId = centerId,
             sanctionOrder = AppUtil.getsanctionOrderPreference(requireContext()),
         )
-        viewModel.DesriptionAcademicNonList(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.DesriptionAcademicNonList(request, "")
 
     }
 

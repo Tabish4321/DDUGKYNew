@@ -52,6 +52,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.deendayalproject.R
+import com.deendayalproject.network.SecurePreferenceManager.getToken
+import com.deendayalproject.network.SecurePreferenceManager.saveToken
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import java.io.ByteArrayOutputStream
@@ -265,12 +267,15 @@ object AppUtil {
 
 
     fun saveTokenPreference(context: Context, tokenCode: String) {
+
+      //  saveToken(context,tokenCode)
         val sharedPreferences =
             context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         sharedPreferences.edit().putString("token", tokenCode).apply()
     }
-
+//
     fun getSavedTokenPreference(context: Context): String {
+     //   return getToken(context)
         val sharedPreferences =
             context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         return sharedPreferences.getString("token", "") ?: ""

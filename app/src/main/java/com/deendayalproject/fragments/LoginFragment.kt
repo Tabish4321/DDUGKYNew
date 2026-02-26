@@ -29,6 +29,7 @@ import com.deendayalproject.R
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentLoginBinding
 import com.deendayalproject.model.request.LoginRequest
+import com.deendayalproject.network.SecurePreferenceManager.saveToken
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.validateDeviceSecurity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -291,8 +292,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         val accessToken = (data as? com.deendayalproject.model.response.LoginResponse)?.accessToken ?: ""
 
         AppUtil.saveLoginStatus(requireContext(), true)
-        AppUtil.saveTokenPreference(requireContext(), accessToken)
+       // AppUtil.saveTokenPreference(requireContext(), accessToken)
         AppUtil.saveLoginIdPreference(requireContext(), userId)
+        saveToken(requireContext(), accessToken)
 
         logFragmentEvent("Login_Successful", userId)
         setUserIdentifier(userId)

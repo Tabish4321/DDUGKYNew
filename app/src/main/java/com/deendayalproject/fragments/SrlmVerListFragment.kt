@@ -73,7 +73,7 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
-        viewModel.fetchSrlmTeamTrainingList(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.fetchSrlmTeamTrainingList(request, "")
     }
 
     private fun setupRecyclerView() {

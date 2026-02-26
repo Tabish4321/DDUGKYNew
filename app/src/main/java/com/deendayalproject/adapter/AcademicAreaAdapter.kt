@@ -55,7 +55,7 @@ class AcademicAreaAdapter(
             val appVersion = BuildConfig.VERSION_NAME
             val tcId = AppUtil.getcenterIdPreference(context)
             val sanctionOrder = AppUtil.getsanctionOrderPreference(context)
-            val token = AppUtil.getSavedTokenPreference(context)
+            val token = ""//AppUtil.getSavedTokenPreference(context)
             val roomNo = center.roomNo
             val roomType = center.roomType
 
