@@ -5,5 +5,5 @@ data class AcademicNonAcademicArea(
     val imeiNo: String,
     val appVersion: String,
     val tcId: String,
-    val sanctionOrder: String,
+    val sanctionOrder: String
 )

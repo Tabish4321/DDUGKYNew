@@ -5,6 +5,7 @@ import com.deendayalproject.repository.AcademicRepository
 import com.deendayalproject.repository.AuthRepository
 import com.deendayalproject.repository.FieldVerificationRepository
 import com.deendayalproject.repository.InfrastructureRepository
+import com.deendayalproject.repository.InspectionRepository
 import com.deendayalproject.repository.LocationRepository
 import com.deendayalproject.repository.ResidentialFacilityRepository
 import com.deendayalproject.repository.RfOperationsRepository
@@ -35,4 +36,5 @@ class RepositoryManager private constructor(context: Context) {
     val residentialFacility: ResidentialFacilityRepository by lazy { ResidentialFacilityRepository(context) }
     val verification: VerificationRepository by lazy { VerificationRepository(context) }
     val rfOperations: RfOperationsRepository by lazy { RfOperationsRepository(context) }
+    val inspectionRepo: InspectionRepository by lazy { InspectionRepository(context) }
 }

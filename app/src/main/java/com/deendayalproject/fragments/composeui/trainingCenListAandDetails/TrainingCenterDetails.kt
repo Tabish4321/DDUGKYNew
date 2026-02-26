@@ -27,7 +27,19 @@ import com.deendayalproject.fragments.composeui.common.InfoRow
 
 
 @Composable
-fun TrainingCenterDetails( prnNumber: String, sanctionLetter: String,inspectionType: String,trainingCenterId: String) {
+fun TrainingCenterDetails(
+    prnNumber: String,
+    sanctionLetter: String,
+    inspectionType: String,
+    trainingCenterId: String,
+    trainingCenterName: String,
+    inchargeName: String,
+    mobileNumber: String,
+    email: String,
+    tradeAndCapacity: String,
+    coordinate: String,
+    roleName: String
+) {
 
     ElevatedCard(
         shape = RoundedCornerShape(24.dp),
@@ -45,83 +57,17 @@ fun TrainingCenterDetails( prnNumber: String, sanctionLetter: String,inspectionT
                 style = MaterialTheme.typography.titleMedium
             )
 
-            InfoRow(
-                icon = Icons.Default.ConfirmationNumber,
-                label = "PRN Number",
-                value = prnNumber
-            )
-
-            InfoRow(
-                icon = Icons.Default.Description,
-                label = "Sanction Letter No.",
-                value = sanctionLetter
-            )
-            InfoRow(
-                icon = Icons.Default.Description,
-                label = "Inspection type",
-                value = inspectionType
-            )
-
-            InfoRow(
-                icon = Icons.Default.LocationOn,
-                label = "Training Centre Name",
-                value = "TC Lucknow, Uttar Pradesh"
-            )
-
-            InfoRow(
-                icon = Icons.Default.Badge,
-                label = "Training Centre ID",
-                value = trainingCenterId
-            )
-
-            InfoRow(
-                icon = Icons.Default.Build,
-                label = "Approved Trade & Capacity",
-                value = "Electrician (40)"
-            )
-
-
-            InfoRow(
-                icon = Icons.Default.Person,
-                label = "Training Centre In-Charge Name",
-                value = "Mr. Rajesh Kumar"
-            )
-
-            InfoRow(
-                icon = Icons.Default.Phone,
-                label = "Mobile Number",
-                value = "+91 9876543210"
-            )
-
-            InfoRow(
-                icon = Icons.Default.Email,
-                label = "Email",
-                value = "tc.lucknow@email.com"
-            )
-
-            InfoRow(
-                icon = Icons.Default.LocationOn,
-                label = "Coordinates",
-                value = "26.8467° N, 80.9462° E"
-            )
-
-            InfoRow(
-                icon = Icons.Default.DateRange,
-                label = "Date of Inspection",
-                value = "05 Feb 2026"
-            )
-
-            InfoRow(
-                icon = Icons.Default.Person,
-                label = "Inspector Name",
-                value = "Rahul Sharma"
-            )
-
-            InfoRow(
-                icon = Icons.Default.Badge,
-                label = "Inspected by (Role)",
-                value = "Q Team / SRLM / CTSA"
-            )
+            InfoRow(Icons.Default.ConfirmationNumber, "PRN Number", prnNumber)
+            InfoRow(Icons.Default.Description, "Sanction Letter No.", sanctionLetter)
+            InfoRow(Icons.Default.Description, "Inspection Type", inspectionType)
+            InfoRow(Icons.Default.LocationOn, "Training Centre Name", trainingCenterName)
+            InfoRow(Icons.Default.Badge, "Training Centre ID", trainingCenterId)
+            InfoRow(Icons.Default.Build, "Trade & Capacity", tradeAndCapacity)
+            InfoRow(Icons.Default.Person, "Training Centre Incharge", inchargeName)
+            InfoRow(Icons.Default.Phone, "Mobile Number", mobileNumber)
+            InfoRow(Icons.Default.Email, "Email", email)
+            InfoRow(Icons.Default.LocationOn, "Coordinates", coordinate)
+            InfoRow(Icons.Default.Badge, "Role", roleName)
         }
     }
 }

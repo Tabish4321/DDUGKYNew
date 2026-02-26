@@ -144,15 +144,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     override fun setupClickListeners() {
 
-
-        binding.imgLogo.setOnClickListener {
-
-            findNavController().navigate(R.id.action_fragmentLogin_to_inspectionListFragment)
-        }
-
-
-
-
         binding.btnLogin.setOnClickListener {
             if (!isProcessingLogin) {
                 handleLoginClick()
@@ -244,7 +235,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             password = AppUtil.sha512Hash(password),
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
-            ""
+
 
         )
 

@@ -23,7 +23,7 @@ fun PremiumChoiceChip(
     selected: Boolean,
     selectedColor: Color,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier   // 👈 Add this
+    modifier: Modifier = Modifier   //  Add this
 ) {
 
     val scale by animateFloatAsState(
@@ -38,7 +38,7 @@ fun PremiumChoiceChip(
         color = if (selected)
             selectedColor.copy(alpha = 0.12f)
         else
-            MaterialTheme.colorScheme.surface,
+            Color.White,
         border = BorderStroke(
             width = 1.dp,
             color = if (selected)
@@ -46,7 +46,7 @@ fun PremiumChoiceChip(
             else
                 MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
         ),
-        modifier = modifier   // 👈 use passed modifier
+        modifier = modifier   //  use passed modifier
             .scale(scale)
     ) {
 

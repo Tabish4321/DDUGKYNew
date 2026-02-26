@@ -16,10 +16,6 @@
             android:id="@+id/action_fragmentLogin_to_homeFragment"
             app:destination="@id/homeFragment" />
 
-        <action
-            android:id="@+id/action_fragmentLogin_to_inspectionListFragment"
-            app:destination="@id/inspectionListFragment" />
-
 
     </fragment>
 
@@ -71,6 +67,9 @@
         <action
             android:id="@+id/action_homeFragment_to_attendanceBatchListFragment"
             app:destination="@id/attendanceBatchListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_inspectionListFragment"
+            app:destination="@id/inspectionListFragment" />
 
     </fragment>
 
@@ -490,7 +489,10 @@
     <fragment
         android:id="@+id/previousInspectionEditFragment"
         android:name="com.deendayalproject.fragments.composeFragment.PreviousInspectionEditFragment"
-        android:label="PreviousInspectionEditFragment" />
+        android:label="PreviousInspectionEditFragment" >
+
+    </fragment>
+
 
 
 </navigation>

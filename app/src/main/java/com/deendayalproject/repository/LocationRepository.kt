@@ -111,7 +111,4 @@ class LocationRepository(context: Context) : BaseRepository<ApiService>(context)
         }
 
 
-
-
-
 }

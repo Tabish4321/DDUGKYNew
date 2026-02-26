@@ -18,6 +18,7 @@ import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
 import com.deendayalproject.model.request.FieldVerificationListRequest
+import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
@@ -30,6 +31,8 @@ import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertSupportFacilitiesReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.InsertToiletDataReq
+import com.deendayalproject.model.request.InspectionPreviousBatchList
+import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.LoginRequest
@@ -88,6 +91,7 @@ import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.FinancialDetailsResponse
 import com.deendayalproject.model.response.GeneralDetails
+import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.GetUrinalWashRes
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
@@ -95,6 +99,8 @@ import com.deendayalproject.model.response.IndoorRFGameResponse
 import com.deendayalproject.model.response.InfrastructureDetailsandCompliancesRFQT
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
+import com.deendayalproject.model.response.InspectionPreviousBatchRes
+import com.deendayalproject.model.response.InspectionTcDetailsRes
 import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LivingRoomListViewRes
 import com.deendayalproject.model.response.LivingAreaDelete
@@ -657,6 +663,30 @@ interface ApiService {
         @Body insertFacultyAttendance: InsertFacultyAttendance
     ): Response<AttendanceInsertRes>
 
+
+
+
+
+    @POST("getDDInspectionList")
+    suspend fun getDueDiligenceDetails(
+        @Body getTcInspectionList: GetTcInspectionList
+    ): Response<GetTcInspectionRes>
+
+
+
+
+    @POST("getDueDiligenceTcDetails")
+    suspend fun getDueDiligenceTcDetails(
+        @Body inspectionTcDetailsReq: InspectionTcDetailsReq
+    ): Response<InspectionTcDetailsRes>
+
+
+
+
+    @POST("getInspectionPreviousBatchList")
+    suspend fun getInspectionPreviousBatchList(
+        @Body inspectionPreviousBatchList: InspectionPreviousBatchList
+    ): Response<InspectionPreviousBatchRes>
 
 
 }

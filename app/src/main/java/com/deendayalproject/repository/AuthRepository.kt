@@ -19,8 +19,9 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
     suspend fun loginUser(request: LoginRequest): Result<LoginResponse> {
         return try {
             val saltResp = apiService.getSalt(SaltRequest(request.loginId))
+            val concatPassWord = saltResp.nonce.trim() + request.password.trim()
             val saltedRequest = request.copy(
-                nonce = saltResp.nonce
+                password = AppUtil.sha512Hash(concatPassWord)
             )
 
             if(saltResp.responseCode==404){

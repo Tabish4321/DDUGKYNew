@@ -19,6 +19,8 @@ runtime = "1.10.2"
 material3 = "1.4.0"
 ui-graphics = "1.10.2"
 ui = "1.10.2"
+runtime-livedata = "1.10.3"
+foundation = "1.10.3"
 
 [libraries]
 # AndroidX
@@ -70,6 +72,8 @@ androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", versi
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "ui-graphics" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
+androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtime-livedata" }
+androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

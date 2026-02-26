@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,14 +16,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun WorkingStatusQuestion(
+fun ComplianceQuestionWithRemarks(
+    question: String,
     answer: String?,
-    workingMonths: String,
-    notWorkingReason: String,
-    isError: Boolean,
+    remarks: String,
+    isError: Boolean = false,
     onAnswerChange: (String) -> Unit,
-    onWorkingMonthsChange: (String) -> Unit,
-    onNotWorkingReasonChange: (String) -> Unit
+    onRemarksChange: (String) -> Unit
 ) {
 
     Surface(
@@ -40,7 +38,7 @@ fun WorkingStatusQuestion(
         ) {
 
             Text(
-                text = "What is the current status of the candidate",
+                text = question,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = if (isError)
@@ -55,44 +53,29 @@ fun WorkingStatusQuestion(
             ) {
 
                 PremiumChoiceChip(
-                    text = "Working",
-                    selected = answer == "Working",
+                    text = "Yes",
+                    selected = answer == "Yes",
                     selectedColor = Color(0xFF2E7D32),
-                    onClick = { onAnswerChange("Working") },
+                    onClick = { onAnswerChange("Yes") },
                     modifier = Modifier.weight(1f)
                 )
 
                 PremiumChoiceChip(
-                    text = "Not Working",
-                    selected = answer == "Not Working",
+                    text = "No",
+                    selected = answer == "No",
                     selectedColor = Color(0xFFC62828),
-                    onClick = { onAnswerChange("Not Working") },
+                    onClick = { onAnswerChange("No") },
                     modifier = Modifier.weight(1f)
                 )
             }
 
-            // 🔥 If Working
-            if (answer == "Working") {
-
-                OutlinedTextField(
-                    value = workingMonths,
-                    onValueChange = { onWorkingMonthsChange(it) },
-                    label = { Text("If working, Number of months working") },
-                    modifier = Modifier.fillMaxWidth(),
-                    isError = isError && workingMonths.isBlank(),
-                    singleLine = true
-                )
-            }
-
-            // 🔥 If Not Working
-            if (answer == "Not Working") {
-
+            if (answer == "No") {
                 MultiLineEditText(
-                    value = notWorkingReason,
-                    onValueChange = onNotWorkingReasonChange,
-                    label = "If Not working, Reason for left the job",
+                    value = remarks,
+                    onValueChange = onRemarksChange,
+                    label = "Remarks",
                     isRequired = true,
-                    isError = isError && notWorkingReason.isBlank()
+                    isError = isError && remarks.isBlank()
                 )
             }
         }

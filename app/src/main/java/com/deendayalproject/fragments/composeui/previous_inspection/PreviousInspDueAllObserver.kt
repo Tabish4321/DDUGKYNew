@@ -26,6 +26,7 @@ import com.deendayalproject.model.response.PreviousObservationUiState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.ui.draw.rotate
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.common.InfoRow
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
 import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
@@ -146,7 +147,7 @@ fun PreviousInspectionDueAllObserver(
                                     verticalArrangement = Arrangement.spacedBy(14.dp)
                                 ) {
 
-                                    ComplianceQuestionItem(
+                                    ComplianceQuestionWithRemarks(
                                         question = "Are previous inspection observations complied?",
                                         answer = item.selectionYesNo,
                                         remarks = item.inputRemarks,

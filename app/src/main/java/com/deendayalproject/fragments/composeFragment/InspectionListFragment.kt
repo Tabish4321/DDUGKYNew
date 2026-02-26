@@ -1,82 +1,131 @@
 package com.deendayalproject.fragments.composeFragment
 
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.InspectionListFragmentBinding
+import com.deendayalproject.fragments.composeui.common.ErrorScreen
+import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
 import com.deendayalproject.fragments.composeui.trainingCenListAandDetails.TrainingCenterListScreen
+import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.response.TrainingCenterListInspecRes
-import kotlinx.coroutines.delay
+import com.deendayalproject.util.AppUtil
+import com.deendayalproject.viewmodel.InspectionViewModel
 
-class InspectionListFragment : BaseFragment<InspectionListFragmentBinding>(
-    bindingInflater = InspectionListFragmentBinding::inflate
-) {
+class InspectionListFragment :
+    BaseFragment<InspectionListFragmentBinding>(
+        bindingInflater = InspectionListFragmentBinding::inflate
+    ) {
 
-
-
-
-
-
-    private val sampleList = listOf(
-        TrainingCenterListInspecRes(1, "2505000007", "SL-001/2026", "Surprised"),
-        TrainingCenterListInspecRes(2, "2505000008", "SL-002/2026", "Planned"),
-        TrainingCenterListInspecRes(3, "2505000009", "SL-003/2026", "Planned"),
-        TrainingCenterListInspecRes(4, "2505000010", "SL-004/2026", "Surprised")
-    )
+    private val viewModel: InspectionViewModel by viewModels()
 
     override fun initializeViews() {
 
-
-
         binding.composeInspectionListView.apply {
+
             setViewCompositionStrategy(
                 ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
             )
+
             setContent {
 
-                var isLoading by remember { mutableStateOf(true) }
 
+                val snackbarHostState = remember { SnackbarHostState() }
+
+                val response by viewModel.dueDiligenceList.collectAsState()
+                val isLoading by viewModel.loading.collectAsState()
+
+                //  API Call on first load
                 LaunchedEffect(Unit) {
-                    delay(1000)
-                    isLoading = false
+                    viewModel.getDueDiligenceDetails(
+                        GetTcInspectionList(BuildConfig.VERSION_NAME),
+                        AppUtil.getSavedTokenPreference(requireContext())
+                    )
                 }
 
-
-                TrainingCenterListScreen(
-                    items = sampleList,
-                    isLoading = isLoading,
-                    onBackClick = { findNavController().navigateUp() },
-                    onItemClick = { selectedItem ->
-                        findNavController().navigate(
-                            InspectionListFragmentDirections.actionInspectionListFragmentToInspectionBasicDetailsFragment(
-                                selectedItem.prnNumber,
-                                selectedItem.sanctionLetterNo,
-                                selectedItem.inspectionType,
-                                selectedItem.id
-                            )
-                        )
+                //  Error Snackbar Collector
+                LaunchedEffect(Unit) {
+                    viewModel.errorMessage.collect {
+                        snackbarHostState.showSnackbar(it)
                     }
-                )
+                }
 
-            }
+                //  Session Expired Collector
+                LaunchedEffect(Unit) {
+                    viewModel.sessionExpired.collect {
+                        snackbarHostState.showSnackbar("Session Expired")
 
-        }
+                    }
+                }
 
+                Scaffold(
+                    contentWindowInsets = WindowInsets(0),
+                    snackbarHost = {
+                        SnackbarHost(hostState = snackbarHostState)
+                    }
+                ) { padding ->
+
+                    Box(modifier = Modifier.padding(padding)) {
+
+                        when {
+
+                            isLoading -> {
+                                ShimmerTrainingList()
+                            }
+
+                            response == null -> {
+                                // Optional empty state
+                            }
+
+                            else -> {
+
+                                val data = response?.wrappedList ?: emptyList()
+
+                                TrainingCenterListScreen(
+                                    items = data.map {
+                                        TrainingCenterListInspecRes(
+                                            id = it.trainingCenterId,
+                                            prnNumber = it.prnRegistrationNo,
+                                            sanctionLetterNo = it.sanctionOrder,
+                                            inspectionType = it.inspectionType
+                                        )
+                                    },
+                                    isLoading = false,
+                                    onBackClick = {
+                                        findNavController().navigateUp()
+                                    },
+                                    onItemClick = { selectedItem ->
+                                        findNavController().navigate(
+                                            InspectionListFragmentDirections
+                                                .actionInspectionListFragmentToInspectionBasicDetailsFragment(
+                                                    selectedItem.prnNumber,
+                                                    selectedItem.sanctionLetterNo,
+                                                    selectedItem.inspectionType,
+                                                    selectedItem.id
+                                                )
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            }        }
     }
 
-    override fun setupObservers() {
-    }
-
-    override fun setupClickListeners() {
-    }
-
-    override fun loadInitialData() {
-    }
-
-
+    override fun setupObservers() {}
+    override fun setupClickListeners() {}
+    override fun loadInitialData() {}
 }
