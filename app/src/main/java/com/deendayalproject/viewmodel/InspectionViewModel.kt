@@ -3,9 +3,11 @@ package com.deendayalproject.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.deendayalproject.model.request.CandidatePreviousBatchReq
 import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
+import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
@@ -181,4 +183,46 @@ class InspectionViewModel(application: Application) :
             }
         )
     }
+
+
+
+    private val _candidateList =
+        MutableStateFlow<CandidatePreviousBatchRes?>(null)
+
+    val candidateList:
+            StateFlow<CandidatePreviousBatchRes?> =
+        _candidateList.asStateFlow()
+
+
+    fun getCandidateForInspection(
+        request: CandidatePreviousBatchReq,
+        header: String
+    ) {
+
+        executeApiCall(
+            apiCall = {
+                repositoryManager
+                    .inspectionRepo
+                    .getCandidateForInspection(request, header)
+            },
+            onSuccess = { response ->
+
+                when (response.responseCode) {
+
+                    200 -> _candidateList.emit(response)
+
+                    202 -> _errorMessage.emit("No candidate data available.")
+
+                    301 -> _errorMessage.emit("Please upgrade your app.")
+
+                    else -> _errorMessage.emit(
+                        response.responseDesc?.ifEmpty {
+                            "Unknown server error"
+                        } ?: "Unknown error"
+                    )
+                }
+            }
+        )
+    }
+
 }

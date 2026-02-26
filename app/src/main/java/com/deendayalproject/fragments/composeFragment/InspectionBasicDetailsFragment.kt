@@ -16,9 +16,10 @@ import androidx.navigation.fragment.findNavController
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.InspectionBasicFragmentBinding
-import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
 import com.deendayalproject.fragments.composeui.main.InspectionModernScreen
+import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
+import com.deendayalproject.model.response.PrevBatchItem
 import com.deendayalproject.model.response.TrainingInspCenterDetails
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.InspectionViewModel
@@ -54,46 +55,65 @@ class InspectionBasicDetailsFragment :
                 ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
             )
 
+
+
             setContent {
 
-
+                val batchResponse by viewModel.previousBatchList.collectAsState()
+                val tcResponse by viewModel.tcDetails.collectAsState()
+                val isLoading by viewModel.loading.collectAsState()
 
                 val snackbarHostState = remember { SnackbarHostState() }
 
-                val response by viewModel.tcDetails.collectAsState()
-                val isLoading by viewModel.loading.collectAsState()
+                var currentStep by remember { mutableStateOf(1) }
 
-                //  API CALL WHEN trainingCenterId CHANGES
+                // TC DETAILS API CALL
                 LaunchedEffect(trainingCenterId) {
 
-                    viewModel.getDueDiligenceTcDetails(
-                        InspectionTcDetailsReq(
-                            BuildConfig.VERSION_NAME,
-                            trainingCenterId.toString(),
-                            sanctionOrder
-                        ),
-                        AppUtil.getSavedTokenPreference(requireContext())
-                    )
+                    if (trainingCenterId != 0) {
+
+                        viewModel.getDueDiligenceTcDetails(
+                            InspectionTcDetailsReq(
+                                BuildConfig.VERSION_NAME,
+                                trainingCenterId.toString(),
+                                sanctionOrder
+                            ),
+                            AppUtil.getSavedTokenPreference(requireContext())
+                        )
+                    }
                 }
 
-                // Collect Error Events
+                //  STEP 2 → BATCH API CALL
+                LaunchedEffect(currentStep) {
+
+                    if (currentStep == 2 && batchResponse == null) {
+
+                        viewModel.getInspectionPreviousBatchList(
+                            InspectionPreviousBatchList(
+                                BuildConfig.VERSION_NAME,
+                                trainingCenterId.toString(),
+                                sanctionOrder
+                            ),
+                            AppUtil.getSavedTokenPreference(requireContext())
+                        )
+                    }
+                }
+
+                //  Error Snackbar
                 LaunchedEffect(Unit) {
                     viewModel.errorMessage.collect {
                         snackbarHostState.showSnackbar(it)
                     }
                 }
 
-                //  Collect Session Expired
-                LaunchedEffect(Unit) {
-                    viewModel.sessionExpired.collect {
-                        snackbarHostState.showSnackbar("Session Expired")
-                    }
-                }
+                //  Map API Response
+                val batchList: List<PrevBatchItem> =
+                    batchResponse?.wrappedList ?: emptyList()
 
-                val details: TrainingInspCenterDetails? =
-                    response?.wrappedList?.firstOrNull()
+                val tcDetails: TrainingInspCenterDetails? =
+                    tcResponse?.wrappedList?.firstOrNull()
 
-                Scaffold(
+               Scaffold(
                     contentWindowInsets = WindowInsets(0),
                     snackbarHost = {
                         SnackbarHost(hostState = snackbarHostState)
@@ -102,39 +122,30 @@ class InspectionBasicDetailsFragment :
 
                     Box(modifier = Modifier.padding(padding)) {
 
-                        when {
-
-                            isLoading -> {
-                                ShimmerTrainingList()
-                            }
-
-                            response == null -> {
-                                // Optional: Empty state
-                            }
-
-                            else -> {
-                                InspectionModernScreen(
-                                    prnNumber = prnNumber,
-                                    sanctionLetter = sanctionOrder,
-                                    inspectionType = inspectionType,
-                                    trainingCenterId = trainingCenterId.toString(),
-                                    isLoading = false,
-                                    trainingDetails = details,
-                                    onEditClick = { inspectionId ->
-                                        findNavController().navigate(
-                                            InspectionBasicDetailsFragmentDirections
-                                                .actionInspectionBasicDetailsFragmentToPreviousInspectionEditFragment(
-                                                    inspectionId.date,
-                                                    inspectionId.conductedBy
-                                                )
+                        InspectionModernScreen(
+                            prnNumber = prnNumber,
+                            sanctionLetter = sanctionOrder,
+                            inspectionType = inspectionType,
+                            trainingCenterId = trainingCenterId.toString(),
+                            batchList = batchList,
+                            currentStep = currentStep,
+                            onStepChange = { currentStep = it },
+                            isLoading = isLoading,
+                            trainingDetails = tcDetails,
+                            onEditClick = { inspectionId ->
+                                findNavController().navigate(
+                                    InspectionBasicDetailsFragmentDirections
+                                        .actionInspectionBasicDetailsFragmentToPreviousInspectionEditFragment(
+                                            inspectionId.date,
+                                            inspectionId.conductedBy
                                         )
-                                    }
                                 )
                             }
-                        }
+                        )
                     }
                 }
             }
+
         }
     }
 

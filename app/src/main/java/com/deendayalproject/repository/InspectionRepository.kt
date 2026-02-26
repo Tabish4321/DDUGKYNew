@@ -2,9 +2,11 @@ package com.deendayalproject.repository
 
 import android.content.Context
 import com.deendayalproject.base.BaseRepository
+import com.deendayalproject.model.request.CandidatePreviousBatchReq
 import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
+import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
@@ -31,6 +33,16 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
         safeApiCallWithToken(token = header) {
             apiService.getInspectionPreviousBatchList(inspectionPreviousBatchList)
         }
+
+
+    suspend fun getCandidateForInspection  (candidatePreviousBatchReq: CandidatePreviousBatchReq, header :String): Result<CandidatePreviousBatchRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.getCandidateForInspection(candidatePreviousBatchReq)
+        }
+
+
+
+
 
 
 

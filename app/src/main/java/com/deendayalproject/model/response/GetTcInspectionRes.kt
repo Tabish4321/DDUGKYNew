@@ -18,7 +18,8 @@ data class  InspectionTcDetails(
     val prnRegistrationNo: String,
     val piaName: String,
     val sanctionOrder: String,
-    val inspectionType: String
+    val inspectionType: String,
+    val inspectionId: String
 )
 
 

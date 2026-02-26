@@ -17,12 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.R
-import com.deendayalproject.model.response.batchListRes
+import com.deendayalproject.model.response.PrevBatchItem
 
 @Composable
 fun BatchListSection(
-    batchList: List<batchListRes>,
-    onBatchClick: (batchListRes) -> Unit
+    batchList: List<PrevBatchItem>,
+    onBatchClick: (PrevBatchItem) -> Unit
 ) {
 
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -44,6 +44,14 @@ fun BatchListSection(
             ) {
 
                 Column(modifier = Modifier.padding(16.dp)) {
+
+                    Text(
+                        text = "Batch Name: ${batch.batchName}",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
 
                     Text(
                         text = "Batch ID: ${batch.batchId}",

@@ -44,7 +44,7 @@ class InspectionListFragment :
 
                 val snackbarHostState = remember { SnackbarHostState() }
 
-                val response by viewModel.dueDiligenceList.collectAsState()
+                val dueDiligenceListResponse by viewModel.dueDiligenceList.collectAsState()
                 val isLoading by viewModel.loading.collectAsState()
 
                 //  API Call on first load
@@ -85,13 +85,13 @@ class InspectionListFragment :
                                 ShimmerTrainingList()
                             }
 
-                            response == null -> {
+                            dueDiligenceListResponse == null -> {
                                 // Optional empty state
                             }
 
                             else -> {
 
-                                val data = response?.wrappedList ?: emptyList()
+                                val data = dueDiligenceListResponse?.wrappedList ?: emptyList()
 
                                 TrainingCenterListScreen(
                                     items = data.map {
@@ -99,7 +99,8 @@ class InspectionListFragment :
                                             id = it.trainingCenterId,
                                             prnNumber = it.prnRegistrationNo,
                                             sanctionLetterNo = it.sanctionOrder,
-                                            inspectionType = it.inspectionType
+                                            inspectionType = it.inspectionType,
+                                            inspectionId = it.inspectionId
                                         )
                                     },
                                     isLoading = false,
@@ -107,6 +108,11 @@ class InspectionListFragment :
                                         findNavController().navigateUp()
                                     },
                                     onItemClick = { selectedItem ->
+
+
+                                        AppUtil.saveInspectionIdPreference(requireContext(), selectedItem.inspectionId)
+
+
                                         findNavController().navigate(
                                             InspectionListFragmentDirections
                                                 .actionInspectionListFragmentToInspectionBasicDetailsFragment(

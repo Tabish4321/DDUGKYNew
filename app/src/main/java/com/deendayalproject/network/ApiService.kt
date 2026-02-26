@@ -9,6 +9,7 @@ import com.deendayalproject.model.request.AttendanceCheckReq
 import com.deendayalproject.model.request.AttendanceInsertReq
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
+import com.deendayalproject.model.request.CandidatePreviousBatchReq
 import com.deendayalproject.model.request.CompliancesRFQTReq
 import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DeleteLivingRoomList
@@ -80,6 +81,7 @@ import com.deendayalproject.model.response.AttendanceCheckRes
 import com.deendayalproject.model.response.AttendanceInsertRes
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
+import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.DistrictResponse
@@ -687,6 +689,16 @@ interface ApiService {
     suspend fun getInspectionPreviousBatchList(
         @Body inspectionPreviousBatchList: InspectionPreviousBatchList
     ): Response<InspectionPreviousBatchRes>
+
+
+
+
+
+    @POST("getCandiateForInspection")
+    suspend fun getCandidateForInspection(
+        @Body candidatePreviousBatchReq: CandidatePreviousBatchReq
+    ): Response<CandidatePreviousBatchRes>
+
 
 
 }
