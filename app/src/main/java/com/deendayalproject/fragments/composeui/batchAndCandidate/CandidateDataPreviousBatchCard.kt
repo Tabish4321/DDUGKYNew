@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
@@ -35,7 +37,8 @@ fun CandidateDataPreviousBatchCard(
                     candidateId = item.candidateId,
                     name = item.name,
                     rollNumber = item.rollNumber,
-                    contactNumber = item.contactNumber
+                    contactNumber = item.contactNumber,
+                    status = item.status
                 ),
                 onVerifyCandidateClick = {
                     onVerifyCandidateClick(item)
@@ -150,23 +153,40 @@ fun SingleCandidateDataPreviousBatchCard(
                         strokeWidth = 2.dp
                     )
                 } else {
-                    OutlinedButton(
-                        onClick = onVerifyCandidateClick,
-                        shape = RoundedCornerShape(8.dp),
-                        colors =  ButtonDefaults.outlinedButtonColors(
-                            containerColor = Color(0xFF795FDA),
-                            contentColor = Color.White
-                        ),
-                        contentPadding = PaddingValues(
-                            horizontal = 14.dp,
-                            vertical = 2.dp
-                        )
-                    ) {
+                    val isVerified = candidate.status != 0
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        if (isVerified) {
+                            Icon(
+                                imageVector = Icons.Default.Check,
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                        }
+
                         Text(
-                            text = "Verify",
-                            style = MaterialTheme.typography.labelMedium
+                            text = if (isVerified) "Verified" else "Verify"
                         )
                     }
+
+//                    OutlinedButton(
+//                        onClick = onVerifyCandidateClick,
+//                        shape = RoundedCornerShape(8.dp),
+//                        colors =  ButtonDefaults.outlinedButtonColors(
+//                            containerColor = Color(0xFF795FDA),
+//                            contentColor = Color.White
+//                        ),
+//                        contentPadding = PaddingValues(
+//                            horizontal = 14.dp,
+//                            vertical = 2.dp
+//                        )
+//                    ) {
+//                        Text(
+//                            text = "Verify",
+//                            style = MaterialTheme.typography.labelMedium
+//                        )
+//                    }
                 }
             }
         }

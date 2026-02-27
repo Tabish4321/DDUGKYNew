@@ -6,7 +6,7 @@ data class CandidateListInspectionRes(
     val rollNumber: String,
     val contactNumber: String,
     val imageUrl: String? = null,
-    val isLoading: Boolean = false
-
+    val isLoading: Boolean = false,
+    val status:Int =0
 
 )

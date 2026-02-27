@@ -222,7 +222,9 @@ fun InspectionModernScreen(
                                                         candidateId = it.candidateId ?: "",
                                                         name = it.candidateName ?: "",
                                                         rollNumber = it.rollNo?.toString() ?: "",
-                                                        contactNumber = it.mobileNo ?: ""
+                                                        contactNumber = it.mobileNo ?: "",
+                                                        status = it.status
+
                                                     )
                                                 },
                                                 onVerifyCandidateClick = {
