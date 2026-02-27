@@ -1,5 +1,6 @@
 package com.deendayalproject.fragments.composeui.previous_inspection
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,14 +10,23 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import kotlinx.coroutines.launch
 import com.deendayalproject.fragments.composeui.common.CandidateHeader
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.common.MultiLineEditText
+import com.deendayalproject.fragments.composeui.common.NumericTextField
 import com.deendayalproject.fragments.composeui.common.WorkingStatusQuestion
 import com.deendayalproject.model.response.CandidateListInspectionRes
 import com.deendayalproject.model.uistate.CandidateVerificationUiState
+
+
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,17 +36,41 @@ fun ProCandidateBottomSheet(
     onSubmit: (CandidateVerificationUiState) -> Unit
 ) {
 
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true,
-        confirmValueChange = { it != SheetValue.Hidden }
-    )
+    val context = LocalContext.current
+    val activity = context as? Activity ?: return
+
 
     var formState by remember { mutableStateOf(CandidateVerificationUiState()) }
     var showError by remember { mutableStateOf(false) }
 
-    // 🔥 Snackbar Setup
     val snackbarHostState = remember { SnackbarHostState() }
+
     val scope = rememberCoroutineScope()
+
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true,
+        confirmValueChange = { newValue ->
+            newValue != SheetValue.Hidden
+        }
+    )
+
+    LaunchedEffect(sheetState.currentValue) {
+
+        activity?.let {
+
+            val controller =
+                WindowInsetsControllerCompat(it.window, it.window.decorView)
+
+            if (sheetState.currentValue != SheetValue.Hidden) {
+                controller.hide(WindowInsetsCompat.Type.statusBars())
+            } else {
+                controller.show(WindowInsetsCompat.Type.statusBars())
+            }
+
+            controller.systemBarsBehavior =
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+    }
 
     ModalBottomSheet(
         onDismissRequest = {},
@@ -46,33 +80,42 @@ fun ProCandidateBottomSheet(
     ) {
 
         Scaffold(
-            snackbarHost = {
-                SnackbarHost(hostState = snackbarHostState)
-            },
-            containerColor = Color.White
+            containerColor = Color.White,
+            modifier = Modifier
+                .fillMaxSize()
+                .imePadding(),     //  keyboard resize fix
+            contentWindowInsets = WindowInsets(0)
         ) { padding ->
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White)
                     .padding(padding)
                     .padding(horizontal = 20.dp)
             ) {
 
+                //  Header with Cross Button
                 CandidateHeader(
                     candidateData = candidateData,
-                    onCloseClick = onDismiss
+                    onCloseClick = {
+                        scope.launch {
+                            sheetState.hide()
+                            onDismiss()
+                        }
+                    }
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
                 HorizontalDivider()
 
                 LazyColumn(
                     modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(24.dp)
-                ) {
+                    verticalArrangement = Arrangement.spacedBy(14.dp),
+                    contentPadding = PaddingValues(bottom = 20.dp)
+                )
+                {
+
 
                     item {
                         ComplianceQuestionWithRemarks(
@@ -233,25 +276,7 @@ fun ProCandidateBottomSheet(
                         )
                     }
 
-                    item {
-                        ComplianceQuestionWithRemarks(
-                            question = "(Video & 4.3K available or not) - 100% candidate verification",
-                            answer = formState.videoVerification,
-                            remarks = formState.videoVerificationRemarks,
-                            isError = showError && formState.videoVerification == null,
-                            onAnswerChange = {
-                                formState = formState.copy(
-                                    videoVerification = it,
-                                    videoVerificationRemarks = ""
-                                )
-                            },
-                            onRemarksChange = {
-                                formState = formState.copy(
-                                    videoVerificationRemarks = it
-                                )
-                            }
-                        )
-                    }
+
 
                     item {
                         ComplianceQuestionWithRemarks(
@@ -316,7 +341,7 @@ fun ProCandidateBottomSheet(
                     item {
                         if (formState.joinedJob == "Yes") {
 
-                            MultiLineEditText(
+                            NumericTextField(
                                 value = formState.salary,
                                 onValueChange = {
                                     formState = formState.copy(salary = it)
@@ -469,12 +494,7 @@ fun ProCandidateBottomSheet(
                                             formState.ojtVerificationRemarks.isBlank() ->
                                         "Please enter remarks for OJT Verification"
 
-                                    formState.videoVerification == null ->
-                                        "Please select Video Verification status"
 
-                                    formState.videoVerification == "No" &&
-                                            formState.videoVerificationRemarks.isBlank() ->
-                                        "Please enter remarks for Video Verification"
 
                                     formState.performancePlanFilled == null ->
                                         "Please select Performance Evaluation status"
@@ -569,7 +589,7 @@ fun ProCandidateBottomSheet(
                                         )
                                     }
                                 } else {
-                                    onSubmit(formState) // 🔥 API CALL
+                                    onSubmit(formState) // API CALL
                                 }
                             },
                             modifier = Modifier.fillMaxWidth(),
@@ -585,9 +605,9 @@ fun ProCandidateBottomSheet(
 
 
 
-
                 }
             }
         }
     }
 }
+

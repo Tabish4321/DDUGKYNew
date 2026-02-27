@@ -1,11 +1,10 @@
 package com.deendayalproject.fragments.composeui.common
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,68 +13,85 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.layout.*
 
+data class PremiumOption(
+    val title: String,
+    val activeColor: Color
+)
 
 @Composable
-fun PremiumChoiceChip(
-    text: String,
-    selected: Boolean,
-    selectedColor: Color,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier   //  Add this
+fun PremiumSelector(
+    options: List<PremiumOption>,
+    selected: String?,
+    onSelect: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+
+        options.forEach { option ->
+
+            PremiumOptionCard(
+                text = option.title,
+                selected = selected == option.title,
+                activeColor = option.activeColor,
+                onClick = { onSelect(option.title) },
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun PremiumOptionCard(
+    text: String,
+    selected: Boolean,
+    activeColor: Color,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    val elevation by animateDpAsState(
+        targetValue = if (selected) 8.dp else 2.dp,
+        label = ""
+    )
+
     val scale by animateFloatAsState(
-        targetValue = if (selected) 1.05f else 1f,
-        animationSpec = tween(200),
+        targetValue = if (selected) 1.04f else 1f,
         label = ""
     )
 
     Surface(
         onClick = onClick,
-        shape = RoundedCornerShape(50),
-        color = if (selected)
-            selectedColor.copy(alpha = 0.12f)
-        else
-            Color.White,
+        shape = RoundedCornerShape(14.dp),
         border = BorderStroke(
-            width = 1.dp,
+            width = 1.3.dp,
             color = if (selected)
-                selectedColor
+                activeColor
             else
-                MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
+                MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
         ),
-        modifier = modifier   //  use passed modifier
-            .scale(scale)
+        tonalElevation = elevation,
+        color = Color.White,
+        modifier = modifier.scale(scale)
     ) {
 
-        Row(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 12.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+                .padding(vertical = 14.dp),
+            contentAlignment = Alignment.Center
         ) {
-
-            if (selected) {
-                Icon(
-                    imageVector = Icons.Default.CheckCircle,
-                    contentDescription = null,
-                    tint = selectedColor,
-                    modifier = Modifier.size(18.dp)
-                )
-
-                Spacer(modifier = Modifier.width(6.dp))
-            }
-
             Text(
                 text = text,
-                color = if (selected)
-                    selectedColor
-                else
-                    MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.SemiBold
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color =
+                    if (selected) activeColor
+                    else MaterialTheme.colorScheme.onSurface
             )
         }
     }

@@ -186,15 +186,15 @@ class InspectionViewModel(application: Application) :
 
 
 
-    private val _candidateList =
+    private val _candidatePrevBatchList =
         MutableStateFlow<CandidatePreviousBatchRes?>(null)
 
-    val candidateList:
+    val candidatePrevBatchList:
             StateFlow<CandidatePreviousBatchRes?> =
-        _candidateList.asStateFlow()
+        _candidatePrevBatchList.asStateFlow()
 
 
-    fun getCandidateForInspection(
+    fun getCandidateForPreviousBatch(
         request: CandidatePreviousBatchReq,
         header: String
     ) {
@@ -203,13 +203,13 @@ class InspectionViewModel(application: Application) :
             apiCall = {
                 repositoryManager
                     .inspectionRepo
-                    .getCandidateForInspection(request, header)
+                    .getCandidateForPreviousBatch(request, header)
             },
             onSuccess = { response ->
 
                 when (response.responseCode) {
 
-                    200 -> _candidateList.emit(response)
+                    200 -> _candidatePrevBatchList.emit(response)
 
                     202 -> _errorMessage.emit("No candidate data available.")
 

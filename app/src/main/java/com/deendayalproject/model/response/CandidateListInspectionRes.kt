@@ -1,7 +1,7 @@
 package com.deendayalproject.model.response
 
 data class CandidateListInspectionRes(
-    val candidateId: Int,
+    val candidateId: String,
     val name: String,
     val rollNumber: String,
     val contactNumber: String,

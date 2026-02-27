@@ -29,9 +29,7 @@ data class CandidateVerificationUiState(
     var ojtVerificationDone: String? = null,
     var ojtVerificationRemarks: String = "",
 
-// Video Verification
-    var videoVerification: String? = null,
-    var videoVerificationRemarks: String = "",
+
 
 // Performance Plan
     var performancePlanFilled: String? = null,

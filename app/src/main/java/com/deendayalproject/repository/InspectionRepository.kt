@@ -35,9 +35,9 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
         }
 
 
-    suspend fun getCandidateForInspection  (candidatePreviousBatchReq: CandidatePreviousBatchReq, header :String): Result<CandidatePreviousBatchRes> =
+    suspend fun getCandidateForPreviousBatch  (candidatePreviousBatchReq: CandidatePreviousBatchReq, header :String): Result<CandidatePreviousBatchRes> =
         safeApiCallWithToken(token = header) {
-            apiService.getCandidateForInspection(candidatePreviousBatchReq)
+            apiService.getCandidateForPreviousBatch(candidatePreviousBatchReq)
         }
 
 

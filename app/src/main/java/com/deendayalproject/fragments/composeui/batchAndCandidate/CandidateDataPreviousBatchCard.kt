@@ -18,10 +18,6 @@ import com.deendayalproject.R
 import com.deendayalproject.model.response.CandidateListInspectionRes
 
 
-
-
-
-
 @Composable
 fun CandidateDataPreviousBatchCard(
     candidate: List<CandidateListInspectionRes>,
@@ -48,9 +44,6 @@ fun CandidateDataPreviousBatchCard(
         }
     }
 }
-
-
-
 
 
 @Composable

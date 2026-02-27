@@ -1,14 +1,8 @@
 package com.deendayalproject.fragments.composeui.common
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,15 +19,18 @@ fun ComplianceQuestionWithRemarks(
     onRemarksChange: (String) -> Unit
 ) {
 
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        color = Color.White,
-        shadowElevation = 3.dp,
-        modifier = Modifier.fillMaxWidth()
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(22.dp),
+        elevation = CardDefaults.elevatedCardElevation(6.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = Color.White
+        )
     ) {
 
         Column(
-            modifier = Modifier.padding(18.dp),
+            modifier = Modifier
+                .padding(horizontal = 18.dp, vertical = 18.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
 
@@ -44,31 +41,20 @@ fun ComplianceQuestionWithRemarks(
                 color = if (isError)
                     MaterialTheme.colorScheme.error
                 else
-                    MaterialTheme.colorScheme.onSurface
+                    Color(0xFF111827)
             )
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
+            // ✅ Dynamic Premium Selector
+            PremiumSelector(
+                options = listOf(
+                    PremiumOption("Yes", Color(0xFF22C55E)),
+                    PremiumOption("No", Color(0xFFEF4444))
+                ),
+                selected = answer,
+                onSelect = onAnswerChange
+            )
 
-                PremiumChoiceChip(
-                    text = "Yes",
-                    selected = answer == "Yes",
-                    selectedColor = Color(0xFF2E7D32),
-                    onClick = { onAnswerChange("Yes") },
-                    modifier = Modifier.weight(1f)
-                )
-
-                PremiumChoiceChip(
-                    text = "No",
-                    selected = answer == "No",
-                    selectedColor = Color(0xFFC62828),
-                    onClick = { onAnswerChange("No") },
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
+            // ✅ Remarks
             if (answer == "No") {
                 MultiLineEditText(
                     value = remarks,
