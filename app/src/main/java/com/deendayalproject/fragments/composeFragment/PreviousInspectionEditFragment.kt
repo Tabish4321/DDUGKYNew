@@ -75,7 +75,7 @@ class PreviousInspectionEditFragment : BaseFragment<PreviousInspectionEditFragme
                     onSubmit = { uiState ->
 
 
-                        // 🔥 Yaha API call karo
+                        //  Yaha API call karo
                     }
                 )
 

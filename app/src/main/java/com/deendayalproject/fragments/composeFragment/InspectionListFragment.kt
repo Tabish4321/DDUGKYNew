@@ -128,7 +128,8 @@ class InspectionListFragment :
                         }
                     }
                 }
-            }        }
+            }
+        }
     }
 
     override fun setupObservers() {}
