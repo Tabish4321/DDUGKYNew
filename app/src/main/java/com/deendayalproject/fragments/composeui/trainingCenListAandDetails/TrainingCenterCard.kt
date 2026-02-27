@@ -14,6 +14,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.R
@@ -26,17 +27,27 @@ fun TrainingCenterCard(
     onClick: () -> Unit
 ) {
 
+//    ElevatedCard(
+//        onClick = onClick,
+//        colors = CardDefaults.elevatedCardColors(
+//            containerColor = colorResource(id = R.color.white)
+//        ),
+//        shape = RoundedCornerShape(20.dp),
+//        elevation = CardDefaults.cardElevation(
+//            defaultElevation = 14.dp
+//        ),
+//        modifier = Modifier
+//    )
+
+
+
     ElevatedCard(
         onClick = onClick,
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = colorResource(id = R.color.white)
-        ),
-        shape = RoundedCornerShape(20.dp),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 14.dp
-        ),
-        modifier = Modifier
-    ) {
+        colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
+        shape = RoundedCornerShape(14.dp),
+        elevation = CardDefaults.elevatedCardElevation(8.dp),
+        modifier = Modifier.fillMaxWidth()
+    ){
 
         Row(
             modifier = Modifier

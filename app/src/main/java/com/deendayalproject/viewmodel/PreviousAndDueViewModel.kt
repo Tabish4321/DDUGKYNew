@@ -1,6 +1,7 @@
 package com.deendayalproject.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -34,6 +35,8 @@ class PreviousAndDueViewModel(
 
             val previous = previousDeferred.await()
             val due = dueDeferred.await()
+            Log.d("API_DEBUG", "Previous size = ${previous.getOrNull()?.size}")
+            Log.d("API_DEBUG", "Previous size = ${previous.getOrNull()?.size}")
 
             _uiState.update {
                 it.copy(

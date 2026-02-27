@@ -49,15 +49,18 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
     suspend fun getPreviousInspection(
         request: InspectionRequestBody
     ): Result<List<PreviousInspectionItemResponse>> =
-        safeApiCallWithToken(token = AppUtil.getSavedTokenPreference(context)) {
+        safeApiCallN {
             apiService.getPreviousInspection(request)
         }
+//        safeApiCallWithToken(token = AppUtil.getSavedTokenPreference(context)) {
+//            apiService.getPreviousInspection(request)
+//        }
 
 
     suspend fun getDueDiligence(
         request: InspectionRequestBody
     ): Result<List<DueDiligenceItemResponse>> =
-        safeApiCallWithToken(token = AppUtil.getSavedTokenPreference(context))  {
+        safeApiCallN {
             apiService.getDueDiligenceDetails(request)
         }
 

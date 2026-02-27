@@ -9,8 +9,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.ctc.wstx.shaded.msv_core.writer.relaxng.Context
 import com.deendayalproject.R
 import com.deendayalproject.fragments.composeui.batchAndCandidate.BatchListSection
 import com.deendayalproject.fragments.composeui.batchAndCandidate.CandidateDataPreviousBatchCard
@@ -25,19 +28,21 @@ import com.deendayalproject.viewmodel.PreviousAndDueViewModel
 import com.deendayalproject.model.response.CandidateListInspectionRes
 import com.deendayalproject.model.response.PrevBatchItem
 import com.deendayalproject.model.response.TrainingInspCenterDetails
+import com.deendayalproject.util.AppUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InspectionModernScreen(
     viewModel: PreviousAndDueViewModel,
     prnNumber: String,
+
     sanctionLetter: String,
     inspectionType: String,
     trainingCenterId: String,
     batchList: List<PrevBatchItem>,
-    candidateList: List<CandidateItem>,      // 🔥 API DATA
+    candidateList: List<CandidateItem>,
     currentStep: Int,
-    onBatchSelected: (Int?) -> Unit,         // 🔥 API CALL TRIGGER
+    onBatchSelected: (Int?) -> Unit,
     onStepChange: (Int) -> Unit,
     isLoading: Boolean,
     trainingDetails: TrainingInspCenterDetails?,
@@ -45,7 +50,7 @@ fun InspectionModernScreen(
 ) {
 
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current
-
+    val context = LocalContext.current
     var selectedCandidate by remember {
         mutableStateOf<CandidateListInspectionRes?>(null)
     }
@@ -61,13 +66,8 @@ fun InspectionModernScreen(
         else -> "Inspection"
     }
 
-    val sampleInspectionList = listOf(
-        PreviousInspectionItemResponse(1, "12 Jan 2026", "Rahul Sharma", "Inspection"),
-        PreviousInspectionItemResponse(2, "05 Feb 2026", "Amit Verma", "Due Diligence")
-    )
 
     Box(modifier = Modifier.fillMaxSize()) {
-
         Scaffold(
             topBar = {
                 PremiumTopBar(
@@ -88,7 +88,11 @@ fun InspectionModernScreen(
             bottomBar = {
                 Surface(
                     tonalElevation = 8.dp,
-                    color = colorResource(R.color.white)
+                    color = colorResource(R.color.white),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .windowInsetsPadding(WindowInsets.navigationBars)
+                        .imePadding()
                 ) {
                     Row(
                         modifier = Modifier
@@ -128,6 +132,7 @@ fun InspectionModernScreen(
             }
         ) { padding ->
 
+
             if (isLoading) {
                 Box(modifier = Modifier.padding(padding)) {
                     ShimmerTrainingList()
@@ -144,12 +149,12 @@ fun InspectionModernScreen(
                     InspectionProgressHeader(currentStep)
 
                     LazyColumn(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth(),
-                        contentPadding = PaddingValues(16.dp),
+                                modifier = Modifier.weight(1f),
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
+
                     ) {
+
 
                         when (currentStep) {
 
@@ -175,8 +180,9 @@ fun InspectionModernScreen(
 
                                     PreviousInspectionSection(
                                         viewModel,
-                                        trainingCenterId=trainingDetails!!.trainingCenterId,
-                                        sanctionOrder = sanctionLetter
+                                        trainingCenterId= AppUtil.getSavedTrainingCenterIdPreference(context),
+                                        sanctionOrder = sanctionLetter,
+                                        onEditClick = { onEditClick(it) }
                                     )
                                 }
                             }

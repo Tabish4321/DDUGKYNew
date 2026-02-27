@@ -1,6 +1,7 @@
 package com.deendayalproject.network
 
 import PreviousInspectionItemResponse
+import com.deendayalproject.base.BaseResponse
 import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.AddNewRFReq
 import com.deendayalproject.model.request.AllRoomDetaisReques
@@ -702,16 +703,18 @@ interface ApiService {
         @Body candidatePreviousBatchReq: CandidatePreviousBatchReq
     ): Response<CandidatePreviousBatchRes>
 
+
+
     @POST("getDueDiligenceDetails")
     suspend fun getDueDiligenceDetails(
         @Body request: InspectionRequestBody
-    ): Response<List<DueDiligenceItemResponse>>
+    ): Response<BaseResponse<List<DueDiligenceItemResponse>>>
+
 
     @POST("getPreviousInspection")
     suspend fun getPreviousInspection(
         @Body request: InspectionRequestBody
-    ): Response<List<PreviousInspectionItemResponse>>
-
+    ): Response<BaseResponse<List<PreviousInspectionItemResponse>>>
 
 
 }

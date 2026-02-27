@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
@@ -32,22 +33,20 @@ fun InspectionInfoCard(
     titleValue: String,
     codeLabel: String,
     codeValue: String,
-    showEdit: Boolean = false,
-    onEditClick: (() -> Unit)? = null
+    showEdit: Boolean,
+    onEditClick: () -> Unit
 ) {
 
     ElevatedCard(
-        shape = RoundedCornerShape(20.dp),
-        elevation = CardDefaults.elevatedCardElevation(6.dp),
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
+        colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
+        shape = RoundedCornerShape(18.dp),
+        elevation = CardDefaults.elevatedCardElevation(8.dp),
+        modifier = Modifier.fillMaxWidth()
     ) {
 
         Column(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
             Row(
@@ -61,24 +60,22 @@ fun InspectionInfoCard(
                     Icon(
                         imageVector = Icons.Default.DateRange,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(20.dp)
+                        tint = MaterialTheme.colorScheme.primary
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
 
                     Text(
                         text = date,
-                        style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.SemiBold
                     )
                 }
 
-                if (showEdit && onEditClick != null) {
+                if (showEdit) {
                     IconButton(onClick = onEditClick) {
                         Icon(
                             imageVector = Icons.Default.Edit,
-                            contentDescription = "Edit",
+                            contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
@@ -86,16 +83,9 @@ fun InspectionInfoCard(
             }
 
             Divider()
+            InfoRowLabel(titleLabel,titleValue)
+            InfoRowLabel(codeLabel,codeValue)
 
-            InfoRowLabel(
-                label = titleLabel,
-                value = titleValue
-            )
-
-            InfoRowLabel(
-                label = codeLabel,
-                value = codeValue
-            )
         }
     }
 }
@@ -106,7 +96,6 @@ fun InfoRowLabel(label: String, value: String) {
     Column(
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-
         Text(
             text = label,
             style = MaterialTheme.typography.labelMedium,

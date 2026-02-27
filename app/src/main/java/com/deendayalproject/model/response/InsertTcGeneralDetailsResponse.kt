@@ -1,7 +1,6 @@
 package com.deendayalproject.model.response
 
 data class InsertTcGeneralDetailsResponse(
-
     val responseCode: Int,
     val responseDesc: String,
     val requestDate: Long? = null,

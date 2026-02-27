@@ -278,6 +278,17 @@ object AppUtil {
     }
 
 
+    fun saveTrainingCenterIdPreference(context: Context, tokenCode: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("TrainingCenterId", tokenCode).apply()
+    }
+
+    fun getSavedTrainingCenterIdPreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("TrainingCenterId", "") ?: ""
+    }
 
 
 
