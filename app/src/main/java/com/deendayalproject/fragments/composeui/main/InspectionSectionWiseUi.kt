@@ -23,10 +23,12 @@ import com.deendayalproject.fragments.composeui.trainingCenListAandDetails.Train
 import com.deendayalproject.model.response.CandidateListInspectionRes
 import com.deendayalproject.model.response.PrevBatchItem
 import com.deendayalproject.model.response.TrainingInspCenterDetails
+import com.deendayalproject.viewmodel.PreviousAndDueViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InspectionModernScreen(
+    viewModel: PreviousAndDueViewModel,
     prnNumber: String,
     sanctionLetter: String,
     inspectionType: String,
@@ -62,10 +64,10 @@ fun InspectionModernScreen(
         CandidateListInspectionRes(3, "Priya Singh", "RN003", "9988776655")
     )
 
-    val sampleInspectionList = listOf(
-        PreviousInspectionItemResponse(1, "12 Jan 2026", "Rahul Sharma", "Inspection"),
-        PreviousInspectionItemResponse(2, "05 Feb 2026", "Amit Verma", "Due Diligence")
-    )
+//    val sampleInspectionList = listOf(
+//        PreviousInspectionItemResponse(1, "12 Jan 2026", "Rahul Sharma", "Inspection"),
+//        PreviousInspectionItemResponse(2, "05 Feb 2026", "Amit Verma", "Due Diligence")
+//    )
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -172,9 +174,12 @@ fun InspectionModernScreen(
                                         roleName = trainingDetails?.roleName ?: ""
                                     )
 
+                                    Spacer(modifier = Modifier.height(20.dp))
+
                                     PreviousInspectionSection(
-                                        items = sampleInspectionList,
-                                        onEditClick = { onEditClick(it) }
+                                       viewModel,
+                                        trainingCenterId=trainingDetails!!.trainingCenterId,
+                                        sanctionOrder = sanctionLetter
                                     )
                                 }
                             }

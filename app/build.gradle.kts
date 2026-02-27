@@ -40,9 +40,10 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = false
+            isDebuggable = true
         }
     }
+
     defaultConfig {
         buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
         buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)

@@ -1,5 +1,6 @@
 package com.deendayalproject.network
 
+import PreviousInspectionItemResponse
 import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.AddNewRFReq
 import com.deendayalproject.model.request.AllRoomDetaisReques
@@ -33,6 +34,7 @@ import com.deendayalproject.model.request.InsertSupportFacilitiesReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.InspectionPreviousBatchList
+import com.deendayalproject.model.request.InspectionRequestBody
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LivingRoomListViewRQ
@@ -85,6 +87,7 @@ import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.DistrictResponse
+import com.deendayalproject.model.response.DueDiligenceItemResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.FacultyDetailsRes
@@ -698,6 +701,16 @@ interface ApiService {
     suspend fun getCandidateForInspection(
         @Body candidatePreviousBatchReq: CandidatePreviousBatchReq
     ): Response<CandidatePreviousBatchRes>
+
+    @POST("getDueDiligenceDetails")
+    suspend fun getDueDiligenceDetails(
+        @Body request: InspectionRequestBody
+    ): Response<List<DueDiligenceItemResponse>>
+
+    @POST("getPreviousInspection")
+    suspend fun getPreviousInspection(
+        @Body request: InspectionRequestBody
+    ): Response<List<PreviousInspectionItemResponse>>
 
 
 

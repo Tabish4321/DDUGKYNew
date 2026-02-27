@@ -2,112 +2,138 @@ package com.deendayalproject.fragments.composeui.previous_inspection
 
 import PreviousInspectionItemResponse
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.deendayalproject.R
-
+import com.deendayalproject.BuildConfig
+import com.deendayalproject.model.request.InspectionRequestBody
+import com.deendayalproject.model.response.DueDiligenceItemResponse
+import com.deendayalproject.model.uistate.InspectionTab
+import com.deendayalproject.viewmodel.PreviousAndDueViewModel
 
 
 @Composable
 fun PreviousInspectionSection(
-    items: List<PreviousInspectionItemResponse>,
-    onEditClick:  (PreviousInspectionItemResponse) -> Unit
+    viewModel: PreviousAndDueViewModel,
+    trainingCenterId: String,
+    sanctionOrder: String
 ) {
 
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+    val state by viewModel.uiState.collectAsState()
 
-        // 🔥 Section Title
-        Text(
-            text = "Previous Inspection/ Due Diligence",
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(top = 16.dp)
+    LaunchedEffect(Unit) {
+        viewModel.loadData(
+            InspectionRequestBody(
+                appVersion = BuildConfig.VERSION_NAME,
+                trainingCenterId =trainingCenterId,
+                sanctionOrder = sanctionOrder
+            )
+
         )
+    }
 
-        items.forEach { item ->
+    Column(modifier = Modifier.fillMaxSize()) {
 
-            ElevatedCard(
-                shape = RoundedCornerShape(20.dp),
-                elevation = CardDefaults.elevatedCardElevation(6.dp),
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.elevatedCardColors(
-                    containerColor = colorResource(id = R.color.white)
-                )
-            ) {
+        TabRow(
+            selectedTabIndex = state.selectedTab.ordinal
+        ) {
 
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(14.dp)
-                ) {
+            Tab(
+                selected = state.selectedTab == InspectionTab.PREVIOUS,
+                onClick = { viewModel.selectTab(InspectionTab.PREVIOUS) },
+                text = { Text("Previous Inspection") }
+            )
 
-                    // 🔥 Top Row (Date + Edit)
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+            Tab(
+                selected = state.selectedTab == InspectionTab.DUE_DILIGENCE,
+                onClick = { viewModel.selectTab(InspectionTab.DUE_DILIGENCE) },
+                text = { Text("Due Diligence") }
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .wrapContentHeight()
+        ) {
+            when {
+                state.isLoading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
                     ) {
+                        CircularProgressIndicator()
+                    }
+                }
 
-                        // 📅 Date with Icon
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.DateRange,
-                                contentDescription = "Date",
-                                tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(20.dp)
-                            )
+                state.error != null -> {
+                    Text(
+                        text = state.error ?: "Something went wrong",
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
 
-                            Spacer(modifier = Modifier.width(8.dp))
+                else -> {
+                    when (state.selectedTab) {
 
-                            Text(
-                                text = item.date,
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.SemiBold
+                        InspectionTab.PREVIOUS -> {
+                            PreviousInspectionList(
+                                items = state.previousList,
+                                onEditClick = {
+
+                                }
                             )
                         }
 
-                        // ✏ Edit Button
-                        IconButton(
-                            onClick = { onEditClick(item) }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Edit,
-                                contentDescription = "Edit",
-                                tint = MaterialTheme.colorScheme.primary
+                        InspectionTab.DUE_DILIGENCE -> {
+                            DueDiligenceSection(
+                                items = state.dueDiligenceList,
+                                onEditClick = {
+
+                                }
                             )
                         }
                     }
-
-                    Divider()
-
-                    // 👤 Type
-                    InfoRowLabel(
-                        label = "Type",
-                        value = item.type
-                    )
-
-
-
-                    InfoRowLabel(
-                        label = "Inspection Conducted By",
-                        value = item.conductedBy
-                    )
-
-
                 }
             }
+
+        }
+    }
+}
+
+@Composable
+fun PreviousInspectionList(
+    items: List<PreviousInspectionItemResponse>,
+    onEditClick: (PreviousInspectionItemResponse) -> Unit
+) {
+
+    LazyColumn(
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(
+            items = items
+        ) { item ->
+
+            InspectionInfoCard(
+                date = item.inspectionDate,
+                titleLabel = "Inspection Conducted By",
+                titleValue = item.inspectorName,
+                codeLabel = "Inspection Code",
+                codeValue = item.inspectionCode,
+                showEdit = true,
+                onEditClick = { onEditClick(item) }
+            )
         }
     }
 }
@@ -115,27 +141,32 @@ fun PreviousInspectionSection(
 
 
 @Composable
-fun InfoRowLabel(label: String, value: String) {
+fun DueDiligenceSection(
+    items: List<DueDiligenceItemResponse>,
+    onEditClick: (DueDiligenceItemResponse) -> Unit
+) {
+    LazyColumn(
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
 
-    Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
 
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.outline
-        )
+        items(
+            items = items
+        ) { item ->
 
-        Text(
-            text = value,
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+            InspectionInfoCard(
+                date = item.verificationDate,
+                titleLabel = "Verified By",
+                titleValue = item.verifierName,
+                codeLabel = "Training Center Code",
+                codeValue = item.trainingCenterCode,
+                showEdit = true,
+                onEditClick = { onEditClick(item) }
+            )
+        }
     }
 }
-
 
 
 
