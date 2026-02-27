@@ -11,29 +11,47 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.io.File
 
 private fun isDeviceRooted(): Boolean {
     val paths = arrayOf(
-        "/system/app/Superuser.apk",
         "/system/bin/su",
         "/system/xbin/su",
+        "/sbin/su",
+        "/system/sd/xbin/su",
+        "/system/bin/failsafe/su",
         "/data/local/xbin/su",
         "/data/local/bin/su",
-        "/system/sd/xbin/su"
+        "/data/local/su"
     )
     return paths.any { java.io.File(it).exists() }
 }
 
 private fun isEmulator(): Boolean {
-    return (
+
+    val buildCheck = (
             Build.FINGERPRINT.startsWith("generic")
+                    || Build.FINGERPRINT.contains("vbox")
+                    || Build.FINGERPRINT.contains("test-keys")
                     || Build.MODEL.contains("google_sdk")
-                    || Build.MODEL.lowercase().contains("emulator")
+                    || Build.MODEL.contains("Emulator")
                     || Build.MODEL.contains("Android SDK built for x86")
                     || Build.MANUFACTURER.contains("Genymotion")
                     || Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")
                     || "google_sdk" == Build.PRODUCT
             )
+
+    val fileCheck = (
+            File("/dev/socket/qemud").exists()
+                    || File("/dev/qemu_pipe").exists()
+            )
+
+    val hardwareCheck = (
+            Build.HARDWARE.contains("goldfish")
+                    || Build.HARDWARE.contains("ranchu")
+            )
+
+    return buildCheck || fileCheck || hardwareCheck
 }
 
 
