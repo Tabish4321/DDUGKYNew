@@ -56,7 +56,6 @@ fun TrainingCenterListScreen(
                     items,
                     key = { it.id }
                 ) { item ->
-
                     TrainingCenterCard(
                         item = item,
                         onClick = { onItemClick(item) }

@@ -21,6 +21,7 @@ ui-graphics = "1.10.2"
 ui = "1.10.2"
 runtime-livedata = "1.10.3"
 foundation = "1.10.3"
+animation = "1.10.3"
 
 [libraries]
 # AndroidX
@@ -74,6 +75,7 @@ androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", ve
 androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtime-livedata" }
 androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
+androidx-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "animation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

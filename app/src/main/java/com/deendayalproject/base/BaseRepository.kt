@@ -2,8 +2,10 @@ package com.deendayalproject.base
 
 import android.content.Context
 import android.util.Log
+import com.deendayalproject.base.BaseResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import retrofit2.Response
 
 abstract class BaseRepository<T : Any>(val context: Context) {
 
@@ -47,5 +49,33 @@ abstract class BaseRepository<T : Any>(val context: Context) {
     ): Result<T> {
         // Token validation logic can be added here
         return safeApiCall(apiCall)
+    }
+
+
+    suspend fun <T> safeApiCallN(
+        apiCall: suspend () -> Response<BaseResponse<List<T>>>
+    ): Result<List<T>> {
+
+        return try {
+
+            val response = apiCall()
+
+            if (response.isSuccessful) {
+
+                val body = response.body()
+
+                if (body?.responseCode == 200) {
+                    Result.success(body.wrappedList ?: emptyList())
+                } else {
+                    Result.failure(Exception(body?.responseDesc))
+                }
+
+            } else {
+                Result.failure(Exception("HTTP ${response.code()}"))
+            }
+
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 }

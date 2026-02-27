@@ -111,6 +111,8 @@ class InspectionListFragment :
 
 
                                         AppUtil.saveInspectionIdPreference(requireContext(), selectedItem.inspectionId)
+                                        AppUtil.saveTrainingCenterIdPreference(requireContext(), selectedItem.id.toString())
+
 
 
                                         findNavController().navigate(

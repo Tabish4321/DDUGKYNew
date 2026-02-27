@@ -1,112 +1,181 @@
 package com.deendayalproject.fragments.composeui.previous_inspection
 
 import PreviousInspectionItemResponse
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.AssignmentLate
 import androidx.compose.material3.*
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.deendayalproject.R
-
+import com.deendayalproject.BuildConfig
+import com.deendayalproject.model.request.InspectionRequestBody
+import com.deendayalproject.model.response.DueDiligenceItemResponse
+import com.deendayalproject.model.uistate.InspectionTab
+import com.deendayalproject.viewmodel.PreviousAndDueViewModel
 
 
 @Composable
 fun PreviousInspectionSection(
-    items: List<PreviousInspectionItemResponse>,
-    onEditClick:  (PreviousInspectionItemResponse) -> Unit
+    viewModel: PreviousAndDueViewModel,
+    trainingCenterId: String,
+    sanctionOrder: String,
+    onEditClick: (PreviousInspectionItemResponse) -> Unit
 ) {
 
-    Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+    val state by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadData(
+            InspectionRequestBody(
+                appVersion = BuildConfig.VERSION_NAME,
+                trainingCenterId = trainingCenterId,
+                sanctionOrder = sanctionOrder
+            )
+        )
+    }
+
+    ElevatedCard(
+        colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
+        shape = RoundedCornerShape(14.dp),
+        elevation = CardDefaults.elevatedCardElevation(8.dp),
+        modifier = Modifier.fillMaxWidth()
     ) {
 
-        // 🔥 Section Title
-        Text(
-            text = "Previous Inspection/ Due Diligence",
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(top = 16.dp)
-        )
+        Column(
+            modifier = Modifier.padding(22.dp),
+            verticalArrangement = Arrangement.spacedBy(18.dp)
+        ) {
 
-        items.forEach { item ->
+            Text(
+                "Previous Inspection & Due Diligence",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
 
-            ElevatedCard(
-                shape = RoundedCornerShape(20.dp),
-                elevation = CardDefaults.elevatedCardElevation(6.dp),
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.elevatedCardColors(
-                    containerColor = colorResource(id = R.color.white)
-                )
+
+            TabRow(
+                selectedTabIndex = state.selectedTab.ordinal,
+                containerColor = Color.Transparent,
+                indicator = { tabPositions ->
+                    TabRowDefaults.Indicator(
+                        modifier = Modifier.tabIndicatorOffset(
+                            tabPositions[state.selectedTab.ordinal]
+                        ),
+                        height = 3.dp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             ) {
+                Tab(
+                    selected = state.selectedTab == InspectionTab.PREVIOUS,
+                    onClick = { viewModel.selectTab(InspectionTab.PREVIOUS) },
+                    text = { Text("Previous") }
+                )
+                Tab(
+                    selected = state.selectedTab == InspectionTab.DUE_DILIGENCE,
+                    onClick = { viewModel.selectTab(InspectionTab.DUE_DILIGENCE) },
+                    text = { Text("Due Diligence") }
+                )
+            }
 
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(14.dp)
-                ) {
+            AnimatedContent(targetState = state.selectedTab, label = "") {
 
-                    // 🔥 Top Row (Date + Edit)
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-                        // 📅 Date with Icon
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
+                when {
+                    state.isLoading -> {
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.DateRange,
-                                contentDescription = "Date",
-                                tint = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.size(20.dp)
-                            )
-
-                            Spacer(modifier = Modifier.width(8.dp))
-
-                            Text(
-                                text = item.date,
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        }
-
-                        // ✏ Edit Button
-                        IconButton(
-                            onClick = { onEditClick(item) }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Edit,
-                                contentDescription = "Edit",
-                                tint = MaterialTheme.colorScheme.primary
-                            )
+                            CircularProgressIndicator()
                         }
                     }
 
-                    Divider()
+                    state.error != null -> {
+                        Text(
+                            text = state.error!!,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
 
-                    // 👤 Type
-                    InfoRowLabel(
-                        label = "Type",
-                        value = item.type
-                    )
-
-
-
-                    InfoRowLabel(
-                        label = "Inspection Conducted By",
-                        value = item.conductedBy
-                    )
-
-
+                    else -> {
+                        if (it == InspectionTab.PREVIOUS) {
+                            PreviousInspectionList(
+                                items = state.previousList,
+                                onItemClick = onEditClick
+                            )
+                        } else {
+                            DueDiligenceList(
+                                items = state.dueDiligenceList,
+                                onItemClick = onEditClick
+                            )
+                        }
+                    }
                 }
+            }
+        }
+    }
+}
+
+
+@Composable
+fun PreviousInspectionList(
+    items: List<PreviousInspectionItemResponse>,
+    onItemClick: (PreviousInspectionItemResponse) -> Unit
+) {
+
+    if (items.isEmpty()) {
+        EmptyStateView(
+            message = "No Previous Inspection Found"
+        )
+        return
+    }
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(18.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+
+        items.forEachIndexed { index, item ->
+
+            val animatedAlpha by animateFloatAsState(
+                targetValue = 1f,
+                animationSpec = tween(
+                    durationMillis = 500,
+                    delayMillis = index * 80
+                ),
+                label = ""
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .graphicsLayer { alpha = animatedAlpha }
+            ) {
+
+                InspectionInfoCard(
+                    date = item.inspectionDate,
+                    titleLabel = "Inspection Conducted By",
+                    titleValue = item.inspectorName,
+                    codeLabel = "Inspection Code",
+                    codeValue = item.inspectionCode,
+                    showEdit = true,
+                    onEditClick = { onItemClick(item) }
+                )
             }
         }
     }
@@ -115,29 +184,84 @@ fun PreviousInspectionSection(
 
 
 @Composable
-fun InfoRowLabel(label: String, value: String) {
+fun DueDiligenceList(
+    items: List<DueDiligenceItemResponse>,
+    onItemClick: (PreviousInspectionItemResponse) -> Unit
+) {
+
+    if (items.isEmpty()) {
+        EmptyStateView(
+            message = "No Due Diligence Found"
+        )
+        return
+    }
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+        verticalArrangement = Arrangement.spacedBy(18.dp),
+        modifier = Modifier.fillMaxWidth()
     ) {
 
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.outline
-        )
+        items.forEachIndexed { index, item ->
 
-        Text(
-            text = value,
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
+            val animatedAlpha by animateFloatAsState(
+                targetValue = 1f,
+                animationSpec = tween(
+                    durationMillis = 500,
+                    delayMillis = index * 80
+                ),
+                label = ""
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .graphicsLayer { alpha = animatedAlpha }
+            ) {
+
+                InspectionInfoCard(
+                    date = item.verificationDate,
+                    titleLabel = "Verified By",
+                    titleValue = item.verifierName,
+                    codeLabel = "Training Center Code",
+                    codeValue = item.trainingCenterCode,
+                    showEdit = true,
+                    onEditClick = {}
+                )
+            }
+        }
     }
 }
 
 
+@Composable
+fun EmptyStateView(
+    message: String
+) {
 
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 40.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+
+        Icon(
+            imageVector = Icons.Default.AssignmentLate,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.outline,
+            modifier = Modifier.size(48.dp)
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(
+            text = message,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
 
 
 

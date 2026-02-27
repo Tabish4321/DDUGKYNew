@@ -1,6 +1,10 @@
 package com.deendayalproject.viewmodel
 
+import PreviousInspectionItemResponse
 import android.app.Application
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.deendayalproject.model.request.CandidatePreviousBatchReq
@@ -8,6 +12,7 @@ import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
+import com.deendayalproject.model.response.DueDiligenceItemResponse
 import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes

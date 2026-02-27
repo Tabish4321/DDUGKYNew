@@ -1,5 +1,6 @@
 package com.deendayalproject.fragments.composeFragment
 
+import SharedViewModel
 import android.os.Bundle
 import android.view.View
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.ctc.wstx.shaded.msv_core.writer.relaxng.Context
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.InspectionBasicFragmentBinding
@@ -24,6 +26,7 @@ import com.deendayalproject.model.response.PrevBatchItem
 import com.deendayalproject.model.response.TrainingInspCenterDetails
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.InspectionViewModel
+import com.deendayalproject.viewmodel.PreviousAndDueViewModel
 
 class InspectionBasicDetailsFragment :
     BaseFragment<InspectionBasicFragmentBinding>(
@@ -31,6 +34,9 @@ class InspectionBasicDetailsFragment :
     ) {
 
     private val viewModel: InspectionViewModel by viewModels()
+
+    val previousePreviousAndDueViewModel: PreviousAndDueViewModel by viewModels()
+
 
     private var trainingCenterId = 0
     private var prnNumber = ""
@@ -130,6 +136,7 @@ class InspectionBasicDetailsFragment :
                     Box(modifier = Modifier.padding(padding)) {
 
                         InspectionModernScreen(
+                            previousePreviousAndDueViewModel,
                             prnNumber = prnNumber,
                             sanctionLetter = sanctionOrder,
                             inspectionType = inspectionType,
@@ -163,8 +170,8 @@ class InspectionBasicDetailsFragment :
                                 findNavController().navigate(
                                     InspectionBasicDetailsFragmentDirections
                                         .actionInspectionBasicDetailsFragmentToPreviousInspectionEditFragment(
-                                            inspectionId.date,
-                                            inspectionId.conductedBy
+                                            inspectionId.inspectionDate,
+                                            inspectionId.inspectorId
                                         )
                                 )
                             }

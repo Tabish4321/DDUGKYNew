@@ -40,9 +40,10 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = false
+            isDebuggable = true
         }
     }
+
     defaultConfig {
         buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
         buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
@@ -134,6 +135,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.foundation)
+    implementation(libs.androidx.animation)
     kapt("com.google.dagger:hilt-compiler:2.51")
     kapt("androidx.hilt:hilt-compiler:1.1.0")
 

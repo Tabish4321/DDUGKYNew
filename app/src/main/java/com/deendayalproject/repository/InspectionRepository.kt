@@ -1,16 +1,20 @@
 package com.deendayalproject.repository
 
+import PreviousInspectionItemResponse
 import android.content.Context
 import com.deendayalproject.base.BaseRepository
 import com.deendayalproject.model.request.CandidatePreviousBatchReq
 import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
+import com.deendayalproject.model.request.InspectionRequestBody
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
+import com.deendayalproject.model.response.DueDiligenceItemResponse
 import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
 import com.deendayalproject.network.ApiService
+import com.deendayalproject.util.AppUtil
 
 class InspectionRepository(context: Context) : BaseRepository<ApiService>(context) {
 
@@ -42,11 +46,22 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
 
 
 
+    suspend fun getPreviousInspection(
+        request: InspectionRequestBody
+    ): Result<List<PreviousInspectionItemResponse>> =
+        safeApiCallN {
+            apiService.getPreviousInspection(request)
+        }
+//        safeApiCallWithToken(token = AppUtil.getSavedTokenPreference(context)) {
+//            apiService.getPreviousInspection(request)
+//        }
 
 
-
-
-
-
+    suspend fun getDueDiligence(
+        request: InspectionRequestBody
+    ): Result<List<DueDiligenceItemResponse>> =
+        safeApiCallN {
+            apiService.getDueDiligenceDetails(request)
+        }
 
 }
