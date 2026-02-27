@@ -67,6 +67,7 @@ fun PreviousInspectionSection(
                 fontWeight = FontWeight.Bold
             )
 
+
             TabRow(
                 selectedTabIndex = state.selectedTab.ordinal,
                 containerColor = Color.Transparent,
