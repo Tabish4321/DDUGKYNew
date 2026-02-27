@@ -18,6 +18,7 @@ import com.deendayalproject.BuildConfig
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.InspectionBasicFragmentBinding
 import com.deendayalproject.fragments.composeui.main.InspectionModernScreen
+import com.deendayalproject.model.request.CandidatePreviousBatchReq
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.response.PrevBatchItem
@@ -41,14 +42,11 @@ class InspectionBasicDetailsFragment :
     private var sanctionOrder = ""
     private var inspectionType = ""
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun initializeViews() {
+        hideStatusBar()
 
 
-        //  Get arguments
+        // Get arguments
         trainingCenterId = arguments?.getInt("trainingCenterId", 0) ?: 0
         prnNumber = arguments?.getString("prnNumber") ?: ""
         sanctionOrder = arguments?.getString("sanctionOrder") ?: ""
@@ -60,65 +58,74 @@ class InspectionBasicDetailsFragment :
                 ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
             )
 
-
-
             setContent {
 
                 val batchResponse by viewModel.previousBatchList.collectAsState()
                 val tcResponse by viewModel.tcDetails.collectAsState()
+                val candidateResponse by viewModel.candidatePrevBatchList.collectAsState()
                 val isLoading by viewModel.loading.collectAsState()
 
                 val snackbarHostState = remember { SnackbarHostState() }
 
                 var currentStep by remember { mutableStateOf(1) }
 
-                // TC DETAILS API CALL
+                /* -------------------------------
+                   TC DETAILS API CALL
+                --------------------------------*/
                 LaunchedEffect(trainingCenterId) {
-
                     if (trainingCenterId != 0) {
-
                         viewModel.getDueDiligenceTcDetails(
                             InspectionTcDetailsReq(
-                                BuildConfig.VERSION_NAME,
-                                trainingCenterId.toString(),
-                                sanctionOrder
+                                appVersion = BuildConfig.VERSION_NAME,
+                                trainingCenterId = trainingCenterId.toString(),
+                                sanctionOrder = sanctionOrder
                             ),
                             AppUtil.getSavedTokenPreference(requireContext())
                         )
                     }
                 }
 
-                //  STEP 2 → BATCH API CALL
+                /* -------------------------------
+                   STEP 2 → BATCH API CALL
+                --------------------------------*/
                 LaunchedEffect(currentStep) {
-
                     if (currentStep == 2 && batchResponse == null) {
-
                         viewModel.getInspectionPreviousBatchList(
                             InspectionPreviousBatchList(
-                                BuildConfig.VERSION_NAME,
-                                trainingCenterId.toString(),
-                                sanctionOrder
+                                appVersion = BuildConfig.VERSION_NAME,
+                                trainingCenterId = trainingCenterId.toString(),
+                                sanctionOrder = sanctionOrder
                             ),
                             AppUtil.getSavedTokenPreference(requireContext())
                         )
                     }
                 }
 
-                //  Error Snackbar
+                /* -------------------------------
+                   ERROR SNACKBAR
+                --------------------------------*/
                 LaunchedEffect(Unit) {
                     viewModel.errorMessage.collect {
                         snackbarHostState.showSnackbar(it)
                     }
                 }
 
-                //  Map API Response
+                /* -------------------------------
+                   MAP RESPONSE DATA
+                --------------------------------*/
                 val batchList: List<PrevBatchItem> =
                     batchResponse?.wrappedList ?: emptyList()
 
                 val tcDetails: TrainingInspCenterDetails? =
                     tcResponse?.wrappedList?.firstOrNull()
 
-               Scaffold(
+                val candidateList =
+                    candidateResponse?.wrappedList ?: emptyList()
+
+                /* -------------------------------
+                   UI
+                --------------------------------*/
+                Scaffold(
                     contentWindowInsets = WindowInsets(0),
                     snackbarHost = {
                         SnackbarHost(hostState = snackbarHostState)
@@ -133,11 +140,31 @@ class InspectionBasicDetailsFragment :
                             sanctionLetter = sanctionOrder,
                             inspectionType = inspectionType,
                             trainingCenterId = trainingCenterId.toString(),
-                            batchList = batchList,
-                            currentStep = currentStep,
-                            onStepChange = { currentStep = it },
                             isLoading = isLoading,
                             trainingDetails = tcDetails,
+                            batchList = batchList,
+                            candidateList = candidateList,
+                            currentStep = currentStep,
+                            onStepChange = { currentStep = it },
+
+                            /* 🔥 BATCH SELECT → CALL CANDIDATE API */
+                            onBatchSelected = { batchId ->
+
+                                if (batchId != null) {
+
+                                    viewModel.getCandidateForPreviousBatch(
+                                        CandidatePreviousBatchReq(
+                                            batchId = batchId,
+                                            appVersion = BuildConfig.VERSION_NAME,
+                                            inspectionId = AppUtil
+                                                .getSavedInspectionIdPreference(requireContext())
+                                                .toInt()
+                                        ),
+                                        AppUtil.getSavedTokenPreference(requireContext())
+                                    )
+                                }
+                            },
+
                             onEditClick = { inspectionId ->
                                 findNavController().navigate(
                                     InspectionBasicDetailsFragmentDirections
@@ -151,7 +178,6 @@ class InspectionBasicDetailsFragment :
                     }
                 }
             }
-
         }
     }
 

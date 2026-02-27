@@ -20,10 +20,11 @@ import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
 import com.deendayalproject.fragments.composeui.previous_inspection.PreviousInspectionSection
 import com.deendayalproject.fragments.composeui.previous_inspection.ProCandidateBottomSheet
 import com.deendayalproject.fragments.composeui.trainingCenListAandDetails.TrainingCenterDetails
+import com.deendayalproject.model.response.*
+import com.deendayalproject.viewmodel.PreviousAndDueViewModel
 import com.deendayalproject.model.response.CandidateListInspectionRes
 import com.deendayalproject.model.response.PrevBatchItem
 import com.deendayalproject.model.response.TrainingInspCenterDetails
-import com.deendayalproject.viewmodel.PreviousAndDueViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,7 +35,9 @@ fun InspectionModernScreen(
     inspectionType: String,
     trainingCenterId: String,
     batchList: List<PrevBatchItem>,
+    candidateList: List<CandidateItem>,      // 🔥 API DATA
     currentStep: Int,
+    onBatchSelected: (Int?) -> Unit,         // 🔥 API CALL TRIGGER
     onStepChange: (Int) -> Unit,
     isLoading: Boolean,
     trainingDetails: TrainingInspCenterDetails?,
@@ -58,16 +61,10 @@ fun InspectionModernScreen(
         else -> "Inspection"
     }
 
-    val sampleCandidateList = listOf(
-        CandidateListInspectionRes(1, "Rahul Kumar", "RN001", "9876543210"),
-        CandidateListInspectionRes(2, "Amit Sharma", "RN002", "9123456789"),
-        CandidateListInspectionRes(3, "Priya Singh", "RN003", "9988776655")
+    val sampleInspectionList = listOf(
+        PreviousInspectionItemResponse(1, "12 Jan 2026", "Rahul Sharma", "Inspection"),
+        PreviousInspectionItemResponse(2, "05 Feb 2026", "Amit Verma", "Due Diligence")
     )
-
-//    val sampleInspectionList = listOf(
-//        PreviousInspectionItemResponse(1, "12 Jan 2026", "Rahul Sharma", "Inspection"),
-//        PreviousInspectionItemResponse(2, "05 Feb 2026", "Amit Verma", "Due Diligence")
-//    )
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -156,7 +153,7 @@ fun InspectionModernScreen(
 
                         when (currentStep) {
 
-                            // STEP 1
+                            /* ---------------- STEP 1 ---------------- */
                             1 -> {
                                 item {
 
@@ -177,20 +174,19 @@ fun InspectionModernScreen(
                                     Spacer(modifier = Modifier.height(20.dp))
 
                                     PreviousInspectionSection(
-                                       viewModel,
+                                        viewModel,
                                         trainingCenterId=trainingDetails!!.trainingCenterId,
                                         sanctionOrder = sanctionLetter
                                     )
                                 }
                             }
 
-                            // STEP 2
+                            /* ---------------- STEP 2 ---------------- */
                             2 -> {
 
                                 if (selectedBatch == null) {
 
                                     item {
-
                                         if (batchList.isEmpty()) {
                                             Text("No batch available")
                                         } else {
@@ -198,6 +194,7 @@ fun InspectionModernScreen(
                                                 batchList = batchList,
                                                 onBatchClick = {
                                                     selectedBatch = it
+                                                    onBatchSelected(it.batchId)   // 🔥 CALL API
                                                 }
                                             )
                                         }
@@ -206,17 +203,32 @@ fun InspectionModernScreen(
                                 } else {
 
                                     item {
-                                        CandidateDataPreviousBatchCard(
-                                            candidate = sampleCandidateList,
-                                            onVerifyCandidateClick = {
-                                                selectedCandidate = it
-                                            }
-                                        )
+
+                                        if (candidateList.isEmpty()) {
+
+                                            Text("No candidates available")
+
+                                        } else {
+
+                                            CandidateDataPreviousBatchCard(
+                                                candidate = candidateList.map {
+                                                    CandidateListInspectionRes(
+                                                        candidateId = it.candidateId ?: "",
+                                                        name = it.candidateName ?: "",
+                                                        rollNumber = it.rollNo?.toString() ?: "",
+                                                        contactNumber = it.mobileNo ?: ""
+                                                    )
+                                                },
+                                                onVerifyCandidateClick = {
+                                                    selectedCandidate = it
+                                                }
+                                            )
+                                        }
                                     }
                                 }
                             }
 
-                            // STEP 3
+                            /* ---------------- STEP 3 ---------------- */
                             3 -> {
                                 item {
                                     Text("Final Review Screen")
@@ -228,7 +240,7 @@ fun InspectionModernScreen(
             }
         }
 
-        // Bottom Sheet
+        /* ---------------- BOTTOM SHEET ---------------- */
         if (currentStep == 2 && selectedCandidate != null) {
             ProCandidateBottomSheet(
                 candidateData = selectedCandidate!!,

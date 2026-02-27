@@ -37,7 +37,6 @@ bindingInflater = FragmentHomeBinding::inflate
 
 
     private lateinit var viewModel: SharedViewModel
-   // private lateinit var batchAdapter: BaseRecyclerAdapter<AttendanceBatch, AttendanceBatchLayoutBinding>
 
     private lateinit var adapter: BaseRecyclerAdapter<Module,ItemModuleBinding>
 
@@ -62,9 +61,7 @@ bindingInflater = FragmentHomeBinding::inflate
     }
 
     private fun setupDrawerClicks() {
-//        binding.profilePic.setOnClickListener {
-//            binding.drawerLayout.openDrawer(GravityCompat.START)
-//        }
+
 
         binding.navigationView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -159,14 +156,7 @@ bindingInflater = FragmentHomeBinding::inflate
         binding.rvModules.layoutManager = LinearLayoutManager(requireContext())
         binding.rvModules.adapter = adapter
 
-//        adapter = ModuleAdapter(emptyList()) { form: Form ->
-//            handleFormClick(form)
-//        }
-//
-//        binding.rvModules.apply {
-//            layoutManager = LinearLayoutManager(requireContext())
-//            adapter = this@HomeFragment.adapter
-//        }
+
     }
 
     private fun handleFormClick(form: Form) {

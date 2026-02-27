@@ -698,7 +698,7 @@ interface ApiService {
 
 
     @POST("getCandiateForInspection")
-    suspend fun getCandidateForInspection(
+    suspend fun getCandidateForPreviousBatch(
         @Body candidatePreviousBatchReq: CandidatePreviousBatchReq
     ): Response<CandidatePreviousBatchRes>
 
