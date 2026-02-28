@@ -153,40 +153,40 @@ fun SingleCandidateDataPreviousBatchCard(
                         strokeWidth = 2.dp
                     )
                 } else {
-                    val isVerified = candidate.status != 0
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        if (isVerified) {
-                            Icon(
-                                imageVector = Icons.Default.Check,
-                                contentDescription = null,
-                                tint = Color.White,
-                                modifier = Modifier.size(16.dp)
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                        }
-
-                        Text(
-                            text = if (isVerified) "Verified" else "Verify"
-                        )
-                    }
-
-//                    OutlinedButton(
-//                        onClick = onVerifyCandidateClick,
-//                        shape = RoundedCornerShape(8.dp),
-//                        colors =  ButtonDefaults.outlinedButtonColors(
-//                            containerColor = Color(0xFF795FDA),
-//                            contentColor = Color.White
-//                        ),
-//                        contentPadding = PaddingValues(
-//                            horizontal = 14.dp,
-//                            vertical = 2.dp
-//                        )
-//                    ) {
+//                    val isVerified = candidate.status != 0
+//                    Row(verticalAlignment = Alignment.CenterVertically) {
+//                        if (isVerified) {
+//                            Icon(
+//                                imageVector = Icons.Default.Check,
+//                                contentDescription = null,
+//                                tint = Color.White,
+//                                modifier = Modifier.size(16.dp)
+//                            )
+//                            Spacer(modifier = Modifier.width(4.dp))
+//                        }
+//
 //                        Text(
-//                            text = "Verify",
-//                            style = MaterialTheme.typography.labelMedium
+//                            text = if (isVerified) "Verified" else "Verify"
 //                        )
 //                    }
+
+                    OutlinedButton(
+                        onClick = onVerifyCandidateClick,
+                        shape = RoundedCornerShape(8.dp),
+                        colors =  ButtonDefaults.outlinedButtonColors(
+                            containerColor = Color(0xFF795FDA),
+                            contentColor = Color.White
+                        ),
+                        contentPadding = PaddingValues(
+                            horizontal = 14.dp,
+                            vertical = 2.dp
+                        )
+                    ) {
+                        Text(
+                            text = "Verify",
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
                 }
             }
         }

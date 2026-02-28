@@ -44,7 +44,6 @@ fun ComplianceQuestionWithRemarks(
                     Color(0xFF111827)
             )
 
-            // ✅ Dynamic Premium Selector
             PremiumSelector(
                 options = listOf(
                     PremiumOption("Yes", Color(0xFF22C55E)),
@@ -54,7 +53,6 @@ fun ComplianceQuestionWithRemarks(
                 onSelect = onAnswerChange
             )
 
-            // ✅ Remarks
             if (answer == "No") {
                 MultiLineEditText(
                     value = remarks,

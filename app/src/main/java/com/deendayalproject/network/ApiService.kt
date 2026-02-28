@@ -51,6 +51,7 @@ import com.deendayalproject.model.request.RfCommonReq
 import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.SaltRequest
+import com.deendayalproject.model.request.SaveBatchVerificationRequest
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
@@ -84,6 +85,8 @@ import com.deendayalproject.model.response.AttendanceCheckRes
 import com.deendayalproject.model.response.AttendanceInsertRes
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
+import com.deendayalproject.model.response.CandidateInspectionDetails
+import com.deendayalproject.model.response.CandidateInspectionDetailsResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
@@ -149,6 +152,7 @@ import com.deendayalproject.model.response.TrainingCenterResponse
 import com.deendayalproject.model.response.UlbRes
 import com.deendayalproject.model.response.VillageRes
 import com.deendayalproject.model.response.WardRes
+import com.deendayalproject.model.uistate.GetCandidateInspectionRequest
 import com.deendayalproject.uidai.ekyc.UidaiKycRequest
 import com.deendayalproject.uidai.ekyc.UidaiResp
 import retrofit2.Response
@@ -715,6 +719,17 @@ interface ApiService {
     suspend fun getPreviousInspection(
         @Body request: InspectionRequestBody
     ): Response<BaseResponse<List<PreviousInspectionItemResponse>>>
+
+
+    @POST("getCandiateInspectionDetails")
+    suspend fun getCandidateInspectionDetails(
+        @Body request: GetCandidateInspectionRequest
+    ): Response<BaseResponse<List<CandidateInspectionDetails>>>
+
+    @POST("saveBatchDataVerification")
+    suspend fun saveBatchDataVerification(
+        @Body request: SaveBatchVerificationRequest
+    ): Response<BaseResponse<List<Nothing>>>
 
 
 }

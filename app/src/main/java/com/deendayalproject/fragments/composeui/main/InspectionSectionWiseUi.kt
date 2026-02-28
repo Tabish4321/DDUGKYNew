@@ -11,9 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.ctc.wstx.shaded.msv_core.writer.relaxng.Context
 import com.deendayalproject.R
 import com.deendayalproject.fragments.composeui.batchAndCandidate.BatchListSection
 import com.deendayalproject.fragments.composeui.batchAndCandidate.CandidateDataPreviousBatchCard
@@ -29,13 +27,14 @@ import com.deendayalproject.model.response.CandidateListInspectionRes
 import com.deendayalproject.model.response.PrevBatchItem
 import com.deendayalproject.model.response.TrainingInspCenterDetails
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.viewmodel.CandidateVerificationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InspectionModernScreen(
+    condidateVerificationViewModel: CandidateVerificationViewModel,
     viewModel: PreviousAndDueViewModel,
     prnNumber: String,
-
     sanctionLetter: String,
     inspectionType: String,
     trainingCenterId: String,
@@ -174,6 +173,7 @@ fun InspectionModernScreen(
                                         tradeAndCapacity = trainingDetails?.tradeAndCapacity ?: "",
                                         coordinate = trainingDetails?.coordinate ?: "",
                                         roleName = trainingDetails?.roleName ?: ""
+                                        
                                     )
 
                                     Spacer(modifier = Modifier.height(20.dp))
@@ -251,6 +251,8 @@ fun InspectionModernScreen(
         /* ---------------- BOTTOM SHEET ---------------- */
         if (currentStep == 2 && selectedCandidate != null) {
             ProCandidateBottomSheet(
+                condidateVerificationViewModel,
+                selectedBatch!!.batchId,
                 candidateData = selectedCandidate!!,
                 onDismiss = { selectedCandidate = null },
                 onSubmit = { selectedCandidate = null }

@@ -2,6 +2,10 @@ package com.deendayalproject.model.uistate
 
 data class CandidateVerificationUiState(
 
+    val isLoading: Boolean = false,
+    val saveSuccess: Boolean = false,
+    val error: String? = null,
+    val showValidation: Boolean = false,
 
     var externalAssessment: String? = null,
     var externalAssessmentRemarks: String = "",
