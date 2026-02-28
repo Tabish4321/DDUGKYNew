@@ -255,7 +255,7 @@ fun InspectionModernScreen(
                 selectedBatch!!.batchId,
                 candidateData = selectedCandidate!!,
                 onDismiss = { selectedCandidate = null },
-                onSubmit = { selectedCandidate = null }
+               // onSubmit = { selectedCandidate = null }
             )
         }
     }

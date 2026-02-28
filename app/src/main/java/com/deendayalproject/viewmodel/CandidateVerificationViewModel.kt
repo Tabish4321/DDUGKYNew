@@ -10,6 +10,7 @@ import com.deendayalproject.BuildConfig
 import com.deendayalproject.model.request.SaveBatchVerificationRequest
 import com.deendayalproject.model.response.CandidateInspectionDetails
 import com.deendayalproject.model.uistate.*
+import com.deendayalproject.model.validateBeforeSave
 import com.deendayalproject.repository.CandidateerificationRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -94,8 +95,18 @@ class CandidateVerificationViewModel(
         candidateId: String
     ) {
         viewModelScope.launch {
+            val currentState = _uiState.value
+            val validationError = validateBeforeSave(currentState)
 
-            _uiState.value = _uiState.value.copy(
+            if (validationError != null) {
+                _uiState.value = currentState.copy(
+                    error = validationError,
+                    showValidation = true
+                )
+                return@launch
+            }
+
+            _uiState.value = currentState.copy(
                 isLoading = true,
                 error = null,
                 saveSuccess = false

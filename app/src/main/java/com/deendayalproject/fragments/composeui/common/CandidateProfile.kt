@@ -31,8 +31,8 @@ fun CandidateHeader(
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp),
-        shadowElevation = 8.dp,
+        shape = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp),
+        shadowElevation = 6.dp,
         tonalElevation = 2.dp,
         color = Color.White
     ) {
@@ -43,52 +43,79 @@ fun CandidateHeader(
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
-                            accentColor.copy(alpha = 0.08f),
+                            accentColor.copy(alpha = 0.10f),
                             Color.White
                         )
                     )
                 )
-                .padding(horizontal = 20.dp, vertical = 22.dp)
+                .padding(horizontal = 22.dp, vertical = 24.dp)
         ) {
 
-            // 🔹 Top Row
+            // 🔹 Top Title Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                Text(
-                    text = "Candidate Details",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = accentColor
-                )
-
-                IconButton(onClick = onCloseClick) {
-                    Icon(
-                        imageVector = Icons.Default.Close,
-                        contentDescription = null,
-                        tint = Color(0xFF6B7280)
+                Column {
+                    Text(
+                        text = "Candidate Verification",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = accentColor
                     )
+
+                    Text(
+                        text = "Review and confirm details",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color(0xFF64748B)
+                    )
+                }
+
+                // Premium Close Button
+                Surface(
+                    onClick = onCloseClick,
+                    shape = CircleShape,
+                    color = Color(0xFFF1F5F9),
+                    tonalElevation = 1.dp,
+                    shadowElevation = 2.dp
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Close",
+                            tint = Color(0xFF475569)
+                        )
+                    }
                 }
             }
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(26.dp))
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            // 🔹 Profile Section
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
 
-                //  Clean Avatar
+                // Premium Avatar
                 Surface(
                     shape = CircleShape,
                     color = accentColor.copy(alpha = 0.15f),
-                    modifier = Modifier
-                        .size(80.dp)
-                        .shadow(4.dp, CircleShape)
+                    shadowElevation = 4.dp,
+                    tonalElevation = 2.dp,
+                    modifier = Modifier.size(84.dp)
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Text(
-                            text = candidateData.name.take(1).uppercase(),
+                            text = candidateData.name
+                                .takeIf { it.isNotBlank() }
+                                ?.take(1)
+                                ?.uppercase() ?: "?",
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold,
                             color = accentColor
@@ -96,22 +123,27 @@ fun CandidateHeader(
                     }
                 }
 
-                Spacer(modifier = Modifier.width(18.dp))
+                Spacer(modifier = Modifier.width(20.dp))
 
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
 
                     Text(
                         text = candidateData.name,
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF111827)
+                        color = Color(0xFF0F172A)
                     )
 
-                    InfoRow("Candidate ID", candidateData.candidateId.toString())
-                    InfoRow("Roll No", candidateData.rollNumber)
-                    InfoRow("Contact", candidateData.contactNumber)
+                    // Metadata grid style
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        InfoRow("Candidate ID", candidateData.candidateId.toString())
+                        InfoRow("Roll No", candidateData.rollNumber)
+                        InfoRow("Contact", candidateData.contactNumber)
+                    }
                 }
             }
         }
@@ -121,34 +153,39 @@ fun CandidateHeader(
 @Composable
 private fun InfoRow(label: String, value: String?) {
 
-    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
 
         Text(
-            text = "$label:",
-            style = MaterialTheme.typography.bodySmall,
-            fontWeight = FontWeight.Medium,
-            color = Color(0xFF6B7280)
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            color = Color(0xFF64748B)
+        )
+
+        Text(
+            text = "•",
+            color = Color(0xFFCBD5E1)
         )
 
         Text(
             text = value?.takeIf { it.isNotBlank() } ?: "-",
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.SemiBold,
-            color = Color(0xFF1F2937)
+            color = Color(0xFF1E293B)
         )
     }
 }
 
 private fun generateColorFromName(name: String): Color {
 
-    val palette = listOf(
-       // Color(0xFF6366F1), // Indigo
-      //  Color(0xFF22C55E), // Green
-        Color(0xFF0EA5E9), // Sky Blue
-        Color(0xFFF59E0B), // Amber
-        Color(0xFFEC4899)  // Pink
-    )
+    val safeName = name.ifBlank { "User" }
+    val hash = safeName.hashCode()
 
-    val index = name.hashCode().absoluteValue % palette.size
-    return palette[index]
+    val hue = (hash % 360).absoluteValue.toFloat()
+    val saturation = 0.65f
+    val lightness = 0.55f
+
+    return Color.hsl(hue, saturation, lightness)
 }

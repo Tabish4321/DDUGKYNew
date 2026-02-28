@@ -118,3 +118,64 @@ fun CandidateVerificationUiState.updateRemarks(
         "ppsDisbursed" -> copy(ppsDisbursedRemarks = value)
         else -> this
     }
+
+
+ fun validateBeforeSave(state: CandidateVerificationUiState): String? {
+
+    fun requireAnswer(answer: String?, field: String): String? =
+        if (answer.isNullOrBlank())
+            "Please select $field"
+        else null
+
+    fun requireRemarksIfNo(answer: String?, remarks: String, field: String): String? =
+        if (answer.equals("No", true) && remarks.isBlank())
+            "Please enter remarks for $field"
+        else null
+
+    requireAnswer(state.externalAssessment, "External Assessment")?.let { return it }
+    requireRemarksIfNo(state.externalAssessment, state.externalAssessmentRemarks, "External Assessment")?.let { return it }
+
+    if (state.externalAssessment.equals("Yes", true)) {
+        requireAnswer(state.passedFailed, "Passed / Failed")?.let { return it }
+        requireRemarksIfNo(state.passedFailed, state.passedFailedRemarks, "Passed / Failed")?.let { return it }
+    }
+
+    requireAnswer(state.certificateReceived, "Received Certificate")?.let { return it }
+    requireRemarksIfNo(state.certificateReceived, state.certificateReceivedRemarks, "Certificate")?.let { return it }
+
+    requireAnswer(state.ojtJoined, "OJT Joined")?.let { return it }
+    requireRemarksIfNo(state.ojtJoined, state.ojtJoinedRemarks, "OJT Joined")?.let { return it }
+
+    requireAnswer(state.ojtEntitlementReceived, "OJT Entitlement")?.let { return it }
+    requireRemarksIfNo(state.ojtEntitlementReceived, state.ojtEntitlementRemarks, "OJT Entitlement")?.let { return it }
+
+    if (state.ojtEntitlementReceived.equals("Yes", true)
+        && state.ojtEntitlementDetails.isBlank()
+    ) {
+        return "Please enter OJT entitlement details"
+    }
+
+    requireAnswer(state.joinedJob, "Joined Job")?.let { return it }
+    requireRemarksIfNo(state.joinedJob, state.joinedJobRemarks, "Joined Job")?.let { return it }
+
+    if (state.joinedJob.equals("Yes", true)) {
+
+        val salaryValue = state.salary.toDoubleOrNull()
+
+        if (salaryValue == null || salaryValue <= 0.0) {
+            return "Salary must be greater than 0"
+        }
+    }
+
+    requireAnswer(state.minimumWageMatch, "Minimum Wage Match")?.let { return it }
+    requireRemarksIfNo(state.minimumWageMatch, state.minimumWageRemarks, "Minimum Wage Match")?.let { return it }
+
+    requireAnswer(state.ppsDisbursed, "PPS Amount Disbursed")?.let { return it }
+    requireRemarksIfNo(state.ppsDisbursed, state.ppsDisbursedRemarks, "PPS Amount Disbursed")?.let { return it }
+
+    if (state.replacementAction.isBlank()) {
+        return "Please enter replacement action"
+    }
+
+    return null
+}
