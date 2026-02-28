@@ -17,8 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
+@OptIn(ExperimentalMaterial3Api::class)@Composable
 fun MultiLineEditText(
     value: String,
     onValueChange: (String) -> Unit,
@@ -26,7 +25,7 @@ fun MultiLineEditText(
     isRequired: Boolean = false,
     isError: Boolean = false,
     maxLength: Int = 300,
-    placeholder: String = "Write details here..."
+    placeholder: String = "Write detailed remarks..."
 ) {
 
     Column(
@@ -34,37 +33,35 @@ fun MultiLineEditText(
         modifier = Modifier.fillMaxWidth()
     ) {
 
-        // 🔹 Label
         Text(
             text = if (isRequired) "$label *" else label,
-            style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.labelLarge.copy(
+                fontWeight = FontWeight.SemiBold
+            ),
             color = if (isError)
                 MaterialTheme.colorScheme.error
             else
-                MaterialTheme.colorScheme.onSurface
+                Color(0xFF334155)
         )
 
-        // 🔹 Text Field
         OutlinedTextField(
             value = value,
             onValueChange = {
-                if (it.length <= maxLength) {
-                    onValueChange(it)
-                }
+                if (it.length <= maxLength) onValueChange(it)
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 110.dp),
+                .heightIn(min = 120.dp),
 
             placeholder = {
                 Text(
                     text = placeholder,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color(0xFF94A3B8)
                 )
             },
 
-            shape = RoundedCornerShape(14.dp),
+            shape = RoundedCornerShape(16.dp),
             isError = isError,
             minLines = 4,
             maxLines = 6,
@@ -77,7 +74,7 @@ fun MultiLineEditText(
 
                     if (isError) {
                         Text(
-                            text = "This field is required",
+                            text = "Remarks are required",
                             color = MaterialTheme.colorScheme.error,
                             style = MaterialTheme.typography.labelSmall
                         )
@@ -86,20 +83,17 @@ fun MultiLineEditText(
                     Text(
                         text = "${value.length}/$maxLength",
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = Color(0xFF64748B)
                     )
                 }
             },
 
             colors = OutlinedTextFieldDefaults.colors(
-
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    errorContainerColor = Color.White,
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
                 focusedBorderColor = MaterialTheme.colorScheme.primary,
-                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
-                errorBorderColor = MaterialTheme.colorScheme.error,
-
+                unfocusedBorderColor = Color(0xFFE2E8F0),
+                errorBorderColor = MaterialTheme.colorScheme.error
             )
         )
     }

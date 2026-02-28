@@ -1,5 +1,6 @@
 package com.deendayalproject.fragments.composeui.common
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -20,40 +21,37 @@ fun ComplianceQuestionWithRemarks(
 ) {
 
     ElevatedCard(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(22.dp),
-        elevation = CardDefaults.elevatedCardElevation(6.dp),
         colors = CardDefaults.elevatedCardColors(
-            containerColor = Color.White
-        )
+            containerColor = Color(0xFFF8FAFC)
+        ),
+        shape = RoundedCornerShape(20.dp),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 6.dp),
+        modifier = Modifier.fillMaxWidth()
     ) {
 
         Column(
             modifier = Modifier
-                .padding(horizontal = 18.dp, vertical = 18.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+                .padding(horizontal = 20.dp, vertical = 22.dp),
+            verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
 
             Text(
                 text = question,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
                 color = if (isError)
                     MaterialTheme.colorScheme.error
                 else
-                    Color(0xFF111827)
+                    Color(0xFF0F172A)
             )
 
-            PremiumSelector(
-                options = listOf(
-                    PremiumOption("Yes", Color(0xFF22C55E)),
-                    PremiumOption("No", Color(0xFFEF4444))
-                ),
+            PremiumSegmentedSelector(
                 selected = answer,
                 onSelect = onAnswerChange
             )
 
-            if (answer == "No") {
+            AnimatedVisibility(visible = answer == "No") {
                 MultiLineEditText(
                     value = remarks,
                     onValueChange = onRemarksChange,

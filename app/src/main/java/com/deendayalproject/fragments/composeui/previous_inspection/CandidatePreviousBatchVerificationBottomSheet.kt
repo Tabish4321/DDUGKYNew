@@ -1,27 +1,21 @@
 package com.deendayalproject.fragments.composeui.previous_inspection
 
-import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import kotlinx.coroutines.launch
 import com.deendayalproject.fragments.composeui.common.CandidateHeader
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.common.MultiLineEditText
 import com.deendayalproject.fragments.composeui.common.NumericTextField
-import com.deendayalproject.fragments.composeui.common.WorkingStatusQuestion
 import com.deendayalproject.model.getAnswer
 import com.deendayalproject.model.getRemarks
 import com.deendayalproject.model.questionList
@@ -141,7 +135,6 @@ fun ProCandidateBottomSheet(
 //
                                     },
                                     onRemarksChange = { value ->
-
                                         condidateVerificationViewModel.updateState {
                                             updateRemarks(question.id, value)
                                         }
