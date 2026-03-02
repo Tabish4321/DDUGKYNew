@@ -135,7 +135,6 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.foundation)
-    implementation(libs.androidx.animation)
     kapt("com.google.dagger:hilt-compiler:2.51")
     kapt("androidx.hilt:hilt-compiler:1.1.0")
 
