@@ -329,12 +329,15 @@ object AppUtil {
 
 
     // Add this function to your class
-    fun convertUriToBase64(uri: Uri, context: Context): String {
-        val inputStream = context.contentResolver.openInputStream(uri)
-        val bytes = inputStream?.readBytes()
-        inputStream?.close()
-        return Base64.encodeToString(bytes, Base64.DEFAULT)
-    }
+    fun decodeBase64ToBitmap(base64Str: String?) =
+        try {
+            base64Str?.let {
+                val bytes = Base64.decode(it, Base64.DEFAULT)
+                BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+            }
+        } catch (e: Exception) {
+            null
+        }
 
     fun getTimeZone(): String {
         return TimeZone.getDefault().id

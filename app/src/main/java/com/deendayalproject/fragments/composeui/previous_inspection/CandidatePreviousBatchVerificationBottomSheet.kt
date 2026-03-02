@@ -46,7 +46,6 @@ fun ProCandidateBottomSheet(
     val state by condidateVerificationViewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    //isError = state.error && state.getAnswer(question.id) == null
     val scope = rememberCoroutineScope()
     LaunchedEffect(Unit) {
         condidateVerificationViewModel.loadCandidateDetails(

@@ -5,6 +5,7 @@ import android.content.Context
 import com.deendayalproject.base.BaseRepository
 import com.deendayalproject.base.BaseResponse
 import com.deendayalproject.model.request.CandidatePreviousBatchReq
+import com.deendayalproject.model.request.GetImageListReq
 import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionRequestBody
@@ -12,6 +13,7 @@ import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.SaveBatchVerificationRequest
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.DueDiligenceItemResponse
+import com.deendayalproject.model.response.GetImageListRes
 import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
@@ -67,6 +69,32 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
         safeApiCallN {
             apiService.getDueDiligenceDetails(request)
         }
+
+
+
+
+
+
+    suspend fun getInspectionOngoingBatchList  (inspectionPreviousBatchList: InspectionPreviousBatchList, header :String): Result<InspectionPreviousBatchRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.getInspectionOngoingBatchList(inspectionPreviousBatchList)
+        }
+
+
+    suspend fun getOngoingBatchCandiate  (candidatePreviousBatchReq: CandidatePreviousBatchReq, header :String): Result<CandidatePreviousBatchRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.getOngoingBatchCandiate(candidatePreviousBatchReq)
+        }
+
+
+
+
+
+    suspend fun getCandidateImageRecords  (getImageListReq: GetImageListReq, header :String): Result<GetImageListRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.getCandidateImageRecords(getImageListReq)
+        }
+
 
 
 

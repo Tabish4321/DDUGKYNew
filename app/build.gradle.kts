@@ -22,7 +22,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 9
-        versionName = "1.1.3" //1.1.3 D,1.3.2 L
+        versionName = "1.1.3" //1.1.3 D,1.3.3 L
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -191,7 +191,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
-
 
 
 }

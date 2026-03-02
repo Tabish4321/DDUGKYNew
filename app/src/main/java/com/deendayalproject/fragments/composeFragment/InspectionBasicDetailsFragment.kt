@@ -37,8 +37,9 @@ class InspectionBasicDetailsFragment :
     private val viewModel: InspectionViewModel by viewModels()
 
     val previousePreviousAndDueViewModel: PreviousAndDueViewModel by viewModels()
-
     val condidateVerificationViewModel: CandidateVerificationViewModel by viewModels()
+
+
 
     private var trainingCenterId = 0
     private var prnNumber = ""
@@ -68,6 +69,24 @@ class InspectionBasicDetailsFragment :
                 val candidateResponse by viewModel.candidatePrevBatchList.collectAsState()
                 val isLoading by viewModel.loading.collectAsState()
 
+
+                val ongoingBatchResponse by viewModel
+                    .onGoingBatchList
+                    .collectAsState()
+
+                val ongoingCandidateResponse by viewModel
+                    .candidateOngoingBatchList
+                    .collectAsState()
+
+                val ongoingBatchList =
+                    ongoingBatchResponse?.wrappedList ?: emptyList()
+
+                val ongoingCandidateList =
+                    ongoingCandidateResponse?.wrappedList ?: emptyList()
+
+
+
+
                 val snackbarHostState = remember { SnackbarHostState() }
 
                 var currentStep by remember { mutableStateOf(1) }
@@ -91,9 +110,25 @@ class InspectionBasicDetailsFragment :
                 /* -------------------------------
                    STEP 2 → BATCH API CALL
                 --------------------------------*/
+
+
+
+
                 LaunchedEffect(currentStep) {
+
                     if (currentStep == 2 && batchResponse == null) {
                         viewModel.getInspectionPreviousBatchList(
+                            InspectionPreviousBatchList(
+                                appVersion = BuildConfig.VERSION_NAME,
+                                trainingCenterId = trainingCenterId.toString(),
+                                sanctionOrder = sanctionOrder
+                            ),
+                            AppUtil.getSavedTokenPreference(requireContext())
+                        )
+                    }
+
+                    if (currentStep == 3 && ongoingBatchResponse == null) {
+                        viewModel.getInspectionOngoingBatchList(
                             InspectionPreviousBatchList(
                                 appVersion = BuildConfig.VERSION_NAME,
                                 trainingCenterId = trainingCenterId.toString(),
@@ -140,6 +175,7 @@ class InspectionBasicDetailsFragment :
                         InspectionModernScreen(
                             condidateVerificationViewModel,
                             previousePreviousAndDueViewModel,
+                            viewModel,
                             prnNumber = prnNumber,
                             sanctionLetter = sanctionOrder,
                             inspectionType = inspectionType,
@@ -148,15 +184,34 @@ class InspectionBasicDetailsFragment :
                             trainingDetails = tcDetails,
                             batchList = batchList,
                             candidateList = candidateList,
+                            ongoingBatchList = ongoingBatchList,
+                            ongoingCandidateList = ongoingCandidateList,
                             currentStep = currentStep,
                             onStepChange = { currentStep = it },
 
-                            /* 🔥 BATCH SELECT → CALL CANDIDATE API */
+                            /*  BATCH SELECT → CALL CANDIDATE API */
+
                             onBatchSelected = { batchId ->
 
                                 if (batchId != null) {
 
                                     viewModel.getCandidateForPreviousBatch(
+                                        CandidatePreviousBatchReq(
+                                            batchId = batchId,
+                                            appVersion = BuildConfig.VERSION_NAME,
+                                            inspectionId = AppUtil
+                                                .getSavedInspectionIdPreference(requireContext())
+                                                .toInt()
+                                        ),
+                                        AppUtil.getSavedTokenPreference(requireContext())
+                                    )
+                                }
+                            },
+
+
+                            onOngoingBatchSelected = { batchId ->
+                                if (batchId != null) {
+                                    viewModel.getOngoingBatchCandiate(
                                         CandidatePreviousBatchReq(
                                             batchId = batchId,
                                             appVersion = BuildConfig.VERSION_NAME,

@@ -85,6 +85,7 @@ fun InfoRow(
 }
 
 @Preview(showBackground = true)
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun InfoRowCardPreview() {
     MaterialTheme {

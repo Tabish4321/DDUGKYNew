@@ -8,11 +8,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.deendayalproject.model.request.CandidatePreviousBatchReq
+import com.deendayalproject.model.request.GetImageListReq
 import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.DueDiligenceItemResponse
+import com.deendayalproject.model.response.GetImageListRes
 import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
@@ -177,7 +179,11 @@ class InspectionViewModel(application: Application) :
 
                 when (response.responseCode) {
                     200 -> _previousBatchList.emit(response)
-                    202 -> _errorMessage.emit("No batch data available.")
+                    202 -> {
+                        _previousBatchList.emit(null)
+                        _errorMessage.emit("No batch data available.")
+                    }
+
                     301 -> _errorMessage.emit("Please upgrade your app.")
                     else -> _errorMessage.emit(
                         response.responseDesc?.ifEmpty {
@@ -216,7 +222,11 @@ class InspectionViewModel(application: Application) :
 
                     200 -> _candidatePrevBatchList.emit(response)
 
-                    202 -> _errorMessage.emit("No candidate data available.")
+
+                    202 -> {
+                        _candidatePrevBatchList.emit(null)
+                        _errorMessage.emit("No candidate data available.")
+                    }
 
                     301 -> _errorMessage.emit("Please upgrade your app.")
 
@@ -229,5 +239,145 @@ class InspectionViewModel(application: Application) :
             }
         )
     }
+
+
+
+
+
+
+
+
+    private val _onGoingBatchList =
+        MutableStateFlow<InspectionPreviousBatchRes?>(null)
+
+    val onGoingBatchList:
+            StateFlow<InspectionPreviousBatchRes?> =
+        _onGoingBatchList.asStateFlow()
+
+    fun getInspectionOngoingBatchList(
+        request: InspectionPreviousBatchList,
+        header: String
+    ) {
+
+        executeApiCall(
+            apiCall = {
+                repositoryManager
+                    .inspectionRepo
+                    .getInspectionOngoingBatchList(request, header)
+            },
+            onSuccess = { response ->
+
+                when (response.responseCode) {
+                    200 -> _onGoingBatchList.emit(response)
+
+                    202 -> {
+                        _onGoingBatchList.emit(null)
+                        _errorMessage.emit("No batch data available.")
+                    }
+
+                    301 -> _errorMessage.emit("Please upgrade your app.")
+                    else -> _errorMessage.emit(
+                        response.responseDesc?.ifEmpty {
+                            "Unknown server error"
+                        } ?: ""
+                    )
+                }
+            }
+        )
+    }
+
+
+
+    private val _candidateOngoingBatchList =
+        MutableStateFlow<CandidatePreviousBatchRes?>(null)
+
+    val candidateOngoingBatchList:
+            StateFlow<CandidatePreviousBatchRes?> =
+        _candidateOngoingBatchList.asStateFlow()
+
+
+    fun getOngoingBatchCandiate(
+        request: CandidatePreviousBatchReq,
+        header: String
+    ) {
+
+        executeApiCall(
+            apiCall = {
+                repositoryManager
+                    .inspectionRepo
+                    .getOngoingBatchCandiate(request, header)
+            },
+            onSuccess = { response ->
+
+                when (response.responseCode) {
+
+                    200 -> _candidateOngoingBatchList.emit(response)
+
+
+
+                    202 -> {
+                        _candidateOngoingBatchList.emit(null)
+                        _errorMessage.emit("No candidate data available.")
+                    }
+
+                    301 -> _errorMessage.emit("Please upgrade your app.")
+
+                    else -> _errorMessage.emit(
+                        response.responseDesc?.ifEmpty {
+                            "Unknown server error"
+                        } ?: "Unknown error"
+                    )
+                }
+            }
+        )
+    }
+
+
+
+
+
+
+
+
+    private val _getCandidateImageRecords =
+        MutableStateFlow<GetImageListRes?>(null)
+
+    val getCandidateImageRecords:
+            StateFlow<GetImageListRes?> =
+        _getCandidateImageRecords.asStateFlow()
+
+
+    fun getCandidateImageRecords(
+        request: GetImageListReq,
+        header: String
+    ) {
+
+        executeApiCall(
+            apiCall = {
+                repositoryManager
+                    .inspectionRepo
+                    .getCandidateImageRecords(request, header)
+            },
+            onSuccess = { response ->
+
+                when (response.responseCode) {
+
+                    200 -> _getCandidateImageRecords.emit(response)
+
+                    202 -> _errorMessage.emit("No candidate data available.")
+
+
+                    301 -> _errorMessage.emit("Please upgrade your app.")
+
+                    else -> _errorMessage.emit(
+                        response.responseDesc?.ifEmpty {
+                            "Unknown server error"
+                        } ?: "Unknown error"
+                    )
+                }
+            }
+        )
+    }
+
 
 }

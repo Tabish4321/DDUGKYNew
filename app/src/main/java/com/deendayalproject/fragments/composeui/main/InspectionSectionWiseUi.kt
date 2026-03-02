@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.R
+import com.deendayalproject.fragments.composeui.OngoingCandidateBottomSheet
 import com.deendayalproject.fragments.composeui.batchAndCandidate.BatchListSection
 import com.deendayalproject.fragments.composeui.batchAndCandidate.CandidateDataPreviousBatchCard
 import com.deendayalproject.fragments.composeui.common.InspectionProgressHeader
@@ -28,20 +29,25 @@ import com.deendayalproject.model.response.PrevBatchItem
 import com.deendayalproject.model.response.TrainingInspCenterDetails
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.CandidateVerificationViewModel
+import com.deendayalproject.viewmodel.InspectionViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InspectionModernScreen(
     condidateVerificationViewModel: CandidateVerificationViewModel,
     viewModel: PreviousAndDueViewModel,
+    viewModelInspection: InspectionViewModel,
     prnNumber: String,
     sanctionLetter: String,
     inspectionType: String,
     trainingCenterId: String,
     batchList: List<PrevBatchItem>,
     candidateList: List<CandidateItem>,
+    ongoingBatchList: List<PrevBatchItem>,
+    ongoingCandidateList: List<CandidateItem>,
     currentStep: Int,
     onBatchSelected: (Int?) -> Unit,
+    onOngoingBatchSelected: (Int?) -> Unit,
     onStepChange: (Int) -> Unit,
     isLoading: Boolean,
     trainingDetails: TrainingInspCenterDetails?,
@@ -50,20 +56,38 @@ fun InspectionModernScreen(
 
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current
     val context = LocalContext.current
+
+    var ongoingSelectedBatch by remember { mutableStateOf<PrevBatchItem?>(null) }
+    var ongoingSelectedCandidate by remember { mutableStateOf<CandidateListInspectionRes?>(null) }
+
+
+
+
+
     var selectedCandidate by remember {
         mutableStateOf<CandidateListInspectionRes?>(null)
     }
 
-    var selectedBatch by remember {
+    var previousSelectedBatch by remember {
         mutableStateOf<PrevBatchItem?>(null)
     }
 
     val toolbarTitle = when (currentStep) {
         1 -> "Training Center Details"
-        2 -> if (selectedBatch != null) "Candidate List" else "Previous Batch List"
-        3 -> "Final Review"
+        2 -> if (previousSelectedBatch != null) "Previous Candidate List" else "Previous Batch List"
+        3 -> if (selectedCandidate != null) "Ongoing Candidate List" else "Ongoing Batch List"
+        4 -> "Summary"
+        5 -> "Final Submit"
         else -> "Inspection"
     }
+
+    LaunchedEffect(currentStep) {
+        previousSelectedBatch = null
+        selectedCandidate = null
+        ongoingSelectedBatch = null
+        ongoingSelectedCandidate = null
+    }
+
 
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -73,8 +97,8 @@ fun InspectionModernScreen(
                     toolbarTitle,
                     onBackClick = {
                         if (currentStep > 1) {
-                            if (currentStep == 2 && selectedBatch != null) {
-                                selectedBatch = null
+                            if (currentStep == 2 && previousSelectedBatch != null) {
+                                previousSelectedBatch = null
                             } else {
                                 onStepChange(currentStep - 1)
                             }
@@ -103,9 +127,7 @@ fun InspectionModernScreen(
                         if (currentStep > 1) {
                             OutlinedButton(
                                 onClick = {
-                                    if (currentStep == 2 && selectedBatch != null) {
-                                        selectedBatch = null
-                                    } else {
+                                    if (currentStep > 1) {
                                         onStepChange(currentStep - 1)
                                     }
                                 },
@@ -118,13 +140,14 @@ fun InspectionModernScreen(
 
                         Button(
                             onClick = {
-                                if (currentStep < 3)
+                                if (currentStep < 5) {   // 👈 updated max step
                                     onStepChange(currentStep + 1)
+                                }
                             },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(50)
                         ) {
-                            Text(if (currentStep < 3) "Continue" else "Submit")
+                            Text(if (currentStep < 5) "Next" else "Submit")
                         }
                     }
                 }
@@ -190,7 +213,7 @@ fun InspectionModernScreen(
                             /* ---------------- STEP 2 ---------------- */
                             2 -> {
 
-                                if (selectedBatch == null) {
+                                if (previousSelectedBatch == null) {
 
                                     item {
                                         if (batchList.isEmpty()) {
@@ -199,14 +222,15 @@ fun InspectionModernScreen(
                                             BatchListSection(
                                                 batchList = batchList,
                                                 onBatchClick = {
-                                                    selectedBatch = it
+                                                    previousSelectedBatch = it
                                                     onBatchSelected(it.batchId)   // 🔥 CALL API
                                                 }
                                             )
                                         }
                                     }
 
-                                } else {
+                                }
+                                else {
 
                                     item {
 
@@ -238,8 +262,104 @@ fun InspectionModernScreen(
 
                             /* ---------------- STEP 3 ---------------- */
                             3 -> {
+
+                                if (ongoingSelectedBatch == null) {
+
+                                    item {
+
+                                        if (ongoingBatchList.isEmpty()) {
+                                            Text("No ongoing batch available")
+                                        } else {
+                                            BatchListSection(
+                                                batchList = ongoingBatchList,
+                                                onBatchClick = {
+                                                    ongoingSelectedBatch = it
+                                                    onOngoingBatchSelected(it.batchId)
+                                                }
+                                            )
+                                        }
+                                    }
+
+                                } else {
+
+                                    item {
+
+                                        if (ongoingCandidateList.isEmpty()) {
+                                            Text("No ongoing candidates available")
+                                        } else {
+
+                                            CandidateDataPreviousBatchCard(
+                                                candidate = ongoingCandidateList.map {
+                                                    CandidateListInspectionRes(
+                                                        candidateId = it.candidateId ?: "",
+                                                        name = it.candidateName ?: "",
+                                                        rollNumber = it.rollNo?.toString() ?: "",
+                                                        contactNumber = it.mobileNo ?: "",
+                                                        status = it.status
+                                                    )
+                                                },
+                                                onVerifyCandidateClick = {
+                                                    ongoingSelectedCandidate = it
+                                                }
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+
+                            4 -> {
                                 item {
-                                    Text("Final Review Screen")
+                                    ElevatedCard(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        shape = RoundedCornerShape(20.dp)
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = "Inspection Summary",
+                                                style = MaterialTheme.typography.headlineSmall
+                                            )
+
+                                            Text("Training Center: $prnNumber")
+                                            Text("Previous Batches: ${batchList.size}")
+                                            Text("Ongoing Batches: ${ongoingBatchList.size}")
+                                        }
+                                    }
+                                }
+                            }
+
+
+                            5 -> {
+                                item {
+                                    ElevatedCard(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        shape = RoundedCornerShape(20.dp)
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                                        ) {
+
+                                            Text(
+                                                text = "Final Confirmation",
+                                                style = MaterialTheme.typography.headlineSmall
+                                            )
+
+                                            Text("Please confirm and submit inspection.")
+
+                                            Button(
+                                                onClick = {
+                                                    // FINAL SUBMIT API CALL HERE
+                                                },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                shape = RoundedCornerShape(16.dp)
+                                            ) {
+                                                Text("Submit Inspection")
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -252,10 +372,22 @@ fun InspectionModernScreen(
         if (currentStep == 2 && selectedCandidate != null) {
             ProCandidateBottomSheet(
                 condidateVerificationViewModel,
-                selectedBatch!!.batchId,
+                previousSelectedBatch!!.batchId,
                 candidateData = selectedCandidate!!,
                 onDismiss = { selectedCandidate = null },
                 onSubmit = { selectedCandidate = null }
+            )
+        }
+
+        if (currentStep == 3 && ongoingSelectedCandidate != null) {
+            OngoingCandidateBottomSheet(
+                viewModel = viewModelInspection,
+                candidateData = selectedCandidate!!,
+                onDismiss = {
+                    ongoingSelectedCandidate = null
+                }
+
+               // onSubmit = { ongoingSelectedCandidate = null }
             )
         }
     }

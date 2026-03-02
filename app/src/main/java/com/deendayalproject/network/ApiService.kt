@@ -21,6 +21,7 @@ import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
 import com.deendayalproject.model.request.FieldVerificationListRequest
+import com.deendayalproject.model.request.GetImageListReq
 import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
@@ -100,6 +101,7 @@ import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.FinancialDetailsResponse
 import com.deendayalproject.model.response.GeneralDetails
+import com.deendayalproject.model.response.GetImageListRes
 import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.GetUrinalWashRes
 import com.deendayalproject.model.response.GpResponse
@@ -730,6 +732,40 @@ interface ApiService {
     suspend fun saveBatchDataVerification(
         @Body request: SaveBatchVerificationRequest
     ): Response<BaseResponse<List<Nothing>>>
+
+
+
+
+
+
+
+    @POST("getInspectionOngoingBatchList")
+    suspend fun getInspectionOngoingBatchList(
+        @Body inspectionPreviousBatchList: InspectionPreviousBatchList
+    ): Response<InspectionPreviousBatchRes>
+
+
+
+
+
+    @POST("getOngoingBatchCandiate")
+    suspend fun getOngoingBatchCandiate(
+        @Body candidatePreviousBatchReq: CandidatePreviousBatchReq
+    ): Response<CandidatePreviousBatchRes>
+
+
+
+
+    @POST("getCandiateRecords")
+    suspend fun getCandidateImageRecords(
+        @Body getImageListReq: GetImageListReq
+    ): Response<GetImageListRes>
+
+
+
+
+
+
 
 
 }
