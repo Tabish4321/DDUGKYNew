@@ -27,31 +27,31 @@ private fun isDeviceRooted(): Boolean {
     return paths.any { java.io.File(it).exists() }
 }
 
-private fun isEmulator(): Boolean {
 
-    val buildCheck = (
-            Build.FINGERPRINT.startsWith("generic")
-                    || Build.FINGERPRINT.contains("vbox")
-                    || Build.FINGERPRINT.contains("test-keys")
-                    || Build.MODEL.contains("google_sdk")
-                    || Build.MODEL.contains("Emulator")
-                    || Build.MODEL.contains("Android SDK built for x86")
-                    || Build.MANUFACTURER.contains("Genymotion")
-                    || Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")
-                    || "google_sdk" == Build.PRODUCT
-            )
+    private fun isEmulator(): Boolean {
 
-    val fileCheck = (
-            File("/dev/socket/qemud").exists()
-                    || File("/dev/qemu_pipe").exists()
-            )
+        val fingerprint = Build.FINGERPRINT.lowercase()
+        val model = Build.MODEL.lowercase()
+        val manufacturer = Build.MANUFACTURER.lowercase()
+        val brand = Build.BRAND.lowercase()
+        val device = Build.DEVICE.lowercase()
+        val product = Build.PRODUCT.lowercase()
+        val hardware = Build.HARDWARE.lowercase()
 
-    val hardwareCheck = (
-            Build.HARDWARE.contains("goldfish")
-                    || Build.HARDWARE.contains("ranchu")
-            )
+        return (
+                fingerprint.contains("generic")
+                        || fingerprint.contains("unknown")
+                        || model.contains("sdk")
+                        || model.contains("emulator")
+                        || model.contains("x86")
+                        || manufacturer.contains("genymotion")
+                        || brand.contains("generic")
+                        || device.contains("generic")
+                        || product.contains("sdk")
+                        || hardware.contains("goldfish")
+                        || hardware.contains("ranchu")
+                )
 
-    return buildCheck || fileCheck || hardwareCheck
 }
 
 

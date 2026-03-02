@@ -31,6 +31,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Base64
 import android.util.Log
 import android.widget.ImageView
@@ -54,6 +56,7 @@ import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.response.RoomDetail
 import com.deendayalproject.model.response.RoomItem
+import com.deendayalproject.util.orEmptySafe
 import com.deendayalproject.util.toastShort
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -272,6 +275,9 @@ class SrlmVerificationForm : Fragment() {
 
     private var latValue: String = ""
     private var langValue: String = ""
+    private var total_capacity: Int =0
+
+
 
 
     override fun onCreateView(
@@ -292,7 +298,7 @@ class SrlmVerificationForm : Fragment() {
         centerId = arguments?.getString("centerId").toString()
         centerName = arguments?.getString("centerName").toString()
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
-
+        total_capacity = arguments?.getString("totalCapacity").toString().toInt()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         if (hasLocationPermission()) {
             getCurrentLocation()
@@ -349,12 +355,82 @@ class SrlmVerificationForm : Fragment() {
         collectAllRoomDetails()
         collectQTeamInsertRes()
 
-
-
+        binding.availOfStandardFormsLayout.etFinalTotalCapacity.apply {
+            setText(total_capacity.toString())
+            setSelection(text.length)
+        }
+        updatefinalCapacity()
         listener()
+    }
 
+    var isEditing = false
 
+    fun updatefinalCapacity() {
 
+        binding.availOfStandardFormsLayout.etFinalTotalCapacity.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable?) {
+
+                    if (isEditing) return
+
+                    val remarksField =
+                        binding.availOfStandardFormsLayout.etFinalCapacityRemarks
+
+                    if (s.isNullOrEmpty()) {
+                        remarksField.visibility = View.GONE
+                        return
+                    }
+
+                    val value = s.toString().toIntOrNull() ?: return
+
+                    if (value > total_capacity) {
+
+                        isEditing = true
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Final capacity cannot exceed $total_capacity",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        binding.availOfStandardFormsLayout
+                            .etFinalTotalCapacity.setText(total_capacity.toString())
+
+                        binding.availOfStandardFormsLayout
+                            .etFinalTotalCapacity.setSelection(
+                                binding.availOfStandardFormsLayout
+                                    .etFinalTotalCapacity.text.length
+                            )
+
+                        remarksField.visibility = View.GONE
+
+                        isEditing = false
+                        return
+                    }
+
+                    if (value < total_capacity) {
+                        remarksField.visibility = View.VISIBLE
+                    }
+                    else {
+                        remarksField.visibility = View.GONE
+                        remarksField.setText("")
+                    }
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {}
+
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {}
+            })
     }
 
 
@@ -418,8 +494,6 @@ class SrlmVerificationForm : Fragment() {
 
 
             when (room.roomType) {
-
-
                 "Theory Class Room" -> {
                     showProgressBar()
                     val binding = TheoryClassRoomBinding.inflate(layoutInflater)
@@ -2801,12 +2875,51 @@ class SrlmVerificationForm : Fragment() {
 
         binding.availOfStandardFormsLayout.btnAvailOfStandardFormsNext.setOnClickListener {
 
-            // 🔹 First: Run all validations
-            if (selectedTcAvailOfStandardFormApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
+            val finalCapacityText = binding.availOfStandardFormsLayout.etFinalTotalCapacity.text.toString()
+            val remarksTotalCapacity=binding.availOfStandardFormsLayout.etFinalCapacityRemarks.text.toString()
+
+            if (finalCapacityText.isEmpty()) {
+                Toast.makeText(requireContext(), "Enter Final Capacity", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            val finalCapacity = finalCapacityText.toIntOrNull()
+
+            if (finalCapacity == null) {
+                Toast.makeText(requireContext(), "Invalid Capacity", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (finalCapacity > total_capacity) {
+                Toast.makeText(
+                    requireContext(),
+                    "Final Capacity cannot be greater than $total_capacity",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            if (finalCapacity < total_capacity) {
+
+                val remarks = binding.availOfStandardFormsLayout
+                    .etFinalCapacityRemarks.text.toString()
+
+                if (remarks.isBlank()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Please enter remarks for reduced capacity",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+            }
+
+            // 🔹 First: Run all validations
+            if (selectedTcAvailOfStandardFormApproval.isEmpty()) {
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT) .show()
+                return@setOnClickListener
+            }
+
 
             if (selectedTcAvailOfStandardFormApproval == "Send for modification") {
                 selectedTcAvailOfStandardFormRemarks =
@@ -2834,6 +2947,7 @@ class SrlmVerificationForm : Fragment() {
                 .setPositiveButton("Submit") { dialog, _ ->
 
                     //  Hit the insert API
+
 
                     val requestTcQTeamSubmit = TcQTeamInsertReq(
                         appVersion = BuildConfig.VERSION_NAME,
@@ -2882,6 +2996,8 @@ class SrlmVerificationForm : Fragment() {
                         tcStandardFormRemark = selectedTcAvailOfStandardFormRemarks,
                         latitude = latValue,
                         longitude = langValue,
+                        tcCapacityBySrlm = finalCapacityText.toInt(),
+                        capacityRemark = remarksTotalCapacity
                     )
 
                     // Show progress bar
@@ -3519,15 +3635,15 @@ class SrlmVerificationForm : Fragment() {
 
                         for (x in dataInfra) {
 
-                            electricPowerImage = x.ecPowerBackupImage.toString()
-                            installBiometricImage = x.biomatricDeviceInstallationImage.toString()
-                            installationCCTVImage = x.cctvMoniotrInstallImage.toString()
-                            storagePlaceSecuringDocImage = x.storageSecuringImage.toString()
-                            printerCumImage = x.printerScannerImage.toString()
-                            digitalCameraImage = x.digitalCameraImage.toString()
-                            grievanceImage = x.grievanceRegisterImage.toString()
-                            minimumEquipmentImage = x.minimumEquipmentImage.toString()
-                            directionBoardsImage = x.directionBoardImage.toString()
+                            electricPowerImage = x.ecPowerBackupImage.orEmptySafe()
+                            installBiometricImage = x.biomatricDeviceInstallationImage.orEmptySafe()
+                            installationCCTVImage = x.cctvMoniotrInstallImage.orEmptySafe()
+                            storagePlaceSecuringDocImage = x.storageSecuringImage.orEmptySafe()
+                            printerCumImage = x.printerScannerImage.orEmptySafe()
+                            digitalCameraImage = x.digitalCameraImage.orEmptySafe()
+                            grievanceImage = x.grievanceRegisterImage.orEmptySafe()
+                            minimumEquipmentImage = x.minimumEquipmentImage.orEmptySafe()
+                            directionBoardsImage = x.directionBoardImage.orEmptySafe()
 
 
 

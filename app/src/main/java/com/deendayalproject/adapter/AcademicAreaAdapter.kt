@@ -89,6 +89,10 @@ class AcademicAreaAdapter(
         notifyDataSetChanged()
     }
 
+    fun getCurrentList(): List<wrappedList> {
+        return centers
+    }
+
     // 🔥 DELETE API FUNCTION INSIDE ADAPTER
     private fun deleteAcademicRoomApi(
         loginId: String,

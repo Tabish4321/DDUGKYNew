@@ -3927,6 +3927,12 @@ class TrainingFragment : Fragment() {
 
         // Final Submit
         btnSubmitFinal.setOnClickListener {
+            val roomList = Academicadapter.getCurrentList()   // create this method in adapter
+
+            if (!validateMandatoryRooms(roomList)) {
+                return@setOnClickListener
+            }
+
             val requestTcInfraReq = TrainingCenterInfo(
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -7964,6 +7970,42 @@ class TrainingFragment : Fragment() {
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private val mandatoryRoomTypes = listOf(
+        "Reception Area",
+        "IT cum Domain Lab",
+        "Theory Cum IT Lab",
+        "Theory Cum Domain Lab",
+        "IT Lab",
+        "Domain Lab",
+        "Theory Class Room"
+    )
+
+
+
+    private fun validateMandatoryRooms(list: List<wrappedList>): Boolean {
+
+        if (list.isEmpty()) {
+
+            Toast.makeText(requireContext(), "Please add required rooms.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        // Get only roomType list
+        val availableRoomTypes = list.map { it.roomType.trim() }
+
+        // Find missing room types
+        val missingRooms = mandatoryRoomTypes.filter { mandatory ->
+            !availableRoomTypes.contains(mandatory)
+        }
+        return if (missingRooms.isNotEmpty()) {
+            val message = "These rooms are mandatory: \n${missingRooms.joinToString("\n")}"
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            false
+        } else {
+            true
         }
     }
 
