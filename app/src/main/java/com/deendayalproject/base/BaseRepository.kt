@@ -78,4 +78,31 @@ abstract class BaseRepository<T : Any>(val context: Context) {
             Result.failure(e)
         }
     }
+
+//    suspend fun <T> safeApiCallSingle(
+//        apiCall: suspend () -> Response<BaseResponse<T>>
+//    ): Result<T> {
+//
+//        return try {
+//
+//            val response = apiCall()
+//
+//            if (response.isSuccessful) {
+//
+//                val body = response.body()
+//
+//                if (body?.responseCode == 200) {
+//                    Result.success(body.wrappedList!!)
+//                } else {
+//                    Result.failure(Exception(body?.responseDesc))
+//                }
+//
+//            } else {
+//                Result.failure(Exception("HTTP ${response.code()}"))
+//            }
+//
+//        } catch (e: Exception) {
+//            Result.failure(e)
+//        }
+//    }
 }

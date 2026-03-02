@@ -25,6 +25,7 @@ import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.response.PrevBatchItem
 import com.deendayalproject.model.response.TrainingInspCenterDetails
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.viewmodel.CandidateVerificationViewModel
 import com.deendayalproject.viewmodel.InspectionViewModel
 import com.deendayalproject.viewmodel.PreviousAndDueViewModel
 
@@ -37,6 +38,7 @@ class InspectionBasicDetailsFragment :
 
     val previousePreviousAndDueViewModel: PreviousAndDueViewModel by viewModels()
 
+    val condidateVerificationViewModel: CandidateVerificationViewModel by viewModels()
 
     private var trainingCenterId = 0
     private var prnNumber = ""
@@ -136,6 +138,7 @@ class InspectionBasicDetailsFragment :
                     Box(modifier = Modifier.padding(padding)) {
 
                         InspectionModernScreen(
+                            condidateVerificationViewModel,
                             previousePreviousAndDueViewModel,
                             prnNumber = prnNumber,
                             sanctionLetter = sanctionOrder,

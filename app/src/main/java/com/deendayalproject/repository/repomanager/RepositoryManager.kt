@@ -3,6 +3,7 @@ package com.deendayalproject.repository.repomanager
 import android.content.Context
 import com.deendayalproject.repository.AcademicRepository
 import com.deendayalproject.repository.AuthRepository
+import com.deendayalproject.repository.CandidateerificationRepository
 import com.deendayalproject.repository.FieldVerificationRepository
 import com.deendayalproject.repository.InfrastructureRepository
 import com.deendayalproject.repository.InspectionRepository
@@ -37,4 +38,7 @@ class RepositoryManager private constructor(context: Context) {
     val verification: VerificationRepository by lazy { VerificationRepository(context) }
     val rfOperations: RfOperationsRepository by lazy { RfOperationsRepository(context) }
     val inspectionRepo: InspectionRepository by lazy { InspectionRepository(context) }
+    val candidateVerification: CandidateerificationRepository by lazy { CandidateerificationRepository(context) }
+
+
 }

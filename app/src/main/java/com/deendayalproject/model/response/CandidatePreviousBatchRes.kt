@@ -12,5 +12,7 @@ data class CandidateItem(
     val candidateName: String?,
     val rollNo: Int?,
     val mobileNo: String?,
-    val candidateProfilePic: String?
+    val candidateProfilePic: String?,
+    val status:Int =0
+
 )
