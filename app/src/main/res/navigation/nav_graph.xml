@@ -459,6 +459,30 @@
 
 
         </action>
+        <action
+            android:id="@+id/action_inspectionBasicDetailsFragment_to_ongoingCandidateFragment"
+            app:destination="@id/ongoingCandidateFragment">
+
+
+            <argument
+                android:name="candidateId"
+                app:argType="string" />
+
+            <argument
+                android:name="candidateName"
+                app:argType="string" />
+
+            <argument
+                android:name="mobileNumber"
+                app:argType="string" />
+            <argument
+                android:name="rollNumber"
+                app:argType="string" />
+
+
+
+
+        </action>
     </fragment>
     <fragment
         android:id="@+id/inspectionListFragment"
@@ -492,7 +516,10 @@
         android:label="PreviousInspectionEditFragment" >
 
     </fragment>
-
+    <fragment
+        android:id="@+id/ongoingCandidateFragment"
+        android:name="com.deendayalproject.fragments.composeFragment.OngoingCandidateFragment"
+        android:label="OngoingCandidateFragment" />
 
 
 </navigation>

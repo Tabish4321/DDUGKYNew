@@ -1,8 +1,5 @@
 package com.deendayalproject.fragments.composeFragment
 
-import SharedViewModel
-import android.os.Bundle
-import android.view.View
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -10,15 +7,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.ctc.wstx.shaded.msv_core.writer.relaxng.Context
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.InspectionBasicFragmentBinding
-import com.deendayalproject.fragments.composeui.main.InspectionModernScreen
+import com.deendayalproject.fragments.composeui.main.InspectionStepModernScreen
 import com.deendayalproject.model.request.CandidatePreviousBatchReq
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
@@ -36,8 +33,8 @@ class InspectionBasicDetailsFragment :
 
     private val viewModel: InspectionViewModel by viewModels()
 
-    val previousePreviousAndDueViewModel: PreviousAndDueViewModel by viewModels()
-    val condidateVerificationViewModel: CandidateVerificationViewModel by viewModels()
+    val previousAndDueViewModel: PreviousAndDueViewModel by viewModels()
+    val candidateVerificationViewModel: CandidateVerificationViewModel by viewModels()
 
 
 
@@ -89,7 +86,7 @@ class InspectionBasicDetailsFragment :
 
                 val snackbarHostState = remember { SnackbarHostState() }
 
-                var currentStep by remember { mutableStateOf(1) }
+                var currentStep by rememberSaveable  { mutableStateOf(1) }
 
                 /* -------------------------------
                    TC DETAILS API CALL
@@ -172,9 +169,10 @@ class InspectionBasicDetailsFragment :
 
                     Box(modifier = Modifier.padding(padding)) {
 
-                        InspectionModernScreen(
-                            condidateVerificationViewModel,
-                            previousePreviousAndDueViewModel,
+                        InspectionStepModernScreen(
+                            findNavController(),
+                            candidateVerificationViewModel,
+                            previousAndDueViewModel,
                             viewModel,
                             prnNumber = prnNumber,
                             sanctionLetter = sanctionOrder,

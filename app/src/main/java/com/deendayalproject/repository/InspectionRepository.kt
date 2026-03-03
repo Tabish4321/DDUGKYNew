@@ -10,11 +10,13 @@ import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionRequestBody
 import com.deendayalproject.model.request.InspectionTcDetailsReq
+import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.request.SaveBatchVerificationRequest
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.DueDiligenceItemResponse
 import com.deendayalproject.model.response.GetImageListRes
 import com.deendayalproject.model.response.GetTcInspectionRes
+import com.deendayalproject.model.response.InsertRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
 import com.deendayalproject.model.uistate.CandidateInspectionDto
@@ -95,6 +97,13 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
             apiService.getCandidateImageRecords(getImageListReq)
         }
 
+
+
+
+    suspend fun saveCandidateRecords  (ongoingSubmitBasicRecordsReq: OngoingSubmitBasicRecordsReq, header :String): Result<InsertRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.saveCandidateRecords(ongoingSubmitBasicRecordsReq)
+        }
 
 
 

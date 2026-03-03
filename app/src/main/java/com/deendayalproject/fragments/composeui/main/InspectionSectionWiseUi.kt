@@ -12,8 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.deendayalproject.R
-import com.deendayalproject.fragments.composeui.OngoingCandidateBottomSheet
+import com.deendayalproject.fragments.composeFragment.InspectionBasicDetailsFragmentDirections
 import com.deendayalproject.fragments.composeui.batchAndCandidate.BatchListSection
 import com.deendayalproject.fragments.composeui.batchAndCandidate.CandidateDataPreviousBatchCard
 import com.deendayalproject.fragments.composeui.common.InspectionProgressHeader
@@ -33,7 +34,8 @@ import com.deendayalproject.viewmodel.InspectionViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun InspectionModernScreen(
+fun InspectionStepModernScreen(
+    findNavigator: NavController,
     condidateVerificationViewModel: CandidateVerificationViewModel,
     viewModel: PreviousAndDueViewModel,
     viewModelInspection: InspectionViewModel,
@@ -96,17 +98,36 @@ fun InspectionModernScreen(
                 PremiumTopBar(
                     toolbarTitle,
                     onBackClick = {
-                        if (currentStep > 1) {
-                            if (currentStep == 2 && previousSelectedBatch != null) {
-                                previousSelectedBatch = null
-                            } else {
-                                onStepChange(currentStep - 1)
+
+                        when (currentStep) {
+
+                            2 -> {
+                                if (previousSelectedBatch != null) {
+                                    previousSelectedBatch = null
+                                } else {
+                                    onStepChange(currentStep - 1)
+                                }
                             }
-                        } else {
-                            backDispatcher?.onBackPressedDispatcher?.onBackPressed()
+
+                            3 -> {
+                                if (ongoingSelectedBatch != null) {
+                                    //  Go back to Ongoing Batch list
+                                    ongoingSelectedBatch = null
+                                    ongoingSelectedCandidate = null
+                                } else {
+                                    onStepChange(currentStep - 1)
+                                }
+                            }
+
+                            else -> {
+                                if (currentStep > 1) {
+                                    onStepChange(currentStep - 1)
+                                } else {
+                                    backDispatcher?.onBackPressedDispatcher?.onBackPressed()
+                                }
+                            }
                         }
-                    }
-                )
+                    }                )
             },
             bottomBar = {
                 Surface(
@@ -223,7 +244,7 @@ fun InspectionModernScreen(
                                                 batchList = batchList,
                                                 onBatchClick = {
                                                     previousSelectedBatch = it
-                                                    onBatchSelected(it.batchId)   // 🔥 CALL API
+                                                    onBatchSelected(it.batchId)   //  CALL API
                                                 }
                                             )
                                         }
@@ -304,6 +325,9 @@ fun InspectionModernScreen(
                                             )
                                         }
                                     }
+
+
+
                                 }
                             }
 
@@ -380,15 +404,19 @@ fun InspectionModernScreen(
         }
 
         if (currentStep == 3 && ongoingSelectedCandidate != null) {
-            OngoingCandidateBottomSheet(
-                viewModel = viewModelInspection,
-                candidateData = selectedCandidate!!,
-                onDismiss = {
-                    ongoingSelectedCandidate = null
-                }
 
-               // onSubmit = { ongoingSelectedCandidate = null }
+            findNavigator.navigate(
+                InspectionBasicDetailsFragmentDirections
+                    .actionInspectionBasicDetailsFragmentToOngoingCandidateFragment(
+                        ongoingSelectedCandidate!!.candidateId,
+                        ongoingSelectedCandidate!!.name,
+                        ongoingSelectedCandidate!!.contactNumber,
+                        ongoingSelectedCandidate!!.rollNumber
+                    )
             )
+            ongoingSelectedCandidate = null
+
+
         }
     }
 }

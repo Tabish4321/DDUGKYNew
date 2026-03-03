@@ -44,6 +44,7 @@ import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModifyRfList
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
+import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
@@ -108,6 +109,7 @@ import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
 import com.deendayalproject.model.response.IndoorRFGameResponse
 import com.deendayalproject.model.response.InfrastructureDetailsandCompliancesRFQT
+import com.deendayalproject.model.response.InsertRes
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
@@ -760,6 +762,14 @@ interface ApiService {
     suspend fun getCandidateImageRecords(
         @Body getImageListReq: GetImageListReq
     ): Response<GetImageListRes>
+
+
+
+
+    @POST("saveCandiateRecords")
+    suspend fun saveCandidateRecords(
+        @Body ongoingSubmitBasicRecordsReq: OngoingSubmitBasicRecordsReq
+    ): Response<InsertRes>
 
 
 

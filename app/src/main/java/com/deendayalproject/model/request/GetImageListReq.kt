@@ -1,7 +1,7 @@
 package com.deendayalproject.model.request
 
 data class GetImageListReq(
-    val appVersion: Int,
+    val appVersion: String,
     val candidateId: String
 
 )
