@@ -21,6 +21,7 @@ import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
 import com.deendayalproject.model.request.FieldVerificationListRequest
+import com.deendayalproject.model.request.GetAttendanceDetailsReq
 import com.deendayalproject.model.request.GetImageListReq
 import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.GpRequest
@@ -102,6 +103,7 @@ import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.FinancialDetailsResponse
 import com.deendayalproject.model.response.GeneralDetails
+import com.deendayalproject.model.response.GetAttendanceDetailsRes
 import com.deendayalproject.model.response.GetImageListRes
 import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.GetUrinalWashRes
@@ -770,6 +772,13 @@ interface ApiService {
     suspend fun saveCandidateBasicRecords(
         @Body ongoingSubmitBasicRecordsReq: OngoingSubmitBasicRecordsReq
     ): Response<InsertRes>
+
+
+
+    @POST("getCandiateTodayAttendanceStatus")
+    suspend fun getCandidateTodayAttendanceStatus(
+        @Body getAttendanceDetailsReq: GetAttendanceDetailsReq
+    ): Response<GetAttendanceDetailsRes>
 
 
 

@@ -1,20 +1,17 @@
 package com.deendayalproject.viewmodel
 
-import PreviousInspectionItemResponse
 import android.app.Application
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.deendayalproject.model.request.CandidatePreviousBatchReq
+import com.deendayalproject.model.request.GetAttendanceDetailsReq
 import com.deendayalproject.model.request.GetImageListReq
 import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
-import com.deendayalproject.model.response.DueDiligenceItemResponse
+import com.deendayalproject.model.response.GetAttendanceDetailsRes
 import com.deendayalproject.model.response.GetImageListRes
 import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InsertRes
@@ -423,6 +420,54 @@ class InspectionViewModel(application: Application) :
             )
         }
     }
+
+
+
+
+    private val _getCandidateTodayAttendanceStatus =
+        MutableStateFlow<GetAttendanceDetailsRes?>(null)
+
+    val getCandidateTodayAttendanceStatus:
+            StateFlow<GetAttendanceDetailsRes?> =
+        _getCandidateTodayAttendanceStatus.asStateFlow()
+
+
+    fun getCandidateTodayAttendanceStatus(
+        request: GetAttendanceDetailsReq
+    ) {
+
+        executeApiCall(
+            apiCall = {
+                repositoryManager
+                    .inspectionRepo
+                    .getCandidateTodayAttendanceStatus(request)
+            },
+            onSuccess = { response ->
+
+                when (response.responseCode) {
+
+                    200 -> _getCandidateTodayAttendanceStatus.emit(response)
+
+
+
+                    202 -> {
+                        _getCandidateTodayAttendanceStatus.emit(null)
+                        _errorMessage.emit("No candidate data available.")
+                    }
+
+                    301 -> _errorMessage.emit("Please upgrade your app.")
+
+                    else -> _errorMessage.emit(
+                        response.responseDesc?.ifEmpty {
+                            "Unknown server error"
+                        } ?: "Unknown error"
+                    )
+                }
+            }
+        )
+    }
+
+
 
 
 }

@@ -23,9 +23,11 @@ import com.deendayalproject.fragments.composeui.common.ComplianceStatus
 import com.deendayalproject.fragments.composeui.common.ExpandableComplianceCard
 import com.deendayalproject.fragments.composeui.common.PremiumCandidateHeader
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
+import com.deendayalproject.model.request.GetAttendanceDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.response.CandidateProofItem
 import com.deendayalproject.model.response.ExpandableSectionName
+import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.InspectionViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +39,7 @@ fun OngoingCandidateSectionScreen(
     viewModel : InspectionViewModel,
     candidateId: String,
     candidateName: String,
+    batchId: String,
     candidateMobileNo: String,
     candidateRollNo: String,
     imageList: List<CandidateProofItem>?,
@@ -205,7 +208,24 @@ fun OngoingCandidateSectionScreen(
 
                             "Validate Attendance" -> {
 
+                                AttendanceComplianceScreen(
 
+                                    viewModel = viewModel,
+
+                                    request = GetAttendanceDetailsReq(
+                                        candidateId = candidateId,
+                                        batchId = batchId,
+                                        appVersion = BuildConfig.VERSION_NAME
+                                    ),
+
+                                    onSubmitClick = { attendance,
+                                                      counselling,
+                                                      regularAttendance,
+                                                      attendanceRemark,
+                                                      counsellingRemark,
+                                                      regularRemark ->
+                                    }
+                                )
                             }
                             else -> {
 

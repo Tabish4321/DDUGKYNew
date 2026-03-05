@@ -469,6 +469,10 @@
                 app:argType="string" />
 
             <argument
+                android:name="batchId"
+                app:argType="string" />
+
+            <argument
                 android:name="candidateName"
                 app:argType="string" />
 

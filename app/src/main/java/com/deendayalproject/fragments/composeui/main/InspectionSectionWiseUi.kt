@@ -409,6 +409,7 @@ fun InspectionStepModernScreen(
                 InspectionBasicDetailsFragmentDirections
                     .actionInspectionBasicDetailsFragmentToOngoingCandidateFragment(
                         ongoingSelectedCandidate!!.candidateId,
+                        batchId = ongoingSelectedBatch!!.batchId.toString(),
                         ongoingSelectedCandidate!!.name,
                         ongoingSelectedCandidate!!.contactNumber,
                         ongoingSelectedCandidate!!.rollNumber

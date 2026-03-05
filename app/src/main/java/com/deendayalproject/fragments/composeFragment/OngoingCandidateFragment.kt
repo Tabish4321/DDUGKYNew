@@ -24,9 +24,8 @@ class OngoingCandidateFragment :
     private val viewModel: InspectionViewModel by viewModels()
 
 
-
-
     private var candidateId = ""
+    private var batchId = ""
       private var candidateName = ""
       private var candidateMobileNo = ""
       private var candidateRollNo = ""
@@ -39,6 +38,7 @@ class OngoingCandidateFragment :
         hideStatusBar()
 
         candidateId = arguments?.getString("candidateId") ?: ""
+        batchId = arguments?.getString("batchId") ?: ""
         candidateName = arguments?.getString("candidateName") ?: ""
         candidateMobileNo = arguments?.getString("mobileNumber") ?: ""
         candidateRollNo = arguments?.getString("rollNumber") ?: ""
@@ -64,11 +64,11 @@ class OngoingCandidateFragment :
                 val imageResponse by viewModel
                     .getCandidateImageRecords
                     .collectAsState()
-
                 OngoingCandidateSectionScreen(
                     context = requireContext(),
                     viewModel,
                     candidateId = candidateId,
+                    batchId = batchId,
                     candidateName = candidateName,
                     candidateMobileNo = candidateMobileNo,
                     candidateRollNo = candidateRollNo,
