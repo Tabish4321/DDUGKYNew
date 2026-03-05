@@ -1,24 +1,20 @@
-package com.deendayalproject.fragments.composeui.tlm
+package com.deendayalproject.fragments.composeui.ongoingcandidateverification
 
-import android.graphics.Bitmap
-import android.util.Base64
+import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
+import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.model.uistate.TlmQuestion
 import com.deendayalproject.util.AppUtil.bitmapToCompressedBase64
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
 
 @Composable
 fun TlmVerificationSection(
@@ -67,6 +63,26 @@ fun TlmVerificationSection(
             }
         }
 
+    val permissionLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { granted ->
+
+            if (granted) {
+
+                cameraLauncher.launch(null)
+
+            } else {
+
+                scope.launch {
+
+                    snackbarHostState.showSnackbar(
+                        "Camera permission required"
+                    )
+                }
+            }
+        }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -76,135 +92,102 @@ fun TlmVerificationSection(
 
         questions.forEachIndexed { index, item ->
 
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(16.dp)
-            ) {
+            Column {
 
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
+                ComplianceQuestionWithRemarks(
 
-                    Text(
-                        text = item.question,
-                        style = MaterialTheme.typography.titleMedium
-                    )
+                    question = item.question,
+                    answer = item.answer,
+                    remarks = item.remarks,
 
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
+                    onAnswerChange = { answer ->
 
-                        Button(
-                            onClick = {
+                        if (answer == "Yes") {
 
-                                questions[index] =
-                                    item.copy(answer = "Yes")
+                            questions[index] =
+                                item.copy(
+                                    answer = "Yes",
+                                    remarks = ""
+                                )
 
-                                captureIndex = index
-                                cameraLauncher.launch(null)
-                            }
-                        ) {
-                            Text("Yes")
-                        }
+                            captureIndex = index
 
-                        Button(
-                            onClick = {
-
-                                questions[index] =
-                                    item.copy(answer = "No")
-                            }
-                        ) {
-                            Text("No")
-                        }
-                    }
-
-                    if (item.answer == "No") {
-
-                        OutlinedTextField(
-                            value = item.remarks,
-                            onValueChange = {
-
-                                questions[index] =
-                                    item.copy(remarks = it)
-                            },
-                            label = { Text("Remarks") },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-
-                    item.imageBitmap?.let { bitmap ->
-
-                        Box(
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-
-                            Image(
-                                bitmap = bitmap.asImageBitmap(),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(180.dp)
+                            permissionLauncher.launch(
+                                Manifest.permission.CAMERA
                             )
 
-                            IconButton(
-                                onClick = {
+                        } else {
 
-                                    questions[index] =
-                                        questions[index].copy(
-                                            imageBitmap = null,
-                                            imageBase64 = null
-                                        )
-                                },
-                                modifier = Modifier.align(Alignment.TopEnd)
-                            ) {
-
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = "Delete"
+                            questions[index] =
+                                item.copy(
+                                    answer = "No",
+                                    imageBitmap = null,
+                                    imageBase64 = null
                                 )
-                            }
                         }
+                    },
+
+                    onRemarksChange = {
+
+                        questions[index] =
+                            item.copy(remarks = it)
+                    }
+                )
+
+                if (item.answer == "Yes" && item.imageBitmap != null) {
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        shape = RoundedCornerShape(16.dp)
+                    ) {
+
+                        Image(
+                            bitmap = item.imageBitmap!!.asImageBitmap(),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(180.dp)
+                        )
                     }
                 }
             }
         }
-
-        Spacer(modifier = Modifier.height(6.dp))
 
         Button(
             onClick = {
 
                 scope.launch {
 
-                    for (item in questions) {
+                    val invalidField = questions.firstOrNull {
 
-                        when {
+                        it.answer == null ||
+                                (it.answer == "Yes" && it.imageBase64 == null) ||
+                                (it.answer == "No" && it.remarks.isBlank())
+                    }
 
-                            item.answer == null -> {
+                    if (invalidField != null) {
 
-                                snackbarHostState.showSnackbar(
-                                    "Please select: ${item.question}"
-                                )
-                                return@launch
-                            }
+                        val message = when {
 
-                            item.answer == "Yes" && item.imageBase64 == null -> {
+                            invalidField.answer == null ->
+                                "Please select Yes/No for ${invalidField.question}"
 
-                                snackbarHostState.showSnackbar(
-                                    "Please capture proof for ${item.question}"
-                                )
-                                return@launch
-                            }
+                            invalidField.answer == "Yes" &&
+                                    invalidField.imageBase64 == null ->
+                                "Please capture image for ${invalidField.question}"
 
-                            item.answer == "No" && item.remarks.isBlank() -> {
+                            invalidField.answer == "No" &&
+                                    invalidField.remarks.isBlank() ->
+                                "Please enter remarks for ${invalidField.question}"
 
-                                snackbarHostState.showSnackbar(
-                                    "Please enter remarks for ${item.question}"
-                                )
-                                return@launch
-                            }
+                            else -> ""
                         }
+
+                        snackbarHostState.showSnackbar(message)
+
+                        return@launch
                     }
 
                     onSubmit(questions)

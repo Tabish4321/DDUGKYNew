@@ -1,7 +1,6 @@
 package com.deendayalproject.fragments.composeui.ongoingcandidateverification
 
 import android.content.Context
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,9 +11,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -23,7 +20,6 @@ import com.deendayalproject.fragments.composeui.common.ComplianceStatus
 import com.deendayalproject.fragments.composeui.common.ExpandableComplianceCard
 import com.deendayalproject.fragments.composeui.common.PremiumCandidateHeader
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
-import com.deendayalproject.fragments.composeui.tlm.TlmVerificationSection
 import com.deendayalproject.model.request.GetAttendanceDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.response.CandidateProofItem
@@ -57,14 +53,30 @@ fun OngoingCandidateSectionScreen(
         .submitBasicRecordResponse
         .collectAsState()
 
-    val sections = listOf(
-        ExpandableSectionName("Basic Records Verification", ComplianceStatus.NotCOMPLETE),
-        ExpandableSectionName("Validate Attendance", ComplianceStatus.COMPLETE),
-        ExpandableSectionName("Assessment", ComplianceStatus.NotCOMPLETE),
-        ExpandableSectionName("Distribution of Teaching-Learning Material", ComplianceStatus.COMPLETE),
-        ExpandableSectionName("Entitlements Distribution", ComplianceStatus.COMPLETE),
-        ExpandableSectionName("Residential Facility Verification", ComplianceStatus.NotCOMPLETE)
-    )
+    val sections = remember {
+
+        val list = mutableListOf(
+
+            ExpandableSectionName("Basic Records Verification", ComplianceStatus.NotCOMPLETE),
+            ExpandableSectionName("Validate Attendance", ComplianceStatus.COMPLETE),
+            ExpandableSectionName("Assessment", ComplianceStatus.NotCOMPLETE),
+            ExpandableSectionName("Distribution of Teaching-Learning Material", ComplianceStatus.COMPLETE),
+            ExpandableSectionName("Entitlements Distribution", ComplianceStatus.COMPLETE)
+
+        )
+
+        if (AppUtil.getSavedCenterTypePreference(context) == "Residential") {
+
+            list.add(
+                ExpandableSectionName(
+                    "Residential Facility Verification",
+                    ComplianceStatus.NotCOMPLETE
+                )
+            )
+        }
+
+        list
+    }
 
     val expandedSections = remember {
         mutableStateMapOf<String, Boolean>()
@@ -265,7 +277,8 @@ fun OngoingCandidateSectionScreen(
 
                                     snackbarHostState = snackbarHostState
 
-                                ) { questions ->
+                                )
+                                { questions ->
 
 
                                     // Api hit submit
@@ -282,6 +295,58 @@ fun OngoingCandidateSectionScreen(
 
 
                             }
+
+
+                            "Entitlements Distribution" -> {
+
+                                EntitlementsSection(
+
+                                    viewModel = viewModel,
+
+                                    snackbarHostState = snackbarHostState,
+
+                                    onSubmit = {
+                                            trainingFree,
+                                            bankAccount,
+                                            residential,
+                                            trainingMaterial,
+                                            uniform,
+                                            sanitary,
+                                            medicine,
+                                            insurance,
+                                            trainingFreeRemark,
+                                            bankAccountRemark,
+                                            residentialRemark,
+                                            trainingMaterialRemark,
+                                            uniformRemark,
+                                            sanitaryRemark,
+                                            medicineRemark,
+                                            insuranceRemark ->
+
+                                        //  API Request
+
+                                    }
+                                )
+                            }
+
+
+                            "Residential Facility Verification" -> {
+
+                                    ResidentialFacilitySection(
+
+                                        viewModel = viewModel,
+                                        snackbarHostState = snackbarHostState
+
+                                    ) { answers, remarks, washbasins ->
+
+                                        // API Request here
+
+                                    }
+
+
+
+                            }
+
 
 
                             else -> {

@@ -6,11 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,7 +23,8 @@ fun MultiLineEditText(
     isRequired: Boolean = false,
     isError: Boolean = false,
     maxLength: Int = 300,
-    placeholder: String = "Write details here..."
+    placeholder: String = "Write details here...",
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
 
     Column(
@@ -34,7 +32,6 @@ fun MultiLineEditText(
         modifier = Modifier.fillMaxWidth()
     ) {
 
-        // 🔹 Label
         Text(
             text = if (isRequired) "$label *" else label,
             style = MaterialTheme.typography.labelLarge,
@@ -45,7 +42,6 @@ fun MultiLineEditText(
                 MaterialTheme.colorScheme.onSurface
         )
 
-        // 🔹 Text Field
         OutlinedTextField(
             value = value,
             onValueChange = {
@@ -53,9 +49,12 @@ fun MultiLineEditText(
                     onValueChange(it)
                 }
             },
+
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(min = 110.dp),
+
+            keyboardOptions = keyboardOptions,
 
             placeholder = {
                 Text(
@@ -70,6 +69,7 @@ fun MultiLineEditText(
             maxLines = 6,
 
             supportingText = {
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -93,13 +93,13 @@ fun MultiLineEditText(
 
             colors = OutlinedTextFieldDefaults.colors(
 
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
-                    errorContainerColor = Color.White,
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                errorContainerColor = Color.White,
+
                 focusedBorderColor = MaterialTheme.colorScheme.primary,
                 unfocusedBorderColor = MaterialTheme.colorScheme.outline,
-                errorBorderColor = MaterialTheme.colorScheme.error,
-
+                errorBorderColor = MaterialTheme.colorScheme.error
             )
         )
     }
