@@ -921,21 +921,19 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
 
-
-
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardFinalCapacity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/yesNoListOfCandidateAfterBatchFreezing"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            >
+            app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -947,7 +945,7 @@
                     android:id="@+id/tvFinalCapacityTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Final Capacity Sanction By SRLM"
+                    android:text="Final Total Capacity Sanction By SRLM"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
@@ -980,6 +978,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:hint="Enter Remarks"
+                    android:visibility="gone"
                     android:background="@drawable/edittext_background"
                     android:padding="12dp"
                     android:textColor="@android:color/black"

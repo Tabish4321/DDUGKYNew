@@ -285,20 +285,17 @@ class SrlmVerificationForm : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSrlmverificatiomFormBinding.inflate(inflater, container, false)
-
+        centerId = arguments?.getString("centerId").toString()
+        centerName = arguments?.getString("centerName").toString()
+        sanctionOrder = arguments?.getString("sanctionOrder").toString()
+        total_capacity = arguments?.getString("totalCapacity").toString().toInt()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
-
         init()
-
-        centerId = arguments?.getString("centerId").toString()
-        centerName = arguments?.getString("centerName").toString()
-        sanctionOrder = arguments?.getString("sanctionOrder").toString()
-        total_capacity = arguments?.getString("totalCapacity").toString().toInt()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         if (hasLocationPermission()) {
             getCurrentLocation()
@@ -366,9 +363,7 @@ class SrlmVerificationForm : Fragment() {
     var isEditing = false
 
     fun updatefinalCapacity() {
-
         binding.availOfStandardFormsLayout.etFinalTotalCapacity.addTextChangedListener(object : TextWatcher {
-
                 override fun afterTextChanged(s: Editable?) {
 
                     if (isEditing) return
@@ -2945,10 +2940,7 @@ class SrlmVerificationForm : Fragment() {
                     dialog.dismiss()
                 }
                 .setPositiveButton("Submit") { dialog, _ ->
-
                     //  Hit the insert API
-
-
                     val requestTcQTeamSubmit = TcQTeamInsertReq(
                         appVersion = BuildConfig.VERSION_NAME,
                         loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -3003,8 +2995,6 @@ class SrlmVerificationForm : Fragment() {
                     // Show progress bar
                     binding.progressBar.visibility = View.VISIBLE
                     viewLifecycleOwner.lifecycleScope.launch {
-                        // Call API
-
                         viewModel.insertSrlmVerification(requestTcQTeamSubmit)
                     }
 

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.model.response.wrappedList
+import com.deendayalproject.network.SecurePreferenceManager.getToken
 import com.deendayalproject.util.AppUtil
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -55,7 +56,7 @@ class AcademicAreaAdapter(
             val appVersion = BuildConfig.VERSION_NAME
             val tcId = AppUtil.getcenterIdPreference(context)
             val sanctionOrder = AppUtil.getsanctionOrderPreference(context)
-            val token = ""//AppUtil.getSavedTokenPreference(context)
+            val token = getToken(context)//AppUtil.getSavedTokenPreference(context)
             val roomNo = center.roomNo
             val roomType = center.roomType
 

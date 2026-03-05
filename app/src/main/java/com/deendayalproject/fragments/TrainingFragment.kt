@@ -7988,15 +7988,12 @@ class TrainingFragment : Fragment() {
     private fun validateMandatoryRooms(list: List<wrappedList>): Boolean {
 
         if (list.isEmpty()) {
-
             Toast.makeText(requireContext(), "Please add required rooms.", Toast.LENGTH_SHORT).show()
             return false
         }
 
-        // Get only roomType list
         val availableRoomTypes = list.map { it.roomType.trim() }
 
-        // Find missing room types
         val missingRooms = mandatoryRoomTypes.filter { mandatory ->
             !availableRoomTypes.contains(mandatory)
         }

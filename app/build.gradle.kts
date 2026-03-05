@@ -22,7 +22,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 5
-        versionName = "1.3.5" //1.1.3  //1.3.3
+        versionName = "1.1.3" //1.1.3  //1.3.3
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -40,7 +40,7 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = false
+            isDebuggable = true
         }
     }
     defaultConfig {
@@ -57,14 +57,14 @@ android {
     productFlavors {
         create("prod") {
             dimension = "environment"
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
         } //BASE_URL_LIVE
 
         create("demo") {
             dimension = "environment"
             applicationIdSuffix = ""
             versionNameSuffix = ""
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
         }//BASE_URL_DEMO
     }
 
