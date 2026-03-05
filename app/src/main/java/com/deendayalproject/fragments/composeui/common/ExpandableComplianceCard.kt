@@ -29,12 +29,11 @@ import androidx.compose.ui.unit.dp
 fun ExpandableComplianceCard(
     title: String,
     status: ComplianceStatus,
+    expanded: Boolean,
+    onExpandedChange: (Boolean) -> Unit,
     leftIcon: @Composable () -> Unit,
-    content: @Composable () -> Unit,
-
+    content: @Composable () -> Unit
 ) {
-
-    var expanded by remember { mutableStateOf(false) }
 
     val rotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
@@ -58,21 +57,14 @@ fun ExpandableComplianceCard(
         )
     ) {
 
-        Column(
-            modifier = Modifier
-                .animateContentSize(
-                    animationSpec = spring(
-                        dampingRatio = Spring.DampingRatioMediumBouncy,
-                        stiffness = Spring.StiffnessLow
-                    )
-                )
-        ) {
+        Column {
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { expanded = !expanded }
+                    .clickable { onExpandedChange(!expanded) }
                     .padding(18.dp),
+
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
@@ -93,7 +85,6 @@ fun ExpandableComplianceCard(
 
                     ComplianceStatus.NotCOMPLETE ->
                         Icon(Icons.Default.Cancel, null, tint = Color(0xFFDC2626))
-
                 }
 
                 Spacer(modifier = Modifier.width(6.dp))
@@ -110,6 +101,7 @@ fun ExpandableComplianceCard(
                 enter = fadeIn() + expandVertically(),
                 exit = fadeOut() + shrinkVertically()
             ) {
+
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -124,6 +116,7 @@ fun ExpandableComplianceCard(
         }
     }
 }
+
 enum class ComplianceStatus {
     COMPLETE,
     NotCOMPLETE,

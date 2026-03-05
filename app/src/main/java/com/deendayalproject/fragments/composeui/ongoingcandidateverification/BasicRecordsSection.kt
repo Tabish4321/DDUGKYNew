@@ -24,58 +24,143 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.model.response.CandidateProofItem
-
+import com.deendayalproject.model.uistate.DocumentVerificationState
 @Composable
 fun BasicRecordsSection(
-    imageList: List<CandidateProofItem>?
+    imageList: List<CandidateProofItem>?,
+    isLoading: Boolean,
+    showMessage: (String) -> Unit,
+    onSubmit: (List<DocumentVerificationState>) -> Unit
 ) {
 
     var selectedImage by remember { mutableStateOf<String?>(null) }
 
     val proof = imageList?.firstOrNull()
 
-    val documents = listOf(
-        "PMAYG Attachment" to proof?.pmaygAttachment,
-        "SHG Image" to proof?.shgImage,
-        "RSBY Card" to proof?.rsbyCardPath,
-        "Category Certificate" to proof?.categoryCertPath,
-        "Minority Certificate" to proof?.minorityCertPath,
-        "Ration Card" to proof?.rationCardPath,
-        "NREGA Card" to proof?.naregaCardPath,
-        "PIP Certificate" to proof?.pipCert,
-        "Disability Certificate" to proof?.disablityCertPath
-    )
+    val documents = remember {
+
+        mutableStateListOf(
+
+            DocumentVerificationState("Poverty Proof",1,proof?.pmaygAttachment),
+            DocumentVerificationState("Category Proof",2,proof?.categoryCertPath),
+            DocumentVerificationState("Minority Proof",3,proof?.minorityCertPath),
+            DocumentVerificationState("Education Proof",4,proof?.pipCert),
+            DocumentVerificationState("Disability Proof",5,proof?.disablityCertPath)
+
+        )
+    }
 
     Column(verticalArrangement = Arrangement.spacedBy(18.dp)) {
 
-        documents.forEach { (title, image) ->
+        documents.forEachIndexed { index, doc ->
 
             ProofWithQuestion(
-                title = title,
-                base64Image = image,
-                selectedImage = { selectedImage = it }
+
+                title = doc.title,
+                base64Image = doc.image,
+                answer = doc.answer,
+                remarks = doc.remarks,
+                isError = false,
+
+                onAnswerChange = {
+
+                    documents[index] =
+                        documents[index].copy(answer = it)
+
+                },
+
+                onRemarksChange = {
+
+                    documents[index] =
+                        documents[index].copy(remarks = it)
+
+                },
+
+                selectedImage = {
+
+                    selectedImage = it
+
+                }
             )
         }
 
-        selectedImage?.let { base64 ->
+        Button(
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading,
+
+            onClick = {
+
+                val invalid = documents.find {
+
+                    it.answer == null ||
+                            (it.answer == "No" && it.remarks.isBlank())
+
+                }
+
+                if (invalid != null) {
+
+                    showMessage("${invalid.title} is incomplete")
+
+                } else {
+
+                    onSubmit(documents)
+
+                }
+            }
+
+
+        ) {
+
+            if (isLoading) {
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(18.dp),
+                        strokeWidth = 2.dp,
+                        color = Color.White
+                    )
+
+                    Spacer(Modifier.width(8.dp))
+
+                    Text("Submitting...")
+                }
+
+            } else {
+
+                Text("Submit Basic Records")
+            }
+        }
+
+        //  IMAGE PREVIEW (THIS WAS MISSING)
+
+        selectedImage?.let {
+
             ImagePreviewDialog(
-                base64 = base64,
+                base64 = it,
                 onClose = { selectedImage = null }
             )
+
         }
     }
 }
 
-
 @Composable
 fun ProofWithQuestion(
+
     title: String,
     base64Image: String?,
+    answer: String?,
+    remarks: String,
+    isError: Boolean,
+
+    onAnswerChange: (String) -> Unit,
+    onRemarksChange: (String) -> Unit,
+
     selectedImage: (String) -> Unit
 ) {
-
-    var answer by remember { mutableStateOf<String?>(null) }
-    var remarks by remember { mutableStateOf("") }
 
     ElevatedCard(
         modifier = Modifier.fillMaxWidth(),
@@ -83,54 +168,50 @@ fun ProofWithQuestion(
     ) {
 
         Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
 
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement =
+                    Arrangement.SpaceBetween
             ) {
 
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleMedium
-                )
+                Text(title)
 
                 if (!base64Image.isNullOrBlank()) {
+
                     IconButton(
-                        onClick = { selectedImage(base64Image) }
+                        onClick = {
+                            selectedImage(base64Image)
+                        }
                     ) {
+
                         Icon(
-                            imageVector = Icons.Default.Visibility,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
+                            Icons.Default.Visibility,
+                            null
                         )
                     }
                 }
             }
 
-            if (base64Image.isNullOrBlank()) {
-                Text(
-                    text = "No image uploaded",
-                    color = Color.Gray,
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-
             ComplianceQuestionWithRemarks(
+
                 question = "Is document valid?",
+
                 answer = answer,
+
                 remarks = remarks,
-                onAnswerChange = { answer = it },
-                onRemarksChange = { remarks = it }
+
+                isError = isError,
+
+                onAnswerChange = onAnswerChange,
+
+                onRemarksChange = onRemarksChange
             )
         }
     }
 }
-
-
 
 @Composable
 fun ImagePreviewDialog(

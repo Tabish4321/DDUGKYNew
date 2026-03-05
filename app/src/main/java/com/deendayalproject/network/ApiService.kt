@@ -767,12 +767,9 @@ interface ApiService {
 
 
     @POST("saveCandiateRecords")
-    suspend fun saveCandidateRecords(
+    suspend fun saveCandidateBasicRecords(
         @Body ongoingSubmitBasicRecordsReq: OngoingSubmitBasicRecordsReq
     ): Response<InsertRes>
-
-
-
 
 
 

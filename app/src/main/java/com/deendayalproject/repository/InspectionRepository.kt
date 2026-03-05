@@ -100,9 +100,9 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
 
 
 
-    suspend fun saveCandidateRecords  (ongoingSubmitBasicRecordsReq: OngoingSubmitBasicRecordsReq, header :String): Result<InsertRes> =
+    suspend fun saveCandidateBasicRecords  (ongoingSubmitBasicRecordsReq: OngoingSubmitBasicRecordsReq, header :String): Result<InsertRes> =
         safeApiCallWithToken(token = header) {
-            apiService.saveCandidateRecords(ongoingSubmitBasicRecordsReq)
+            apiService.saveCandidateBasicRecords(ongoingSubmitBasicRecordsReq)
         }
 
 

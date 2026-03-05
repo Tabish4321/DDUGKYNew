@@ -19,7 +19,8 @@ data class  InspectionTcDetails(
     val piaName: String,
     val sanctionOrder: String,
     val inspectionType: String,
-    val inspectionId: String
+    val inspectionId: String,
+    val centerType: String
 )
 
 

@@ -262,6 +262,19 @@ object AppUtil {
       }*/
 
 
+    fun saveCenterTypePreference(context: Context, tokenCode: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("CenterType", tokenCode).apply()
+    }
+
+    fun getSavedCenterTypePreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("CenterType", "") ?: ""
+    }
+
+
 
 
 

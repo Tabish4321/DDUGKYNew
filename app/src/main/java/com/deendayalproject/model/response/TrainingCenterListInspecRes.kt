@@ -6,5 +6,6 @@ data class TrainingCenterListInspecRes(
     val prnNumber: String,
     val sanctionLetterNo: String,
     val inspectionType: String,
-    val inspectionId: String
+    val inspectionId: String,
+    val centerType: String
 )

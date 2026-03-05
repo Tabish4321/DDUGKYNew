@@ -12,10 +12,12 @@ import com.deendayalproject.model.request.GetImageListReq
 import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
+import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.DueDiligenceItemResponse
 import com.deendayalproject.model.response.GetImageListRes
 import com.deendayalproject.model.response.GetTcInspectionRes
+import com.deendayalproject.model.response.InsertRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
 import com.deendayalproject.repository.repomanager.RepositoryManager
@@ -377,6 +379,49 @@ class InspectionViewModel(application: Application) :
                 }
             }
         )
+    }
+
+
+
+
+    fun clearSubmitResponse() {
+
+        _submitBasicRecordResponse.value = null
+
+    }
+
+    private val _isSubmittingBasicRecord = MutableStateFlow(false)
+    val isSubmittingBasicRecord = _isSubmittingBasicRecord.asStateFlow()
+
+
+    private val _submitBasicRecordResponse =
+        MutableStateFlow<InsertRes?>(null)
+
+    val submitBasicRecordResponse =
+        _submitBasicRecordResponse.asStateFlow()
+
+
+    fun submitBasicRecords(req: OngoingSubmitBasicRecordsReq, header: String) {
+
+        viewModelScope.launch {
+
+            _isSubmittingBasicRecord.emit(true)
+
+            executeApiCall(
+                apiCall = {
+                    repositoryManager
+                        .inspectionRepo
+                        .saveCandidateBasicRecords(req, header)
+                },
+                onSuccess = { response ->
+
+                    _submitBasicRecordResponse.value = response
+
+                    _isSubmittingBasicRecord.value = false
+                }
+
+            )
+        }
     }
 
 

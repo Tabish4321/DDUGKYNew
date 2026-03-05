@@ -100,7 +100,8 @@ class InspectionListFragment :
                                             prnNumber = it.prnRegistrationNo,
                                             sanctionLetterNo = it.sanctionOrder,
                                             inspectionType = it.inspectionType,
-                                            inspectionId = it.inspectionId
+                                            inspectionId = it.inspectionId,
+                                            centerType = it.centerType
                                         )
                                     },
                                     isLoading = false,
@@ -112,6 +113,7 @@ class InspectionListFragment :
 
                                         AppUtil.saveInspectionIdPreference(requireContext(), selectedItem.inspectionId)
                                         AppUtil.saveTrainingCenterIdPreference(requireContext(), selectedItem.id.toString())
+                                        AppUtil.saveCenterTypePreference(requireContext(), selectedItem.centerType)
 
 
 

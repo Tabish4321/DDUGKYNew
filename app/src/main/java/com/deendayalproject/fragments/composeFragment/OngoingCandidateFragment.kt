@@ -66,6 +66,8 @@ class OngoingCandidateFragment :
                     .collectAsState()
 
                 OngoingCandidateSectionScreen(
+                    context = requireContext(),
+                    viewModel,
                     candidateId = candidateId,
                     candidateName = candidateName,
                     candidateMobileNo = candidateMobileNo,
