@@ -333,24 +333,7 @@ fun InspectionStepModernScreen(
 
                             4 -> {
                                 item {
-                                    ElevatedCard(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        shape = RoundedCornerShape(20.dp)
-                                    ) {
-                                        Column(
-                                            modifier = Modifier.padding(20.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                                        ) {
-                                            Text(
-                                                text = "Inspection Summary",
-                                                style = MaterialTheme.typography.headlineSmall
-                                            )
 
-                                            Text("Training Center: $prnNumber")
-                                            Text("Previous Batches: ${batchList.size}")
-                                            Text("Ongoing Batches: ${ongoingBatchList.size}")
-                                        }
-                                    }
                                 }
                             }
 
