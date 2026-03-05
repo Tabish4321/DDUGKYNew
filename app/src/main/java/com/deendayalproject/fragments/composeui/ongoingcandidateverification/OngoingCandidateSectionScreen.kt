@@ -23,6 +23,7 @@ import com.deendayalproject.fragments.composeui.common.ComplianceStatus
 import com.deendayalproject.fragments.composeui.common.ExpandableComplianceCard
 import com.deendayalproject.fragments.composeui.common.PremiumCandidateHeader
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
+import com.deendayalproject.fragments.composeui.tlm.TlmVerificationSection
 import com.deendayalproject.model.request.GetAttendanceDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.response.CandidateProofItem
@@ -224,9 +225,65 @@ fun OngoingCandidateSectionScreen(
                                                       attendanceRemark,
                                                       counsellingRemark,
                                                       regularRemark ->
+
+
                                     }
                                 )
                             }
+
+
+                            "Assessment" -> {
+
+                                AssessmentSection(
+                                    viewModel = viewModel,
+                                    snackbarHostState = snackbarHostState,
+                                    onSubmit = { camera,
+                                                 seriousness,
+                                                 malpractice,
+                                                 reval,
+                                                 retest,
+                                                 camRemark,
+                                                 serRemark,
+                                                 malRemark,
+                                                 revalRemark,
+                                                 retestRemark ->
+
+                                        // API call here
+                                    }
+                                )
+                            }
+
+
+
+                            "Distribution of Teaching-Learning Material" ->{
+
+
+
+                                val snackbarHostState = remember { SnackbarHostState() }
+
+                                TlmVerificationSection(
+
+                                    snackbarHostState = snackbarHostState
+
+                                ) { questions ->
+
+
+                                    // Api hit submit
+                                  /*  val request = SubmitTlmInspectionReq(
+
+                                        domainCurriculum = questions[0].answer,
+                                        domainCurriculumProof = questions[0].imageBase64
+
+                                    )
+
+                                    viewModel.submitTlmInspection(request)*/
+                                }
+
+
+
+                            }
+
+
                             else -> {
 
                                 SectionContent(section.title)

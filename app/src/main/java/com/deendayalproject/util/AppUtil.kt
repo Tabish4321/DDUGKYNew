@@ -260,7 +260,23 @@ object AppUtil {
           val alertDialog = builder.create()
           alertDialog.show()
       }*/
+    fun bitmapToCompressedBase64(bitmap: Bitmap): String {
 
+        val stream = ByteArrayOutputStream()
+
+        val resizedBitmap =
+            Bitmap.createScaledBitmap(bitmap, 800, 800, true)
+
+        resizedBitmap.compress(
+            Bitmap.CompressFormat.JPEG,
+            70,
+            stream
+        )
+
+        val byteArray = stream.toByteArray()
+
+        return Base64.encodeToString(byteArray, Base64.NO_WRAP)
+    }
 
     fun saveCenterTypePreference(context: Context, tokenCode: String) {
         val sharedPreferences =
