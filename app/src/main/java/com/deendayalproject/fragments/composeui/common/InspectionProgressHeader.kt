@@ -19,7 +19,7 @@ import com.deendayalproject.R
 @Composable
 fun InspectionProgressHeader(currentStep: Int) {
 
-    val progress = currentStep / 5f
+    val progress = currentStep / 7f
 
     ElevatedCard(
         shape = RoundedCornerShape(20.dp),

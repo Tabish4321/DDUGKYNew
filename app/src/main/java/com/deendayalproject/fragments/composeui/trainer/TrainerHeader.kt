@@ -1,4 +1,5 @@
-package com.deendayalproject.fragments.composeui.common
+package com.deendayalproject.fragments.composeui.trainer
+
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,20 +14,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.deendayalproject.model.response.CandidateListInspectionRes
+import androidx.compose.ui.graphics.Color
+import com.deendayalproject.fragments.composeui.common.InfoRow
 import kotlin.math.absoluteValue
 
 @Composable
-fun CandidateHeader(
-    candidateData: CandidateListInspectionRes,
+fun TrainerHeader(
+    trainerName: String,
+    trainerId: String,
     onCloseClick: () -> Unit
 ) {
 
-    val accentColor = remember(candidateData.name) {
-        generateColorFromName(candidateData.name)
+    val accentColor = remember(trainerName) {
+        generateColorFromName(trainerName)
     }
 
     Surface(
@@ -59,7 +61,7 @@ fun CandidateHeader(
             ) {
 
                 Text(
-                    text = "Candidate Details",
+                    text = "Trainer Details",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = accentColor
@@ -78,7 +80,7 @@ fun CandidateHeader(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
 
-                //  Clean Avatar
+                // Avatar
                 Surface(
                     shape = CircleShape,
                     color = accentColor.copy(alpha = 0.15f),
@@ -86,9 +88,11 @@ fun CandidateHeader(
                         .size(80.dp)
                         .shadow(4.dp, CircleShape)
                 ) {
+
                     Box(contentAlignment = Alignment.Center) {
+
                         Text(
-                            text = candidateData.name.take(1).uppercase(),
+                            text = trainerName.take(1).uppercase(),
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold,
                             color = accentColor
@@ -103,47 +107,25 @@ fun CandidateHeader(
                 ) {
 
                     Text(
-                        text = candidateData.name,
+                        text = trainerName,
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF111827)
                     )
 
-                    InfoRow("Candidate ID", candidateData.candidateId.toString())
-                    InfoRow("Roll No", candidateData.rollNumber)
-                    InfoRow("Contact", candidateData.contactNumber)
+                    InfoRow("Trainer ID", trainerId)
                 }
             }
         }
     }
 }
 
-@Composable
-fun InfoRow(label: String, value: String?) {
-
-    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-
-        Text(
-            text = "$label:",
-            style = MaterialTheme.typography.bodySmall,
-            fontWeight = FontWeight.Medium,
-            color = Color(0xFF6B7280)
-        )
-
-        Text(
-            text = value?.takeIf { it.isNotBlank() } ?: "-",
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.SemiBold,
-            color = Color(0xFF1F2937)
-        )
-    }
-}
 
 private fun generateColorFromName(name: String): Color {
 
     val palette = listOf(
-       // Color(0xFF6366F1), // Indigo
-      //  Color(0xFF22C55E), // Green
+        // Color(0xFF6366F1), // Indigo
+        //  Color(0xFF22C55E), // Green
         Color(0xFF0EA5E9), // Sky Blue
         Color(0xFFF59E0B), // Amber
         Color(0xFFEC4899)  // Pink

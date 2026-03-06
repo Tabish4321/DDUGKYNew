@@ -1,4 +1,5 @@
-package com.deendayalproject.fragments.composeui.batchAndCandidate
+package com.deendayalproject.fragments.composeui.trainer
+
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,34 +13,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.deendayalproject.R
-import com.deendayalproject.model.response.CandidateListInspectionRes
-
+import com.deendayalproject.model.response.TrainerListInspectionRes
 
 @Composable
-fun CandidateDataPreviousBatchCard(
-    candidate: List<CandidateListInspectionRes>,
-    onVerifyCandidateClick: (CandidateListInspectionRes) -> Unit
+fun TrainerDataCard(
+    trainer: List<TrainerListInspectionRes>,
+    onVerifyTrainerClick: (TrainerListInspectionRes) -> Unit
 ) {
 
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
 
-        candidate.forEach { item ->
+        trainer.forEach { item ->
 
-            SingleCandidateDataPreviousBatchCard(
-                candidate = CandidateListInspectionRes(
-                    candidateId = item.candidateId,
-                    name = item.name,
-                    rollNumber = item.rollNumber,
-                    contactNumber = item.contactNumber,
-                    status = item.status
-                ),
-                onVerifyCandidateClick = {
-                    onVerifyCandidateClick(item)
+            SingleTrainerCard(
+                trainer = item,
+                onVerifyTrainerClick = {
+                    onVerifyTrainerClick(item)
                 }
             )
         }
@@ -48,9 +42,9 @@ fun CandidateDataPreviousBatchCard(
 
 
 @Composable
-fun SingleCandidateDataPreviousBatchCard(
-    candidate: CandidateListInspectionRes,
-    onVerifyCandidateClick: () -> Unit
+fun SingleTrainerCard(
+    trainer: TrainerListInspectionRes,
+    onVerifyTrainerClick: () -> Unit
 ) {
 
     ElevatedCard(
@@ -68,7 +62,6 @@ fun SingleCandidateDataPreviousBatchCard(
             modifier = Modifier.padding(14.dp)
         ) {
 
-            // Top Row (Image + Info)
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -81,7 +74,7 @@ fun SingleCandidateDataPreviousBatchCard(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = candidate.name.take(1).uppercase(),
+                        text = trainer.name.take(1).uppercase(),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF795FDA)
@@ -93,7 +86,7 @@ fun SingleCandidateDataPreviousBatchCard(
                 Column(modifier = Modifier.weight(1f)) {
 
                     Text(
-                        text = candidate.name,
+                        text = trainer.name,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -101,14 +94,14 @@ fun SingleCandidateDataPreviousBatchCard(
                     Spacer(modifier = Modifier.height(2.dp))
 
                     Text(
-                        text = "KP Id: ${candidate.candidateId}",
+                        text = "Trainer Id: ${trainer.trainerId}",
                         style = MaterialTheme.typography.bodySmall
                     )
 
                     Spacer(modifier = Modifier.height(2.dp))
 
                     Text(
-                        text = "Roll: ${candidate.rollNumber}",
+                        text = "Designation: ${trainer.designation}",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -120,7 +113,6 @@ fun SingleCandidateDataPreviousBatchCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // 🔹 Contact + Button Same Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -137,7 +129,7 @@ fun SingleCandidateDataPreviousBatchCard(
                     Spacer(modifier = Modifier.height(2.dp))
 
                     Text(
-                        text = candidate.contactNumber,
+                        text = trainer.contactNumber,
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Medium
                     )
@@ -145,17 +137,19 @@ fun SingleCandidateDataPreviousBatchCard(
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                if (candidate.isLoading) {
+                if (trainer.isLoading) {
+
                     CircularProgressIndicator(
                         modifier = Modifier.size(20.dp),
                         strokeWidth = 2.dp
                     )
+
                 } else {
 
                     OutlinedButton(
-                        onClick = onVerifyCandidateClick,
+                        onClick = onVerifyTrainerClick,
                         shape = RoundedCornerShape(8.dp),
-                        colors =  ButtonDefaults.outlinedButtonColors(
+                        colors = ButtonDefaults.outlinedButtonColors(
                             containerColor = Color(0xFF795FDA),
                             contentColor = Color.White
                         ),
@@ -164,6 +158,7 @@ fun SingleCandidateDataPreviousBatchCard(
                             vertical = 2.dp
                         )
                     ) {
+
                         Text(
                             text = "Verify",
                             style = MaterialTheme.typography.labelMedium

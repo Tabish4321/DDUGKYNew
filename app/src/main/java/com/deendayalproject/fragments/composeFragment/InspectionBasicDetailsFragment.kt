@@ -20,6 +20,7 @@ import com.deendayalproject.model.request.CandidatePreviousBatchReq
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.response.PrevBatchItem
+import com.deendayalproject.model.response.TrainerListInspectionRes
 import com.deendayalproject.model.response.TrainingInspCenterDetails
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.CandidateVerificationViewModel
@@ -230,7 +231,29 @@ class InspectionBasicDetailsFragment :
                                             inspectionId.inspectorId
                                         )
                                 )
-                            }
+                            },
+
+                            trainerList = listOf(
+                                TrainerListInspectionRes(
+                                    trainerId = "TR001",
+                                    name = "Rahul Sharma",
+                                    contactNumber = "9876543210",
+                                    designation = "Technical Trainer"
+                                ),
+                                TrainerListInspectionRes(
+                                    trainerId = "TR002",
+                                    name = "Amit Kumar",
+                                    contactNumber = "9123456780",
+                                    designation = "Soft Skill Trainer"
+                                ),
+                                TrainerListInspectionRes(
+                                    trainerId = "TR003",
+                                    name = "Neha Singh",
+                                    contactNumber = "9988776655",
+                                    designation = "Domain Trainer"
+                                )
+                            ),
+
                         )
                     }
                 }
