@@ -86,10 +86,12 @@ import com.deendayalproject.model.request.assesmentInspection.GetDistributedLear
 import com.deendayalproject.model.request.assesmentInspection.GetEntitlementsDistributionInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetInspectionSectionStatusRequest
 import com.deendayalproject.model.request.assesmentInspection.GetResidentialFacilityVerificationRequest
+import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAssessmentInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveDistributedLearningMaterialInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveEntitlementsDistributionInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveResidentialFacilityVerificationRequest
+import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AddNewRFRes
@@ -107,6 +109,7 @@ import com.deendayalproject.model.response.CandidateAssessmentResponse.Distribut
 import com.deendayalproject.model.response.CandidateAssessmentResponse.EntitlementsDistributionInspectionResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.InspectionSectionStatusResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.ResidentialFacilityVerificationResponse
+import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidateInspectionDetails
 import com.deendayalproject.model.response.CandidateInspectionDetailsResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
@@ -868,7 +871,16 @@ interface ApiService {
     ): Response<TrainerListRes>
 
 
+    @POST("getTrainerAttendanceInspection")
+    suspend fun getTrainerAttendanceInspection(
+        @Body request: GetTrainerAttendanceInspectionRequest
+    ): Response<BaseResponse<List<TrainerAttendanceInspectionResponse>>>
 
+
+    @POST("saveTrainerAttendanceInspection")
+    suspend fun saveTrainerAttendanceInspection(
+        @Body request: SaveTrainerAttendanceInspectionRequest
+    ): Response<BaseResponse<List<Nothing>>>
 
 
 }

@@ -3,6 +3,7 @@ package com.deendayalproject.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.model.request.CandidatePreviousBatchReq
 import com.deendayalproject.model.request.GetAttendanceDetailsReq
 import com.deendayalproject.model.request.GetImageListReq
@@ -11,6 +12,9 @@ import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.request.TrainerListReq
+import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
+import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.GetAttendanceDetailsRes
 import com.deendayalproject.model.response.GetImageListRes
@@ -19,6 +23,7 @@ import com.deendayalproject.model.response.InsertRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
 import com.deendayalproject.model.response.TrainerListRes
+import com.deendayalproject.model.uistate.TrainerAttendanceUiState
 import com.deendayalproject.repository.repomanager.RepositoryManager
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -335,11 +340,6 @@ class InspectionViewModel(application: Application) :
 
 
 
-
-
-
-
-
     private val _getCandidateImageRecords =
         MutableStateFlow<GetImageListRes?>(null)
 
@@ -516,8 +516,217 @@ class InspectionViewModel(application: Application) :
     }
 
 
+    /*Training Attendence Inspection*/
+
+    private val _trainerState =
+        MutableStateFlow(TrainerAttendanceUiState())
+
+    val trainerState: StateFlow<TrainerAttendanceUiState> =
+        _trainerState.asStateFlow()
+    //repositoryManager.inspectionRepo
 
 
+    fun loadTrainerAttendance(
+        trainerCode:Int,
+        inspectionId: Int,
+    ) {
+
+        viewModelScope.launch {
+
+            _trainerState.update {
+                it.copy(isLoading = true)
+            }
+
+            val result =
+                repositoryManager.inspectionRepo.getTrainerAttendanceInspection(
+
+                    GetTrainerAttendanceInspectionRequest(
+                        BuildConfig.VERSION_NAME,
+                        trainerCode,
+                        inspectionId,
+                    )
+                )
+
+            result.onSuccess { list ->
+
+                val dto = list.firstOrNull()
+
+                if (dto != null) {
+
+                    _trainerState.value =
+                        mapTrainerDtoToUiState(dto)
+
+                } else {
+
+                    _trainerState.update {
+
+                        it.copy(
+                            isLoading = false,
+                            error = "No data available."
+                        )
+                    }
+                }
+            }
+
+            result.onFailure {
+
+                _trainerState.update {
+
+                    it.copy(
+                        isLoading = false,
+                        error = it.error
+                    )
+                }
+            }
+        }
+    }
+
+
+    fun saveTrainerAttendance(
+        trainerCode:Int,
+        inspectionId: Int,
+
+    ) {
+
+        viewModelScope.launch {
+            _trainerState.update {
+                it.copy(isLoading = true)
+            }
+
+            val request =
+                mapTrainerUiStateToRequest(
+                    trainerCode,
+                    inspectionId
+                )
+
+            val result =
+                repositoryManager.inspectionRepo.saveTrainerAttendanceInspection(request)
+
+            result.onSuccess {
+                _trainerState.update {
+
+                    it.copy(
+                        isLoading = false,
+                        saveSuccess = true
+                    )
+                }
+            }
+
+            result.onFailure {
+
+                _trainerState.update {
+
+                    it.copy(
+                        isLoading = false,
+                        error = it.error
+                    )
+                }
+            }
+        }
+    }
+
+
+    private fun mapTrainerDtoToUiState(
+        dto: TrainerAttendanceInspectionResponse
+    ): TrainerAttendanceUiState {
+
+        return TrainerAttendanceUiState(
+
+            inspectionId = dto.inspectionId,
+            trainerAttendanceMatch = dto.trainerAttendanceMatch,
+            trainerCode = dto.trainerCode,
+            trainerAttendanceMatchRemark =
+                dto.trainerAttendanceMatchRemark ?: "",
+
+            trainerCounsellingArranged =
+                dto.trainerCounsellingArranged,
+
+            trainerCounsellingArrangedRemark =
+                dto.trainerCounsellingArrangedRemark ?: "",
+
+            trainerEntryExitAclp =
+                dto.trainerEntryExitAclp,
+
+            trainerEntryExitAclpRemark =
+                dto.trainerEntryExitAclpRemark ?: "",
+
+            isLoading = false
+        )
+    }
+
+    private fun mapTrainerUiStateToRequest(
+        trainerCode: Int,
+        inspectionId: Int,
+    ): SaveTrainerAttendanceInspectionRequest {
+
+        val state = _trainerState.value
+
+        return SaveTrainerAttendanceInspectionRequest(
+
+            appVersion = BuildConfig.VERSION_NAME,
+            inspectionId = inspectionId,
+            trainerCode =trainerCode ,
+            trainerAttendanceMatchQid = 1,
+            trainerAttendanceMatch = state.trainerAttendanceMatch ?: "",
+            trainerAttendanceMatchRemark =
+                state.trainerAttendanceMatchRemark,
+
+            trainerCounsellingArrangedQid = 2,
+            trainerCounsellingArranged =
+                state.trainerCounsellingArranged ?: "",
+            trainerCounsellingArrangedRemark =
+                state.trainerCounsellingArrangedRemark,
+
+            trainerEntryExitAclpQid = 3,
+            trainerEntryExitAclp =
+                state.trainerEntryExitAclp ?: "",
+            trainerEntryExitAclpRemark =
+                state.trainerEntryExitAclpRemark
+        )
+    }
+
+    fun clearTrainerError() {
+
+        _trainerState.update {
+            it.copy(error = null)
+        }
+    }
+
+    fun clearTrainerSuccess() {
+
+        _trainerState.update {
+            it.copy(saveSuccess = false)
+        }
+    }
+
+    fun updateTrainerState(
+
+        trainerAttendanceMatch: String?,
+        trainerCounsellingArranged: String?,
+        trainerEntryExitAclp: String?,
+
+        trainerAttendanceMatchRemark: String?,
+        trainerCounsellingArrangedRemark: String?,
+        trainerEntryExitAclpRemark: String?
+
+    ) {
+
+        _trainerState.update {
+
+            it.copy(
+
+                trainerAttendanceMatch = trainerAttendanceMatch,
+                trainerAttendanceMatchRemark = trainerAttendanceMatchRemark ?: "",
+
+                trainerCounsellingArranged = trainerCounsellingArranged,
+                trainerCounsellingArrangedRemark = trainerCounsellingArrangedRemark ?: "",
+
+                trainerEntryExitAclp = trainerEntryExitAclp,
+                trainerEntryExitAclpRemark = trainerEntryExitAclpRemark ?: ""
+
+            )
+        }
+    }
 
 
 

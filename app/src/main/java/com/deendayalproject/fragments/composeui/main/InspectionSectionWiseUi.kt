@@ -443,7 +443,7 @@ fun InspectionStepModernScreen(
                 previousSelectedBatch!!.batchId,
                 candidateData = selectedCandidate!!,
                 onDismiss = { selectedCandidate = null },
-                onSubmit = { selectedCandidate = null }
+               // onSubmit = { selectedCandidate = null }
             )
         }
 
@@ -470,19 +470,19 @@ fun InspectionStepModernScreen(
         if (currentStep == 4 && showTrainerSheet) {
 
             TrainerBottomSheet(
+                viewModel=viewModelInspection,
                 trainerName = selectedTrainer?.trainerName ?: "NA",
                 trainerId = selectedTrainer?.trainerId ?: "NA",
+                trainerCode =selectedTrainer!!.trainerCode,
                 onDismiss = {
                     showTrainerSheet = false
                 }
             )
         }
 
-
             LaunchedEffect(currentStep) {
 
                 if (currentStep == 4) {
-
                     viewModelInspection.getTrainersListInspection(
                         TrainerListReq(
                             appVersion = BuildConfig.VERSION_NAME,

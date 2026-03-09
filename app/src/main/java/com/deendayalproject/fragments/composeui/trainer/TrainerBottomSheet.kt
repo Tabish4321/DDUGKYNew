@@ -8,39 +8,217 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
+import com.deendayalproject.util.AppUtil
+import com.deendayalproject.viewmodel.InspectionViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrainerBottomSheet(
-
+    viewModel: InspectionViewModel,
     trainerName: String,
     trainerId: String,
+    trainerCode: Int,
     onDismiss: () -> Unit
-
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    val inspectionId =
+        AppUtil.getSavedInspectionIdPreference(context).toInt()
+
+    val state by viewModel.trainerState.collectAsState()
 
     val answers = remember { mutableStateMapOf<Int, String?>() }
     val remarks = remember { mutableStateMapOf<Int, String>() }
 
     var showValidation by remember { mutableStateOf(false) }
 
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true,
+        confirmValueChange = { newValue ->
+            newValue != SheetValue.Hidden
+        }
+    )
+
+    /* ----------------------------- */
+    /* LOAD API */
+    /* ----------------------------- */
+
+    LaunchedEffect(inspectionId) {
+
+        viewModel.loadTrainerAttendance(
+            trainerCode.toInt(),
+            inspectionId,
+        )
+    }
+
+    /* ----------------------------- */
+    /* PREFILL */
+    /* ----------------------------- */
+
+    LaunchedEffect(state.inspectionId) {
+
+//        state.trainerAttendanceMatch?.let {
+//            answers[1] = it
+//        }
+//
+//        state.trainerCounsellingArranged?.let {
+//            answers[2] = it
+//        }
+//
+//        state.trainerEntryExitAclp?.let {
+//            answers[3] = it
+//        }
+
+        answers[1] = state.trainerAttendanceMatch
+        answers[2] = state.trainerCounsellingArranged
+        answers[3] = state.trainerEntryExitAclp
+
+        remarks[1] = state.trainerAttendanceMatchRemark
+        remarks[2] = state.trainerCounsellingArrangedRemark
+        remarks[3] = state.trainerEntryExitAclpRemark
+    }
+
+    /* ----------------------------- */
+    /* ERROR SNACKBAR */
+    /* ----------------------------- */
+
+    LaunchedEffect(state.error) {
+
+        state.error?.let {
+
+            snackbarHostState.showSnackbar(it)
+
+            viewModel.clearTrainerError()
+        }
+    }
+
+    /* ----------------------------- */
+    /* SUCCESS SNACKBAR */
+    /* ----------------------------- */
+
+    LaunchedEffect(state.saveSuccess) {
+        if (state.saveSuccess) {
+            sheetState.hide()
+            onDismiss()
+            snackbarHostState.showSnackbar("Verification Submitted")
+            viewModel.clearTrainerSuccess()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        sheetState.expand()
+    }
+
+    val nestedScrollConnection = remember {
+        object : NestedScrollConnection {}
+    }
+
     ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        containerColor = Color.White
+        onDismissRequest = {},
+        containerColor = Color.White,
+        sheetState = sheetState,
+        shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
+        tonalElevation = 6.dp,
+        scrimColor = Color.Black.copy(alpha = 0.35f),
+        contentWindowInsets = { WindowInsets(0) }
     ) {
 
         Scaffold(
-            snackbarHost = { SnackbarHost(snackbarHostState) }
+            snackbarHost = { SnackbarHost(snackbarHostState) },
+            containerColor = Color(0xFFF8FAFC),
+            modifier = Modifier
+                .fillMaxSize()
+                .imePadding(),
+            contentWindowInsets = WindowInsets(0),
+            bottomBar = {
+
+                Surface(
+                    shadowElevation = 8.dp,
+                    tonalElevation = 2.dp,
+                    color = Color.White,
+                    modifier = Modifier.navigationBarsPadding()
+                ) {
+
+                    Button(
+                        onClick = {
+
+                            showValidation = true
+
+                            trainerQuestionList.forEach { question ->
+
+                                val ans = answers[question.id]
+
+                                if (ans == null) {
+
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar(
+                                            "Please answer: ${question.question}"
+                                        )
+                                    }
+
+                                    return@Button
+                                }
+
+                                if (ans == "No") {
+
+                                    val rem = remarks[question.id] ?: ""
+
+                                    if (rem.isBlank()) {
+
+                                        scope.launch {
+                                            snackbarHostState.showSnackbar(
+                                                "Please enter remarks for: ${question.question}"
+                                            )
+                                        }
+
+                                        return@Button
+                                    }
+                                }
+                            }
+
+                            viewModel.updateTrainerState(
+                                answers[1],
+                                answers[2],
+                                answers[3],
+                                remarks[1],
+                                remarks[2],
+                                remarks[3]
+                            )
+
+                            viewModel.saveTrainerAttendance(
+                                trainerCode,
+                                inspectionId,
+                            )
+                        },
+
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp, vertical = 12.dp)
+                            .navigationBarsPadding(),   // ⭐ IMPORTANT FIX
+
+                        shape = RoundedCornerShape(14.dp)
+                    ) {
+
+                        Text("Submit Verification")
+                    }
+                }
+            }
+
         ) { padding ->
 
             Column(
@@ -52,105 +230,72 @@ fun TrainerBottomSheet(
 
                 TrainerHeader(
                     trainerName = trainerName,
-                    trainerId = trainerId.toString(),
+                    trainerId = trainerId,
                     onCloseClick = onDismiss
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                LazyColumn(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(14.dp)
-                ) {
+                /* ----------------------------- */
+                /* LOADER */
+                /* ----------------------------- */
 
-                    items(trainerQuestionList) { question ->
+                if (state.isLoading) {
 
-                        val answer = answers[question.id]
-                        val remark = remarks[question.id] ?: ""
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 40.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
 
-                        ComplianceQuestionWithRemarks(
+                        CircularProgressIndicator()
+                    }
 
-                            question = question.question,
+                }else{
 
-                            answer = answer,
-
-                            remarks = remark,
-
-                            isError = showValidation && answer == null,
-
-                            onAnswerChange = {
-
-                                answers[question.id] = it
-
-                            },
-
-                            onRemarksChange = {
-
-                                remarks[question.id] = it
-
-                            }
+                    LazyColumn(
+                        modifier = Modifier
+                            .weight(1f)
+                            .nestedScroll(nestedScrollConnection),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(
+                            bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 80.dp
                         )
-                    }
+                    ) {
 
-                    item {
+                        items(
+                            items = trainerQuestionList,
+                            key = { it.id }     // 🔥 REQUIRED
+                        ) { question ->
 
-                        Button(
-                            onClick = {
+                            val answer = answers[question.id]
+                            val remark = remarks[question.id] ?: ""
 
-                                showValidation = true
+                            ComplianceQuestionWithRemarks(
 
-                                trainerQuestionList.forEach { question ->
+                                question = question.question,
 
-                                    val ans = answers[question.id]
+                                answer = answer,
 
-                                    if (ans == null) {
+                                remarks = remark,
 
-                                        scope.launch {
-                                            snackbarHostState.showSnackbar(
-                                                "Please answer: ${question.question}"
-                                            )
-                                        }
+                                isError = showValidation && answer == null,
 
-                                        return@Button
-                                    }
+                                onAnswerChange = {
 
-                                    if (ans == "No") {
+                                    answers[question.id] = it
+                                },
 
-                                        val rem = remarks[question.id] ?: ""
+                                onRemarksChange = {
 
-                                        if (rem.isBlank()) {
-
-                                            scope.launch {
-                                                snackbarHostState.showSnackbar(
-                                                    "Please enter remarks for: ${question.question}"
-                                                )
-                                            }
-
-                                            return@Button
-                                        }
-                                    }
+                                    remarks[question.id] = it
                                 }
-
-                                scope.launch {
-                                    snackbarHostState.showSnackbar("Verification Submitted")
-                                }
-
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            shape = RoundedCornerShape(14.dp)
-                        ) {
-
-                            Text("Submit Verification")
-
+                            )
                         }
-
                     }
-
-                    item {
-                        Spacer(modifier = Modifier.height(40.dp))
-                    }
-
                 }
+
             }
         }
     }

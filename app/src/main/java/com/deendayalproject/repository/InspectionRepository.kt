@@ -14,6 +14,9 @@ import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.request.SaveBatchVerificationRequest
 import com.deendayalproject.model.request.TrainerListReq
+import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
+import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.DueDiligenceItemResponse
 import com.deendayalproject.model.response.GetAttendanceDetailsRes
@@ -124,6 +127,29 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
             apiService.getTrainersListInspection(trainerListReq)
         }
 
+
+    suspend fun getTrainerAttendanceInspection(
+
+        request: GetTrainerAttendanceInspectionRequest
+
+    ): Result<List<TrainerAttendanceInspectionResponse>> =
+
+        safeApiCallN {
+
+            apiService.getTrainerAttendanceInspection(request)
+
+        }
+
+
+    suspend fun saveTrainerAttendanceInspection(
+
+        request: SaveTrainerAttendanceInspectionRequest
+
+    ): Result<List<Nothing>> =
+
+        safeApiCallN {
+            apiService.saveTrainerAttendanceInspection(request)
+        }
 
 
 
