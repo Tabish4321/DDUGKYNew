@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.fragments.composeFragment.InspectionBasicDetailsFragmentDirections
 import com.deendayalproject.fragments.composeui.batchAndCandidate.BatchListSection
@@ -22,7 +23,12 @@ import com.deendayalproject.fragments.composeui.common.PremiumTopBar
 import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
 import com.deendayalproject.fragments.composeui.previous_inspection.PreviousInspectionSection
 import com.deendayalproject.fragments.composeui.previous_inspection.ProCandidateBottomSheet
+import com.deendayalproject.fragments.composeui.trainer.SubjectListSection
+import com.deendayalproject.fragments.composeui.trainer.TrainerBottomSheet
+import com.deendayalproject.fragments.composeui.trainer.TrainerDataCard
+import com.deendayalproject.fragments.composeui.trainer.TrainingQualityController
 import com.deendayalproject.fragments.composeui.trainingCenListAandDetails.TrainingCenterDetails
+import com.deendayalproject.model.request.TrainerListReq
 import com.deendayalproject.model.response.*
 import com.deendayalproject.viewmodel.PreviousAndDueViewModel
 import com.deendayalproject.model.response.CandidateListInspectionRes
@@ -45,6 +51,7 @@ fun InspectionStepModernScreen(
     trainingCenterId: String,
     batchList: List<PrevBatchItem>,
     candidateList: List<CandidateItem>,
+    trainerList: List<TrainerListInspectionRes>,
     ongoingBatchList: List<PrevBatchItem>,
     ongoingCandidateList: List<CandidateItem>,
     currentStep: Int,
@@ -62,8 +69,12 @@ fun InspectionStepModernScreen(
     var ongoingSelectedBatch by remember { mutableStateOf<PrevBatchItem?>(null) }
     var ongoingSelectedCandidate by remember { mutableStateOf<CandidateListInspectionRes?>(null) }
 
+    var showTrainingForm by remember { mutableStateOf(false) }
 
+    var selectedTrainer by remember { mutableStateOf<TrainerData?>(null) }
+    var showTrainerSheet by remember { mutableStateOf(false) }
 
+    val snackbarHostState = remember { SnackbarHostState() }
 
 
     var selectedCandidate by remember {
@@ -78,10 +89,19 @@ fun InspectionStepModernScreen(
         1 -> "Training Center Details"
         2 -> if (previousSelectedBatch != null) "Previous Candidate List" else "Previous Batch List"
         3 -> if (selectedCandidate != null) "Ongoing Candidate List" else "Ongoing Batch List"
-        4 -> "Summary"
-        5 -> "Final Submit"
+        4 -> "Trainers Attendance Verify"
+        5 -> "Training Quality"
+        6 -> "Infrastructure Verification"
+        7 -> "Final Inspection"
         else -> "Inspection"
     }
+
+
+    val trainerResponse by viewModelInspection
+        .getTrainersListInspection
+        .collectAsState()
+
+    val trainerList = trainerResponse?.wrappedList ?: emptyList()
 
     LaunchedEffect(currentStep) {
         previousSelectedBatch = null
@@ -94,6 +114,9 @@ fun InspectionStepModernScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
+            snackbarHost = {
+                SnackbarHost(snackbarHostState)
+            },
             topBar = {
                 PremiumTopBar(
                     toolbarTitle,
@@ -111,12 +134,33 @@ fun InspectionStepModernScreen(
 
                             3 -> {
                                 if (ongoingSelectedBatch != null) {
-                                    //  Go back to Ongoing Batch list
                                     ongoingSelectedBatch = null
                                     ongoingSelectedCandidate = null
                                 } else {
                                     onStepChange(currentStep - 1)
                                 }
+                            }
+
+                            5 -> {
+
+                                if (showTrainingForm) {
+
+                                    showTrainingForm = false
+
+                                } else {
+
+                                    onStepChange(currentStep - 1)
+
+                                }
+
+                            }
+
+                            6 -> {
+                                onStepChange(currentStep - 1)
+                            }
+
+                            7 -> {
+                                onStepChange(currentStep - 1)
                             }
 
                             else -> {
@@ -127,7 +171,9 @@ fun InspectionStepModernScreen(
                                 }
                             }
                         }
-                    }                )
+                    }
+
+                )
             },
             bottomBar = {
                 Surface(
@@ -161,14 +207,14 @@ fun InspectionStepModernScreen(
 
                         Button(
                             onClick = {
-                                if (currentStep < 5) {   // 👈 updated max step
+                                if (currentStep < 7) {   // 👈 updated max step
                                     onStepChange(currentStep + 1)
                                 }
                             },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(50)
                         ) {
-                            Text(if (currentStep < 5) "Next" else "Submit")
+                            Text(if (currentStep < 7) "Next" else "Submit")
                         }
                     }
                 }
@@ -332,50 +378,65 @@ fun InspectionStepModernScreen(
                             }
 
                             4 -> {
+
                                 item {
 
+                                    TrainerDataCard(
+                                        trainer = trainerList,
+                                        onVerifyTrainerClick = { trainer ->
+                                            selectedTrainer = trainer
+                                            showTrainerSheet = true
+                                        }
+                                    )
                                 }
                             }
-
 
                             5 -> {
+
                                 item {
-                                    ElevatedCard(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        shape = RoundedCornerShape(20.dp)
-                                    ) {
-                                        Column(
-                                            modifier = Modifier.padding(20.dp),
-                                            verticalArrangement = Arrangement.spacedBy(16.dp)
-                                        ) {
 
-                                            Text(
-                                                text = "Final Confirmation",
-                                                style = MaterialTheme.typography.headlineSmall
-                                            )
+                                    TrainingQualityController(
+                                        snackbarHostState = snackbarHostState,
+                                        showForm = showTrainingForm,
+                                        onShowFormChange = { showTrainingForm = it }
+                                    )
 
-                                            Text("Please confirm and submit inspection.")
-
-                                            Button(
-                                                onClick = {
-                                                    // FINAL SUBMIT API CALL HERE
-                                                },
-                                                modifier = Modifier.fillMaxWidth(),
-                                                shape = RoundedCornerShape(16.dp)
-                                            ) {
-                                                Text("Submit Inspection")
-                                            }
-                                        }
-                                    }
                                 }
+
+                            }
+
+                            6 -> {
+
+                                item {
+
+                                    Text(
+                                        text = "Infrastructure Verification Section",
+                                        style = MaterialTheme.typography.titleLarge
+                                    )
+
+                                }
+
+                            }
+
+                            7 -> {
+
+                                item {
+
+                                    Text(
+                                        text = "Final Inspection Summary",
+                                        style = MaterialTheme.typography.titleLarge
+                                    )
+
+                                }
+
                             }
                         }
-                    }
                 }
             }
         }
 
         /* ---------------- BOTTOM SHEET ---------------- */
+
         if (currentStep == 2 && selectedCandidate != null) {
             ProCandidateBottomSheet(
                 condidateVerificationViewModel,
@@ -385,6 +446,9 @@ fun InspectionStepModernScreen(
                 onSubmit = { selectedCandidate = null }
             )
         }
+
+
+
 
         if (currentStep == 3 && ongoingSelectedCandidate != null) {
 
@@ -402,5 +466,33 @@ fun InspectionStepModernScreen(
 
 
         }
+
+        if (currentStep == 4 && showTrainerSheet) {
+
+            TrainerBottomSheet(
+                trainerName = selectedTrainer?.trainerName ?: "NA",
+                trainerId = selectedTrainer?.trainerId ?: "NA",
+                onDismiss = {
+                    showTrainerSheet = false
+                }
+            )
+        }
+
+
+            LaunchedEffect(currentStep) {
+
+                if (currentStep == 4) {
+
+                    viewModelInspection.getTrainersListInspection(
+                        TrainerListReq(
+                            appVersion = BuildConfig.VERSION_NAME,
+                            trainingCenterId = trainingCenterId.toInt()
+                        )
+                    )
+                }
+            }
+
+
     }
+}
 }

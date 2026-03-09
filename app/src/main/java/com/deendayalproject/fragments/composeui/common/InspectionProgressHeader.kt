@@ -19,7 +19,7 @@ import com.deendayalproject.R
 @Composable
 fun InspectionProgressHeader(currentStep: Int) {
 
-    val progress = currentStep / 5f
+    val progress = currentStep / 7f
 
     ElevatedCard(
         shape = RoundedCornerShape(20.dp),
@@ -30,7 +30,7 @@ fun InspectionProgressHeader(currentStep: Int) {
         Column(Modifier.padding(16.dp)) {
 
             Text(
-                "Step $currentStep of 5",
+                "Step $currentStep of 7",
                 style = MaterialTheme.typography.labelMedium
             )
 

@@ -72,6 +72,7 @@ import com.deendayalproject.model.request.ToiletDeleteList
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.ToiletRoomReq
+import com.deendayalproject.model.request.TrainerListReq
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.ULBReq
@@ -171,6 +172,7 @@ import com.deendayalproject.model.response.ToiletRes
 import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.ToiletRoomInformationViewRes
 import com.deendayalproject.model.response.ToiletViewRes
+import com.deendayalproject.model.response.TrainerListRes
 import com.deendayalproject.model.response.TrainingCenterInfoRes
 import com.deendayalproject.model.response.TrainingCenterResponse
 import com.deendayalproject.model.response.UlbRes
@@ -859,6 +861,14 @@ interface ApiService {
     suspend fun saveResidentialFacilityVerification(
         @Body request: SaveResidentialFacilityVerificationRequest
     ): Response<BaseResponse<List<Nothing>>>
+
+    @POST("getTrainersForInspection")
+    suspend fun getTrainersListInspection(
+        @Body trainerListReq: TrainerListReq
+    ): Response<TrainerListRes>
+
+
+
 
 
 }
