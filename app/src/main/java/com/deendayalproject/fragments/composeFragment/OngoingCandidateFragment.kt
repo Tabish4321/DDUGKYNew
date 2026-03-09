@@ -12,6 +12,8 @@ import com.deendayalproject.databinding.OngoingCandidateFragmentBinding
 import com.deendayalproject.fragments.composeui.ongoingcandidateverification.OngoingCandidateSectionScreen
 import com.deendayalproject.model.request.GetImageListReq
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.viewmodel.CandidateAssessmentViewModel
+import com.deendayalproject.viewmodel.CandidateVerificationViewModel
 import com.deendayalproject.viewmodel.InspectionViewModel
 import kotlin.getValue
 
@@ -53,6 +55,10 @@ class OngoingCandidateFragment :
             AppUtil.getSavedTokenPreference(requireContext())
         )
 
+        val candidateVerificationViewModel: CandidateAssessmentViewModel by viewModels()
+
+        // CandidateAssessmentViewModel
+
         binding.composeOngoingCandidate.apply {
 
             setViewCompositionStrategy(
@@ -66,6 +72,7 @@ class OngoingCandidateFragment :
                     .collectAsState()
                 OngoingCandidateSectionScreen(
                     context = requireContext(),
+                    candidateVerificationViewModel,
                     viewModel,
                     candidateId = candidateId,
                     batchId = batchId,

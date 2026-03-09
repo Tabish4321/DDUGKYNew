@@ -3,24 +3,34 @@ package com.deendayalproject.fragments.composeui.ongoingcandidateverification
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.common.MultiLineEditText
+import com.deendayalproject.util.AppUtil
+import com.deendayalproject.viewmodel.CandidateAssessmentViewModel
 import com.deendayalproject.viewmodel.InspectionViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun ResidentialFacilitySection(
-    viewModel: InspectionViewModel,
+    viewModel: CandidateAssessmentViewModel,
     snackbarHostState: SnackbarHostState,
-    onSubmit: (List<String>, List<String?>, String) -> Unit
+    batchId: String,
+    candidateId: String
 ) {
 
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt()
+
+    val state by viewModel.residentialState.collectAsState()
 
     val questions = listOf(
         "Separate Hostels for Males & Females",
@@ -51,12 +61,91 @@ fun ResidentialFacilitySection(
         "Warden’s Police Verification Completed"
     )
 
-    val answers = remember { mutableStateListOf<String?>().apply { repeat(questions.size) { add(null) } } }
-    val remarks = remember { mutableStateListOf<String>().apply { repeat(questions.size) { add("") } } }
+    val answers =
+        remember { mutableStateListOf<String?>().apply { repeat(questions.size) { add(null) } } }
+
+    val remarks =
+        remember { mutableStateListOf<String>().apply { repeat(questions.size) { add("") } } }
 
     var washbasinCount by remember { mutableStateOf("") }
 
     var showError by remember { mutableStateOf(false) }
+
+    /* ----------------------------- */
+    /* LOAD API */
+    /* ----------------------------- */
+
+    LaunchedEffect(candidateId) {
+
+        viewModel.loadResidentialFacility(
+            batchId.toInt(),
+            inspectionId,
+            candidateId
+        )
+    }
+
+    /* ----------------------------- */
+    /* PREFILL DATA */
+    /* ----------------------------- */
+
+//    LaunchedEffect(state) {
+//
+//        val apiAnswers = state.answers
+//        val apiRemarks = state.remarks
+//
+//        apiAnswers.forEachIndexed { index, value ->
+//            answers[index] = value
+//        }
+//
+//        apiRemarks.forEachIndexed { index, value ->
+//            remarks[index] = value ?: ""
+//        }
+//
+//        washbasinCount = state.washbasins ?: ""
+
+
+    LaunchedEffect(state) {
+        if (state.answers.isNotEmpty()) {
+
+            answers.clear()
+            answers.addAll(state.answers)
+
+            remarks.clear()
+            remarks.addAll(
+                state.remarks.map { it ?: "" }
+            )
+
+            washbasinCount = state.washbasins ?: ""
+        }
+    }
+
+    /* ----------------------------- */
+    /* ERROR SNACKBAR */
+    /* ----------------------------- */
+
+    LaunchedEffect(state.error) {
+
+        state.error?.let {
+
+            snackbarHostState.showSnackbar(it)
+
+            viewModel.clearResidentialError()
+        }
+    }
+
+    /* ----------------------------- */
+    /* SUCCESS SNACKBAR */
+    /* ----------------------------- */
+
+    LaunchedEffect(state.saveSuccess) {
+
+        if (state.saveSuccess) {
+
+            snackbarHostState.showSnackbar("Saved successfully")
+
+            viewModel.clearResidentialSuccess()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -65,60 +154,136 @@ fun ResidentialFacilitySection(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        questions.forEachIndexed { index, question ->
+        /* ----------------------------- */
+        /* LOADING */
+        /* ----------------------------- */
 
-            ComplianceQuestionWithRemarks(
-                question = question,
-                answer = answers[index],
-                remarks = remarks[index],
-                isError = showError && answers[index] == null,
-                onAnswerChange = { answers[index] = it },
-                onRemarksChange = { remarks[index] = it }
+        if (state.isLoading) {
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 40.dp),
+                contentAlignment = Alignment.Center
+            ) {
+
+                CircularProgressIndicator()
+            }
+
+            return@Column
+        }else{
+            questions.forEachIndexed { index, question ->
+
+                ComplianceQuestionWithRemarks(
+
+                    question = question,
+
+                    answer = answers[index],
+
+                    remarks = remarks[index],
+
+                    isError = showError && answers[index] == null,
+
+                    onAnswerChange = {
+
+                        answers[index] = it
+
+                    },
+
+                    onRemarksChange = {
+
+                        remarks[index] = it
+
+                    }
+                )
+            }
+
+            MultiLineEditText(
+
+                value = washbasinCount,
+
+                onValueChange = {
+
+                    washbasinCount = it
+
+                },
+
+                label = "Number of Washbasins",
+
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number
+                )
             )
-        }
 
-        MultiLineEditText(
-            value = washbasinCount,
-            onValueChange = { washbasinCount = it },
-            label = "Number of Washbasins",
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        )
+            Spacer(modifier = Modifier.height(10.dp))
 
-        Spacer(modifier = Modifier.height(10.dp))
+            PremiumSubmitButton {
 
-        PremiumSubmitButton {
+                showError = true
 
-            showError = true
+                scope.launch {
 
-            scope.launch {
+                    questions.forEachIndexed { index, question ->
 
-                questions.forEachIndexed { index, question ->
+                        when {
 
-                    when {
+                            answers[index] == null -> {
 
-                        answers[index] == null -> {
-                            snackbarHostState.showSnackbar("Please select: $question")
-                            return@launch
-                        }
+                                snackbarHostState.showSnackbar(
+                                    "Please select: $question"
+                                )
 
-                        answers[index] == "No" && remarks[index].isBlank() -> {
-                            snackbarHostState.showSnackbar("Please enter remarks for $question")
-                            return@launch
+                                return@launch
+                            }
+
+                            answers[index] == "No" &&
+                                    remarks[index].isBlank() -> {
+
+                                snackbarHostState.showSnackbar(
+                                    "Please enter remarks for $question"
+                                )
+
+                                return@launch
+                            }
                         }
                     }
+
+                    if (washbasinCount.isBlank()) {
+
+                        snackbarHostState.showSnackbar(
+                            "Please enter number of washbasins"
+                        )
+
+                        return@launch
+                    }
+
+                    /* ----------------------------- */
+                    /* UPDATE STATE */
+                    /* ----------------------------- */
+
+                    viewModel.updateResidentialState(
+
+                        answers.map { it ?: "" },
+
+                        remarks.toList(),
+
+                        washbasinCount
+                    )
+
+                    /* ----------------------------- */
+                    /* SAVE API */
+                    /* ----------------------------- */
+
+                    viewModel.saveResidentialFacility(
+
+                        batchId.toInt(),
+
+                        inspectionId,
+
+                        candidateId
+                    )
+
                 }
-
-                if (washbasinCount.isBlank()) {
-
-                    snackbarHostState.showSnackbar("Please enter number of washbasins")
-                    return@launch
-                }
-
-                onSubmit(
-                    answers.map { it ?: "" },
-                    remarks.toList(),
-                    washbasinCount
-                )
             }
         }
     }

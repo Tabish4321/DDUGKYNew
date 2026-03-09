@@ -2,44 +2,43 @@ package com.deendayalproject.fragments.composeui.ongoingcandidateverification
 
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
+import com.deendayalproject.viewmodel.CandidateAssessmentViewModel
 import com.deendayalproject.viewmodel.InspectionViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun EntitlementsSection(
-    viewModel: InspectionViewModel,
+    viewModel: CandidateAssessmentViewModel,
     snackbarHostState: SnackbarHostState,
+    batchId: String,
+    candidateId: String,
+    inspectionId: Int,
     onSubmit: (
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String?,
-        String?,
-        String?,
-        String?,
-        String?,
-        String?,
-        String?,
-        String?
+        String,String,String,String,String,String,String,String,
+        String?,String?,String?,String?,String?,String?,String?,String?
     ) -> Unit
 ) {
 
     val scope = rememberCoroutineScope()
+
+    val state by viewModel.entitlementState.collectAsState()
+
+    /* ---------------------- */
+    /* PREFILL VALUES */
+    /* ---------------------- */
 
     var trainingFreeAnswer by remember { mutableStateOf<String?>(null) }
     var bankAccountAnswer by remember { mutableStateOf<String?>(null) }
@@ -60,6 +59,74 @@ fun EntitlementsSection(
     var insuranceRemark by remember { mutableStateOf("") }
 
     var showError by remember { mutableStateOf(false) }
+
+    /* ---------------------- */
+    /* LOAD API */
+    /* ---------------------- */
+
+    LaunchedEffect(candidateId) {
+
+        viewModel.loadEntitlements(
+            batchId = batchId.toInt(),
+            inspectionId = inspectionId,
+            candidateId = candidateId
+        )
+    }
+
+    /* ---------------------- */
+    /* PREFILL DATA */
+    /* ---------------------- */
+
+    LaunchedEffect(state) {
+
+        trainingFreeAnswer = state.trainingFree
+        bankAccountAnswer = state.bankAccountOpened
+        residentialAnswer = state.entitlementsPaid
+        trainingMaterialAnswer = state.receivedFreeTrainingMaterial
+        uniformAnswer = state.uniformProvidedinFirstMonth
+        sanitaryAnswer = state.padsMasksProvided
+        medicineAnswer = state.medicineProvided
+        insuranceAnswer = state.insuranceBenefitsProvided
+
+        trainingFreeRemark = state.trainingFreeRemark
+        bankAccountRemark = state.bankAccountOpenedRemark
+        residentialRemark = state.entitlementsPaidRemark
+        trainingMaterialRemark = state.receivedFreeTrainingMaterialRemark
+        uniformRemark = state.uniformProvidedinFirstMonthRemark
+        sanitaryRemark = state.padsMasksProvidedRemark
+        medicineRemark = state.medicineProvidedRemark
+        insuranceRemark = state.insuranceBenefitsProvidedRemark
+    }
+
+    /* ---------------------- */
+    /* LOADER */
+    /* ---------------------- */
+
+    if (state.isLoading) {
+
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+
+        return
+    }
+
+    /* ---------------------- */
+    /* SNACKBAR ERROR */
+    /* ---------------------- */
+
+    LaunchedEffect(state.error) {
+
+        state.error?.let {
+
+            snackbarHostState.showSnackbar(it)
+
+            viewModel.clearEntitlementError()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -174,33 +241,9 @@ fun EntitlementsSection(
                     insuranceAnswer == null ->
                         snackbarHostState.showSnackbar("Please select: Insurance Benefits Provided")
 
-                    trainingFreeAnswer == "No" && trainingFreeRemark.isBlank() ->
-                        snackbarHostState.showSnackbar("Please enter remarks for Training free of cost")
-
-                    bankAccountAnswer == "No" && bankAccountRemark.isBlank() ->
-                        snackbarHostState.showSnackbar("Please enter remarks for Bank Account Opened")
-
-                    residentialAnswer == "No" && residentialRemark.isBlank() ->
-                        snackbarHostState.showSnackbar("Please enter remarks for Residential Facilities")
-
-                    trainingMaterialAnswer == "No" && trainingMaterialRemark.isBlank() ->
-                        snackbarHostState.showSnackbar("Please enter remarks for Free Training Material")
-
-                    uniformAnswer == "No" && uniformRemark.isBlank() ->
-                        snackbarHostState.showSnackbar("Please enter remarks for Uniform Provided")
-
-                    sanitaryAnswer == "No" && sanitaryRemark.isBlank() ->
-                        snackbarHostState.showSnackbar("Please enter remarks for Sanitary Pads/Masks")
-
-                    medicineAnswer == "No" && medicineRemark.isBlank() ->
-                        snackbarHostState.showSnackbar("Please enter remarks for Medicine Provided")
-
-                    insuranceAnswer == "No" && insuranceRemark.isBlank() ->
-                        snackbarHostState.showSnackbar("Please enter remarks for Insurance Benefits")
-
                     else -> {
 
-                        onSubmit(
+                        viewModel.updateEntitlementState(
                             trainingFreeAnswer!!,
                             bankAccountAnswer!!,
                             residentialAnswer!!,
@@ -218,6 +261,14 @@ fun EntitlementsSection(
                             medicineRemark,
                             insuranceRemark
                         )
+
+                        viewModel.saveEntitlements(
+                            batchId = batchId.toInt(),
+                            inspectionId = inspectionId,
+                            candidateId = candidateId
+                        )
+
+                        snackbarHostState.showSnackbar("Saved successfully")
                     }
                 }
             }

@@ -78,6 +78,17 @@ import com.deendayalproject.model.request.ULBReq
 import com.deendayalproject.model.request.UrinalWashbasinReq
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.WardReq
+import com.deendayalproject.model.request.assesmentInspection.AssessmentStatusInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.GetCandidateAssessmentInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.GetCandidateRecordsVerificationRequest
+import com.deendayalproject.model.request.assesmentInspection.GetDistributedLearningMaterialInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.GetEntitlementsDistributionInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.GetInspectionSectionStatusRequest
+import com.deendayalproject.model.request.assesmentInspection.GetResidentialFacilityVerificationRequest
+import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAssessmentInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.SaveDistributedLearningMaterialInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.SaveEntitlementsDistributionInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.SaveResidentialFacilityVerificationRequest
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AddNewRFRes
@@ -88,6 +99,13 @@ import com.deendayalproject.model.response.AttendanceCheckRes
 import com.deendayalproject.model.response.AttendanceInsertRes
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
+import com.deendayalproject.model.response.CandidateAssessmentResponse.AssessmentStatusResponse
+import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateAssessmentInspectionDetails
+import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateRecordsVerificationDetails
+import com.deendayalproject.model.response.CandidateAssessmentResponse.DistributedLearningMaterialInspectionResponse
+import com.deendayalproject.model.response.CandidateAssessmentResponse.EntitlementsDistributionInspectionResponse
+import com.deendayalproject.model.response.CandidateAssessmentResponse.InspectionSectionStatusResponse
+import com.deendayalproject.model.response.CandidateAssessmentResponse.ResidentialFacilityVerificationResponse
 import com.deendayalproject.model.response.CandidateInspectionDetails
 import com.deendayalproject.model.response.CandidateInspectionDetailsResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
@@ -737,6 +755,23 @@ interface ApiService {
         @Body request: SaveBatchVerificationRequest
     ): Response<BaseResponse<List<Nothing>>>
 
+    @POST("getCandidateAssessmentInspection")
+    suspend fun getCandidateAssessmentInspection(
+        @Body request: GetCandidateAssessmentInspectionRequest
+    ): Response<BaseResponse<List<CandidateAssessmentInspectionDetails>>>
+
+
+    @POST("saveCandiateAssessmentInspection")
+    suspend fun saveCandidateAssessmentInspection(
+        @Body request: SaveCandidateAssessmentInspectionRequest
+    ): Response<BaseResponse<List<Nothing>>>
+
+
+    @POST("assessmentStatusForInspection")
+    suspend fun getAssessmentStatusForInspection(
+        @Body request: AssessmentStatusInspectionRequest
+    ): Response<BaseResponse<List<AssessmentStatusResponse>>>
+
 
 
 
@@ -780,8 +815,50 @@ interface ApiService {
         @Body getAttendanceDetailsReq: GetAttendanceDetailsReq
     ): Response<GetAttendanceDetailsRes>
 
+    @POST("getCandiateRecordsVerification")
+    suspend fun getCandidateRecordsVerification(
+        @Body request: GetCandidateRecordsVerificationRequest
+    ): Response<BaseResponse<List<CandidateRecordsVerificationDetails>>>
+
+    @POST("getInspectionSectionStatus")
+    suspend fun getInspectionSectionStatus(
+        @Body request: GetInspectionSectionStatusRequest
+    ): Response<BaseResponse<List<InspectionSectionStatusResponse>>>
+
+    @POST("getDistributedLearningMaterialInspection")
+    suspend fun getDistributedLearningMaterialInspection(
+        @Body request: GetDistributedLearningMaterialInspectionRequest
+    ): Response<BaseResponse<List<DistributedLearningMaterialInspectionResponse>>>
 
 
+    @POST("saveDistributedLearningMaterialInspection")
+    suspend fun saveDistributedLearningMaterialInspection(
+        @Body request: SaveDistributedLearningMaterialInspectionRequest
+    ): Response<BaseResponse<List<Nothing>>>
+
+
+    @POST("getEntitlementsDistributionInspection")
+    suspend fun getEntitlementsDistributionInspection(
+        @Body request: GetEntitlementsDistributionInspectionRequest
+    ): Response<BaseResponse<List<EntitlementsDistributionInspectionResponse>>>
+
+
+    @POST("saveEntitlementsDistributionInspection")
+    suspend fun saveEntitlementsDistributionInspection(
+        @Body request: SaveEntitlementsDistributionInspectionRequest
+    ): Response<BaseResponse<List<Nothing>>>
+
+
+    @POST("getResidentialFacilityVerification")
+    suspend fun getResidentialFacilityVerification(
+        @Body request: GetResidentialFacilityVerificationRequest
+    ): Response<BaseResponse<List<ResidentialFacilityVerificationResponse>>>
+
+
+    @POST("saveResidentialFacilityVerification")
+    suspend fun saveResidentialFacilityVerification(
+        @Body request: SaveResidentialFacilityVerificationRequest
+    ): Response<BaseResponse<List<Nothing>>>
 
 
 }

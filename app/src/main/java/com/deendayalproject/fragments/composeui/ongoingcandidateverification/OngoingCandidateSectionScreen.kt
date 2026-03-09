@@ -11,7 +11,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -24,7 +27,9 @@ import com.deendayalproject.model.request.GetAttendanceDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.response.CandidateProofItem
 import com.deendayalproject.model.response.ExpandableSectionName
+import com.deendayalproject.model.uistate.InspectionSectionStatusUiState
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.viewmodel.CandidateAssessmentViewModel
 import com.deendayalproject.viewmodel.InspectionViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +38,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun OngoingCandidateSectionScreen(
     context: Context,
+    candidateVerificationViewModel:CandidateAssessmentViewModel,
     viewModel : InspectionViewModel,
     candidateId: String,
     candidateName: String,
@@ -52,6 +58,13 @@ fun OngoingCandidateSectionScreen(
     val response by viewModel
         .submitBasicRecordResponse
         .collectAsState()
+
+    val sectionStatus by candidateVerificationViewModel.uiSectionStatus.collectAsState()
+
+
+
+    var showUpdateDialog by remember { mutableStateOf(false) }
+    var pendingSection by remember { mutableStateOf<String?>(null) }
 
     val sections = remember {
 
@@ -82,6 +95,15 @@ fun OngoingCandidateSectionScreen(
         mutableStateMapOf<String, Boolean>()
     }
 
+    LaunchedEffect(candidateId) {
+
+        candidateVerificationViewModel.loadInspectionSectionStatus(
+            inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
+            candidateId = candidateId
+        )
+    }
+
+
 
     LaunchedEffect(response?.responseCode) {
 
@@ -96,6 +118,7 @@ fun OngoingCandidateSectionScreen(
             viewModel.clearSubmitResponse()
         }
     }
+    val scope = rememberCoroutineScope()
 
     val listState = rememberLazyListState()
 
@@ -146,14 +169,42 @@ fun OngoingCandidateSectionScreen(
 
                         title = section.title,
 
-                        status = section.status,
+                        status = getSectionStatus(section.title,sectionStatus),
 
                         expanded = expandedSections[section.title] ?: false,
 
-                        onExpandedChange = {
+                        onExpandedChange = { expand ->
 
-                            expandedSections[section.title] = it
+                            val isCompleted = when (section.title) {
+                                "Basic Records Verification" ->
+                                    sectionStatus.recordStatus == 1
 
+                                "Validate Attendance" ->
+                                    sectionStatus.attendanceStatus == 1
+
+                                "Assessment" ->
+                                    sectionStatus.assessmentStatus == 1
+
+                                "Distribution of Teaching-Learning Material" ->
+                                    sectionStatus.learningMaterialStatus == 1
+
+                                "Entitlements Distribution" ->
+                                    sectionStatus.entitlementsDistributionStatus == 1
+
+                                "Residential Facility Verification" ->
+                                    sectionStatus.rfVerificationStatus == 1
+
+                                else -> false
+                            }
+
+                            if (expand && isCompleted) {
+
+                                pendingSection = section.title
+                                showUpdateDialog = true
+
+                            } else {
+                                expandedSections[section.title] = expand
+                            }
                         },
 
                         leftIcon = {
@@ -247,8 +298,10 @@ fun OngoingCandidateSectionScreen(
                             "Assessment" -> {
 
                                 AssessmentSection(
-                                    viewModel = viewModel,
+                                    candidateAssesmentViewModel = candidateVerificationViewModel,
                                     snackbarHostState = snackbarHostState,
+                                    batchId = batchId,
+                                    candidateId=candidateId,
                                     onSubmit = { camera,
                                                  seriousness,
                                                  malpractice,
@@ -260,7 +313,6 @@ fun OngoingCandidateSectionScreen(
                                                  revalRemark,
                                                  retestRemark ->
 
-                                        // API call here
                                     }
                                 )
                             }
@@ -271,40 +323,39 @@ fun OngoingCandidateSectionScreen(
 
 
 
-                                val snackbarHostState = remember { SnackbarHostState() }
+                              //  val snackbarHostState = remember { SnackbarHostState() }
 
-                                TlmVerificationSection(
-
-                                    snackbarHostState = snackbarHostState
-
+                                DistributedLearningSection(
+                                    viewModel=candidateVerificationViewModel,
+                                    snackbarHostState = snackbarHostState,
+                                    batchId = batchId,
+                                    candidateId=candidateId
                                 )
                                 { questions ->
+                                    candidateVerificationViewModel.updateDistributedLearningState(questions)
 
+                                    /* -------- SAVE API -------- */
+                                    scope.launch {
+                                        candidateVerificationViewModel.saveDistributedInspection(
+                                            batchId = batchId.toInt(),
+                                            inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
+                                            candidateId = candidateId
+                                        )
+                                        snackbarHostState.showSnackbar("Saved successfully")
+                                    }
 
-                                    // Api hit submit
-                                  /*  val request = SubmitTlmInspectionReq(
-
-                                        domainCurriculum = questions[0].answer,
-                                        domainCurriculumProof = questions[0].imageBase64
-
-                                    )
-
-                                    viewModel.submitTlmInspection(request)*/
                                 }
-
-
-
                             }
 
 
                             "Entitlements Distribution" -> {
 
                                 EntitlementsSection(
-
-                                    viewModel = viewModel,
-
+                                    viewModel=candidateVerificationViewModel,
                                     snackbarHostState = snackbarHostState,
-
+                                    batchId = batchId,
+                                    inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
+                                    candidateId=candidateId,
                                     onSubmit = {
                                             trainingFree,
                                             bankAccount,
@@ -323,7 +374,7 @@ fun OngoingCandidateSectionScreen(
                                             medicineRemark,
                                             insuranceRemark ->
 
-                                        //  API Request
+
 
                                     }
                                 )
@@ -333,17 +384,11 @@ fun OngoingCandidateSectionScreen(
                             "Residential Facility Verification" -> {
 
                                     ResidentialFacilitySection(
-
-                                        viewModel = viewModel,
-                                        snackbarHostState = snackbarHostState
-
-                                    ) { answers, remarks, washbasins ->
-
-                                        // API Request here
-
-                                    }
-
-
+                                        viewModel=candidateVerificationViewModel,
+                                        snackbarHostState = snackbarHostState,
+                                        batchId = batchId,
+                                        candidateId=candidateId,
+                                    )
 
                             }
 
@@ -360,4 +405,70 @@ fun OngoingCandidateSectionScreen(
             }
         }
     }
+    if (showUpdateDialog) {
+
+        AlertDialog(
+
+            onDismissRequest = {
+                showUpdateDialog = false
+            },
+
+            title = {
+                Text("Already Verified")
+            },
+
+            text = {
+                Text("This section is already verified. Do you want to update it again?")
+            },
+
+            confirmButton = {
+
+                TextButton(
+
+                    onClick = {
+
+                        pendingSection?.let {
+                            expandedSections[it] = true
+                        }
+
+                        showUpdateDialog = false
+                    }
+
+                ) {
+                    Text("Update")
+                }
+            },
+
+            dismissButton = {
+
+                TextButton(
+                    onClick = { showUpdateDialog = false }
+                ) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
+
+}
+
+fun getSectionStatus(sectionTitle: String,sectionStatus: InspectionSectionStatusUiState): ComplianceStatus {
+
+    val completed = when (sectionTitle) {
+
+        "Basic Records Verification" -> sectionStatus.recordStatus
+        "Validate Attendance" -> sectionStatus.attendanceStatus
+        "Assessment" -> sectionStatus.assessmentStatus
+        "Distribution of Teaching-Learning Material" -> sectionStatus.learningMaterialStatus
+        "Entitlements Distribution" -> sectionStatus.entitlementsDistributionStatus
+        "Residential Facility Verification" -> sectionStatus.rfVerificationStatus
+
+        else -> 0
+    }
+
+    return if (completed == 1)
+        ComplianceStatus.COMPLETE
+    else
+        ComplianceStatus.NotCOMPLETE
 }

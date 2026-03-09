@@ -11,17 +11,20 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.common.InfoRow
-import com.deendayalproject.model.response.AttendanceStatusItem
-import com.deendayalproject.viewmodel.InspectionViewModel
+import com.deendayalproject.util.AppUtil
+import com.deendayalproject.viewmodel.CandidateAssessmentViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun AssessmentSection(
-    viewModel: InspectionViewModel,
+    candidateAssesmentViewModel: CandidateAssessmentViewModel,
     snackbarHostState: SnackbarHostState,
+    batchId:String,
+    candidateId:String,
     onSubmit: (
         String,
         String,
@@ -37,6 +40,10 @@ fun AssessmentSection(
 ) {
 
     val scope = rememberCoroutineScope()
+    val context= LocalContext.current
+
+    val state by candidateAssesmentViewModel.uiState.collectAsState()
+    val statusState by candidateAssesmentViewModel.uiStatusState.collectAsState()
 
     var cameraAnswer by remember { mutableStateOf<String?>(null) }
     var seriousnessAnswer by remember { mutableStateOf<String?>(null) }
@@ -52,6 +59,78 @@ fun AssessmentSection(
 
     var showError by remember { mutableStateOf(false) }
 
+    /* -------------------- */
+    /* Prefill API Data */
+    /* -------------------- */
+
+    LaunchedEffect(
+        state.cameraVerified,
+        state.seriousness,
+        state.malpracticesObserved,
+        state.actualAndRevaluationMarks,
+        state.retestMarksDifference
+    ) {
+
+        cameraAnswer = state.cameraVerified
+        seriousnessAnswer = state.seriousness
+        malpracticeAnswer = state.malpracticesObserved
+        diffRevalAnswer = state.actualAndRevaluationMarks
+        diffRetestAnswer = state.retestMarksDifference
+
+        cameraRemark = state.cameraVerifiedRemark
+        seriousnessRemark = state.seriousnessRemark
+        malpracticeRemark = state.malpracticesObservedRemark
+        diffRevalRemark = state.actualAndRevaluationMarksRemark
+        diffRetestRemark = state.retestMarksDifferenceRemark
+    }
+
+    LaunchedEffect(candidateId) {
+
+        if (candidateId.isNotEmpty()) {
+
+            candidateAssesmentViewModel.loadAssessmentStatus(
+                batchId = batchId.toInt(),
+                inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
+                candidateId = candidateId
+            )
+
+            candidateAssesmentViewModel.loadAssessmentDetails(
+                batchId = batchId.toInt(),
+                inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
+                candidateId = candidateId
+            )
+        }
+    }
+
+
+    /* -------------------- */
+    /* Save Success */
+    /* -------------------- */
+
+    LaunchedEffect(state.saveSuccess) {
+
+        if (state.saveSuccess) {
+
+            snackbarHostState.showSnackbar("Assessment saved successfully")
+
+            candidateAssesmentViewModel.clearSaveState()
+        }
+    }
+
+    /* -------------------- */
+    /* Error */
+    /* -------------------- */
+
+    LaunchedEffect(state.error) {
+
+        state.error?.let {
+
+            snackbarHostState.showSnackbar(it)
+
+            candidateAssesmentViewModel.clearError()
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -59,7 +138,10 @@ fun AssessmentSection(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        // 🔹 Top Status Card
+        /* -------------------- */
+        /* Status Card */
+        /* -------------------- */
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -70,7 +152,7 @@ fun AssessmentSection(
             InfoRow(
                 icon = Icons.Default.Assessment,
                 label = "Assessment Status",
-                value = "NA"
+                value = statusState.assessmentStatus ?: "N/A"
             )
 
             Divider()
@@ -78,14 +160,23 @@ fun AssessmentSection(
             InfoRow(
                 icon = Icons.Default.EventAvailable,
                 label = "Present on Assessment Day",
-                value = "N/A"
+                value = statusState.isPresent ?: "N/A"
+            )
+
+            Divider()
+
+            InfoRow(
+                icon = Icons.Default.EventAvailable,
+                label = "Present on Assessment Date",
+                value = statusState.assessmentDate ?: "N/A"
             )
         }
 
-        // 🔹 Questions
-        Column(
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
+        /* -------------------- */
+        /* Questions */
+        /* -------------------- */
+
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
 
             ComplianceQuestionWithRemarks(
                 question = "Verified via IP Enabled Camera",
@@ -135,7 +226,10 @@ fun AssessmentSection(
 
         Spacer(Modifier.height(10.dp))
 
-        // 🔹 Submit Button
+        /* -------------------- */
+        /* Submit Button */
+        /* -------------------- */
+
         PremiumSubmitButton {
 
             showError = true
@@ -181,6 +275,29 @@ fun AssessmentSection(
                             malpracticeRemark,
                             diffRevalRemark,
                             diffRetestRemark
+                        )
+
+                        candidateAssesmentViewModel.updateState {
+
+                            copy(
+                                cameraVerified = cameraAnswer,
+                                seriousness = seriousnessAnswer,
+                                malpracticesObserved = malpracticeAnswer,
+                                actualAndRevaluationMarks = diffRevalAnswer,
+                                retestMarksDifference = diffRetestAnswer,
+
+                                cameraVerifiedRemark = cameraRemark,
+                                seriousnessRemark = seriousnessRemark,
+                                malpracticesObservedRemark = malpracticeRemark,
+                                actualAndRevaluationMarksRemark = diffRevalRemark,
+                                retestMarksDifferenceRemark = diffRetestRemark
+                            )
+                        }
+
+                        candidateAssesmentViewModel.saveAssessment(
+                            batchId = batchId.toInt(),
+                            inspectionId = AppUtil.getSavedInspectionIdPreference(context = context).toInt(),
+                            candidateId = candidateId
                         )
                     }
                 }

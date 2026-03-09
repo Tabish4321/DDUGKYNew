@@ -8,23 +8,42 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.model.uistate.TlmQuestion
+import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.AppUtil.bitmapToCompressedBase64
+import com.deendayalproject.viewmodel.CandidateAssessmentViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun TlmVerificationSection(
+fun DistributedLearningSection(
+    viewModel: CandidateAssessmentViewModel,
     snackbarHostState: SnackbarHostState,
+    batchId: String,
+    candidateId: String,
     onSubmit: (List<TlmQuestion>) -> Unit
 ) {
 
     val scope = rememberCoroutineScope()
+    val context= LocalContext.current
+    val inspectionId: Int=AppUtil.getSavedInspectionIdPreference(context).toInt()
+
+    val state by viewModel.distributedLerningState.collectAsState()
 
     var captureIndex by remember { mutableStateOf<Int?>(null) }
+
+    LaunchedEffect(state.error) {
+
+        state.error?.let {
+            snackbarHostState.showSnackbar(it)
+            viewModel.clearDistributedError()
+        }
+    }
 
     val questions = remember {
 
@@ -42,6 +61,79 @@ fun TlmVerificationSection(
             TlmQuestion("IP Enabled Camera Footage for Assessments Available")
         )
     }
+
+    /* ---------------------------- */
+    /* LOAD API */
+    /* ---------------------------- */
+
+    LaunchedEffect(candidateId) {
+
+        viewModel.loadDistributedInspection(
+            batchId = batchId.toInt(),
+            inspectionId = inspectionId,
+            candidateId = candidateId
+        )
+    }
+
+    /* ---------------------------- */
+    /* PREFILL API DATA */
+    /* ---------------------------- */
+
+    LaunchedEffect(state.inspectionId){
+        val answers = listOf(
+            state.domainCurriculum,
+            state.bilingualTlmItSkills,
+            state.bilingualTlmSoftSkills,
+            state.bilingualTlmEnglishSkills,
+            state.trainingKit,
+            state.bilingualIDCard,
+            state.practicalLearningProvided,
+            state.usageLabEquipment,
+            state.tabletsUploaded,
+            state.ipEnabledCameraFootageAssessments
+        )
+
+        val remarks = listOf(
+            state.domainCurriculumRemark,
+            state.bilingualTlmItSkillsRemark,
+            state.bilingualTlmSoftSkillsRemark,
+            state.bilingualTlmEnglishSkillsRemark,
+            state.trainingKitRemark,
+            state.bilingualIDCardRemark,
+            state.practicalLearningProvidedRemark,
+            state.usageLabEquipmentRemark,
+            state.tabletsUploadedRemark,
+            state.ipEnabledCameraFootageAssessmentsRemark
+        )
+        val images = listOf(
+            state.domainCurriculumImage,
+            state.bilingualTlmItSkillsImage,
+            state.bilingualTlmSoftSkillsImage,
+            state.bilingualTlmEnglishSkillsImage,
+            state.trainingKitImage,
+            state.bilingualIDCardImage,
+            state.practicalLearningProvidedImage,
+            state.usageLabEquipmentImage,
+            state.tabletsUploadedImage,
+            state.ipEnabledCameraFootageAssessmentsImage
+        )
+
+        answers.forEachIndexed { index, answer ->
+            val bitmap = AppUtil.decodeBase64ToBitmap(images[index])
+
+            questions[index] =
+                questions[index].copy(
+                    answer = answer,
+                    remarks = remarks[index],
+                    imageBitmap = bitmap,
+                    imageBase64 = images[index]
+                )
+        }
+    }
+
+    /* ---------------------------- */
+    /* CAMERA */
+    /* ---------------------------- */
 
     val cameraLauncher =
         rememberLauncherForActivityResult(
@@ -69,19 +161,21 @@ fun TlmVerificationSection(
         ) { granted ->
 
             if (granted) {
-
                 cameraLauncher.launch(null)
 
             } else {
 
                 scope.launch {
-
                     snackbarHostState.showSnackbar(
                         "Camera permission required"
                     )
                 }
             }
         }
+
+    /* ---------------------------- */
+    /* UI */
+    /* ---------------------------- */
 
     Column(
         modifier = Modifier
@@ -90,12 +184,25 @@ fun TlmVerificationSection(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
+        if (state.isLoading) {
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+
+                CircularProgressIndicator()
+            }
+
+            return
+        }
+
         questions.forEachIndexed { index, item ->
 
             Column {
 
                 ComplianceQuestionWithRemarks(
-
                     question = item.question,
                     answer = item.answer,
                     remarks = item.remarks,
@@ -155,22 +262,21 @@ fun TlmVerificationSection(
             }
         }
 
+        /* ---------------------------- */
+        /* SUBMIT BUTTON */
+        /* ---------------------------- */
+
         Button(
             onClick = {
 
                 scope.launch {
 
                     val invalidField = questions.firstOrNull {
-
-                        it.answer == null ||
-                                (it.answer == "Yes" && it.imageBase64 == null) ||
-                                (it.answer == "No" && it.remarks.isBlank())
+                        it.answer == null || (it.answer == "Yes" && it.imageBase64 == null) || (it.answer == "No" && it.remarks.isBlank())
                     }
 
                     if (invalidField != null) {
-
                         val message = when {
-
                             invalidField.answer == null ->
                                 "Please select Yes/No for ${invalidField.question}"
 
@@ -182,14 +288,12 @@ fun TlmVerificationSection(
                                     invalidField.remarks.isBlank() ->
                                 "Please enter remarks for ${invalidField.question}"
 
-                            else -> ""
+                            else -> "Something Wrong Please Check Value."
                         }
 
                         snackbarHostState.showSnackbar(message)
-
                         return@launch
                     }
-
                     onSubmit(questions)
                 }
             },
