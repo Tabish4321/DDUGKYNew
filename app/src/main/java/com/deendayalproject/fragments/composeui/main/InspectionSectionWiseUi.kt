@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.fragments.composeFragment.InspectionBasicDetailsFragmentDirections
 import com.deendayalproject.fragments.composeui.batchAndCandidate.BatchListSection
@@ -27,6 +28,7 @@ import com.deendayalproject.fragments.composeui.trainer.TrainerBottomSheet
 import com.deendayalproject.fragments.composeui.trainer.TrainerDataCard
 import com.deendayalproject.fragments.composeui.trainer.TrainingQualityController
 import com.deendayalproject.fragments.composeui.trainingCenListAandDetails.TrainingCenterDetails
+import com.deendayalproject.model.request.TrainerListReq
 import com.deendayalproject.model.response.*
 import com.deendayalproject.viewmodel.PreviousAndDueViewModel
 import com.deendayalproject.model.response.CandidateListInspectionRes
@@ -69,8 +71,7 @@ fun InspectionStepModernScreen(
 
     var showTrainingForm by remember { mutableStateOf(false) }
 
-
-    var selectedTrainer by remember { mutableStateOf<TrainerListInspectionRes?>(null) }
+    var selectedTrainer by remember { mutableStateOf<TrainerData?>(null) }
     var showTrainerSheet by remember { mutableStateOf(false) }
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -94,6 +95,13 @@ fun InspectionStepModernScreen(
         7 -> "Final Inspection"
         else -> "Inspection"
     }
+
+
+    val trainerResponse by viewModelInspection
+        .getTrainersListInspection
+        .collectAsState()
+
+    val trainerList = trainerResponse?.wrappedList ?: emptyList()
 
     LaunchedEffect(currentStep) {
         previousSelectedBatch = null
@@ -374,14 +382,10 @@ fun InspectionStepModernScreen(
                                 item {
 
                                     TrainerDataCard(
-
                                         trainer = trainerList,
-
                                         onVerifyTrainerClick = { trainer ->
-
                                             selectedTrainer = trainer
                                             showTrainerSheet = true
-
                                         }
                                     )
                                 }
@@ -432,6 +436,7 @@ fun InspectionStepModernScreen(
         }
 
         /* ---------------- BOTTOM SHEET ---------------- */
+
         if (currentStep == 2 && selectedCandidate != null) {
             ProCandidateBottomSheet(
                 condidateVerificationViewModel,
@@ -465,15 +470,28 @@ fun InspectionStepModernScreen(
         if (currentStep == 4 && showTrainerSheet) {
 
             TrainerBottomSheet(
-
-                trainerName = selectedTrainer?.name ?: "NA",
+                trainerName = selectedTrainer?.trainerName ?: "NA",
                 trainerId = selectedTrainer?.trainerId ?: "NA",
-
                 onDismiss = {
                     showTrainerSheet = false
                 }
             )
         }
+
+
+            LaunchedEffect(currentStep) {
+
+                if (currentStep == 4) {
+
+                    viewModelInspection.getTrainersListInspection(
+                        TrainerListReq(
+                            appVersion = BuildConfig.VERSION_NAME,
+                            trainingCenterId = trainingCenterId.toInt()
+                        )
+                    )
+                }
+            }
+
 
     }
 }

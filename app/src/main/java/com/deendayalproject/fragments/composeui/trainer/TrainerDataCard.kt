@@ -16,12 +16,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.R
-import com.deendayalproject.model.response.TrainerListInspectionRes
+import com.deendayalproject.model.response.TrainerData
 
 @Composable
 fun TrainerDataCard(
-    trainer: List<TrainerListInspectionRes>,
-    onVerifyTrainerClick: (TrainerListInspectionRes) -> Unit
+    trainer: List<TrainerData>,
+    onVerifyTrainerClick: (TrainerData) -> Unit
 ) {
 
     Column(
@@ -43,7 +43,7 @@ fun TrainerDataCard(
 
 @Composable
 fun SingleTrainerCard(
-    trainer: TrainerListInspectionRes,
+    trainer: TrainerData,
     onVerifyTrainerClick: () -> Unit
 ) {
 
@@ -74,7 +74,7 @@ fun SingleTrainerCard(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = trainer.name.take(1).uppercase(),
+                        text = trainer.trainerName.take(1).uppercase(),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF795FDA)
@@ -86,7 +86,7 @@ fun SingleTrainerCard(
                 Column(modifier = Modifier.weight(1f)) {
 
                     Text(
-                        text = trainer.name,
+                        text = trainer.trainerName,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -101,7 +101,7 @@ fun SingleTrainerCard(
                     Spacer(modifier = Modifier.height(2.dp))
 
                     Text(
-                        text = "Designation: ${trainer.designation}",
+                        text = "Designation: ${trainer.trainerDesignation}",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
@@ -137,33 +137,23 @@ fun SingleTrainerCard(
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                if (trainer.isLoading) {
-
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(20.dp),
-                        strokeWidth = 2.dp
+                OutlinedButton(
+                    onClick = onVerifyTrainerClick,
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(
+                        containerColor = Color(0xFF795FDA),
+                        contentColor = Color.White
+                    ),
+                    contentPadding = PaddingValues(
+                        horizontal = 14.dp,
+                        vertical = 2.dp
                     )
+                ) {
 
-                } else {
-
-                    OutlinedButton(
-                        onClick = onVerifyTrainerClick,
-                        shape = RoundedCornerShape(8.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            containerColor = Color(0xFF795FDA),
-                            contentColor = Color.White
-                        ),
-                        contentPadding = PaddingValues(
-                            horizontal = 14.dp,
-                            vertical = 2.dp
-                        )
-                    ) {
-
-                        Text(
-                            text = "Verify",
-                            style = MaterialTheme.typography.labelMedium
-                        )
-                    }
+                    Text(
+                        text = "Verify",
+                        style = MaterialTheme.typography.labelMedium
+                    )
                 }
             }
         }

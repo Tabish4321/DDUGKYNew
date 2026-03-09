@@ -30,7 +30,7 @@ fun InspectionProgressHeader(currentStep: Int) {
         Column(Modifier.padding(16.dp)) {
 
             Text(
-                "Step $currentStep of 5",
+                "Step $currentStep of 7",
                 style = MaterialTheme.typography.labelMedium
             )
 

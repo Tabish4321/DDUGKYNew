@@ -10,6 +10,7 @@ import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
+import com.deendayalproject.model.request.TrainerListReq
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.GetAttendanceDetailsRes
 import com.deendayalproject.model.response.GetImageListRes
@@ -17,6 +18,7 @@ import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InsertRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
+import com.deendayalproject.model.response.TrainerListRes
 import com.deendayalproject.repository.repomanager.RepositoryManager
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -466,6 +468,55 @@ class InspectionViewModel(application: Application) :
             }
         )
     }
+
+
+
+
+    private val _getTrainersListInspection =
+        MutableStateFlow<TrainerListRes?>(null)
+
+    val getTrainersListInspection:
+            StateFlow<TrainerListRes?> =
+        _getTrainersListInspection.asStateFlow()
+
+
+    fun getTrainersListInspection(
+        request: TrainerListReq
+    ) {
+
+        executeApiCall(
+            apiCall = {
+                repositoryManager
+                    .inspectionRepo
+                    .getTrainersListInspection(request)
+            },
+            onSuccess = { response ->
+
+                when (response.responseCode) {
+
+                    200 -> _getTrainersListInspection.emit(response)
+
+
+
+                    202 -> {
+                        _getTrainersListInspection.emit(null)
+                        _errorMessage.emit("No candidate data available.")
+                    }
+
+                    301 -> _errorMessage.emit("Please upgrade your app.")
+
+                    else -> _errorMessage.emit(
+                        response.responseDesc?.ifEmpty {
+                            "Unknown server error"
+                        } ?: "Unknown error"
+                    )
+                }
+            }
+        )
+    }
+
+
+
 
 
 
