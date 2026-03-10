@@ -413,7 +413,7 @@ fun InspectionStepModernScreen(
                                     var showScreen by remember { mutableStateOf(false) }
 
                                     LaunchedEffect(Unit) {
-                                        kotlinx.coroutines.delay(500)
+                                        kotlinx.coroutines.delay(200)
                                         showScreen = true
                                     }
 
