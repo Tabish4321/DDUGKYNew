@@ -413,7 +413,7 @@
                             android:textStyle="bold"
                             android:textSize="16sp"
                             android:fontFamily="@font/avenir_next_regular"
-                            android:text="OJT End Date :" />
+                            android:text="@string/ojt_end_date" />
 
                         <TextView
                             android:textSize="16sp"
@@ -763,14 +763,14 @@
                                 android:fontFamily="@font/avenir_next_regular"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Yes"/>
+                                android:text="@string/yes"/>
 
                             <RadioButton
                                 android:id="@+id/radioNo"
                                 android:fontFamily="@font/avenir_next_regular"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="No"/>
+                                android:text="@string/no"/>
 <!--                            <RadioButton-->
 <!--                                android:id="@+id/radioNA"-->
 <!--                                android:fontFamily="@font/avenir_next_regular"-->
@@ -842,7 +842,7 @@
 
                                         <Button
                                             android:id="@+id/btnRecord"
-                                            android:text="Start"
+                                            android:text="@string/start"
                                             android:layout_width="80dp"
                                             android:layout_height="36dp"
                                             android:textSize="12sp"
@@ -852,7 +852,7 @@
 
                                         <Button
                                             android:id="@+id/btnStop"
-                                            android:text="Stop"
+                                            android:text="@string/stop"
                                             android:layout_width="80dp"
                                             android:layout_height="36dp"
                                             android:textSize="12sp"
@@ -863,7 +863,7 @@
 
                                         <Button
                                             android:id="@+id/btnSwitch"
-                                            android:text="Switch"
+                                            android:text="@string/switchs"
                                             android:layout_width="80dp"
                                             android:layout_height="36dp"
                                             android:textSize="12sp"
@@ -874,7 +874,7 @@
 
                                         <Button
                                             android:id="@+id/btnDelete"
-                                            android:text="Delete"
+                                            android:text="@string/delete"
                                             android:visibility="gone"
                                             android:layout_width="80dp"
                                             android:layout_height="36dp"
@@ -885,44 +885,6 @@
                                             android:layout_marginStart="8dp"/>
 
                                     </LinearLayout>
-<!--                                    <LinearLayout-->
-<!--                                        android:layout_width="match_parent"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:layout_below="@id/tvTimer"-->
-<!--                                        android:gravity="center"-->
-<!--                                        android:orientation="horizontal"-->
-<!--                                        android:layout_marginTop="20dp">-->
-
-<!--                                        <Button-->
-<!--                                            android:id="@+id/btnRecord"-->
-<!--                                            android:text="Start"-->
-<!--                                            android:layout_width="wrap_content"-->
-<!--                                            android:layout_height="wrap_content"/>-->
-
-<!--                                        <Button-->
-<!--                                            android:id="@+id/btnStop"-->
-<!--                                            android:text="Stop"-->
-<!--                                            android:layout_width="wrap_content"-->
-<!--                                            android:layout_height="wrap_content"-->
-<!--                                            android:layout_marginStart="10dp"/>-->
-
-<!--                                        <Button-->
-<!--                                            android:id="@+id/btnSwitch"-->
-<!--                                            android:text="Switch"-->
-<!--                                            android:layout_width="wrap_content"-->
-<!--                                            android:layout_height="wrap_content"-->
-<!--                                            android:layout_marginStart="10dp"/>-->
-
-<!--                                        <Button-->
-<!--                                            android:id="@+id/btnDelete"-->
-<!--                                            android:text="Delete"-->
-<!--                                            android:visibility="gone"-->
-<!--                                            android:layout_width="wrap_content"-->
-<!--                                            android:layout_height="wrap_content"-->
-<!--                                            android:layout_marginStart="10dp"/>-->
-
-<!--                                    </LinearLayout>-->
-
                                 </RelativeLayout>
 
                                 <TextView
@@ -994,7 +956,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:hint="describe the activity"
+                                    android:hint="@string/describe_the_activity"
                                     app:boxStrokeColor="@color/color_dark_green">
 
                                     <com.google.android.material.textfield.TextInputEditText
@@ -1069,7 +1031,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/avenir_next_regular"
-                                        android:hint="describe the activity"
+                                        android:hint="@string/describe_the_activity"
                                         android:id="@+id/textSelectedRandomDate"
                                         app:boxStrokeColor="@color/color_dark_green">
 
@@ -1127,14 +1089,14 @@
                                         android:layout_width="wrap_content"
                                         android:fontFamily="@font/avenir_next_regular"
                                         android:layout_height="wrap_content"
-                                        android:text="Yes"/>
+                                        android:text="@string/yes"/>
 
                                     <RadioButton
                                         android:id="@+id/radionominatedNo"
                                         android:layout_width="wrap_content"
                                         android:fontFamily="@font/avenir_next_regular"
                                         android:layout_height="wrap_content"
-                                        android:text="No"/>
+                                        android:text="@string/no"/>
 
                                 </RadioGroup>
 <!--                                RemarkisFieldLevelSupervisorNominated-->
@@ -1146,7 +1108,7 @@
                                     android:id="@+id/textRemarkisFieldLevelSupervisorNominated"
                                     android:visibility="gone"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:hint="enter the reason"
+                                    android:hint="@string/enter_the_reason"
                                     app:boxStrokeColor="@color/color_dark_green">
 
                                     <com.google.android.material.textfield.TextInputEditText
@@ -1182,7 +1144,7 @@
                                     android:layout_width="match_parent"
                                     android:fontFamily="@font/avenir_next_regular"
                                     android:layout_height="wrap_content"
-                                    android:hint="enter the candidate response"
+                                    android:hint="@string/enter_the_candidate_response"
                                     app:boxStrokeColor="@color/color_dark_green">
 
                                     <com.google.android.material.textfield.TextInputEditText
@@ -1230,14 +1192,14 @@
                                         android:layout_width="wrap_content"
                                         android:fontFamily="@font/avenir_next_regular"
                                         android:layout_height="wrap_content"
-                                        android:text="Yes"/>
+                                        android:text="@string/yes"/>
 
                                     <RadioButton
                                         android:id="@+id/radioinstrumentNo"
                                         android:layout_width="wrap_content"
                                         android:fontFamily="@font/avenir_next_regular"
                                         android:layout_height="wrap_content"
-                                        android:text="No"/>
+                                        android:text="@string/no"/>
 
                                 </RadioGroup>
 
@@ -1289,14 +1251,14 @@
                                         android:fontFamily="@font/avenir_next_regular"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Yes"/>
+                                        android:text="@string/yes"/>
 
                                     <RadioButton
                                         android:id="@+id/radiomaterialsNo"
                                         android:fontFamily="@font/avenir_next_regular"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="No"/>
+                                        android:text="@string/no"/>
 
                                 </RadioGroup>
 
@@ -1352,14 +1314,14 @@
                                         android:layout_width="wrap_content"
                                         android:fontFamily="@font/avenir_next_regular"
                                         android:layout_height="wrap_content"
-                                        android:text="Yes"/>
+                                        android:text="@string/yes"/>
 
                                     <RadioButton
                                         android:id="@+id/radiofacilitiesNo"
                                         android:layout_width="wrap_content"
                                         android:fontFamily="@font/avenir_next_regular"
                                         android:layout_height="wrap_content"
-                                        android:text="No"/>
+                                        android:text="@string/no"/>
 
                                 </RadioGroup>
 <!--                                <com.google.android.material.textfield.TextInputLayout-->
@@ -1430,7 +1392,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:hint="candidate response"
+                                    android:hint="@string/candidate_response"
                                     app:boxStrokeColor="@color/color_dark_green">
 
                                     <com.google.android.material.textfield.TextInputEditText
@@ -1473,14 +1435,14 @@
                                         android:layout_width="wrap_content"
                                         android:fontFamily="@font/avenir_next_regular"
                                         android:layout_height="wrap_content"
-                                        android:text="Yes"/>
+                                        android:text="@string/yes"/>
 
                                     <RadioButton
                                         android:id="@+id/radioAreBoardingAandLoadingFacilitiesProvidedNo"
                                         android:layout_width="wrap_content"
                                         android:fontFamily="@font/avenir_next_regular"
                                         android:layout_height="wrap_content"
-                                        android:text="No"/>
+                                        android:text="@string/no"/>
 
                                 </RadioGroup>
 
@@ -1545,7 +1507,7 @@
                             android:id="@+id/textInputReon"
                             android:visibility="gone"
                             android:fontFamily="@font/avenir_next_regular"
-                            android:hint="enter the reason"
+                            android:hint="@string/enter_the_reason"
                             app:boxStrokeColor="@color/color_dark_green">
 
                             <com.google.android.material.textfield.TextInputEditText

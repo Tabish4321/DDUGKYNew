@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
+import com.deendayalproject.R
 import com.deendayalproject.adapter.ChildAdapter
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.ChildFragmentBinding
@@ -60,7 +61,7 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
         binding.toolbar.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
-        binding.toolbar.tvTitle.text = "OJT Candidate List"
+        binding.toolbar.tvTitle.text = getString(R.string.ojt_candidate_list)
     }
 
     private fun setupViewModel() {
@@ -91,7 +92,6 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
             val token = AppUtil.getSavedTokenPreference(requireContext())
             val request = ModulesOJTCompleteOjtRequest(
                 BuildConfig.VERSION_NAME,
-//                "2522297001"
                 batch.candidateId
             )
 
@@ -142,8 +142,6 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
     }
 
     private fun observeViewModel() {
-
-
         viewModel.CompleteOjt.observe(viewLifecycleOwner) { response ->
 
             response.onSuccess { result ->
@@ -184,6 +182,9 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
 
             response.onFailure { error ->
 
+
+
+
                 dismissProgressDialog()
 
                 // ✅ Handle 401 (Session Expired)
@@ -200,7 +201,6 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
                 ).show()
             }
         }
-
         viewModel.OjtListByBatch.observe(viewLifecycleOwner) { response ->
 
             response.onSuccess { result ->
@@ -263,15 +263,6 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
                 ).show()
             }
         }
-
-
-
-
-
-
-
-
-
     }
     override fun onDestroy() {
         super.onDestroy()

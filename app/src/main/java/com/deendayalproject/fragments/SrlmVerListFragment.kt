@@ -85,13 +85,16 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
                 ItemQteamLayoutBinding.inflate(inflater, parent, false)
             },
             onBind = { center, itemBinding, position ->
-                itemBinding.trainingCenterName.text = "Training Center Name: ${center.trainingCenterName}"
-                itemBinding.trainingCenterAddress.text = "Training Center Address: ${center.trainingCenterAddress}"
-                itemBinding.senctionOrder.text = "Sanction Order: ${center.senctionOrder}"
-                itemBinding.districtName.text = "District Name: ${center.districtName}"
-                itemBinding.tcBoyCap.text = "Tc Male Capacity: ${center.tcMaleCapacity}"
-                itemBinding.tcFemaleCap.text = "Tc Female Capacity: ${center.tcFemaleCapacity}"
-                itemBinding.tcTotalCap.text = "Training Center Total Capacity: ${center.tcCapacity}"
+                itemBinding.trainingCenterName.text = getString(R.string.training_center_name)+": ${center.trainingCenterName}"
+                itemBinding.trainingCenterAddress.text =getString(R.string.training_center_address)+":  ${center.trainingCenterAddress}"
+                itemBinding.senctionOrder.text = getString(R.string.sanction_order)+":  ${center.senctionOrder}"
+                itemBinding.districtName.text = getString(R.string.district_name)+":  ${center.districtName}"
+                itemBinding.tcBoyCap.text =
+                    getString(R.string.tc_male_capacity, center.tcMaleCapacity)
+                itemBinding.tcFemaleCap.text =
+                    getString(R.string.tc_female_capacity, center.tcFemaleCapacity)
+                itemBinding.tcTotalCap.text =
+                    getString(R.string.training_center_total_capacity, center.tcCapacity)
 
                 itemBinding.root.setOnClickListener {
                     onItemClick(center)
@@ -99,8 +102,8 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
                 }
             },
             noDataConfig = NoDataConfig(
-                title = "No Training Centers",
-                description = "No training centers available for verification",
+                title = getString(R.string.no_training_centers),
+                description = getString(R.string.no_training_centers_available_for_verification),
                 iconRes = R.drawable.no_data
             )
         )
@@ -133,12 +136,12 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
                     }
                 },
                 onNoData = {
-                    showToast("No data available.")
+                    showToast(getString(R.string.no_data_available))
                     trainingCentersList.clear()
                     updateRecyclerViewData(binding.recyclerView.id, trainingCentersList)
                 },
                 onUpgradeRequired = {
-                    showToast("Please upgrade your app.")
+                    showToast(getString(R.string.please_upgrade_your_app))
                 },
 
                 onSessionExpired = {
@@ -171,7 +174,7 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
             if (isGranted) {
                 logFragmentEvent("Location_Permission_Granted")
             } else {
-                showToast(" Location permission denied")
+                showToast(getString(R.string.location_permission_denied))
                 logFragmentEvent("Location_Permission_Denied")
             }
         }
@@ -183,7 +186,7 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
             if (inside) {
                 onItemClick(center)
             } else {
-                showErrorToast("You are outside the training center area")
+                showErrorToast(getString(R.string.you_are_outside_the_training_center_area))
             }
         }
     }
@@ -229,14 +232,14 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
                     onResult(inside, location)
                     logFragmentEvent("Geofence_Check", "Inside: $inside")
                 } else {
-                    showToast("Location not available")
+                    showToast(getString(R.string.location_not_found))
                     onResult(false, null)
                 }
             }
             .addOnFailureListener { exception ->
                 dismissProgressDialog()
                 logCrashlyticsError("checkGeofence", exception)
-                showErrorToast("Failed to get location")
+                showErrorToast(getString(R.string.failed_to_get_location))
                 onResult(false, null)
             }
     }
@@ -245,7 +248,7 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
 
     // Maintain original method names for compatibility
     fun showProgressBar() {
-        showProgressDialog("Loading training centers...")
+        showProgressDialog(getString(R.string.loading_training_centers))
     }
 
     fun hideProgressBar() {

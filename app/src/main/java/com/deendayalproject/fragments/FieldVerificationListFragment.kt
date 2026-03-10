@@ -44,7 +44,8 @@ class FieldVerificationListFragment : BaseFragment<FragmentFieldVerificationList
                 // Permission granted → retry geofence check
                 logFragmentEvent("Location_Permission_Granted")
             } else {
-                showErrorToast("Location permission denied")
+
+                showErrorToast( getString(R.string.location_permission_denied))
                 logCrashlyticsError("LocationPermission", Exception("Location permission denied by user"))
             }
         }
@@ -155,12 +156,12 @@ class FieldVerificationListFragment : BaseFragment<FragmentFieldVerificationList
                     }
                 },
                 onNoData = {
-                    showToast("No data available.")
+                    showToast( getString(R.string.no_data_available))
                     fieldVerificationList.clear()
                     updateRecyclerViewData(binding.recyclerView.id, fieldVerificationList)
                 },
                 onUpgradeRequired = {
-                    showToast("Please upgrade your app.")
+                    showToast( getString(R.string.please_upgrade_your_app))
                 },
                 onSessionExpired = {
                     handleSessionExpired()
@@ -209,13 +210,13 @@ class FieldVerificationListFragment : BaseFragment<FragmentFieldVerificationList
                     // Log location event
                     logFragmentEvent("Geofence_Check_Result", "Inside: $inside")
                 } else {
-                    showToast("Location not available")
+                    showToast( getString(R.string.location_not_found))
                     onResult(false, null)
                 }
             }
             .addOnFailureListener { exception ->
                 progressBar.hide()
-                showErrorToast("Failed to get location")
+                showErrorToast(getString(R.string.failed_to_get_location))
                 onResult(false, null)
                 logCrashlyticsError("checkGeofence", exception)
             }

@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
+import com.deendayalproject.R
 import com.deendayalproject.adapter.AttendanceCandidateAdapter
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentAttendanceCandidateListBinding
@@ -53,7 +54,7 @@ class AttendanceCandidateListFragment : BaseFragment<FragmentAttendanceCandidate
                 ), AppUtil.getSavedTokenPreference(requireContext())
             )
 
-            showProgressDialog("Loading...")
+            showProgressDialog(getString(R.string.loading))
 
 
         }
@@ -103,11 +104,13 @@ class AttendanceCandidateListFragment : BaseFragment<FragmentAttendanceCandidate
                         //  populateSpinnerVillage((response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>, spinnerSelectULB )
 
                         202 -> Toast.makeText(
-                            requireContext(), "No data available.", Toast.LENGTH_SHORT
+                            requireContext(), getString(R.string.no_data_available), Toast.LENGTH_SHORT
+//                            requireContext(), "No data available.", Toast.LENGTH_SHORT
                         ).show()
 
                         301 -> Toast.makeText(
-                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+
+                            requireContext(), getString(R.string.please_upgrade_your_app), Toast.LENGTH_SHORT
                         ).show()
 
                         401 -> AppUtil.showSessionExpiredDialog(
@@ -118,7 +121,7 @@ class AttendanceCandidateListFragment : BaseFragment<FragmentAttendanceCandidate
                 it.onFailure {
                     dismissProgressDialog()
 
-                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                    Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
                         .show()
                 }
             }

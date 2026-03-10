@@ -3,6 +3,7 @@ package com.deendayalproject.fragments
 import SharedViewModel
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
@@ -68,7 +69,8 @@ class CenterFragment : BaseFragment<FragmentCenterBinding>(
                 binding.totalCapacityContainer.gone()
             },
             onItemClick = { center, position ->
-                ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")
+                ProgressDialogUtil.showProgressDialog(requireContext(),
+                    getString(R.string.please_wait))
 
                 AppUtil.savesanctionOrderPreference(requireContext(), center.senctionOrder)
                 AppUtil.savecenterIdPreference(requireContext(), center.trainingCenterId.toString())
@@ -84,8 +86,8 @@ class CenterFragment : BaseFragment<FragmentCenterBinding>(
                 ProgressDialogUtil.dismissProgressDialog()
 
             },
-            noDataTitle = "No Training Centers",
-            noDataDescription = "No training centers available at the moment",
+            noDataTitle = getString(R.string.no_training_centers_available),
+            noDataDescription = getString(R.string.no_training_centers_available_at_the_moment),
         )
     }
 
@@ -111,10 +113,10 @@ class CenterFragment : BaseFragment<FragmentCenterBinding>(
                     },
                     onNoData = {
                         updateRecyclerViewData(binding.recyclerView.id, emptyList<TrainingCenter>())
-                        showToast("No data available.")
+                        showToast(getString(R.string.no_data_available))
                     },
                     onUpgradeRequired = {
-                        showToast("Please upgrade your app.")
+                        showToast(getString(R.string.please_upgrade_your_app))
                     },
                     onSessionExpired = {
                         handleSessionExpired()
@@ -122,7 +124,9 @@ class CenterFragment : BaseFragment<FragmentCenterBinding>(
                 )
             }
             result.onFailure { exception ->
-                showErrorToast("Failed: ${exception.message}")
+
+                showErrorToast(": ${exception.message ?: getString(R.string.failed)}")
+
                 logCrashlyticsError("observeViewModel", exception as Exception)
             }
         }

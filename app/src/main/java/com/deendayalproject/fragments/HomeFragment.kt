@@ -46,7 +46,7 @@ bindingInflater = FragmentHomeBinding::inflate
     private fun setupNavHeader() {
         setupToolbar(
             binding.root,
-            "HOME",
+            getString(R.string.home),
             showBack = false,
             showLang = true,
             showProfile = true,
@@ -70,7 +70,8 @@ bindingInflater = FragmentHomeBinding::inflate
                         response.onSuccess { result ->
                             when (result.responseCode) {
                                 200 -> {
-                                    Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(requireContext(),
+                                        getString(R.string.logged_out), Toast.LENGTH_SHORT).show()
                                     AppUtil.saveLoginStatus(requireContext(), false)
                                     findNavController().navigate(
                                         R.id.fragmentLogin,
@@ -82,7 +83,7 @@ bindingInflater = FragmentHomeBinding::inflate
                                 }
                                 301 ->Toast.makeText(
                                     requireContext(),
-                                    "Please upgrade your app first.",
+                                    getString(R.string.please_upgrade_your_app_first),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -91,7 +92,7 @@ bindingInflater = FragmentHomeBinding::inflate
 
                             Toast.makeText(
                                 requireContext(),
-                                "Something went wrong. Try again.",
+                                getString(R.string.something_went_wrong_try_again),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -168,7 +169,7 @@ bindingInflater = FragmentHomeBinding::inflate
             },
             diffChecker = { old, new -> old.id == new.id },
              recyclerViewParent = binding.container,
-             noDataTitle = "No modules available for your account",
+             noDataTitle = getString(R.string.no_modules_available_for_your_account),
              noDataDescription = ""
         )
         binding.rvModules.layoutManager = LinearLayoutManager(requireContext())
@@ -253,7 +254,7 @@ bindingInflater = FragmentHomeBinding::inflate
                         adapter.notifyDataSetChanged()
 
                         if (updated.isEmpty()) {
-                            showToast("No modules available for your account")
+                            showToast( getString(R.string.no_modules_available_for_your_account))
                         }
                  },
                     onSessionExpired = { AppUtil.showSessionExpiredDialog(findNavController(), requireContext())},
@@ -275,7 +276,7 @@ bindingInflater = FragmentHomeBinding::inflate
 
                 Toast.makeText(
                     requireContext(),
-                    "Something went wrong. Try again.",
+                    getString(R.string.something_went_wrong_try_again),
                     Toast.LENGTH_SHORT
                 ).show()
             }

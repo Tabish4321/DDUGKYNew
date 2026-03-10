@@ -129,12 +129,6 @@ dependencies {
     // Location Services
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
-//    implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
-//    implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
-    // Firebase
-//    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
-//    implementation("com.google.firebase:firebase-crashlytics-ktx")
-//    implementation("com.google.firebase:firebase-analytics-ktx")
 
 
     // Testing
@@ -164,31 +158,11 @@ dependencies {
     implementation("androidx.media3:media3-common:1.3.1")
     implementation("androidx.media3:media3-exoplayer:1.3.1")
 
-//    implementation("com.arthenica:ffmpeg-kit-full:5.2.LTS")
-//implementation("androidx.media3:media3-transformer:1.3.1")
-//implementation "androidx.media3:media3-exoplayer:1.3.1"
 
     ////    Video Compress
     implementation("androidx.media3:media3-transformer:1.3.1")
     implementation("androidx.media3:media3-exoplayer:1.3.1")
-//    implementation("com.arthenica:ffmpeg-kit-full:6.0-2")
-//    implementation("com.github.AbedElazizShe:LightCompressor:1.3.9")
-//    implementation("com.iceteck.silicompressor:library:2.2.1")
-//    implementation("org.mp4parser:isoparser:1.9.41")
-//    implementation("com.iceteck.silicompressorr:silicompressor:2.2.4")
-//    implementation("androidx.camera:camera-camera2:1.3.1")
-//    implementation("androidx.camera:camera-lifecycle:1.3.1")
-//    implementation("androidx.camera:camera-video:1.3.1")
-//    implementation("androidx.camera:camera-view:1.3.1")
 
-
-
-
-
-//    implementation("androidx.camera:camera-camera2:1.3.1")
-//implementation "androidx.camera:camera-lifecycle:1.3.1"
-//implementation "androidx.camera:camera-video:1.3.1"
-//implementation "androidx.camera:camera-view:1.3.1"
 
 
     implementation("com.thoughtworks.xstream:xstream:1.4.7") {

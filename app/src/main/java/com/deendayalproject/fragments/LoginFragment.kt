@@ -231,7 +231,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
         if (password.isEmpty())
         {
-            showToast("Please enter password")
+            showToast(getString(R.string.please_enter_password))
             binding.etPassword.requestFocus()
             showKeyboard(binding.etPassword)
             return false
@@ -241,7 +241,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     private fun performLogin(userId: String, password: String) {
-        showProgressDialog("Logging in...")
+        showProgressDialog(getString(R.string.logging_in))
 
         val request = LoginRequest(
             loginId = userId,
@@ -270,10 +270,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                             handleLoginSuccess(responseData)
                         },
                         onNoData = {
-                            showToast("No data available.")
+                            showToast(getString(R.string.no_data_available))
                         },
                         onUpgradeRequired = {
-                            showToast("Please upgrade your app.")
+                            showToast(getString(R.string.please_upgrade_your_app))
                         },
                         onSessionExpired = {
                             handleSessionExpired()
@@ -316,7 +316,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     private fun handleLoginFailure(exception: Exception?) {
         logCrashlyticsError("Login_Failed", exception ?: Exception("Unknown error"))
-        showErrorToast("Login Failed: ${exception?.message ?: "Unknown error"}")
+        showErrorToast(getString(R.string.login_failed, exception?.message ?: getString(R.string.unknown_error)))
     }
 
 

@@ -1697,7 +1697,7 @@ class ResidentialFacilityFragment : Fragment() {
                     200 -> {
                         Toast.makeText(
                             requireContext(),
-                            "Residential Facilities Available data submitted successfully!",
+                            getString(R.string.residential_facilities_available_data_submitted_successfully),
                             Toast.LENGTH_SHORT
                         ).show()
 
@@ -1725,12 +1725,9 @@ class ResidentialFacilityFragment : Fragment() {
             }
             result.onFailure {
                 hideProgressBar()
+                Toast.makeText(requireContext(), it.message ?: getString(R.string.living_area_submission_failed),Toast.LENGTH_SHORT)
+                    .show()
 
-                Toast.makeText(
-                    requireContext(),
-                    "Living Area submission failed: ${it.message}",
-                    Toast.LENGTH_LONG
-                ).show()
             }
         }
 
@@ -1746,7 +1743,7 @@ class ResidentialFacilityFragment : Fragment() {
                     200 -> {
                         Toast.makeText(
                             requireContext(),
-                            "Support Facilities Available data submitted successfully!",
+                            getString(R.string.support_facilities_available_data_submitted_successfully),
                             Toast.LENGTH_SHORT
                         ).show()
 
@@ -1777,7 +1774,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                 Toast.makeText(
                     requireContext(),
-                    "Living Area submission failed: ${it.message}",
+                    getString(R.string.living_area_submission_failed, it.message),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -2363,7 +2360,7 @@ class ResidentialFacilityFragment : Fragment() {
 
             } else Toast.makeText(
                 requireContext(),
-                "Complete all Basic Information  fields and photos.",
+                getString(R.string.complete_all_basic_information_fields_and_photos),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -2373,7 +2370,7 @@ class ResidentialFacilityFragment : Fragment() {
             if (validateInfraInfoForm(view)) submitRFInfraForm(view)
             else Toast.makeText(
                 requireContext(),
-                "Complete all Infrastructure Details and Compliance's  fields and photos.",
+                getString(R.string.complete_all_infrastructure_details_and_compliance_s_fields_and_photos),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -2381,14 +2378,15 @@ class ResidentialFacilityFragment : Fragment() {
             if (validateLivingAreaInfoForm(view)) submitRFLivingAreaForm(view)
             else Toast.makeText(
                 requireContext(),
-                "Complete all Living Area Information  fields and photos.",
+                getString(R.string.complete_all_living_area_information_fields_and_photos),
                 Toast.LENGTH_LONG
             ).show()
         }
         view.findViewById<Button>(R.id.btnSubmitToiletInfo).setOnClickListener {
             if (validateToiletInfoForm(view)) submitRFToiletForm(view)
             else Toast.makeText(
-                requireContext(), "Complete all Toilets  fields and photos.", Toast.LENGTH_LONG
+                requireContext(),
+                getString(R.string.complete_all_toilets_fields_and_photos), Toast.LENGTH_LONG
             ).show()
         }
 
@@ -2404,7 +2402,7 @@ class ResidentialFacilityFragment : Fragment() {
             if (validateAdditionalToiletInfoForm(view)) submitRFAdditionalToiletForm(view)
             else Toast.makeText(
                 requireContext(),
-                "Complete all Urinals/Washbasin/Overhead  fields and photos.",
+                getString(R.string.complete_all_urinals_washbasin_overhead_fields_and_photos),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -2413,7 +2411,7 @@ class ResidentialFacilityFragment : Fragment() {
             if (validateNonLivingAreaInfoForm(view)) submitRFNonLivingAreaForm(view)
             else Toast.makeText(
                 requireContext(),
-                "Complete all Non-Living Areas  fields and photos.",
+                getString(R.string.complete_all_non_living_areas_fields_and_photos),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -2422,7 +2420,7 @@ class ResidentialFacilityFragment : Fragment() {
             if (validateResidentialFacilitiesInfoForm(view)) SubmitRfAvaibilityDetails(view)
             else Toast.makeText(
                 requireContext(),
-                "Complete all Residential Facilities Available  fields and photos.",
+                getString(R.string.complete_all_residential_facilities_available_fields_and_photos),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -2430,7 +2428,7 @@ class ResidentialFacilityFragment : Fragment() {
             if (validateSupportFacilitiesInfoForm(view)) SubmitRfSupportFacilitiesDetails(view)
             else Toast.makeText(
                 requireContext(),
-                "Complete all Support Facilities Available  fields and photos.",
+                getString(R.string.complete_all_support_facilities_available_fields_and_photos),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -2451,7 +2449,7 @@ class ResidentialFacilityFragment : Fragment() {
                     //   202 -> { //Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()}
 
                     301 -> Toast.makeText(
-                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                        requireContext(), getString(R.string.please_upgrade_your_app), Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
@@ -2459,9 +2457,9 @@ class ResidentialFacilityFragment : Fragment() {
             }
             result.onFailure {
                 hideProgressBar()
-                Toast.makeText(
-                    requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
+                    .show()
+
             }
         }
     }
@@ -2479,11 +2477,11 @@ class ResidentialFacilityFragment : Fragment() {
                     )
 
                     202 -> Toast.makeText(
-                        requireContext(), "No data available.", Toast.LENGTH_SHORT
+                        requireContext(), getString(R.string.no_data_available), Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
-                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                        requireContext(), getString(R.string.please_upgrade_your_app), Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
@@ -2491,7 +2489,8 @@ class ResidentialFacilityFragment : Fragment() {
             }
             result.onFailure {
                 hideProgressBar()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
@@ -2508,7 +2507,7 @@ class ResidentialFacilityFragment : Fragment() {
                     //       202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
 
                     301 -> Toast.makeText(
-                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                        requireContext(), getString(R.string.please_upgrade_your_app), Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
@@ -2516,7 +2515,8 @@ class ResidentialFacilityFragment : Fragment() {
             }
             result.onFailure {
                 hideProgressBar()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
@@ -2533,7 +2533,7 @@ class ResidentialFacilityFragment : Fragment() {
                     // 202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
 
                     301 -> Toast.makeText(
-                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                        requireContext(), getString(R.string.please_upgrade_your_app), Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
@@ -2541,7 +2541,8 @@ class ResidentialFacilityFragment : Fragment() {
             }
             result.onFailure {
                 hideProgressBar()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
@@ -2558,11 +2559,11 @@ class ResidentialFacilityFragment : Fragment() {
                     )
 
                     202 -> Toast.makeText(
-                        requireContext(), "No data available.", Toast.LENGTH_SHORT
+                        requireContext(), getString(R.string.no_data_available), Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
-                        requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                        requireContext(), getString(R.string.please_upgrade_your_app), Toast.LENGTH_SHORT
                     ).show()
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
@@ -2571,7 +2572,8 @@ class ResidentialFacilityFragment : Fragment() {
             result.onFailure {
                 hideProgressBar()
 
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
@@ -2817,7 +2819,8 @@ class ResidentialFacilityFragment : Fragment() {
     private fun launchCamera() {
         val photoFile = createImageFile()
         if (photoFile == null) {
-            Toast.makeText(requireContext(), "Failed to create image file", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(),
+                getString(R.string.failed_to_create_image_file), Toast.LENGTH_SHORT)
                 .show()
             return
         }
@@ -2936,7 +2939,8 @@ class ResidentialFacilityFragment : Fragment() {
             result.onFailure {
                 hideProgressBar()
 
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -2967,11 +2971,11 @@ class ResidentialFacilityFragment : Fragment() {
                         //  populateSpinnerVillage((response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>, spinnerSelectULB )
 
                         202 -> Toast.makeText(
-                            requireContext(), "No data available.", Toast.LENGTH_SHORT
+                            requireContext(), getString(R.string.no_data_available), Toast.LENGTH_SHORT
                         ).show()
 
                         301 -> Toast.makeText(
-                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                            requireContext(), getString(R.string.please_upgrade_your_app), Toast.LENGTH_SHORT
                         ).show()
 
                         401 -> AppUtil.showSessionExpiredDialog(
@@ -2982,7 +2986,7 @@ class ResidentialFacilityFragment : Fragment() {
                 it.onFailure {
                     hideProgressBar()
 
-                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                    Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
                         .show()
                 }
             }
@@ -3195,52 +3199,56 @@ class ResidentialFacilityFragment : Fragment() {
         isValid = isValid && validateImageIfYes(
             spinnerWhetherStructurallySound,
             base64WhetherStructurallySoundDocFile,
-            "Upload image for Structurally Sound"
+            getString(R.string.upload_image_for_structurally_sound)
         )
         isValid = isValid && validateImageIfYes(
             spinnerVisibleSignOfLeakage,
             base64SignOfLeakageDocFile,
-            "Upload image for Visible Sign of Leakage"
+            getString(R.string.upload_image_for_visible_sign_of_leakage)
         )
         isValid = isValid && validateImageIfYes(
             spinnerConformanceDDUGKY,
             base64ConformanceDDUGKYDocFile,
-            "Upload image for Conformance to DDU-GKY"
+            getString(R.string.upload_image_for_conformance_to_ddu_gky)
         )
         isValid = isValid && validateImageIfYes(
             spinnerProtectionofStairs,
             base64ProtectionofStairsDocFile,
-            "Upload image for Protection of Stairs"
+            getString(R.string.upload_image_for_protection_of_stairs)
         )
         isValid = isValid && validateImageIfYes(
-            spinnerCorridor, base64CorridorDocFile, "Upload image for Corridor"
+            spinnerCorridor, base64CorridorDocFile, getString(R.string.upload_image_for_corridor)
         )
         isValid = isValid && validateImageIfYes(
-            spinnerSecuringWires, base64SecuringWiresDocFile, "Upload image for Securing Wires"
+            spinnerSecuringWires, base64SecuringWiresDocFile,
+            getString(R.string.upload_image_for_securing_wires)
         )
         isValid = isValid && validateImageIfYes(
-            spinnerSwitchBoards, base64SwitchBoardsDocFile, "Upload image for Switch Boards"
+            spinnerSwitchBoards, base64SwitchBoardsDocFile,
+            getString(R.string.upload_image_for_switch_boards)
         )
         isValid = isValid && validateImageIfYes(
             spinnerHostelNameBoard,
             base64HostelNameBoardDocFile,
-            "Upload image for Hostel Name Board"
+            getString(R.string.upload_image_for_hostel_name_board)
         )
         isValid = isValid && validateImageIfYes(
             spinnerEntitlementBoard,
             base64EntitlementBoardDocFile,
-            "Upload image for Entitlement Board"
+            getString(R.string.upload_image_for_entitlement_board)
         )
         isValid = isValid && validateImageIfYes(
-            spinnerContactDetail, base64ContactDetailDocFile, "Upload image for Contact Detail"
+            spinnerContactDetail, base64ContactDetailDocFile,
+            getString(R.string.upload_image_for_contact_detail)
         )
         isValid = isValid && validateImageIfYes(
-            spinnerBasicInfoBoard, base64BasicInfoBoardDocFile, "Upload image for Basic Info Board"
+            spinnerBasicInfoBoard, base64BasicInfoBoardDocFile,
+            getString(R.string.upload_image_for_basic_info_board)
         )
         isValid = isValid && validateImageIfYes(
             spinnerFoodSpecificationBoard,
             base64FoodSpecificationBoardDocFile,
-            "Upload image for Food Specification Board"
+            getString(R.string.upload_image_for_food_specification_board)
         )
 
 
@@ -3253,12 +3261,13 @@ class ResidentialFacilityFragment : Fragment() {
         var isValid = true
 
         // Validate all required Spinners
-        if (!checkSpinner(spinnerTypeLivingRoof, "Type of Roof(RCC/Non RCC)")) isValid = false
-        if (!checkSpinner(spinnerCeiling, "False Ceiling Provided")) isValid = false
-        if (!checkSpinner(spinnerAirConditioning, "Does the room has Air Conditioning ?")) isValid =
+        if (!checkSpinner(spinnerTypeLivingRoof, getString(R.string.type_of_roof_rcc_non_rcc))) isValid = false
+        if (!checkSpinner(spinnerCeiling, getString(R.string.false_ceiling_provided))) isValid = false
+        if (!checkSpinner(spinnerAirConditioning, getString(R.string.does_the_room_have_air_conditioning))) isValid =
+
             false
         if (!checkSpinner(
-                spinnerLivingAreaInfoBoard, "Living Area Information Board as per SF 5.1 B4 ?"
+                spinnerLivingAreaInfoBoard, getString(R.string.living_area_information_board_as_per_sf_5_1_b4)
             )
         ) isValid = false
 

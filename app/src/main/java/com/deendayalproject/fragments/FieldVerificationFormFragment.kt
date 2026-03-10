@@ -247,7 +247,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) launchCamera()
-                else showToast("Camera permission is required.")
+                else showToast(getString(R.string.camera_permission_is_required))
             }
     }
 
@@ -933,7 +933,8 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 Log.d("FIELD_API", "DOI = $apiDateOfIncorporation")
                 Log.d("FIELD_API", "EPFO = $apiEpfoNumber")
             }.onFailure {
-                showErrorToast(it.message ?: "Failed to fetch details")
+
+                showErrorToast(it.message ?: getString(R.string.failed_to_fetch_details))
             }
         }
     }
@@ -952,10 +953,10 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                         "Annual turnover count: ${financialDetails?.annualTurnover?.size}"
                     )
                 } catch (e: Exception) {
-                    showErrorToast("Failed handling response: ${e.message}")
+                    showErrorToast(getString(R.string.failed_handling_response, e.message))
                 }
             }.onFailure {
-                showErrorToast("API error: ${it.message ?: "Unknown"}")
+                showErrorToast(getString(R.string.api_error, it.message ?: "Unknown"))
             }
         }
     }
@@ -978,10 +979,14 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                     apiDomainForm1Base64 = trainingDetails?.domainSpecificTraining?.form1
                     apiDomainForm2Base64 = trainingDetails?.domainSpecificTraining?.form2
                 } catch (e: Exception) {
-                    showErrorToast("Failed processing training response: ${e.message}")
+                    showErrorToast(
+                        getString(
+                            R.string.failed_processing_training_response,
+                            e.message
+                        ))
                 }
             }.onFailure {
-                showErrorToast("Training API failed: ${it.message ?: "Unknown"}")
+                showErrorToast(getString(R.string.training_api_failed, it.message ?: getString(R.string.unknown)))
             }
         }
     }
@@ -998,10 +1003,18 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
                     Log.d("FieldVerify", "Residential available = $apiResidentialFacilityAvailable")
                 } catch (e: Exception) {
-                    showErrorToast("Failed processing training infra response: ${e.message}")
+                    showErrorToast(
+                        getString(
+                            R.string.failed_processing_training_infra_response,
+                            e.message
+                        ))
                 }
             }.onFailure {
-                showErrorToast("Training Infra API failed: ${it.message ?: "Unknown"}")
+                showErrorToast(
+                    getString(
+                        R.string.training_infra_api_failed,
+                        it.message ?:  getString(R.string.unknown)
+                    ))
             }
         }
     }
@@ -1021,10 +1034,18 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                         "Award body available = ${!apiAwardBodyCommitBase64.isNullOrBlank()}"
                     )
                 } catch (e: Exception) {
-                    showErrorToast("Failed processing Assessment & Certification response: ${e.message}")
+                    showErrorToast(
+                        getString(
+                            R.string.failed_processing_assessment_certification_response,
+                            e.message
+                        ))
                 }
             }.onFailure {
-                showErrorToast("Assessment & Certification API failed: ${it.message ?: "Unknown"}")
+                showErrorToast(
+                    getString(
+                        R.string.assessment_certification_api_failed,
+                        it.message ?: getString(R.string.unknown)
+                    ))
             }
         }
     }
@@ -1042,10 +1063,14 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
                     Log.d("FIELD_API", "Placement List = $apiPlacementList")
                 } catch (e: Exception) {
-                    showErrorToast("Failed processing Placement response: ${e.message}")
+                    showErrorToast(
+                        getString(
+                            R.string.failed_processing_placement_response,
+                            e.message
+                        ))
                 }
             }.onFailure {
-                showErrorToast("Placement API failed: ${it.message ?: "Unknown"}")
+                showErrorToast(getString(R.string.placement_api_failed, it.message ?: getString(R.string.unknown)))
             }
         }
     }
@@ -1201,7 +1226,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             if (fineLocationGranted || coarseLocationGranted) {
                 getCurrentLocation()
             } else {
-                showToast("Location permission denied")
+                showToast(getString(R.string.location_permission_denied))
             }
         }
 
@@ -1240,7 +1265,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 }
             }
             .addOnFailureListener {
-                showToast("Failed to get location: ${it.message}")
+                showToast(getString(R.string.failed_to_get_location, it.message ?: ""))
             }
     }
 
@@ -1330,7 +1355,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             }
             showInfoWithHorizontalButtonsDialog("Residential Facilities", msg, actions)
         } else {
-            showToast("No Residential Facilities to View")
+            showToast(getString(R.string.no_residential_facilities_to_view))
         }
     }
 
@@ -1341,7 +1366,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             }
             showInfoWithHorizontalButtonsDialog(title, "", actions)
         } else {
-            showToast("No File to View")
+            showToast(getString(R.string.no_file_to_view))
         }
     }
 
@@ -1468,7 +1493,11 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
     private fun validateAllRemarksForSection(
         items: List<FieldVerificationItem>,
-        errorMessageForItem: (FieldVerificationItem) -> String = { "Please enter remark for ${it.requirement}" }
+        errorMessageForItem: (FieldVerificationItem) -> String = {
+            getString(
+                R.string.please_enter_remark_for,
+                it.requirement
+            ) }
     ): Map<String, String>? {
         commitFocusedEditText()
 

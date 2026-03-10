@@ -887,4 +887,20 @@
     <string name="batch_name">Batch Name</string>
 
 
+
+
+
+
+        <string name="contact_number">মোবাইল নম্বর</string>
+        <string name="attendance_marked">উপস্থিতি নথিভুক্ত হয়েছে</string>
+        <string name="name">নাম:</string>
+        <string name="careof">কেয়ার অফ:</string>
+        <string name="ok">ঠিক আছে</string>
+        <string name="failed_attendance">উপস্থিতি নথিভুক্ত ব্যর্থ, আবার চেষ্টা করুন</string>
+        <string name="gender">লিঙ্গ</string>
+        <string name="date_of_birth">জন্ম তারিখ:</string>
+        <string name="mark_today_attention">আজকের উপস্থিতি নথিভুক্ত করুন</string>
+        <string name="check_in">চেক ইন</string>
+
+
 </resources>

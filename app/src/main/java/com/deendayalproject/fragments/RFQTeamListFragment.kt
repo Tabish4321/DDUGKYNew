@@ -94,7 +94,7 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
         val token = AppUtil.getSavedTokenPreference(requireContext()).orEmpty()
         val loginId = AppUtil.getSavedLoginIdPreference(requireContext()).orEmpty()
         if (loginId.isEmpty()) {
-            showErrorToast("Login ID not found")
+            showErrorToast(getString(R.string.login_id_not_found))
             handleSessionExpired()
             return
         }
@@ -122,7 +122,7 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
 
                             // Show success message if no data
                             if (centers.isNullOrEmpty()) {
-                                showToast("No data available.")
+                                showToast(getString(R.string.no_data_available))
                             }
                         },
                         onNoData = {
@@ -130,10 +130,10 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
                                 recyclerViewId = binding.recyclerView.id,
                                 newItems = emptyList<RfCenter>()
                             )
-                            showToast("No data available.")
+                            showToast(getString(R.string.no_data_available))
                         },
                         onUpgradeRequired = {
-                            showToast("Please upgrade your app.")
+                            showToast(getString(R.string.please_upgrade_your_app))
                         },
                         onSessionExpired = {
                             handleSessionExpired()
@@ -150,7 +150,7 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
 
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
-                showProgressDialog("Loading centers...")
+                showProgressDialog(getString(R.string.loading_centers))
             } else {
                 dismissProgressDialog()
             }
@@ -183,7 +183,7 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
            // findNavController().navigate(action)
         } catch (e: Exception) {
             logCrashlyticsError("navigateToForm", e)
-            showErrorToast("Failed to navigate: ${e.message}")
+            showErrorToast(getString(R.string.failed_to_navigate, e.message))
         }
     }
 

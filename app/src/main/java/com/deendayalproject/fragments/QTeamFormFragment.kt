@@ -1223,7 +1223,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
     private fun validateApproval(approval: String, fieldName: String): Boolean {
         if (approval.isEmpty()) {
-            showToast("Kindly select $fieldName first")
+            showToast(getString(R.string.kindly_select_first, fieldName))
             return false
         }
         return true
@@ -1231,7 +1231,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
     private fun validateRemarks(remarks: String): Boolean {
         if (remarks.isEmpty()) {
-            showToast("Kindly enter remarks first")
+            showToast(getString(R.string.kindly_enter_remarks_first))
             return false
         }
         return true
@@ -1273,11 +1273,11 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
     private fun showConfirmationDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Confirmation")
-            .setMessage("Are you sure you want to submit these details?")
+            .setTitle(getString(R.string.confirmation))
+            .setMessage(getString(R.string.are_you_sure_you_want_to_submit_these_details))
             .setCancelable(false)
-            .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
-            .setPositiveButton("Submit") { dialog, _ ->
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton(getString(R.string.submit)) { dialog, _ ->
                 submitQTeamForm()
                 dialog.dismiss()
             }
@@ -1286,9 +1286,9 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
 
     private fun submitQTeamForm() {
-        showProgressDialog("Submitting...")
+        showProgressDialog(getString(R.string.submitting))
         if(AppUtil.getSavedLoginIdPreference(requireContext()) == BuildConfig.USER_NAME_FOR_APP){
-            showToast("Data SuccessFully Saved.")
+            showToast(getString(R.string.data_successfully_saved))
             dismissProgressDialog()
             findNavController().popBackStack()
             return
@@ -1389,7 +1389,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             if (fineLocationGranted || coarseLocationGranted) {
                 getCurrentLocation()
             } else {
-                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext(), getString(R.string.location_permission_denied), Toast.LENGTH_SHORT)
                     .show()
             }
         }
@@ -1405,12 +1405,13 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                     langValue = location.longitude.toString()
                 } else {
 
-                    Toast.makeText(requireContext(), "Unable to get location", Toast.LENGTH_SHORT)
+                    Toast.makeText(requireContext(),
+                        getString(R.string.unable_to_get_location), Toast.LENGTH_SHORT)
                         .show()
                 }
             }.addOnFailureListener {
                 Toast.makeText(
-                    requireContext(), "Failed to get location: ${it.message}", Toast.LENGTH_SHORT
+                    requireContext(), getString(R.string.failed_to_get_location)+": ${it.message}", Toast.LENGTH_SHORT
                 ).show()
             }
     }
@@ -1504,13 +1505,13 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                     fansRoomImage=safeText(data.fansImage)
                     setupTheoryClassRoomImageClicks(binding, data)
                 } else {
-                    showToast("No data available")
+                    showToast(getString(R.string.no_data_available))
                 }
             }
 
             result.onFailure {
                 dismissProgressDialog()
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
 
@@ -1579,13 +1580,13 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
                     setupOfficeCumCounsellingImageClicks(binding, data)
                 } else {
-                    showToast("No data available")
+                    showToast(getString(R.string.no_data_available))
                 }
             }
 
             result.onFailure {
                 dismissProgressDialog()
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
         binding.backButton.setOnClickListener { dialog.dismiss() }
@@ -1639,13 +1640,13 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                         showBase64ImageDialog(data.roomsPhotographsImage, "Reception Area Photo")
                     }
                 } else {
-                    showToast("No data available")
+                    showToast(getString(R.string.no_data_available))
                 }
             }
 
             result.onFailure {
                 dismissProgressDialog()
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
 
@@ -1684,7 +1685,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                         showBase64ImageDialog(data.roomsPhotographsImage, "Counselling Area Photo")
                     }
                 } else {
-                    showToast("No data available")
+                    showToast(getString(R.string.no_data_available))
                 }
             }
 
@@ -1738,7 +1739,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
                     setupOfficeRoomImageClicks(binding, data)
                 } else {
-                    showToast("No data available")
+                    showToast(getString(R.string.no_data_available))
                 }
             }
 
@@ -1817,13 +1818,13 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                     fansImage= safeText(data.fansImage)
                     setupItCumDomainLabImageClicks(binding, data)
                 } else {
-                    showToast("No data available")
+                    showToast(getString(R.string.no_data_available))
                 }
             }
 
             result.onFailure {
                 dismissProgressDialog()
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
 
@@ -1906,13 +1907,13 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
                     setupTheoryCumItLabImageClicks(binding, data)
                 } else {
-                    showToast("No data available")
+                    showToast(getString(R.string.no_data_available))
                 }
             }
 
             result.onFailure {
                 dismissProgressDialog()
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
 
@@ -1995,13 +1996,13 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
                     setupItLabImageClicks(binding, data)
                 } else {
-                    showToast("No data available")
+                    showToast(getString(R.string.no_data_available))
                 }
             }
 
             result.onFailure {
                 dismissProgressDialog()
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
 
@@ -2086,13 +2087,13 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                     }
                     setupDomainLabImageClicks(binding, data)
                 } else {
-                    showToast("No data available")
+                    showToast(getString(R.string.no_data_available))
                 }
             }
 
             result.onFailure {
                 dismissProgressDialog()
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
 
@@ -2181,13 +2182,13 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
                     setupTheoryCumDomainLabImageClicks(binding, data)
                 } else {
-                    showToast("No data available")
+                    showToast(getString(R.string.no_data_available))
                 }
             }
 
             result.onFailure {
                 dismissProgressDialog()
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
 
@@ -2232,7 +2233,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
             val pdfBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
             if (pdfBytes.isEmpty()) {
-                showToast("Invalid PDF data")
+                showToast(getString(R.string.invalid_pdf_data))
                 return
             }
 
@@ -2244,12 +2245,12 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
             val uri = Uri.fromFile(file)
             requireContext().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
-            showToast("PDF downloaded to Downloads: ${file.name}")
+            showToast(getString(R.string.pdf_downloaded_to_downloads, file.name))
             openBase64Pdf(cleanBase64)
 
         } catch (e: Exception) {
             e.printStackTrace()
-            showErrorToast("Error: ${e.message}")
+            showErrorToast(getString(R.string.error, e.message))
         }
     }
 
@@ -2289,7 +2290,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2306,7 +2307,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2338,7 +2339,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2357,7 +2358,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2431,7 +2432,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2462,7 +2463,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2487,7 +2488,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2509,7 +2510,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2544,7 +2545,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2581,7 +2582,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2622,7 +2623,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2649,7 +2650,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2705,7 +2706,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2788,7 +2789,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 )
             }
             result.onFailure {
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }
@@ -2808,7 +2809,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             }
             result.onFailure {
                 dismissProgressDialog()
-                showErrorToast("Failed: ${it.message}")
+                showErrorToast(getString(R.string.failed, it.message))
             }
         }
     }

@@ -76,7 +76,8 @@ class ChildAdapter(
                 "Completed" -> {
 
                     Tvcandidate_status.text = "Completed"
-                    Tvcandidate_status.setTextColor(Color.GREEN)
+//                    Tvcandidate_status.setTextColor(Color.GREEN)
+                    Tvcandidate_status.setTextColor(Color.parseColor("#008000"))
 
                     // underline add
                     Tvcandidate_status.paintFlags =
@@ -114,51 +115,3 @@ class ChildAdapter(
 
     override fun getItemCount(): Int = items.size
 }
-
-//class ChildAdapter(
-////    private val listener: (OJTList) -> Unit
-//    private val listener: (OjtListBy) -> Unit
-//) : RecyclerView.Adapter<ChildAdapter.BatchViewHolder>() {
-//
-//    private val items = ArrayList<OjtListBy>()
-//    private var expandedPosition = -1
-//
-//    fun setItems(list: List<OjtListBy>) {
-//        items.clear()
-//        items.addAll(list)
-//        notifyDataSetChanged()
-//    }
-//
-//    inner class BatchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//
-//        val TvcandidateId: TextView = itemView.findViewById(R.id.TvcandidateId)
-//        val TvcandidatName: TextView = itemView.findViewById(R.id.TvcandidatName)
-//        val Tvcandidate_status: TextView = itemView.findViewById(R.id.Tvcandidate_status)
-//        val Tvverification_date: TextView = itemView.findViewById(R.id.Tvverification_date)
-////        val scrollView: ScrollView = itemView.findViewById(R.id.scrollView)
-//
-//        fun bind(batch: OjtListBy) {
-//
-//            val serial = adapterPosition + 1
-//            TvcandidateId.text = batch.candidateId
-//            TvcandidatName.text =batch.candidateName
-//            Tvcandidate_status.text =batch.verificationStatus
-//            Tvverification_date.text =batch.verificationDate
-//            itemView.setOnClickListener {
-//                listener(batch)
-//            }
-//        }
-//    }
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BatchViewHolder {
-//        val view = LayoutInflater.from(parent.context)
-//            .inflate(R.layout.item_child, parent, false)
-//        return BatchViewHolder(view)
-//    }
-//
-//    override fun onBindViewHolder(holder: BatchViewHolder, position: Int) {
-//        holder.bind(items[position])
-//    }
-//
-//    override fun getItemCount() = items.size
-//}
