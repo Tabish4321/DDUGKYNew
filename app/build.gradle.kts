@@ -22,7 +22,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 5
-        versionName = "1.1.3" //1.1.2 //1.2.9//1.3.2
+        versionName = "1.1.3" //1.1.2 //1.2.9//1.3.2//1.3.1//1.1.3 demo use
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -57,7 +57,7 @@ android {
     productFlavors {
         create("prod") {
             dimension = "environment"
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
         } //BASE_URL_LIVE
 
         create("demo") {
@@ -155,7 +155,41 @@ dependencies {
 
     implementation("org.apache.santuario:xmlsec:2.0.3") {
         exclude(group = "org.codehaus.woodstox")
+
+
+
     }
+
+    implementation("androidx.media3:media3-transformer:1.3.1")
+    implementation("androidx.media3:media3-common:1.3.1")
+    implementation("androidx.media3:media3-exoplayer:1.3.1")
+
+//    implementation("com.arthenica:ffmpeg-kit-full:5.2.LTS")
+//implementation("androidx.media3:media3-transformer:1.3.1")
+//implementation "androidx.media3:media3-exoplayer:1.3.1"
+
+    ////    Video Compress
+    implementation("androidx.media3:media3-transformer:1.3.1")
+    implementation("androidx.media3:media3-exoplayer:1.3.1")
+//    implementation("com.arthenica:ffmpeg-kit-full:6.0-2")
+//    implementation("com.github.AbedElazizShe:LightCompressor:1.3.9")
+//    implementation("com.iceteck.silicompressor:library:2.2.1")
+//    implementation("org.mp4parser:isoparser:1.9.41")
+//    implementation("com.iceteck.silicompressorr:silicompressor:2.2.4")
+//    implementation("androidx.camera:camera-camera2:1.3.1")
+//    implementation("androidx.camera:camera-lifecycle:1.3.1")
+//    implementation("androidx.camera:camera-video:1.3.1")
+//    implementation("androidx.camera:camera-view:1.3.1")
+
+
+
+
+
+//    implementation("androidx.camera:camera-camera2:1.3.1")
+//implementation "androidx.camera:camera-lifecycle:1.3.1"
+//implementation "androidx.camera:camera-video:1.3.1"
+//implementation "androidx.camera:camera-view:1.3.1"
+
 
     implementation("com.thoughtworks.xstream:xstream:1.4.7") {
         exclude(group = "xmlpull", module = "xmlpull")

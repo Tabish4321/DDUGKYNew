@@ -148,6 +148,24 @@ object AppUtil {
 //    Ajit Ranjan
 
 
+    fun saveOJTBatchIDPreference(context: Context, batchId: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("batchId", batchId).apply()
+    }
+
+    fun getSavedOJTBatchIDPreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("batchId", "") ?: ""
+    }
+
+
+
+
+
+
+
     fun hideKeyboard(context: Context, view: View?) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         val focusedView = view ?: (context as? Activity)?.currentFocus ?: View(context)

@@ -47,6 +47,44 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _trainingRfCenters = MutableLiveData<Result<RfQTeamListRes>>()
     val trainingRfCenters: LiveData<Result<RfQTeamListRes>> = _trainingRfCenters
 
+
+
+
+
+
+
+
+
+
+
+    private val _SaveCandidateOjtVerification = MutableLiveData<Result<SaveCandidateOjtVerificationResponse>>()
+    val SaveCandidateOjtVerification: LiveData<Result<SaveCandidateOjtVerificationResponse>> = _SaveCandidateOjtVerification
+
+    private val _CompleteOjt = MutableLiveData<Result<OJTList_Res>>()
+    private val _ListByBatch = MutableLiveData<Result<OjtListByBatch_Res>>()
+
+    private val _OjtListByBatch = MutableLiveData<Result<OjtRes>>()
+
+    val OjtListByBatch: LiveData<Result<OjtRes>> = _OjtListByBatch
+
+
+
+    val ListByBatch: LiveData<Result<OjtListByBatch_Res>> = _ListByBatch
+    private val _ojtSanctionNo = MutableLiveData<Result<OJT_Sanction_Res>>()
+    private val _ojtTrainingCenterRequest = MutableLiveData<Result<OJT_TrainingCenter_Res>>()
+    private val _ojtBatchRequest = MutableLiveData<Result<OJT_BatchList_Res>>()
+    val CompleteOjt: LiveData<Result<OJTList_Res>> = _CompleteOjt
+    val BatchRequest: LiveData<Result<OJT_BatchList_Res>> = _ojtBatchRequest
+    val ojtTrainingCenterRequest: LiveData<Result<OJT_TrainingCenter_Res>> = _ojtTrainingCenterRequest
+    val ojtSanctionNo: LiveData<Result<OJT_Sanction_Res>> = _ojtSanctionNo
+
+
+
+
+
+
+
+
     private val _rfTrainingCenters = MutableLiveData<Result<RfListResponse>>()
     val rfTrainingCenters: LiveData<Result<RfListResponse>> = _rfTrainingCenters
 
@@ -1282,16 +1320,98 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
 
-//    private val _getFansCountAPI = MutableLiveData<Result<FansCountRes>>()
-//    val getFansCountAPI: LiveData<Result<FansCountRes>> = _getFansCountAPI
-//
-//
-//    fun getFansCountAPI(request: FansCountReq,token: String) {
-//        handleApiCall(
-//            apiCall = { repositoryManager.location.getFansCountAPI(request,token) },
-//            resultLiveData = _getFansCountAPI
-//        )
-//    }
+    // Ajit Ranjan create 27/Jan/2026 OJT Implimentation
+    fun fetchOJTSanctionOrderNumber(request: ModulesOJTSanctionOrderRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchOJTSanctionOrderNumberList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _ojtSanctionNo
+        )
+    }
+
+    fun fetchOJTTrainingCenter(request: ModulesOJTTrainingCenterRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchOJTTrainingCenterList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _ojtTrainingCenterRequest
+        )
+    }
+
+    fun fetchOJTBatch(request: ModulesOJTBatchRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchOJTBatchList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _ojtBatchRequest
+        )
+    }
+
+    fun fetchOJTgetCompleteOjt(request: ModulesOJTCompleteOjtRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchOJTCompleteOjtList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _CompleteOjt
+        )
+    }
+
+
+//    getCandidateByOjt
+
+    fun fetchOJTsaveCandidateOjtVerification(request: CandidateOjtVerificationRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.CandidateOjtVerification(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _SaveCandidateOjtVerification
+        )
+    }
+
+
+    fun fetchOJTgetOjtListByBatch(request: ModulesCandidateByOjtRequest2, token: String) {
+        handleApiCall(
+            apiCall = {
+
+                repositoryManager.ojt.fetchOJTgetOjtListBy(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _ListByBatch
+        )
+    }
+
+
+    fun fetchCandidateByOjtBy(request: ModulesCandidateByOjtRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+
+                repositoryManager.ojt.fetchCandidateByOjtBy(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _OjtListByBatch
+        )
+    }
+
 
     private val _getLogOutAPI = MutableLiveData<Result<LoginResponse>>()
     val getLogOutAPI: LiveData<Result<LoginResponse>> = _getLogOutAPI

@@ -125,7 +125,7 @@
                             android:background="@drawable/rounded_status_bg"
                             android:paddingHorizontal="@dimen/dp_16"
                             android:paddingVertical="@dimen/dp_4"
-                            android:text="@string/n_a"
+                            android:text="Yes"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/avenir_next_semi_bold"/>

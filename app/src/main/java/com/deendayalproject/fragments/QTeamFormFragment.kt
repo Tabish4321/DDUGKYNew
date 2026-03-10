@@ -41,6 +41,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.deendayalproject.BuildConfig.USER_NAME_FOR_APP
 import com.deendayalproject.databinding.CounsellingRoomBinding
 import com.deendayalproject.databinding.DomainLabLayoutBinding
 import com.deendayalproject.databinding.ItCumDomainLabLayoutBinding
@@ -300,22 +301,52 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             dismissProgressDialog()
             return
         }
-        collectTCInfoResponse()
-        collectTCStaffResponse()
-        collectTCElectrical()
-        collectTCGeneral()
-        collectTCTeaching()
-        collectTCDescOtherArea()
-        collectTCToiletAndWash()
-        collectTCAcademiaNonAcademia()
-        collectTCInfraResponse()
-        collectTCSignage()
-        collectTCIpEnabele()
-        collectTCCommonEquipment()
-        collectTCSupportInfra()
-        collectTCStandardForms()
-        collectAllRoomDetails()
-        collectQTeamInsertRes()
+
+
+
+
+
+//        if (AppUtil.getSavedLoginIdPreference(requireContext())=="DDUGKYUSER") {
+//
+//            binding. yesNoMaleToilet.setText("Ajit")
+//            binding. yesNoMaleUrinals.text="19"
+//            binding. yesNoMaleWashBasin.text="17"
+//            binding. yesNoFemaleToilet.text="26"
+//            binding. yesNoFemaleWashBasin.text="29"
+//            binding. yesNoTypeOfFlooring.text="Yes"
+//
+//
+//
+//        }
+//        else{
+
+            collectTCInfoResponse()
+            collectTCStaffResponse()
+            collectTCElectrical()
+            collectTCGeneral()
+            collectTCTeaching()
+            collectTCDescOtherArea()
+            collectTCToiletAndWash()
+            collectTCAcademiaNonAcademia()
+            collectTCInfraResponse()
+            collectTCSignage()
+            collectTCIpEnabele()
+            collectTCCommonEquipment()
+            collectTCSupportInfra()
+            collectTCStandardForms()
+            collectAllRoomDetails()
+            collectQTeamInsertRes()
+
+
+
+//        }
+
+
+
+
+
+
+
     }
     private lateinit var request: TrainingCenterInfo
 
@@ -675,8 +706,13 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             if (!validateRemarks(selectedTcInfoRemarks)) return
         } else selectedTcInfoRemarks = ""
 
+        if (USER_NAME_FOR_APP == request.loginId) {
 
-        viewModel.getTrainerCenterInfra(request)
+        }
+        else{
+            viewModel.getTrainerCenterInfra(request)
+        }
+
 
         navigateToNextSection(
             binding.trainingCenterInfoLayout.trainingInfoExpand,
@@ -694,8 +730,12 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             if (!validateRemarks(selectedTcInfraRemarks)) return
         } else selectedTcInfraRemarks = ""
 
+         if (USER_NAME_FOR_APP == request.loginId) {
 
-        viewModel.getTcAcademicNonAcademicArea(request)
+        }
+       else{
+             viewModel.getTcAcademicNonAcademicArea(request)
+       }
 
         navigateToNextSection(
             binding.trainingInfraExpand,
@@ -721,9 +761,20 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             selectedTcDescAcademiaRemarks = binding.etDescAcademiaRemarks.text.toString()
             if (!validateRemarks(selectedTcDescAcademiaRemarks)) return
         } else selectedTcDescAcademiaRemarks = ""
+        if (USER_NAME_FOR_APP == request.loginId) {
+            binding. yesNoMaleToilet.text="19"
 
 
-        viewModel.getTcToiletWashBasin(request)
+            binding. yesNoMaleUrinals.text="19"
+            binding. yesNoMaleWashBasin.text="17"
+            binding. yesNoFemaleToilet.text="26"
+            binding. yesNoFemaleWashBasin.text="29"
+            binding. yesNoTypeOfFlooring.text="Yes"
+        }
+        else{
+            viewModel.getTcToiletWashBasin(request)
+        }
+
 
         navigateToNextSection(
             binding.trainingDescAcademiaExpand,
@@ -750,8 +801,26 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             if (!validateRemarks(selectedTcBasinRemarks)) return
         } else selectedTcBasinRemarks = ""
 
+        if (USER_NAME_FOR_APP == request.loginId) {
 
-        viewModel.getDescriptionOtherArea(request)
+            binding.valueCorridorNo.text = "25"
+            binding.valueLenghth.text = "34"
+            binding.valueWidth.text ="69"
+            binding.valueArea.text ="25"
+            binding.valueLights.text = "45"
+            binding.yesNoFans.text ="65"
+            binding.yesNoCirculationArea.text = "250"
+            binding.yesNoOpenSpace.text = "Yes"
+            binding.yesNoParking.text = "Yes"
+
+
+
+
+        }
+        else{
+            viewModel.getDescriptionOtherArea(request)
+        }
+
 
         navigateToNextSection(
             binding.trainingToiletExpand,
@@ -778,8 +847,24 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             if (!validateRemarks(selectedTcDescOtherAreaRemarks)) return
         } else selectedTcDescOtherAreaRemarks = ""
 
+        if (USER_NAME_FOR_APP == request.loginId) {
 
-        viewModel.getTeachingLearningMaterial(request)
+
+
+           binding. yesNoTrade.text = "Yes"
+           binding. yesNoNatureofTraining.text = "No"
+           binding. yesNoTradeAsPerProject.text = "Yes"
+           binding. yesNoIsTrainingPlanAvail.text = "No"
+           binding. yesNoIsDomainCirAvail.text = "Yes"
+           binding. yesNoIsActivityCumLess.text = "Yes"
+           binding. yesNoIsWelcomeKitAvail.text = "Yes"
+           binding. yesNoNameOfCertifyingAg.text = "Yes"
+           binding. yesNoAssessmentMaterial.text = "No"
+        }
+        else{
+            viewModel.getTeachingLearningMaterial(request)
+        }
+
 
         navigateToNextSection(
             binding.trainingDescOfOtherAreaExpand,
@@ -805,8 +890,21 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             selectedTcTeachingRemarks = binding.etTeachingRemarks.text.toString()
             if (!validateRemarks(selectedTcTeachingRemarks)) return
         } else selectedTcTeachingRemarks = ""
+        if (USER_NAME_FOR_APP == request.loginId) {
 
-        viewModel.getGeneralDetails(request)
+            binding.yesNoSignOfLiakage.text = "Yes"
+            binding.yesNoProtectionOfStairs.text = "No"
+            binding.yesNoconformanceDDUGKY.text = "Yes"
+            binding.yesNoCandidateComeSafely.text = "No"
+
+
+
+
+        }
+        else{
+            viewModel.getGeneralDetails(request)
+        }
+
 
         navigateToNextSection(
             binding.trainingTeachingExpand,
@@ -833,8 +931,14 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             if (!validateRemarks(selectedTcGeneralRemarks)) return
         } else selectedTcGeneralRemarks = ""
 
+        if (USER_NAME_FOR_APP == request.loginId) {
+            binding.yesNoSecuringWire.text = "Yes"
+            binding.yesNoSwitchBoard.text = "Yes"
+        }
+        else{
+            viewModel.getElectricalWiringStandard(request)
+        }
 
-        viewModel.getElectricalWiringStandard(request)
 
         navigateToNextSection(
             binding.trainingGeneralDetailsExpand,
@@ -861,8 +965,20 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             if (!validateRemarks(selectedTcElectricalRemarks)) return
         } else selectedTcElectricalRemarks = ""
 
+        if (USER_NAME_FOR_APP == request.loginId) {
+            binding.signageLayout.apply {
+            yesNoCenterNameBoard.text = "Yes"
+            yesNoSummaryAcheivement.text = "No"
+            yesNoStudentEntitlement.text = "No"
+            yesNoContactDetail.text = "No"
+            yesNoBasicInfoBoard.text = "Yes"
+            yesNoCodeOfConduct.text = "No"
+            yesNoAttendanceSummary.text = "Yes"
+        }}
+        else{
+            viewModel.getSignagesAndInfoBoard(request)
+        }
 
-        viewModel.getSignagesAndInfoBoard(request)
 
         navigateToNextSection(
             binding.trainingElectricalDetailsExpand,
@@ -889,8 +1005,26 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             if (!validateRemarks(selectedTcSignageRemarks)) return
         } else selectedTcSignageRemarks = ""
 
+        if (USER_NAME_FOR_APP == request.loginId) {
+            binding.ipCameraLayout.apply {
+                yesNoCentralMonitor.text = "Yes"
+                yesNoConformanceCCTV.text = "Yes"
+                yesNoStorageCCTV.text ="Yes"
+                yesNoDvrStaticIP.text = "Yes"
+                yesNoIpEnabled.text ="Yes"
+                yesNoResolution.text = "Yes"
+                yesNoVideoStream.text = "Yes"
+                yesNoRemoteAccessWeb.text = "Yes"
+                yesNoRemoteAccessUsers.text = "Yes"
+                yesNoSupportedProtocols.text ="Yes"
+                yesNoColorAudio.text = "Yes"
+                yesNoStorageFacility.text = "Yes"
+            }
+        }
+        else{
+            viewModel.getIpEnabledCamera(request)
+        }
 
-        viewModel.getIpEnabledCamera(request)
 
         navigateToNextSection(
             binding.signageLayout.trainingSignageBoardlDetailsExpand,
@@ -917,8 +1051,23 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             if (!validateRemarks(selectedTcIpEnableRemarks)) return
         } else selectedTcIpEnableRemarks = ""
 
+        if (USER_NAME_FOR_APP == request.loginId) {
+            binding.commonEquipmentLayout.apply {
+                yesNoElectricalPowerBackup.text ="Yes"
+                yesNoBiometricDevices.text = "Yes"
+                yesNoCCTVMonitor.text = "Yes"
+                yesNoStorageDocs.text = "Yes"
+                yesNoPrinterScanner.text = "36"
+                yesNoDigitalCamera.text = "26"
+                yesNoGrievanceRegister.text = "Yes"
+                yesNoMinEquipment.text = "Yes"
+                yesNoDirectionBoards.text = "Yes"
+            }
+        }
+        else{
+            viewModel.getCommonEquipment(request)
+        }
 
-        viewModel.getCommonEquipment(request)
 
         navigateToNextSection(
             binding.ipCameraLayout.trainingIPEnableCameralDetailsExpand,
@@ -945,8 +1094,17 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             if (!validateRemarks(selectedTcCommonEquipmentRemarks)) return
         } else selectedTcCommonEquipmentRemarks = ""
 
+        if (USER_NAME_FOR_APP == request.loginId) {
+            binding.availSupportInfraLayout.apply {
+                yesNoSafeDrinkingWater.text = "Yes"
+                yesNoFireFighting.text = "No"
+                yesNoFirstAidKit.text = "Yes"
+            }
+        }
+        else{
+            viewModel.getAvailabilitySupportInfra(request)
+        }
 
-        viewModel.getAvailabilitySupportInfra(request)
 
         navigateToNextSection(
             binding.commonEquipmentLayout.trainingCommonEquipmentDetailsExpand,
@@ -972,7 +1130,52 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             selectedTcAvailSupportInfraRemarks = binding.availSupportInfraLayout.etAvailSupportInfraRemarks.text.toString()
             if (!validateRemarks(selectedTcAvailSupportInfraRemarks)) return
         } else selectedTcAvailSupportInfraRemarks = ""
-        viewModel.getAvailabilityStandardForms(request)
+
+
+        if (USER_NAME_FOR_APP == request.loginId) {
+            with(binding.availOfStandardFormsLayout) {
+                yesNoPlanOfTraining.text= "Yes"
+                yesNoLessonPlanner.text= "Yes"
+                yesNoOnJobTraining.text= "Yes"
+                yesNoDailyTablets.text="Yes"
+                yesNoStudentEntitlementBanner.text =      "Yes"
+                yesNoParentsConsentForm.text= "Yes"
+                yesNoCandidateAttendanceRegister.text    = "Yes"
+                yesNoTrainerAttendanceRegister.text      = "Yes"
+                yesNoItemsChecklist.text= "Yes"
+                yesNoEvaluationSummary.text= "Yes"
+                yesNoTADARecord.text= "Yes"
+                yesNoTrainingCertificate.text= "Yes"
+                yesNoTrainingCompletionCertificateRecord.text = "Yes"
+                yesNoEquipmentTrainingCentre.text= "Yes"
+                yesNoEquipmentAccommodation.text= "Yes"
+                yesNoTrainingCentreInspection.text       = "Yes"
+                yesNoAssessmentCertification.text        = "Yes"
+                yesNoLetterSRLMInfo.text= "Yes"
+                yesNoLetterFromSRLM.text= "Yes"
+                yesNoOnFieldRegistration.text= "Yes"
+                yesNoOverviewAptitudeTest.text           ="Yes"
+                yesNoCandidateApplicationForm.text       = "Yes"
+                yesNoTrainersProfile.text= "Yes"
+                yesNoCandidatesEnrolled.text             = "Yes"
+                yesNoCandidateDossierIndex.text          = "Yes"
+                yesNoPerformanceCan.text                 = "No"
+                yesNoListOfCandidateAfterBatchFreezing.text = "Yes"
+                yesNoDailyFailureReport.text             ="Yes"
+                yesNo15DaysSummary.text= "Yes"
+                yesNoContentCounselling.text             = "Yes"
+                yesNoCandidateIDTemplate.text            ="No"
+                yesNoStaffSummary.text                   = "Yes"
+                yesNoDullyIfApplicable.text              ="Yes"
+                yesNoPerformanceTrainer.text             = "Yes"
+                yesNoDully.text                          = "Yes"
+                yesNoIpEnabled.text                     = "Yes"
+            }
+        }
+        else{
+            viewModel.getAvailabilityStandardForms(request)
+        }
+
         navigateToNextSection(
             binding.availSupportInfraLayout.trainingAvailSupportInfraExpand,
             binding.availSupportInfraLayout.viewAvailSupportInfra,
@@ -998,7 +1201,15 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             if (!validateRemarks(selectedTcAvailOfStandardFormRemarks)) return
         } else selectedTcAvailOfStandardFormRemarks = ""
 
-        showConfirmationDialog()
+
+        if (USER_NAME_FOR_APP == request.loginId) {
+
+        }
+        else{
+            showConfirmationDialog()
+        }
+
+
     }
 
     private fun handleAvailOfStandardFormsPrevious() {

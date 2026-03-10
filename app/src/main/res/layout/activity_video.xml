@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
+
+    <SurfaceView
+        android:id="@+id/surfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp" />
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="03:00"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:layout_below="@id/surfaceView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTimer"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/btnRecord"
+            android:text="Start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnStop"
+            android:text="Stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"/>
+
+        <Button
+            android:id="@+id/btnSwitch"
+            android:text="Switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"/>
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:text="Delete"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:background="#000">-->
+
+<!--    <SurfaceView-->
+<!--        android:id="@+id/surfaceView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="350dp" />-->
+
+<!--    <VideoView-->
+<!--        android:id="@+id/videoView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="350dp"-->
+<!--        android:visibility="gone"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvTimer"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="03:00"-->
+<!--        android:textColor="#FF0000"-->
+<!--        android:textSize="18sp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_marginTop="360dp" />-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/tvTimer"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="10dp">-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btnSwitch"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Switch"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btnRecord"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Start"-->
+<!--            android:layout_height="wrap_content"/>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btnDelete"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Delete"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="gone"/>-->
+<!--    </LinearLayout>-->
+
+<!--</RelativeLayout>-->
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:orientation="vertical"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+
+<!--    <SurfaceView-->
+<!--        android:id="@+id/surfaceView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="300dp" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tvTimer"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="03:00"-->
+<!--        android:textSize="18sp"-->
+<!--        android:gravity="center"-->
+<!--        android:textColor="@android:color/holo_red_dark"-->
+<!--        android:padding="10dp"/>-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal">-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btnSwitch"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Switch Camera"/>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btnRecord"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Start Recording"/>-->
+<!--    </LinearLayout>-->
+
+<!--    <VideoView-->
+<!--        android:id="@+id/videoView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="300dp"-->
+<!--        android:visibility="gone"/>-->
+
+<!--</LinearLayout>-->
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:orientation="vertical"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+
+<!--    <SurfaceView-->
+<!--        android:id="@+id/surface"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="300dp"/>-->
+
+<!--    <Button-->
+<!--        android:id="@+id/btnRecord"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Start Recording"/>-->
+
+<!--    <VideoView-->
+<!--        android:id="@+id/videoView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="300dp"/>-->
+
+<!--</LinearLayout>-->
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:orientation="vertical"-->
+<!--    android:padding="16dp"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+<!--    <SurfaceView-->
+<!--        android:id="@+id/surfaceView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="300dp" />-->
+
+<!--    <VideoView-->
+<!--        android:id="@+id/videoView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="300dp"-->
+<!--        android:layout_below="@id/surfaceView"/>-->
+
+<!--&lt;!&ndash;    <Button&ndash;&gt;-->
+<!--&lt;!&ndash;        android:id="@+id/btnSelectVideo"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:text="Select Video" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <VideoView&ndash;&gt;-->
+<!--&lt;!&ndash;        android:id="@+id/videoView"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_height="250dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:visibility="gone"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_marginTop="20dp"/>&ndash;&gt;-->
+
+<!--</LinearLayout>-->
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:orientation="vertical"-->
+<!--    android:padding="16dp"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+
+<!--    <Button-->
+<!--        android:id="@+id/btnRecordVideo"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Record Video"/>-->
+
+<!--    <VideoView-->
+<!--        android:id="@+id/videoView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="250dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:visibility="gone"/>-->
+<!--</LinearLayout>-->
+

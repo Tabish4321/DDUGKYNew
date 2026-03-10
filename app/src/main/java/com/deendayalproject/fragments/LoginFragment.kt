@@ -28,7 +28,9 @@ import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentLoginBinding
+import com.deendayalproject.fragments.ojt.FullScreenDialog
 import com.deendayalproject.model.request.LoginRequest
+import com.deendayalproject.model.response.OJTList
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.validateDeviceSecurity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -53,6 +55,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         setupEditTextListeners()
         checkAutoLogin()
         disableScreenshots()
+
+
+
+
+
+
     }
 
 

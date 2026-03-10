@@ -22,9 +22,11 @@ import com.deendayalproject.databinding.FragmentHomeBinding
 import com.deendayalproject.databinding.ItemFormBinding
 import com.deendayalproject.databinding.ItemModuleBinding
 import com.deendayalproject.databinding.NavigationHeaderBinding
+import com.deendayalproject.fragments.ojt.FullScreenDialog
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.response.Form
 import com.deendayalproject.model.response.Module
+import com.deendayalproject.model.response.OJTList
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.NoDataHelper
 import com.deendayalproject.util.ProgressDialogUtil
@@ -32,7 +34,6 @@ import com.deendayalproject.util.ProgressDialogUtil
 class HomeFragment : BaseFragment<FragmentHomeBinding>(
 bindingInflater = FragmentHomeBinding::inflate
 ) {
-
 
     private lateinit var viewModel: SharedViewModel
    // private lateinit var batchAdapter: BaseRecyclerAdapter<AttendanceBatch, AttendanceBatchLayoutBinding>
@@ -87,6 +88,7 @@ bindingInflater = FragmentHomeBinding::inflate
                             }
                         }
                         response.onFailure {
+
                             Toast.makeText(
                                 requireContext(),
                                 "Something went wrong. Try again.",
@@ -207,7 +209,8 @@ bindingInflater = FragmentHomeBinding::inflate
 
             "DDUGKY_CANDIDATE_ATTENDANCE_APP" ->
                 navigate(R.id.action_homeFragment_to_attendanceBatchListFragment)
-
+            "OJT_VERIFICATION_FORM_APP" ->
+                navigate(R.id.action_homeFragment_to_SelectionFragment)
 
         }
     }
@@ -262,6 +265,13 @@ bindingInflater = FragmentHomeBinding::inflate
                 if (it is retrofit2.HttpException && it.code() == 401) {
                     AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
+
+
+
+
+
+
+
 
                 Toast.makeText(
                     requireContext(),

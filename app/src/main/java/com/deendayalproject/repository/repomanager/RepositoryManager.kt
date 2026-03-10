@@ -6,6 +6,7 @@ import com.deendayalproject.repository.AuthRepository
 import com.deendayalproject.repository.FieldVerificationRepository
 import com.deendayalproject.repository.InfrastructureRepository
 import com.deendayalproject.repository.LocationRepository
+import com.deendayalproject.repository.OJTRepository
 import com.deendayalproject.repository.ResidentialFacilityRepository
 import com.deendayalproject.repository.RfOperationsRepository
 import com.deendayalproject.repository.TrainingCenterRepository
@@ -27,6 +28,7 @@ class RepositoryManager private constructor(context: Context) {
 
     // Lazy initialization of all repositories
     val auth: AuthRepository by lazy { AuthRepository(context) }
+    val ojt: OJTRepository by lazy { OJTRepository(context) }
     val trainingCenter: TrainingCenterRepository by lazy { TrainingCenterRepository(context) }
     val fieldVerification: FieldVerificationRepository by lazy { FieldVerificationRepository(context) }
     val infrastructure: InfrastructureRepository by lazy { InfrastructureRepository(context) }

@@ -137,7 +137,7 @@
                             android:background="@drawable/rounded_status_bg"
                             android:paddingHorizontal="@dimen/dp_20"
                             android:paddingVertical="@dimen/dp_6"
-                            android:text="@string/n_a"
+                            android:text="Yes"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/avenir_next_semi_bold"/>
@@ -221,7 +221,7 @@
                             android:background="@drawable/rounded_status_bg"
                             android:paddingHorizontal="@dimen/dp_20"
                             android:paddingVertical="@dimen/dp_6"
-                            android:text="@string/n_a"
+                            android:text="Yes"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/avenir_next_semi_bold"/>
@@ -303,7 +303,7 @@
                             android:background="@drawable/rounded_status_bg"
                             android:paddingHorizontal="@dimen/dp_20"
                             android:paddingVertical="@dimen/dp_6"
-                            android:text="@string/n_a"
+                            android:text="Yes"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/avenir_next_semi_bold"/>
@@ -385,7 +385,7 @@
                             android:background="@drawable/rounded_status_bg"
                             android:paddingHorizontal="@dimen/dp_20"
                             android:paddingVertical="@dimen/dp_6"
-                            android:text="@string/n_a"
+                            android:text="35 ft"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/avenir_next_semi_bold"/>
@@ -467,7 +467,7 @@
                             android:background="@drawable/rounded_status_bg"
                             android:paddingHorizontal="@dimen/dp_20"
                             android:paddingVertical="@dimen/dp_6"
-                            android:text="@string/n_a"
+                            android:text="Yes"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/avenir_next_semi_bold"/>
@@ -549,7 +549,7 @@
                             android:background="@drawable/rounded_status_bg"
                             android:paddingHorizontal="@dimen/dp_20"
                             android:paddingVertical="@dimen/dp_6"
-                            android:text="@string/n_a"
+                            android:text="20"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/avenir_next_semi_bold"/>
@@ -631,7 +631,7 @@
                             android:background="@drawable/rounded_status_bg"
                             android:paddingHorizontal="@dimen/dp_20"
                             android:paddingVertical="@dimen/dp_6"
-                            android:text="@string/n_a"
+                            android:text="28"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/avenir_next_semi_bold"/>
@@ -713,7 +713,7 @@
                             android:background="@drawable/rounded_status_bg"
                             android:paddingHorizontal="@dimen/dp_20"
                             android:paddingVertical="@dimen/dp_6"
-                            android:text="@string/n_a"
+                            android:text="Yes"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/avenir_next_semi_bold"/>
@@ -795,7 +795,7 @@
                             android:background="@drawable/rounded_status_bg"
                             android:paddingHorizontal="@dimen/dp_20"
                             android:paddingVertical="@dimen/dp_6"
-                            android:text="@string/n_a"
+                            android:text="24"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/avenir_next_semi_bold"/>
@@ -877,7 +877,7 @@
                             android:background="@drawable/rounded_status_bg"
                             android:paddingHorizontal="@dimen/dp_20"
                             android:paddingVertical="@dimen/dp_6"
-                            android:text="@string/n_a"
+                            android:text="12"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/avenir_next_semi_bold"/>
@@ -959,7 +959,7 @@
                             android:background="@drawable/rounded_status_bg"
                             android:paddingHorizontal="@dimen/dp_20"
                             android:paddingVertical="@dimen/dp_6"
-                            android:text="@string/n_a"
+                            android:text="Yes"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/avenir_next_semi_bold"/>
