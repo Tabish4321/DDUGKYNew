@@ -16,6 +16,7 @@ import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.request.TrainerListReq
 import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
+import com.deendayalproject.model.request.saveTrainerClassObservationInspectionReq
 import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.GetAttendanceDetailsRes
@@ -28,6 +29,7 @@ import com.deendayalproject.model.response.SubjectDeleteRes
 import com.deendayalproject.model.response.SubjectListRes
 import com.deendayalproject.model.response.TrainerListRes
 import com.deendayalproject.model.uistate.TrainerAttendanceUiState
+import com.deendayalproject.model.uistate.TrainerClassObservationUiState
 import com.deendayalproject.repository.repomanager.RepositoryManager
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -829,6 +831,158 @@ class InspectionViewModel(application: Application) :
 
             )
         }
+    }
+
+
+
+/* Save Trainer Class Observation */
+
+    private val _trainerClassObservationState =
+        MutableStateFlow(TrainerClassObservationUiState())
+
+    val trainerClassObservationState =
+        _trainerClassObservationState.asStateFlow()
+
+
+    fun updateTrainerClassObservationState(
+
+        answers: List<String?>,
+        remarks: List<String>,
+        subject: String
+
+    ) {
+
+        _trainerClassObservationState.value =
+            _trainerClassObservationState.value.copy(
+
+                answers = answers,
+                remarks = remarks,
+                subject = subject
+            )
+    }
+
+    fun saveTrainerClassObservation(
+        inspectionId: Int
+    ) {
+
+        viewModelScope.launch {
+
+            val state = _trainerClassObservationState.value
+
+            _trainerClassObservationState.value =
+                state.copy(isLoading = true)
+
+            val request = mapTrainerClassObservationDto(state, inspectionId)
+
+            val result =  repositoryManager.inspectionRepo.saveTrainerClassObservationInspection(request)
+
+            result.onSuccess {
+
+                if (it.responseCode == 200) {
+                    _trainerClassObservationState.value =
+                        state.copy(
+                            isLoading = false,
+                            saveSuccess = true
+                        )
+
+                } else {
+                    _trainerClassObservationState.value =
+                        state.copy(
+                            isLoading = false,
+                            error = it.responseDesc
+                        )
+                }
+            }
+        }
+    }
+
+    private fun mapTrainerClassObservationDto(
+
+        state: TrainerClassObservationUiState,
+        inspectionId: Int
+
+    ): saveTrainerClassObservationInspectionReq {
+
+        return saveTrainerClassObservationInspectionReq(
+
+            appVersion = BuildConfig.VERSION_NAME,
+
+            inspectionId = inspectionId,
+
+            subject = state.subject,
+
+            trainerFacingClassQid = 1,
+            trainerFacingClass = state.answers[0] ?: "",
+            trainerFacingClassRemark = state.remarks[0],
+
+            trainerAddressingCandidatesQid = 2,
+            trainerAddressingCandidates = state.answers[1] ?: "",
+            trainerAddressingCandidatesRemark = state.remarks[1],
+
+            sessionAsPerLessonPlanQid = 3,
+            sessionAsPerLessonPlan = state.answers[2] ?: "",
+            sessionAsPerLessonPlanRemark = state.remarks[2],
+
+            maintainsClassDisciplineQid = 4,
+            maintainsClassDiscipline = state.answers[3] ?: "",
+            maintainsClassDisciplineRemark = state.remarks[3],
+
+            trainerConfidentCommunicationQid = 5,
+            trainerConfidentCommunication = state.answers[4] ?: "",
+            trainerConfidentCommunicationRemark = state.remarks[4],
+
+            trainerWithoutMaterialRefQid = 6,
+            trainerWithoutMaterialRef = state.answers[5] ?: "",
+            trainerWithoutMaterialRefRemark = state.remarks[5],
+
+            usesAudiovisualAidsQid = 7,
+            usesAudiovisualAids = state.answers[6] ?: "",
+            usesAudiovisualAidsRemark = state.remarks[6],
+
+            sessionInteractiveQid = 8,
+            sessionInteractive = state.answers[7] ?: "",
+            sessionInteractiveRemark = state.remarks[7],
+
+            encouragesCandidateQuestionsQid = 9,
+            encouragesCandidateQuestions = state.answers[8] ?: "",
+            encouragesCandidateQuestionsRemark = state.remarks[8],
+
+            answersQueriesClearlyQid = 10,
+            answersQueriesClearly = state.answers[9] ?: "",
+            answersQueriesClearlyRemark = state.remarks[9],
+
+            usesExamplesMethodsQid = 11,
+            usesExamplesMethods = state.answers[10] ?: "",
+            usesExamplesMethodsRemark = state.remarks[10],
+
+            internalAssessmentOnScheduleQid = 12,
+            internalAssessmentOnSchedule = state.answers[11] ?: "",
+            internalAssessmentOnScheduleRemark = state.remarks[11],
+
+            evaluatesPerformanceFeedbackQid = 13,
+            evaluatesPerformanceFeedback = state.answers[12] ?: "",
+            evaluatesPerformanceFeedbackRemark = state.remarks[12],
+
+            guidesJobReadinessQid = 14,
+            guidesJobReadiness = state.answers[13] ?: "",
+            guidesJobReadinessRemark = state.remarks[13]
+        )
+    }
+
+    fun clearTrainerClassObservationError() {
+
+        _trainerClassObservationState.value =
+            _trainerClassObservationState.value.copy(
+                error = null
+            )
+    }
+
+    fun clearTrainerClassObservationSuccess() {
+
+        _trainerClassObservationState.value =
+            _trainerClassObservationState.value.copy(
+                saveSuccess = false
+            )
     }
 
 

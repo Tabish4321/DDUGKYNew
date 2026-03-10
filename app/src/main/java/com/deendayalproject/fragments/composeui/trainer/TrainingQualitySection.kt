@@ -1,34 +1,37 @@
 package com.deendayalproject.fragments.composeui.trainer
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.ongoingcandidateverification.PremiumSubmitButton
+import com.deendayalproject.viewmodel.InspectionViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun TrainingQualitySection(
-
+    viewModel: InspectionViewModel,
     snackbarHostState: SnackbarHostState,
-
-    onSubmit: (
-
-        String,String,String,String,String,String,String,
-        String,String,String,String,String,String,String,
-
-        String?,String?,String?,String?,String?,String?,String?,
-        String?,String?,String?,String?,String?,String?,String?
-
-    ) -> Unit
+    inspectionId: Int,
+    subject: String,
+    onClose: () -> Unit
 
 ) {
 
     val scope = rememberCoroutineScope()
 
-    // Answers
+    val state by viewModel.trainerClassObservationState.collectAsState()
+    LaunchedEffect(Unit) {
+        viewModel.clearTrainerClassObservationSuccess()
+    }
+    /* ----------------------------- */
+    /* Answers */
+    /* ----------------------------- */
+
     var facingClass by remember { mutableStateOf<String?>(null) }
     var addressingAllCandidates by remember { mutableStateOf<String?>(null) }
     var lessonPlanCovered by remember { mutableStateOf<String?>(null) }
@@ -44,7 +47,10 @@ fun TrainingQualitySection(
     var evaluatesPerformance by remember { mutableStateOf<String?>(null) }
     var guidesCareerProgression by remember { mutableStateOf<String?>(null) }
 
-    // Remarks
+    /* ----------------------------- */
+    /* Remarks */
+    /* ----------------------------- */
+
     var facingClassRemark by remember { mutableStateOf("") }
     var addressingAllCandidatesRemark by remember { mutableStateOf("") }
     var lessonPlanCoveredRemark by remember { mutableStateOf("") }
@@ -62,8 +68,37 @@ fun TrainingQualitySection(
 
     var showError by remember { mutableStateOf(false) }
 
-    Column(
+    /* ----------------------------- */
+    /* ERROR SNACKBAR */
+    /* ----------------------------- */
 
+    LaunchedEffect(state.error) {
+
+        state.error?.let {
+
+            snackbarHostState.showSnackbar(it)
+
+            viewModel.clearTrainerClassObservationError()
+        }
+    }
+
+
+
+    /* ----------------------------- */
+    /* SUCCESS */
+    /* ----------------------------- */
+
+    LaunchedEffect(state.saveSuccess) {
+
+        if (state.saveSuccess) {
+
+            snackbarHostState.showSnackbar("Saved Successfully")
+            viewModel.clearTrainerClassObservationSuccess()
+            onClose()
+        }
+    }
+
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .imePadding()
@@ -74,188 +109,257 @@ fun TrainingQualitySection(
 
     ) {
 
+        /* ----------------------------- */
+        /* LOADER */
+        /* ----------------------------- */
 
+        if (state.isLoading) {
 
-        ComplianceQuestionWithRemarks(
-            question = "Trainer facing class",
-            answer = facingClass,
-            remarks = facingClassRemark,
-            isError = showError && facingClass == null,
-            onAnswerChange = { facingClass = it },
-            onRemarksChange = { facingClassRemark = it }
-        )
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
 
-        ComplianceQuestionWithRemarks(
-            question = "Trainer addressing all candidates",
-            answer = addressingAllCandidates,
-            remarks = addressingAllCandidatesRemark,
-            isError = showError && addressingAllCandidates == null,
-            onAnswerChange = { addressingAllCandidates = it },
-            onRemarksChange = { addressingAllCandidatesRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-            question = "Session covers plan as per lesson planner",
-            answer = lessonPlanCovered,
-            remarks = lessonPlanCoveredRemark,
-            isError = showError && lessonPlanCovered == null,
-            onAnswerChange = { lessonPlanCovered = it },
-            onRemarksChange = { lessonPlanCoveredRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-            question = "Maintains class discipline",
-            answer = maintainsDiscipline,
-            remarks = maintainsDisciplineRemark,
-            isError = showError && maintainsDiscipline == null,
-            onAnswerChange = { maintainsDiscipline = it },
-            onRemarksChange = { maintainsDisciplineRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-            question = "Trainer confident in communication",
-            answer = confidentCommunication,
-            remarks = confidentCommunicationRemark,
-            isError = showError && confidentCommunication == null,
-            onAnswerChange = { confidentCommunication = it },
-            onRemarksChange = { confidentCommunicationRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-            question = "Teaches without constantly referring materials",
-            answer = teachesWithoutMaterial,
-            remarks = teachesWithoutMaterialRemark,
-            isError = showError && teachesWithoutMaterial == null,
-            onAnswerChange = { teachesWithoutMaterial = it },
-            onRemarksChange = { teachesWithoutMaterialRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-            question = "Uses audiovisual aids in ≥50% classes",
-            answer = usesAudioVisualAids,
-            remarks = usesAudioVisualAidsRemark,
-            isError = showError && usesAudioVisualAids == null,
-            onAnswerChange = { usesAudioVisualAids = it },
-            onRemarksChange = { usesAudioVisualAidsRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-            question = "Session interactive / participatory",
-            answer = sessionInteractive,
-            remarks = sessionInteractiveRemark,
-            isError = showError && sessionInteractive == null,
-            onAnswerChange = { sessionInteractive = it },
-            onRemarksChange = { sessionInteractiveRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-            question = "Encourages candidate questions",
-            answer = encouragesQuestions,
-            remarks = encouragesQuestionsRemark,
-            isError = showError && encouragesQuestions == null,
-            onAnswerChange = { encouragesQuestions = it },
-            onRemarksChange = { encouragesQuestionsRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-            question = "Answers queries clearly",
-            answer = answersQueriesClearly,
-            remarks = answersQueriesClearlyRemark,
-            isError = showError && answersQueriesClearly == null,
-            onAnswerChange = { answersQueriesClearly = it },
-            onRemarksChange = { answersQueriesClearlyRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-            question = "Uses stories, pictures, role plays, examples",
-            answer = usesStoriesExamples,
-            remarks = usesStoriesExamplesRemark,
-            isError = showError && usesStoriesExamples == null,
-            onAnswerChange = { usesStoriesExamples = it },
-            onRemarksChange = { usesStoriesExamplesRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-            question = "Conducts internal assessments on schedule",
-            answer = conductsInternalAssessments,
-            remarks = conductsInternalAssessmentsRemark,
-            isError = showError && conductsInternalAssessments == null,
-            onAnswerChange = { conductsInternalAssessments = it },
-            onRemarksChange = { conductsInternalAssessmentsRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-            question = "Evaluates performance and provides feedback",
-            answer = evaluatesPerformance,
-            remarks = evaluatesPerformanceRemark,
-            isError = showError && evaluatesPerformance == null,
-            onAnswerChange = { evaluatesPerformance = it },
-            onRemarksChange = { evaluatesPerformanceRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-            question = "Guides on job readiness & career progression",
-            answer = guidesCareerProgression,
-            remarks = guidesCareerProgressionRemark,
-            isError = showError && guidesCareerProgression == null,
-            onAnswerChange = { guidesCareerProgression = it },
-            onRemarksChange = { guidesCareerProgressionRemark = it }
-        )
-
-        Spacer(Modifier.height(10.dp))
-
-        PremiumSubmitButton {
-
-            showError = true
-
-            scope.launch {
-
-                if (facingClass == null) {
-                    snackbarHostState.showSnackbar("Please select: Trainer facing class")
-                    return@launch
-                }
-
-                if (facingClass == "No" && facingClassRemark.isBlank()) {
-                    snackbarHostState.showSnackbar("Please enter remarks for: Trainer facing class")
-                    return@launch
-                }
-
-                // yaha same validation pattern continue kar sakte ho
-
-                onSubmit(
-                    facingClass!!,
-                    addressingAllCandidates ?: "",
-                    lessonPlanCovered ?: "",
-                    maintainsDiscipline ?: "",
-                    confidentCommunication ?: "",
-                    teachesWithoutMaterial ?: "",
-                    usesAudioVisualAids ?: "",
-                    sessionInteractive ?: "",
-                    encouragesQuestions ?: "",
-                    answersQueriesClearly ?: "",
-                    usesStoriesExamples ?: "",
-                    conductsInternalAssessments ?: "",
-                    evaluatesPerformance ?: "",
-                    guidesCareerProgression ?: "",
-
-                    facingClassRemark,
-                    addressingAllCandidatesRemark,
-                    lessonPlanCoveredRemark,
-                    maintainsDisciplineRemark,
-                    confidentCommunicationRemark,
-                    teachesWithoutMaterialRemark,
-                    usesAudioVisualAidsRemark,
-                    sessionInteractiveRemark,
-                    encouragesQuestionsRemark,
-                    answersQueriesClearlyRemark,
-                    usesStoriesExamplesRemark,
-                    conductsInternalAssessmentsRemark,
-                    evaluatesPerformanceRemark,
-                    guidesCareerProgressionRemark
-                )
+                CircularProgressIndicator()
             }
+
+
+        } else {
+            /* ----------------------------- */
+            /* QUESTIONS */
+            /* ----------------------------- */
+
+            ComplianceQuestionWithRemarks(
+                question = "Trainer facing class",
+                answer = facingClass,
+                remarks = facingClassRemark,
+                isError = showError && facingClass == null,
+                onAnswerChange = { facingClass = it },
+                onRemarksChange = { facingClassRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Trainer addressing all candidates",
+                answer = addressingAllCandidates,
+                remarks = addressingAllCandidatesRemark,
+                isError = showError && addressingAllCandidates == null,
+                onAnswerChange = { addressingAllCandidates = it },
+                onRemarksChange = { addressingAllCandidatesRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Session covers plan as per lesson planner",
+                answer = lessonPlanCovered,
+                remarks = lessonPlanCoveredRemark,
+                isError = showError && lessonPlanCovered == null,
+                onAnswerChange = { lessonPlanCovered = it },
+                onRemarksChange = { lessonPlanCoveredRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Maintains class discipline",
+                answer = maintainsDiscipline,
+                remarks = maintainsDisciplineRemark,
+                isError = showError && maintainsDiscipline == null,
+                onAnswerChange = { maintainsDiscipline = it },
+                onRemarksChange = { maintainsDisciplineRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Trainer confident in communication",
+                answer = confidentCommunication,
+                remarks = confidentCommunicationRemark,
+                isError = showError && confidentCommunication == null,
+                onAnswerChange = { confidentCommunication = it },
+                onRemarksChange = { confidentCommunicationRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Teaches without constantly referring materials",
+                answer = teachesWithoutMaterial,
+                remarks = teachesWithoutMaterialRemark,
+                isError = showError && teachesWithoutMaterial == null,
+                onAnswerChange = { teachesWithoutMaterial = it },
+                onRemarksChange = { teachesWithoutMaterialRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Uses audiovisual aids in ≥50% classes",
+                answer = usesAudioVisualAids,
+                remarks = usesAudioVisualAidsRemark,
+                isError = showError && usesAudioVisualAids == null,
+                onAnswerChange = { usesAudioVisualAids = it },
+                onRemarksChange = { usesAudioVisualAidsRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Session interactive / participatory",
+                answer = sessionInteractive,
+                remarks = sessionInteractiveRemark,
+                isError = showError && sessionInteractive == null,
+                onAnswerChange = { sessionInteractive = it },
+                onRemarksChange = { sessionInteractiveRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Encourages candidate questions",
+                answer = encouragesQuestions,
+                remarks = encouragesQuestionsRemark,
+                isError = showError && encouragesQuestions == null,
+                onAnswerChange = { encouragesQuestions = it },
+                onRemarksChange = { encouragesQuestionsRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Answers queries clearly",
+                answer = answersQueriesClearly,
+                remarks = answersQueriesClearlyRemark,
+                isError = showError && answersQueriesClearly == null,
+                onAnswerChange = { answersQueriesClearly = it },
+                onRemarksChange = { answersQueriesClearlyRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Uses stories, pictures, role plays, examples",
+                answer = usesStoriesExamples,
+                remarks = usesStoriesExamplesRemark,
+                isError = showError && usesStoriesExamples == null,
+                onAnswerChange = { usesStoriesExamples = it },
+                onRemarksChange = { usesStoriesExamplesRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Conducts internal assessments on schedule",
+                answer = conductsInternalAssessments,
+                remarks = conductsInternalAssessmentsRemark,
+                isError = showError && conductsInternalAssessments == null,
+                onAnswerChange = { conductsInternalAssessments = it },
+                onRemarksChange = { conductsInternalAssessmentsRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Evaluates performance and provides feedback",
+                answer = evaluatesPerformance,
+                remarks = evaluatesPerformanceRemark,
+                isError = showError && evaluatesPerformance == null,
+                onAnswerChange = { evaluatesPerformance = it },
+                onRemarksChange = { evaluatesPerformanceRemark = it }
+            )
+
+            ComplianceQuestionWithRemarks(
+                question = "Guides on job readiness & career progression",
+                answer = guidesCareerProgression,
+                remarks = guidesCareerProgressionRemark,
+                isError = showError && guidesCareerProgression == null,
+                onAnswerChange = { guidesCareerProgression = it },
+                onRemarksChange = { guidesCareerProgressionRemark = it }
+            )
+
+            Spacer(Modifier.height(10.dp))
+
+            /* ----------------------------- */
+            /* SUBMIT BUTTON */
+            /* ----------------------------- */
+
+            PremiumSubmitButton {
+
+                showError = true
+
+                scope.launch {
+
+                    val answers = listOf(
+                        facingClass,
+                        addressingAllCandidates,
+                        lessonPlanCovered,
+                        maintainsDiscipline,
+                        confidentCommunication,
+                        teachesWithoutMaterial,
+                        usesAudioVisualAids,
+                        sessionInteractive,
+                        encouragesQuestions,
+                        answersQueriesClearly,
+                        usesStoriesExamples,
+                        conductsInternalAssessments,
+                        evaluatesPerformance,
+                        guidesCareerProgression
+                    )
+
+                    val remarks = listOf(
+                        facingClassRemark,
+                        addressingAllCandidatesRemark,
+                        lessonPlanCoveredRemark,
+                        maintainsDisciplineRemark,
+                        confidentCommunicationRemark,
+                        teachesWithoutMaterialRemark,
+                        usesAudioVisualAidsRemark,
+                        sessionInteractiveRemark,
+                        encouragesQuestionsRemark,
+                        answersQueriesClearlyRemark,
+                        usesStoriesExamplesRemark,
+                        conductsInternalAssessmentsRemark,
+                        evaluatesPerformanceRemark,
+                        guidesCareerProgressionRemark
+                    )
+
+                    val questions = listOf(
+                        "Trainer facing class",
+                        "Trainer addressing all candidates",
+                        "Session covers plan as per lesson planner",
+                        "Maintains class discipline",
+                        "Trainer confident in communication",
+                        "Teaches without constantly referring materials",
+                        "Uses audiovisual aids in ≥50% classes",
+                        "Session interactive",
+                        "Encourages candidate questions",
+                        "Answers queries clearly",
+                        "Uses stories/examples",
+                        "Conducts internal assessments",
+                        "Evaluates performance",
+                        "Guides on career progression"
+                    )
+
+                    answers.forEachIndexed { index, answer ->
+
+                        if (answer == null) {
+                            snackbarHostState.showSnackbar(
+                                "Please select: ${questions[index]}"
+                            )
+                            return@launch
+                        }
+
+                        if (answer == "No" && remarks[index].isBlank()) {
+                            snackbarHostState.showSnackbar(
+                                "Please enter remarks for: ${questions[index]}"
+                            )
+                            return@launch
+                        }
+                    }
+
+                    /* ----------------------------- */
+                    /* UPDATE STATE */
+                    /* ----------------------------- */
+
+                    viewModel.updateTrainerClassObservationState(
+                        answers,
+                        remarks,
+                        subject
+                    )
+
+                    /* ----------------------------- */
+                    /* SAVE API */
+                    /* ----------------------------- */
+
+                    viewModel.saveTrainerClassObservation(
+                        inspectionId
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(120.dp))
+
         }
 
-        Spacer(modifier = Modifier.height(120.dp))
     }
+
+
 }

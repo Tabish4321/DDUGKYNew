@@ -30,6 +30,7 @@ import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
 import com.deendayalproject.model.response.SubjectDeleteRes
 import com.deendayalproject.model.response.SubjectListRes
+import com.deendayalproject.model.response.TrainerClassObservationResponse
 import com.deendayalproject.model.response.TrainerListRes
 import com.deendayalproject.model.uistate.CandidateInspectionDto
 import com.deendayalproject.model.uistate.GetCandidateInspectionRequest
@@ -178,9 +179,8 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
 
         request: saveTrainerClassObservationInspectionReq
 
-    ): Result<List<Nothing>> =
-
-        safeApiCallN {
+    ): Result<TrainerClassObservationResponse> =
+        safeApiCall {
             apiService.saveTrainerClassObservationInspection(request)
         }
 

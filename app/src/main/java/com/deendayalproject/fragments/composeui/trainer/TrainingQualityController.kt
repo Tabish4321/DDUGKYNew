@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
@@ -18,6 +19,7 @@ import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.response.SubjectListData
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.InspectionViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,6 +34,7 @@ fun TrainingQualityController(
 
     val subjectResponse by viewModel.getSubjectList.collectAsState()
     val deleteResponse by viewModel.deleteSubjectItem.collectAsState()
+    val scope = rememberCoroutineScope()
 
     val addedSubjects = subjectResponse?.wrappedList ?: emptyList()
 
@@ -47,7 +50,17 @@ fun TrainingQualityController(
 
     var deletingSubjectId by remember { mutableStateOf<String?>(null) }
 
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true,
+        confirmValueChange = { newValue ->
+            // Prevent sheet from hiding by swipe
+            newValue != SheetValue.Hidden
+        }
+    )
+
+    LaunchedEffect(Unit) {
+        sheetState.expand()
+    }
 
     /* -------- API CALL -------- */
 
@@ -142,7 +155,6 @@ fun TrainingQualityController(
     /* -------- BOTTOM SHEET -------- */
 
     if (showForm) {
-
         ModalBottomSheet(
             sheetState = sheetState,
             onDismissRequest = {},
@@ -150,7 +162,12 @@ fun TrainingQualityController(
             properties = ModalBottomSheetProperties(
                 shouldDismissOnBackPress = true,
                 shouldDismissOnClickOutside = false
-            )
+            ),
+            shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
+            tonalElevation = 6.dp,
+            scrimColor = Color.Black.copy(alpha = 0.35f),
+            contentWindowInsets = { WindowInsets(0) }
+
         ) {
 
             Column {
@@ -181,14 +198,16 @@ fun TrainingQualityController(
                 ) {
 
                     item {
-
                         TrainingQualitySection(
+                            viewModel = viewModel,
                             snackbarHostState = snackbarHostState,
-                            onSubmit = { _,_,_,_,_,_,_,_,_,_,_,_,_,_,
-                                         _,_,_,_,_,_,_,_,_,_,_,_,_,_ ->
-
-                                onShowFormChange(false)
-                                selectedSubject = ""
+                            inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
+                            subject = selectedSubject,
+                            onClose = {
+                                scope.launch {
+                                    onShowFormChange(false)
+                                    sheetState.hide()
+                                }
                             }
                         )
 

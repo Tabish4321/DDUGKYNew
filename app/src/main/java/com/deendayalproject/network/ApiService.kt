@@ -180,6 +180,7 @@ import com.deendayalproject.model.response.ToiletRes
 import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.ToiletRoomInformationViewRes
 import com.deendayalproject.model.response.ToiletViewRes
+import com.deendayalproject.model.response.TrainerClassObservationResponse
 import com.deendayalproject.model.response.TrainerListRes
 import com.deendayalproject.model.response.TrainingCenterInfoRes
 import com.deendayalproject.model.response.TrainingCenterResponse
@@ -906,8 +907,7 @@ interface ApiService {
     @POST("saveTrainerClassObservationInspection")
     suspend fun saveTrainerClassObservationInspection(
         @Body request: saveTrainerClassObservationInspectionReq
-    ): Response<BaseResponse<List<Nothing>>>
-
+    ): Response<TrainerClassObservationResponse>
 
 
 

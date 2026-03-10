@@ -67,9 +67,9 @@ fun ProCandidateBottomSheet(
 
     LaunchedEffect(state.saveSuccess) {
         if (state.saveSuccess) {
-            snackbarHostState.showSnackbar("Verification Saved Successfully")
             condidateVerificationViewModel.clearSaveState()
             onDismiss()
+            snackbarHostState.showSnackbar("Verification Saved Successfully")
         }
     }
 
