@@ -336,7 +336,6 @@ class SrlmVerificationForm : Fragment() {
 
 
     private fun init() {
-
         collectTCElectrical()
         collectTCGeneral()
         collectTCTeaching()

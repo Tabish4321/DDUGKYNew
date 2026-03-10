@@ -7984,7 +7984,6 @@ class TrainingFragment : Fragment() {
     )
 
 
-
     private fun validateMandatoryRooms(list: List<wrappedList>): Boolean {
 
         if (list.isEmpty()) {

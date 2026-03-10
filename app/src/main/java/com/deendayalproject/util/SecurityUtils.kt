@@ -44,12 +44,14 @@ private fun isDeviceRooted(): Boolean {
                         || model.contains("sdk")
                         || model.contains("emulator")
                         || model.contains("x86")
+                        || model.contains("google_sdk")
                         || manufacturer.contains("genymotion")
                         || brand.contains("generic")
                         || device.contains("generic")
                         || product.contains("sdk")
                         || hardware.contains("goldfish")
                         || hardware.contains("ranchu")
+                        || hardware.contains("vbox86")
                 )
 
 }
