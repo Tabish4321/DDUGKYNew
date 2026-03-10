@@ -13,9 +13,12 @@ import com.deendayalproject.model.request.InspectionRequestBody
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.request.SaveBatchVerificationRequest
+import com.deendayalproject.model.request.SubjectDeleteReq
+import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.request.TrainerListReq
 import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
+import com.deendayalproject.model.request.saveTrainerClassObservationInspectionReq
 import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.DueDiligenceItemResponse
@@ -25,6 +28,8 @@ import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InsertRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
+import com.deendayalproject.model.response.SubjectDeleteRes
+import com.deendayalproject.model.response.SubjectListRes
 import com.deendayalproject.model.response.TrainerListRes
 import com.deendayalproject.model.uistate.CandidateInspectionDto
 import com.deendayalproject.model.uistate.GetCandidateInspectionRequest
@@ -90,6 +95,19 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
         }
 
 
+    suspend fun getSubjectList  (subjectReq: SubjectReq, header :String): Result<SubjectListRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.getSubjectList(subjectReq)
+        }
+
+    suspend fun deleteSubjectItem  (subjectDeleteReq: SubjectDeleteReq, header :String): Result<SubjectDeleteRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.deleteSubjectItem(subjectDeleteReq)
+        }
+
+
+
+
     suspend fun getOngoingBatchCandiate  (candidatePreviousBatchReq: CandidatePreviousBatchReq, header :String): Result<CandidatePreviousBatchRes> =
         safeApiCallWithToken(token = header) {
             apiService.getOngoingBatchCandiate(candidatePreviousBatchReq)
@@ -151,6 +169,20 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
             apiService.saveTrainerAttendanceInspection(request)
         }
 
+
+
+
+
+
+    suspend fun saveTrainerClassObservationInspection(
+
+        request: saveTrainerClassObservationInspectionReq
+
+    ): Result<List<Nothing>> =
+
+        safeApiCallN {
+            apiService.saveTrainerClassObservationInspection(request)
+        }
 
 
 

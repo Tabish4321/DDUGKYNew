@@ -202,14 +202,14 @@ fun TrainerBottomSheet(
 
                             viewModel.saveTrainerAttendance(
                                 trainerCode,
-                                inspectionId,
+                                inspectionId
                             )
                         },
 
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp, vertical = 12.dp)
-                            .navigationBarsPadding(),   // ⭐ IMPORTANT FIX
+                            .navigationBarsPadding(),   //  IMPORTANT FIX
 
                         shape = RoundedCornerShape(14.dp)
                     ) {

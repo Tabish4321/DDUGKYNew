@@ -12,80 +12,62 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.deendayalproject.model.request.SubjectItem
+import com.deendayalproject.model.response.SubjectListData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubjectListSection(
 
     subjects: List<String>,
-    subjectData: List<SubjectItem>,
+    subjectData: List<SubjectListData>,
     selectedSubject: String,
+    deletingSubjectId: String?,
+
     onSubjectSelect: (String) -> Unit,
     onAddClick: () -> Unit,
-    onDelete: (SubjectItem) -> Unit
+    onDelete: (SubjectListData) -> Unit
 
 ) {
 
     var expanded by remember { mutableStateOf(false) }
 
     Column(
-
         modifier = Modifier.fillMaxWidth(),
-
         verticalArrangement = Arrangement.spacedBy(18.dp)
-
     ) {
 
         /* -------- Dropdown -------- */
 
         ExposedDropdownMenuBox(
-
             expanded = expanded,
-
             onExpandedChange = { expanded = !expanded }
-
         ) {
 
             OutlinedTextField(
-
                 value = selectedSubject,
-
                 onValueChange = {},
-
                 readOnly = true,
-
                 label = { Text("Select Subject") },
-
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(expanded)
                 },
-
                 modifier = Modifier
                     .fillMaxWidth()
                     .menuAnchor()
-
             )
 
             ExposedDropdownMenu(
-
                 expanded = expanded,
-
                 onDismissRequest = { expanded = false }
-
             ) {
 
                 subjects.forEach { subject ->
 
                     DropdownMenuItem(
-
                         text = { Text(subject) },
-
                         onClick = {
-
                             onSubjectSelect(subject)
                             expanded = false
-
                         }
                     )
                 }
@@ -112,17 +94,14 @@ fun SubjectListSection(
                 )
 
             }
-        }
 
-        /* -------- Section Header -------- */
+        }
 
         Text(
             text = "Added Subjects",
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold
         )
-
-        /* -------- Subject List -------- */
 
         Column(
             verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -131,53 +110,55 @@ fun SubjectListSection(
             subjectData.forEach { subject ->
 
                 ElevatedCard(
-
                     modifier = Modifier.fillMaxWidth(),
-
                     shape = RoundedCornerShape(14.dp),
-
-                    elevation = CardDefaults.elevatedCardElevation(
-                        defaultElevation = 6.dp
-                    ),
-
-                    colors = CardDefaults.elevatedCardColors(
-                        containerColor = Color.White
-                    )
-
+                    elevation = CardDefaults.elevatedCardElevation(6.dp)
                 ) {
 
                     Row(
-
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 14.dp),
-
-                        verticalAlignment = Alignment.CenterVertically,
-
-                        horizontalArrangement = Arrangement.SpaceBetween
-
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
 
                         Text(
-                            text = subject.subjectName,
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Medium
+                            text = subject.subject,
+                            style = MaterialTheme.typography.bodyLarge
                         )
 
-                        IconButton(
-                            onClick = { onDelete(subject) }
-                        ) {
+                        if (deletingSubjectId == subject.subjectId) {
 
-                            Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.error
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(22.dp),
+                                strokeWidth = 2.dp
                             )
 
+                        } else {
+
+                            IconButton(
+                                onClick = { onDelete(subject) }
+                            ) {
+
+                                Icon(
+                                    Icons.Default.Delete,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.error
+                                )
+
+                            }
+
                         }
+
                     }
+
                 }
+
             }
+
         }
+
     }
+
 }

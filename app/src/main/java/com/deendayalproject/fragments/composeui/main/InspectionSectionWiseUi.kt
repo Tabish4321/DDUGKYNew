@@ -21,9 +21,9 @@ import com.deendayalproject.fragments.composeui.batchAndCandidate.CandidateDataP
 import com.deendayalproject.fragments.composeui.common.InspectionProgressHeader
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
 import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
+import com.deendayalproject.fragments.composeui.documentandstandardform.StandardFormComplianceScreen
 import com.deendayalproject.fragments.composeui.previous_inspection.PreviousInspectionSection
 import com.deendayalproject.fragments.composeui.previous_inspection.ProCandidateBottomSheet
-import com.deendayalproject.fragments.composeui.trainer.SubjectListSection
 import com.deendayalproject.fragments.composeui.trainer.TrainerBottomSheet
 import com.deendayalproject.fragments.composeui.trainer.TrainerDataCard
 import com.deendayalproject.fragments.composeui.trainer.TrainingQualityController
@@ -91,7 +91,7 @@ fun InspectionStepModernScreen(
         3 -> if (selectedCandidate != null) "Ongoing Candidate List" else "Ongoing Batch List"
         4 -> "Trainers Attendance Verify"
         5 -> "Training Quality"
-        6 -> "Infrastructure Verification"
+        6 -> "Documents maintained at the center"
         7 -> "Final Inspection"
         else -> "Inspection"
     }
@@ -396,6 +396,7 @@ fun InspectionStepModernScreen(
                                 item {
 
                                     TrainingQualityController(
+                                        viewModel = viewModelInspection,
                                         snackbarHostState = snackbarHostState,
                                         showForm = showTrainingForm,
                                         onShowFormChange = { showTrainingForm = it }
@@ -409,9 +410,15 @@ fun InspectionStepModernScreen(
 
                                 item {
 
-                                    Text(
-                                        text = "Infrastructure Verification Section",
-                                        style = MaterialTheme.typography.titleLarge
+                                    StandardFormComplianceScreen(
+
+                                        onSubmit = { data ->
+
+
+
+
+                                        }
+
                                     )
 
                                 }

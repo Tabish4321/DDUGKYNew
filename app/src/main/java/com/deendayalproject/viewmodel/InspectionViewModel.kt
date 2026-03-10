@@ -11,6 +11,8 @@ import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
+import com.deendayalproject.model.request.SubjectDeleteReq
+import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.request.TrainerListReq
 import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
@@ -22,6 +24,8 @@ import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InsertRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
+import com.deendayalproject.model.response.SubjectDeleteRes
+import com.deendayalproject.model.response.SubjectListRes
 import com.deendayalproject.model.response.TrainerListRes
 import com.deendayalproject.model.uistate.TrainerAttendanceUiState
 import com.deendayalproject.repository.repomanager.RepositoryManager
@@ -291,6 +295,105 @@ class InspectionViewModel(application: Application) :
             }
         )
     }
+
+
+
+
+
+    private val _getSubjectList =
+        MutableStateFlow<SubjectListRes?>(null)
+
+    val getSubjectList:
+            StateFlow<SubjectListRes?> =
+        _getSubjectList.asStateFlow()
+
+    fun getSubjectList(
+        request: SubjectReq,
+        header: String
+    ) {
+
+        executeApiCall(
+            apiCall = {
+                repositoryManager
+                    .inspectionRepo
+                    .getSubjectList(request, header)
+            },
+            onSuccess = { response ->
+
+                when (response.responseCode) {
+                    200 -> _getSubjectList.emit(response)
+
+                    202 -> {
+
+                        _getSubjectList.emit(
+                            SubjectListRes(
+                                wrappedList = emptyList(),
+                                responseCode = 202,
+                                responseDesc = "No Data",
+                                responseMsg = null,
+                                appCode = null
+                            )
+                        )
+
+                    }
+
+                    301 -> _errorMessage.emit("Please upgrade your app.")
+                    else -> _errorMessage.emit(
+                        response.responseDesc?.ifEmpty {
+                            "Unknown server error"
+                        } ?: ""
+                    )
+                }
+            }
+        )
+    }
+
+
+
+    fun clearDeleteSubjectResponse() {
+        _deleteSubjectItem.value = null
+    }
+
+
+    private val _deleteSubjectItem =
+        MutableStateFlow<SubjectDeleteRes?>(null)
+
+    val deleteSubjectItem:
+            StateFlow<SubjectDeleteRes?> =
+        _deleteSubjectItem.asStateFlow()
+
+    fun deleteSubjectItem(
+        request: SubjectDeleteReq,
+        header: String
+    ) {
+
+        executeApiCall(
+            apiCall = {
+                repositoryManager
+                    .inspectionRepo
+                    .deleteSubjectItem(request, header)
+            },
+            onSuccess = { response ->
+
+                when (response.responseCode) {
+                    200 -> _deleteSubjectItem.emit(response)
+
+                    202 -> {
+                        _deleteSubjectItem.emit(null)
+                        _errorMessage.emit("No batch data available.")
+                    }
+
+                    301 -> _errorMessage.emit("Please upgrade your app.")
+                    else -> _errorMessage.emit(
+                        response.responseDesc?.ifEmpty {
+                            "Unknown server error"
+                        } ?: ""
+                    )
+                }
+            }
+        )
+    }
+
 
 
 

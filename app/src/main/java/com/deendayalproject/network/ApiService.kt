@@ -57,6 +57,8 @@ import com.deendayalproject.model.request.SaltRequest
 import com.deendayalproject.model.request.SaveBatchVerificationRequest
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
+import com.deendayalproject.model.request.SubjectDeleteReq
+import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
 import com.deendayalproject.model.request.TCITLDomainLabDetailsRequest
@@ -93,6 +95,7 @@ import com.deendayalproject.model.request.assesmentInspection.SaveEntitlementsDi
 import com.deendayalproject.model.request.assesmentInspection.SaveResidentialFacilityVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.insertRfBasicInfoReq
+import com.deendayalproject.model.request.saveTrainerClassObservationInspectionReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AddNewRFRes
 import com.deendayalproject.model.response.AllRoomDetailResponse
@@ -159,6 +162,8 @@ import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
 import com.deendayalproject.model.response.StateResponse
+import com.deendayalproject.model.response.SubjectDeleteRes
+import com.deendayalproject.model.response.SubjectListRes
 import com.deendayalproject.model.response.SupportInfrastructureResponse
 import com.deendayalproject.model.response.TcAcademiaNonAcademiaRes
 import com.deendayalproject.model.response.TcAvailabilitySupportInfraResponse
@@ -789,6 +794,19 @@ interface ApiService {
     ): Response<InspectionPreviousBatchRes>
 
 
+    @POST("getTrainerClassObservationList")
+    suspend fun getSubjectList(
+        @Body subjectReq: SubjectReq
+    ): Response<SubjectListRes>
+
+
+    @POST("deleteTrainerClassObservationSubject")
+    suspend fun deleteSubjectItem(
+        @Body deleteReq: SubjectDeleteReq
+    ): Response<SubjectDeleteRes>
+
+
+
 
 
 
@@ -881,6 +899,17 @@ interface ApiService {
     suspend fun saveTrainerAttendanceInspection(
         @Body request: SaveTrainerAttendanceInspectionRequest
     ): Response<BaseResponse<List<Nothing>>>
+
+
+
+
+    @POST("saveTrainerClassObservationInspection")
+    suspend fun saveTrainerClassObservationInspection(
+        @Body request: saveTrainerClassObservationInspectionReq
+    ): Response<BaseResponse<List<Nothing>>>
+
+
+
 
 
 }
