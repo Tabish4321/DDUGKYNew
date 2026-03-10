@@ -410,16 +410,28 @@ fun InspectionStepModernScreen(
 
                                 item {
 
-                                    StandardFormComplianceScreen(
+                                    var showScreen by remember { mutableStateOf(false) }
 
-                                        onSubmit = { data ->
+                                    LaunchedEffect(Unit) {
+                                        kotlinx.coroutines.delay(500)
+                                        showScreen = true
+                                    }
 
+                                    if (!showScreen) {
 
+                                        ShimmerTrainingList()
 
+                                    } else {
 
-                                        }
+                                        StandardFormComplianceScreen(
+                                            onSubmit = { data ->
 
-                                    )
+                                                // API call here
+
+                                            }
+                                        )
+
+                                    }
 
                                 }
 

@@ -44,18 +44,16 @@ fun ShimmerTrainingList() {
         end = Offset(x = translateAnim, y = translateAnim)
     )
 
-    LazyColumn(
-        contentPadding = PaddingValues(16.dp),
+    Column(                                  // 👈 LazyColumn removed
+        modifier = Modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        items(5) {
-
+        repeat(5) {
             ShimmerCard(brush)
         }
     }
 }
-
 @Composable
 fun ShimmerCard(brush: Brush) {
 

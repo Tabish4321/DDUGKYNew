@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionNAWithRemarks
 import kotlinx.coroutines.launch
@@ -15,6 +16,7 @@ fun StandardFormComplianceScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+    val focusManager = LocalFocusManager.current
 
     val questions = listOf(
 
@@ -65,42 +67,36 @@ fun StandardFormComplianceScreen(
         "SF 5.1C Checklist for cleanliness of Training Centre and Hostel"
 
     )
+
+
     val answers = remember { mutableStateMapOf<String, String>() }
     val remarks = remember { mutableStateMapOf<String, String>() }
 
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .imePadding()
     ) {
 
         questions.forEach { q ->
 
             ComplianceQuestionNAWithRemarks(
-
                 question = q,
-
                 answer = answers[q],
-
                 remarks = remarks[q] ?: "",
-
                 isError = answers[q] == null ||
                         (answers[q] == "No" && remarks[q].isNullOrBlank()),
-
-                onAnswerChange = {
-                    answers[q] = it
-                },
-
-                onRemarksChange = {
-                    remarks[q] = it
-                }
-
+                onAnswerChange = { answers[q] = it },
+                onRemarksChange = { remarks[q] = it }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-
         }
 
         Button(
             onClick = {
+
+                focusManager.clearFocus()
 
                 for (q in questions) {
 
@@ -139,19 +135,17 @@ fun StandardFormComplianceScreen(
                 onSubmit(data)
 
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 12.dp)
+            modifier = Modifier.fillMaxWidth()
         ) {
 
             Text("Submit")
 
         }
 
+        Spacer(modifier = Modifier.height(30.dp))
+
         SnackbarHost(hostState = snackbarHostState)
 
     }
-
 }
-
 
