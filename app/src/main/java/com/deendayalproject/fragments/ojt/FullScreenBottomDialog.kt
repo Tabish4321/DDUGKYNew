@@ -146,9 +146,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.addCallback
 import androidx.annotation.RequiresPermission
 import java.nio.ByteBuffer
-
-// ViewBinding
-//class FullScreenDialog(private val batch: OJTList) : DialogFragment() {
+//code commit 10/03/2026 Time 16:40 PM OJT Module add in Seoerate OJT Folder
 class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), SurfaceHolder.Callback {
 
 

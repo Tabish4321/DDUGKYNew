@@ -20,7 +20,6 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 
 // my new Ajit Ranjan 27/10/2025 time in last 11:11M
-//code commit 10/03/2026 Time 16:33 PM OJT Module add in Seoerate OJT Folder
 class AcademicAreaAdapter(
     private var centers: MutableList<wrappedList>,
 ) : RecyclerView.Adapter<AcademicAreaAdapter.CenterViewHolder>() {
