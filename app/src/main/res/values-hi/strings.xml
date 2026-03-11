@@ -1615,4 +1615,10 @@ CCTV सबमिशन विफल: %1$s
     <string name="enter_the_candidate_response">उम्मीदवार की प्रतिक्रिया दर्ज करें</string>
     <string name="ojt_candidate_list">OJT उम्मीदवार सूची</string>
     <string name="ojt_end_date">OJT समाप्ति तिथि :</string>
+
+    <string name="playing">वीडियो चल रहा है...</string>
+    <string name="play">चलाएँ</string>
+    <string name="front">सामने</string>
+    <string name="back">पीछे</string>
+    <string name="pause">रोकें</string>
 </resources>

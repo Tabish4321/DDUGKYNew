@@ -160,7 +160,11 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
                             val dialog = FullScreenDialog(CompleteOJTList)
                             dialog.show(parentFragmentManager, "Full Screen Dialog")
                         }
+                          else{
 
+//                            val dialog = PreViewlScreenCandidateBottomDialog(CompleteOJTList)
+//                            dialog.show(parentFragmentManager, "PreViewlScreenCandidateBottomDialog")
+                          }
                     } else {
                         // ❌ No Data Case
                         Toast.makeText(

@@ -911,7 +911,7 @@
     <string name="pia_name">PIA Name :</string>
     <string name="date_of_verification">Date of verification</string>
     <string name="verification_time">Verification time</string>
-    <string name="is_the_candidatete_available_on_the_day_of_visit_to_the_ojt_location">1 - Is the candidatete available on the day of visit to the OJT location ?</string>
+    <string name="is_the_candidatete_available_on_the_day_of_visit_to_the_ojt_location">1 - Is the candidate available on the day of visit to the OJT location ?</string>
     <!--    <string name="is_the_candidatete_available_on_the_day_of_visit_to_the_ojt_location">क्या कैंडिडेट OJT लोकेशन पर विज़िट के दिन उपलब्ध रहेगा? </string>-->
     <string name="interview_of_the_candidate_with_a_time_stamped_go_tagged_video_device_it_could_be_mobile_tablet_etc_for_the_following">Interview of the candidate with a time stamped , go tagged video device (it could be mobile ,Tablet etc.) for the following</string>
     <string name="when_did_you_start_your_ojt">2 - When did you start your OJT?</string>
@@ -920,7 +920,7 @@
     <string name="enter_you_activity">enter you activity</string>
     <string name="whether_the_field_level_upervisor_isnominated_for_the_ojt">5 - Whether the field level supervisor is nominated for the OJT?</string>
     <string name="how_many_times_during_the_day_did_the_supervior_interact_with_you">6 - How many times during the day did the supervior interact with you?</string>
-    <string name="are_you_given_sufficient_instruments_to_work_during_ojt_tools_machinery_computers_etc">7 - Are you given sufficient instruments to work during OJT(tools , machinery , computers etc.)?</string>
+    <string name="are_you_given_sufficient_instruments_to_work_during_ojt_tools_machinery_computers_etc">7 - Are you given sufficient instruments to work during OJT(tools, machinery, computers etc.)?</string>
     <string name="are_you_given_enough_materials_to_work_upon">8 - Are you given enough materials to work upon?</string>
     <string name="how_much_stipend_are_you_eligible_for">9 - How much stipend are you eligible for?</string>
         <string name="how_much_stipend_are_you_getting">10- How much stipend are you getting?</string>
@@ -972,7 +972,7 @@
     <string name="address_not_found">Address not found</string>
     <string name="error_address">Error getting address</string>
     <string name="current_location">Your Current Location</string>
-    <string name="interview_question">Interview quetions</string>
+    <string name="interview_question">Interview Questions</string>
     <string name="center_name_ojt">OJT Name</string>
     <string name="switchs">Switch</string>
     <string name="loading">Loading...</string>
@@ -1152,6 +1152,11 @@
     <string name="enter_the_candidate_response">enter the candidate response</string>
     <string name="ojt_candidate_list">OJT Candidate List</string>
     <string name="ojt_end_date">OJT End Date :</string>
+    <string name="playing">Playing...</string>
+    <string name="play">Play</string>
+    <string name="front">Front</string>
+    <string name="back">Back</string>
+    <string name="pause">pause</string>
 
 
 </resources>

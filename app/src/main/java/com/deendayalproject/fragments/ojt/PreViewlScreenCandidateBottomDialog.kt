@@ -145,12 +145,13 @@ import android.os.Looper
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.addCallback
 import androidx.annotation.RequiresPermission
+import com.deendayalproject.databinding.FragmentPreviewScreenBinding
 import java.nio.ByteBuffer
 //code commit 10/03/2026 Time 16:40 PM OJT Module add in Seoerate OJT Folder
-class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), SurfaceHolder.Callback {
+class PreViewlScreenCandidateBottomDialog( private val batch: List<OJTList>) :  DialogFragment(), SurfaceHolder.Callback {
 
 
-    private var _binding: FragmentOnJobTrainingBinding? = null
+    private var _binding: FragmentPreviewScreenBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
 
@@ -187,7 +188,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
     private var completed = false
 
     // playback timer
-    private val handler = android.os.Handler(Looper.getMainLooper())
+    private val handler = Handler(Looper.getMainLooper())
     private var playbackRunnable: Runnable? = null
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -239,7 +240,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = FragmentOnJobTrainingBinding.inflate(layoutInflater)
+        _binding = FragmentPreviewScreenBinding.inflate(layoutInflater)
 
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.setContentView(binding.root)
