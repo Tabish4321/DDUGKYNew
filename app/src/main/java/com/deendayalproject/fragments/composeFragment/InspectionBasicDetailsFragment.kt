@@ -24,6 +24,7 @@ import com.deendayalproject.model.response.TrainerListInspectionRes
 import com.deendayalproject.model.response.TrainingInspCenterDetails
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.CandidateVerificationViewModel
+import com.deendayalproject.viewmodel.DocumentMaintainViewModel
 import com.deendayalproject.viewmodel.InspectionViewModel
 import com.deendayalproject.viewmodel.PreviousAndDueViewModel
 
@@ -36,6 +37,9 @@ class InspectionBasicDetailsFragment :
 
     val previousAndDueViewModel: PreviousAndDueViewModel by viewModels()
     val candidateVerificationViewModel: CandidateVerificationViewModel by viewModels()
+
+    val documentMaintainViewModel: DocumentMaintainViewModel by viewModels()
+
 
 
 
@@ -172,6 +176,7 @@ class InspectionBasicDetailsFragment :
 
                         InspectionStepModernScreen(
                             findNavController(),
+                            documentMaintainViewModel,
                             candidateVerificationViewModel,
                             previousAndDueViewModel,
                             viewModel,

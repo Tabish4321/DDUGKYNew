@@ -36,12 +36,14 @@ import com.deendayalproject.model.response.PrevBatchItem
 import com.deendayalproject.model.response.TrainingInspCenterDetails
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.CandidateVerificationViewModel
+import com.deendayalproject.viewmodel.DocumentMaintainViewModel
 import com.deendayalproject.viewmodel.InspectionViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InspectionStepModernScreen(
     findNavigator: NavController,
+    documentMaintainViewModel: DocumentMaintainViewModel,
     condidateVerificationViewModel: CandidateVerificationViewModel,
     viewModel: PreviousAndDueViewModel,
     viewModelInspection: InspectionViewModel,
@@ -424,11 +426,7 @@ fun InspectionStepModernScreen(
                                     } else {
 
                                         StandardFormComplianceScreen(
-                                            onSubmit = { data ->
-
-                                                // API call here
-
-                                            }
+                                            documentMaintainViewModel,
                                         )
 
                                     }
