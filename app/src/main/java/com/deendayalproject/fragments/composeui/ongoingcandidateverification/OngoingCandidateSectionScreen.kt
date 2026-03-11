@@ -51,14 +51,6 @@ fun OngoingCandidateSectionScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val isLoading by viewModel
-        .isSubmittingBasicRecord
-        .collectAsState()
-
-    val response by viewModel
-        .submitBasicRecordResponse
-        .collectAsState()
-
     val sectionStatus by candidateVerificationViewModel.uiSectionStatus.collectAsState()
 
 
@@ -105,19 +97,7 @@ fun OngoingCandidateSectionScreen(
 
 
 
-    LaunchedEffect(response?.responseCode) {
 
-        if (response?.responseCode == 200) {
-
-            snackbarHostState.showSnackbar(
-                response?.responseDesc ?: "Saved Successfully"
-            )
-
-            expandedSections["Basic Records Verification"] = false
-
-            viewModel.clearSubmitResponse()
-        }
-    }
     val scope = rememberCoroutineScope()
 
     val listState = rememberLazyListState()
@@ -221,51 +201,50 @@ fun OngoingCandidateSectionScreen(
                             "Basic Records Verification" -> {
 
                                 BasicRecordsSection(
-
+                                    candidateVerificationViewModel,
                                     imageList = imageList,
-
-                                    isLoading = isLoading,
-
+                                    candidateId = candidateId,
+                                    batchId = batchId,
+                                    inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
                                     showMessage = {
-
                                         CoroutineScope(Dispatchers.Main).launch {
                                             snackbarHostState.showSnackbar(it)
                                         }
-
-                                    },
-
-                                    onSubmit = { documents ->
-
-                                        val req = OngoingSubmitBasicRecordsReq(
-                                            appVersion = BuildConfig.VERSION_NAME,
-                                            candidateId = candidateId,
-                                            inspectionId = 3,
-                                            batchId = 6,
-
-                                            povertyProofQid = documents[0].qid,
-                                            povertyProof = documents[0].answer ?: "",
-                                            povertyProofRemark = documents[0].remarks,
-
-                                            categoryProofQid = documents[1].qid,
-                                            categoryProof = documents[1].answer ?: "",
-                                            categoryProofRemark = documents[1].remarks,
-
-                                            minorityProofQid = documents[2].qid,
-                                            minorityProof = documents[2].answer ?: "",
-                                            minorityProofRemark = documents[2].remarks,
-
-                                            educationProofQid = documents[3].qid,
-                                            educationProof = documents[3].answer ?: "",
-                                            educationProofRemark = documents[3].remarks,
-
-                                            pwdProofQid = documents[4].qid,
-                                            pwdProof = documents[4].answer ?: "",
-                                            pwdProofRemark = documents[4].remarks
-                                        )
-
-                                        viewModel.submitBasicRecords(req, "")
-
                                     }
+
+
+//                                    onSubmit = { documents ->
+//
+//                                        val req = OngoingSubmitBasicRecordsReq(
+//                                            appVersion = BuildConfig.VERSION_NAME,
+//                                            candidateId = candidateId,
+//                                            inspectionId = 3,
+//                                            batchId = 6,
+//
+//                                            povertyProofQid = documents[0].qid,
+//                                            povertyProof = documents[0].answer ?: "",
+//                                            povertyProofRemark = documents[0].remarks,
+//
+//                                            categoryProofQid = documents[1].qid,
+//                                            categoryProof = documents[1].answer ?: "",
+//                                            categoryProofRemark = documents[1].remarks,
+//
+//                                            minorityProofQid = documents[2].qid,
+//                                            minorityProof = documents[2].answer ?: "",
+//                                            minorityProofRemark = documents[2].remarks,
+//
+//                                            educationProofQid = documents[3].qid,
+//                                            educationProof = documents[3].answer ?: "",
+//                                            educationProofRemark = documents[3].remarks,
+//
+//                                            pwdProofQid = documents[4].qid,
+//                                            pwdProof = documents[4].answer ?: "",
+//                                            pwdProofRemark = documents[4].remarks
+//                                        )
+//                                        candidateVerificationViewModel.saveCandidateBasicRecords(req)
+//                                        //viewModel.submitBasicRecords(req, "")
+//
+//                                    }
                                 )
 
                             }

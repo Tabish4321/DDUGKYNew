@@ -22,40 +22,111 @@ import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
+import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.response.CandidateProofItem
 import com.deendayalproject.model.uistate.DocumentVerificationState
+import com.deendayalproject.viewmodel.CandidateAssessmentViewModel
+
 @Composable
 fun BasicRecordsSection(
+    candidateVerificationViewModel: CandidateAssessmentViewModel,
     imageList: List<CandidateProofItem>?,
-    isLoading: Boolean,
+    candidateId: String,
+    batchId : String,
+    inspectionId:Int,
     showMessage: (String) -> Unit,
-    onSubmit: (List<DocumentVerificationState>) -> Unit
-) {
 
+) {
+    val uiState by candidateVerificationViewModel.uiRecordState.collectAsState()
+    val isLoading = uiState.isSaving
     var selectedImage by remember { mutableStateOf<String?>(null) }
 
     val proof = imageList?.firstOrNull()
+    val documents = remember { mutableStateListOf<DocumentVerificationState>() }
 
-    val documents = remember {
-
-        mutableStateListOf(
-
-            DocumentVerificationState("Poverty Proof",1,proof?.pmaygAttachment),
-            DocumentVerificationState("Category Proof",2,proof?.categoryCertPath),
-            DocumentVerificationState("Minority Proof",3,proof?.minorityCertPath),
-            DocumentVerificationState("Education Proof",4,proof?.pipCert),
-            DocumentVerificationState("Disability Proof",5,proof?.disablityCertPath)
-
-        )
+    LaunchedEffect(Unit) {
+        candidateVerificationViewModel.loadRecordsVerification(batchId.toInt(),inspectionId,candidateId)
     }
+
+    LaunchedEffect(uiState.saveSuccess) {
+
+        if (uiState.saveSuccess) {
+
+            showMessage("Basic Records Submitted Successfully")
+
+        }
+    }
+
+    LaunchedEffect(uiState.error) {
+
+        uiState.error?.let {
+
+            showMessage(it)
+
+        }
+    }
+
+    LaunchedEffect(uiState) {
+
+        if (!uiState.isLoading && documents.isEmpty()) {
+
+            documents.clear()
+
+            documents.addAll(
+                listOf(
+                    DocumentVerificationState(
+                        "Poverty Proof",
+                        1,
+                        proof?.pmaygAttachment,
+                        uiState.povertyProof,
+                        uiState.povertyProofRemark
+                    ),
+
+                    DocumentVerificationState(
+                        "Category Proof",
+                        2,
+                        proof?.categoryCertPath,
+                        uiState.categoryProof,
+                        uiState.categoryProofRemark
+                    ),
+
+                    DocumentVerificationState(
+                        "Minority Proof",
+                        3,
+                        proof?.minorityCertPath,
+                        uiState.minorityProof,
+                        uiState.minorityProofRemark
+                    ),
+
+                    DocumentVerificationState(
+                        "Education Proof",
+                        4,
+                        proof?.pipCert,
+                        uiState.educationProof,
+                        uiState.educationProofRemark
+                    ),
+
+                    DocumentVerificationState(
+                        "Disability Proof",
+                        5,
+                        proof?.disablityCertPath,
+                        uiState.pwdProof,
+                        uiState.pwdProofRemark
+                    )
+                )
+            )
+        }
+    }
+
+
 
     Column(verticalArrangement = Arrangement.spacedBy(18.dp)) {
 
         documents.forEachIndexed { index, doc ->
 
             ProofWithQuestion(
-
                 title = doc.title,
                 base64Image = doc.image,
                 answer = doc.answer,
@@ -86,14 +157,13 @@ fun BasicRecordsSection(
 
         Button(
             modifier = Modifier.fillMaxWidth(),
-            enabled = !isLoading,
+
 
             onClick = {
 
                 val invalid = documents.find {
 
-                    it.answer == null ||
-                            (it.answer == "No" && it.remarks.isBlank())
+                    it.answer == null || (it.answer == "No" && it.remarks.isBlank())
 
                 }
 
@@ -103,7 +173,35 @@ fun BasicRecordsSection(
 
                 } else {
 
-                    onSubmit(documents)
+                    val request = OngoingSubmitBasicRecordsReq(
+
+                        appVersion = BuildConfig.VERSION_NAME,
+                        candidateId = candidateId,
+                        inspectionId =inspectionId,
+                        batchId = batchId.toInt(),
+
+                        povertyProofQid = 1,
+                        povertyProof = documents[0].answer ?: "",
+                        povertyProofRemark = documents[0].remarks,
+
+                        categoryProofQid = 2,
+                        categoryProof = documents[1].answer ?: "",
+                        categoryProofRemark = documents[1].remarks,
+
+                        minorityProofQid = 3,
+                        minorityProof = documents[2].answer ?: "",
+                        minorityProofRemark = documents[2].remarks,
+
+                        educationProofQid = 4,
+                        educationProof = documents[3].answer ?: "",
+                        educationProofRemark = documents[3].remarks,
+
+                        pwdProofQid = 5,
+                        pwdProof = documents[4].answer ?: "",
+                        pwdProofRemark = documents[4].remarks
+                    )
+
+                    candidateVerificationViewModel.saveCandidateBasicRecords(request)
 
                 }
             }
@@ -134,7 +232,6 @@ fun BasicRecordsSection(
             }
         }
 
-        //  IMAGE PREVIEW (THIS WAS MISSING)
 
         selectedImage?.let {
 
@@ -149,7 +246,6 @@ fun BasicRecordsSection(
 
 @Composable
 fun ProofWithQuestion(
-
     title: String,
     base64Image: String?,
     answer: String?,
@@ -262,7 +358,7 @@ fun ImagePreviewDialog(
                     bitmap = it.asImageBitmap(),
                     contentDescription = null,
                     modifier = Modifier
-                        .fillMaxSize() // 🔥 FULL SCREEN
+                        .fillMaxSize()
                         .graphicsLayer(
                             scaleX = scale,
                             scaleY = scale,

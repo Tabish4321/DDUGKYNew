@@ -5,25 +5,27 @@ package com.deendayalproject.model.uistate
  */
 data class CandidateRecordsVerificationUiState(
 
-    val isLoading: Boolean = false,
-    val error: String? = null,
+    val inspectionId: Int = 0,
+    val batchId: Int = 0,
+    val candidateId: String = "",
 
-    val inspectionId: Int? = null,
-    val batchId: Int? = null,
-    val candidateId: String? = null,
-
-    val povertyProof: String? = null,
+    val povertyProof: String = "",
     val povertyProofRemark: String = "",
 
-    val categoryProof: String? = null,
+    val categoryProof: String = "",
     val categoryProofRemark: String = "",
 
-    val minorityProof: String? = null,
+    val minorityProof: String = "",
     val minorityProofRemark: String = "",
 
-    val educationProof: String? = null,
+    val educationProof: String = "",
     val educationProofRemark: String = "",
 
-    val pwdProof: String? = null,
-    val pwdProofRemark: String = ""
+    val pwdProof: String = "",
+    val pwdProofRemark: String = "",
+
+    val isLoading: Boolean = false,
+    val isSaving: Boolean = false,
+    val error: String? = null,
+    val saveSuccess: Boolean = false
 )

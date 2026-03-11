@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.deendayalproject.BuildConfig
+import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.request.assesmentInspection.AssessmentStatusInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateAssessmentInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateRecordsVerificationRequest
@@ -104,13 +105,15 @@ class CandidateAssessmentViewModel(
     }
 
 
-    private val _uiRecordState = MutableStateFlow(CandidateRecordsVerificationUiState())
-    val uiRecordState: StateFlow<CandidateRecordsVerificationUiState> = _uiRecordState.asStateFlow()
-
 
     /* ------------------------------ */
     /* LOAD RECORD VERIFICATION */
     /* ------------------------------ */
+
+    private val _uiRecordState = MutableStateFlow(CandidateRecordsVerificationUiState())
+    val uiRecordState: StateFlow<CandidateRecordsVerificationUiState> = _uiRecordState.asStateFlow()
+
+
 
     fun loadRecordsVerification(
         batchId: Int,
@@ -169,19 +172,19 @@ class CandidateAssessmentViewModel(
             batchId = dto.batchId,
             candidateId = dto.candidateId,
 
-            povertyProof = dto.povertyProof,
+            povertyProof = dto.povertyProof?:"",
             povertyProofRemark = dto.povertyProofRemark ?: "",
 
-            categoryProof = dto.categoryProof,
+            categoryProof = dto.categoryProof?:"",
             categoryProofRemark = dto.categoryProofRemark ?: "",
 
-            minorityProof = dto.minorityProof,
+            minorityProof = dto.minorityProof?:"",
             minorityProofRemark = dto.minorityProofRemark ?: "",
 
-            educationProof = dto.educationProof,
+            educationProof = dto.educationProof?:"",
             educationProofRemark = dto.educationProofRemark ?: "",
 
-            pwdProof = dto.pwdProof,
+            pwdProof = dto.pwdProof?:"",
             pwdProofRemark = dto.pwdProofRemark ?: "",
 
             isLoading = false
@@ -195,6 +198,66 @@ class CandidateAssessmentViewModel(
     }
 
 
+
+    fun saveCandidateBasicRecords(request:OngoingSubmitBasicRecordsReq) {
+        val state = _uiRecordState.value
+        viewModelScope.launch {
+
+            _uiRecordState.value = state.copy(
+                isSaving = true,
+                error = null,
+                saveSuccess = false
+            )
+
+//            val request = OngoingSubmitBasicRecordsReq(
+//                appVersion = BuildConfig.VERSION_NAME,
+//                candidateId = state.candidateId,
+//                inspectionId = state.inspectionId,
+//                batchId = state.batchId,
+//
+//                povertyProofQid = 1,
+//                povertyProof = state.povertyProof,
+//                povertyProofRemark = state.povertyProofRemark,
+//
+//                categoryProofQid = 2,
+//                categoryProof = state.categoryProof,
+//                categoryProofRemark = state.categoryProofRemark,
+//
+//                minorityProofQid = 3,
+//                minorityProof = state.minorityProof,
+//                minorityProofRemark = state.minorityProofRemark,
+//
+//                educationProofQid = 4,
+//                educationProof = state.educationProof,
+//                educationProofRemark = state.educationProofRemark,
+//
+//                pwdProofQid = 5,
+//                pwdProof = state.pwdProof,
+//                pwdProofRemark = state.pwdProofRemark
+//            )
+
+            val result = repository.saveCandidateBasicRecords(request)
+
+            result.onSuccess {
+                _uiRecordState.value = _uiRecordState.value.copy(
+                    isSaving = false,
+                    saveSuccess = true
+                )
+
+            }.onFailure { e ->
+
+                _uiRecordState.value = _uiRecordState.value.copy(
+                    isSaving = false,
+                    error = e.message ?: "Save failed"
+                )
+            }
+        }
+    }
+
+    /* ------------------------------------ */
+    /* LOAD ASSESSMENT STATUS */
+    /* ------------------------------------ */
+
     private val _uiState = MutableStateFlow(CandidateAssessmentUiState())
     val uiState: StateFlow<CandidateAssessmentUiState> = _uiState.asStateFlow()
 
@@ -202,9 +265,7 @@ class CandidateAssessmentViewModel(
     val uiStatusState: StateFlow<CandidateAssessmentStatusUiState> = _uiStatusState.asStateFlow()
 
 
-    /* ------------------------------------ */
-    /* LOAD ASSESSMENT STATUS */
-    /* ------------------------------------ */
+
     fun loadAssessmentStatus(
         batchId: Int,
         inspectionId: Int,
