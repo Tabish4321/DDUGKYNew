@@ -22,7 +22,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 5
-        versionName = "1.1.3" //1.1.3  //1.3.5
+        versionName = "1.3.5" //1.1.3  //1.3.5
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,7 +30,7 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            isDebuggable = false
+            isDebuggable = true
             applicationIdSuffix = ""
             versionNameSuffix = ""
             proguardFiles(
@@ -64,7 +64,7 @@ android {
             dimension = "environment"
             applicationIdSuffix = ""
             versionNameSuffix = ""
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
         }//BASE_URL_DEMO
     }
 
