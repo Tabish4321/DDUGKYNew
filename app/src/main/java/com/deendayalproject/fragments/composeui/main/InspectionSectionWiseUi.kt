@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -117,7 +118,12 @@ fun InspectionStepModernScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             snackbarHost = {
-                SnackbarHost(snackbarHostState)
+                SnackbarHost(snackbarHostState,
+                        modifier = Modifier
+                        .align(Alignment.TopCenter)
+                    .padding(top = 12.dp)
+
+        )
             },
             topBar = {
                 PremiumTopBar(
@@ -242,7 +248,7 @@ fun InspectionStepModernScreen(
                     LazyColumn(
                                 modifier = Modifier.weight(1f),
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
 
                     ) {
 
@@ -427,7 +433,8 @@ fun InspectionStepModernScreen(
 
                                         StandardFormComplianceScreen(
                                             documentMaintainViewModel,
-                                        )
+                                            snackbarHostState = snackbarHostState,
+                                            )
 
                                     }
 
@@ -498,7 +505,6 @@ fun InspectionStepModernScreen(
         }
 
             LaunchedEffect(currentStep) {
-
                 if (currentStep == 4) {
                     viewModelInspection.getTrainersListInspection(
                         TrainerListReq(
@@ -508,8 +514,7 @@ fun InspectionStepModernScreen(
                     )
                 }
             }
-
-
     }
 }
+
 }

@@ -1,6 +1,8 @@
 package com.deendayalproject.fragments.composeui.documentandstandardform
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -9,18 +11,16 @@ import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionNAWithRemarks
 import com.deendayalproject.viewmodel.DocumentMaintainViewModel
 import kotlinx.coroutines.launch
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import com.deendayalproject.util.AppUtil
 
 @Composable
 fun StandardFormComplianceScreen(
-    viewModel: DocumentMaintainViewModel
+    viewModel: DocumentMaintainViewModel,
+    snackbarHostState:SnackbarHostState
 ) {
 
-    val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current
@@ -35,9 +35,7 @@ fun StandardFormComplianceScreen(
     /* -------------------------------- */
 
     val questions = remember {
-
         listOf(
-
             "Is SF 6.1.2A: Non-Domain Training - English content available?",
             "Is SF 6.1.2B: Non-Domain Training - IT ?",
             "Is SF 6.1.2C: Non-Domain Training - Soft skills content available?",
@@ -83,7 +81,6 @@ fun StandardFormComplianceScreen(
             "Has counselling conducted for candidates ?",
             "SF 5.1D Health Standards of Candidates",
             "SF 5.1C Checklist for cleanliness of Training Centre and Hostel"
-
         )
     }
 
@@ -123,7 +120,6 @@ fun StandardFormComplianceScreen(
             snackbarHostState.showSnackbar(
                 "Inspection standard form saved successfully"
             )
-
             viewModel.clearInspectionStandardSaveSuccess()
         }
     }
@@ -132,27 +128,21 @@ fun StandardFormComplianceScreen(
     /* UI */
     /* -------------------------------- */
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .imePadding()
-                .padding(12.dp)
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-
             if (state.isLoading) {
-
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 40.dp),
                     contentAlignment = Alignment.Center
                 ) {
-
                     CircularProgressIndicator()
                 }
 
@@ -164,40 +154,21 @@ fun StandardFormComplianceScreen(
                     val remark = state.remarks.getOrNull(index) ?: ""
 
                     ComplianceQuestionNAWithRemarks(
-
                         question = q,
-
                         answer = answer,
-
                         remarks = remark,
-
-                        isError =
-                            answer == null ||
-                                    (answer == "No" && remark.isBlank()),
-
+                        isError = answer == null || (answer == "No" && remark.isBlank()),
                         onAnswerChange = {
-
-                            viewModel.updateStandardAnswer(
-                                index,
-                                it
-                            )
+                            viewModel.updateStandardAnswer(index, it)
                         },
-
                         onRemarksChange = {
-
-                            viewModel.updateStandardRemark(
-                                index,
-                                it
-                            )
+                            viewModel.updateStandardRemark(index, it)
                         }
                     )
-
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
 
                 Button(
                     onClick = {
-
                         focusManager.clearFocus()
 
                         val answers = state.answers
@@ -219,12 +190,12 @@ fun StandardFormComplianceScreen(
                                 return@Button
                             }
 
-                            if (ans == "No" &&
+                            if (
+                                ans == "No" &&
                                 remarks.getOrNull(i).isNullOrBlank()
                             ) {
 
                                 scope.launch {
-
                                     snackbarHostState.showSnackbar(
                                         "Remarks required for: ${questions[i]}"
                                     )
@@ -233,23 +204,14 @@ fun StandardFormComplianceScreen(
                                 return@Button
                             }
                         }
-
                         viewModel.saveInspectionStandardForm(inspectionId)
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-
                     Text("Submit")
                 }
-
-                Spacer(modifier = Modifier.height(40.dp))
             }
         }
-
-        SnackbarHost(
-            hostState = snackbarHostState,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
     }
 }
 
