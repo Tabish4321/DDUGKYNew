@@ -22,7 +22,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 5
-        versionName = "1.3.5" //1.1.3  //1.3.5
+        versionName = "1.3.6" //1.1.3  //1.3.5
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,7 +30,7 @@ android {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            isDebuggable = true
+            isDebuggable = false
             applicationIdSuffix = ""
             versionNameSuffix = ""
             proguardFiles(

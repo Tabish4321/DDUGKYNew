@@ -83,45 +83,45 @@ private fun isUsbDebuggingEnabled(context: Context): Boolean {
 
 
  fun validateDeviceSecurity(context: Context): Boolean {
-//    if (isEmulator()) {
-//        showSecurityDialog(
-//            "Login is not allowed on Emulator",
-//            context = context
-//        ) {
-//            (context as Activity).finishAffinity()
-//        }
-//        return false
-//    }
-//
-//    if (isDeviceRooted()) {
-//        showSecurityDialog(
-//            "Login is not allowed on Rooted Device",
-//            context = context
-//        ) {
-//            (context as Activity).finishAffinity()
-//        }
-//        return false
-//    }
-//
-//    if (isDeveloperOptionsEnabled(context)) {
-//        showSecurityDialog(
-//            "Disable Developer Options to continue",
-//            context = context
-//        ) {
-//            (context as Activity).finishAffinity()
-//        }
-//        return false
-//    }
-//
-//    if (isUsbDebuggingEnabled(context)) {
-//        showSecurityDialog(
-//            "USB Debugging must be disabled",
-//            context = context
-//        ) {
-//            (context as Activity).finishAffinity()
-//        }
-//        return false
-//    }
+    if (isEmulator()) {
+        showSecurityDialog(
+            "Login is not allowed on Emulator",
+            context = context
+        ) {
+            (context as Activity).finishAffinity()
+        }
+        return false
+    }
+
+    if (isDeviceRooted()) {
+        showSecurityDialog(
+            "Login is not allowed on Rooted Device",
+            context = context
+        ) {
+            (context as Activity).finishAffinity()
+        }
+        return false
+    }
+
+    if (isDeveloperOptionsEnabled(context)) {
+        showSecurityDialog(
+            "Disable Developer Options to continue",
+            context = context
+        ) {
+            (context as Activity).finishAffinity()
+        }
+        return false
+    }
+
+    if (isUsbDebuggingEnabled(context)) {
+        showSecurityDialog(
+            "USB Debugging must be disabled",
+            context = context
+        ) {
+            (context as Activity).finishAffinity()
+        }
+        return false
+    }
     return true
 }
 

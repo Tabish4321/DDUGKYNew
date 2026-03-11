@@ -7973,37 +7973,110 @@ class TrainingFragment : Fragment() {
         }
     }
 
-    private val mandatoryRoomTypes = listOf(
-        "Reception Area",
-        "IT cum Domain Lab",
-        "Theory Cum IT Lab",
-        "Theory Cum Domain Lab",
-        "IT Lab",
-        "Domain Lab",
-        "Theory Class Room"
-    )
+//    private val mandatoryRoomTypes = listOf(
+//        "Reception Area",
+//        "IT cum Domain Lab",
+//        "Theory Cum IT Lab",
+//        "Theory Cum Domain Lab",
+//        "IT Lab",
+//        "Domain Lab",
+//        "Theory Class Room"
+//    )
 
 
-    private fun validateMandatoryRooms(list: List<wrappedList>): Boolean {
+//    private fun validateMandatoryRooms(list: List<wrappedList>): Boolean {
+//
+//        if (list.isEmpty()) {
+//            Toast.makeText(requireContext(), "Please add required rooms.", Toast.LENGTH_SHORT).show()
+//            return false
+//        }
+//
+//        val roomTypes = list.map { it.roomType.trim() }
+//
+//        if (!roomTypes.contains("Reception Area")) {
+//            Toast.makeText(requireContext(), "Reception Area is mandatory.", Toast.LENGTH_SHORT).show()
+//            return false
+//        }
+//
+//        var hasIT = false
+//        var hasDomain = false
+//        var hasTheory = false
+//
+//        roomTypes.forEach { room ->
+//
+//            when (room) {
+//
+//                "IT Lab" -> hasIT = true
+//
+//                "Domain Lab" -> hasDomain = true
+//
+//                "Theory Class Room" -> hasTheory = true
+//
+//                "IT cum Domain Lab" -> {
+//                    hasIT = true
+//                    hasDomain = true
+//                }
+//
+//                "Theory Cum IT Lab" -> {
+//                    hasTheory = true
+//                    hasIT = true
+//                }
+//
+//                "Theory Cum Domain Lab" -> {
+//                    hasTheory = true
+//                    hasDomain = true
+//                }
+//            }
+//        }
+//
+//        if (!hasIT || !hasDomain || !hasTheory) {
+//
+//            val missing = mutableListOf<String>()
+//
+//            if (!hasIT) missing.add("IT Lab")
+//            if (!hasDomain) missing.add("Domain Lab")
+//            if (!hasTheory) missing.add("Theory Class Room")
+//
+//            Toast.makeText(
+//                requireContext(),
+//                "Missing required facility: ${missing.joinToString()}",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//
+//            return false
+//        }
+//        return true
+//    }
 
-        if (list.isEmpty()) {
-            Toast.makeText(requireContext(), "Please add required rooms.", Toast.LENGTH_SHORT).show()
-            return false
-        }
+private fun validateMandatoryRooms(list: List<wrappedList>): Boolean {
 
-        val availableRoomTypes = list.map { it.roomType.trim() }
+    val rooms = list.map { it.roomType.trim() }
 
-        val missingRooms = mandatoryRoomTypes.filter { mandatory ->
-            !availableRoomTypes.contains(mandatory)
-        }
-        return if (missingRooms.isNotEmpty()) {
-            val message = "These rooms are mandatory: \n${missingRooms.joinToString("\n")}"
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            false
-        } else {
-            true
+    if ("Reception Area" !in rooms)
+        return toast("Reception Area is mandatory.")
+
+    val covered = buildSet {
+        rooms.forEach { room ->
+            if ("IT" in room) add("IT")
+            if ("Domain" in room) add("Domain")
+            if ("Theory" in room) add("Theory")
         }
     }
+
+    val missing = setOf("IT","Domain","Theory") - covered
+
+    return if (missing.isEmpty()) true
+    else toast("Missing required facility: ${missing.joinToString()}")
+}
+
+    private fun toast(msg: String): Boolean {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        return false
+    }
+
+
+
+
 
     private val usedNumbers = mutableSetOf<Int>()
 
