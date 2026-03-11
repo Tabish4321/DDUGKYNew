@@ -82,10 +82,7 @@ private fun isUsbDebuggingEnabled(context: Context): Boolean {
 }
 
 
-
-
  fun validateDeviceSecurity(context: Context): Boolean {
-
 //    if (isEmulator()) {
 //        showSecurityDialog(
 //            "Login is not allowed on Emulator",
@@ -125,7 +122,6 @@ private fun isUsbDebuggingEnabled(context: Context): Boolean {
 //        }
 //        return false
 //    }
-
     return true
 }
 
