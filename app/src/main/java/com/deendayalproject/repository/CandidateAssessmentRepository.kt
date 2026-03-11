@@ -2,12 +2,15 @@ package com.deendayalproject.repository
 
 import android.content.Context
 import com.deendayalproject.base.BaseRepository
+import com.deendayalproject.base.BaseResponse
+import com.deendayalproject.model.request.SaveInspectionStandardFormRequest
 import com.deendayalproject.model.request.assesmentInspection.AssessmentStatusInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateAssessmentInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateRecordsVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetDistributedLearningMaterialInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetEntitlementsDistributionInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetInspectionSectionStatusRequest
+import com.deendayalproject.model.request.assesmentInspection.GetInspectionStandardFormRequest
 import com.deendayalproject.model.request.assesmentInspection.GetResidentialFacilityVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAssessmentInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveDistributedLearningMaterialInspectionRequest
@@ -19,7 +22,9 @@ import com.deendayalproject.model.response.CandidateAssessmentResponse.Candidate
 import com.deendayalproject.model.response.CandidateAssessmentResponse.DistributedLearningMaterialInspectionResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.EntitlementsDistributionInspectionResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.InspectionSectionStatusResponse
+import com.deendayalproject.model.response.CandidateAssessmentResponse.InspectionStandardFormDto
 import com.deendayalproject.model.response.CandidateAssessmentResponse.ResidentialFacilityVerificationResponse
+import com.deendayalproject.model.response.CandidateAssessmentResponse.SaveInspectionStandardFormResponse
 import com.deendayalproject.network.ApiService
 
 /**
@@ -111,5 +116,23 @@ class CandidateAssessmentRepository(
         safeApiCallN {
             apiService.saveResidentialFacilityVerification(request)
         }
+
+    suspend fun getInspectionStandardForm(
+
+        request: GetInspectionStandardFormRequest
+
+    ): Result<List<InspectionStandardFormDto>> = safeApiCallN {
+
+        apiService.getInspectionStandardForm(request)
+    }
+
+    suspend fun saveInspectionStandardForm(
+
+        request: SaveInspectionStandardFormRequest
+
+    ): Result<SaveInspectionStandardFormResponse> = safeApiCall {
+
+        apiService.saveInspectionStandardForm(request)
+    }
 
 }

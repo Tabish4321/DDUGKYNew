@@ -55,6 +55,7 @@ import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.SaltRequest
 import com.deendayalproject.model.request.SaveBatchVerificationRequest
+import com.deendayalproject.model.request.SaveInspectionStandardFormRequest
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubjectDeleteReq
@@ -87,6 +88,7 @@ import com.deendayalproject.model.request.assesmentInspection.GetCandidateRecord
 import com.deendayalproject.model.request.assesmentInspection.GetDistributedLearningMaterialInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetEntitlementsDistributionInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetInspectionSectionStatusRequest
+import com.deendayalproject.model.request.assesmentInspection.GetInspectionStandardFormRequest
 import com.deendayalproject.model.request.assesmentInspection.GetResidentialFacilityVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAssessmentInspectionRequest
@@ -111,7 +113,9 @@ import com.deendayalproject.model.response.CandidateAssessmentResponse.Candidate
 import com.deendayalproject.model.response.CandidateAssessmentResponse.DistributedLearningMaterialInspectionResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.EntitlementsDistributionInspectionResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.InspectionSectionStatusResponse
+import com.deendayalproject.model.response.CandidateAssessmentResponse.InspectionStandardFormDto
 import com.deendayalproject.model.response.CandidateAssessmentResponse.ResidentialFacilityVerificationResponse
+import com.deendayalproject.model.response.CandidateAssessmentResponse.SaveInspectionStandardFormResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidateInspectionDetails
 import com.deendayalproject.model.response.CandidateInspectionDetailsResponse
@@ -909,7 +913,19 @@ interface ApiService {
         @Body request: saveTrainerClassObservationInspectionReq
     ): Response<TrainerClassObservationResponse>
 
+    @POST("getInspectionStandardForm")
+    suspend fun getInspectionStandardForm(
 
+        @Body request: GetInspectionStandardFormRequest
+
+    ): Response<BaseResponse<List<InspectionStandardFormDto>>>
+
+    @POST("saveInspectionStandardForm")
+    suspend fun saveInspectionStandardForm(
+
+        @Body request: SaveInspectionStandardFormRequest
+
+    ): Response<SaveInspectionStandardFormResponse> // SaveInspectionStandardFormResponse
 
 
 }
