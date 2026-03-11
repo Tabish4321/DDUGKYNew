@@ -3,7 +3,6 @@ package com.deendayalproject.repository
 import PreviousInspectionItemResponse
 import android.content.Context
 import com.deendayalproject.base.BaseRepository
-import com.deendayalproject.base.BaseResponse
 import com.deendayalproject.model.request.CandidatePreviousBatchReq
 import com.deendayalproject.model.request.GetAttendanceDetailsReq
 import com.deendayalproject.model.request.GetImageListReq
@@ -12,7 +11,6 @@ import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionRequestBody
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
-import com.deendayalproject.model.request.SaveBatchVerificationRequest
 import com.deendayalproject.model.request.SubjectDeleteReq
 import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.request.TrainerListReq
@@ -32,10 +30,7 @@ import com.deendayalproject.model.response.SubjectDeleteRes
 import com.deendayalproject.model.response.SubjectListRes
 import com.deendayalproject.model.response.TrainerClassObservationResponse
 import com.deendayalproject.model.response.TrainerListRes
-import com.deendayalproject.model.uistate.CandidateInspectionDto
-import com.deendayalproject.model.uistate.GetCandidateInspectionRequest
 import com.deendayalproject.network.ApiService
-import com.deendayalproject.util.AppUtil
 
 class InspectionRepository(context: Context) : BaseRepository<ApiService>(context) {
 
@@ -73,9 +68,6 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
         safeApiCallN {
             apiService.getPreviousInspection(request)
         }
-//        safeApiCallWithToken(token = AppUtil.getSavedTokenPreference(context)) {
-//            apiService.getPreviousInspection(request)
-//        }
 
 
     suspend fun getDueDiligence(
@@ -84,8 +76,6 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
         safeApiCallN {
             apiService.getDueDiligenceDetails(request)
         }
-
-
 
 
 
