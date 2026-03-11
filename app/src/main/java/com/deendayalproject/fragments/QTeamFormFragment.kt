@@ -42,6 +42,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.deendayalproject.BuildConfig.USER_NAME_FOR_APP
+import com.deendayalproject.MainActivity
 import com.deendayalproject.databinding.CounsellingRoomBinding
 import com.deendayalproject.databinding.DomainLabLayoutBinding
 import com.deendayalproject.databinding.ItCumDomainLabLayoutBinding
@@ -277,6 +278,9 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             requestLocationPermission()
         }
 
+
+
+
         request = TrainingCenterInfo(
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -285,15 +289,23 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
 
-        setupToolbar(
-            root = binding.root,
-            title = "Dashboard",
-            showBack = true,
-            showLang = false,
-            showProfile = false,
-        )
+
+            setupToolbar(
+                root = binding.root,
+                title = "Dashboard",
+                showBack = true,
+                showLang = false,
+                showProfile = false,
+            )
+
+
+
+
         setupRecyclerView()
         setupAdapters()
+
+
+
     }
 
     override fun setupObservers() {
@@ -362,7 +374,12 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             dismissProgressDialog()
             return
         }
-
+//        if (USER_NAME_FOR_APP == request.loginId) {
+//
+//        }
+//        else {
+//
+//        }
         viewModel.getTrainerCenterInfo(request)
         viewModel.getTcStaffDetails(request)
     }
@@ -1203,6 +1220,30 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
 
         if (USER_NAME_FOR_APP == request.loginId) {
+
+
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.confirmation))
+                .setMessage(getString(R.string.are_you_sure_you_want_to_submit_these_details))
+                .setCancelable(false)
+
+                .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                    dialog.dismiss()
+                }
+
+                .setPositiveButton(getString(R.string.submit)) { dialog, _ ->
+
+                    dialog.dismiss()
+
+                    val intent = Intent(requireActivity(), MainActivity::class.java)
+
+                    startActivity(intent)
+                    requireActivity().finish()
+                    setupRecyclerView()
+                    setupAdapters()
+                }
+                .show()
+
 
         }
         else{

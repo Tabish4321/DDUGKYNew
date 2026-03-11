@@ -138,7 +138,7 @@
                             android:text="@string/current_location"
                             android:fontFamily="@font/avenir_next_medium"
                             android:padding="@dimen/dp_4"
-                           />
+                            />
                         <TextView
                             android:textSize="16sp"
                             android:id="@+id/address"
@@ -146,7 +146,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/avenir_next_medium"
                             android:padding="@dimen/dp_1"
-                             />
+                            />
                     </LinearLayout>
 
 
@@ -167,9 +167,9 @@
 
 
 
-                   <RelativeLayout
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
 
 
@@ -181,250 +181,250 @@
 
 
 
-                       <ImageView
-                           android:layout_width="wrap_content"
-                           android:id="@+id/imgnavigationttrainingDetails"
-                           android:layout_alignParentRight="true"
-                           android:layout_marginTop="@dimen/dp_10"
-                           android:layout_marginLeft="@dimen/dp_10"
-                           android:layout_height="wrap_content"
-                           android:background="@drawable/baseline_ojt_arrow_down_24"/>
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:id="@+id/title1"
-                           android:textSize="@dimen/sp_18"
-                           android:layout_marginBottom="@dimen/dp_10"
-                           android:layout_centerHorizontal="true"
-                           android:layout_height="wrap_content"
-                           android:text="@string/training_details"
-                           android:gravity="center"
-                           android:paddingRight="@dimen/dp_5"
-                           android:paddingLeft="@dimen/dp_5"
-                           android:layout_marginTop="@dimen/dp_10"
-                           android:textColor="@color/black"
-                           android:textStyle="bold" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/imgnavigationttrainingDetails"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/baseline_ojt_arrow_down_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/title1"
+                        android:textSize="@dimen/sp_18"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:layout_centerHorizontal="true"
+                        android:layout_height="wrap_content"
+                        android:text="@string/training_details"
+                        android:gravity="center"
+                        android:paddingRight="@dimen/dp_5"
+                        android:paddingLeft="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
 
-                       <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                           android:layout_width="match_parent"
-                           android:layout_height="wrap_content"
-                           android:orientation="vertical"
-                           android:layout_marginTop="@dimen/dp_10"
-                            android:visibility="gone"
-                           android:id="@+id/trainingDetailsLayout"
-                           xmlns:app="http://schemas.android.com/apk/res-auto"
-                           android:padding="@dimen/dp_17">
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:visibility="gone"
+                        android:id="@+id/trainingDetailsLayout"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:padding="@dimen/dp_17">
 
 
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_below="@+id/title1"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:layout_height="wrap_content"
-                    android:stretchColumns="1"
-                    android:padding="@dimen/dp_2"
-                    android:background="@color/white"
-                    >
-
-
-
-
-                    <TableRow>
-                        <TextView
-                            android:textSize="16sp"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="@string/pia_name"
-
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvPiaName"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="" />
-                    </TableRow>
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_below="@+id/title1"
+                            android:layout_marginTop="@dimen/dp_20"
+                            android:layout_height="wrap_content"
+                            android:stretchColumns="1"
+                            android:padding="@dimen/dp_2"
+                            android:background="@color/white"
+                            >
 
 
 
 
+                            <TableRow>
+                                <TextView
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="@string/pia_name"
 
-                    <TableRow>
-                        <TextView
-                            android:textSize="16sp"
-                            android:text="Month :"
-                            android:visibility="gone"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:textStyle="bold" />
+                                    android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/tvMonth"
-                            android:visibility="gone"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="" />
-                    </TableRow>
-
-                    <!-- Candidate -->
+                                <TextView
+                                    android:id="@+id/tvPiaName"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="" />
+                            </TableRow>
 
 
-                    <!-- Trainee Name -->
-                    <TableRow>
-                        <TextView
-                            android:textStyle="bold"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="@string/trainee_name"
-                            android:visibility="gone"/>
-
-                        <TextView
-                            android:id="@+id/tvTraineeName"
-                            android:visibility="gone"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="DDUGKY" />
-                    </TableRow>
-
-                    <!-- Father's Name -->
 
 
-                    <!-- Block -->
-                    <TableRow>
-                        <TextView
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:visibility="gone"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="@string/ojt_status" />
 
-                        <TextView
-                            android:id="@+id/tvStatus"
-                            android:visibility="gone"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="Saurikh" />
-                    </TableRow>
+                            <TableRow>
+                                <TextView
+                                    android:textSize="16sp"
+                                    android:text="Month :"
+                                    android:visibility="gone"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:textStyle="bold" />
 
-                    <!-- District -->
-                    <TableRow>
-                        <TextView
-                            android:textStyle="bold"
-                            android:textSize="16sp"
+                                <TextView
+                                    android:id="@+id/tvMonth"
+                                    android:visibility="gone"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="" />
+                            </TableRow>
 
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="@string/tc_district" />
-
-                        <TextView
-                            android:textSize="16sp"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:id="@+id/tvDistrict"
-                            />
-                    </TableRow>
-
-                    <!-- Center Name -->
-                    <TableRow>
-                        <TextView
-                            android:textStyle="bold"
-
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:textSize="16sp"
-                            android:text="@string/center_name_ojt" />
-
-                        <TextView
-                            android:textSize="16sp"
-                            android:id="@+id/tvCenterName"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="Ajit Micro Tech Computer Center" />
-                    </TableRow>
-
-                    <!-- Training Dates -->
-                    <TableRow>
-                        <TextView
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="@string/class_room_start_date" />
-
-                        <TextView
-                            android:id="@+id/tvTrainingStart"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="01/01/2026" />
-                    </TableRow>
-
-                    <TableRow>
-                        <TextView
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="@string/class_room_end_date" />
-
-                        <TextView
-                            android:id="@+id/tvTrainingEnd"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="19/01/2026" />
-                    </TableRow>
-
-                    <!-- OJT Dates -->
-                    <TableRow>
-                        <TextView
-                            android:textStyle="bold"
-
-                            android:textSize="16sp"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="@string/ojt_start_date" />
-
-                        <TextView
-                            android:id="@+id/tvOjtStart"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="01/01/2026" />
-                    </TableRow>
+                            <!-- Candidate -->
 
 
-                    <TableRow>
-                        <TextView
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="@string/ojt_industry_name" />
+                            <!-- Trainee Name -->
+                            <TableRow>
+                                <TextView
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="@string/trainee_name"
+                                    android:visibility="gone"/>
 
-                        <TextView
-                            android:textSize="16sp"
-                            android:id="@+id/tvOjtIndustryName"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="NA" />
-                    </TableRow>
+                                <TextView
+                                    android:id="@+id/tvTraineeName"
+                                    android:visibility="gone"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="DDUGKY" />
+                            </TableRow>
 
-                    <TableRow>
-                        <TextView
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="@string/ojt_location" />
+                            <!-- Father's Name -->
 
-                        <TextView
-                            android:textSize="16sp"
-                            android:id="@+id/tvOjtLocation"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="NA" />
-                    </TableRow>
 
-                    <TableRow>
-                        <TextView
-                            android:textStyle="bold"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="@string/ojt_end_date" />
+                            <!-- Block -->
+                            <TableRow>
+                                <TextView
+                                    android:textStyle="bold"
+                                    android:textSize="16sp"
+                                    android:visibility="gone"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="@string/ojt_status" />
 
-                        <TextView
-                            android:textSize="16sp"
-                            android:id="@+id/tvOjtEnd"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="19/01/2026" />
-                    </TableRow>
+                                <TextView
+                                    android:id="@+id/tvStatus"
+                                    android:visibility="gone"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="Saurikh" />
+                            </TableRow>
 
-                </TableLayout>
-                       </LinearLayout>
-                   </RelativeLayout>
+                            <!-- District -->
+                            <TableRow>
+                                <TextView
+                                    android:textStyle="bold"
+                                    android:textSize="16sp"
+
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="@string/tc_district" />
+
+                                <TextView
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:id="@+id/tvDistrict"
+                                    />
+                            </TableRow>
+
+                            <!-- Center Name -->
+                            <TableRow>
+                                <TextView
+                                    android:textStyle="bold"
+
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:textSize="16sp"
+                                    android:text="@string/center_name_ojt" />
+
+                                <TextView
+                                    android:textSize="16sp"
+                                    android:id="@+id/tvCenterName"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="Ajit Micro Tech Computer Center" />
+                            </TableRow>
+
+                            <!-- Training Dates -->
+                            <TableRow>
+                                <TextView
+                                    android:textStyle="bold"
+                                    android:textSize="16sp"
+
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="@string/class_room_start_date" />
+
+                                <TextView
+                                    android:id="@+id/tvTrainingStart"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="01/01/2026" />
+                            </TableRow>
+
+                            <TableRow>
+                                <TextView
+                                    android:textStyle="bold"
+                                    android:textSize="16sp"
+
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="@string/class_room_end_date" />
+
+                                <TextView
+                                    android:id="@+id/tvTrainingEnd"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="19/01/2026" />
+                            </TableRow>
+
+                            <!-- OJT Dates -->
+                            <TableRow>
+                                <TextView
+                                    android:textStyle="bold"
+
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="@string/ojt_start_date" />
+
+                                <TextView
+                                    android:id="@+id/tvOjtStart"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="01/01/2026" />
+                            </TableRow>
+
+
+                            <TableRow>
+                                <TextView
+                                    android:textStyle="bold"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="@string/ojt_industry_name" />
+
+                                <TextView
+                                    android:textSize="16sp"
+                                    android:id="@+id/tvOjtIndustryName"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="NA" />
+                            </TableRow>
+
+                            <TableRow>
+                                <TextView
+                                    android:textStyle="bold"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="@string/ojt_location" />
+
+                                <TextView
+                                    android:textSize="16sp"
+                                    android:id="@+id/tvOjtLocation"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="NA" />
+                            </TableRow>
+
+                            <TableRow>
+                                <TextView
+                                    android:textStyle="bold"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="@string/ojt_end_date" />
+
+                                <TextView
+                                    android:textSize="16sp"
+                                    android:id="@+id/tvOjtEnd"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="19/01/2026" />
+                            </TableRow>
+
+                        </TableLayout>
+                    </LinearLayout>
+                </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
 
@@ -452,20 +452,20 @@
                         android:layout_marginLeft="@dimen/dp_10"
                         android:layout_height="wrap_content"
                         android:background="@drawable/baseline_ojt_arrow_down_24"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:id="@+id/title2"
-                    android:textSize="@dimen/sp_18"
-                    android:layout_marginBottom="@dimen/dp_10"
-                    android:layout_centerHorizontal="true"
-                    android:layout_height="wrap_content"
-                    android:text="@string/candidate_details"
-                    android:gravity="center"
-                    android:paddingRight="@dimen/dp_5"
-                    android:paddingLeft="@dimen/dp_5"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/title2"
+                        android:textSize="@dimen/sp_18"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:layout_centerHorizontal="true"
+                        android:layout_height="wrap_content"
+                        android:text="@string/candidate_details"
+                        android:gravity="center"
+                        android:paddingRight="@dimen/dp_5"
+                        android:paddingLeft="@dimen/dp_5"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
                     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -475,122 +475,122 @@
                         android:id="@+id/profileImageLayout"
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:padding="@dimen/dp_17">
-<!--                        android:visibility="gone"-->
+                        <!--                        android:visibility="gone"-->
 
 
 
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/circleImageView"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:scaleType="centerCrop"
-                        android:background="@drawable/ddy_logo"
-                        app:shapeAppearanceOverlay="@style/CustomCircleShape"
-                        app:strokeColor="@color/color_dark_green"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/dp_17"
-                        app:strokeWidth="1dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/dp_40">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/circleImageView"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:scaleType="centerCrop"
+                            android:background="@drawable/ddy_logo"
+                            app:shapeAppearanceOverlay="@style/CustomCircleShape"
+                            app:strokeColor="@color/color_dark_green"
                             android:layout_gravity="center"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:layout_marginStart="@dimen/dp_30"
-                            android:text="@string/candidate_id_profile"
-                            />
+                            android:layout_marginTop="@dimen/dp_17"
+                            app:strokeWidth="1dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/tvKpid"
-
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:layout_marginStart="@dimen/dp_20"
+                            android:orientation="horizontal"
                             android:layout_gravity="center"
-                            android:textColor="@color/color_dark_green"
-                            android:textSize="16sp" />
+                            android:layout_marginTop="@dimen/dp_40">
 
 
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:fontFamily="@font/avenir_next_regular"
+                                android:layout_marginStart="@dimen/dp_30"
+                                android:text="@string/candidate_id_profile"
+                                />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/dp_5">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tvKpid"
+
+                                android:fontFamily="@font/avenir_next_regular"
+                                android:layout_marginStart="@dimen/dp_20"
+                                android:layout_gravity="center"
+                                android:textColor="@color/color_dark_green"
+                                android:textSize="16sp" />
 
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textStyle="bold"
+                            android:orientation="horizontal"
                             android:layout_gravity="center"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:layout_marginStart="@dimen/dp_30"
-                            android:text="@string/candidate"
-                            android:textSize="16sp"/>
+                            android:layout_marginTop="@dimen/dp_5">
 
-                        <TextView
-                            android:id="@+id/tvCandidate"
-                            android:layout_width="wrap_content"
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/avenir_next_regular"
+                                android:layout_marginStart="@dimen/dp_30"
+                                android:text="@string/candidate"
+                                android:textSize="16sp"/>
+
+                            <TextView
+                                android:id="@+id/tvCandidate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_next_regular"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/dp_20"
+                                android:textColor="@color/color_dark_green"
+                                android:textSize="16sp" />
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/avenir_next_regular"
+                            android:orientation="horizontal"
                             android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:textColor="@color/color_dark_green"
-                            android:textSize="16sp" />
+                            android:layout_marginTop="@dimen/dp_10">
 
 
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/dp_10">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textStyle="bold"
+                                android:layout_marginStart="@dimen/dp_30"
+                                android:fontFamily="@font/avenir_next_regular"
+                                android:text="@string/father_s_name"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/tvFatherName"
+                                android:layout_marginStart="@dimen/dp_20"
+                                android:fontFamily="@font/avenir_next_regular"
+                                android:layout_gravity="center"
+                                android:textColor="@color/color_dark_green"
+                                android:textSize="16sp" />
 
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:textStyle="bold"
-                            android:layout_marginStart="@dimen/dp_30"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:text="@string/father_s_name"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/tvFatherName"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:layout_gravity="center"
-                            android:textColor="@color/color_dark_green"
-                            android:textSize="16sp" />
-
-
-                    </LinearLayout>
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -646,473 +646,978 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:id="@+id/imgnavigationQuestionttrainingDetails"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginLeft="@dimen/dp_10"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/baseline_ojt_arrow_down_24"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:id="@+id/titl"
-                        android:textSize="@dimen/sp_18"
-                        android:layout_marginBottom="@dimen/dp_10"
-                        android:layout_centerHorizontal="true"
-                        android:layout_height="wrap_content"
-                        android:text="@string/interview_question"
-                        android:gravity="center"
-                        android:paddingRight="@dimen/dp_5"
-                        android:paddingLeft="@dimen/dp_5"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-
-                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:visibility="gone"
-                        android:id="@+id/trainingQuestionDetailsLayout"
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:padding="@dimen/dp_17">
-
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:orientation="vertical"
-                        android:padding="@dimen/dp_10"
-                        android:layout_height="wrap_content">
-
-                        <TextView
+                        <ImageView
                             android:layout_width="wrap_content"
-                            android:visibility="gone"
-                            android:text="@string/date_of_verification"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:id="@+id/tvCurrentDate"
-                            android:visibility="gone"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:textSize="@dimen/dp_16"
-                            android:hint="@string/date_of_verification"
-                            android:background="@null"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:text="@string/verification_time"
-                            android:visibility="gone"
-                            android:layout_height="wrap_content"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:id="@+id/tvTime"
-                            android:visibility="gone"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:textSize="@dimen/dp_16"
-                            android:hint="@string/verification_time"
-                            android:background="@null"
-                            android:layout_height="wrap_content"/>
-                        <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:id="@+id/imgnavigationQuestionttrainingDetails"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginLeft="@dimen/dp_10"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-
-                            >
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:fontFamily="@font/avenir_next_regular"
-                                android:layout_height="wrap_content"
-                                android:textSize="16sp"
-
-                                android:layout_marginTop="@dimen/dp_20"
-                                android:textAlignment="viewStart"
-                                android:textStyle="bold"
-                                android:text="@string/is_the_candidatete_available_on_the_day_of_visit_to_the_ojt_location" />
-                            <ImageView
-
-                                android:layout_width="24dp"
-                                android:id="@+id/imageViewIsCandidate"
-                                android:visibility="gone"
-                                android:layout_height="24dp"
-                                android:src="@drawable/ic_play"
-                                android:contentDescription="Play"/>
-
-
-
-
-
-                        </LinearLayout>
-
-                        <RadioGroup
-                            android:id="@+id/radioGroupYesNoNa"
-                            android:layout_width="match_parent"
-                            android:fontFamily="@font/avenir_next_regular"
+                            android:background="@drawable/baseline_ojt_arrow_down_24"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:id="@+id/titl"
+                            android:textSize="@dimen/sp_18"
+                            android:layout_marginBottom="@dimen/dp_10"
+                            android:layout_centerHorizontal="true"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/radioYes"
-                                android:fontFamily="@font/avenir_next_regular"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/yes"/>
-
-                            <RadioButton
-                                android:id="@+id/radioNo"
-                                android:fontFamily="@font/avenir_next_regular"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/no"/>
-<!--                            <RadioButton-->
-<!--                                android:id="@+id/radioNA"-->
-<!--                                android:fontFamily="@font/avenir_next_regular"-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="NA"/>-->
-                        </RadioGroup>
+                            android:text="@string/interview_question"
+                            android:gravity="center"
+                            android:paddingRight="@dimen/dp_5"
+                            android:paddingLeft="@dimen/dp_5"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
 
 
-
-
-                        <LinearLayout
-                            android:id="@+id/yesLayout"
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="@dimen/dp_10"
                             android:visibility="gone"
-                            android:orientation="horizontal"
-                            android:paddingTop="12dp">
-                            <!--                    android:visibility="gone"-->
+                            android:id="@+id/trainingQuestionDetailsLayout"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:padding="@dimen/dp_17">
 
 
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:orientation="vertical"
+                                android:padding="@dimen/dp_10"
                                 android:layout_height="wrap_content">
-                                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                    android:layout_width="match_parent"
-                                    android:visibility="gone"
-                                    android:background="@color/black"
-                                    android:id="@+id/VideoLinlayout"
-                                    android:layout_height="wrap_content">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:textStyle="bold"
-                                        android:textColor="@color/black"
-                                        android:fontFamily="@font/avenir_next_regular"
-                                        android:text="@string/capture_video"
-                                        android:layout_height="wrap_content"/>
-                                    <SurfaceView
-                                        android:id="@+id/surfaceView"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="400dp" />
-
-                                    <VideoView
-                                        android:id="@+id/videoView"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="400dp"
-                                        android:visibility="gone" />
-
-                                    <TextView
-                                        android:id="@+id/tvTimer"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="03:00"
-                                        android:textSize="20sp"
-                                        android:textColor="#fff"
-                                        android:layout_below="@id/surfaceView"
-                                        android:layout_centerHorizontal="true"
-                                        android:layout_marginTop="10dp"/>
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@id/tvTimer"
-                                        android:gravity="center"
-                                        android:orientation="horizontal"
-                                        android:layout_marginTop="20dp">
-
-                                        <Button
-                                            android:id="@+id/btnRecord"
-                                            android:text="@string/start"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"
-                                            android:textSize="12sp"
-                                            android:minWidth="0dp"
-                                            android:minHeight="0dp"
-                                            android:padding="4dp"/>
-
-                                        <Button
-                                            android:id="@+id/btnStop"
-                                            android:text="@string/stop"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"
-                                            android:textSize="12sp"
-                                            android:minWidth="0dp"
-                                            android:minHeight="0dp"
-                                            android:padding="4dp"
-                                            android:layout_marginStart="8dp"/>
-
-                                        <Button
-                                            android:id="@+id/btnSwitch"
-                                            android:text="@string/switchs"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"
-                                            android:textSize="12sp"
-                                            android:minWidth="0dp"
-                                            android:minHeight="0dp"
-                                            android:padding="4dp"
-                                            android:layout_marginStart="8dp"/>
-
-                                        <Button
-                                            android:id="@+id/btnDelete"
-                                            android:text="@string/delete"
-                                            android:visibility="gone"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"
-                                            android:textSize="12sp"
-                                            android:minWidth="0dp"
-                                            android:minHeight="0dp"
-                                            android:padding="4dp"
-                                            android:layout_marginStart="8dp"/>
-
-                                    </LinearLayout>
-                                </RelativeLayout>
 
                                 <TextView
                                     android:layout_width="wrap_content"
-                                    android:textStyle="bold"
-                                    android:fontFamily="@font/avenir_next_regular"
                                     android:visibility="gone"
-                                    android:text="@string/interview_of_the_candidate_with_a_time_stamped_go_tagged_video_device_it_could_be_mobile_tablet_etc_for_the_following"
+                                    android:text="@string/date_of_verification"
+                                    android:layout_height="wrap_content"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:id="@+id/tvCurrentDate"
+                                    android:visibility="gone"
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    android:textSize="@dimen/dp_16"
+                                    android:hint="@string/date_of_verification"
+                                    android:background="@null"
                                     android:layout_height="wrap_content"/>
                                 <TextView
                                     android:layout_width="wrap_content"
-                                    android:layout_marginTop="@dimen/dp_10"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/when_did_you_start_your_ojt"
+                                    android:text="@string/verification_time"
+                                    android:visibility="gone"
                                     android:layout_height="wrap_content"/>
 
-
-                                <ImageView
-
-                                    android:layout_width="24dp"
-                                    android:id="@+id/tvICandidateAvailable"
-                                    android:layout_height="24dp"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:id="@+id/tvTime"
                                     android:visibility="gone"
-                                    android:src="@drawable/ic_play"
-                                    android:contentDescription="Play"/>
+                                    android:layout_marginTop="@dimen/dp_5"
+                                    android:textSize="@dimen/dp_16"
+                                    android:hint="@string/verification_time"
+                                    android:background="@null"
+                                    android:layout_height="wrap_content"/>
                                 <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:orientation="horizontal"
-                                    android:padding="12dp"
-                                    android:layout_height="wrap_content">
-                                    <TextView
-                                        android:id="@+id/tvSelectedDate"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:textSize="16sp"/>
-
-                                    <ImageView
-                                        android:id="@+id/ivCalendar"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/baseline_calendar_month_24"
-                                        android:contentDescription="Calendar Icon"
-                                        android:padding="8dp"/>
-
-                                </LinearLayout>
-
-                                <TextView
                                     android:layout_width="wrap_content"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:layout_marginTop="@dimen/dp_10"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/what_activity_are_you_doing_today"
-                                    android:layout_height="wrap_content"/>
-
-                                <ImageView
-                                    android:visibility="gone"
-                                    android:layout_width="24dp"
-                                    android:id="@+id/tvwhatActivityDoingare"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_play"
-                                    android:contentDescription="Play"/>
-
-                                <com.google.android.material.textfield.TextInputLayout
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:hint="@string/describe_the_activity"
-                                    app:boxStrokeColor="@color/color_dark_green">
-
-                                    <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/etOjtTrainingCenter"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:inputType="text"
-                                        android:fontFamily="@font/avenir_next_regular"
-                                        android:textColor="@color/color_dark_green"
-                                        android:textSize="15sp" />
-
-                                </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:id="@+id/tvActivityTitle"
-                                    android:textAlignment="viewStart"
-                                    android:layout_marginTop="@dimen/dp_10"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/what_activity_did_you_do_a_random_day_to_be_chosen_by_the_ytem_from_last_6_days"
-                                    android:layout_height="wrap_content"/>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
                                     android:orientation="horizontal"
-                                    android:padding="12dp"
-                                    android:layout_height="wrap_content">
-                                    <TextView
-                                        android:id="@+id/tvHowMuchSelectedDate"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:textSize="16sp"/>
 
-                                    <ImageView
-                                        android:id="@+id/ivCalendarHowMuch"
+                                    >
+
+                                    <TextView
+
                                         android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/baseline_calendar_month_24"
-                                        android:contentDescription="Calendar Icon"
-                                        android:padding="8dp"/>
-
-                                </LinearLayout>
-                                <ImageView
-                                    android:visibility="gone"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:id="@+id/tvwhatActivity"
-                                    android:src="@drawable/ic_play"
-                                    android:contentDescription="Play"/>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:orientation="horizontal"
-                                    android:padding="12dp"
-                                    android:layout_height="wrap_content">
-                                    <TextView
-                                        android:id="@+id/tvSelectedRandomDate"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:textSize="16sp"/>
-
-                                    <com.google.android.material.textfield.TextInputLayout
-                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
                                         android:fontFamily="@font/avenir_next_regular"
-                                        android:hint="@string/describe_the_activity"
-                                        android:id="@+id/textSelectedRandomDate"
-                                        app:boxStrokeColor="@color/color_dark_green">
-
-                                        <com.google.android.material.textfield.TextInputEditText
-                                            android:id="@+id/etSelectedRandomDate"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:inputType="text"
-                                            android:fontFamily="@font/avenir_next_regular"
-                                            android:textColor="@color/color_dark_green"
-                                            android:textSize="15sp" />
-
-                                    </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-
-
-
-
-                                    <ImageView
-                                        android:id="@+id/ivRandomCalendar"
-                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:src="@drawable/baseline_calendar_month_24"
-                                        android:contentDescription="Calendar Icon"
-                                        android:padding="8dp"/>
+                                        android:textSize="16sp"
+
+                                        android:layout_marginTop="@dimen/dp_20"
+                                        android:textAlignment="viewStart"
+                                        android:textStyle="bold"
+                                        android:text="@string/is_the_candidatete_available_on_the_day_of_visit_to_the_ojt_location" />
+                                    <ImageView
+
+                                        android:layout_width="24dp"
+                                        android:id="@+id/imageViewIsCandidate"
+                                        android:visibility="gone"
+                                        android:layout_height="24dp"
+                                        android:src="@drawable/ic_play"
+                                        android:contentDescription="Play"/>
+
+
+
+
 
                                 </LinearLayout>
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:textAlignment="viewStart"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/whether_the_field_level_upervisor_isnominated_for_the_ojt"
-                                    android:layout_height="wrap_content"/>
-                                <ImageView
-                                    android:visibility="gone"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:id="@+id/tvWhatWhetherthe"
-                                    android:src="@drawable/ic_play"
-                                    android:contentDescription="Play"/>
                                 <RadioGroup
-                                    android:id="@+id/radioGroupnominatedYesNo"
+                                    android:id="@+id/radioGroupYesNoNa"
                                     android:layout_width="match_parent"
+                                    android:fontFamily="@font/avenir_next_regular"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
 
                                     <RadioButton
-                                        android:id="@+id/radionominatedYes"
-                                        android:layout_width="wrap_content"
+                                        android:id="@+id/radioYes"
                                         android:fontFamily="@font/avenir_next_regular"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/yes"/>
 
                                     <RadioButton
-                                        android:id="@+id/radionominatedNo"
-                                        android:layout_width="wrap_content"
+                                        android:id="@+id/radioNo"
                                         android:fontFamily="@font/avenir_next_regular"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="@string/no"/>
-
+                                    <!--                            <RadioButton-->
+                                    <!--                                android:id="@+id/radioNA"-->
+                                    <!--                                android:fontFamily="@font/avenir_next_regular"-->
+                                    <!--                                android:layout_width="wrap_content"-->
+                                    <!--                                android:layout_height="wrap_content"-->
+                                    <!--                                android:text="NA"/>-->
                                 </RadioGroup>
-<!--                                RemarkisFieldLevelSupervisorNominated-->
+
+
+
+
+                                <LinearLayout
+                                    android:id="@+id/yesLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:orientation="horizontal"
+                                    android:paddingTop="12dp">
+                                    <!--                    android:visibility="gone"-->
+
+
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:orientation="vertical"
+                                        android:layout_height="wrap_content">
+
+                                        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                            android:layout_width="match_parent"
+                                            android:visibility="gone"
+                                            android:background="@color/black"
+                                            android:id="@+id/VideoLinlayout"
+                                            android:layout_height="wrap_content">
+
+                                            <TextView
+                                                android:id="@+id/tvTitleVideo"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/capture_video"
+                                                android:textStyle="bold"
+                                                android:textColor="@color/white"
+                                                android:textSize="16sp"/>
+
+                                            <!-- Camera / Video -->
+                                            <FrameLayout
+                                                android:id="@+id/videoContainer"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="400dp"
+
+                                                android:layout_below="@id/tvTitleVideo">
+
+                                                <SurfaceView
+                                                    android:id="@+id/surfaceView"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"/>
+
+                                                <VideoView
+                                                    android:id="@+id/videoView"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:visibility="gone"/>
+
+                                            </FrameLayout>
+
+                                            <!-- Timer -->
+                                            <TextView
+                                                android:id="@+id/tvTimer"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="03:00"
+                                                android:textSize="20sp"
+                                                android:textColor="#fff"
+                                                android:layout_below="@id/videoContainer"
+                                                android:layout_centerHorizontal="true"
+                                                android:layout_marginTop="10dp"/>
+
+                                            <!-- Buttons -->
+                                            <LinearLayout
+                                                android:id="@+id/buttonLayout"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_below="@id/tvTimer"
+                                                android:gravity="center"
+                                                android:orientation="horizontal"
+                                                android:layout_marginTop="20dp">
+
+                                                <Button
+                                                    android:id="@+id/btnRecord"
+                                                    android:text="@string/start"
+                                                    android:layout_width="80dp"
+                                                    android:layout_height="36dp"/>
+
+                                                <Button
+                                                    android:id="@+id/btnStop"
+                                                    android:text="@string/stop"
+                                                    android:layout_width="80dp"
+                                                    android:layout_height="36dp"
+                                                    android:layout_marginStart="8dp"/>
+
+                                                <Button
+                                                    android:id="@+id/btnSwitch"
+                                                    android:text="@string/switchs"
+                                                    android:layout_width="80dp"
+                                                    android:layout_height="36dp"
+                                                    android:layout_marginStart="8dp"/>
+
+                                                <Button
+                                                    android:id="@+id/btnDelete"
+                                                    android:text="@string/delete"
+                                                    android:visibility="gone"
+                                                    android:layout_width="80dp"
+                                                    android:layout_height="36dp"
+                                                    android:layout_marginStart="8dp"/>
+
+                                            </LinearLayout>
+
+                                        </RelativeLayout>
+<!--                                        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--                                            android:layout_width="match_parent"-->
+<!--                                            android:visibility="gone"-->
+<!--                                            android:background="@color/black"-->
+<!--                                            android:id="@+id/VideoLinlayout"-->
+<!--                                            android:layout_height="wrap_content">-->
+
+<!--                                            <TextView-->
+<!--                                                android:id="@+id/tvTitleVideo"-->
+<!--                                                android:layout_width="wrap_content"-->
+<!--                                                android:layout_height="wrap_content"-->
+<!--                                                android:text="@string/capture_video"-->
+<!--                                                android:textStyle="bold"-->
+<!--                                                android:textColor="@color/black"-->
+<!--                                                android:fontFamily="@font/avenir_next_regular"/>-->
+
+<!--                                            &lt;!&ndash; Camera / Video Container &ndash;&gt;-->
+<!--                                            <FrameLayout-->
+<!--                                                android:id="@+id/videoContainer"-->
+<!--                                                android:layout_width="match_parent"-->
+<!--                                                android:layout_height="400dp"-->
+<!--                                                android:layout_below="@id/tvTitleVideo">-->
+
+<!--                                                <SurfaceView-->
+<!--                                                    android:id="@+id/surfaceView"-->
+<!--                                                    android:layout_width="match_parent"-->
+<!--                                                    android:layout_height="match_parent" />-->
+
+<!--                                                <VideoView-->
+<!--                                                    android:id="@+id/videoView"-->
+<!--                                                    android:layout_width="match_parent"-->
+<!--                                                    android:layout_height="match_parent"-->
+<!--                                                    android:visibility="gone" />-->
+
+<!--                                            </FrameLayout>-->
+
+<!--                                            &lt;!&ndash; Timer &ndash;&gt;-->
+<!--                                            <TextView-->
+<!--                                                android:id="@+id/tvTimer"-->
+<!--                                                android:layout_width="wrap_content"-->
+<!--                                                android:layout_height="wrap_content"-->
+<!--                                                android:text="03:00"-->
+<!--                                                android:textSize="20sp"-->
+<!--                                                android:textColor="#fff"-->
+<!--                                                android:layout_below="@id/videoContainer"-->
+<!--                                                android:layout_centerHorizontal="true"-->
+<!--                                                android:layout_marginTop="10dp"/>-->
+
+<!--                                            &lt;!&ndash; Buttons &ndash;&gt;-->
+<!--                                            <LinearLayout-->
+<!--                                                android:layout_width="match_parent"-->
+<!--                                                android:layout_height="wrap_content"-->
+<!--                                                android:layout_below="@id/tvTimer"-->
+<!--                                                android:gravity="center"-->
+<!--                                                android:orientation="horizontal"-->
+<!--                                                android:layout_marginTop="20dp">-->
+
+<!--                                                <Button-->
+<!--                                                    android:id="@+id/btnRecord"-->
+<!--                                                    android:text="@string/start"-->
+<!--                                                    android:layout_width="80dp"-->
+<!--                                                    android:layout_height="36dp"-->
+<!--                                                    android:textSize="12sp"-->
+<!--                                                    android:minWidth="0dp"-->
+<!--                                                    android:minHeight="0dp"-->
+<!--                                                    android:padding="4dp"/>-->
+
+<!--                                                <Button-->
+<!--                                                    android:id="@+id/btnStop"-->
+<!--                                                    android:text="@string/stop"-->
+<!--                                                    android:layout_width="80dp"-->
+<!--                                                    android:layout_height="36dp"-->
+<!--                                                    android:textSize="12sp"-->
+<!--                                                    android:minWidth="0dp"-->
+<!--                                                    android:minHeight="0dp"-->
+<!--                                                    android:padding="4dp"-->
+<!--                                                    android:layout_marginStart="8dp"/>-->
+
+<!--                                                <Button-->
+<!--                                                    android:id="@+id/btnSwitch"-->
+<!--                                                    android:text="@string/switchs"-->
+<!--                                                    android:layout_width="80dp"-->
+<!--                                                    android:layout_height="36dp"-->
+<!--                                                    android:textSize="12sp"-->
+<!--                                                    android:minWidth="0dp"-->
+<!--                                                    android:minHeight="0dp"-->
+<!--                                                    android:padding="4dp"-->
+<!--                                                    android:layout_marginStart="8dp"/>-->
+
+<!--                                                <Button-->
+<!--                                                    android:id="@+id/btnDelete"-->
+<!--                                                    android:text="@string/delete"-->
+<!--                                                    android:visibility="gone"-->
+<!--                                                    android:layout_width="80dp"-->
+<!--                                                    android:layout_height="36dp"-->
+<!--                                                    android:textSize="12sp"-->
+<!--                                                    android:minWidth="0dp"-->
+<!--                                                    android:minHeight="0dp"-->
+<!--                                                    android:padding="4dp"-->
+<!--                                                    android:layout_marginStart="8dp"/>-->
+
+<!--                                            </LinearLayout>-->
+
+<!--                                        </RelativeLayout>-->
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:textStyle="bold"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:visibility="gone"
+                                            android:text="@string/interview_of_the_candidate_with_a_time_stamped_go_tagged_video_device_it_could_be_mobile_tablet_etc_for_the_following"
+                                            android:layout_height="wrap_content"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_marginTop="@dimen/dp_10"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:text="@string/when_did_you_start_your_ojt"
+                                            android:layout_height="wrap_content"/>
+
+
+                                        <ImageView
+
+                                            android:layout_width="24dp"
+                                            android:id="@+id/tvICandidateAvailable"
+                                            android:layout_height="24dp"
+                                            android:visibility="gone"
+                                            android:src="@drawable/ic_play"
+                                            android:contentDescription="Play"/>
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:orientation="horizontal"
+                                            android:padding="12dp"
+                                            android:layout_height="wrap_content">
+                                            <TextView
+                                                android:id="@+id/tvSelectedDate"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:textSize="16sp"/>
+
+                                            <ImageView
+                                                android:id="@+id/ivCalendar"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:src="@drawable/baseline_calendar_month_24"
+                                                android:contentDescription="Calendar Icon"
+                                                android:padding="8dp"/>
+
+                                        </LinearLayout>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold"
+                                            android:layout_marginTop="@dimen/dp_10"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:text="@string/what_activity_are_you_doing_today"
+                                            android:layout_height="wrap_content"/>
+
+                                        <ImageView
+                                            android:visibility="gone"
+                                            android:layout_width="24dp"
+                                            android:id="@+id/tvwhatActivityDoingare"
+                                            android:layout_height="24dp"
+                                            android:src="@drawable/ic_play"
+                                            android:contentDescription="Play"/>
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:hint="@string/describe_the_activity"
+                                            app:boxStrokeColor="@color/color_dark_green">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/etOjtTrainingCenter"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:inputType="text"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:textColor="@color/color_dark_green"
+                                                android:textSize="15sp" />
+
+                                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold"
+                                            android:id="@+id/tvActivityTitle"
+                                            android:textAlignment="viewStart"
+                                            android:layout_marginTop="@dimen/dp_10"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:text="@string/what_activity_did_you_do_a_random_day_to_be_chosen_by_the_ytem_from_last_6_days"
+                                            android:layout_height="wrap_content"/>
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:orientation="horizontal"
+                                            android:padding="12dp"
+                                            android:layout_height="wrap_content">
+                                            <TextView
+                                                android:id="@+id/tvHowMuchSelectedDate"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:textSize="16sp"/>
+
+                                            <ImageView
+                                                android:id="@+id/ivCalendarHowMuch"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:src="@drawable/baseline_calendar_month_24"
+                                                android:contentDescription="Calendar Icon"
+                                                android:padding="8dp"/>
+
+                                        </LinearLayout>
+                                        <ImageView
+                                            android:visibility="gone"
+                                            android:layout_width="24dp"
+                                            android:layout_height="24dp"
+                                            android:id="@+id/tvwhatActivity"
+                                            android:src="@drawable/ic_play"
+                                            android:contentDescription="Play"/>
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:orientation="horizontal"
+                                            android:padding="12dp"
+                                            android:layout_height="wrap_content">
+                                            <TextView
+                                                android:id="@+id/tvSelectedRandomDate"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:textSize="16sp"/>
+
+                                            <com.google.android.material.textfield.TextInputLayout
+                                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:hint="@string/describe_the_activity"
+                                                android:id="@+id/textSelectedRandomDate"
+                                                app:boxStrokeColor="@color/color_dark_green">
+
+                                                <com.google.android.material.textfield.TextInputEditText
+                                                    android:id="@+id/etSelectedRandomDate"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="wrap_content"
+                                                    android:inputType="text"
+                                                    android:fontFamily="@font/avenir_next_regular"
+                                                    android:textColor="@color/color_dark_green"
+                                                    android:textSize="15sp" />
+
+                                            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+
+                                            <ImageView
+                                                android:id="@+id/ivRandomCalendar"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:src="@drawable/baseline_calendar_month_24"
+                                                android:contentDescription="Calendar Icon"
+                                                android:padding="8dp"/>
+
+                                        </LinearLayout>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold"
+                                            android:textAlignment="viewStart"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:text="@string/whether_the_field_level_upervisor_isnominated_for_the_ojt"
+                                            android:layout_height="wrap_content"/>
+                                        <ImageView
+                                            android:visibility="gone"
+                                            android:layout_width="24dp"
+                                            android:layout_height="24dp"
+                                            android:id="@+id/tvWhatWhetherthe"
+                                            android:src="@drawable/ic_play"
+                                            android:contentDescription="Play"/>
+                                        <RadioGroup
+                                            android:id="@+id/radioGroupnominatedYesNo"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <RadioButton
+                                                android:id="@+id/radionominatedYes"
+                                                android:layout_width="wrap_content"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/yes"/>
+
+                                            <RadioButton
+                                                android:id="@+id/radionominatedNo"
+                                                android:layout_width="wrap_content"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/no"/>
+
+                                        </RadioGroup>
+                                        <!--                                RemarkisFieldLevelSupervisorNominated-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:id="@+id/textRemarkisFieldLevelSupervisorNominated"
+                                            android:visibility="gone"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:hint="@string/enter_the_reason"
+                                            app:boxStrokeColor="@color/color_dark_green">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/etRemarkFieldLevelSupervisorNominated"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/color_dark_green"
+                                                android:textSize="15sp" />
+
+                                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:textSize="16sp"
+                                            android:layout_marginTop="@dimen/dp_10"
+                                            android:textStyle="bold"
+                                            android:textAlignment="viewStart"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:text="@string/how_many_times_during_the_day_did_the_supervior_interact_with_you"
+                                            android:layout_height="wrap_content"/>
+
+                                        <ImageView
+                                            android:visibility="gone"
+                                            android:layout_width="24dp"
+                                            android:layout_height="24dp"
+                                            android:id="@+id/tvHowmanyTimes"
+                                            android:src="@drawable/ic_play"
+                                            android:contentDescription="Play"/>
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:layout_height="wrap_content"
+                                            android:hint="@string/enter_the_candidate_response"
+                                            app:boxStrokeColor="@color/color_dark_green">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/etOjt_enter_during_times"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:inputType="numberDecimal"
+                                                android:maxLength="2"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:textColor="@color/color_dark_green"
+                                                android:textSize="15sp" />
+
+                                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold"
+                                            android:textAlignment="viewStart"
+                                            android:layout_marginTop="@dimen/dp_10"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:text="@string/are_you_given_sufficient_instruments_to_work_during_ojt_tools_machinery_computers_etc"
+                                            android:layout_height="wrap_content"/>
+
+
+
+                                        <ImageView
+                                            android:id="@+id/tvAreYouSufficient"
+                                            android:layout_width="24dp"
+                                            android:layout_height="24dp"
+                                            android:visibility="gone"
+                                            android:src="@drawable/ic_play"
+                                            android:contentDescription="Play"/>
+
+                                        <RadioGroup
+                                            android:id="@+id/radioGroupinstrumentYesNo"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <RadioButton
+                                                android:id="@+id/radioinstrumentYes"
+                                                android:layout_width="wrap_content"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/yes"/>
+
+                                            <RadioButton
+                                                android:id="@+id/radioinstrumentNo"
+                                                android:layout_width="wrap_content"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/no"/>
+
+                                        </RadioGroup>
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:id="@+id/textRemarkareYouGivenSufficientInstument"
+                                            android:visibility="gone"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:hint="@string/please_give_reason_for_no"
+                                            app:boxStrokeColor="@color/color_dark_green">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/etRemarkareYouGivenSufficientInstument"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/color_dark_green"
+                                                android:textSize="15sp" />
+
+                                        </com.google.android.material.textfield.TextInputLayout>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold"
+                                            android:textAlignment="viewStart"
+                                            android:layout_marginTop="@dimen/dp_10"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:text="@string/are_you_given_enough_materials_to_work_upon"
+                                            android:layout_height="wrap_content"/>
+
+                                        <ImageView
+                                            android:id="@+id/tvAreYouGivenEnough"
+                                            android:layout_width="24dp"
+                                            android:layout_height="24dp"
+                                            android:visibility="gone"
+                                            android:src="@drawable/ic_play"
+                                            android:contentDescription="Play"/>
+
+                                        <RadioGroup
+                                            android:id="@+id/radioGroupmaterialsYesNo"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <RadioButton
+                                                android:id="@+id/radiomaterialsYes"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/yes"/>
+
+                                            <RadioButton
+                                                android:id="@+id/radiomaterialsNo"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/no"/>
+
+                                        </RadioGroup>
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:id="@+id/textRemarkareYouGivenEnoughMaterials"
+                                            android:visibility="gone"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:hint="@string/please_give_reason_for_no"
+                                            app:boxStrokeColor="@color/color_dark_green">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/etRemarkareYouGivenEnoughMaterials"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/color_dark_green"
+                                                android:textSize="15sp" />
+
+                                        </com.google.android.material.textfield.TextInputLayout>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:id="@+id/tvStipned"
+                                            android:textSize="16sp"
+                                            android:layout_marginTop="@dimen/dp_10"
+                                            android:textStyle="bold"
+                                            android:textAlignment="viewStart"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:text="@string/how_much_stipend_are_you_eligible_for"
+                                            android:layout_height="wrap_content"/>
+
+
+
+
+                                        <ImageView
+                                            android:visibility="gone"
+                                            android:layout_width="24dp"
+                                            android:layout_height="24dp"
+                                            android:id="@+id/tvHowMuchtipned"
+                                            android:src="@drawable/ic_play"
+                                            android:contentDescription="Play"/>
+
+                                        <RadioGroup
+                                            android:id="@+id/radioGroupfacilitiesYesNo"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <RadioButton
+                                                android:id="@+id/radiofacilitiesYes"
+                                                android:layout_width="wrap_content"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/yes"/>
+
+                                            <RadioButton
+                                                android:id="@+id/radiofacilitiesNo"
+                                                android:layout_width="wrap_content"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/no"/>
+
+                                        </RadioGroup>
+                                        <!--                                <com.google.android.material.textfield.TextInputLayout-->
+                                        <!--                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+                                        <!--                                    android:layout_width="match_parent"-->
+                                        <!--                                    android:layout_height="wrap_content"-->
+                                        <!--                                    android:id="@+id/textRemarkbordingAndLoadingFacilities"-->
+                                        <!--                                    android:visibility="gone"-->
+                                        <!--                                    android:fontFamily="@font/avenir_next_regular"-->
+                                        <!--                                    android:hint="@string/please_give_reason_for_no"-->
+                                        <!--                                    app:boxStrokeColor="@color/color_dark_green">-->
+
+                                        <!--                                    <com.google.android.material.textfield.TextInputEditText-->
+                                        <!--                                        android:id="@+id/etRemarkbordingAndLoadingFacilities"-->
+                                        <!--                                        android:layout_width="match_parent"-->
+                                        <!--                                        android:layout_height="wrap_content"-->
+                                        <!--                                        android:textColor="@color/color_dark_green"-->
+                                        <!--                                        android:textSize="15sp" />-->
+
+                                        <!--                                </com.google.android.material.textfield.TextInputLayout>-->
+
+
+                                        <!--                                etOjt_enter_your_eligible_for-->
+
+
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:visibility="gone"
+                                            android:id="@+id/tvetRemarkbordingAndLoadingFacilities"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:hint="@string/candidate_response"
+                                            app:boxStrokeColor="@color/color_dark_green">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/etRemarkbordingAndLoadingFacilities"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/color_dark_green"
+                                                android:textSize="15sp" />
+
+                                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold"
+                                            android:textAlignment="viewStart"
+                                            android:layout_marginTop="@dimen/dp_10"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:text="@string/how_much_stipend_are_you_getting"
+                                            android:layout_height="wrap_content"/>
+                                        <ImageView
+                                            android:visibility="gone"
+                                            android:layout_width="24dp"
+                                            android:layout_height="24dp"
+                                            android:id="@+id/tvHowMuchtipnedGetting"
+                                            android:src="@drawable/ic_play"
+                                            android:contentDescription="Play"/>
+
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:hint="@string/candidate_response"
+                                            app:boxStrokeColor="@color/color_dark_green">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/etOjt_enter_your_getting_for"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:inputType="numberDecimal"
+                                                android:textColor="@color/color_dark_green"
+                                                android:textSize="15sp" />
+
+                                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold"
+                                            android:textAlignment="viewStart"
+                                            android:layout_marginTop="@dimen/dp_10"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:text="@string/are_boarding_and_loading_facilities_provided"
+                                            android:layout_height="wrap_content"/>
+
+
+
+                                        <RadioGroup
+                                            android:id="@+id/radioGroupAreBoardingAandLoadingFacilitiesProvidedYesNo"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <RadioButton
+                                                android:id="@+id/radioAreBoardingAandLoadingFacilitiesProvidedYes"
+                                                android:layout_width="wrap_content"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/yes"/>
+
+                                            <RadioButton
+                                                android:id="@+id/radioAreBoardingAandLoadingFacilitiesProvidedNo"
+                                                android:layout_width="wrap_content"
+                                                android:fontFamily="@font/avenir_next_regular"
+                                                android:layout_height="wrap_content"
+                                                android:text="@string/no"/>
+
+                                        </RadioGroup>
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:id="@+id/textRemarkAreBoardingAandLoadingFacilitiesProvided"
+                                            android:visibility="gone"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:hint="@string/please_give_reason_for_no"
+                                            app:boxStrokeColor="@color/color_dark_green">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/etRemarkAreBoardingAandLoadingFacilitiesProvided"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/color_dark_green"
+                                                android:textSize="15sp" />
+
+                                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+                                        <ImageView
+                                            android:visibility="gone"
+                                            android:layout_width="24dp"
+                                            android:layout_height="24dp"
+                                            android:id="@+id/tvAreBoardingandLanding"
+                                            android:src="@drawable/ic_play"
+                                            android:contentDescription="Play"/>
+
+
+
+
+
+
+
+
+                                        <!--                                <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+                                        <!--                                    android:layout_width="match_parent"-->
+                                        <!--                                    android:layout_height="match_parent"-->
+                                        <!--                                    android:background="#000">-->
+
+                                        <!-- Camera Preview -->
+
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                                <!-- Shown only when No selected -->
+
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/textRemarkisFieldLevelSupervisorNominated"
+                                    android:id="@+id/textInputReon"
                                     android:visibility="gone"
                                     android:fontFamily="@font/avenir_next_regular"
                                     android:hint="@string/enter_the_reason"
                                     app:boxStrokeColor="@color/color_dark_green">
 
                                     <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/etRemarkFieldLevelSupervisorNominated"
+                                        android:id="@+id/etNoReason"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textColor="@color/color_dark_green"
@@ -1121,482 +1626,83 @@
                                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                                <TextView
+                                <LinearLayout
                                     android:layout_width="wrap_content"
-                                    android:textSize="16sp"
-                                    android:layout_marginTop="@dimen/dp_10"
-                                    android:textStyle="bold"
-                                    android:textAlignment="viewStart"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/how_many_times_during_the_day_did_the_supervior_interact_with_you"
-                                    android:layout_height="wrap_content"/>
-
-                                <ImageView
+                                    android:id="@+id/ImageLayout"
                                     android:visibility="gone"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:id="@+id/tvHowmanyTimes"
-                                    android:src="@drawable/ic_play"
-                                    android:contentDescription="Play"/>
+                                    android:layout_height="wrap_content">
 
-                                <com.google.android.material.textfield.TextInputLayout
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="match_parent"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:layout_height="wrap_content"
-                                    android:hint="@string/enter_the_candidate_response"
-                                    app:boxStrokeColor="@color/color_dark_green">
-
-                                    <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/etOjt_enter_during_times"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:inputType="text"
-                                        android:fontFamily="@font/avenir_next_regular"
-                                        android:textColor="@color/color_dark_green"
-                                        android:textSize="15sp" />
-
-                                </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:textAlignment="viewStart"
-                                    android:layout_marginTop="@dimen/dp_10"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/are_you_given_sufficient_instruments_to_work_during_ojt_tools_machinery_computers_etc"
-                                    android:layout_height="wrap_content"/>
-
-
-
-                                <ImageView
-                                    android:id="@+id/tvAreYouSufficient"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:visibility="gone"
-                                    android:src="@drawable/ic_play"
-                                    android:contentDescription="Play"/>
-
-                                <RadioGroup
-                                    android:id="@+id/radioGroupinstrumentYesNo"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <RadioButton
-                                        android:id="@+id/radioinstrumentYes"
+                                    <TextView
                                         android:layout_width="wrap_content"
-                                        android:fontFamily="@font/avenir_next_regular"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/yes"/>
-
-                                    <RadioButton
-                                        android:id="@+id/radioinstrumentNo"
-                                        android:layout_width="wrap_content"
-                                        android:fontFamily="@font/avenir_next_regular"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/no"/>
-
-                                </RadioGroup>
-
-                                <com.google.android.material.textfield.TextInputLayout
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/textRemarkareYouGivenSufficientInstument"
-                                    android:visibility="gone"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:hint="@string/please_give_reason_for_no"
-                                    app:boxStrokeColor="@color/color_dark_green">
-
-                                    <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/etRemarkareYouGivenSufficientInstument"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/color_dark_green"
-                                        android:textSize="15sp" />
-
-                                </com.google.android.material.textfield.TextInputLayout>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:textAlignment="viewStart"
-                                    android:layout_marginTop="@dimen/dp_10"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/are_you_given_enough_materials_to_work_upon"
-                                    android:layout_height="wrap_content"/>
-
-                                <ImageView
-                                    android:id="@+id/tvAreYouGivenEnough"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:visibility="gone"
-                                    android:src="@drawable/ic_play"
-                                    android:contentDescription="Play"/>
-
-                                <RadioGroup
-                                    android:id="@+id/radioGroupmaterialsYesNo"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <RadioButton
-                                        android:id="@+id/radiomaterialsYes"
-                                        android:fontFamily="@font/avenir_next_regular"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/yes"/>
-
-                                    <RadioButton
-                                        android:id="@+id/radiomaterialsNo"
-                                        android:fontFamily="@font/avenir_next_regular"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/no"/>
-
-                                </RadioGroup>
-
-                                <com.google.android.material.textfield.TextInputLayout
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/textRemarkareYouGivenEnoughMaterials"
-                                    android:visibility="gone"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:hint="@string/please_give_reason_for_no"
-                                    app:boxStrokeColor="@color/color_dark_green">
-
-                                    <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/etRemarkareYouGivenEnoughMaterials"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/color_dark_green"
-                                        android:textSize="15sp" />
-
-                                </com.google.android.material.textfield.TextInputLayout>
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:id="@+id/tvStipned"
-                                    android:textSize="16sp"
-                                    android:layout_marginTop="@dimen/dp_10"
-                                    android:textStyle="bold"
-                                    android:textAlignment="viewStart"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/how_much_stipend_are_you_eligible_for"
-                                    android:layout_height="wrap_content"/>
-
-
-
-
-                                <ImageView
-                                    android:visibility="gone"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:id="@+id/tvHowMuchtipned"
-                                    android:src="@drawable/ic_play"
-                                    android:contentDescription="Play"/>
-
-                                <RadioGroup
-                                    android:id="@+id/radioGroupfacilitiesYesNo"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <RadioButton
-                                        android:id="@+id/radiofacilitiesYes"
-                                        android:layout_width="wrap_content"
-                                        android:fontFamily="@font/avenir_next_regular"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/yes"/>
-
-                                    <RadioButton
-                                        android:id="@+id/radiofacilitiesNo"
-                                        android:layout_width="wrap_content"
-                                        android:fontFamily="@font/avenir_next_regular"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/no"/>
-
-                                </RadioGroup>
-<!--                                <com.google.android.material.textfield.TextInputLayout-->
-<!--                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:id="@+id/textRemarkbordingAndLoadingFacilities"-->
-<!--                                    android:visibility="gone"-->
-<!--                                    android:fontFamily="@font/avenir_next_regular"-->
-<!--                                    android:hint="@string/please_give_reason_for_no"-->
-<!--                                    app:boxStrokeColor="@color/color_dark_green">-->
-
-<!--                                    <com.google.android.material.textfield.TextInputEditText-->
-<!--                                        android:id="@+id/etRemarkbordingAndLoadingFacilities"-->
-<!--                                        android:layout_width="match_parent"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:textColor="@color/color_dark_green"-->
-<!--                                        android:textSize="15sp" />-->
-
-<!--                                </com.google.android.material.textfield.TextInputLayout>-->
-
-
-<!--                                etOjt_enter_your_eligible_for-->
-
-
-
-                                <com.google.android.material.textfield.TextInputLayout
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:visibility="gone"
-                                    android:id="@+id/tvetRemarkbordingAndLoadingFacilities"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:hint="@string/candidate_response"
-                                    app:boxStrokeColor="@color/color_dark_green">
-
-                                    <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/etRemarkbordingAndLoadingFacilities"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/color_dark_green"
-                                        android:textSize="15sp" />
-
-                                </com.google.android.material.textfield.TextInputLayout>
-
-
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:textAlignment="viewStart"
-                                    android:layout_marginTop="@dimen/dp_10"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/how_much_stipend_are_you_getting"
-                                    android:layout_height="wrap_content"/>
-                                <ImageView
-                                    android:visibility="gone"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:id="@+id/tvHowMuchtipnedGetting"
-                                    android:src="@drawable/ic_play"
-                                    android:contentDescription="Play"/>
+                                        android:textSize="16sp"
+                                        android:textStyle="bold"
 
+                                        android:layout_marginStart="@dimen/dp_10"
+                                        android:text="@string/capture_image"
+                                        android:layout_height="wrap_content"/>
 
-                                <com.google.android.material.textfield.TextInputLayout
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:hint="@string/candidate_response"
-                                    app:boxStrokeColor="@color/color_dark_green">
 
-                                    <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/etOjt_enter_your_getting_for"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:maxLength="2"
-                                        android:inputType="numberDecimal"
-                                        android:textColor="@color/color_dark_green"
-                                        android:textSize="15sp" />
 
-                                </com.google.android.material.textfield.TextInputLayout>
+                                    <ImageView
+                                        android:id="@+id/image1"
+                                        android:layout_width="100dp"
+                                        android:layout_height="100dp"
+                                        android:layout_weight="1"
+                                        android:layout_marginTop="10dp"
+                                        android:scaleType="centerCrop"
+                                        android:adjustViewBounds="true"
+                                        android:background="@drawable/no_image"
+                                        android:layout_marginEnd="@dimen/dp_10"
+                                        android:padding="@dimen/dp_5"
+                                        android:layout_gravity="center"
+                                        app:layout_constraintEnd_toEndOf="parent"
+                                        app:layout_constraintStart_toStartOf="parent"
+                                        app:layout_constraintTop_toBottomOf="@+id/lllatLang"
 
+                                        />
+                                </LinearLayout>
 
+                                <!--                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+                                <!--                            android:layout_width="match_parent"-->
+                                <!--                            android:layout_height="match_parent"-->
+                                <!--                            android:visibility="gone"-->
+                                <!--                            android:id="@+id/VideoLinlayout"-->
+                                <!--                            android:orientation="vertical"-->
+                                <!--                            android:padding="16dp">-->
+                                <!--                            <TextView-->
+                                <!--                                android:layout_width="wrap_content"-->
+                                <!--                                android:layout_marginStart="@dimen/dp_10"-->
 
+                                <!--                                android:text="@string/capture_video"-->
+                                <!--                                android:textSize="16sp"-->
+                                <!--                                android:textStyle="bold"-->
+                                <!--                                android:layout_height="wrap_content"/>-->
 
 
 
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    android:textAlignment="viewStart"
-                                    android:layout_marginTop="@dimen/dp_10"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/are_boarding_and_loading_facilities_provided"
-                                    android:layout_height="wrap_content"/>
+                                <!--                                <Button-->
+                                <!--                                android:id="@+id/btnRecord"-->
+                                <!--                                android:layout_width="match_parent"-->
+                                <!--                                android:layout_height="wrap_content"-->
+                                <!--                                android:text="Record Video" />-->
 
+                                <!--                            <VideoView-->
+                                <!--                                android:id="@+id/videoView"-->
+                                <!--                                android:layout_width="match_parent"-->
+                                <!--                                android:layout_height="300dp"-->
+                                <!--                                android:layout_marginTop="16dp" />-->
 
+                                <!--                        </LinearLayout>-->
 
-                                <RadioGroup
-                                    android:id="@+id/radioGroupAreBoardingAandLoadingFacilitiesProvidedYesNo"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
 
-                                    <RadioButton
-                                        android:id="@+id/radioAreBoardingAandLoadingFacilitiesProvidedYes"
-                                        android:layout_width="wrap_content"
-                                        android:fontFamily="@font/avenir_next_regular"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/yes"/>
 
-                                    <RadioButton
-                                        android:id="@+id/radioAreBoardingAandLoadingFacilitiesProvidedNo"
-                                        android:layout_width="wrap_content"
-                                        android:fontFamily="@font/avenir_next_regular"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/no"/>
 
-                                </RadioGroup>
 
-                                <com.google.android.material.textfield.TextInputLayout
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/textRemarkAreBoardingAandLoadingFacilitiesProvided"
-                                    android:visibility="gone"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:hint="@string/please_give_reason_for_no"
-                                    app:boxStrokeColor="@color/color_dark_green">
-
-                                    <com.google.android.material.textfield.TextInputEditText
-                                        android:id="@+id/etRemarkAreBoardingAandLoadingFacilitiesProvided"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="@color/color_dark_green"
-                                        android:textSize="15sp" />
-
-                                </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-
-
-
-                                <ImageView
-                                    android:visibility="gone"
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:id="@+id/tvAreBoardingandLanding"
-                                    android:src="@drawable/ic_play"
-                                    android:contentDescription="Play"/>
-
-
-
-
-
-
-
-
-<!--                                <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="match_parent"-->
-<!--                                    android:background="#000">-->
-
-                                    <!-- Camera Preview -->
 
 
                             </LinearLayout>
                         </LinearLayout>
-
-                        <!-- Shown only when No selected -->
-
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/textInputReon"
-                            android:visibility="gone"
-                            android:fontFamily="@font/avenir_next_regular"
-                            android:hint="@string/enter_the_reason"
-                            app:boxStrokeColor="@color/color_dark_green">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/etNoReason"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/color_dark_green"
-                                android:textSize="15sp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:id="@+id/ImageLayout"
-                            android:visibility="gone"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:textSize="16sp"
-                                android:textStyle="bold"
-
-                                android:layout_marginStart="@dimen/dp_10"
-                                android:text="@string/capture_image"
-                                android:layout_height="wrap_content"/>
-
-
-
-                            <ImageView
-                                android:id="@+id/image1"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_weight="1"
-                                android:layout_marginTop="10dp"
-                                android:scaleType="centerCrop"
-                                android:adjustViewBounds="true"
-                                android:background="@drawable/no_image"
-                                android:layout_marginEnd="@dimen/dp_10"
-                                android:padding="@dimen/dp_5"
-                                android:layout_gravity="center"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/lllatLang"
-
-                                />
-                        </LinearLayout>
-
-<!--                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:visibility="gone"-->
-<!--                            android:id="@+id/VideoLinlayout"-->
-<!--                            android:orientation="vertical"-->
-<!--                            android:padding="16dp">-->
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_marginStart="@dimen/dp_10"-->
-
-<!--                                android:text="@string/capture_video"-->
-<!--                                android:textSize="16sp"-->
-<!--                                android:textStyle="bold"-->
-<!--                                android:layout_height="wrap_content"/>-->
-
-
-
-
-<!--                                <Button-->
-<!--                                android:id="@+id/btnRecord"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="Record Video" />-->
-
-<!--                            <VideoView-->
-<!--                                android:id="@+id/videoView"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="300dp"-->
-<!--                                android:layout_marginTop="16dp" />-->
-
-<!--                        </LinearLayout>-->
-
-
-
-
-
-
-
-                    </LinearLayout>
-                    </LinearLayout>
 
                     </RelativeLayout>
 

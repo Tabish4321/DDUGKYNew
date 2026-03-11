@@ -857,6 +857,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         binding.btnRecord.setOnClickListener {
 
             binding.btnStop.visibility = View.VISIBLE
+//            binding.videoContainer.visibility = View.VISIBLE
 
             if (!isRecording) {
                 resetUI()
@@ -1017,7 +1018,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         binding.videoView.visibility = View.VISIBLE
         binding.btnDelete.visibility = View.VISIBLE
 
-        playVideo()
+//        playVideo()
     }
 
     private fun stopAndSave() {
@@ -1596,25 +1597,6 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
     }
 
 
-
-//    private fun checkPermissionAndRecord() {
-//
-//        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
-//            != PackageManager.PERMISSION_GRANTED ||
-//            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO)
-//            != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            permissionLauncher.launch(
-//                arrayOf(
-//                    Manifest.permission.CAMERA,
-//                    Manifest.permission.RECORD_AUDIO
-//                )
-//            )
-//        } else {
-//            openVideoCamera()
-//        }
-//    }
-
     // ===============================
     // STEP 2: PERMISSION RESULT
     // ===============================
@@ -1642,17 +1624,6 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         videoLauncher.launch(intent)
     }
 
-    // ===============================
-    // STEP 4: CAMERA RESULT
-    // ===============================
-
-
-    // 2️⃣ Video capture result
-
-
-    // ===============================
-    // STEP 4: CAMERA RESULT
-    // ===============================
     private val videoLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
@@ -1686,60 +1657,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
                 }
             }
         }
-    // ===============================
-    // STEP 5: PLAY VIDEO
-    // ===============================
 
-
-    private fun createVideoOutputFile(): File {
-        val dir = File(requireContext().getExternalFilesDir(null), "CompressedVideos")
-        if (!dir.exists()) dir.mkdirs()
-
-        return File(dir, "VID_COMPRESSED_${System.currentTimeMillis()}.mp4")
-    }
-
-
-
-
-
-
-//    private val videoLauncher =
-//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//            if (result.resultCode == Activity.RESULT_OK) {
-//
-//                // 3️⃣ Get video URI
-//                val videoUri = result.data?.data
-//
-//                // 4️⃣ Call startCompressionAndPlay
-//                videoUri?.let { uri ->
-//                    startCompressionSimple(uri)
-//                    recordedVideoUri = result.data?.data
-//
-//                    if (recordedVideoUri != null) {
-//
-//                        finalVideoPath = copyVideoToAppStorage(recordedVideoUri!!)
-//
-//
-//                        playVideo(finalVideoPath!!)
-//                    }
-//                }
-//            }
-//        }
-
-
-
-
-
-
-
-
-
-
-
-
-    // ===============================
-    // STEP 5: PLAY VIDEO
-    // ===============================
     private fun playVideo(path: String) {
 
         val controller = MediaController(requireContext())
@@ -1765,509 +1683,6 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
             controller.show(0) // controller always visible
         }
     }
-//    private fun playVideo(path: String) {
-//
-//        val controller = MediaController(requireContext())
-//        controller.setAnchorView(binding.videoView)
-//
-//        binding.videoView.setMediaController(controller)
-//        binding.videoView.setVideoPath(path)
-//        binding.videoView.start()
-//    }
-
-//  Toast.makeText(
-//                    requireContext(),
-//                    "Compressed Path:\n$path\nSize: ${"%.2f".format(sizeKB)} KB",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//
-//
-//
-//
-//                AlertDialog.Builder(requireContext())
-//                    .setTitle("Success")
-//                    .setMessage("Compressed Path:\n$path\nSize: ${"%.2f".format(sizeKB)} KB")  // <-- Dynamic message from responseDesc
-//                    .setPositiveButton("OK") { dialogs, _ ->
-//
-//                        dialogs.dismiss()
-//                        dialog?.dismiss()
-//
-//                    }
-//                    .show()
-
-//    private fun startCompressionSimple(videoUri: Uri) {
-//
-//
-//
-//        val outputFile = File(requireContext().cacheDir, "compressed_video.mp4")
-//        val progressDialog = ProgressDialog.show(
-//            requireContext(), "", "Compressing video, please wait...", true
-//        )
-//
-//        lifecycleScope.launch(Dispatchers.IO) {
-//
-//            // Prepare temporary input file for FFmpeg
-//            val inputStream = requireContext().contentResolver.openInputStream(videoUri)
-//            val tempInputFile = File(requireContext().cacheDir, "temp_input.mp4")
-//            inputStream?.use { input -> tempInputFile.outputStream().use { output -> input.copyTo(output) } }
-//
-//            // FFmpeg Command: target max ~5 MB for 3 min (low bitrate)
-//            val cmd = arrayOf(
-//                "-y",
-//                "-i", tempInputFile.absolutePath,
-//                "-b:v", "200k",     // video bitrate ~200 kbps
-//                "-b:a", "64k",      // audio bitrate ~64 kbps
-//                outputFile.absolutePath
-//            )
-//
-//            val session = com.arthenica.ffmpegkit.FFmpegKit.execute(cmd.joinToString(" "))
-//
-//            tempInputFile.delete() // clean temp
-//
-//            withContext(Dispatchers.Main) {
-//                progressDialog.dismiss()
-//
-//                if (!isAdded) return@withContext
-//
-//                if (session.returnCode.isValueSuccess && outputFile.exists()) {
-//                    // ✅ Show Toast with path and size
-//                    val sizeKB = outputFile.length() / 1024f
-//                    Toast.makeText(
-//                        requireContext(),
-//                        "Compressed Path:\n${outputFile.absolutePath}\nSize: ${"%.2f".format(sizeKB)} KB",
-//                        Toast.LENGTH_LONG
-//                    ).show()
-//
-//                    // ✅ Play compressed video
-//                    playVideo(outputFile.absolutePath)
-//
-//                } else {
-//                    Toast.makeText(requireContext(), "Compression Failed!", Toast.LENGTH_LONG).show()
-//                }
-//            }
-//    }
-//        }
-//    private fun startCompressionSimple(videoUri: Uri) {
-//        val outputFile = File(requireContext().cacheDir, "compressed_video.mp4")
-//
-//        val progressDialog = ProgressDialog.show(
-//            requireContext(),
-//            "",
-//            "Compressing video, please wait...",
-//            true
-//        )
-//
-//        lifecycleScope.launch {
-//            // Compress video (no dependency version)
-//            val success = compressVideoSimple(requireContext(), videoUri, outputFile)
-//
-//            if (!isAdded) return@launch
-//            progressDialog.dismiss()
-//
-//            if (success && outputFile.exists()) {
-//
-//                // ✅ Compressed file info
-//                val sizeKB = outputFile.length() / 1024f
-//                val path = outputFile.absolutePath
-//
-//                // Show Toast with path & size
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Compressed Path:\n$path\nSize: ${"%.2f".format(sizeKB)} KB",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//
-//
-//
-//
-//                AlertDialog.Builder(requireContext())
-//                    .setTitle("Success")
-//                    .setMessage("Compressed Path:\n$path\nSize: ${"%.2f".format(sizeKB)} KB")  // <-- Dynamic message from responseDesc
-//                    .setPositiveButton("OK") { dialogs, _ ->
-//
-//                        dialogs.dismiss()
-//                        dialog?.dismiss()
-//
-//                    }
-//                    .show()
-//
-//                // ✅ Play compressed video
-//
-//
-//            } else {
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Compression Failed!",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//            }
-//        }
-//
-//    }
-
-//    private fun startCompressionSimple(videoUri: Uri) {
-//
-//        val outputFile = File(requireContext().cacheDir, "compressed_video.mp4")
-//
-//        val progressDialog = ProgressDialog.show(
-//            requireContext(),
-//            "",
-//            "Compressing video, please wait...",
-//            true
-//        )
-//
-//        lifecycleScope.launch {
-//
-//            val success = compressVideoSimple(requireContext(), videoUri, outputFile)
-//
-//            if (!isAdded) return@launch
-//            progressDialog.dismiss()
-//
-//            if (success && outputFile.exists()) {
-//
-//                val path = outputFile.absolutePath
-//                val sizeKB = outputFile.length() / 1024f
-//
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Size: ${"%.2f".format(sizeKB)} KB",
-//                    Toast.LENGTH_LONG
-//                ).show()
-//
-//                AlertDialog.Builder(requireContext())
-//                    .setTitle("sizeKB")
-//                    .setMessage(path)
-//                    .setPositiveButton("OK") { dialogs, _ ->
-//                        dialogs.dismiss()
-//                    }
-//                    .show()
-//
-////                val controller = MediaController(requireContext())
-////                controller.setAnchorView(binding.videoView)
-////                binding.videoView.setMediaController(controller)
-////                binding.videoView.setVideoPath(path)
-////                binding.videoView.start()
-//
-//            } else {
-//                Toast.makeText(requireContext(), "Compression Failed!", Toast.LENGTH_LONG).show()
-//            }
-//        }
-//    }
-//    private suspend fun compressVideoSimple(
-//        context: Context,
-//        inputUri: Uri,
-//        outputFile: File
-//    ): Boolean = withContext(Dispatchers.IO) {
-//        try {
-//            val extractor = MediaExtractor()
-//            val fd = context.contentResolver.openFileDescriptor(inputUri, "r") ?: return@withContext false
-//            extractor.setDataSource(fd.fileDescriptor)
-//
-//            // Find video track
-//            val videoTrackIndex = (0 until extractor.trackCount)
-//                .firstOrNull {
-//                    extractor.getTrackFormat(it).getString(MediaFormat.KEY_MIME)?.startsWith("video/") == true
-//                } ?: return@withContext false
-//
-//            extractor.selectTrack(videoTrackIndex)
-//            val format = extractor.getTrackFormat(videoTrackIndex)
-//
-//            val width = format.getInteger(MediaFormat.KEY_WIDTH)
-//            val height = format.getInteger(MediaFormat.KEY_HEIGHT)
-//            val frameRate = format.getInteger(MediaFormat.KEY_FRAME_RATE)
-//
-//            // Target bitrate for 3 min ~5MB
-//            val targetBitrate = 230_000 // 230 kbps
-//
-//            // Create encoder format
-//            val videoFormat = MediaFormat.createVideoFormat("video/avc", width, height)
-//            videoFormat.setInteger(MediaFormat.KEY_BIT_RATE, targetBitrate)
-//            videoFormat.setInteger(MediaFormat.KEY_FRAME_RATE, frameRate)
-//            videoFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 5)
-//            videoFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface)
-//
-//            val codec = MediaCodec.createEncoderByType("video/avc")
-//            codec.configure(videoFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
-//            val inputSurface = codec.createInputSurface()
-//            codec.start()
-//
-//            // MediaMuxer to output file
-//            val muxer = MediaMuxer(outputFile.absolutePath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
-//
-//            // ⚠️ Simplified: actual frame-by-frame MediaCodec encoding is long
-//            // For testing, we just demonstrate using the same coroutine
-//            // In real app, you need to feed frames from extractor to encoder
-//
-//            codec.stop()
-//            codec.release()
-//            muxer.stop()
-//            muxer.release()
-//            extractor.release()
-//            fd.close()
-//
-//            true
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            false
-//        }
-//    }
-
-
-
-
-//    private suspend fun compressVideoSimple(
-//        context: Context,
-//        inputUri: Uri,
-//        outputFile: File
-//    ): Boolean = withContext(Dispatchers.IO) {
-//
-//        try {
-//
-//            val inputStream = context.contentResolver.openInputStream(inputUri)
-//                ?: return@withContext false
-//
-//            val outputStream = FileOutputStream(outputFile)
-//
-//            val buffer = ByteArray(1024 * 1024)
-//            var bytesRead: Int
-//
-//            while (inputStream.read(buffer).also { bytesRead = it } != -1) {
-//                outputStream.write(buffer, 0, bytesRead)
-//            }
-//
-//            inputStream.close()
-//            outputStream.flush()
-//            outputStream.close()
-//
-//            // ⚠️ Yahan actual compression nahi hai,
-//            // lekin file stable create hogi aur fail nahi karega
-//
-//            true
-//
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            false
-//        }
-//    }
-//private suspend fun compressVideoSimple(
-//    context: Context,
-//    inputUri: Uri,
-//    outputFile: File
-//): Boolean = withContext(Dispatchers.IO) {
-//
-//    try {
-//
-//        val retriever = MediaMetadataRetriever()
-//        retriever.setDataSource(context, inputUri)
-//
-//        val duration =
-//            retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLong()
-//                ?: return@withContext false
-//
-//        // 🎯 Ultra Low Bitrate (Very small size)
-//        val targetBitrate = 40_000 // 40 kbps
-//
-//        val inputStream = context.contentResolver.openInputStream(inputUri)
-//            ?: return@withContext false
-//
-//        val outputStream = FileOutputStream(outputFile)
-//
-//        val buffer = ByteArray(4096)
-//        var totalBytes = 0
-//        var bytesRead: Int
-//
-//        while (inputStream.read(buffer).also { bytesRead = it } != -1) {
-//
-//            if (totalBytes > (300 * 1024)) break // Limit ~300 KB max
-//
-//            outputStream.write(buffer, 0, bytesRead)
-//            totalBytes += bytesRead
-//        }
-//
-//        inputStream.close()
-//        outputStream.flush()
-//        outputStream.close()
-//
-//        retriever.release()
-//
-//        true
-//
-//    } catch (e: Exception) {
-//        e.printStackTrace()
-//        false
-//    }
-//}
-//    private suspend fun compressVideoSimple(
-//        context: Context,
-//        inputUri: Uri,
-//        outputFile: File
-//    ): Boolean = withContext(Dispatchers.IO) {
-//
-//        try {
-//            val inputFd = context.contentResolver.openFileDescriptor(inputUri, "r") ?: return@withContext false
-//
-//            val extractor = MediaExtractor()
-//            extractor.setDataSource(inputFd.fileDescriptor)
-//
-//            val muxer = MediaMuxer(outputFile.absolutePath, MediaMuxer.OutputFormat.MUXER_OUTPUT_3GPP)
-//
-//            var videoTrackIndex = -1
-//            var audioTrackIndex = -1
-//
-//            for (i in 0 until extractor.trackCount) {
-//                val format = extractor.getTrackFormat(i)
-//                val mime = format.getString(MediaFormat.KEY_MIME)
-//
-//                if (mime != null) {
-//                    if (mime.startsWith("video/avc")) {
-//                        extractor.selectTrack(i)
-//                        videoTrackIndex = muxer.addTrack(format)
-//                    } else if (mime.startsWith("audio/")) {
-//                        extractor.selectTrack(i)
-//                        audioTrackIndex = muxer.addTrack(format)
-//                    }
-//                }
-//            }
-//
-//            muxer.start()
-//
-//            val bufferSize = 1 * 1024 * 1024 // 1MB buffer
-//            val buffer = ByteBuffer.allocate(bufferSize)
-//            val bufferInfo = MediaCodec.BufferInfo()
-//
-//            fun copyTrack(trackIndex: Int) {
-//                extractor.selectTrack(trackIndex)
-//                while (true) {
-//                    val sampleSize = extractor.readSampleData(buffer, 0)
-//                    if (sampleSize < 0) break
-//                    bufferInfo.apply {
-//                        offset = 0
-//                        size = sampleSize
-//                        presentationTimeUs = extractor.sampleTime
-//
-//                        // Map MediaExtractor flags to MediaCodec.BufferInfo flags
-//                        flags = if (extractor.sampleFlags and MediaExtractor.SAMPLE_FLAG_SYNC != 0)
-//                            MediaCodec.BUFFER_FLAG_KEY_FRAME
-//                        else 0
-//                    }
-//                    muxer.writeSampleData(trackIndex, buffer, bufferInfo)
-//                    extractor.advance()
-//                }
-//            }
-//
-//            if (videoTrackIndex >= 0) copyTrack(videoTrackIndex)
-//            if (audioTrackIndex >= 0) copyTrack(audioTrackIndex)
-//
-//            muxer.stop()
-//            muxer.release()
-//            extractor.release()
-//            inputFd.close()
-//
-//            true
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            false
-//        }
-//    }
-
-    // ===============================
-    // STEP 6: COPY URI → REAL PATH
-    // ===============================
-//    private fun copyVideoToAppStorage(uri: Uri): String? {
-//
-//        try {
-//
-//            val context = requireContext()
-//            val fileName = "compressed_${System.currentTimeMillis()}.mp4"
-//
-//            val outputFile = File(
-//                context.getExternalFilesDir(null),
-//                fileName
-//            )
-//
-//            val retriever = MediaMetadataRetriever()
-//            retriever.setDataSource(context, uri)
-//
-//            val width =
-//                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)
-//                    ?.toInt() ?: 640
-//
-//            val height =
-//                retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)
-//                    ?.toInt() ?: 480
-//
-//            retriever.release()
-//
-//            // 🔥 Reduce resolution (very small)
-//            val newWidth = width / 4
-//            val newHeight = height / 4
-//
-//            val extractor = MediaExtractor()
-//            val fd = context.contentResolver.openFileDescriptor(uri, "r")
-//            extractor.setDataSource(fd!!.fileDescriptor)
-//
-//            val muxer = MediaMuxer(
-//                outputFile.absolutePath,
-//                MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4
-//            )
-//
-//            for (i in 0 until extractor.trackCount) {
-//                val format = extractor.getTrackFormat(i)
-//                extractor.selectTrack(i)
-//                muxer.addTrack(format)
-//            }
-//
-//            muxer.start()
-//
-//            val buffer = ByteBuffer.allocate(1024 * 1024)
-//            val bufferInfo = MediaCodec.BufferInfo()
-//
-//            while (true) {
-//                val sampleSize = extractor.readSampleData(buffer, 0)
-//                if (sampleSize < 0) break
-//
-//                bufferInfo.offset = 0
-//                bufferInfo.size = sampleSize
-//                bufferInfo.presentationTimeUs = extractor.sampleTime
-//                bufferInfo.flags = MediaCodec.BUFFER_FLAG_SYNC_FRAME
-//
-//                muxer.writeSampleData(0, buffer, bufferInfo)
-//                extractor.advance()
-//            }
-//
-//            muxer.stop()
-//            muxer.release()
-//            extractor.release()
-//            fd.close()
-//
-//            // ✅ Print size
-//            val sizeKB = outputFile.length() / 1024f
-//            val path = outputFile.absolutePath
-//
-////            Toast.makeText(
-////                context,
-////                "Compressed Path:\n$path\nSize: ${"%.2f".format(sizeKB)} KB",
-////                Toast.LENGTH_LONG
-////            ).show()
-//
-//            AlertDialog.Builder(requireContext())
-//                .setTitle("Success")
-//                .setMessage("Compressed Path:\n$path\nSize: ${"%.2f".format(sizeKB)} KB")  // <-- Dynamic message from responseDesc
-//                .setPositiveButton("OK") { dialogs, _ ->
-//
-//                    dialogs.dismiss()
-//                    dialog?.dismiss()
-//
-//                }
-//                .show()
-//
-//            return path
-//
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            return null
-//        }
-//    }
     private fun copyVideoToAppStorage(uri: Uri): String {
 
         val fileName = getFileName(uri)
@@ -2285,18 +1700,6 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
 
         return file.absolutePath
     }
-
-    // ===============================
-    // STEP 7: FILE NAME
-    // ===============================
-
-
-
-
-
-
-
-
     private fun checkAndRequestPermissions() {
         val permissions = arrayOf(
             Manifest.permission.CAMERA,
@@ -2330,25 +1733,6 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     private fun openCamera(imageView: ImageView) {
@@ -2837,6 +2221,27 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         isProcessingOJTFullScreenDialog = false
         textToSpeech.stop()
         textToSpeech.shutdown()
+
+
+        try {
+
+            if (isRecording) {
+                if (isRecording) stopRecordingManually()
+                deleteVideo()
+                mediaRecorder?.stop()
+            }
+
+        } catch (e: Exception) {
+
+            e.printStackTrace()
+        }
+
+        mediaRecorder?.release()
+        mediaRecorder = null
+
+        camera?.release()
+        camera = null
+
     }
 
      }
