@@ -3,6 +3,7 @@ package com.deendayalproject.fragments.composeui.documentandstandardform
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -11,14 +12,14 @@ import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionNAWithRemarks
 import com.deendayalproject.viewmodel.DocumentMaintainViewModel
 import kotlinx.coroutines.launch
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import com.deendayalproject.util.AppUtil
+
 
 @Composable
 fun StandardFormComplianceScreen(
     viewModel: DocumentMaintainViewModel,
-    snackbarHostState:SnackbarHostState
+    snackbarHostState: SnackbarHostState
 ) {
 
     val scope = rememberCoroutineScope()
@@ -30,9 +31,7 @@ fun StandardFormComplianceScreen(
 
     val state by viewModel.inspectionStandardFormState.collectAsState()
 
-    /* -------------------------------- */
-    /* QUESTIONS */
-    /* -------------------------------- */
+    val listState = rememberLazyListState()
 
     val questions = remember {
         listOf(
@@ -84,134 +83,109 @@ fun StandardFormComplianceScreen(
         )
     }
 
-    /* -------------------------------- */
-    /* LOAD API */
-    /* -------------------------------- */
-
     LaunchedEffect(Unit) {
-
-        viewModel.loadInspectionStandardForm(
-            inspectionId
-        )
+        viewModel.loadInspectionStandardForm(inspectionId)
     }
 
-    /* -------------------------------- */
-    /* ERROR SNACKBAR */
-    /* -------------------------------- */
+    LazyColumn(
+        state = listState,
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
 
-    LaunchedEffect(state.error) {
+        itemsIndexed(questions) { index, q ->
 
-        state.error?.let {
+            val answer = state.answers.getOrNull(index)
+            val remark = state.remarks.getOrNull(index) ?: ""
 
-            snackbarHostState.showSnackbar(it)
-
-            viewModel.clearInspectionStandardError()
-        }
-    }
-
-    /* -------------------------------- */
-    /* SUCCESS SNACKBAR */
-    /* -------------------------------- */
-
-    LaunchedEffect(state.saveSuccess) {
-
-        if (state.saveSuccess) {
-
-            snackbarHostState.showSnackbar(
-                "Inspection standard form saved successfully"
+            ComplianceQuestionNAWithRemarks(
+                question = q,
+                answer = answer,
+                remarks = remark,
+                isError = answer == null || (answer == "No" && remark.isBlank()),
+                onAnswerChange = {
+                    viewModel.updateStandardAnswer(index, it)
+                },
+                onRemarksChange = {
+                    viewModel.updateStandardRemark(index, it)
+                }
             )
-            viewModel.clearInspectionStandardSaveSuccess()
         }
-    }
 
-    /* -------------------------------- */
-    /* UI */
-    /* -------------------------------- */
+        item {
 
-    Box(modifier = Modifier.fillMaxSize()) {
+            Button(
+                onClick = {
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            if (state.isLoading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 40.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
+                    focusManager.clearFocus()
 
-            } else {
+                    val answers = state.answers
+                    val remarks = state.remarks
 
-                questions.forEachIndexed { index, q ->
+                    for (i in questions.indices) {
 
-                    val answer = state.answers.getOrNull(index)
-                    val remark = state.remarks.getOrNull(index) ?: ""
+                        val ans = answers.getOrNull(i)
 
-                    ComplianceQuestionNAWithRemarks(
-                        question = q,
-                        answer = answer,
-                        remarks = remark,
-                        isError = answer == null || (answer == "No" && remark.isBlank()),
-                        onAnswerChange = {
-                            viewModel.updateStandardAnswer(index, it)
-                        },
-                        onRemarksChange = {
-                            viewModel.updateStandardRemark(index, it)
-                        }
-                    )
-                }
+                        //  answer not selected
+                        if (ans == null) {
 
-                Button(
-                    onClick = {
-                        focusManager.clearFocus()
+                            scope.launch {
 
-                        val answers = state.answers
-                        val remarks = state.remarks
+                                listState.animateScrollToItem(i)
 
-                        for (i in questions.indices) {
-
-                            val ans = answers.getOrNull(i)
-
-                            if (ans == null) {
-
-                                scope.launch {
-
-                                    snackbarHostState.showSnackbar(
-                                        "Please select: ${questions[i]}"
-                                    )
-                                }
-
-                                return@Button
+                                snackbarHostState.showSnackbar(
+                                    "This question is mandatory"
+                                )
                             }
-
-                            if (
-                                ans == "No" &&
-                                remarks.getOrNull(i).isNullOrBlank()
-                            ) {
-
-                                scope.launch {
-                                    snackbarHostState.showSnackbar(
-                                        "Remarks required for: ${questions[i]}"
-                                    )
-                                }
-
-                                return@Button
-                            }
+                            return@Button
                         }
-                        viewModel.saveInspectionStandardForm(inspectionId)
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Submit")
-                }
+
+                        //  No but remark missing
+                        if (
+                            ans == "No" &&
+                            remarks.getOrNull(i).isNullOrBlank()
+                        ) {
+
+                            scope.launch {
+
+                                listState.animateScrollToItem(i)
+
+                                snackbarHostState.showSnackbar(
+                                    "Remark required for this question"
+                                )
+                            }
+                            return@Button
+                        }
+                    }
+
+                    //  All valid
+                    viewModel.saveInspectionStandardForm(inspectionId)
+
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Submit")
             }
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
