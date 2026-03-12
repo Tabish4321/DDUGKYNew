@@ -69,8 +69,6 @@ fun InspectionStepModernScreen(
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current
     val context = LocalContext.current
 
-    var trainerApiCalled by remember { mutableStateOf(false) }
-
     var ongoingSelectedBatch by remember { mutableStateOf<PrevBatchItem?>(null) }
     var ongoingSelectedCandidate by remember { mutableStateOf<CandidateListInspectionRes?>(null) }
 
@@ -120,15 +118,13 @@ fun InspectionStepModernScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             snackbarHost = {
-                SnackbarHost(
-                    snackbarHostState,
-                    modifier = Modifier
+                SnackbarHost(snackbarHostState,
+                        modifier = Modifier
                         .align(Alignment.TopCenter)
-                        .padding(top = 12.dp)
+                    .padding(top = 12.dp)
 
-                )
+        )
             },
-
             topBar = {
                 PremiumTopBar(
                     toolbarTitle,
@@ -188,13 +184,13 @@ fun InspectionStepModernScreen(
                 )
             },
             bottomBar = {
-
                 Surface(
                     tonalElevation = 8.dp,
                     color = colorResource(R.color.white),
                     modifier = Modifier
                         .fillMaxWidth()
                         .windowInsetsPadding(WindowInsets.navigationBars)
+                        .imePadding()
                 ) {
                     Row(
                         modifier = Modifier
@@ -240,291 +236,284 @@ fun InspectionStepModernScreen(
                 }
             } else {
 
-                if (currentStep == 6) {
+                Column(
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxSize()
+                        .background(colorResource(id = R.color.white))
+                ) {
 
-                    Box(
-                        modifier = Modifier
-                            .padding(padding)
-                            .fillMaxSize()
-                            .background(colorResource(id = R.color.white))
+                    InspectionProgressHeader(currentStep)
+
+                    LazyColumn(
+                                modifier = Modifier.weight(1f),
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+
                     ) {
 
-                        StandardFormComplianceScreen(
-                            viewModel = documentMaintainViewModel,
-                            snackbarHostState = snackbarHostState
-                        )
-                    }
 
-                }else {
+                        when (currentStep) {
 
-                    Column(
-                        modifier = Modifier
-                            .padding(padding)
-                            .fillMaxSize()
-                            .background(colorResource(id = R.color.white))
-                    ) {
+                            /* ---------------- STEP 1 ---------------- */
+                            1 -> {
+                                item {
 
-                        InspectionProgressHeader(currentStep)
+                                    TrainingCenterDetails(
+                                        prnNumber = prnNumber,
+                                        sanctionLetter = sanctionLetter,
+                                        inspectionType = inspectionType,
+                                        trainingCenterId = trainingDetails?.trainingCenterId ?: "",
+                                        trainingCenterName = trainingDetails?.trainingCenterName ?: "",
+                                        inchargeName = trainingDetails?.inchargeName ?: "",
+                                        mobileNumber = trainingDetails?.mobileNumber ?: "",
+                                        email = trainingDetails?.emailId ?: "",
+                                        tradeAndCapacity = trainingDetails?.tradeAndCapacity ?: "",
+                                        coordinate = trainingDetails?.coordinate ?: "",
+                                        roleName = trainingDetails?.roleName ?: ""
+                                        
+                                    )
 
-                        LazyColumn(
-                            modifier = Modifier.weight(1f),
-                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp),
-                        ) {
+                                    Spacer(modifier = Modifier.height(20.dp))
 
-                            // 👉 ALL STEPS EXCEPT 6 HERE
+                                    PreviousInspectionSection(
+                                        viewModel,
+                                        trainingCenterId= AppUtil.getSavedTrainingCenterIdPreference(context),
+                                        sanctionOrder = sanctionLetter,
+                                        onEditClick = { onEditClick(it) }
+                                    )
+                                }
+                            }
 
+                            /* ---------------- STEP 2 ---------------- */
+                            2 -> {
 
-                            when (currentStep) {
+                                if (previousSelectedBatch == null) {
 
-                                /* ---------------- STEP 1 ---------------- */
-                                1 -> {
                                     item {
-
-                                        TrainingCenterDetails(
-                                            prnNumber = prnNumber,
-                                            sanctionLetter = sanctionLetter,
-                                            inspectionType = inspectionType,
-                                            trainingCenterId = trainingDetails?.trainingCenterId
-                                                ?: "",
-                                            trainingCenterName = trainingDetails?.trainingCenterName
-                                                ?: "",
-                                            inchargeName = trainingDetails?.inchargeName ?: "",
-                                            mobileNumber = trainingDetails?.mobileNumber ?: "",
-                                            email = trainingDetails?.emailId ?: "",
-                                            tradeAndCapacity = trainingDetails?.tradeAndCapacity
-                                                ?: "",
-                                            coordinate = trainingDetails?.coordinate ?: "",
-                                            roleName = trainingDetails?.roleName ?: ""
-
-                                        )
-
-                                        Spacer(modifier = Modifier.height(20.dp))
-
-                                        PreviousInspectionSection(
-                                            viewModel,
-                                            trainingCenterId = AppUtil.getSavedTrainingCenterIdPreference(
-                                                context
-                                            ),
-                                            sanctionOrder = sanctionLetter,
-                                            onEditClick = { onEditClick(it) }
-                                        )
-                                    }
-                                }
-
-                                /* ---------------- STEP 2 ---------------- */
-                                2 -> {
-
-                                    if (previousSelectedBatch == null) {
-
-                                        item {
-                                            if (batchList.isEmpty()) {
-                                                Text("No batch available")
-                                            } else {
-                                                BatchListSection(
-                                                    batchList = batchList,
-                                                    onBatchClick = {
-                                                        previousSelectedBatch = it
-                                                        onBatchSelected(it.batchId)   //  CALL API
-                                                    }
-                                                )
-                                            }
-                                        }
-
-                                    } else {
-
-                                        item {
-
-                                            if (candidateList.isEmpty()) {
-
-                                                Text("No candidates available")
-
-                                            } else {
-
-                                                CandidateDataPreviousBatchCard(
-                                                    candidate = candidateList.map {
-                                                        CandidateListInspectionRes(
-                                                            candidateId = it.candidateId ?: "",
-                                                            name = it.candidateName ?: "",
-                                                            rollNumber = it.rollNo?.toString()
-                                                                ?: "",
-                                                            contactNumber = it.mobileNo ?: "",
-                                                            status = it.status
-
-                                                        )
-                                                    },
-                                                    onVerifyCandidateClick = {
-                                                        selectedCandidate = it
-                                                    }
-                                                )
-                                            }
+                                        if (batchList.isEmpty()) {
+                                            Text("No batch available")
+                                        } else {
+                                            BatchListSection(
+                                                batchList = batchList,
+                                                onBatchClick = {
+                                                    previousSelectedBatch = it
+                                                    onBatchSelected(it.batchId)   //  CALL API
+                                                }
+                                            )
                                         }
                                     }
+
                                 }
-
-                                /* ---------------- STEP 3 ---------------- */
-                                3 -> {
-
-                                    if (ongoingSelectedBatch == null) {
-
-                                        item {
-
-                                            if (ongoingBatchList.isEmpty()) {
-                                                Text("No ongoing batch available")
-                                            } else {
-                                                BatchListSection(
-                                                    batchList = ongoingBatchList,
-                                                    onBatchClick = {
-                                                        ongoingSelectedBatch = it
-                                                        onOngoingBatchSelected(it.batchId)
-                                                    }
-                                                )
-                                            }
-                                        }
-
-                                    } else {
-
-                                        item {
-
-                                            if (ongoingCandidateList.isEmpty()) {
-                                                Text("No ongoing candidates available")
-                                            } else {
-
-                                                CandidateDataPreviousBatchCard(
-                                                    candidate = ongoingCandidateList.map {
-                                                        CandidateListInspectionRes(
-                                                            candidateId = it.candidateId ?: "",
-                                                            name = it.candidateName ?: "",
-                                                            rollNumber = it.rollNo?.toString()
-                                                                ?: "",
-                                                            contactNumber = it.mobileNo ?: "",
-                                                            status = it.status
-                                                        )
-                                                    },
-                                                    onVerifyCandidateClick = {
-                                                        ongoingSelectedCandidate = it
-                                                    }
-                                                )
-                                            }
-                                        }
-
-
-                                    }
-                                }
-
-                                4 -> {
+                                else {
 
                                     item {
 
-                                        TrainerDataCard(
-                                            trainer = trainerList,
-                                            onVerifyTrainerClick = { trainer ->
-                                                selectedTrainer = trainer
-                                                showTrainerSheet = true
-                                            }
-                                        )
+                                        if (candidateList.isEmpty()) {
+
+                                            Text("No candidates available")
+
+                                        } else {
+
+                                            CandidateDataPreviousBatchCard(
+                                                candidate = candidateList.map {
+                                                    CandidateListInspectionRes(
+                                                        candidateId = it.candidateId ?: "",
+                                                        name = it.candidateName ?: "",
+                                                        rollNumber = it.rollNo?.toString() ?: "",
+                                                        contactNumber = it.mobileNo ?: "",
+                                                        status = it.status
+
+                                                    )
+                                                },
+                                                onVerifyCandidateClick = {
+                                                    selectedCandidate = it
+                                                }
+                                            )
+                                        }
                                     }
                                 }
+                            }
 
-                                5 -> {
+                            /* ---------------- STEP 3 ---------------- */
+                            3 -> {
+
+                                if (ongoingSelectedBatch == null) {
 
                                     item {
 
-                                        TrainingQualityController(
-                                            viewModel = viewModelInspection,
-                                            snackbarHostState = snackbarHostState,
-                                            showForm = showTrainingForm,
-                                            onShowFormChange = { showTrainingForm = it }
-                                        )
-
+                                        if (ongoingBatchList.isEmpty()) {
+                                            Text("No ongoing batch available")
+                                        } else {
+                                            BatchListSection(
+                                                batchList = ongoingBatchList,
+                                                onBatchClick = {
+                                                    ongoingSelectedBatch = it
+                                                    onOngoingBatchSelected(it.batchId)
+                                                }
+                                            )
+                                        }
                                     }
 
-                                }
-
-
-
-                                7 -> {
+                                } else {
 
                                     item {
 
-                                        Text(
-                                            text = "Final Inspection Summary",
-                                            style = MaterialTheme.typography.titleLarge
-                                        )
+                                        if (ongoingCandidateList.isEmpty()) {
+                                            Text("No ongoing candidates available")
+                                        } else {
 
+                                            CandidateDataPreviousBatchCard(
+                                                candidate = ongoingCandidateList.map {
+                                                    CandidateListInspectionRes(
+                                                        candidateId = it.candidateId ?: "",
+                                                        name = it.candidateName ?: "",
+                                                        rollNumber = it.rollNo?.toString() ?: "",
+                                                        contactNumber = it.mobileNo ?: "",
+                                                        status = it.status
+                                                    )
+                                                },
+                                                onVerifyCandidateClick = {
+                                                    ongoingSelectedCandidate = it
+                                                }
+                                            )
+                                        }
                                     }
+
+
 
                                 }
                             }
+
+                            4 -> {
+
+                                item {
+
+                                    TrainerDataCard(
+                                        trainer = trainerList,
+                                        onVerifyTrainerClick = { trainer ->
+                                            selectedTrainer = trainer
+                                            showTrainerSheet = true
+                                        }
+                                    )
+                                }
+                            }
+
+                            5 -> {
+
+                                item {
+
+                                    TrainingQualityController(
+                                        viewModel = viewModelInspection,
+                                        snackbarHostState = snackbarHostState,
+                                        showForm = showTrainingForm,
+                                        onShowFormChange = { showTrainingForm = it }
+                                    )
+
+                                }
+
+                            }
+
+                            6 -> {
+
+                                item {
+
+                                    var showScreen by remember { mutableStateOf(false) }
+
+                                    LaunchedEffect(Unit) {
+                                        kotlinx.coroutines.delay(200)
+                                        showScreen = true
+                                    }
+
+                                    if (!showScreen) {
+
+                                        ShimmerTrainingList()
+
+                                    } else {
+
+                                        StandardFormComplianceScreen(
+                                            documentMaintainViewModel,
+                                            snackbarHostState = snackbarHostState,
+                                            )
+
+                                    }
+                                }
+
+                            }
+
+                            7 -> {
+
+                                item {
+
+                                    Text(
+                                        text = "Final Inspection Summary",
+                                        style = MaterialTheme.typography.titleLarge
+                                    )
+
+                                }
+
+                            }
                         }
-                    }
-                }
-
-                /* ---------------- BOTTOM SHEET ---------------- */
-
-                if (currentStep == 2 && selectedCandidate != null) {
-                    ProCandidateBottomSheet(
-                        condidateVerificationViewModel,
-                        previousSelectedBatch!!.batchId,
-                        candidateData = selectedCandidate!!,
-                        onDismiss = { selectedCandidate = null },
-                        // onSubmit = { selectedCandidate = null }
-                    )
-                }
-
-
-
-
-                if (currentStep == 3 && ongoingSelectedCandidate != null) {
-
-                    findNavigator.navigate(
-                        InspectionBasicDetailsFragmentDirections
-                            .actionInspectionBasicDetailsFragmentToOngoingCandidateFragment(
-                                ongoingSelectedCandidate!!.candidateId,
-                                batchId = ongoingSelectedBatch!!.batchId.toString(),
-                                ongoingSelectedCandidate!!.name,
-                                ongoingSelectedCandidate!!.contactNumber,
-                                ongoingSelectedCandidate!!.rollNumber
-                            )
-                    )
-                    ongoingSelectedCandidate = null
-
-
-                }
-
-                if (currentStep == 4 && showTrainerSheet) {
-
-                    TrainerBottomSheet(
-                        viewModel = viewModelInspection,
-                        trainerName = selectedTrainer?.trainerName ?: "NA",
-                        trainerId = selectedTrainer?.trainerId ?: "NA",
-                        trainerCode = selectedTrainer!!.trainerCode,
-                        onDismiss = {
-                            showTrainerSheet = false
-                        }
-                    )
-                }
-
-                LaunchedEffect(currentStep) {
-
-                    if (currentStep == 4 && !trainerApiCalled) {
-
-                        trainerApiCalled = true
-
-                        viewModelInspection.getTrainersListInspection(
-                            TrainerListReq(
-                                appVersion = BuildConfig.VERSION_NAME,
-                                trainingCenterId = trainingCenterId.toInt()
-                            )
-                        )
-                    }
-
-                    if (currentStep != 4) {
-                        trainerApiCalled = false
-                    }
                 }
             }
         }
 
+        /* ---------------- BOTTOM SHEET ---------------- */
+
+        if (currentStep == 2 && selectedCandidate != null) {
+            ProCandidateBottomSheet(
+                condidateVerificationViewModel,
+                previousSelectedBatch!!.batchId,
+                candidateData = selectedCandidate!!,
+                onDismiss = { selectedCandidate = null },
+               // onSubmit = { selectedCandidate = null }
+            )
+        }
+
+
+
+
+        if (currentStep == 3 && ongoingSelectedCandidate != null) {
+
+            findNavigator.navigate(
+                InspectionBasicDetailsFragmentDirections
+                    .actionInspectionBasicDetailsFragmentToOngoingCandidateFragment(
+                        ongoingSelectedCandidate!!.candidateId,
+                        batchId = ongoingSelectedBatch!!.batchId.toString(),
+                        ongoingSelectedCandidate!!.name,
+                        ongoingSelectedCandidate!!.contactNumber,
+                        ongoingSelectedCandidate!!.rollNumber
+                    )
+            )
+            ongoingSelectedCandidate = null
+
+
+        }
+
+        if (currentStep == 4 && showTrainerSheet) {
+
+            TrainerBottomSheet(
+                viewModel=viewModelInspection,
+                trainerName = selectedTrainer?.trainerName ?: "NA",
+                trainerId = selectedTrainer?.trainerId ?: "NA",
+                trainerCode =selectedTrainer!!.trainerCode,
+                onDismiss = {
+                    showTrainerSheet = false
+                }
+            )
+        }
+
+            LaunchedEffect(currentStep) {
+                if (currentStep == 4) {
+                    viewModelInspection.getTrainersListInspection(
+                        TrainerListReq(
+                            appVersion = BuildConfig.VERSION_NAME,
+                            trainingCenterId = trainingCenterId.toInt()
+                        )
+                    )
+                }
+            }
     }
+}
+
 }

@@ -142,7 +142,7 @@ fun ResidentialFacilitySection(
         if (state.saveSuccess) {
 
             snackbarHostState.showSnackbar("Saved successfully")
-
+            viewModel.triggerRefresh()
             viewModel.clearResidentialSuccess()
         }
     }

@@ -33,6 +33,7 @@ import com.deendayalproject.viewmodel.CandidateAssessmentViewModel
 import com.deendayalproject.viewmodel.InspectionViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -51,15 +52,8 @@ fun OngoingCandidateSectionScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val isLoading by viewModel
-        .isSubmittingBasicRecord
-        .collectAsState()
-
-    val response by viewModel
-        .submitBasicRecordResponse
-        .collectAsState()
-
     val sectionStatus by candidateVerificationViewModel.uiSectionStatus.collectAsState()
+
 
 
 
@@ -96,28 +90,24 @@ fun OngoingCandidateSectionScreen(
     }
 
     LaunchedEffect(candidateId) {
-
         candidateVerificationViewModel.loadInspectionSectionStatus(
             inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
             candidateId = candidateId
         )
     }
 
-
-
-    LaunchedEffect(response?.responseCode) {
-
-        if (response?.responseCode == 200) {
-
-            snackbarHostState.showSnackbar(
-                response?.responseDesc ?: "Saved Successfully"
+    LaunchedEffect(Unit) {
+        candidateVerificationViewModel.refreshFlow.collectLatest  {
+            candidateVerificationViewModel.loadInspectionSectionStatus(
+                inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
+                candidateId = candidateId
             )
-
-            expandedSections["Basic Records Verification"] = false
-
-            viewModel.clearSubmitResponse()
         }
     }
+
+
+
+
     val scope = rememberCoroutineScope()
 
     val listState = rememberLazyListState()
@@ -221,51 +211,17 @@ fun OngoingCandidateSectionScreen(
                             "Basic Records Verification" -> {
 
                                 BasicRecordsSection(
-
+                                    candidateVerificationViewModel,
                                     imageList = imageList,
-
-                                    isLoading = isLoading,
-
+                                    candidateId = candidateId,
+                                    batchId = batchId,
+                                    inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
                                     showMessage = {
-
                                         CoroutineScope(Dispatchers.Main).launch {
                                             snackbarHostState.showSnackbar(it)
                                         }
-
-                                    },
-
-                                    onSubmit = { documents ->
-
-                                        val req = OngoingSubmitBasicRecordsReq(
-                                            appVersion = BuildConfig.VERSION_NAME,
-                                            candidateId = candidateId,
-                                            inspectionId = 3,
-                                            batchId = 6,
-
-                                            povertyProofQid = documents[0].qid,
-                                            povertyProof = documents[0].answer ?: "",
-                                            povertyProofRemark = documents[0].remarks,
-
-                                            categoryProofQid = documents[1].qid,
-                                            categoryProof = documents[1].answer ?: "",
-                                            categoryProofRemark = documents[1].remarks,
-
-                                            minorityProofQid = documents[2].qid,
-                                            minorityProof = documents[2].answer ?: "",
-                                            minorityProofRemark = documents[2].remarks,
-
-                                            educationProofQid = documents[3].qid,
-                                            educationProof = documents[3].answer ?: "",
-                                            educationProofRemark = documents[3].remarks,
-
-                                            pwdProofQid = documents[4].qid,
-                                            pwdProof = documents[4].answer ?: "",
-                                            pwdProofRemark = documents[4].remarks
-                                        )
-
-                                        viewModel.submitBasicRecords(req, "")
-
                                     }
+
                                 )
 
                             }
@@ -288,8 +244,6 @@ fun OngoingCandidateSectionScreen(
                                                       attendanceRemark,
                                                       counsellingRemark,
                                                       regularRemark ->
-
-
                                     }
                                 )
                             }
@@ -302,28 +256,12 @@ fun OngoingCandidateSectionScreen(
                                     snackbarHostState = snackbarHostState,
                                     batchId = batchId,
                                     candidateId=candidateId,
-                                    onSubmit = { camera,
-                                                 seriousness,
-                                                 malpractice,
-                                                 reval,
-                                                 retest,
-                                                 camRemark,
-                                                 serRemark,
-                                                 malRemark,
-                                                 revalRemark,
-                                                 retestRemark ->
-
-                                    }
                                 )
                             }
 
 
 
                             "Distribution of Teaching-Learning Material" ->{
-
-
-
-                              //  val snackbarHostState = remember { SnackbarHostState() }
 
                                 DistributedLearningSection(
                                     viewModel=candidateVerificationViewModel,
@@ -343,10 +281,8 @@ fun OngoingCandidateSectionScreen(
                                         )
                                         snackbarHostState.showSnackbar("Saved successfully")
                                     }
-
                                 }
                             }
-
 
                             "Entitlements Distribution" -> {
 
@@ -356,30 +292,8 @@ fun OngoingCandidateSectionScreen(
                                     batchId = batchId,
                                     inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
                                     candidateId=candidateId,
-                                    onSubmit = {
-                                            trainingFree,
-                                            bankAccount,
-                                            residential,
-                                            trainingMaterial,
-                                            uniform,
-                                            sanitary,
-                                            medicine,
-                                            insurance,
-                                            trainingFreeRemark,
-                                            bankAccountRemark,
-                                            residentialRemark,
-                                            trainingMaterialRemark,
-                                            uniformRemark,
-                                            sanitaryRemark,
-                                            medicineRemark,
-                                            insuranceRemark ->
-
-
-
-                                    }
                                 )
                             }
-
 
                             "Residential Facility Verification" -> {
 
@@ -391,8 +305,6 @@ fun OngoingCandidateSectionScreen(
                                     )
 
                             }
-
-
 
                             else -> {
 

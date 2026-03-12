@@ -493,45 +493,48 @@ class InspectionViewModel(application: Application) :
 
 
 
-    fun clearSubmitResponse() {
+//    fun clearSubmitResponse() {
+//
+//        _submitBasicRecordResponse.value = null
+//
+//    }
 
-        _submitBasicRecordResponse.value = null
+//    private val _isSubmittingBasicRecord = MutableStateFlow(false)
+//    val isSubmittingBasicRecord = _isSubmittingBasicRecord.asStateFlow()
+//
+//
+//    private val _submitBasicRecordResponse =
+//        MutableStateFlow<InsertRes?>(null)
+//
+//    val submitBasicRecordResponse =
+//        _submitBasicRecordResponse.asStateFlow()
+//
+//
+//
+//    fun submitBasicRecords(req: OngoingSubmitBasicRecordsReq, header: String) {
+//
+//        viewModelScope.launch {
+//
+//            _isSubmittingBasicRecord.emit(true)
+//
+//            executeApiCall(
+//                apiCall = {
+//                    repositoryManager
+//                        .inspectionRepo
+//                        .saveCandidateBasicRecords(req, header)
+//                },
+//                onSuccess = { response ->
+//
+//                    _submitBasicRecordResponse.value = response
+//
+//                    _isSubmittingBasicRecord.value = false
+//                }
+//
+//            )
+//        }
+//    }
 
-    }
 
-    private val _isSubmittingBasicRecord = MutableStateFlow(false)
-    val isSubmittingBasicRecord = _isSubmittingBasicRecord.asStateFlow()
-
-
-    private val _submitBasicRecordResponse =
-        MutableStateFlow<InsertRes?>(null)
-
-    val submitBasicRecordResponse =
-        _submitBasicRecordResponse.asStateFlow()
-
-
-    fun submitBasicRecords(req: OngoingSubmitBasicRecordsReq, header: String) {
-
-        viewModelScope.launch {
-
-            _isSubmittingBasicRecord.emit(true)
-
-            executeApiCall(
-                apiCall = {
-                    repositoryManager
-                        .inspectionRepo
-                        .saveCandidateBasicRecords(req, header)
-                },
-                onSuccess = { response ->
-
-                    _submitBasicRecordResponse.value = response
-
-                    _isSubmittingBasicRecord.value = false
-                }
-
-            )
-        }
-    }
 
 
 
@@ -578,6 +581,8 @@ class InspectionViewModel(application: Application) :
             }
         )
     }
+
+
 
 
 

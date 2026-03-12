@@ -17,9 +17,11 @@ import com.deendayalproject.model.request.SavePreDDQueReq
 import com.deendayalproject.model.request.SubjectDeleteReq
 import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.request.TrainerListReq
+import com.deendayalproject.model.request.assesmentInspection.GetCandidateRecordsVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.saveTrainerClassObservationInspectionReq
+import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateRecordsVerificationDetails
 import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.DueDiligenceItemResponse
@@ -204,6 +206,13 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
         }
 
 
+
+//    suspend fun getCandidateRecordsVerification(
+//        request: GetCandidateRecordsVerificationRequest
+//    ): Result<CandidateRecordsVerificationDetails> =
+//        safeApiCall {
+//            apiService.getCandidateRecordsVerification(request)
+//        }
 
 }
 
