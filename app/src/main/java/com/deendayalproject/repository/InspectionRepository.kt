@@ -5,12 +5,15 @@ import android.content.Context
 import com.deendayalproject.base.BaseRepository
 import com.deendayalproject.model.request.CandidatePreviousBatchReq
 import com.deendayalproject.model.request.GetAttendanceDetailsReq
+import com.deendayalproject.model.request.GetDDSaveDataReq
 import com.deendayalproject.model.request.GetImageListReq
+import com.deendayalproject.model.request.GetPrevDueQueList
 import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionRequestBody
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
+import com.deendayalproject.model.request.SavePreDDQueReq
 import com.deendayalproject.model.request.SubjectDeleteReq
 import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.request.TrainerListReq
@@ -21,7 +24,9 @@ import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAt
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.DueDiligenceItemResponse
 import com.deendayalproject.model.response.GetAttendanceDetailsRes
+import com.deendayalproject.model.response.GetDDSaveDataRes
 import com.deendayalproject.model.response.GetImageListRes
+import com.deendayalproject.model.response.GetPrevDueQueListRes
 import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InsertRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
@@ -176,4 +181,30 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
 
 
 
+
+
+    suspend fun getPreviousDueDiligenceQuestion  (getPrevDueQueList: GetPrevDueQueList, header :String): Result<GetPrevDueQueListRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.getPreviousDueDiligenceQuestion(getPrevDueQueList)
+        }
+
+
+
+
+    suspend fun savePreviousDueDiligenceQues  (savePreDDQueReq: SavePreDDQueReq, header :String): Result<InsertRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.savePreviousDueDiligenceQues(savePreDDQueReq)
+        }
+
+
+
+    suspend fun getSavedPreviousDueDiligenceQue  (getDDSaveDataReq: GetDDSaveDataReq, header :String): Result<GetDDSaveDataRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.getSavedPreviousDueDiligenceQue(getDDSaveDataReq)
+        }
+
+
+
 }
+
+

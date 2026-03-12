@@ -6,11 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.model.request.CandidatePreviousBatchReq
 import com.deendayalproject.model.request.GetAttendanceDetailsReq
+import com.deendayalproject.model.request.GetDDSaveDataReq
 import com.deendayalproject.model.request.GetImageListReq
+import com.deendayalproject.model.request.GetPrevDueQueList
 import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
+import com.deendayalproject.model.request.SavePreDDQueReq
 import com.deendayalproject.model.request.SubjectDeleteReq
 import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.request.TrainerListReq
@@ -20,7 +23,9 @@ import com.deendayalproject.model.request.saveTrainerClassObservationInspectionR
 import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.GetAttendanceDetailsRes
+import com.deendayalproject.model.response.GetDDSaveDataRes
 import com.deendayalproject.model.response.GetImageListRes
+import com.deendayalproject.model.response.GetPrevDueQueListRes
 import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InsertRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
@@ -985,6 +990,148 @@ class InspectionViewModel(application: Application) :
             )
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private val _getPreviousDueDiligenceQuestion =
+        MutableStateFlow<GetPrevDueQueListRes?>(null)
+
+    val getPreviousDueDiligenceQuestion:
+            StateFlow<GetPrevDueQueListRes?> =
+        _getPreviousDueDiligenceQuestion.asStateFlow()
+
+
+    fun getPreviousDueDiligenceQuestion(
+        request: GetPrevDueQueList,
+        header: String
+    ) {
+
+        executeApiCall(
+            apiCall = {
+                repositoryManager
+                    .inspectionRepo
+                    .getPreviousDueDiligenceQuestion(request, header)
+            },
+            onSuccess = { response ->
+
+                when (response.responseCode) {
+
+                    200 -> _getPreviousDueDiligenceQuestion.emit(response)
+
+                    202 -> _errorMessage.emit("No data available.")
+
+
+                    301 -> _errorMessage.emit("Please upgrade your app.")
+
+                    else -> _errorMessage.emit(
+                        response.responseDesc?.ifEmpty {
+                            "Unknown server error"
+                        } ?: "Unknown error"
+                    )
+                }
+            }
+        )
+    }
+
+
+
+
+
+
+    private val _savePreviousDueDiligenceQues =
+        MutableStateFlow<InsertRes?>(null)
+
+    val savePreviousDueDiligenceQues =
+        _savePreviousDueDiligenceQues.asStateFlow()
+
+
+    fun savePreviousDueDiligenceQues(req: SavePreDDQueReq, header: String) {
+
+        viewModelScope.launch {
+
+            _isSubmittingBasicRecord.emit(true)
+
+            executeApiCall(
+                apiCall = {
+                    repositoryManager
+                        .inspectionRepo
+                        .savePreviousDueDiligenceQues(req, header)
+                },
+                onSuccess = { response ->
+
+                    _savePreviousDueDiligenceQues.value = response
+
+                }
+
+            )
+        }
+    }
+
+
+
+
+
+
+
+    private val _getSavedPreviousDueDiligenceQue =
+        MutableStateFlow<GetDDSaveDataRes?>(null)
+
+    val getSavedPreviousDueDiligenceQue:
+            StateFlow<GetDDSaveDataRes?> =
+        _getSavedPreviousDueDiligenceQue.asStateFlow()
+
+
+    fun getSavedPreviousDueDiligenceQue(
+        request: GetDDSaveDataReq,
+        header: String
+    ) {
+
+        executeApiCall(
+            apiCall = {
+                repositoryManager
+                    .inspectionRepo
+                    .getSavedPreviousDueDiligenceQue(request, header)
+            },
+            onSuccess = { response ->
+
+                when (response.responseCode) {
+
+                    200 -> _getSavedPreviousDueDiligenceQue.emit(response)
+
+                    202 -> _errorMessage.emit("No data available.")
+
+
+                    301 -> _errorMessage.emit("Please upgrade your app.")
+
+                    else -> _errorMessage.emit(
+                        response.responseDesc?.ifEmpty {
+                            "Unknown server error"
+                        } ?: "Unknown error"
+                    )
+                }
+            }
+        )
+    }
 
 
 }

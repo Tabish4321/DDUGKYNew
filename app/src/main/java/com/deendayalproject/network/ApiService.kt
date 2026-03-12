@@ -22,7 +22,9 @@ import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
 import com.deendayalproject.model.request.FieldVerificationListRequest
 import com.deendayalproject.model.request.GetAttendanceDetailsReq
+import com.deendayalproject.model.request.GetDDSaveDataReq
 import com.deendayalproject.model.request.GetImageListReq
+import com.deendayalproject.model.request.GetPrevDueQueList
 import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
@@ -56,6 +58,7 @@ import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.SaltRequest
 import com.deendayalproject.model.request.SaveBatchVerificationRequest
 import com.deendayalproject.model.request.SaveInspectionStandardFormRequest
+import com.deendayalproject.model.request.SavePreDDQueReq
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubjectDeleteReq
@@ -133,7 +136,9 @@ import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.FinancialDetailsResponse
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GetAttendanceDetailsRes
+import com.deendayalproject.model.response.GetDDSaveDataRes
 import com.deendayalproject.model.response.GetImageListRes
+import com.deendayalproject.model.response.GetPrevDueQueListRes
 import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.GetUrinalWashRes
 import com.deendayalproject.model.response.GpResponse
@@ -925,7 +930,29 @@ interface ApiService {
 
         @Body request: SaveInspectionStandardFormRequest
 
-    ): Response<SaveInspectionStandardFormResponse> // SaveInspectionStandardFormResponse
+    ): Response<SaveInspectionStandardFormResponse>
+
+
+
+
+    @POST("getPreviousDueDiligenceObservation")
+    suspend fun getPreviousDueDiligenceQuestion(
+        @Body getPrevDueQueList: GetPrevDueQueList
+    ): Response<GetPrevDueQueListRes>
+
+
+    @POST("savePreviousDueDiligenceVerification")
+    suspend fun savePreviousDueDiligenceQues(
+        @Body savePreDDQueReq: SavePreDDQueReq
+    ): Response<InsertRes>
+
+
+    @POST("getPreviousDueDiligenceVerification")
+    suspend fun getSavedPreviousDueDiligenceQue(
+        @Body getDDSaveDataReq: GetDDSaveDataReq
+    ): Response<GetDDSaveDataRes>
+
+
 
 
 }
