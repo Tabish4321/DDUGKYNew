@@ -437,7 +437,6 @@ fun InspectionStepModernScreen(
                                             )
 
                                     }
-
                                 }
 
                             }
