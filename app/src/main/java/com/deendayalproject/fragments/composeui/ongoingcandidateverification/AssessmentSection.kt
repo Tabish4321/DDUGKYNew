@@ -25,18 +25,18 @@ fun AssessmentSection(
     snackbarHostState: SnackbarHostState,
     batchId:String,
     candidateId:String,
-    onSubmit: (
-        String,
-        String,
-        String,
-        String,
-        String,
-        String?,
-        String?,
-        String?,
-        String?,
-        String?
-    ) -> Unit
+//    onSubmit: (
+//        String,
+//        String,
+//        String,
+//        String,
+//        String,
+//        String?,
+//        String?,
+//        String?,
+//        String?,
+//        String?
+//    ) -> Unit
 ) {
 
     val scope = rememberCoroutineScope()
@@ -110,9 +110,8 @@ fun AssessmentSection(
     LaunchedEffect(state.saveSuccess) {
 
         if (state.saveSuccess) {
-
+            candidateAssesmentViewModel.triggerRefresh()
             snackbarHostState.showSnackbar("Assessment saved successfully")
-
             candidateAssesmentViewModel.clearSaveState()
         }
     }
@@ -264,18 +263,18 @@ fun AssessmentSection(
 
                     else -> {
 
-                        onSubmit(
-                            cameraAnswer!!,
-                            seriousnessAnswer!!,
-                            malpracticeAnswer!!,
-                            diffRevalAnswer!!,
-                            diffRetestAnswer!!,
-                            cameraRemark,
-                            seriousnessRemark,
-                            malpracticeRemark,
-                            diffRevalRemark,
-                            diffRetestRemark
-                        )
+//                        onSubmit(
+//                            cameraAnswer!!,
+//                            seriousnessAnswer!!,
+//                            malpracticeAnswer!!,
+//                            diffRevalAnswer!!,
+//                            diffRetestAnswer!!,
+//                            cameraRemark,
+//                            seriousnessRemark,
+//                            malpracticeRemark,
+//                            diffRevalRemark,
+//                            diffRetestRemark
+//                        )
 
                         candidateAssesmentViewModel.updateState {
 

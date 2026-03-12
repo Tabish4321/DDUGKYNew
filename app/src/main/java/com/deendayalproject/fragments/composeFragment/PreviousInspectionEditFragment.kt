@@ -68,8 +68,7 @@ class PreviousInspectionEditFragment : BaseFragment<PreviousInspectionEditFragme
 
                 PreviousInspectionDueAllObserver(
                     observationItems = sampleObservationList,
-                    onBackClick = {
-                        navController.popBackStack()
+                    onBackClick = { navController.popBackStack()
                     },
                     isLoading,
                     onSubmit = { uiState ->

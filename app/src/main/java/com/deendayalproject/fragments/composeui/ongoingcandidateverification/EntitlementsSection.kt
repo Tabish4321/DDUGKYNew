@@ -26,10 +26,6 @@ fun EntitlementsSection(
     batchId: String,
     candidateId: String,
     inspectionId: Int,
-    onSubmit: (
-        String,String,String,String,String,String,String,String,
-        String?,String?,String?,String?,String?,String?,String?,String?
-    ) -> Unit
 ) {
 
     val scope = rememberCoroutineScope()
@@ -127,6 +123,17 @@ fun EntitlementsSection(
             viewModel.clearEntitlementError()
         }
     }
+
+    LaunchedEffect(state.saveSuccess) {
+
+        state.saveSuccess?.let {
+            viewModel.triggerRefresh()
+            viewModel.clearEntitlementSaveSuccess()
+        }
+    }
+
+
+
 
     Column(
         modifier = Modifier

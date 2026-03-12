@@ -28,8 +28,10 @@ import com.deendayalproject.model.uistate.InspectionSectionStatusUiState
 import com.deendayalproject.model.uistate.ResidentialFacilityUiState
 import com.deendayalproject.model.uistate.TlmQuestion
 import com.deendayalproject.repository.CandidateAssessmentRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -43,9 +45,20 @@ class CandidateAssessmentViewModel(
 
     private val repository = CandidateAssessmentRepository(application)
 
+    /*  Section Refresh Status */
+
+    private val _refreshFlow = MutableSharedFlow<Unit>(replay = 1)
+    val refreshFlow = _refreshFlow.asSharedFlow()
+
+    fun triggerRefresh() {
+        viewModelScope.launch {
+            _refreshFlow.emit(Unit)
+        }
+    }
+
+
     /* Inspection Section Status */
     private val _uiSectionStatus = MutableStateFlow(InspectionSectionStatusUiState())
-
     val uiSectionStatus: StateFlow<InspectionSectionStatusUiState> = _uiSectionStatus.asStateFlow()
 
     fun loadInspectionSectionStatus(
@@ -942,6 +955,13 @@ class CandidateAssessmentViewModel(
         _entitlementState.update {
             it.copy(error = null)
         }
+    }
+
+    fun clearEntitlementSaveSuccess(){
+        _entitlementState.update {
+            it.copy(saveSuccess = false)
+        }
+
     }
 
     /*-------Residential Facility Verification--------------*/

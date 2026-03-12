@@ -38,12 +38,21 @@ fun DistributedLearningSection(
     var captureIndex by remember { mutableStateOf<Int?>(null) }
 
     LaunchedEffect(state.error) {
-
         state.error?.let {
             snackbarHostState.showSnackbar(it)
             viewModel.clearDistributedError()
         }
     }
+
+    LaunchedEffect(state.saveSuccess) {
+        state.saveSuccess?.let {
+            viewModel.triggerRefresh()
+        }
+    }
+
+
+
+
 
     val questions = remember {
 

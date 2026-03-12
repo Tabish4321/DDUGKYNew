@@ -50,11 +50,12 @@ fun BasicRecordsSection(
         candidateVerificationViewModel.loadRecordsVerification(batchId.toInt(),inspectionId,candidateId)
     }
 
+
     LaunchedEffect(uiState.saveSuccess) {
 
         if (uiState.saveSuccess) {
-
             showMessage("Basic Records Submitted Successfully")
+            candidateVerificationViewModel.triggerRefresh()
 
         }
     }

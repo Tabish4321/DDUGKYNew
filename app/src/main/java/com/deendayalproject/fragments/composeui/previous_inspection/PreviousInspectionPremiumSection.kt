@@ -225,7 +225,9 @@ fun DueDiligenceList(
                     codeLabel = "Training Center Code",
                     codeValue = item.trainingCenterCode,
                     showEdit = true,
-                    onEditClick = {}
+                    onEditClick = {
+
+                    }
                 )
             }
         }
