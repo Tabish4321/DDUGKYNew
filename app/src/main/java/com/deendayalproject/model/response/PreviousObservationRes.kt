@@ -1,7 +1,10 @@
 package com.deendayalproject.model.response
 
 data class PreviousObservationRes(
-    val conductedBy: String,
     val title: String,
-    val remarks: String = ""
+    val conductedBy: String,
+    val remarks: String,
+    val questionId: Int,
+    val preAnswer: String? = null,
+    val preRemark: String? = null
 )

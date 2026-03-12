@@ -27,6 +27,8 @@ import com.deendayalproject.model.request.InspectionRequestBody
 import com.deendayalproject.model.response.DueDiligenceItemResponse
 import com.deendayalproject.model.uistate.InspectionTab
 import com.deendayalproject.viewmodel.PreviousAndDueViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 
 @Composable
@@ -121,7 +123,9 @@ fun PreviousInspectionSection(
                         } else {
                             DueDiligenceList(
                                 items = state.dueDiligenceList,
-                                onItemClick = onEditClick
+                                onEditClick = {
+                                    viewModel.openDueDiligenceEdit()
+                                }
                             )
                         }
                     }
@@ -186,7 +190,7 @@ fun PreviousInspectionList(
 @Composable
 fun DueDiligenceList(
     items: List<DueDiligenceItemResponse>,
-    onItemClick: (PreviousInspectionItemResponse) -> Unit
+    onEditClick: () -> Unit
 ) {
 
     if (items.isEmpty()) {
@@ -226,7 +230,7 @@ fun DueDiligenceList(
                     codeValue = item.trainingCenterCode,
                     showEdit = true,
                     onEditClick = {
-
+                        onEditClick()
                     }
                 )
             }
@@ -263,6 +267,10 @@ fun EmptyStateView(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
+
+
+
+
 }
 
 

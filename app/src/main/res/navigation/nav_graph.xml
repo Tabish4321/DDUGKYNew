@@ -487,6 +487,9 @@
 
 
         </action>
+        <action
+            android:id="@+id/action_inspectionBasicDetailsFragment_to_dueDiligenceEditFragment"
+            app:destination="@id/dueDiligenceEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/inspectionListFragment"
@@ -524,6 +527,10 @@
         android:id="@+id/ongoingCandidateFragment"
         android:name="com.deendayalproject.fragments.composeFragment.OngoingCandidateFragment"
         android:label="OngoingCandidateFragment" />
+    <fragment
+        android:id="@+id/dueDiligenceEditFragment"
+        android:name="com.deendayalproject.fragments.composeFragment.DueDiligenceEditFragment"
+        android:label="DueDiligenceEditFragment" />
 
 
 </navigation>

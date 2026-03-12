@@ -26,6 +26,8 @@ import com.deendayalproject.model.response.PreviousObservationUiState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.ui.draw.rotate
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.runtime.toMutableStateList
+import androidx.compose.ui.graphics.Color
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.common.InfoRow
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
@@ -37,73 +39,65 @@ fun PreviousInspectionDueAllObserver(
     observationItems: List<PreviousObservationRes>,
     onBackClick: () -> Unit,
     isLoading: Boolean,
+    expandedIndex: Int?,
+    onExpandChange: (Int?) -> Unit,
+    onExpand: (Int) -> Unit,
     onSubmit: (PreviousObservationUiState) -> Unit
-)
-{
+) {
 
-    val observationList = remember {
-        mutableStateListOf<PreviousObservationUiState>().apply {
-            addAll(
-                observationItems.map {
-                    PreviousObservationUiState(
-                        conductedBy = it.conductedBy,
-                        title = it.title,
-                        originalRemarks = it.remarks
-                    )
-                }
-            )
-        }
-    }
-
-    var expandedIndex by remember { mutableStateOf<Int?>(null) }
+    val observationList = observationItems.map {
+        PreviousObservationUiState(
+            questionId = it.questionId,
+            conductedBy = it.conductedBy,
+            title = it.title,
+            originalRemarks = it.remarks,
+            selectionYesNo = it.preAnswer,
+            inputRemarks = it.preRemark ?: ""
+        )
+    }.toMutableStateList()
 
     Scaffold(
         topBar = {
             PremiumTopBar(
-                dynamicTitle = "Inspection/Due Diligence",
+                dynamicTitle = "Due Diligence",
                 onBackClick = onBackClick
             )
         }
     ) { innerPadding ->
 
-
-
         if (isLoading) {
-
-            Box(modifier = Modifier.padding(innerPadding)) {
-                ShimmerTrainingList()
-            }
-
+            ShimmerTrainingList()
         } else {
 
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
-                    .background(colorResource(R.color.white)),
+                    .background(Color.White),
+
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
-            )
-            {
+            ) {
 
                 itemsIndexed(observationList) { index, item ->
 
                     val isExpanded = expandedIndex == index
-                    val rotation by animateFloatAsState(
-                        targetValue = if (isExpanded) 180f else 0f,
-                        label = ""
-                    )
 
                     ElevatedCard(
+                        colors = CardDefaults.elevatedCardColors(
+                            containerColor = Color.White
+                        ),
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                expandedIndex =
-                                    if (isExpanded) null else index
-                            },
-                        colors = CardDefaults.elevatedCardColors(
-                            containerColor = colorResource(id = R.color.white)
-                        )
+
+                                if (isExpanded) {
+                                    onExpandChange(null)
+                                } else {
+                                    onExpandChange(index)
+                                    onExpand(item.questionId)
+                                }
+                            }
                     ) {
 
                         Column(
@@ -111,23 +105,10 @@ fun PreviousInspectionDueAllObserver(
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
 
-                            // 🔹 Header Row (Title + Arrow)
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-
-                                Text(
-                                    text = item.title,
-                                    style = MaterialTheme.typography.titleMedium
-                                )
-
-                                Icon(
-                                    imageVector = Icons.Default.KeyboardArrowDown,
-                                    contentDescription = null,
-                                    modifier = Modifier.rotate(rotation)
-                                )
-                            }
+                            Text(
+                                text = item.title,
+                                style = MaterialTheme.typography.titleMedium
+                            )
 
                             InfoRow(
                                 icon = Icons.Default.CheckCircle,
@@ -141,45 +122,31 @@ fun PreviousInspectionDueAllObserver(
                                 value = item.originalRemarks
                             )
 
-                            AnimatedVisibility(visible = isExpanded) {
+                            AnimatedVisibility(isExpanded) {
 
-                                Column(
-                                    verticalArrangement = Arrangement.spacedBy(14.dp)
-                                ) {
+                                Column {
 
                                     ComplianceQuestionWithRemarks(
-                                        question = "Are previous inspection observations complied?",
+                                        question = "Are deviations from due diligence addressed?",
                                         answer = item.selectionYesNo,
                                         remarks = item.inputRemarks,
-                                        onAnswerChange = { newAnswer ->
+                                        onAnswerChange = {
                                             observationList[index] =
-                                                item.copy(selectionYesNo = newAnswer)
+                                                item.copy(selectionYesNo = it)
                                         },
-                                        onRemarksChange = { newRemarks ->
+                                        onRemarksChange = {
                                             observationList[index] =
-                                                item.copy(inputRemarks = newRemarks)
+                                                item.copy(inputRemarks = it)
                                         }
                                     )
 
+                                    Spacer(Modifier.height(10.dp))
+
                                     Button(
-                                        onClick = {
-
-                                            val currentItem = observationList[index]
-
-                                            if (currentItem.selectionYesNo.isNullOrBlank())
-                                                return@Button
-
-                                            if (currentItem.selectionYesNo == "No" &&
-                                                currentItem.inputRemarks.isBlank()
-                                            ) return@Button
-
-                                            onSubmit(currentItem)
-
-                                            expandedIndex = null
-                                        },
+                                        onClick = { onSubmit(observationList[index]) },
                                         modifier = Modifier.fillMaxWidth()
                                     ) {
-                                        Text("Submit")
+                                        Text("Save")
                                     }
                                 }
                             }

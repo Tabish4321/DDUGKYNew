@@ -18,7 +18,7 @@ import com.deendayalproject.util.AppUtil
 @Composable
 fun StandardFormComplianceScreen(
     viewModel: DocumentMaintainViewModel,
-    snackbarHostState:SnackbarHostState
+    snackbarHostState: SnackbarHostState
 ) {
 
     val scope = rememberCoroutineScope()
@@ -29,10 +29,6 @@ fun StandardFormComplianceScreen(
         AppUtil.getSavedInspectionIdPreference(context).toInt()
 
     val state by viewModel.inspectionStandardFormState.collectAsState()
-
-    /* -------------------------------- */
-    /* QUESTIONS */
-    /* -------------------------------- */
 
     val questions = remember {
         listOf(
@@ -84,71 +80,27 @@ fun StandardFormComplianceScreen(
         )
     }
 
-    /* -------------------------------- */
-    /* LOAD API */
-    /* -------------------------------- */
-
     LaunchedEffect(Unit) {
-
-        viewModel.loadInspectionStandardForm(
-            inspectionId
-        )
+        viewModel.loadInspectionStandardForm(inspectionId)
     }
 
-    /* -------------------------------- */
-    /* ERROR SNACKBAR */
-    /* -------------------------------- */
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
 
-    LaunchedEffect(state.error) {
-
-        state.error?.let {
-
-            snackbarHostState.showSnackbar(it)
-
-            viewModel.clearInspectionStandardError()
-        }
-    }
-
-    /* -------------------------------- */
-    /* SUCCESS SNACKBAR */
-    /* -------------------------------- */
-
-    LaunchedEffect(state.saveSuccess) {
-
-        if (state.saveSuccess) {
-
-            snackbarHostState.showSnackbar(
-                "Inspection standard form saved successfully"
-            )
-            viewModel.clearInspectionStandardSaveSuccess()
-        }
-    }
-
-    /* -------------------------------- */
-    /* UI */
-    /* -------------------------------- */
-
-    Box(modifier = Modifier.fillMaxSize()) {
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                start = 16.dp,
+                end = 16.dp,
+                top = 16.dp,
+                bottom = 120.dp
+            ),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            if (state.isLoading) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 40.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
 
-            } else {
 
-                questions.forEachIndexed { index, q ->
+                itemsIndexed(questions) { index, q ->
 
                     val answer = state.answers.getOrNull(index)
                     val remark = state.remarks.getOrNull(index) ?: ""
@@ -167,51 +119,53 @@ fun StandardFormComplianceScreen(
                     )
                 }
 
-                Button(
-                    onClick = {
-                        focusManager.clearFocus()
+                item {
 
-                        val answers = state.answers
-                        val remarks = state.remarks
+                    Button(
+                        onClick = {
 
-                        for (i in questions.indices) {
+                            focusManager.clearFocus()
 
-                            val ans = answers.getOrNull(i)
+                            val answers = state.answers
+                            val remarks = state.remarks
 
-                            if (ans == null) {
+                            for (i in questions.indices) {
 
-                                scope.launch {
+                                val ans = answers.getOrNull(i)
 
-                                    snackbarHostState.showSnackbar(
-                                        "Please select: ${questions[i]}"
-                                    )
+                                if (ans == null) {
+
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar(
+                                            "Please select: ${questions[i]}"
+                                        )
+                                    }
+                                    return@Button
                                 }
 
-                                return@Button
-                            }
+                                if (
+                                    ans == "No" &&
+                                    remarks.getOrNull(i).isNullOrBlank()
+                                ) {
 
-                            if (
-                                ans == "No" &&
-                                remarks.getOrNull(i).isNullOrBlank()
-                            ) {
-
-                                scope.launch {
-                                    snackbarHostState.showSnackbar(
-                                        "Remarks required for: ${questions[i]}"
-                                    )
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar(
+                                            "Remarks required for: ${questions[i]}"
+                                        )
+                                    }
+                                    return@Button
                                 }
-
-                                return@Button
                             }
-                        }
-                        viewModel.saveInspectionStandardForm(inspectionId)
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Submit")
+
+                            viewModel.saveInspectionStandardForm(inspectionId)
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Submit")
+                    }
                 }
             }
+
         }
     }
-}
 

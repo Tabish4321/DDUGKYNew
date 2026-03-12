@@ -1004,20 +1004,6 @@ class InspectionViewModel(application: Application) :
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private val _getPreviousDueDiligenceQuestion =
         MutableStateFlow<GetPrevDueQueListRes?>(null)
 
@@ -1060,9 +1046,6 @@ class InspectionViewModel(application: Application) :
 
 
 
-
-
-
     private val _savePreviousDueDiligenceQues =
         MutableStateFlow<InsertRes?>(null)
 
@@ -1074,7 +1057,6 @@ class InspectionViewModel(application: Application) :
 
         viewModelScope.launch {
 
-            _isSubmittingBasicRecord.emit(true)
 
             executeApiCall(
                 apiCall = {
@@ -1091,11 +1073,6 @@ class InspectionViewModel(application: Application) :
             )
         }
     }
-
-
-
-
-
 
 
     private val _getSavedPreviousDueDiligenceQue =

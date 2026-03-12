@@ -10,8 +10,10 @@ import com.deendayalproject.model.uistate.InspectionTab
 import com.deendayalproject.model.uistate.InspectionUiState
 import com.deendayalproject.repository.repomanager.RepositoryManager
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -20,6 +22,15 @@ class PreviousAndDueViewModel(
 ) : AndroidViewModel(application) {
 
 
+
+    private val _openDueDiligenceEdit = MutableSharedFlow<Unit>()
+    val openDueDiligenceEdit = _openDueDiligenceEdit.asSharedFlow()
+
+    fun openDueDiligenceEdit() {
+        viewModelScope.launch {
+            _openDueDiligenceEdit.emit(Unit)
+        }
+    }
 
         private val repositoryManager = RepositoryManager.getInstance(application.applicationContext)
 
