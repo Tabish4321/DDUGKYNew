@@ -57,6 +57,7 @@ class CandidateAssessmentViewModel(
     }
 
 
+
     /* Inspection Section Status */
     private val _uiSectionStatus = MutableStateFlow(InspectionSectionStatusUiState())
     val uiSectionStatus: StateFlow<InspectionSectionStatusUiState> = _uiSectionStatus.asStateFlow()
