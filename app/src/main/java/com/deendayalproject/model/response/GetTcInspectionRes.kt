@@ -20,7 +20,7 @@ data class  InspectionTcDetails(
     val sanctionOrder: String,
     val inspectionType: String,
     val inspectionId: String,
-    val centerType: String
-)
+    val centerType: String,
+    val inspectionDate: String?)
 
 

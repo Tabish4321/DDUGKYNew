@@ -68,7 +68,7 @@ fun ComplianceQuestionNAWithRemarks(
                     text = "Not Applicable",
                     selected = answer == "Not Applicable",
                     color = Color(0xFFF59E0B),
-                    weight = 1.6f   // 👈 wider button
+                    weight = 1.6f   //  wider button
                 ) { onAnswerChange("Not Applicable") }
 
             }

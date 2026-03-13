@@ -101,7 +101,8 @@ class InspectionListFragment :
                                             sanctionLetterNo = it.sanctionOrder,
                                             inspectionType = it.inspectionType,
                                             inspectionId = it.inspectionId,
-                                            centerType = it.centerType
+                                            centerType = it.centerType,
+                                            inspectionDate = it.inspectionDate
                                         )
                                     },
                                     isLoading = false,
@@ -110,22 +111,41 @@ class InspectionListFragment :
                                     },
                                     onItemClick = { selectedItem ->
 
+                                        val formatter = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                                        val currentDate = java.time.LocalDate.now()
 
-                                        AppUtil.saveInspectionIdPreference(requireContext(), selectedItem.inspectionId)
-                                        AppUtil.saveTrainingCenterIdPreference(requireContext(), selectedItem.id.toString())
-                                        AppUtil.saveCenterTypePreference(requireContext(), selectedItem.centerType)
+                                        val inspectionDate = try {
+                                            selectedItem.inspectionDate?.let {
+                                                java.time.LocalDate.parse(it, formatter)
+                                            } ?: currentDate   // ✅ NULL → current date
+                                        } catch (e: Exception) {
+                                            currentDate   // ✅ wrong format → current date
+                                        }
 
+                                        if (inspectionDate == currentDate) {
 
+                                            AppUtil.saveInspectionIdPreference(requireContext(), selectedItem.inspectionId)
+                                            AppUtil.saveTrainingCenterIdPreference(requireContext(), selectedItem.id.toString())
+                                            AppUtil.saveCenterTypePreference(requireContext(), selectedItem.centerType)
 
-                                        findNavController().navigate(
-                                            InspectionListFragmentDirections
-                                                .actionInspectionListFragmentToInspectionBasicDetailsFragment(
-                                                    selectedItem.prnNumber,
-                                                    selectedItem.sanctionLetterNo,
-                                                    selectedItem.inspectionType,
-                                                    selectedItem.id
-                                                )
-                                        )
+                                            findNavController().navigate(
+                                                InspectionListFragmentDirections
+                                                    .actionInspectionListFragmentToInspectionBasicDetailsFragment(
+                                                        selectedItem.prnNumber,
+                                                        selectedItem.sanctionLetterNo,
+                                                        selectedItem.inspectionType,
+                                                        selectedItem.id
+                                                    )
+                                            )
+
+                                        } else {
+
+                                            android.widget.Toast.makeText(
+                                                requireContext(),
+                                                "This Inspection will Active on ${selectedItem.inspectionDate ?: "Today"}",
+                                                android.widget.Toast.LENGTH_LONG
+                                            ).show()
+                                        }
                                     }
                                 )
                             }

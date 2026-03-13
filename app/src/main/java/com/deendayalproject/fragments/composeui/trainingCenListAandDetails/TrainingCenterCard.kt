@@ -1,6 +1,8 @@
 package com.deendayalproject.fragments.composeui.trainingCenListAandDetails
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,19 +29,18 @@ fun TrainingCenterCard(
     onClick: () -> Unit
 ) {
 
-//    ElevatedCard(
-//        onClick = onClick,
-//        colors = CardDefaults.elevatedCardColors(
-//            containerColor = colorResource(id = R.color.white)
-//        ),
-//        shape = RoundedCornerShape(20.dp),
-//        elevation = CardDefaults.cardElevation(
-//            defaultElevation = 14.dp
-//        ),
-//        modifier = Modifier
-//    )
+    val formatter = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy")
+    val currentDate = java.time.LocalDate.now()
 
+    val inspectionDate = try {
+        item.inspectionDate?.let {
+            java.time.LocalDate.parse(it, formatter)
+        } ?: currentDate
+    } catch (e: Exception) {
+        currentDate
+    }
 
+    val isActive = inspectionDate == currentDate
 
     ElevatedCard(
         onClick = onClick,
@@ -49,38 +50,53 @@ fun TrainingCenterCard(
         modifier = Modifier.fillMaxWidth()
     ){
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
+        Column {
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.weight(1f)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        if (isActive) Color(0xFF2E7D32) else Color(0xFFFF6F00)
+                    )
+                    .padding(6.dp)
+            ) {
+                androidx.compose.material3.Text(
+                    text = if (isActive) "ACTIVE" else "PENDING",
+                    color = Color.White
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    modifier = Modifier.weight(1f)
+                ) {
 
-                InfoRow(
-                    icon = Icons.Default.Badge,
-                    label = "PRN Number",
-                    value = item.prnNumber
-                )
+                    InfoRow(
+                        icon = Icons.Default.Badge,
+                        label = "PRN Number",
+                        value = item.prnNumber
+                    )
 
+                    InfoRow(
+                        icon = Icons.Default.Description,
+                        label = "Sanction Letter No.",
+                        value = item.sanctionLetterNo
+                    )
 
-                InfoRow(
-                    icon = Icons.Default.Description,
-                    label = "Sanction Letter No.",
-                    value = item.sanctionLetterNo
-                )
+                    InfoRow(
+                        icon = Icons.Default.Difference,
+                        label = "Inspection Type",
+                        value = item.inspectionType
+                    )
 
-                InfoRow(
-                    icon = Icons.Default.Difference,
-                    label = "Inspection Type",
-                    value = item.inspectionType
-                )
-
+                }
             }
         }
     }

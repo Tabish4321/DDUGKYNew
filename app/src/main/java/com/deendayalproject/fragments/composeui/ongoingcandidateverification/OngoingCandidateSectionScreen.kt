@@ -24,7 +24,6 @@ import com.deendayalproject.fragments.composeui.common.ExpandableComplianceCard
 import com.deendayalproject.fragments.composeui.common.PremiumCandidateHeader
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
 import com.deendayalproject.model.request.GetAttendanceDetailsReq
-import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.response.CandidateProofItem
 import com.deendayalproject.model.response.ExpandableSectionName
 import com.deendayalproject.model.uistate.InspectionSectionStatusUiState
@@ -66,7 +65,7 @@ fun OngoingCandidateSectionScreen(
 
             ExpandableSectionName("Basic Records Verification", ComplianceStatus.NotCOMPLETE),
             ExpandableSectionName("Validate Attendance", ComplianceStatus.COMPLETE),
-            ExpandableSectionName("Assessment", ComplianceStatus.NotCOMPLETE),
+            ExpandableSectionName("Internal Assessment", ComplianceStatus.NotCOMPLETE),
             ExpandableSectionName("Distribution of Teaching-Learning Material", ComplianceStatus.COMPLETE),
             ExpandableSectionName("Entitlements Distribution", ComplianceStatus.COMPLETE)
 
@@ -172,7 +171,7 @@ fun OngoingCandidateSectionScreen(
                                 "Validate Attendance" ->
                                     sectionStatus.attendanceStatus == 1
 
-                                "Assessment" ->
+                                "Internal Assessment" ->
                                     sectionStatus.assessmentStatus == 1
 
                                 "Distribution of Teaching-Learning Material" ->
@@ -249,7 +248,7 @@ fun OngoingCandidateSectionScreen(
                             }
 
 
-                            "Assessment" -> {
+                            "Internal Assessment" -> {
 
                                 AssessmentSection(
                                     candidateAssesmentViewModel = candidateVerificationViewModel,
@@ -371,7 +370,7 @@ fun getSectionStatus(sectionTitle: String,sectionStatus: InspectionSectionStatus
 
         "Basic Records Verification" -> sectionStatus.recordStatus
         "Validate Attendance" -> sectionStatus.attendanceStatus
-        "Assessment" -> sectionStatus.assessmentStatus
+        "Internal Assessment" -> sectionStatus.assessmentStatus
         "Distribution of Teaching-Learning Material" -> sectionStatus.learningMaterialStatus
         "Entitlements Distribution" -> sectionStatus.entitlementsDistributionStatus
         "Residential Facility Verification" -> sectionStatus.rfVerificationStatus

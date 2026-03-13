@@ -792,12 +792,6 @@ interface ApiService {
         @Body request: AssessmentStatusInspectionRequest
     ): Response<BaseResponse<List<AssessmentStatusResponse>>>
 
-
-
-
-
-
-
     @POST("getInspectionOngoingBatchList")
     suspend fun getInspectionOngoingBatchList(
         @Body inspectionPreviousBatchList: InspectionPreviousBatchList
@@ -815,17 +809,10 @@ interface ApiService {
         @Body deleteReq: SubjectDeleteReq
     ): Response<SubjectDeleteRes>
 
-
-
-
-
-
     @POST("getOngoingBatchCandiate")
     suspend fun getOngoingBatchCandiate(
         @Body candidatePreviousBatchReq: CandidatePreviousBatchReq
     ): Response<CandidatePreviousBatchRes>
-
-
 
 
     @POST("getCandiateRecords")
@@ -834,13 +821,10 @@ interface ApiService {
     ): Response<GetImageListRes>
 
 
-
-
     @POST("saveCandiateRecords")
     suspend fun saveCandidateBasicRecords(
         @Body ongoingSubmitBasicRecordsReq: OngoingSubmitBasicRecordsReq
     ): Response<InsertRes>
-
 
 
     @POST("getCandiateTodayAttendanceStatus")
@@ -911,8 +895,6 @@ interface ApiService {
     ): Response<BaseResponse<List<Nothing>>>
 
 
-
-
     @POST("saveTrainerClassObservationInspection")
     suspend fun saveTrainerClassObservationInspection(
         @Body request: saveTrainerClassObservationInspectionReq
@@ -934,7 +916,6 @@ interface ApiService {
 
 
 
-
     @POST("getPreviousDueDiligenceObservation")
     suspend fun getPreviousDueDiligenceQuestion(
         @Body getPrevDueQueList: GetPrevDueQueList
@@ -951,7 +932,6 @@ interface ApiService {
     suspend fun getSavedPreviousDueDiligenceQue(
         @Body getDDSaveDataReq: GetDDSaveDataReq
     ): Response<GetDDSaveDataRes>
-
 
 
 }

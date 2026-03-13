@@ -39,6 +39,7 @@ fun AttendanceComplianceScreen(
     var counsellingAnswer by remember { mutableStateOf<String?>(null) }
     var regularAttendanceAnswer by remember { mutableStateOf<String?>(null) }
 
+
     var attendanceRemark by remember { mutableStateOf("") }
     var counsellingRemark by remember { mutableStateOf("") }
     var regularAttendanceRemark by remember { mutableStateOf("") }
@@ -73,6 +74,17 @@ fun AttendanceComplianceScreen(
             )
 
             Divider()
+
+            InfoRow(
+                icon = Icons.Default.SupportAgent,
+                label = "Attendance Percentage",
+                value = item?.attendancePercentage ?: "N/A"
+            )
+
+            Divider()
+
+
+
 
             InfoRow(
                 icon = Icons.Default.SupportAgent,

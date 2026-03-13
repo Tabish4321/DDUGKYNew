@@ -78,7 +78,7 @@ fun BasicRecordsSection(
             documents.addAll(
                 listOf(
                     DocumentVerificationState(
-                        "Poverty Proof",
+                        "Poverty Proof (As per SOP chapter 4, SF 4.2X)",
                         1,
                         proof?.pmaygAttachment,
                         uiState.povertyProof,
@@ -86,7 +86,7 @@ fun BasicRecordsSection(
                     ),
 
                     DocumentVerificationState(
-                        "Category Proof",
+                        "Category Proof (As per SOP chapter 4, SF 4.2X)",
                         2,
                         proof?.categoryCertPath,
                         uiState.categoryProof,
@@ -94,7 +94,7 @@ fun BasicRecordsSection(
                     ),
 
                     DocumentVerificationState(
-                        "Minority Proof",
+                        "Minority Proof (As per SOP chapter 4, SF 4.2X)",
                         3,
                         proof?.minorityCertPath,
                         uiState.minorityProof,
