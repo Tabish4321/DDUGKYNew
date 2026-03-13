@@ -1,5 +1,7 @@
 package com.deendayalproject.model.response
 
+
+//code commit 13/03/2026 Time 10:51 AM if user login DDUGKYUSER coditions mein static data use ho rhaa hai textView ke case mein
 data class OjtRes(
 
     val responseCode: Int,

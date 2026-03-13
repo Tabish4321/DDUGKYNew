@@ -146,7 +146,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.addCallback
 import androidx.annotation.RequiresPermission
 import java.nio.ByteBuffer
-//code commit 10/03/2026 Time 16:40 PM OJT Module add in Seoerate OJT Folder
+//code commit 13/03/2026 Time 10:51 AM if user login DDUGKYUSER coditions mein static data use ho rhaa hai textView ke case mein  please update
 class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), SurfaceHolder.Callback {
 
 
