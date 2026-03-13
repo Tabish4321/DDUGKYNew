@@ -1,6 +1,8 @@
 package com.deendayalproject.fragments.composeFragment
 
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -31,6 +33,7 @@ class InspectionListFragment :
 
     private val viewModel: InspectionViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun initializeViews() {
 
         binding.composeInspectionListView.apply {
