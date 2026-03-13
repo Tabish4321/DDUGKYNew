@@ -341,8 +341,6 @@ abstract class BaseFragment<VB : ViewBinding>(
         onSuccess: ((T?) -> Unit)? = null,
         onNoData: (() -> Unit)? = null,
         onUpgradeRequired: (() -> Unit)? = null,
-
-
         onSessionExpired: (() -> Unit)? = null,
         onCustomResponse: ((Int) -> Unit)? = null
     ) {

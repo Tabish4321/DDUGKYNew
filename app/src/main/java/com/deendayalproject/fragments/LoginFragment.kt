@@ -269,6 +269,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                             showToast("Please upgrade your app.")
                         },
                         onSessionExpired = {
+                            showToast(data?.responseDesc.toString())
                             handleSessionExpired()
                         }
                     )
