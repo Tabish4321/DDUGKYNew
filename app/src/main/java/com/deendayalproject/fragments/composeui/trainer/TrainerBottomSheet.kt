@@ -33,6 +33,7 @@ fun TrainerBottomSheet(
     onDismiss: () -> Unit
 ) {
 
+
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -137,7 +138,6 @@ fun TrainerBottomSheet(
         scrimColor = Color.Black.copy(alpha = 0.35f),
         contentWindowInsets = { WindowInsets(0) }
     ) {
-
         Scaffold(
             snackbarHost = { SnackbarHost(snackbarHostState) },
             containerColor = Color(0xFFF8FAFC),
