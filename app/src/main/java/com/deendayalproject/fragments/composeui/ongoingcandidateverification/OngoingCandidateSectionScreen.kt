@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -89,7 +90,7 @@ fun OngoingCandidateSectionScreen(
         mutableStateMapOf<String, Boolean>()
     }
 
-    LaunchedEffect(candidateId) {
+    LaunchedEffect(Unit) {
         candidateVerificationViewModel.loadInspectionSectionStatus(
             inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
             candidateId = candidateId
@@ -97,12 +98,24 @@ fun OngoingCandidateSectionScreen(
     }
 
     LaunchedEffect(Unit) {
-        candidateVerificationViewModel.refreshFlow.collectLatest  {
+        candidateVerificationViewModel.refreshFlow.collectLatest {
             candidateVerificationViewModel.loadInspectionSectionStatus(
                 inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
                 candidateId = candidateId
             )
+            pendingSection?.let {
+                expandedSections[it] = false
+            }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        candidateVerificationViewModel.clearDistributedSaveState()
+        candidateVerificationViewModel.clearEntitlementSaveSuccess()
+        candidateVerificationViewModel.clearResidentialSuccess()
+        candidateVerificationViewModel.clearCandidateAttendanceSuccess()
+        candidateVerificationViewModel.clearSaveState()
+        candidateVerificationViewModel.clearRecordSaveState()
     }
 
 
@@ -227,24 +240,16 @@ fun OngoingCandidateSectionScreen(
                             }
 
                             "Validate Attendance" -> {
-
                                 AttendanceComplianceScreen(
-
                                     viewModel = viewModel,
-
+                                    candidateAssessmentViewModel = candidateVerificationViewModel,
+                                    snackbarHostState = snackbarHostState,
                                     request = GetAttendanceDetailsReq(
                                         candidateId = candidateId,
                                         batchId = batchId,
                                         appVersion = BuildConfig.VERSION_NAME
                                     ),
-
-                                    onSubmitClick = { attendance,
-                                                      counselling,
-                                                      regularAttendance,
-                                                      attendanceRemark,
-                                                      counsellingRemark,
-                                                      regularRemark ->
-                                    }
+                                    inspectionId =  AppUtil.getSavedInspectionIdPreference(context).toInt()
                                 )
                             }
 
@@ -279,13 +284,12 @@ fun OngoingCandidateSectionScreen(
                                             inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
                                             candidateId = candidateId
                                         )
-                                        snackbarHostState.showSnackbar("Saved successfully")
                                     }
                                 }
                             }
 
                             "Entitlements Distribution" -> {
-
+                                candidateVerificationViewModel.clearEntitlementSaveSuccess()
                                 EntitlementsSection(
                                     viewModel=candidateVerificationViewModel,
                                     snackbarHostState = snackbarHostState,
@@ -296,7 +300,7 @@ fun OngoingCandidateSectionScreen(
                             }
 
                             "Residential Facility Verification" -> {
-
+                            candidateVerificationViewModel.clearResidentialSuccess()
                                     ResidentialFacilitySection(
                                         viewModel=candidateVerificationViewModel,
                                         snackbarHostState = snackbarHostState,

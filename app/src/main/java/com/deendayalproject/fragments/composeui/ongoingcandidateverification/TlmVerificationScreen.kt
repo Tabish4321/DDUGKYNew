@@ -39,19 +39,19 @@ fun DistributedLearningSection(
 
     LaunchedEffect(state.error) {
         state.error?.let {
-            snackbarHostState.showSnackbar(it)
             viewModel.clearDistributedError()
+            snackbarHostState.showSnackbar(it)
         }
     }
 
     LaunchedEffect(state.saveSuccess) {
-        state.saveSuccess?.let {
+       if (state.saveSuccess) {
             viewModel.triggerRefresh()
+            viewModel.clearDistributedSaveState()
+            snackbarHostState.showSnackbar("Assessment saved successfully")
+
         }
     }
-
-
-
 
 
     val questions = remember {
@@ -204,112 +204,113 @@ fun DistributedLearningSection(
                 CircularProgressIndicator()
             }
 
-            return
-        }
+        }else {
 
-        questions.forEachIndexed { index, item ->
+            questions.forEachIndexed { index, item ->
 
-            Column {
+                Column {
 
-                ComplianceQuestionWithRemarks(
-                    question = item.question,
-                    answer = item.answer,
-                    remarks = item.remarks,
+                    ComplianceQuestionWithRemarks(
+                        question = item.question,
+                        answer = item.answer,
+                        remarks = item.remarks,
 
-                    onAnswerChange = { answer ->
+                        onAnswerChange = { answer ->
 
-                        if (answer == "Yes") {
+                            if (answer == "Yes") {
 
-                            questions[index] =
-                                item.copy(
-                                    answer = "Yes",
-                                    remarks = ""
+                                questions[index] =
+                                    item.copy(
+                                        answer = "Yes",
+                                        remarks = ""
+                                    )
+
+                                captureIndex = index
+
+                                permissionLauncher.launch(
+                                    Manifest.permission.CAMERA
                                 )
 
-                            captureIndex = index
+                            } else {
 
-                            permissionLauncher.launch(
-                                Manifest.permission.CAMERA
-                            )
+                                questions[index] =
+                                    item.copy(
+                                        answer = "No",
+                                        imageBitmap = null,
+                                        imageBase64 = null
+                                    )
+                            }
+                        },
 
-                        } else {
+                        onRemarksChange = {
 
                             questions[index] =
-                                item.copy(
-                                    answer = "No",
-                                    imageBitmap = null,
-                                    imageBase64 = null
-                                )
+                                item.copy(remarks = it)
                         }
-                    },
+                    )
 
-                    onRemarksChange = {
+                    if (item.answer == "Yes" && item.imageBitmap != null) {
 
-                        questions[index] =
-                            item.copy(remarks = it)
-                    }
-                )
-
-                if (item.answer == "Yes" && item.imageBitmap != null) {
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 8.dp),
-                        shape = RoundedCornerShape(16.dp)
-                    ) {
-
-                        Image(
-                            bitmap = item.imageBitmap!!.asImageBitmap(),
-                            contentDescription = null,
+                        Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(180.dp)
-                        )
+                                .padding(top = 8.dp),
+                            shape = RoundedCornerShape(16.dp)
+                        ) {
+
+                            Image(
+                                bitmap = item.imageBitmap!!.asImageBitmap(),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(180.dp)
+                            )
+                        }
                     }
                 }
             }
-        }
 
-        /* ---------------------------- */
-        /* SUBMIT BUTTON */
-        /* ---------------------------- */
+            /* ---------------------------- */
+            /* SUBMIT BUTTON */
+            /* ---------------------------- */
 
-        Button(
-            onClick = {
+            Button(
+                onClick = {
 
-                scope.launch {
+                    scope.launch {
 
-                    val invalidField = questions.firstOrNull {
-                        it.answer == null || (it.answer == "Yes" && it.imageBase64 == null) || (it.answer == "No" && it.remarks.isBlank())
-                    }
-
-                    if (invalidField != null) {
-                        val message = when {
-                            invalidField.answer == null ->
-                                "Please select Yes/No for ${invalidField.question}"
-
-                            invalidField.answer == "Yes" &&
-                                    invalidField.imageBase64 == null ->
-                                "Please capture image for ${invalidField.question}"
-
-                            invalidField.answer == "No" &&
-                                    invalidField.remarks.isBlank() ->
-                                "Please enter remarks for ${invalidField.question}"
-
-                            else -> "Something Wrong Please Check Value."
+                        val invalidField = questions.firstOrNull {
+                            it.answer == null || (it.answer == "Yes" && it.imageBase64 == null) || (it.answer == "No" && it.remarks.isBlank())
                         }
 
-                        snackbarHostState.showSnackbar(message)
-                        return@launch
-                    }
-                    onSubmit(questions)
-                }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
+                        if (invalidField != null) {
+                            val message = when {
+                                invalidField.answer == null ->
+                                    "Please select Yes/No for ${invalidField.question}"
 
-            Text("Submit")
+                                invalidField.answer == "Yes" &&
+                                        invalidField.imageBase64 == null ->
+                                    "Please capture image for ${invalidField.question}"
+
+                                invalidField.answer == "No" &&
+                                        invalidField.remarks.isBlank() ->
+                                    "Please enter remarks for ${invalidField.question}"
+
+                                else -> "Something Wrong Please Check Value."
+                            }
+
+                            snackbarHostState.showSnackbar(message)
+                            return@launch
+                        }
+                        onSubmit(questions)
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+
+                Text("Submit")
+            }
         }
+
     }
 }

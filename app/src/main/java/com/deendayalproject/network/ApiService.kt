@@ -87,6 +87,7 @@ import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.WardReq
 import com.deendayalproject.model.request.assesmentInspection.AssessmentStatusInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateAssessmentInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.GetCandidateAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateRecordsVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetDistributedLearningMaterialInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetEntitlementsDistributionInspectionRequest
@@ -95,6 +96,7 @@ import com.deendayalproject.model.request.assesmentInspection.GetInspectionStand
 import com.deendayalproject.model.request.assesmentInspection.GetResidentialFacilityVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAssessmentInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveDistributedLearningMaterialInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveEntitlementsDistributionInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveResidentialFacilityVerificationRequest
@@ -112,6 +114,7 @@ import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.AssessmentStatusResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateAssessmentInspectionDetails
+import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateRecordsVerificationDetails
 import com.deendayalproject.model.response.CandidateAssessmentResponse.DistributedLearningMaterialInspectionResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.EntitlementsDistributionInspectionResponse
@@ -952,6 +955,20 @@ interface ApiService {
         @Body getDDSaveDataReq: GetDDSaveDataReq
     ): Response<GetDDSaveDataRes>
 
+
+    @POST("getCandiateAttendanceInspectionDetails")
+    suspend fun getCandidateAttendanceInspection(
+
+        @Body request: GetCandidateAttendanceInspectionRequest
+
+    ): Response<BaseResponse<List<CandidateAttendanceInspectionResponse>>>
+
+    @POST("saveCandiateAttendanceInspection")
+    suspend fun saveCandidateAttendanceInspection(
+
+        @Body request: SaveCandidateAttendanceInspectionRequest
+
+    ): Response<InsertRes>
 
 
 }

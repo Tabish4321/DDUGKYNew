@@ -51,12 +51,18 @@ fun BasicRecordsSection(
     }
 
 
+
     LaunchedEffect(uiState.saveSuccess) {
 
         if (uiState.saveSuccess) {
+
             showMessage("Basic Records Submitted Successfully")
+
             candidateVerificationViewModel.triggerRefresh()
 
+            candidateVerificationViewModel.updateRecordState {
+                copy(saveSuccess = false)
+            }
         }
     }
 
@@ -66,12 +72,15 @@ fun BasicRecordsSection(
 
             showMessage(it)
 
+            candidateVerificationViewModel.updateRecordState {
+                copy(error = null)
+            }
         }
     }
 
     LaunchedEffect(uiState) {
 
-        if (!uiState.isLoading && documents.isEmpty()) {
+        if (!uiState.isLoading ) {
 
             documents.clear()
 

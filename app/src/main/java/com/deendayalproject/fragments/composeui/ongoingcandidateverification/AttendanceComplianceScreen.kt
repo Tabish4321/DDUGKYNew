@@ -10,12 +10,14 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.EventAvailable
 import androidx.compose.material.icons.filled.SupportAgent
 import androidx.compose.material3.Divider
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.common.InfoRow
 import com.deendayalproject.model.request.GetAttendanceDetailsReq
+import com.deendayalproject.viewmodel.CandidateAssessmentViewModel
 import com.deendayalproject.viewmodel.InspectionViewModel
 
 
@@ -30,10 +33,21 @@ import com.deendayalproject.viewmodel.InspectionViewModel
 fun AttendanceComplianceScreen(
     viewModel: InspectionViewModel,
     request: GetAttendanceDetailsReq,
-    onSubmitClick: (String, String, String, String?, String?, String?) -> Unit
+    candidateAssessmentViewModel: CandidateAssessmentViewModel,
+    snackbarHostState: SnackbarHostState,
+    inspectionId: Int
+
 ) {
 
+    val scope = rememberCoroutineScope()
+
     val attendanceState by viewModel.getCandidateTodayAttendanceStatus.collectAsState()
+
+    val state by candidateAssessmentViewModel.candidateAttendanceState.collectAsState()
+
+    /* ----------------------------- */
+    /* FORM STATE */
+    /* ----------------------------- */
 
     var attendanceAnswer by remember { mutableStateOf<String?>(null) }
     var counsellingAnswer by remember { mutableStateOf<String?>(null) }
@@ -45,8 +59,67 @@ fun AttendanceComplianceScreen(
 
     var showError by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        viewModel.getCandidateTodayAttendanceStatus(request)
+    /* ----------------------------- */
+    /* LOAD STATUS API */
+    /* ----------------------------- */
+
+    LaunchedEffect(request.candidateId) {
+
+        if (request.candidateId.isNotEmpty()) {
+            viewModel.getCandidateTodayAttendanceStatus(request)
+
+            candidateAssessmentViewModel.loadCandidateAttendance(
+                batchId = request.batchId.toInt(),
+                inspectionId = inspectionId,
+                candidateId = request.candidateId
+            )
+        }
+    }
+
+
+
+    /* ----------------------------- */
+    /* PREFILL FORM */
+    /* ----------------------------- */
+
+    LaunchedEffect(
+        state.biomatricAttendance,
+        state.attendanceCounselling,
+        state.regularlyAttend
+    ) {
+
+        attendanceAnswer = state.biomatricAttendance
+        counsellingAnswer = state.attendanceCounselling
+        regularAttendanceAnswer = state.regularlyAttend
+
+        attendanceRemark = state.biomatricAttendanceRemark
+        counsellingRemark = state.attendanceCounsellingRemark
+        regularAttendanceRemark = state.regularlyAttendRemark
+    }
+
+    /* ----------------------------- */
+    /* ERROR */
+    /* ----------------------------- */
+
+    LaunchedEffect(state.error) {
+        state.error?.let {
+            snackbarHostState.showSnackbar(it)
+            candidateAssessmentViewModel.clearCandidateAttendanceError()
+
+        }
+    }
+
+    /* ----------------------------- */
+    /* SUCCESS */
+    /* ----------------------------- */
+
+    LaunchedEffect(state.saveSuccess) {
+
+        if (state.saveSuccess) {
+            candidateAssessmentViewModel.triggerRefresh()
+            snackbarHostState.showSnackbar("Saved Successfully")
+            candidateAssessmentViewModel.clearCandidateAttendanceSuccess()
+        }
     }
 
     val item = attendanceState?.wrappedList?.firstOrNull()
@@ -56,14 +129,22 @@ fun AttendanceComplianceScreen(
             .fillMaxWidth()
             .background(Color(0xFFF5F7FB))
             .padding(horizontal = 6.dp, vertical = 12.dp),
+
         verticalArrangement = Arrangement.spacedBy(18.dp)
+
     ) {
 
+        /* ----------------------------- */
+        /* INFO CARD */
+        /* ----------------------------- */
+
         Column(
+
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
                 .padding(horizontal = 16.dp, vertical = 12.dp)
+
         ) {
 
             InfoRow(
@@ -89,7 +170,13 @@ fun AttendanceComplianceScreen(
             )
         }
 
+        /* ----------------------------- */
+        /* FORM */
+        /* ----------------------------- */
+
+
         ComplianceQuestionWithRemarks(
+
             question = "Is candidate present today?",
             answer = attendanceAnswer,
             remarks = attendanceRemark,
@@ -98,9 +185,8 @@ fun AttendanceComplianceScreen(
             onRemarksChange = { attendanceRemark = it }
         )
 
-
-
         ComplianceQuestionWithRemarks(
+
             question = "Counselling completed?",
             answer = counsellingAnswer,
             remarks = counsellingRemark,
@@ -109,9 +195,8 @@ fun AttendanceComplianceScreen(
             onRemarksChange = { counsellingRemark = it }
         )
 
-
-
         ComplianceQuestionWithRemarks(
+
             question = "Candidate attending regularly?",
             answer = regularAttendanceAnswer,
             remarks = regularAttendanceRemark,
@@ -119,6 +204,10 @@ fun AttendanceComplianceScreen(
             onAnswerChange = { regularAttendanceAnswer = it },
             onRemarksChange = { regularAttendanceRemark = it }
         )
+
+        /* ----------------------------- */
+        /* SUBMIT */
+        /* ----------------------------- */
 
         PremiumSubmitButton {
 
@@ -134,13 +223,19 @@ fun AttendanceComplianceScreen(
 
             if (isValid) {
 
-                onSubmitClick(
-                    attendanceAnswer!!,
-                    counsellingAnswer!!,
-                    regularAttendanceAnswer!!,
+                candidateAssessmentViewModel.updateCandidateAttendanceState(
+                    attendanceAnswer,
+                    counsellingAnswer,
+                    regularAttendanceAnswer,
                     attendanceRemark,
                     counsellingRemark,
                     regularAttendanceRemark
+                )
+
+                candidateAssessmentViewModel.saveCandidateAttendance(
+                    batchId = request.batchId.toInt(),
+                    inspectionId = inspectionId,
+                    candidateId = request.candidateId
                 )
             }
         }

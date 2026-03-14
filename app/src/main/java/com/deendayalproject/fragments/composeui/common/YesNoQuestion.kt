@@ -62,6 +62,8 @@ fun ComplianceQuestionWithRemarks(
                     isError = isError && remarks.isBlank()
                 )
             }
+
+
         }
     }
 }

@@ -117,23 +117,18 @@ fun EntitlementsSection(
     LaunchedEffect(state.error) {
 
         state.error?.let {
-
             snackbarHostState.showSnackbar(it)
-
             viewModel.clearEntitlementError()
         }
     }
 
     LaunchedEffect(state.saveSuccess) {
-
-        state.saveSuccess?.let {
+        if( state.saveSuccess){
             viewModel.triggerRefresh()
+            snackbarHostState.showSnackbar("Entitlements saved successfully")
             viewModel.clearEntitlementSaveSuccess()
         }
     }
-
-
-
 
     Column(
         modifier = Modifier
@@ -274,8 +269,6 @@ fun EntitlementsSection(
                             inspectionId = inspectionId,
                             candidateId = candidateId
                         )
-
-                        snackbarHostState.showSnackbar("Saved successfully")
                     }
                 }
             }

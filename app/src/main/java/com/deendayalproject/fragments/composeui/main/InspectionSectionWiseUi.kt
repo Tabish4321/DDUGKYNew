@@ -504,6 +504,7 @@ fun InspectionStepModernScreen(
                     ProCandidateBottomSheet(
                         condidateVerificationViewModel,
                         previousSelectedBatch!!.batchId,
+                        snackbarHostState=snackbarHostState,
                         candidateData = selectedCandidate!!,
                         onDismiss = { selectedCandidate = null },
                         // onSubmit = { selectedCandidate = null }

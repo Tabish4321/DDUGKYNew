@@ -39,9 +39,16 @@ val questionList = listOf(
 
     QuestionConfig("joinedJob", "Joined the job"),
 
+    QuestionConfig(
+        "candidateStatus",
+        "What is the current status of the candidate",
+        dependsOn = "joinedJob"
+    ),
+
     QuestionConfig("minimumWageMatch", "Is it match with the Minimum wages of the state"),
 
     QuestionConfig("ppsDisbursed", "PPS Amount disbursed to the candidates (as per the eligibility)")
+
 )
 
 fun CandidateVerificationUiState.getAnswer(id: String): String? =
@@ -58,6 +65,7 @@ fun CandidateVerificationUiState.getAnswer(id: String): String? =
         "joinedJob" -> joinedJob
         "minimumWageMatch" -> minimumWageMatch
         "ppsDisbursed" -> ppsDisbursed
+        "candidateStatus" -> currentStatus
         else -> null
     }
 
@@ -75,6 +83,7 @@ fun CandidateVerificationUiState.getRemarks(id: String): String =
         "joinedJob" -> joinedJobRemarks
         "minimumWageMatch" -> minimumWageRemarks
         "ppsDisbursed" -> ppsDisbursedRemarks
+        "candidateStatus" -> currentStatusRemarks
         else -> ""
     }
 
@@ -96,6 +105,7 @@ fun CandidateVerificationUiState.updateAnswer(
         "joinedJob" -> copy(joinedJob = value, joinedJobRemarks = "")
         "minimumWageMatch" -> copy(minimumWageMatch = value, minimumWageRemarks = "")
         "ppsDisbursed" -> copy(ppsDisbursed = value, ppsDisbursedRemarks = "")
+        "candidateStatus" -> copy(currentStatus = value, currentStatusRemarks = "")
         else -> this
     }
 
@@ -116,5 +126,6 @@ fun CandidateVerificationUiState.updateRemarks(
         "joinedJob" -> copy(joinedJobRemarks = value)
         "minimumWageMatch" -> copy(minimumWageRemarks = value)
         "ppsDisbursed" -> copy(ppsDisbursedRemarks = value)
+       "candidateStatus" -> copy(currentStatusRemarks = value)
         else -> this
     }

@@ -7,26 +7,32 @@ import com.deendayalproject.BuildConfig
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.request.assesmentInspection.AssessmentStatusInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateAssessmentInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.GetCandidateAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateRecordsVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetDistributedLearningMaterialInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetEntitlementsDistributionInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetInspectionSectionStatusRequest
 import com.deendayalproject.model.request.assesmentInspection.GetResidentialFacilityVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAssessmentInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveDistributedLearningMaterialInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveEntitlementsDistributionInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveResidentialFacilityVerificationRequest
 import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateAssessmentInspectionDetails
+import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateRecordsVerificationDetails
 import com.deendayalproject.model.response.CandidateAssessmentResponse.DistributedLearningMaterialInspectionResponse
+import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
 import com.deendayalproject.model.uistate.CandidateAssessmentStatusUiState
 import com.deendayalproject.model.uistate.CandidateAssessmentUiState
+import com.deendayalproject.model.uistate.CandidateAttendanceUiState
 import com.deendayalproject.model.uistate.CandidateRecordsVerificationUiState
 import com.deendayalproject.model.uistate.DistributedLearningMaterialUiState
 import com.deendayalproject.model.uistate.EntitlementsDistributionUiState
 import com.deendayalproject.model.uistate.InspectionSectionStatusUiState
 import com.deendayalproject.model.uistate.ResidentialFacilityUiState
 import com.deendayalproject.model.uistate.TlmQuestion
+import com.deendayalproject.model.uistate.TrainerAttendanceUiState
 import com.deendayalproject.repository.CandidateAssessmentRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -152,9 +158,7 @@ class CandidateAssessmentViewModel(
             )
 
             result.onSuccess { list ->
-
                 val dto = list.firstOrNull()
-
                 if (dto != null) {
                     _uiRecordState.value = mapDtoToRecordUiState(dto)
                 } else {
@@ -180,25 +184,25 @@ class CandidateAssessmentViewModel(
         dto: CandidateRecordsVerificationDetails
     ): CandidateRecordsVerificationUiState {
 
-        return _uiRecordState.value.copy(
+        return CandidateRecordsVerificationUiState(
 
             inspectionId = dto.inspectionId,
             batchId = dto.batchId,
             candidateId = dto.candidateId,
 
-            povertyProof = dto.povertyProof?:"",
+            povertyProof = dto.povertyProof ?: "",
             povertyProofRemark = dto.povertyProofRemark ?: "",
 
-            categoryProof = dto.categoryProof?:"",
+            categoryProof = dto.categoryProof ?: "",
             categoryProofRemark = dto.categoryProofRemark ?: "",
 
-            minorityProof = dto.minorityProof?:"",
+            minorityProof = dto.minorityProof ?: "",
             minorityProofRemark = dto.minorityProofRemark ?: "",
 
-            educationProof = dto.educationProof?:"",
+            educationProof = dto.educationProof ?: "",
             educationProofRemark = dto.educationProofRemark ?: "",
 
-            pwdProof = dto.pwdProof?:"",
+            pwdProof = dto.pwdProof ?: "",
             pwdProofRemark = dto.pwdProofRemark ?: "",
 
             isLoading = false
@@ -267,6 +271,205 @@ class CandidateAssessmentViewModel(
             }
         }
     }
+
+
+    fun clearRecordSaveState() {
+        _uiRecordState.update { it.copy(saveSuccess = false) }
+    }
+
+
+
+
+
+    /* ------------------------------ */
+    /* validate Attendance  */
+    /* ------------------------------ */
+
+    private val _candidateAttendanceState = MutableStateFlow(CandidateAttendanceUiState())
+
+    val candidateAttendanceState = _candidateAttendanceState.asStateFlow()
+
+
+    fun loadCandidateAttendance(
+        batchId: Int,
+        inspectionId: Int,
+        candidateId: String
+    ) {
+
+        viewModelScope.launch {
+
+            _candidateAttendanceState.value =
+                _candidateAttendanceState.value.copy(isLoading = true)
+
+            val result =
+                repository.getCandidateAttendanceInspection(
+                    GetCandidateAttendanceInspectionRequest(
+                        BuildConfig.VERSION_NAME,
+                        candidateId,
+                        inspectionId,
+                        batchId
+                    )
+                )
+
+            result.onSuccess { response ->
+                val dto = response.firstOrNull()
+                if (dto != null) {
+                        _candidateAttendanceState.value =
+                            mapCandidateAttendanceDto(dto)
+                    } else {
+
+                        _candidateAttendanceState.value =
+                            _candidateAttendanceState.value.copy(
+                                isLoading = false
+                            )
+                    }
+
+            }.onFailure {
+
+                _candidateAttendanceState.value =
+                    _candidateAttendanceState.value.copy(
+                        isLoading = false,
+                        error = it.message
+                    )
+            }
+        }
+    }
+
+
+    fun saveCandidateAttendance(
+
+        batchId: Int,
+        inspectionId: Int,
+        candidateId: String
+
+    ) {
+
+        viewModelScope.launch {
+
+            val state = _candidateAttendanceState.value
+
+            _candidateAttendanceState.value =
+                state.copy(isLoading = true)
+
+            val request =
+                SaveCandidateAttendanceInspectionRequest(
+
+                    appVersion = BuildConfig.VERSION_NAME,
+
+                    candidateId = candidateId,
+                    inspectionId = inspectionId,
+                    batchId = batchId,
+
+                    biomatricAttendanceQid = 1,
+                    biomatricAttendance = state.biomatricAttendance ?: "",
+                    biomatricAttendanceRemark = state.biomatricAttendanceRemark,
+
+                    attendanceCounsellingQid = 2,
+                    attendanceCounselling = state.attendanceCounselling ?: "",
+                    attendanceCounsellingRemark = state.attendanceCounsellingRemark,
+
+                    regularlyAttendQid = 3,
+                    regularlyAttend = state.regularlyAttend ?: "",
+                    regularlyAttendRemark = state.regularlyAttendRemark
+                )
+
+            val result = repository.saveCandidateAttendanceInspection(request)
+
+            result.onSuccess {
+
+                if (it.responseCode == 200) {
+
+                    _candidateAttendanceState.value =
+                        state.copy(
+                            isLoading = false,
+                            saveSuccess = true
+                        )
+
+                } else {
+
+                    _candidateAttendanceState.value =
+                        state.copy(
+                            isLoading = false,
+                            error = it.responseDesc
+                        )
+                }
+
+            }.onFailure {
+
+                _candidateAttendanceState.value =
+                    state.copy(
+                        isLoading = false,
+                        error = it.message
+                    )
+            }
+        }
+    }
+
+    fun clearCandidateAttendanceError() {
+
+        _candidateAttendanceState.value =
+            _candidateAttendanceState.value.copy(error = null)
+    }
+    fun clearCandidateAttendanceSuccess() {
+        _candidateAttendanceState.value =
+            _candidateAttendanceState.value.copy(saveSuccess = false)
+    }
+
+
+    private fun mapCandidateAttendanceDto(
+
+        dto: CandidateAttendanceInspectionResponse
+
+    ): CandidateAttendanceUiState {
+
+        return CandidateAttendanceUiState(
+
+            inspectionId = dto.inspectionId,
+            batchId = dto.batchId,
+            candidateId = dto.candidateId,
+
+            biomatricAttendance = dto.biomatricAttendance,
+            biomatricAttendanceRemark = dto.biomatricAttendanceRemark ?: "",
+
+            attendanceCounselling = dto.attendanceCounselling,
+            attendanceCounsellingRemark = dto.attendanceCounsellingRemark ?: "",
+
+            regularlyAttend = dto.regularlyAttend,
+            regularlyAttendRemark = dto.regularlyAttendRemark ?: "",
+
+            isLoading = false
+        )
+    }
+
+
+    fun updateCandidateAttendanceState(
+
+        biometric: String?,
+        counselling: String?,
+        regularAttend: String?,
+
+        biometricRemark: String?,
+        counsellingRemark: String?,
+        regularAttendRemark: String?
+
+    ) {
+
+        _candidateAttendanceState.value =
+            _candidateAttendanceState.value.copy(
+
+                biomatricAttendance = biometric,
+                attendanceCounselling = counselling,
+                regularlyAttend = regularAttend,
+
+                biomatricAttendanceRemark = biometricRemark ?: "",
+                attendanceCounsellingRemark = counsellingRemark ?: "",
+                regularlyAttendRemark = regularAttendRemark ?: ""
+            )
+    }
+
+
+
+
 
     /* ------------------------------------ */
     /* LOAD ASSESSMENT STATUS */
@@ -650,6 +853,10 @@ class CandidateAssessmentViewModel(
         }
     }
 
+    fun clearDistributedSaveState() {
+        _distributedLerningState.update { it.copy(saveSuccess = false) }
+    }
+
 
     fun saveDistributedInspection(
         batchId: Int,
@@ -747,6 +954,8 @@ class CandidateAssessmentViewModel(
             }
         }
     }
+
+
 
 
     fun updateDistributedLearningState(questions: List<TlmQuestion>) {
@@ -902,7 +1111,21 @@ class CandidateAssessmentViewModel(
                 insuranceBenefitsProvidedRemark = state.insuranceBenefitsProvidedRemark
             )
 
-            repository.saveEntitlementsDistributionInspection(request)
+          val result=  repository.saveEntitlementsDistributionInspection(request)
+
+            result.onSuccess {
+                _entitlementState.value =
+                    _entitlementState.value.copy(
+                        saveSuccess = true,
+                        isLoading = false,)
+            }
+
+            result.onFailure {
+                _entitlementState.value =
+                    _entitlementState.value.copy(
+                        error = it.message,
+                        isLoading = false,)
+            }
         }
     }
 
@@ -966,7 +1189,6 @@ class CandidateAssessmentViewModel(
     }
 
     /*-------Residential Facility Verification--------------*/
-
 
     private val _residentialState = MutableStateFlow(ResidentialFacilityUiState())
 
@@ -1103,14 +1325,12 @@ class CandidateAssessmentViewModel(
 
 
     fun clearResidentialError() {
-
         _residentialState.update {
             it.copy(error = null)
         }
     }
 
     fun clearResidentialSuccess() {
-
         _residentialState.update {
             it.copy(saveSuccess = false)
         }

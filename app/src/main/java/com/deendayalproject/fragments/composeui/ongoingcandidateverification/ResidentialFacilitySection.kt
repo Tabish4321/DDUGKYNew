@@ -61,11 +61,9 @@ fun ResidentialFacilitySection(
         "Warden’s Police Verification Completed"
     )
 
-    val answers =
-        remember { mutableStateListOf<String?>().apply { repeat(questions.size) { add(null) } } }
+    val answers = remember { mutableStateListOf<String?>().apply { repeat(questions.size) { add(null) } } }
 
-    val remarks =
-        remember { mutableStateListOf<String>().apply { repeat(questions.size) { add("") } } }
+    val remarks = remember { mutableStateListOf<String>().apply { repeat(questions.size) { add("") } } }
 
     var washbasinCount by remember { mutableStateOf("") }
 
@@ -76,7 +74,6 @@ fun ResidentialFacilitySection(
     /* ----------------------------- */
 
     LaunchedEffect(candidateId) {
-
         viewModel.loadResidentialFacility(
             batchId.toInt(),
             inspectionId,
@@ -84,31 +81,16 @@ fun ResidentialFacilitySection(
         )
     }
 
-    /* ----------------------------- */
-    /* PREFILL DATA */
-    /* ----------------------------- */
-
-//    LaunchedEffect(state) {
-//
-//        val apiAnswers = state.answers
-//        val apiRemarks = state.remarks
-//
-//        apiAnswers.forEachIndexed { index, value ->
-//            answers[index] = value
-//        }
-//
-//        apiRemarks.forEachIndexed { index, value ->
-//            remarks[index] = value ?: ""
-//        }
-//
-//        washbasinCount = state.washbasins ?: ""
 
 
     LaunchedEffect(state) {
         if (state.answers.isNotEmpty()) {
 
-            answers.clear()
-            answers.addAll(state.answers)
+//            answers.clear()
+//            answers.addAll(state.answers)
+            answers.indices.forEach { i ->
+                answers[i] = state.answers.getOrNull(i)
+            }
 
             remarks.clear()
             remarks.addAll(
@@ -124,25 +106,16 @@ fun ResidentialFacilitySection(
     /* ----------------------------- */
 
     LaunchedEffect(state.error) {
-
         state.error?.let {
-
             snackbarHostState.showSnackbar(it)
-
             viewModel.clearResidentialError()
         }
     }
 
-    /* ----------------------------- */
-    /* SUCCESS SNACKBAR */
-    /* ----------------------------- */
-
     LaunchedEffect(state.saveSuccess) {
-
         if (state.saveSuccess) {
-
-            snackbarHostState.showSnackbar("Saved successfully")
             viewModel.triggerRefresh()
+            snackbarHostState.showSnackbar("Saved successfully")
             viewModel.clearResidentialSuccess()
         }
     }
@@ -170,7 +143,6 @@ fun ResidentialFacilitySection(
                 CircularProgressIndicator()
             }
 
-            return@Column
         }else{
             questions.forEachIndexed { index, question ->
 

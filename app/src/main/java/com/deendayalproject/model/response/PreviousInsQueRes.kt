@@ -6,8 +6,8 @@ data class PreviousInsQueRes(
     val responseDesc: String
 )
 
-data class PrevInspectionItem(
-    val questionId: Int,
-    val previousInspectionRemark: String,
-    val previousInspectionBy: String
-)
+//data class PrevInspectionItem(
+//    val questionId: Int,
+//    val previousInspectionRemark: String,
+//    val previousInspectionBy: String
+//)
