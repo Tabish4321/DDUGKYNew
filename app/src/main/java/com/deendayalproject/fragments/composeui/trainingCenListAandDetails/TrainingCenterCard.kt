@@ -1,5 +1,7 @@
 package com.deendayalproject.fragments.composeui.trainingCenListAandDetails
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,12 +26,13 @@ import com.deendayalproject.R
 import com.deendayalproject.fragments.composeui.common.InfoRow
 import com.deendayalproject.model.response.TrainingCenterListInspecRes
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TrainingCenterCard(
     item: TrainingCenterListInspecRes,
     onClick: () -> Unit
 ) {
-
+    //Testing Comment
     val formatter = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy")
     val currentDate = java.time.LocalDate.now()
 
@@ -41,7 +44,7 @@ fun TrainingCenterCard(
         currentDate
     }
 
-    val isActive = inspectionDate == currentDate
+    val isActive =inspectionDate == currentDate
 
     ElevatedCard(
         onClick = onClick,
@@ -49,7 +52,7 @@ fun TrainingCenterCard(
         shape = RoundedCornerShape(14.dp),
         elevation = CardDefaults.elevatedCardElevation(8.dp),
         modifier = Modifier.fillMaxWidth()
-    ){
+    ) {
 
         Column {
 
@@ -74,39 +77,39 @@ fun TrainingCenterCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-            Column(
-                verticalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.weight(1f)
-            ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    modifier = Modifier.weight(1f)
+                ) {
 
 
-                InfoRow(
-                    icon = Icons.Default.Badge,
-                    label = "PRN Number",
-                    value = item.prnNumber
-                )
+                    InfoRow(
+                        icon = Icons.Default.Badge,
+                        label = "PRN Number",
+                        value = item.prnNumber
+                    )
 
 
-                InfoRow(
-                    icon = Icons.Default.Description,
-                    label = "Sanction Letter No.",
-                    value = item.sanctionLetterNo
-                )
+                    InfoRow(
+                        icon = Icons.Default.Description,
+                        label = "Sanction Letter No.",
+                        value = item.sanctionLetterNo
+                    )
 
-                InfoRow(
-                    icon = Icons.Default.Difference,
-                    label = "Inspection Type",
-                    value = item.inspectionType
-                )
+                    InfoRow(
+                        icon = Icons.Default.Difference,
+                        label = "Inspection Type",
+                        value = item.inspectionType
+                    )
 
-                InfoRow(
-                    icon = Icons.Default.School,
-                    label = "Center Type",
-                    value = item.centerType
-                )
+                    InfoRow(
+                        icon = Icons.Default.School,
+                        label = "Center Type",
+                        value = item.centerType
+                    )
 
 
-
+                }
             }
         }
     }

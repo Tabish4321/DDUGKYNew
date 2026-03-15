@@ -87,6 +87,7 @@ import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.WardReq
 import com.deendayalproject.model.request.assesmentInspection.AssessmentStatusInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateAssessmentInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.GetCandidateAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateRecordsVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetDistributedLearningMaterialInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetEntitlementsDistributionInspectionRequest
@@ -137,6 +138,7 @@ import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.FinancialDetailsResponse
 import com.deendayalproject.model.response.GeneralDetails
+import com.deendayalproject.model.response.GetAttendanceDetailsRes
 import com.deendayalproject.model.response.GetDDSaveDataRes
 import com.deendayalproject.model.response.GetImageListRes
 import com.deendayalproject.model.response.GetPrevDueQueListRes

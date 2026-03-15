@@ -126,7 +126,6 @@ class InspectionListFragment :
                                         }
 
                                         if (inspectionDate == currentDate) {
-
                                             AppUtil.saveInspectionIdPreference(requireContext(), selectedItem.inspectionId)
                                             AppUtil.saveTrainingCenterIdPreference(requireContext(), selectedItem.id.toString())
                                             AppUtil.saveCenterTypePreference(requireContext(), selectedItem.centerType)
