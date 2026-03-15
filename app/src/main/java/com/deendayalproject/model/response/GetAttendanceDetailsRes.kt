@@ -9,5 +9,6 @@ data class GetAttendanceDetailsRes(
 data class AttendanceStatusItem(
     val counsellingStatus: String?,
     val regularAttendance: String?,
-    val attendanceStatus: String?
+    val attendanceStatus: String?,
+    val attendancePercentage: String?
 )

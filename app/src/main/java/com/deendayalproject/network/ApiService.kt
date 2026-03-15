@@ -87,7 +87,6 @@ import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.WardReq
 import com.deendayalproject.model.request.assesmentInspection.AssessmentStatusInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateAssessmentInspectionRequest
-import com.deendayalproject.model.request.assesmentInspection.GetCandidateAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateRecordsVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetDistributedLearningMaterialInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetEntitlementsDistributionInspectionRequest
@@ -138,7 +137,6 @@ import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.FinancialDetailsResponse
 import com.deendayalproject.model.response.GeneralDetails
-import com.deendayalproject.model.response.GetAttendanceDetailsRes
 import com.deendayalproject.model.response.GetDDSaveDataRes
 import com.deendayalproject.model.response.GetImageListRes
 import com.deendayalproject.model.response.GetPrevDueQueListRes
@@ -254,7 +252,7 @@ interface ApiService {
     @POST(value = "insertCCTVCompliance")
     suspend fun insertCCTVCompliance(@Body request: CCTVComplianceRequest): Response<CCTVComplianceResponse>
 
-    @POST("getCaptiveOrganizationDetails") // TODO: replace with actual endpoint path
+    @POST("getCaptiveOrganizationDetails")
     suspend fun getFieldVerificationDetail(
         @Body request: FieldVerificationDetailRequest
     ): Response<FieldVerificationDetailResponse>
@@ -795,12 +793,6 @@ interface ApiService {
         @Body request: AssessmentStatusInspectionRequest
     ): Response<BaseResponse<List<AssessmentStatusResponse>>>
 
-
-
-
-
-
-
     @POST("getInspectionOngoingBatchList")
     suspend fun getInspectionOngoingBatchList(
         @Body inspectionPreviousBatchList: InspectionPreviousBatchList
@@ -818,17 +810,10 @@ interface ApiService {
         @Body deleteReq: SubjectDeleteReq
     ): Response<SubjectDeleteRes>
 
-
-
-
-
-
     @POST("getOngoingBatchCandiate")
     suspend fun getOngoingBatchCandiate(
         @Body candidatePreviousBatchReq: CandidatePreviousBatchReq
     ): Response<CandidatePreviousBatchRes>
-
-
 
 
     @POST("getCandiateRecords")
@@ -837,13 +822,10 @@ interface ApiService {
     ): Response<GetImageListRes>
 
 
-
-
     @POST("saveCandiateRecords")
     suspend fun saveCandidateBasicRecords(
         @Body ongoingSubmitBasicRecordsReq: OngoingSubmitBasicRecordsReq
     ): Response<InsertRes>
-
 
 
     @POST("getCandiateTodayAttendanceStatus")
@@ -914,8 +896,6 @@ interface ApiService {
     ): Response<BaseResponse<List<Nothing>>>
 
 
-
-
     @POST("saveTrainerClassObservationInspection")
     suspend fun saveTrainerClassObservationInspection(
         @Body request: saveTrainerClassObservationInspectionReq
@@ -934,7 +914,6 @@ interface ApiService {
         @Body request: SaveInspectionStandardFormRequest
 
     ): Response<SaveInspectionStandardFormResponse>
-
 
 
 

@@ -38,7 +38,7 @@ fun BasicRecordsSection(
     inspectionId:Int,
     showMessage: (String) -> Unit,
 
-) {
+    ) {
     val uiState by candidateVerificationViewModel.uiRecordState.collectAsState()
     val isLoading = uiState.isSaving
     var selectedImage by remember { mutableStateOf<String?>(null) }
