@@ -58,7 +58,10 @@ fun ResidentialFacilitySection(
         "Genset Used During Power Cuts",
         "TV with Cable/Satellite Available",
         "Indoor Games Equipment as per SOP",
-        "Warden’s Police Verification Completed"
+        "Warden’s Police Verification Completed",
+        "Grievance Register Easily Accessible",
+        "Grievances Addressed Properly",
+        "Hostel Maintained in Hygienic Condition"
     )
 
     val answers = remember { mutableStateListOf<String?>().apply { repeat(questions.size) { add(null) } } }

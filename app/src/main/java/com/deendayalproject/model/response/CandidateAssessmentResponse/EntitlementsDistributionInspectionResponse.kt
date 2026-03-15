@@ -39,5 +39,9 @@ data class EntitlementsDistributionInspectionResponse(
 
     val insuranceBenefitsProvidedQid: Int?,
     val insuranceBenefitsProvided: String?,
-    val insuranceBenefitsProvidedRemark: String?
+    val insuranceBenefitsProvidedRemark: String?,
+
+    val toFroEntitlementPaidQid:Int,
+    val toFroEntitlementPaid:String? =null,
+    val toFroEntitlementPaidRemark:String?="",
 )

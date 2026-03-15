@@ -29,6 +29,12 @@ data class EntitlementsDistributionUiState(
     val insuranceBenefitsProvided: String? = null,
     val insuranceBenefitsProvidedRemark: String = "",
 
+    val toFroEntitlementPaid:String? =null,
+    val toFroEntitlementPaidRemark:String="",
+
+
+
+
     val isLoading: Boolean = false,
     val error: String? = null,
     val saveSuccess: Boolean = false

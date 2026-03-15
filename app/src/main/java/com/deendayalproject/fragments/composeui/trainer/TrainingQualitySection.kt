@@ -1,12 +1,16 @@
 package com.deendayalproject.fragments.composeui.trainer
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.ongoingcandidateverification.PremiumSubmitButton
 import com.deendayalproject.viewmodel.InspectionViewModel
@@ -18,13 +22,17 @@ fun TrainingQualitySection(
     snackbarHostState: SnackbarHostState,
     inspectionId: Int,
     subject: String,
-    onClose: () -> Unit
+    onClose: (String) -> Unit
 
 ) {
 
     val scope = rememberCoroutineScope()
+    val context= LocalContext.current
 
-    val state by viewModel.trainerClassObservationState.collectAsState()
+    val state by viewModel
+        .trainerClassObservationState
+        .collectAsStateWithLifecycle()
+
     LaunchedEffect(Unit) {
         viewModel.clearTrainerClassObservationSuccess()
     }
@@ -76,7 +84,12 @@ fun TrainingQualitySection(
 
         state.error?.let {
 
-            snackbarHostState.showSnackbar(it)
+            //snackbarHostState.showSnackbar(it)
+            Toast.makeText(
+                context,
+                it,
+                Toast.LENGTH_SHORT
+            ).show()
 
             viewModel.clearTrainerClassObservationError()
         }
@@ -89,14 +102,13 @@ fun TrainingQualitySection(
     /* ----------------------------- */
 
     LaunchedEffect(state.saveSuccess) {
-
         if (state.saveSuccess) {
-
-            snackbarHostState.showSnackbar("Saved Successfully")
+            val message = state.error ?: "Saved Successfully"
             viewModel.clearTrainerClassObservationSuccess()
-            onClose()
+            onClose(message)
         }
     }
+
 
     Column(
         modifier = Modifier

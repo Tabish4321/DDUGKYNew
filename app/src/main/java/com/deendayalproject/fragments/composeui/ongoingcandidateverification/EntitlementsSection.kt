@@ -44,6 +44,8 @@ fun EntitlementsSection(
     var sanitaryAnswer by remember { mutableStateOf<String?>(null) }
     var medicineAnswer by remember { mutableStateOf<String?>(null) }
     var insuranceAnswer by remember { mutableStateOf<String?>(null) }
+    var toFroEntitlementAnswer by remember { mutableStateOf<String?>(null) }
+
 
     var trainingFreeRemark by remember { mutableStateOf("") }
     var bankAccountRemark by remember { mutableStateOf("") }
@@ -53,6 +55,7 @@ fun EntitlementsSection(
     var sanitaryRemark by remember { mutableStateOf("") }
     var medicineRemark by remember { mutableStateOf("") }
     var insuranceRemark by remember { mutableStateOf("") }
+    var toFroEntitlementRemark by remember { mutableStateOf("") }
 
     var showError by remember { mutableStateOf(false) }
 
@@ -83,6 +86,7 @@ fun EntitlementsSection(
         sanitaryAnswer = state.padsMasksProvided
         medicineAnswer = state.medicineProvided
         insuranceAnswer = state.insuranceBenefitsProvided
+        toFroEntitlementAnswer=state.toFroEntitlementPaid
 
         trainingFreeRemark = state.trainingFreeRemark
         bankAccountRemark = state.bankAccountOpenedRemark
@@ -92,6 +96,7 @@ fun EntitlementsSection(
         sanitaryRemark = state.padsMasksProvidedRemark
         medicineRemark = state.medicineProvidedRemark
         insuranceRemark = state.insuranceBenefitsProvidedRemark
+        toFroEntitlementRemark=state.toFroEntitlementPaidRemark
     }
 
     /* ---------------------- */
@@ -209,6 +214,15 @@ fun EntitlementsSection(
             onRemarksChange = { insuranceRemark = it }
         )
 
+        ComplianceQuestionWithRemarks(
+            question = "To & Fro Travel Entitlement Paid",
+            answer = toFroEntitlementAnswer,
+            remarks = toFroEntitlementRemark,
+            isError = showError && toFroEntitlementAnswer == null,
+            onAnswerChange = { toFroEntitlementAnswer = it },
+            onRemarksChange = { toFroEntitlementRemark = it }
+        )
+
         Spacer(modifier = Modifier.height(10.dp))
 
         PremiumSubmitButton {
@@ -242,6 +256,8 @@ fun EntitlementsSection(
 
                     insuranceAnswer == null ->
                         snackbarHostState.showSnackbar("Please select: Insurance Benefits Provided")
+                    toFroEntitlementAnswer == null ->
+                        snackbarHostState.showSnackbar("Please select: Io & Fro Travel Entitlement Paid")
 
                     else -> {
 
@@ -254,6 +270,7 @@ fun EntitlementsSection(
                             sanitaryAnswer!!,
                             medicineAnswer!!,
                             insuranceAnswer!!,
+                            toEntitlementPaid = toFroEntitlementAnswer!!,
                             trainingFreeRemark,
                             bankAccountRemark,
                             residentialRemark,
@@ -261,7 +278,8 @@ fun EntitlementsSection(
                             uniformRemark,
                             sanitaryRemark,
                             medicineRemark,
-                            insuranceRemark
+                            insuranceRemark,
+                            toFroEntitlementRemark
                         )
 
                         viewModel.saveEntitlements(

@@ -534,6 +534,7 @@ fun InspectionStepModernScreen(
                 if (currentStep == 4 && showTrainerSheet) {
 
                     TrainerBottomSheet(
+                        snackbarHostState=snackbarHostState,
                         viewModel = viewModelInspection,
                         trainerName = selectedTrainer?.trainerName ?: "NA",
                         trainerId = selectedTrainer?.trainerId ?: "NA",

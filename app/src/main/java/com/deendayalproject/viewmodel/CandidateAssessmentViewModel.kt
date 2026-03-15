@@ -1057,7 +1057,11 @@ class CandidateAssessmentViewModel(
                         medicineProvidedRemark = dto.medicineProvidedRemark ?: "",
 
                         insuranceBenefitsProvided = dto.insuranceBenefitsProvided,
-                        insuranceBenefitsProvidedRemark = dto.insuranceBenefitsProvidedRemark ?: ""
+                        insuranceBenefitsProvidedRemark = dto.insuranceBenefitsProvidedRemark ?: "",
+
+                        toFroEntitlementPaid = dto.toFroEntitlementPaid,
+                        toFroEntitlementPaidRemark = dto.toFroEntitlementPaidRemark ?: ""
+
                     )
                 }
             }
@@ -1108,7 +1112,12 @@ class CandidateAssessmentViewModel(
 
                 insuranceBenefitsProvidedQid = 8,
                 insuranceBenefitsProvided = state.insuranceBenefitsProvided ?: "",
-                insuranceBenefitsProvidedRemark = state.insuranceBenefitsProvidedRemark
+                insuranceBenefitsProvidedRemark = state.insuranceBenefitsProvidedRemark,
+
+                toFroEntitlementPaidQid = 9,
+                toFroEntitlementPaid = state.toFroEntitlementPaid,
+                toFroEntitlementPaidRemark = state.toFroEntitlementPaidRemark
+
             )
 
           val result=  repository.saveEntitlementsDistributionInspection(request)
@@ -1139,6 +1148,7 @@ class CandidateAssessmentViewModel(
         sanitary: String,
         medicine: String,
         insurance: String,
+        toEntitlementPaid: String,
         trainingFreeRemark: String,
         bankAccountRemark: String,
         residentialRemark: String,
@@ -1146,8 +1156,10 @@ class CandidateAssessmentViewModel(
         uniformRemark: String,
         sanitaryRemark: String,
         medicineRemark: String,
-        insuranceRemark: String
-    ) {
+        insuranceRemark: String,
+        toEntitlementPaidRemarks: String,
+
+        ) {
 
         _entitlementState.update {
 
@@ -1161,6 +1173,7 @@ class CandidateAssessmentViewModel(
                 padsMasksProvided = sanitary,
                 medicineProvided = medicine,
                 insuranceBenefitsProvided = insurance,
+                toFroEntitlementPaid = toEntitlementPaid,
 
                 trainingFreeRemark = trainingFreeRemark,
                 bankAccountOpenedRemark = bankAccountRemark,
@@ -1169,7 +1182,8 @@ class CandidateAssessmentViewModel(
                 uniformProvidedinFirstMonthRemark = uniformRemark,
                 padsMasksProvidedRemark = sanitaryRemark,
                 medicineProvidedRemark = medicineRemark,
-                insuranceBenefitsProvidedRemark = insuranceRemark
+                insuranceBenefitsProvidedRemark = insuranceRemark,
+                toFroEntitlementPaidRemark =toEntitlementPaidRemarks
             )
         }
     }
@@ -1245,7 +1259,10 @@ class CandidateAssessmentViewModel(
                         dto.gensetPowerCut,
                         dto.tvCableAvailable,
                         dto.indoorGamesEquipment,
-                        dto.wardenPoliceVerification
+                        dto.wardenPoliceVerification,
+                        dto.grievanceRegisterAccessible,
+                        dto.grievancesAddressedProperly,
+                        dto.hostelHygienicConditions
                     )
 
                     val remarks = listOf(
@@ -1274,7 +1291,10 @@ class CandidateAssessmentViewModel(
                         dto.gensetPowerCutRemark,
                         dto.tvCableAvailableRemark,
                         dto.indoorGamesEquipmentRemark,
-                        dto.wardenPoliceVerificationRemark
+                        dto.wardenPoliceVerificationRemark,
+                        dto.grievanceRegisterAccessibleRemark,
+                        dto.grievancesAddressedProperlyRemark,
+                        dto.hostelHygienicConditionsRemark
                     )
 
                     _residentialState.value =
@@ -1461,7 +1481,20 @@ class CandidateAssessmentViewModel(
 
                 wardenPoliceVerificationQid = 27,
                 wardenPoliceVerification = state.answers[25] ?: "",
-                wardenPoliceVerificationRemark = state.remarks[25]
+                wardenPoliceVerificationRemark = state.remarks[25],
+
+                grievanceRegisterAccessibleQid = 28,
+                grievanceRegisterAccessible = state.answers[26] ?: "",
+                grievanceRegisterAccessibleRemark = state.remarks[26],
+
+                grievancesAddressedProperlyQid = 29,
+                grievancesAddressedProperly = state.answers[27] ?: "",
+                grievancesAddressedProperlyRemark = state.remarks[27],
+
+                hostelHygienicConditionsQid = 30,
+                hostelHygienicConditions = state.answers[28] ?: "",
+                hostelHygienicConditionsRemark = state.remarks[28],
+
             )
 
             val result = repository.saveResidentialFacilityVerification(request)

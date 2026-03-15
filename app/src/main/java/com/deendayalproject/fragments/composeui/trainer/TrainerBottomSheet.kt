@@ -16,6 +16,7 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
@@ -26,6 +27,7 @@ import com.deendayalproject.viewmodel.InspectionViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrainerBottomSheet(
+    snackbarHostState:SnackbarHostState,
     viewModel: InspectionViewModel,
     trainerName: String,
     trainerId: String,
@@ -33,24 +35,23 @@ fun TrainerBottomSheet(
     onDismiss: () -> Unit
 ) {
 
-    val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    val inspectionId =
-        AppUtil.getSavedInspectionIdPreference(context).toInt()
+    val inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt()
 
-    val state by viewModel.trainerState.collectAsState()
+    val state by viewModel.trainerState.collectAsStateWithLifecycle()
 
-    val answers = remember { mutableStateMapOf<Int, String?>() }
-    val remarks = remember { mutableStateMapOf<Int, String>() }
+    val answers = remember(trainerCode) { mutableStateMapOf<Int, String?>().apply { clear() } }
+    val remarks = remember(trainerCode) { mutableStateMapOf<Int, String>().apply { clear() } }
+
 
     var showValidation by remember { mutableStateOf(false) }
 
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
-        confirmValueChange = { newValue ->
-            newValue != SheetValue.Hidden
+        confirmValueChange = { target ->
+            target != SheetValue.Hidden
         }
     )
 
@@ -59,7 +60,9 @@ fun TrainerBottomSheet(
     /* ----------------------------- */
 
     LaunchedEffect(inspectionId) {
-
+        answers.clear()
+        remarks.clear()
+        viewModel.clearSaveState()
         viewModel.loadTrainerAttendance(
             trainerCode.toInt(),
             inspectionId,
@@ -70,27 +73,16 @@ fun TrainerBottomSheet(
     /* PREFILL */
     /* ----------------------------- */
 
-    LaunchedEffect(state.inspectionId) {
+    LaunchedEffect(state.inspectionId,state.isLoading) {
+        if (!state.isLoading) {
+            answers[1] = state.trainerAttendanceMatch
+            answers[2] = state.trainerCounsellingArranged
+            answers[3] = state.trainerEntryExitAclp
 
-//        state.trainerAttendanceMatch?.let {
-//            answers[1] = it
-//        }
-//
-//        state.trainerCounsellingArranged?.let {
-//            answers[2] = it
-//        }
-//
-//        state.trainerEntryExitAclp?.let {
-//            answers[3] = it
-//        }
-
-        answers[1] = state.trainerAttendanceMatch
-        answers[2] = state.trainerCounsellingArranged
-        answers[3] = state.trainerEntryExitAclp
-
-        remarks[1] = state.trainerAttendanceMatchRemark
-        remarks[2] = state.trainerCounsellingArrangedRemark
-        remarks[3] = state.trainerEntryExitAclpRemark
+            remarks[1] = state.trainerAttendanceMatchRemark
+            remarks[2] = state.trainerCounsellingArrangedRemark
+            remarks[3] = state.trainerEntryExitAclpRemark
+        }
     }
 
     /* ----------------------------- */
@@ -120,13 +112,15 @@ fun TrainerBottomSheet(
         }
     }
 
-    LaunchedEffect(Unit) {
-        sheetState.expand()
+    LaunchedEffect(trainerCode) {
+        if (!sheetState.isVisible) {
+            sheetState.show()
+        }
     }
 
-    val nestedScrollConnection = remember {
-        object : NestedScrollConnection {}
-    }
+//    val nestedScrollConnection = remember {
+//        object : NestedScrollConnection {}
+//    }
 
     ModalBottomSheet(
         onDismissRequest = {},
@@ -231,7 +225,11 @@ fun TrainerBottomSheet(
                 TrainerHeader(
                     trainerName = trainerName,
                     trainerId = trainerId,
-                    onCloseClick = onDismiss
+                    onCloseClick = {
+                        scope.launch {
+                        sheetState.hide()
+                        onDismiss()
+                    }}
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -256,8 +254,7 @@ fun TrainerBottomSheet(
 
                     LazyColumn(
                         modifier = Modifier
-                            .weight(1f)
-                            .nestedScroll(nestedScrollConnection),
+                            .weight(1f),
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                         contentPadding = PaddingValues(
                             bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + 80.dp
@@ -269,8 +266,11 @@ fun TrainerBottomSheet(
                             key = { it.id }     // 🔥 REQUIRED
                         ) { question ->
 
-                            val answer = answers[question.id]
-                            val remark = remarks[question.id] ?: ""
+//                            val answer = answers[question.id]
+//                            val remark = remarks[question.id] ?: ""
+
+                            val answer by remember { derivedStateOf { answers[question.id] } }
+                            val remark by remember { derivedStateOf { remarks[question.id] ?: "" } }
 
                             ComplianceQuestionWithRemarks(
 

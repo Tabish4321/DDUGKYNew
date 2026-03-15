@@ -5,8 +5,8 @@ package com.deendayalproject.model.uistate
  */
 data class ResidentialFacilityUiState(
 
-    val answers: List<String?> = List(26) { null },
-    val remarks: List<String> = List(26) { "" },
+    val answers: List<String?> = List(29) { null },
+    val remarks: List<String> = List(29) { "" },
 
     val washbasins: String = "",
     val washbasinsRemark: String = "",

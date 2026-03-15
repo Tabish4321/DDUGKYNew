@@ -89,5 +89,14 @@ data class ResidentialFacilityVerificationResponse(
     val indoorGamesEquipmentRemark: String?,
 
     val wardenPoliceVerification: String?,
-    val wardenPoliceVerificationRemark: String?
+    val wardenPoliceVerificationRemark: String?,
+
+    val grievanceRegisterAccessible: String?, //new key added
+    val grievanceRegisterAccessibleRemark: String?,
+
+    val grievancesAddressedProperly: String?,
+    val grievancesAddressedProperlyRemark: String?,
+
+    val hostelHygienicConditions: String?,
+    val hostelHygienicConditionsRemark: String?
 )

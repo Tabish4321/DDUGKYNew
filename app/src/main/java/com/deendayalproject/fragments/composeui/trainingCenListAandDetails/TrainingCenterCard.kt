@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Difference
+import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
@@ -80,6 +81,14 @@ fun TrainingCenterCard(
                     label = "Inspection Type",
                     value = item.inspectionType
                 )
+
+                InfoRow(
+                    icon = Icons.Default.School,
+                    label = "Center Type",
+                    value = item.centerType
+                )
+
+
 
             }
         }

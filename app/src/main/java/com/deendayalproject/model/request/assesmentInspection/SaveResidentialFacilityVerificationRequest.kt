@@ -118,5 +118,17 @@ data class SaveResidentialFacilityVerificationRequest(
 
     val wardenPoliceVerificationQid: Int,
     val wardenPoliceVerification: String,
-    val wardenPoliceVerificationRemark: String?
+    val wardenPoliceVerificationRemark: String?,
+
+    val grievanceRegisterAccessibleQid: Int?, // new key added
+    val grievanceRegisterAccessible: String?,
+    val grievanceRegisterAccessibleRemark: String?,
+
+    val grievancesAddressedProperlyQid: Int?,
+    val grievancesAddressedProperly: String?,
+    val grievancesAddressedProperlyRemark: String?,
+
+    val hostelHygienicConditionsQid: Int?,
+    val hostelHygienicConditions: String?,
+    val hostelHygienicConditionsRemark: String?
 )
