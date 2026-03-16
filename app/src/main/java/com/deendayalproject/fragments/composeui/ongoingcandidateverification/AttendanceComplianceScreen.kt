@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.EventAvailable
+import androidx.compose.material.icons.filled.Percent
 import androidx.compose.material.icons.filled.SupportAgent
 import androidx.compose.material3.Divider
 import androidx.compose.material3.SnackbarHostState
@@ -154,6 +155,18 @@ fun AttendanceComplianceScreen(
             )
 
             Divider()
+
+
+            InfoRow(
+                icon = Icons.Default.Percent,
+                label = "Attendance Percentage",
+                value = item?.attendancePercentage ?: "N/A"
+            )
+
+            Divider()
+
+
+
 
             InfoRow(
                 icon = Icons.Default.SupportAgent,
