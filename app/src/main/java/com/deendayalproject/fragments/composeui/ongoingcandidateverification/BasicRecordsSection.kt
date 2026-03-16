@@ -38,7 +38,7 @@ fun BasicRecordsSection(
     inspectionId:Int,
     showMessage: (String) -> Unit,
 
-) {
+    ) {
     val uiState by candidateVerificationViewModel.uiRecordState.collectAsState()
     val isLoading = uiState.isSaving
     var selectedImage by remember { mutableStateOf<String?>(null) }
@@ -51,12 +51,18 @@ fun BasicRecordsSection(
     }
 
 
+
     LaunchedEffect(uiState.saveSuccess) {
 
         if (uiState.saveSuccess) {
+
             showMessage("Basic Records Submitted Successfully")
+
             candidateVerificationViewModel.triggerRefresh()
 
+            candidateVerificationViewModel.updateRecordState {
+                copy(saveSuccess = false)
+            }
         }
     }
 
@@ -66,19 +72,22 @@ fun BasicRecordsSection(
 
             showMessage(it)
 
+            candidateVerificationViewModel.updateRecordState {
+                copy(error = null)
+            }
         }
     }
 
     LaunchedEffect(uiState) {
 
-        if (!uiState.isLoading && documents.isEmpty()) {
+        if (!uiState.isLoading ) {
 
             documents.clear()
 
             documents.addAll(
                 listOf(
                     DocumentVerificationState(
-                        "Poverty Proof (As per SOP chapter 4, SF 4.2X)",
+                        "Poverty Proof",
                         1,
                         proof?.pmaygAttachment,
                         uiState.povertyProof,
@@ -86,7 +95,7 @@ fun BasicRecordsSection(
                     ),
 
                     DocumentVerificationState(
-                        "Category Proof (As per SOP chapter 4, SF 4.2X)",
+                        "Category Proof",
                         2,
                         proof?.categoryCertPath,
                         uiState.categoryProof,
@@ -94,7 +103,7 @@ fun BasicRecordsSection(
                     ),
 
                     DocumentVerificationState(
-                        "Minority Proof (As per SOP chapter 4, SF 4.2X)",
+                        "Minority Proof",
                         3,
                         proof?.minorityCertPath,
                         uiState.minorityProof,

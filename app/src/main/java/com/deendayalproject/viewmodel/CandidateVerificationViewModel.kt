@@ -42,9 +42,10 @@ class CandidateVerificationViewModel(
         candidateId: String
     ) {
         viewModelScope.launch {
+            _uiState.value = CandidateVerificationUiState()
 
             _uiState.value = _uiState.value.copy(
-                showValidation = true,
+                showValidation = false,
                 isLoading = true,
                 error = null,
                 saveSuccess = false
@@ -70,7 +71,7 @@ class CandidateVerificationViewModel(
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         error = "No data available",
-                                showValidation = true
+                                showValidation = false
                     )
                 }
 
@@ -138,8 +139,16 @@ class CandidateVerificationViewModel(
         _uiState.value = _uiState.value.copy(error = null)
     }
 
+    fun clearErrorValidation() {
+        _uiState.value = _uiState.value.copy(showValidation = false)
+    }
+
     fun clearSaveState() {
         _uiState.value = _uiState.value.copy(saveSuccess = false)
+    }
+
+    fun resetForm() {
+        _uiState.value = CandidateVerificationUiState()
     }
 
     /* ------------------------------------------------ */

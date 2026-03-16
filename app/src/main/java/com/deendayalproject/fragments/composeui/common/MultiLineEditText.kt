@@ -24,12 +24,13 @@ fun MultiLineEditText(
     isError: Boolean = false,
     maxLength: Int = 300,
     placeholder: String = "Write details here...",
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    modifier: Modifier= Modifier
 ) {
 
     Column(
         verticalArrangement = Arrangement.spacedBy(6.dp),
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
 
         Text(
@@ -50,7 +51,7 @@ fun MultiLineEditText(
                 }
             },
 
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .heightIn(min = 110.dp),
 
@@ -71,7 +72,7 @@ fun MultiLineEditText(
             supportingText = {
 
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
 

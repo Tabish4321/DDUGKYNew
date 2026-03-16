@@ -843,6 +843,10 @@ class InspectionViewModel(application: Application) :
         }
     }
 
+    fun clearSaveState() {
+        _trainerState.value = _trainerState.value.copy(saveSuccess = false)
+    }
+
 
 
 /* Save Trainer Class Observation */
@@ -864,7 +868,6 @@ class InspectionViewModel(application: Application) :
 
         _trainerClassObservationState.value =
             _trainerClassObservationState.value.copy(
-
                 answers = answers,
                 remarks = remarks,
                 subject = subject
@@ -877,31 +880,46 @@ class InspectionViewModel(application: Application) :
 
         viewModelScope.launch {
 
-            val state = _trainerClassObservationState.value
+            val currentState = _trainerClassObservationState.value
 
             _trainerClassObservationState.value =
-                state.copy(isLoading = true)
+                currentState.copy(isLoading = true)
 
-            val request = mapTrainerClassObservationDto(state, inspectionId)
+            val request = mapTrainerClassObservationDto(currentState, inspectionId)
 
-            val result =  repositoryManager.inspectionRepo.saveTrainerClassObservationInspection(request)
+            val result =
+                repositoryManager
+                    .inspectionRepo
+                    .saveTrainerClassObservationInspection(request)
 
-            result.onSuccess {
+            result.onSuccess { response ->
 
-                if (it.responseCode == 200) {
+                if (response.responseCode == 200) {
+
                     _trainerClassObservationState.value =
-                        state.copy(
+                        _trainerClassObservationState.value.copy(
                             isLoading = false,
-                            saveSuccess = true
+                            saveSuccess = true,
+                            error = response.responseDesc
                         )
 
                 } else {
+
                     _trainerClassObservationState.value =
-                        state.copy(
+                        _trainerClassObservationState.value.copy(
                             isLoading = false,
-                            error = it.responseDesc
+                            error = response.responseDesc
                         )
                 }
+            }
+
+            result.onFailure {
+
+                _trainerClassObservationState.value =
+                    _trainerClassObservationState.value.copy(
+                        isLoading = false,
+                        error = it.message ?: "Something went wrong"
+                    )
             }
         }
     }

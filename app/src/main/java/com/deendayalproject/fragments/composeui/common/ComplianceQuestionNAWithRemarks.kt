@@ -1,18 +1,25 @@
 package com.deendayalproject.fragments.composeui.common
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 @Composable
 fun ComplianceQuestionNAWithRemarks(
+    modifier: Modifier = Modifier,
     question: String,
     answer: String?,
     remarks: String,
@@ -20,9 +27,12 @@ fun ComplianceQuestionNAWithRemarks(
     onAnswerChange: (String) -> Unit,
     onRemarksChange: (String) -> Unit
 ) {
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
+    val scope = rememberCoroutineScope()
+
 
     ElevatedCard(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth() .bringIntoViewRequester(bringIntoViewRequester),
         shape = RoundedCornerShape(18.dp),
         elevation = CardDefaults.elevatedCardElevation(6.dp),
         colors = CardDefaults.elevatedCardColors(
@@ -68,7 +78,7 @@ fun ComplianceQuestionNAWithRemarks(
                     text = "Not Applicable",
                     selected = answer == "Not Applicable",
                     color = Color(0xFFF59E0B),
-                    weight = 1.6f   //  wider button
+                    weight = 1.6f   // 👈 wider button
                 ) { onAnswerChange("Not Applicable") }
 
             }
@@ -80,7 +90,15 @@ fun ComplianceQuestionNAWithRemarks(
                     onValueChange = onRemarksChange,
                     label = "Remarks",
                     isRequired = answer == "No",
-                    isError = answer == "No" && remarks.isBlank()
+                    isError = answer == "No" && remarks.isBlank(),
+                    modifier = Modifier.onFocusEvent {
+
+                        if (it.isFocused) {
+                            scope.launch {
+                                bringIntoViewRequester.bringIntoView()
+                            }
+                        }
+                    }
                 )
 
             }

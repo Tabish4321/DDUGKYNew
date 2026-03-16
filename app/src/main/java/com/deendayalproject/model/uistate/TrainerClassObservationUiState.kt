@@ -12,5 +12,5 @@ data class TrainerClassObservationUiState(
 
     val error: String? = null,
 
-    val saveSuccess: Boolean = false
+    val saveSuccess: Boolean = false,
 )

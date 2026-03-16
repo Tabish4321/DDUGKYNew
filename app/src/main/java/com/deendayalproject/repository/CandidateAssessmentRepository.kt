@@ -7,6 +7,7 @@ import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.request.SaveInspectionStandardFormRequest
 import com.deendayalproject.model.request.assesmentInspection.AssessmentStatusInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateAssessmentInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.GetCandidateAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateRecordsVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetDistributedLearningMaterialInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetEntitlementsDistributionInspectionRequest
@@ -14,11 +15,13 @@ import com.deendayalproject.model.request.assesmentInspection.GetInspectionSecti
 import com.deendayalproject.model.request.assesmentInspection.GetInspectionStandardFormRequest
 import com.deendayalproject.model.request.assesmentInspection.GetResidentialFacilityVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAssessmentInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveDistributedLearningMaterialInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveEntitlementsDistributionInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveResidentialFacilityVerificationRequest
 import com.deendayalproject.model.response.CandidateAssessmentResponse.AssessmentStatusResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateAssessmentInspectionDetails
+import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateRecordsVerificationDetails
 import com.deendayalproject.model.response.CandidateAssessmentResponse.DistributedLearningMaterialInspectionResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.EntitlementsDistributionInspectionResponse
@@ -142,5 +145,28 @@ class CandidateAssessmentRepository(
 
         apiService.saveInspectionStandardForm(request)
     }
+
+
+    suspend fun getCandidateAttendanceInspection(
+
+        request: GetCandidateAttendanceInspectionRequest
+
+    ): Result<List<CandidateAttendanceInspectionResponse>> =
+        safeApiCallN {
+            apiService.getCandidateAttendanceInspection(request)
+
+        }
+
+    suspend fun saveCandidateAttendanceInspection(
+        request: SaveCandidateAttendanceInspectionRequest
+    ): Result<InsertRes> =
+        safeApiCall {
+
+            apiService.saveCandidateAttendanceInspection(request)
+
+        }
+
+
+
 
 }

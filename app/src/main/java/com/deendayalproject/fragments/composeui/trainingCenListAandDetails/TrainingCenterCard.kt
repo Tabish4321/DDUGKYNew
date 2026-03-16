@@ -1,5 +1,7 @@
 package com.deendayalproject.fragments.composeui.trainingCenListAandDetails
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Difference
+import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
@@ -23,12 +26,13 @@ import com.deendayalproject.R
 import com.deendayalproject.fragments.composeui.common.InfoRow
 import com.deendayalproject.model.response.TrainingCenterListInspecRes
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TrainingCenterCard(
     item: TrainingCenterListInspecRes,
     onClick: () -> Unit
 ) {
-
+    //Testing Comment
     val formatter = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy")
     val currentDate = java.time.LocalDate.now()
 
@@ -40,7 +44,7 @@ fun TrainingCenterCard(
         currentDate
     }
 
-    val isActive = inspectionDate == currentDate
+    val isActive =inspectionDate == currentDate
 
     ElevatedCard(
         onClick = onClick,
@@ -48,7 +52,7 @@ fun TrainingCenterCard(
         shape = RoundedCornerShape(14.dp),
         elevation = CardDefaults.elevatedCardElevation(8.dp),
         modifier = Modifier.fillMaxWidth()
-    ){
+    ) {
 
         Column {
 
@@ -78,11 +82,13 @@ fun TrainingCenterCard(
                     modifier = Modifier.weight(1f)
                 ) {
 
+
                     InfoRow(
                         icon = Icons.Default.Badge,
                         label = "PRN Number",
                         value = item.prnNumber
                     )
+
 
                     InfoRow(
                         icon = Icons.Default.Description,
@@ -95,6 +101,13 @@ fun TrainingCenterCard(
                         label = "Inspection Type",
                         value = item.inspectionType
                     )
+
+                    InfoRow(
+                        icon = Icons.Default.School,
+                        label = "Center Type",
+                        value = item.centerType
+                    )
+
 
                 }
             }

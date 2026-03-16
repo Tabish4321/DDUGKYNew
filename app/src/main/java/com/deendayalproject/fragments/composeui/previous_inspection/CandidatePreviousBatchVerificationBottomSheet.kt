@@ -30,6 +30,9 @@ import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.CandidateVerificationViewModel
 import kotlinx.coroutines.launch
 
+fun isRemarksRequired(answer: String?, remarks: String): Boolean {
+    return answer.equals("No", true) && remarks.isBlank()
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,52 +40,73 @@ fun ProCandidateBottomSheet(
     condidateVerificationViewModel: CandidateVerificationViewModel,
     batchId: Int?,
     candidateData: CandidateListInspectionRes,
+    snackbarHostState: SnackbarHostState,
     onDismiss: () -> Unit,
 ) {
     val context = LocalContext.current
     val state by condidateVerificationViewModel.uiState.collectAsState()
-    val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
         confirmValueChange = { newValue ->
-            // Prevent sheet from hiding by swipe
             newValue != SheetValue.Hidden
         }
     )
+
+    val inspectionId = remember {
+        AppUtil.getSavedInspectionIdPreference(context).toInt()
+    }
+
 
     LaunchedEffect(Unit) {
         sheetState.expand()
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(candidateData.candidateId) {
+        condidateVerificationViewModel.clearSaveState()
         condidateVerificationViewModel.loadCandidateDetails(
             batchId = batchId!!,
-            inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
+            inspectionId = inspectionId,
             candidateId = candidateData.candidateId
 
         )
     }
 
-    LaunchedEffect(state.saveSuccess) {
-        if (state.saveSuccess) {
-            condidateVerificationViewModel.clearSaveState()
-            onDismiss()
-            snackbarHostState.showSnackbar("Verification Saved Successfully")
+    LaunchedEffect(state) {
+
+        when {
+
+            state.saveSuccess -> {
+
+                condidateVerificationViewModel.clearSaveState()
+
+                onDismiss()
+
+                snackbarHostState.showSnackbar("Verification Saved Successfully")
+            }
+
+            state.error != null -> {
+
+                snackbarHostState.showSnackbar(state.error.toString())
+                condidateVerificationViewModel.clearError()
+            }
+
+            state.showValidation -> {
+
+                snackbarHostState.showSnackbar("Please fill all the mandatory fields")
+
+                condidateVerificationViewModel.clearErrorValidation()
+            }
+
         }
     }
 
-    LaunchedEffect(state.error) {
-        state.error?.let {
-            snackbarHostState.showSnackbar(it)
-            condidateVerificationViewModel.clearError()
-        }
-    }
+//    val nestedScrollConnection = remember {
+//        object : NestedScrollConnection {}
+//    }
 
-    val nestedScrollConnection = remember {
-        object : NestedScrollConnection {}
-    }
+
 
     ModalBottomSheet(
         onDismissRequest = {  },
@@ -120,6 +144,47 @@ fun ProCandidateBottomSheet(
                 ) {
                     Button(
                         onClick = {
+
+
+                            val state = condidateVerificationViewModel.uiState.value
+
+                            if  (
+                            /* existing validations */
+
+                                (state.joinedJob?.equals("Yes", true) == true && state.salary.isBlank()) ||
+
+                                (state.ojtEntitlementReceived?.equals("Yes", true) == true &&
+                                        state.ojtEntitlementDetails.isBlank()) ||
+
+                                /* status validations */
+
+                                (state.currentStatus == "Working" && state.workingMonths.isBlank()) ||
+
+                                (state.currentStatus == "Not Working" && state.notWorkingReason.isBlank()) ||
+
+                                /* mandatory remarks validations */
+                                isRemarksRequired(state.externalAssessment, state.externalAssessmentRemarks) ||
+                                isRemarksRequired(state.passedFailed, state.passedFailedRemarks) ||
+                                isRemarksRequired(state.certificateReceived, state.certificateReceivedRemarks)||
+                                isRemarksRequired(state.ojtJoined, state.ojtJoinedRemarks) ||
+                                isRemarksRequired(state.ojtCertificateReceived, state.ojtCertificateReceivedRemarks) ||
+                                isRemarksRequired(state.ojtEntitlementReceived, state.ojtEntitlementRemarks) ||
+                                isRemarksRequired(state.ojtVerificationDone, state.ojtVerificationRemarks) ||
+                                isRemarksRequired(state.offerLetterReceived, state.offerLetterRemarks) ||
+                                isRemarksRequired(state.performancePlanFilled, state.performancePlanRemarks) ||
+                                isRemarksRequired(state.joinedJob, state.joinedJobRemarks) ||
+                                isRemarksRequired(state.minimumWageMatch, state.minimumWageRemarks) ||
+                                isRemarksRequired(state.currentStatus, state.currentStatusRemarks) ||
+                                isRemarksRequired(state.ppsDisbursed, state.ppsDisbursedRemarks) ||
+                                state.replacementAction.isBlank()
+                            ) {
+
+                                condidateVerificationViewModel.updateState {
+                                    copy(showValidation = true)
+                                }
+                                return@Button
+                            }
+
                             condidateVerificationViewModel.saveVerification(
                                 batchId = batchId!!,
                                 inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
@@ -154,6 +219,7 @@ fun ProCandidateBottomSheet(
                     onCloseClick = {
                         scope.launch {
                             sheetState.hide()
+                            condidateVerificationViewModel.resetForm()
                             onDismiss() // Only close button works
                         }
                     }
@@ -181,13 +247,13 @@ fun ProCandidateBottomSheet(
 
                 } else {
                     LazyColumn(
-                        modifier = Modifier.weight(1f)
-                            .nestedScroll(nestedScrollConnection),
+                        modifier = Modifier.weight(1f),
+           //                 .nestedScroll(nestedScrollConnection),
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                         contentPadding = PaddingValues(bottom = 100.dp),
                     ) {
 
-                        items(questionList,
+                        items(items=questionList,
                             key={it.id}
                         ) { question ->
 
@@ -202,64 +268,21 @@ fun ProCandidateBottomSheet(
                             }
 
                             if (shouldShow) {
-
-                                ComplianceQuestionWithRemarks(
-                                    question = question.title,
-                                    answer = state.getAnswer(question.id),
-                                    remarks = state.getRemarks(question.id),
-                                    isError = state.showValidation &&
-                                            state.getAnswer(question.id) == null,
-                                    onAnswerChange = { value ->
-                                        condidateVerificationViewModel.updateState {
-                                            updateAnswer(question.id, value)
-                                        }
-                                    },
+                                CandidateDetailsQuestionN(condidateVerificationViewModel = condidateVerificationViewModel,question=question,state=state,   onAnswerChange = { value ->
+                                    condidateVerificationViewModel.updateState {
+                                        updateAnswer(question.id, value)
+                                    }
+                                },
                                     onRemarksChange = { value ->
                                         condidateVerificationViewModel.updateState {
                                             updateRemarks(question.id, value)
                                         }
-                                    }
-                                )
+                                    })
                             }
                         }
-
-                        if (state.joinedJob?.equals("Yes", true) == true) {
-                            item {
-                                NumericTextField(
-                                    value = state.salary,
-                                    onValueChange = {
-                                        condidateVerificationViewModel.updateState {
-                                            copy(salary = it)
-                                        }
-                                    },
-                                    label = "If Yes, What is the Salary",
-                                    isRequired = true,
-                                    isError = state.showValidation &&
-                                            state.salary.isBlank(),
-                                    placeholder = "Enter salary amount"
-                                )
-                            }
-                        }
-
-                        if (state.ojtEntitlementReceived?.equals("Yes", true) == true) {
-                            item {
-                                MultiLineEditText(
-                                    value = state.ojtEntitlementDetails,
-                                    onValueChange = {
-                                        condidateVerificationViewModel.updateState {
-                                            copy(ojtEntitlementDetails = it)
-                                        }
-                                    },
-                                    label = "If Yes, Details",
-                                    isRequired = true,
-                                    isError = state.showValidation &&
-                                            state.ojtEntitlementDetails.isBlank()
-                                )
-                            }
-                        }
-
                         item {
                             MultiLineEditText(
+
                                 value = state.replacementAction,
                                 onValueChange = {
                                     condidateVerificationViewModel.updateState {

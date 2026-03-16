@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -19,6 +20,7 @@ import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.response.SubjectListData
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.InspectionViewModel
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,130 +33,161 @@ fun TrainingQualityController(
 ) {
 
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     val subjectResponse by viewModel.getSubjectList.collectAsState()
     val deleteResponse by viewModel.deleteSubjectItem.collectAsState()
-    val scope = rememberCoroutineScope()
 
-    val addedSubjects = subjectResponse?.wrappedList ?: emptyList()
+    val inspectionId = remember {
+        AppUtil.getSavedInspectionIdPreference(context)
+    }
 
-    val subjects = listOf(
-        "IT",
-        "Soft Skills",
-        "English",
-        "Domain",
-        "Entrepreneurship"
-    )
+    val subjects = remember {
+        listOf("IT", "Soft Skills", "English", "Domain", "Entrepreneurship")
+    }
 
-    var selectedSubject by remember { mutableStateOf("") }
-
+    var selectedSubject by rememberSaveable { mutableStateOf("") }
     var deletingSubjectId by remember { mutableStateOf<String?>(null) }
+    var isLoading by remember { mutableStateOf(false) }
+
+    val addedSubjects by remember(subjectResponse) {
+        derivedStateOf { subjectResponse?.wrappedList ?: emptyList() }
+    }
 
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
-        confirmValueChange = { newValue ->
-            // Prevent sheet from hiding by swipe
-            newValue != SheetValue.Hidden
-        }
+        confirmValueChange = { it != SheetValue.Hidden }
     )
 
-    LaunchedEffect(Unit) {
-        sheetState.expand()
+    /* ---------------- API REFRESH ---------------- */
+
+    fun refreshSubjects() {
+
+        isLoading = true
+
+        viewModel.getSubjectList(
+            SubjectReq(
+                appVersion = BuildConfig.VERSION_NAME,
+                inspectionId = inspectionId
+            ),
+            "Bearer token"
+        )
     }
 
-    /* -------- API CALL -------- */
+    /* ---------------- INITIAL LOAD ---------------- */
 
-    LaunchedEffect(true) {
+    LaunchedEffect(Unit) {
 
         if (subjectResponse == null) {
-
-            viewModel.getSubjectList(
-                SubjectReq(
-                    appVersion = BuildConfig.VERSION_NAME,
-                    inspectionId = AppUtil.getSavedInspectionIdPreference(context)
-                ),
-                "Bearer token"
-            )
+            refreshSubjects()
         }
     }
 
-    /* -------- DELETE RESPONSE -------- */
+    /* ---------------- STOP LOADING ---------------- */
+
+    LaunchedEffect(subjectResponse) {
+        if (isLoading) isLoading = false
+    }
+
+    /* ---------------- DELETE RESPONSE ---------------- */
 
     LaunchedEffect(deleteResponse?.responseCode) {
 
         if (deleteResponse?.responseCode == 200) {
 
-            snackbarHostState.showSnackbar("Subject Deleted")
-
             deletingSubjectId = null
+            Toast.makeText(
+                context,
+                "Subject Deleted",
+                Toast.LENGTH_SHORT
+            ).show()
 
-            viewModel.getSubjectList(
-                SubjectReq(
-                    appVersion = BuildConfig.VERSION_NAME,
-                    inspectionId = AppUtil.getSavedInspectionIdPreference(context)
-                ),
-                "Bearer token"
-            )
+            refreshSubjects()
 
             viewModel.clearDeleteSubjectResponse()
         }
     }
 
+    /* ---------------- BACK HANDLER ---------------- */
+
     BackHandler(enabled = showForm) {
         onShowFormChange(false)
     }
 
-    /* -------- SUBJECT SECTION -------- */
+    /* ---------------- MAIN UI ---------------- */
 
-    SubjectListSection(
+    Box {
 
-        subjects = subjects,
+        if (isLoading && addedSubjects.isEmpty()) {
+           CircularProgressIndicator()
 
-        subjectData = addedSubjects,
+        } else {
+            SubjectListSection(
+                subjects = subjects,
+                subjectData = addedSubjects,
+                selectedSubject = selectedSubject,
+                deletingSubjectId = deletingSubjectId,
 
-        selectedSubject = selectedSubject,
+                onSubjectSelect = {
+                    selectedSubject = it
+                },
 
-        deletingSubjectId = deletingSubjectId,
+                onAddClick = {
 
-        onSubjectSelect = {
-            selectedSubject = it
-        },
+                    if (selectedSubject.isBlank()) {
 
-        onAddClick = {
+                        Toast.makeText(
+                            context,
+                            "Please select subject",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-            if (selectedSubject.isBlank()) {
+                    } else {
+                        onShowFormChange(true)
+                    }
+                },
 
-                Toast.makeText(
-                    context,
-                    "Please select subject",
-                    Toast.LENGTH_SHORT
-                ).show()
+                onDelete = { subject ->
 
-            } else {
+                    deletingSubjectId = subject.subjectId
+                    isLoading = true
 
-                onShowFormChange(true)
+                    viewModel.deleteSubjectItem(
+                        SubjectDeleteReq(
+                            appVersion = BuildConfig.VERSION_NAME,
+                            subjectId = subject.subjectId
+                        ),
+                        "Bearer token"
+                    )
+                }
+            )
+        }
+
+        /* ---------------- LOADING OVERLAY ---------------- */
+
+        if (isLoading) {
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = androidx.compose.ui.Alignment.Center
+            ) {
+
+                CircularProgressIndicator()
 
             }
 
-        },
-
-        onDelete = { subject ->
-
-            deletingSubjectId = subject.subjectId
-
-            viewModel.deleteSubjectItem(
-                SubjectDeleteReq(
-                    appVersion = BuildConfig.VERSION_NAME,
-                    subjectId = subject.subjectId
-                ),
-                "Bearer token"
-            )
         }
-    )
+    }
 
-    /* -------- BOTTOM SHEET -------- */
+    /* ---------------- BOTTOM SHEET ---------------- */
 
     if (showForm) {
+
+        LaunchedEffect(showForm) {
+            sheetState.expand()
+        }
+
         ModalBottomSheet(
             sheetState = sheetState,
             onDismissRequest = {},
@@ -198,25 +231,42 @@ fun TrainingQualityController(
                 ) {
 
                     item {
+
                         TrainingQualitySection(
                             viewModel = viewModel,
                             snackbarHostState = snackbarHostState,
-                            inspectionId = AppUtil.getSavedInspectionIdPreference(context).toInt(),
+                            inspectionId = inspectionId.toInt(),
                             subject = selectedSubject,
-                            onClose = {
+                            onClose = { msg ->
+
+                                Toast.makeText(
+                                    context,
+                                    msg,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+
                                 scope.launch {
+
                                     onShowFormChange(false)
+
                                     sheetState.hide()
+
+                                    refreshSubjects()
+
                                 }
+
                             }
                         )
 
                     }
+
                 }
 
             }
 
         }
+
     }
 
 }

@@ -25,18 +25,7 @@ fun AssessmentSection(
     snackbarHostState: SnackbarHostState,
     batchId:String,
     candidateId:String,
-//    onSubmit: (
-//        String,
-//        String,
-//        String,
-//        String,
-//        String,
-//        String?,
-//        String?,
-//        String?,
-//        String?,
-//        String?
-//    ) -> Unit
+
 ) {
 
     val scope = rememberCoroutineScope()
@@ -45,12 +34,14 @@ fun AssessmentSection(
     val state by candidateAssesmentViewModel.uiState.collectAsState()
     val statusState by candidateAssesmentViewModel.uiStatusState.collectAsState()
 
+    var presentDuringAssesment by remember { mutableStateOf<String?>(null) }
     var cameraAnswer by remember { mutableStateOf<String?>(null) }
     var seriousnessAnswer by remember { mutableStateOf<String?>(null) }
     var malpracticeAnswer by remember { mutableStateOf<String?>(null) }
     var diffRevalAnswer by remember { mutableStateOf<String?>(null) }
     var diffRetestAnswer by remember { mutableStateOf<String?>(null) }
 
+    var presentDuringAssesmentRemarks by remember { mutableStateOf("") }
     var cameraRemark by remember { mutableStateOf("") }
     var seriousnessRemark by remember { mutableStateOf("") }
     var malpracticeRemark by remember { mutableStateOf("") }
@@ -64,19 +55,21 @@ fun AssessmentSection(
     /* -------------------- */
 
     LaunchedEffect(
+        state.presentAssessment,
         state.cameraVerified,
         state.seriousness,
         state.malpracticesObserved,
         state.actualAndRevaluationMarks,
         state.retestMarksDifference
     ) {
-
+        presentDuringAssesment=state.presentAssessment
         cameraAnswer = state.cameraVerified
         seriousnessAnswer = state.seriousness
         malpracticeAnswer = state.malpracticesObserved
         diffRevalAnswer = state.actualAndRevaluationMarks
         diffRetestAnswer = state.retestMarksDifference
 
+        presentDuringAssesmentRemarks=state.presentAssessmentRemark
         cameraRemark = state.cameraVerifiedRemark
         seriousnessRemark = state.seriousnessRemark
         malpracticeRemark = state.malpracticesObservedRemark
@@ -123,9 +116,7 @@ fun AssessmentSection(
     LaunchedEffect(state.error) {
 
         state.error?.let {
-
             snackbarHostState.showSnackbar(it)
-
             candidateAssesmentViewModel.clearError()
         }
     }
@@ -176,6 +167,16 @@ fun AssessmentSection(
         /* -------------------- */
 
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+
+
+            ComplianceQuestionWithRemarks(
+                question = "Present during the assessment day",
+                answer = presentDuringAssesment,
+                remarks = presentDuringAssesmentRemarks,
+                isError = showError && presentDuringAssesment == null,
+                onAnswerChange = { presentDuringAssesment = it },
+                onRemarksChange = { presentDuringAssesmentRemarks = it }
+            )
 
             ComplianceQuestionWithRemarks(
                 question = "Verified via IP Enabled Camera",
@@ -279,12 +280,14 @@ fun AssessmentSection(
                         candidateAssesmentViewModel.updateState {
 
                             copy(
+                                presentAssessment=presentDuringAssesment,
                                 cameraVerified = cameraAnswer,
                                 seriousness = seriousnessAnswer,
                                 malpracticesObserved = malpracticeAnswer,
                                 actualAndRevaluationMarks = diffRevalAnswer,
                                 retestMarksDifference = diffRetestAnswer,
 
+                                presentAssessmentRemark = presentDuringAssesmentRemarks,
                                 cameraVerifiedRemark = cameraRemark,
                                 seriousnessRemark = seriousnessRemark,
                                 malpracticesObservedRemark = malpracticeRemark,

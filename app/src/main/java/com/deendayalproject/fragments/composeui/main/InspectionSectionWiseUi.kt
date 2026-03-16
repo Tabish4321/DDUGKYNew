@@ -504,6 +504,7 @@ fun InspectionStepModernScreen(
                     ProCandidateBottomSheet(
                         condidateVerificationViewModel,
                         previousSelectedBatch!!.batchId,
+                        snackbarHostState=snackbarHostState,
                         candidateData = selectedCandidate!!,
                         onDismiss = { selectedCandidate = null },
                         // onSubmit = { selectedCandidate = null }
@@ -533,6 +534,7 @@ fun InspectionStepModernScreen(
                 if (currentStep == 4 && showTrainerSheet) {
 
                     TrainerBottomSheet(
+                        snackbarHostState=snackbarHostState,
                         viewModel = viewModelInspection,
                         trainerName = selectedTrainer?.trainerName ?: "NA",
                         trainerId = selectedTrainer?.trainerId ?: "NA",
