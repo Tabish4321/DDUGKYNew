@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.model.request.SaveBatchVerificationRequest
+import com.deendayalproject.model.request.assesmentInspection.InsertInspectionFinalDetailsRequest
+import com.deendayalproject.model.request.assesmentInspection.PreviousInspectionObservationRequest
 import com.deendayalproject.model.response.CandidateInspectionDetails
 import com.deendayalproject.model.uistate.*
 import com.deendayalproject.repository.CandidateerificationRepository
@@ -278,4 +280,206 @@ class CandidateVerificationViewModel(
             replacementActionByPia = state.replacementAction
         )
     }
+
+    /*Final Sumbit Observation data*/
+
+    private val _statefinal =
+        MutableStateFlow(PreviousInspectionObservationUiState())
+
+    val state = _statefinal.asStateFlow()
+
+
+    fun loadObservation(
+        inspectionId: Int
+    ) {
+
+        viewModelScope.launch {
+
+            _statefinal.update {
+                it.copy(isLoading = true)
+            }
+
+            val result =
+                repository.getPreviousInspectionObservation(
+
+                    PreviousInspectionObservationRequest(
+                        BuildConfig.VERSION_NAME,
+                        inspectionId
+                    )
+                )
+
+            result.onSuccess { list ->
+
+                val dto = list.firstOrNull()
+
+                if (dto != null) {
+
+                    val sections = buildMap {
+
+                        dto.DocumentsStandardFormsAvailabilitySaction?.let {
+                            put("Documents", it)
+                        }
+
+                        dto.TrainingQualitySection?.let {
+                            put("TrainingQuality", it)
+                        }
+
+                        dto.ValidateTrainerAttendanceSaction?.let {
+                            put("TrainerAttendance", it)
+                        }
+
+                        dto.PreviousBatchDataVerificationSaction?.let {
+                            put("PreviousBatch", it)
+                        }
+
+                        dto.OngoingBatchCandidateSection?.let {
+                            put("OngoingBatchCandidate", it)
+                        }
+
+                    }
+
+                    _statefinal.update {
+
+                        it.copy(
+                            isLoading = false,
+                            sections = sections
+                        )
+                    }
+
+                }
+
+            }.onFailure {
+
+                _statefinal.update {
+
+                    it.copy(
+                        isLoading = false,
+                        error = it.error
+                    )
+                }
+
+            }
+
+        }
+
+    }
+
+    fun updateAnswer(
+        questionId: Int,
+        answer: String
+    ) {
+
+        _statefinal.update {
+
+            it.copy(
+                answers = it.answers + (questionId to answer)
+            )
+
+        }
+
+    }
+
+    fun updateRemark(
+        questionId: Int,
+        remark: String
+    ) {
+
+        _statefinal.update {
+
+            it.copy(
+                remarks = it.remarks + (questionId to remark)
+            )
+
+        }
+
+    }
+
+
+    fun submitFinal(
+        inspectionId: Int,
+        trainingCenterId: Int,
+        remark: String
+    ) {
+
+        viewModelScope.launch {
+
+            _statefinal.update {
+                it.copy(isLoading = true)
+            }
+
+            val result =
+                repository.insertInspectionFinalDetails(
+                    InsertInspectionFinalDetailsRequest(
+                        BuildConfig.VERSION_NAME,
+                        inspectionId,
+                        trainingCenterId,
+                        remark
+                    )
+                )
+
+            result.onSuccess { response ->
+
+                if (response.responseCode == 200) {
+
+                    _statefinal.update {
+
+                        it.copy(
+                            isLoading = false,
+                            submitSuccess = true
+                        )
+
+                    }
+
+                } else {
+
+                    _statefinal.update {
+
+                        it.copy(
+                            isLoading = false,
+                            error = response.responseDesc
+                        )
+
+                    }
+
+                }
+
+            }.onFailure { error ->
+
+                _statefinal.update {
+
+                    it.copy(
+                        isLoading = false,
+                        error = error.message ?: "Something went wrong"
+                    )
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    fun clearFinalError() {
+
+        _statefinal.update {
+            it.copy(error = null)
+        }
+
+    }
+
+    fun clearFinalSuccess() {
+
+        _statefinal.update {
+            it.copy(submitSuccess = false)
+        }
+
+    }
+
+
+
+
+
+
 }
