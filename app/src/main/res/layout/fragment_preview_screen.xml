@@ -719,7 +719,6 @@
                                     android:layout_height="wrap_content"/>
                                 <LinearLayout
                                     android:layout_width="wrap_content"
-                                    android:visibility="gone"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
 
@@ -754,7 +753,6 @@
                                 <RadioGroup
                                     android:id="@+id/radioGroupYesNoNa"
                                     android:layout_width="match_parent"
-                                    android:visibility="gone"
                                     android:fontFamily="@font/avenir_next_regular"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
@@ -935,13 +933,7 @@
                                                 android:layout_weight="1"
                                                 android:textSize="16sp"/>
 
-                                            <ImageView
-                                                android:id="@+id/ivCalendar"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:src="@drawable/baseline_calendar_month_24"
-                                                android:contentDescription="Calendar Icon"
-                                                android:padding="8dp"/>
+
 
                                         </LinearLayout>
 
@@ -1008,13 +1000,7 @@
                                                 android:layout_weight="1"
                                                 android:textSize="16sp"/>
 
-                                            <ImageView
-                                                android:id="@+id/ivCalendarHowMuch"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:src="@drawable/baseline_calendar_month_24"
-                                                android:contentDescription="Calendar Icon"
-                                                android:padding="8dp"/>
+
 
                                         </LinearLayout>
                                         <ImageView
@@ -1029,6 +1015,7 @@
                                             android:layout_width="match_parent"
                                             android:orientation="horizontal"
                                             android:padding="12dp"
+
                                             android:layout_height="wrap_content">
                                             <TextView
                                                 android:id="@+id/tvSelectedRandomDate"

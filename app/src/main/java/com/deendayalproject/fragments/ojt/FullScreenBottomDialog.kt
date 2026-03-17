@@ -159,6 +159,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
     private var selectedinstrumentAnswer = ""
     private var selectedmaterialsAnswer = ""
     private var selectedfacilitiesAnswer = ""
+    private var selectedstipinedAnswer = ""
     private var AreBoardingAandLoadingFacilitiesProvided = ""
     private var selectedRandomDateStr: String? = null
     private var HowMuchSelectedDate: String? = null
@@ -686,6 +687,9 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
                     binding.ImageLayout.visibility = View.VISIBLE
                     binding.textInputReon.visibility = View.GONE
                     binding.VideoLinlayout.visibility = View.VISIBLE
+                    binding.etNoReason.setText("")
+                    videoPath= ""
+                    image1Base64= ""
                     "Yes"
 
                 }
@@ -695,6 +699,49 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
                     binding.VideoLinlayout.visibility = View.VISIBLE
                     binding.ImageLayout.visibility = View.VISIBLE
                     binding.yesLayout.visibility = View.GONE
+
+
+
+
+                    selectedAnswer = ""
+                     selectednominatedAnswer = ""
+                     selectedinstrumentAnswer = ""
+                     selectedmaterialsAnswer = ""
+                    selectedfacilitiesAnswer = ""
+                     selectedstipinedAnswer = ""
+                    AreBoardingAandLoadingFacilitiesProvided = ""
+                    selectedRandomDateStr= ""
+                     HowMuchSelectedDate= ""
+
+
+
+                     binding.tvSelectedDate.setText("")
+                    binding.tvHowMuchSelectedDate.setText("")
+                     binding.etOjtEnterYourGettingFor.setText("")
+                     binding.etOjtEnterDuringTimes.setText("")
+                     binding.etSelectedRandomDate.setText("")
+                     binding.etOjtTrainingCenter.setText("")
+                    binding.etNoReason.setText("")
+                    binding.etRemarkbordingAndLoadingFacilities.setText("")
+                   binding.etRemarkFieldLevelSupervisorNominated.getText().toString()
+                    binding.etRemarkareYouGivenEnoughMaterials.setText("")
+                  binding.etRemarkareYouGivenSufficientInstument.setText("")
+                 binding.etRemarkAreBoardingAandLoadingFacilitiesProvided.setText("")
+
+                    binding.radioGroupnominatedYesNo.clearCheck()
+                    binding.radioGroupinstrumentYesNo.clearCheck()
+                    binding.radioGroupinstrumentYesNo.clearCheck()
+                    binding.radioGroupmaterialsYesNo.clearCheck()
+                    binding.radioGroupStipinedYesNo.clearCheck()
+                    binding.radioGroupAreBoardingAandLoadingFacilitiesProvidedYesNo.clearCheck()
+
+                     videoPath= ""
+                    image1Base64= ""
+
+
+
+
+
                     "No"
                 }
 //                }
@@ -724,9 +771,6 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
 
             }
         }
-
-
-
         binding.radioGroupinstrumentYesNo.setOnCheckedChangeListener { _, instrumentAnswer ->
 
 
@@ -769,10 +813,10 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
             }
         }
 
-        binding.radioGroupfacilitiesYesNo.setOnCheckedChangeListener { _, facilitiesAnswer ->
-            selectedfacilitiesAnswer = when (facilitiesAnswer) {
+        binding.radioGroupStipinedYesNo.setOnCheckedChangeListener { _, facilitiesAnswer ->
+            selectedstipinedAnswer = when (facilitiesAnswer) {
 
-                binding.radiofacilitiesYes.id -> {
+                binding.radioStipinedYes.id -> {
 //                etRemarkbordingAndLoadingFacilities
                     binding.tvetRemarkbordingAndLoadingFacilities.visibility = View.GONE
 
@@ -781,7 +825,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
 
                 }
 
-                binding.radiofacilitiesNo.id -> {
+                binding.radioStipinedNo.id -> {
                     binding.tvetRemarkbordingAndLoadingFacilities.visibility = View.VISIBLE
 
                     "No"
@@ -793,6 +837,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         }
         binding.radioGroupAreBoardingAandLoadingFacilitiesProvidedYesNo.setOnCheckedChangeListener { _, facilitiesAnswer ->
             AreBoardingAandLoadingFacilitiesProvided = when (facilitiesAnswer) {
+
 
                 binding.radioAreBoardingAandLoadingFacilitiesProvidedYes.id -> {
 //                etRemarkbordingAndLoadingFacilities
@@ -1065,6 +1110,13 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         binding.btnPlayPause.visibility = View.VISIBLE
 
 //        playVideo()
+        outputFile?.let { file ->
+
+            val path = file.absolutePath
+            finalVideoPath=path
+
+
+        }
     }
 
     private fun stopAndSave() {
@@ -1086,6 +1138,25 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         binding.btnDelete.visibility = View.VISIBLE
         binding.btnSwitch.visibility = View.GONE
         binding.btnPlayPause.visibility = View.VISIBLE
+
+
+        outputFile?.let { file ->
+
+            val path = file.absolutePath
+            finalVideoPath=path
+
+
+        }
+
+
+
+
+
+
+
+
+
+
 
 //        playVideo()
     }
@@ -1119,13 +1190,13 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
 
                 finalVideoPath=path
 
-                android.app.AlertDialog.Builder(requireContext())
-                    .setTitle("Recording Completed")
-                    .setMessage(
-                        "Size: %.2f MB\n\nPath:\n$path".format(sizeMB)
-                    )
-                    .setPositiveButton("OK", null)
-                    .show()
+//                android.app.AlertDialog.Builder(requireContext())
+//                    .setTitle("Recording Completed")
+//                    .setMessage(
+//                        "Size: %.2f MB\n\nPath:\n$path".format(sizeMB)
+//                    )
+//                    .setPositiveButton("OK", null)
+//                    .show()
             }
         }
     }
@@ -2106,9 +2177,12 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
             setCancelable(false)
             show()
         }
-        val TodayActivityDate = binding.etOjtTrainingCenter.getText().toString()
+        val SelectedDate = binding.tvSelectedDate.getText().toString().toString()
+        val HowMuchSelectedDate = binding.tvHowMuchSelectedDate.getText().toString()
         val EnterYourGettingFor = binding.etOjtEnterYourGettingFor.getText().toString()
         val EnterDuringTimes = binding.etOjtEnterDuringTimes.getText().toString()
+        val PrevousDoingToday = binding.etSelectedRandomDate.getText().toString()
+        val DoingToday = binding.etOjtTrainingCenter.getText().toString()
         val NoReason = binding.etNoReason.getText().toString()
         val RemarkbordingAndLoadingFacilities = binding.etRemarkbordingAndLoadingFacilities.getText().toString()
         val RemarkFieldLevelSupervisorNominated = binding.etRemarkFieldLevelSupervisorNominated.getText().toString()
@@ -2138,21 +2212,23 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
             .addFormDataPart("districtCode",batch[0].districtCode)
             .addFormDataPart("trainingStartDate",batch[0].batchStartDate)
             .addFormDataPart("trainingEndDate",batch[0].batchEndDate)
-            .addFormDataPart("ojtStartDate",batch[0].ojtStartDate)
+//            .addFormDataPart("ojtStartDate",batch[0].ojtStartDate)
+            .addFormDataPart("ojtStartDate",selectedRandomDateStr.toString())
             .addFormDataPart("ojtEndDate",batch[0].ojtEndDate)
             .addFormDataPart("verificationDate",binding.tvCurrentDate.getText().toString())
             .addFormDataPart("verificationTime",binding.tvTime.getText().toString())
             .addFormDataPart("candidateAvailable",selectedAnswer)
             .addFormDataPart("workPlaceId",batch[0].workplaceId)
             .addFormDataPart("reason",NoReason)
-            .addFormDataPart("ojtStartByCandidate",binding.tvSelectedDate.getText().toString())
-            .addFormDataPart("todayActivity",binding.etSelectedRandomDate.getText().toString())
-            .addFormDataPart("previousActivity",selectedRandomDateStr.toString())
+            .addFormDataPart("ojtStartByCandidate",SelectedDate)
+//            .addFormDataPart("todayActivity",binding.etSelectedRandomDate.getText().toString())
+            .addFormDataPart("todayActivity",DoingToday)
+            .addFormDataPart("previousActivity",HowMuchSelectedDate+PrevousDoingToday)
             .addFormDataPart("isFieldLevelSupervisorNominated",selectednominatedAnswer)
             .addFormDataPart("supervisorInteractionTimeCount",EnterDuringTimes)
             .addFormDataPart("areYouGivenSufficientInstument",selectedinstrumentAnswer)
             .addFormDataPart("areYouGivenEnoughMaterials",selectedmaterialsAnswer)
-            .addFormDataPart("eligibleStipend","")
+            .addFormDataPart("eligibleStipend",selectedstipinedAnswer)
             .addFormDataPart("stipendGetting",EnterYourGettingFor)
             .addFormDataPart("bordingAndLoadingFacilities",AreBoardingAandLoadingFacilitiesProvided)
             .addFormDataPart("candidateRollNo",batch[0].rollNo.toString())
@@ -2165,7 +2241,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
             .addFormDataPart("youGivenEnoughMaterialsRemark",RemarkareYouGivenEnoughMaterials)
             .addFormDataPart("bordingAndLoadingFacilitiesRemark",RemarkAreBoardingAandLoadingFacilitiesProvided)
             .addFormDataPart("isStipendSame",selectedfacilitiesAnswer)
-            .addFormDataPart("stipendRemark",HowMuchSelectedDate + RemarkbordingAndLoadingFacilities)
+            .addFormDataPart("stipendRemark", RemarkbordingAndLoadingFacilities)
 
 
             .addFormDataPart(
@@ -2176,6 +2252,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
             .build()
         val request = Request.Builder()
             .url(BuildConfig.BASE_URL + "saveCandidateOjtVerification")
+//            .url(BuildConfig.BASE_URL + "saveCandidat")
             .post(body)
             .addHeader(
                 "ddugkyappauth",

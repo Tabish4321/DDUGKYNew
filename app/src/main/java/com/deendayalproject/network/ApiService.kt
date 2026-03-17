@@ -84,6 +84,7 @@ import com.deendayalproject.model.response.AttendanceCheckRes
 import com.deendayalproject.model.response.AttendanceInsertRes
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
+import com.deendayalproject.model.response.CandidateOjtVerificationDetails
 import com.deendayalproject.model.response.CandidateOjtVerificationRequest
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
@@ -700,6 +701,8 @@ interface ApiService {
 
 
 
+    @POST(value = "getCandidateOjtVerification")
+    suspend fun getCandidateOjtVerification(@Body request: ModulesOJTCompleteOjtRequest): Response<CandidateOjtVerificationDetails>
 
     @POST(value = "saveCandidateOjtVerification")
     suspend fun saveCandidateOjtVerification(@Body request: CandidateOjtVerificationRequest): Response<SaveCandidateOjtVerificationResponse>

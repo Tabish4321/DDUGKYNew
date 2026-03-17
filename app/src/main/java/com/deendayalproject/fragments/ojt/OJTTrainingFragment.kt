@@ -132,10 +132,10 @@ import java.util.Locale
         }
 
         // —— facilities Yes/No ——
-        binding.radioGroupfacilitiesYesNo.setOnCheckedChangeListener { _, checkedId ->
+        binding.radioGroupStipinedYesNo.setOnCheckedChangeListener { _, checkedId ->
             selectedfacilitiesAnswer = when (checkedId) {
-                binding.radiofacilitiesYes.id -> "Yes"
-                binding.radiofacilitiesNo.id -> "No"
+                binding.radioStipinedYes.id -> "Yes"
+                binding.radioStipinedNo.id -> "No"
                 else -> ""
             }
             Toast.makeText(requireContext(), selectedfacilitiesAnswer, Toast.LENGTH_SHORT).show()

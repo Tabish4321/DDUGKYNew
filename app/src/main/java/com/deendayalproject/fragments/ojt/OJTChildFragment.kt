@@ -14,8 +14,10 @@ import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.ChildFragmentBinding
 import com.deendayalproject.model.request.ModulesCandidateByOjtRequest
 import com.deendayalproject.model.request.ModulesOJTCompleteOjtRequest
+import com.deendayalproject.model.response.CandidateOjtVerificationDetails
 import com.deendayalproject.model.response.OJTList
 import com.deendayalproject.model.response.OjtBatchRes
+import com.deendayalproject.model.response.VerificationDetails
 
 import com.deendayalproject.util.AppUtil
 import com.google.gson.Gson
@@ -31,6 +33,7 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
     private lateinit var viewModel: SharedViewModel
     // ---------- Batch ----------
     private var CompleteOJTList: List<OJTList> = emptyList()
+    private var VerificationDetails: List<VerificationDetails> = emptyList()
 
     private var OJTList: List<OjtBatchRes> = emptyList()
     private lateinit var childAdapter: ChildAdapter
@@ -155,14 +158,28 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
                     if (!result.wrappedList.isNullOrEmpty()) {
 
                         CompleteOJTList = result.wrappedList
-
+                        val candidateId = CompleteOJTList.firstOrNull()?.candidateId
                         if (verificationStatus != "Completed") {
                             val dialog = FullScreenDialog(CompleteOJTList)
                             dialog.show(parentFragmentManager, "Full Screen Dialog")
                         }
                           else{
 
-//                            val dialog = PreViewlScreenCandidateBottomDialog(CompleteOJTList)
+
+
+
+                            val token = AppUtil.getSavedTokenPreference(requireContext())
+                            val request = ModulesOJTCompleteOjtRequest(
+                                BuildConfig.VERSION_NAME,
+                                candidateId.toString()
+                            )
+
+                            showProgressDialog("Loading...")
+                            viewModel.fetchgetCandidateOjtVerification(request, "Bearer $token")
+
+
+
+//                            val dialog = PreViewlScreenCandidateBottomDialog(VerificationDetails)
 //                            dialog.show(parentFragmentManager, "PreViewlScreenCandidateBottomDialog")
                           }
                     } else {
@@ -267,7 +284,66 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
                 ).show()
             }
         }
+
+
+        viewModel.CandidateOjtVerificationDetails.observe(viewLifecycleOwner) { response ->
+
+            response.onSuccess { result ->
+
+                dismissProgressDialog()
+
+                // ✅ Check Response Code
+                if (result.responseCode == 200) {
+
+                    // ✅ Check Data Not Null / Not Empty
+                    if (!result.wrappedList.isNullOrEmpty()) {
+
+                        VerificationDetails = result.wrappedList
+
+                        val dialog = PreViewlScreenCandidateBottomDialog(VerificationDetails,CompleteOJTList)
+                        dialog.show(parentFragmentManager, "PreViewlScreenCandidateBottomDialog")
+                    } else {
+                        // ❌ No Data Case
+                        Toast.makeText(
+                            requireContext(),
+                            "No Data Found",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                } else {
+                    // ❌ Response Code Not 200
+                    Toast.makeText(
+                        requireContext(),
+                        result.responseDesc ?: "Server Error",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            response.onFailure { error ->
+
+
+
+
+                dismissProgressDialog()
+
+                // ✅ Handle 401 (Session Expired)
+                if (error is HttpException && error.code() == 401) {
+                    AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    return@onFailure
+                }
+
+                // ✅ General Failure
+                Toast.makeText(
+                    requireContext(),
+                    error.message ?: "Something went wrong. Try again.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         // 👉 Orientation unlock when dialog closed

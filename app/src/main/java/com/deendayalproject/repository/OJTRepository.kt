@@ -8,6 +8,7 @@ import com.deendayalproject.model.request.ModulesOJTBatchRequest
 import com.deendayalproject.model.request.ModulesOJTCompleteOjtRequest
 import com.deendayalproject.model.request.ModulesOJTSanctionOrderRequest
 import com.deendayalproject.model.request.ModulesOJTTrainingCenterRequest
+import com.deendayalproject.model.response.CandidateOjtVerificationDetails
 import com.deendayalproject.model.response.CandidateOjtVerificationRequest
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.OJTList_Res
@@ -43,6 +44,14 @@ class OJTRepository(context: Context) : BaseRepository<ApiService>(context) {
             apiService.getCompleteOjtList(request)
         }
 
+
+
+
+
+    suspend fun fetchgetCandidateOjtVerificationList(request: ModulesOJTCompleteOjtRequest, token: String): Result<CandidateOjtVerificationDetails> =
+        safeApiCallWithToken(token) {
+            apiService.getCandidateOjtVerification(request)
+        }
     suspend fun CandidateOjtVerification(request: CandidateOjtVerificationRequest, token: String): Result<SaveCandidateOjtVerificationResponse> =
         safeApiCallWithToken(token) {
             apiService.saveCandidateOjtVerification(request)

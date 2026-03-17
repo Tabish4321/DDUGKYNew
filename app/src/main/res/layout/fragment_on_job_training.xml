@@ -1316,20 +1316,20 @@
                                             android:contentDescription="Play"/>
 
                                         <RadioGroup
-                                            android:id="@+id/radioGroupfacilitiesYesNo"
+                                            android:id="@+id/radioGroupStipinedYesNo"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:orientation="horizontal">
 
                                             <RadioButton
-                                                android:id="@+id/radiofacilitiesYes"
+                                                android:id="@+id/radioStipinedYes"
                                                 android:layout_width="wrap_content"
                                                 android:fontFamily="@font/avenir_next_regular"
                                                 android:layout_height="wrap_content"
                                                 android:text="@string/yes"/>
 
                                             <RadioButton
-                                                android:id="@+id/radiofacilitiesNo"
+                                                android:id="@+id/radioStipinedNo"
                                                 android:layout_width="wrap_content"
                                                 android:fontFamily="@font/avenir_next_regular"
                                                 android:layout_height="wrap_content"

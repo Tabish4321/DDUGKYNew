@@ -60,6 +60,8 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _SaveCandidateOjtVerification = MutableLiveData<Result<SaveCandidateOjtVerificationResponse>>()
     val SaveCandidateOjtVerification: LiveData<Result<SaveCandidateOjtVerificationResponse>> = _SaveCandidateOjtVerification
 
+    private val _CandidateOjtVerificationDetails = MutableLiveData<Result<CandidateOjtVerificationDetails>>()
+    val CandidateOjtVerificationDetails: LiveData<Result<CandidateOjtVerificationDetails>> = _CandidateOjtVerificationDetails
     private val _CompleteOjt = MutableLiveData<Result<OJTList_Res>>()
     private val _ListByBatch = MutableLiveData<Result<OjtListByBatch_Res>>()
 
@@ -73,6 +75,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _ojtSanctionNo = MutableLiveData<Result<OJT_Sanction_Res>>()
     private val _ojtTrainingCenterRequest = MutableLiveData<Result<OJT_TrainingCenter_Res>>()
     private val _ojtBatchRequest = MutableLiveData<Result<OJT_BatchList_Res>>()
+
     val CompleteOjt: LiveData<Result<OJTList_Res>> = _CompleteOjt
     val BatchRequest: LiveData<Result<OJT_BatchList_Res>> = _ojtBatchRequest
     val ojtTrainingCenterRequest: LiveData<Result<OJT_TrainingCenter_Res>> = _ojtTrainingCenterRequest
@@ -1368,7 +1371,17 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             resultLiveData = _CompleteOjt
         )
     }
-
+    fun fetchgetCandidateOjtVerification(request: ModulesOJTCompleteOjtRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchgetCandidateOjtVerificationList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _CandidateOjtVerificationDetails
+        )
+    }
 
 //    getCandidateByOjt
 
