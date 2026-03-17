@@ -120,9 +120,9 @@ class InspectionListFragment :
                                         val inspectionDate = try {
                                             selectedItem.inspectionDate?.let {
                                                 java.time.LocalDate.parse(it, formatter)
-                                            } ?: currentDate   // ✅ NULL → current date
+                                            } ?: currentDate   //  NULL → current date
                                         } catch (e: Exception) {
-                                            currentDate   // ✅ wrong format → current date
+                                            currentDate   //  wrong format → current date
                                         }
 
                                         if (inspectionDate == currentDate) {
