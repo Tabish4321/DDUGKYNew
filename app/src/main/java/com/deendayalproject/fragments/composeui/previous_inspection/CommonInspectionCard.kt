@@ -258,6 +258,7 @@ fun CommonInspectionCard(
                             ),
                             AppUtil.getSavedTokenPreference(context)
                         )
+                        expanded = false
                     }
                 ) {
                     Text("Submit")

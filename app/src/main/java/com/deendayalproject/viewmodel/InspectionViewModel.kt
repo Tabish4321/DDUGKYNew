@@ -1138,9 +1138,6 @@ class InspectionViewModel(application: Application) :
 
 
 
-
-
-
     private val _saveSuccess = MutableStateFlow(false)
     val saveSuccess = _saveSuccess.asStateFlow()
 

@@ -978,10 +978,6 @@ interface ApiService {
 
 
 
-//        @POST("getPreviousInspectionObservation")
-//        suspend fun getPreviousInspectionObservation(
-//            @Body request: PreviousInspectionObservationRequest
-//        ): PreviousInspectionObservationResponse
 
     @POST("getPreviousInspectionObservation")
     suspend fun getPreviousInspectionObservation(
