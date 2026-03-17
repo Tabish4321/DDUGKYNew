@@ -3,6 +3,7 @@ package com.deendayalproject.util
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -242,24 +243,24 @@ object AppUtil {
     }
 
 
-    /*  fun showSessionExpiredDialog(navController: NavController, context: Context) {
-          if (isSessionDialogShown) return // Prevent showing multiple dialogs
 
-          isSessionDialogShown = true // Set flag to true when dialog is shown
+    fun bitmapToBase64(bitmap: Bitmap): String {
+        val stream = java.io.ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream)
+        val byteArray = stream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
 
-          val builder = androidx.appcompat.app.AlertDialog.Builder(context)
-          builder.setTitle("Session Expired")
-          builder.setMessage("Your session has expired. Please log in again.")
-          builder.setCancelable(false) // Prevent dismissing on outside touch or back press
+    fun base64ToBitmap(base64Str: String): Bitmap? {
+        return try {
+            val decodedBytes = Base64.decode(base64Str, Base64.DEFAULT)
+            BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+        } catch (e: Exception) {
+            null
+        }
+    }
 
-          builder.setPositiveButton("OK") { dialog, _ ->
-              dialog.dismiss()
-              logoutUser(navController, context)
-          }
 
-          val alertDialog = builder.create()
-          alertDialog.show()
-      }*/
     fun bitmapToCompressedBase64(bitmap: Bitmap): String {
 
         val stream = ByteArrayOutputStream()
@@ -290,10 +291,42 @@ object AppUtil {
         return sharedPreferences.getString("CenterType", "") ?: ""
     }
 
+    fun showBase64Dialog(context: Context, base64: String) {
+
+        val imageBytes = Base64.decode(base64, Base64.DEFAULT)
+        val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
+        val dialog = Dialog(context)
+        val imageView = ImageView(context)
+
+        imageView.setImageBitmap(bitmap)
+
+        dialog.setContentView(imageView)
+        dialog.show()
+    }
+
+    fun showNoImageDialog(context: Context) {
+
+        val dialog = Dialog(context)
+
+        val imageView = ImageView(context)
+
+        imageView.setImageResource(R.drawable.no_image)
+
+        dialog.setContentView(imageView)
+
+        dialog.show()
+    }
+
+    fun validate(answer: String?, remark: String): Boolean {
+
+        if (answer == null) return false
+
+        if (answer == "No" && remark.isBlank()) return false
 
 
-
-
+        return true
+    }
     fun saveInspectionIdPreference(context: Context, tokenCode: String) {
         val sharedPreferences =
             context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)

@@ -54,7 +54,6 @@ fun InspectionStepModernScreen(
     trainingCenterId: String,
     batchList: List<PrevBatchItem>,
     candidateList: List<CandidateItem>,
-    trainerList: List<TrainerListInspectionRes>,
     ongoingBatchList: List<PrevBatchItem>,
     ongoingCandidateList: List<CandidateItem>,
     currentStep: Int,

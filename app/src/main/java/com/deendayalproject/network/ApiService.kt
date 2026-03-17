@@ -48,6 +48,7 @@ import com.deendayalproject.model.request.ModifyRfList
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
+import com.deendayalproject.model.request.PreviousInsQuesReq
 import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
@@ -102,6 +103,7 @@ import com.deendayalproject.model.request.assesmentInspection.SaveEntitlementsDi
 import com.deendayalproject.model.request.assesmentInspection.SaveResidentialFacilityVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.insertRfBasicInfoReq
+import com.deendayalproject.model.request.savePreviousInspectionQuesReq
 import com.deendayalproject.model.request.saveTrainerClassObservationInspectionReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
 import com.deendayalproject.model.response.AddNewRFRes
@@ -162,6 +164,7 @@ import com.deendayalproject.model.response.ModifyRFRes
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.NonAreaInformationRoom
 import com.deendayalproject.model.response.NonceResponse
+import com.deendayalproject.model.response.PreviousInsQues
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
@@ -949,6 +952,23 @@ interface ApiService {
 
         @Body request: SaveCandidateAttendanceInspectionRequest
 
+    ): Response<InsertRes>
+
+
+
+    @POST("getPreviousInspectionObservation")
+    suspend fun getPreviousInsQues(
+        @Body previousInsQuesReq: PreviousInsQuesReq
+    ): Response<PreviousInsQues>
+
+
+
+
+
+
+    @POST("savePreviousInspectionObservation")
+    suspend fun savePreviousInspectionObservation(
+        @Body savePreviousInspectionQuesReq: savePreviousInspectionQuesReq
     ): Response<InsertRes>
 
 

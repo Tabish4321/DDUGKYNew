@@ -4,6 +4,7 @@ import android.content.Context
 import com.deendayalproject.base.BaseRepository
 import com.deendayalproject.base.BaseResponse
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
+import com.deendayalproject.model.request.PreviousInsQuesReq
 import com.deendayalproject.model.request.SaveInspectionStandardFormRequest
 import com.deendayalproject.model.request.assesmentInspection.AssessmentStatusInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateAssessmentInspectionRequest
@@ -30,6 +31,7 @@ import com.deendayalproject.model.response.CandidateAssessmentResponse.Inspectio
 import com.deendayalproject.model.response.CandidateAssessmentResponse.ResidentialFacilityVerificationResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.SaveInspectionStandardFormResponse
 import com.deendayalproject.model.response.InsertRes
+import com.deendayalproject.model.response.PreviousInsQues
 import com.deendayalproject.network.ApiService
 
 /**
@@ -165,6 +167,7 @@ class CandidateAssessmentRepository(
             apiService.saveCandidateAttendanceInspection(request)
 
         }
+
 
 
 

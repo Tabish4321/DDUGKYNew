@@ -1,5 +1,7 @@
 package com.deendayalproject.fragments.composeFragment
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -20,7 +22,6 @@ import com.deendayalproject.model.request.CandidatePreviousBatchReq
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.response.PrevBatchItem
-import com.deendayalproject.model.response.TrainerListInspectionRes
 import com.deendayalproject.model.response.TrainingInspCenterDetails
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.CandidateVerificationViewModel
@@ -48,9 +49,10 @@ class InspectionBasicDetailsFragment :
     private var sanctionOrder = ""
     private var inspectionType = ""
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun initializeViews() {
-        hideStatusBar()
 
+        hideStatusBar()
 
         // Get arguments
         trainingCenterId = arguments?.getInt("trainingCenterId", 0) ?: 0
@@ -108,6 +110,7 @@ class InspectionBasicDetailsFragment :
                         )
                     }
                 }
+
 
                 /* -------------------------------
                    STEP 2 → BATCH API CALL
@@ -212,7 +215,6 @@ class InspectionBasicDetailsFragment :
                                 }
                             },
 
-
                             onOngoingBatchSelected = { batchId ->
                                 if (batchId != null) {
                                     viewModel.getOngoingBatchCandiate(
@@ -231,33 +233,9 @@ class InspectionBasicDetailsFragment :
                             onEditClick = { inspectionId ->
                                 findNavController().navigate(
                                     InspectionBasicDetailsFragmentDirections
-                                        .actionInspectionBasicDetailsFragmentToPreviousInspectionEditFragment(
-                                            inspectionId.inspectionDate,
-                                            inspectionId.inspectorId
-                                        )
+                                        .actionInspectionBasicDetailsFragmentToPreviousInspectionEditFragment()
                                 )
                             },
-
-                            trainerList = listOf(
-                                TrainerListInspectionRes(
-                                    trainerId = "TR001",
-                                    name = "Rahul Sharma",
-                                    contactNumber = "9876543210",
-                                    designation = "Technical Trainer"
-                                ),
-                                TrainerListInspectionRes(
-                                    trainerId = "TR002",
-                                    name = "Amit Kumar",
-                                    contactNumber = "9123456780",
-                                    designation = "Soft Skill Trainer"
-                                ),
-                                TrainerListInspectionRes(
-                                    trainerId = "TR003",
-                                    name = "Neha Singh",
-                                    contactNumber = "9988776655",
-                                    designation = "Domain Trainer"
-                                )
-                            ),
 
                         )
                     }

@@ -13,12 +13,14 @@ import com.deendayalproject.model.request.GetTcInspectionList
 import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
+import com.deendayalproject.model.request.PreviousInsQuesReq
 import com.deendayalproject.model.request.SavePreDDQueReq
 import com.deendayalproject.model.request.SubjectDeleteReq
 import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.request.TrainerListReq
 import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
+import com.deendayalproject.model.request.savePreviousInspectionQuesReq
 import com.deendayalproject.model.request.saveTrainerClassObservationInspectionReq
 import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
@@ -30,6 +32,7 @@ import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InsertRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
+import com.deendayalproject.model.response.PreviousInsQues
 import com.deendayalproject.model.response.SubjectDeleteRes
 import com.deendayalproject.model.response.SubjectListRes
 import com.deendayalproject.model.response.TrainerListRes
@@ -1132,6 +1135,94 @@ class InspectionViewModel(application: Application) :
             }
         )
     }
+
+
+
+
+
+
+    private val _saveSuccess = MutableStateFlow(false)
+    val saveSuccess = _saveSuccess.asStateFlow()
+
+    fun resetSaveFlag() {
+        _saveSuccess.value = false
+    }
+
+    fun savePreviousInspectionObservation(req: savePreviousInspectionQuesReq, header: String) {
+
+        viewModelScope.launch {
+
+            _loading.emit(true)
+
+            executeApiCall(
+                apiCall = {
+                    repositoryManager.inspectionRepo
+                        .savePreviousInspectionObservation(req, header)
+                },
+                onSuccess = { response ->
+
+                    _loading.emit(false)
+
+                    if (response.responseCode == 200) {
+                        _saveSuccess.value = true
+                    }
+                }
+            )
+        }
+    }
+
+
+
+
+
+
+
+    private val _getPreviousInsQues =
+        MutableStateFlow<PreviousInsQues?>(null)
+
+    val getPreviousInsQues:
+            StateFlow<PreviousInsQues?> =
+        _getPreviousInsQues.asStateFlow()
+
+
+
+
+
+    fun getPreviousInsQues(
+        request: PreviousInsQuesReq,
+        header: String
+    ) {
+
+        executeApiCall(
+            apiCall = {
+                repositoryManager
+                    .inspectionRepo
+                    .getPreviousInsQues(request, header)
+            },
+            onSuccess = { response ->
+
+                when (response.responseCode) {
+
+                    200 -> _getPreviousInsQues.emit(response)
+
+                    202 -> _errorMessage.emit("No data available.")
+
+
+                    301 -> _errorMessage.emit("Please upgrade your app.")
+
+                    else -> _errorMessage.emit(
+                        response.responseDesc?.ifEmpty {
+                            "Unknown server error"
+                        } ?: "Unknown error"
+                    )
+                }
+            }
+        )
+    }
+
+
+
+
 
 
 }

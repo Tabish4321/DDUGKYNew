@@ -13,6 +13,7 @@ import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionRequestBody
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
+import com.deendayalproject.model.request.PreviousInsQuesReq
 import com.deendayalproject.model.request.SavePreDDQueReq
 import com.deendayalproject.model.request.SubjectDeleteReq
 import com.deendayalproject.model.request.SubjectReq
@@ -20,6 +21,7 @@ import com.deendayalproject.model.request.TrainerListReq
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateRecordsVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
+import com.deendayalproject.model.request.savePreviousInspectionQuesReq
 import com.deendayalproject.model.request.saveTrainerClassObservationInspectionReq
 import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateRecordsVerificationDetails
 import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
@@ -33,6 +35,7 @@ import com.deendayalproject.model.response.GetTcInspectionRes
 import com.deendayalproject.model.response.InsertRes
 import com.deendayalproject.model.response.InspectionPreviousBatchRes
 import com.deendayalproject.model.response.InspectionTcDetailsRes
+import com.deendayalproject.model.response.PreviousInsQues
 import com.deendayalproject.model.response.SubjectDeleteRes
 import com.deendayalproject.model.response.SubjectListRes
 import com.deendayalproject.model.response.TrainerClassObservationResponse
@@ -207,12 +210,21 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
 
 
 
-//    suspend fun getCandidateRecordsVerification(
-//        request: GetCandidateRecordsVerificationRequest
-//    ): Result<CandidateRecordsVerificationDetails> =
-//        safeApiCall {
-//            apiService.getCandidateRecordsVerification(request)
-//        }
+
+    suspend fun getPreviousInsQues  (previousInsQuesReq: PreviousInsQuesReq, header :String): Result<PreviousInsQues> =
+        safeApiCallWithToken(token = header) {
+            apiService.getPreviousInsQues(previousInsQuesReq)
+        }
+
+
+
+
+    suspend fun savePreviousInspectionObservation  (savePreviousInspectionQuesReq: savePreviousInspectionQuesReq, header :String): Result<InsertRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.savePreviousInspectionObservation(savePreviousInspectionQuesReq)
+        }
+
+
 
 }
 

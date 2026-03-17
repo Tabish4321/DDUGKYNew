@@ -447,16 +447,6 @@
             android:id="@+id/action_inspectionBasicDetailsFragment_to_previousInspectionEditFragment"
             app:destination="@id/previousInspectionEditFragment" >
 
-            <argument
-                android:name="dateOfInspection"
-                app:argType="string" />
-
-            <argument
-                android:name="conductedBy"
-                app:argType="string" />
-
-
-
 
         </action>
         <action
