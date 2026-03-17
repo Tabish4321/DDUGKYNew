@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.fragments.composeFragment.InspectionBasicDetailsFragmentDirections
+import com.deendayalproject.fragments.composeui.PreviousObservationScreen
 import com.deendayalproject.fragments.composeui.batchAndCandidate.BatchListSection
 import com.deendayalproject.fragments.composeui.batchAndCandidate.CandidateDataPreviousBatchCard
 import com.deendayalproject.fragments.composeui.common.InspectionProgressHeader
@@ -237,7 +238,9 @@ fun InspectionStepModernScreen(
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(50)
                         ) {
-                            Text(if (currentStep < 7) "Next" else "Submit")
+                            if(currentStep != 7){
+                                Text(if (currentStep < 7) "Next" else "Submit")
+                            }
                         }
                     }
                 }
@@ -267,6 +270,18 @@ fun InspectionStepModernScreen(
                             snackbarHostState = snackbarHostState
                         )
                     }
+                }else if(currentStep == 7){
+                    Column(
+                        modifier = Modifier
+                            .padding(padding)
+                            .fillMaxSize()
+                    ) {
+                        PreviousObservationScreen(
+                            viewModel = condidateVerificationViewModel,
+                            snackbarHostState = snackbarHostState,
+                        )
+                    }
+
                 }
                 else {
 
@@ -481,18 +496,18 @@ fun InspectionStepModernScreen(
 
                             }*/
 
-                                7 -> {
-
-                                    item {
-
-                                        Text(
-                                            text = "Final Inspection Summary",
-                                            style = MaterialTheme.typography.titleLarge
-                                        )
-
-                                    }
-
-                                }
+//                                7 -> {
+//
+//                                    item {
+//
+//                                        Text(
+//                                            text = "Final Inspection Summary",
+//                                            style = MaterialTheme.typography.titleLarge
+//                                        )
+//
+//                                    }
+//
+//                                }
                             }
                         }
                     }

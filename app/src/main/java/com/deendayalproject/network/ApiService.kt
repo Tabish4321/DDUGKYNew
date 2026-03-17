@@ -95,6 +95,8 @@ import com.deendayalproject.model.request.assesmentInspection.GetInspectionSecti
 import com.deendayalproject.model.request.assesmentInspection.GetInspectionStandardFormRequest
 import com.deendayalproject.model.request.assesmentInspection.GetResidentialFacilityVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
+import com.deendayalproject.model.request.assesmentInspection.InsertInspectionFinalDetailsRequest
+import com.deendayalproject.model.request.assesmentInspection.PreviousInspectionObservationRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAssessmentInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveDistributedLearningMaterialInspectionRequest
@@ -118,8 +120,10 @@ import com.deendayalproject.model.response.CandidateAssessmentResponse.Candidate
 import com.deendayalproject.model.response.CandidateAssessmentResponse.CandidateRecordsVerificationDetails
 import com.deendayalproject.model.response.CandidateAssessmentResponse.DistributedLearningMaterialInspectionResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.EntitlementsDistributionInspectionResponse
+import com.deendayalproject.model.response.CandidateAssessmentResponse.InsertInspectionFinalDetailsResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.InspectionSectionStatusResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.InspectionStandardFormDto
+import com.deendayalproject.model.response.CandidateAssessmentResponse.PreviousInspectionObservationResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.ResidentialFacilityVerificationResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.SaveInspectionStandardFormResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
@@ -200,6 +204,7 @@ import com.deendayalproject.model.response.UlbRes
 import com.deendayalproject.model.response.VillageRes
 import com.deendayalproject.model.response.WardRes
 import com.deendayalproject.model.uistate.GetCandidateInspectionRequest
+import com.deendayalproject.model.uistate.PreviousInspectionObservationDto
 import com.deendayalproject.uidai.ekyc.UidaiKycRequest
 import com.deendayalproject.uidai.ekyc.UidaiResp
 import retrofit2.Response
@@ -950,6 +955,25 @@ interface ApiService {
         @Body request: SaveCandidateAttendanceInspectionRequest
 
     ): Response<InsertRes>
+
+
+
+//        @POST("getPreviousInspectionObservation")
+//        suspend fun getPreviousInspectionObservation(
+//            @Body request: PreviousInspectionObservationRequest
+//        ): PreviousInspectionObservationResponse
+
+    @POST("getPreviousInspectionObservation")
+    suspend fun getPreviousInspectionObservation(
+        @Body request: PreviousInspectionObservationRequest
+    ): Response<BaseResponse<List<PreviousInspectionObservationDto>>>
+
+
+@POST("insertInspectionFinalDetails")
+suspend fun insertInspectionFinalDetails(
+    @Body request: InsertInspectionFinalDetailsRequest
+): Response<InsertInspectionFinalDetailsResponse>
+
 
 
 }
