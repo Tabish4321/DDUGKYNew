@@ -892,6 +892,8 @@
     <string name="pia_name">PIA नाम :</string>
     <string name="date_of_verification">सत्यापन की तिथि</string>
     <string name="verification_time">सत्यापन का समय</string>
+    <string name="location_image">स्थान की छवि</string>
+    <string name="interview_video">साक्षात्कार वीडियो</string>
     <string name="is_the_candidatete_available_on_the_day_of_visit_to_the_ojt_location">1 - क्या उम्मीदवार OJT स्थान पर विज़िट के दिन उपलब्ध है?</string>
     <string name="interview_of_the_candidate_with_a_time_stamped_go_tagged_video_device_it_could_be_mobile_tablet_etc_for_the_following">उम्मीदवार का टाइम स्टैम्प और जियो टैग्ड वीडियो डिवाइस (मोबाइल/टैबलेट आदि) से इंटरव्यू</string>
     <string name="when_did_you_start_your_ojt">2 - आपने OJT कब शुरू किया?</string>
@@ -963,6 +965,7 @@
 
     <string name="ojt_location">OJT स्थान :</string>
     <string name="on_job_training_verification">ऑन जॉब ट्रेनिंग सत्यापन</string>
+    <string name="on_job_training_verification_complete">OJT पूर्ण उम्मीदवार सत्यापन विवरण</string>
     <string name="verification_date">सत्यापन तिथि</string>
     <string name="no_of_candidates">उम्मीदवारों की संख्या</string>
     <string name="ojt_name">OJT नाम</string>

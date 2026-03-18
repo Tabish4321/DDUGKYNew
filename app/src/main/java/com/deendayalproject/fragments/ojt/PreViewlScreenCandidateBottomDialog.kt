@@ -145,13 +145,16 @@ import android.os.Looper
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.addCallback
 import androidx.annotation.RequiresPermission
+import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
+import com.bumptech.glide.Glide
 import com.deendayalproject.databinding.FragmentPreviewScreenBinding
 import com.deendayalproject.model.response.VerificationDetails
 import java.nio.ByteBuffer
 //code commit 10/03/2026 Time 16:40 PM OJT Module add in Seoerate OJT Folder
 class PreViewlScreenCandidateBottomDialog( private val detail: List<VerificationDetails>,private val batch: List<OJTList>) :  DialogFragment() {
 
-
+    private var player: ExoPlayer? = null
     private var _binding: FragmentPreviewScreenBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
@@ -399,14 +402,23 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
             binding.radioGroupYesNoNa.clearCheck()
             binding.textRemarkareYouGivenSufficientInstument.visibility = View.GONE
         } else {
-            val value = detail[0].candidateAvailable
+            val value = "NO"
+//            val value = detail[0].candidateAvailable
 
             when (value) {
                 "Yes" -> {
+                    binding.yesLayout.visibility = View.VISIBLE
+                    binding.ImageLayout.visibility = View.VISIBLE
+                    binding.textInputReon.visibility = View.GONE
+                    binding.VideoLinlayout.visibility = View.VISIBLE
                     binding.radioYes.isChecked = true
                 }
                 "No" -> {
                     binding.radioNo.isChecked = true
+                    binding.textInputReon.visibility = View.VISIBLE
+                    binding.VideoLinlayout.visibility = View.VISIBLE
+                    binding.ImageLayout.visibility = View.VISIBLE
+                    binding.yesLayout.visibility = View.GONE
                 }
                 else -> {
                     binding.radioGroupYesNoNa.clearCheck()
@@ -676,6 +688,31 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
 
         binding.tvHowMuchSelectedDate.keyListener = null
         binding.etSelectedRandomDate.keyListener = null
+
+//        playVideo("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+        detail[0].verificationVideo?.let { playVideo(it) }
+
+        Glide.with(requireContext())
+//            .load("https://fastly.picsum.photos/id/703/300/300.jpg?hmac=uTMUwdRYaCi0sD8hKj3Nz7WHmeeZeb1Dn8yITbQ4BGo")
+            .load( detail[0].verificationImage)
+            .into(binding.imageView)
+
+
+
+        val reason = detail[0].reason.orEmpty()
+
+        val visibility = if (reason.isBlank()) View.GONE else View.VISIBLE
+
+        binding.textRemarkReaon.visibility = visibility
+        binding.etRemarkReaon.visibility = visibility
+
+// optional: set text when available
+        if (visibility == View.VISIBLE) {
+            binding.etRemarkReaon.setText(reason)
+        }
+        binding.etRemarkReaon.setText(detail[0].reason)
+        binding.etRemarkReaon.keyListener = null
+
     }
 
 
@@ -688,6 +725,17 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
             null
         }
     }
+
+    private fun playVideo(url: String) {
+        player = ExoPlayer.Builder(requireContext()).build()
+        binding.playerView.player = player
+
+        val mediaItem = MediaItem.fromUri(url)
+        player?.setMediaItem(mediaItem)
+
+        player?.prepare()
+        player?.playWhenReady = true
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         // 👉 Orientation unlock when dialog closed
@@ -696,10 +744,14 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
         _binding = null
 
         isProcessingOJTFullScreenDialog = false
-        textToSpeech.stop()
-        textToSpeech.shutdown()
 
 
+
+    }
+    override fun onStop() {
+        super.onStop()
+        player?.release()
+        player = null
     }
 }
 

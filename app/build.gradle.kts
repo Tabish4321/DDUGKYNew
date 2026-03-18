@@ -123,8 +123,17 @@ dependencies {
     implementation(libs.androidx.datastore.core.android)
     kapt("com.google.dagger:hilt-compiler:2.51")
     kapt("androidx.hilt:hilt-compiler:1.1.0")
-
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+
+//    video play use
+    implementation("androidx.media3:media3-exoplayer:1.3.1")
+    implementation("androidx.media3:media3-ui:1.3.1")
+
+
+
+
+
 
     // Location Services
     implementation("com.google.android.gms:play-services-location:21.3.0")

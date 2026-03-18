@@ -911,6 +911,8 @@
     <string name="pia_name">PIA Name :</string>
     <string name="date_of_verification">Date of verification</string>
     <string name="verification_time">Verification time</string>
+    <string name="location_image">Location Image</string>
+    <string name="interview_video">Interview Video</string>
     <string name="is_the_candidatete_available_on_the_day_of_visit_to_the_ojt_location">1 - Is the candidate available on the day of visit to the OJT location ?</string>
     <!--    <string name="is_the_candidatete_available_on_the_day_of_visit_to_the_ojt_location">क्या कैंडिडेट OJT लोकेशन पर विज़िट के दिन उपलब्ध रहेगा? </string>-->
     <string name="interview_of_the_candidate_with_a_time_stamped_go_tagged_video_device_it_could_be_mobile_tablet_etc_for_the_following">Interview of the candidate with a time stamped , go tagged video device (it could be mobile ,Tablet etc.) for the following</string>
@@ -956,6 +958,8 @@
         <string name="activity_did_you_do_on">Activity did you do on :</string>
     <string name="ojt_location">OJT Location :</string>
     <string name="on_job_training_verification">On Job Training Verification</string>
+    <string name="on_job_training_verification_complete">OJT Complete Cadidate Verification Details</string>
+
     <string name="verification_date">Verification Date</string>
     <string name="no_of_candidates">No of Candidates</string>
     <string name="ojt_name">OJT Name</string>
