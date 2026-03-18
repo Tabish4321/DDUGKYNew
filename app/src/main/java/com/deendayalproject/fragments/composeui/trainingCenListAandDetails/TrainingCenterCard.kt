@@ -44,7 +44,7 @@ fun TrainingCenterCard(
         currentDate
     }
 
-    val isActive =inspectionDate == currentDate
+    val isActive =true//inspectionDate == currentDate
 
     ElevatedCard(
         onClick = onClick,

@@ -1,6 +1,7 @@
 package com.deendayalproject.fragments.composeui.main
 
 import PreviousInspectionItemResponse
+import android.widget.Toast
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -40,6 +41,7 @@ import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.CandidateVerificationViewModel
 import com.deendayalproject.viewmodel.DocumentMaintainViewModel
 import com.deendayalproject.viewmodel.InspectionViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,6 +71,7 @@ fun InspectionStepModernScreen(
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current
     val context = LocalContext.current
     var trainerApiCalled by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
 
 
     val openDueDiligenceEdit by viewModel.openDueDiligenceEdit.collectAsState(initial = null)
@@ -127,7 +130,28 @@ fun InspectionStepModernScreen(
         }
     }
 
+    val verificationState by condidateVerificationViewModel.state.collectAsState()
+    val finalRemark = condidateVerificationViewModel.finalRemark
 
+    LaunchedEffect(verificationState.submitSuccess) {
+        if (verificationState.submitSuccess) {
+
+            snackbarHostState.showSnackbar("Inspection submitted successfully")
+
+            condidateVerificationViewModel.clearFinalSuccess()
+
+             findNavigator.popBackStack()
+        }
+    }
+
+    LaunchedEffect(verificationState.error) {
+        verificationState.error?.let {
+
+            snackbarHostState.showSnackbar(it)
+
+            condidateVerificationViewModel.clearFinalError()
+        }
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -230,16 +254,27 @@ fun InspectionStepModernScreen(
 
                         Button(
                             onClick = {
-                                if (currentStep < 7) {   // 👈 updated max step
+                                if (currentStep == 7) {
+                                    if (finalRemark.isBlank()) {
+                                            Toast.makeText(context, "Please enter final remark", Toast.LENGTH_SHORT).show()
+
+                                    } else {
+
+                                        condidateVerificationViewModel.submitFinal(
+                                            AppUtil.getSavedInspectionIdPreference(context).toInt(),
+                                            AppUtil.getSavedTrainingCenterIdPreference(context).toInt(),
+                                            finalRemark
+                                        )
+
+                                    }
+                                } else  if (currentStep < 7) {   // 👈 updated max step
                                     onStepChange(currentStep + 1)
                                 }
                             },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(50)
                         ) {
-                            if(currentStep != 7){
-                                Text(if (currentStep < 7) "Next" else "Submit")
-                            }
+                                Text(if (currentStep == 7) "Submit" else "Next")
                         }
                     }
                 }
@@ -278,6 +313,7 @@ fun InspectionStepModernScreen(
                         PreviousObservationScreen(
                             viewModel = condidateVerificationViewModel,
                             snackbarHostState = snackbarHostState,
+                            onFinalSubmit = {}
                         )
                     }
 

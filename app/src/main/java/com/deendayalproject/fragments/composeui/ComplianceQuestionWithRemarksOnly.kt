@@ -34,7 +34,6 @@ fun ComplianceQuestionWithRemarksOnly(
 ) {
 
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
-    val scope = rememberCoroutineScope()
 
     ElevatedCard(
         modifier = modifier
@@ -65,9 +64,8 @@ fun ComplianceQuestionWithRemarksOnly(
                 value = remarks,
                 onValueChange = {},
                 label = "Remarks",
-                isRequired = isRequired,
-                isError = isError && remarks.isBlank(),
-
+                isRequired = false,
+                isError = false,
             )
 
         }

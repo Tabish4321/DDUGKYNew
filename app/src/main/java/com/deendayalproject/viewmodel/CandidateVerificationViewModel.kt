@@ -3,6 +3,9 @@ package com.deendayalproject.viewmodel
 
 import android.app.Application
 import android.content.Context
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -392,6 +395,13 @@ class CandidateVerificationViewModel(
 
         }
 
+    }
+
+    var finalRemark by mutableStateOf("")
+        private set
+
+    fun updateFinalRemark(value: String) {
+        finalRemark = value
     }
 
 

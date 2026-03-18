@@ -31,6 +31,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import com.deendayalproject.fragments.composeui.common.MultiLineEditText
 import com.deendayalproject.util.AppUtil
 
 
@@ -40,6 +41,7 @@ fun PreviousObservationScreen(
     viewModel: CandidateVerificationViewModel,
 
     snackbarHostState: SnackbarHostState,
+    onFinalSubmit: () -> Unit
 ) {
 
     val state by viewModel.state.collectAsState()
@@ -62,32 +64,32 @@ fun PreviousObservationScreen(
 
     }
 
-    LaunchedEffect(state.submitSuccess) {
-
-        if (state.submitSuccess) {
-
-            scope.launch {
-                snackbarHostState.showSnackbar("Inspection details saved successfully")
-            }
-
-            viewModel.clearFinalSuccess()
-        }
-
-    }
-
-    LaunchedEffect(state.error) {
-
-        state.error?.let {
-
-            scope.launch {
-                snackbarHostState.showSnackbar(it)
-            }
-
-            viewModel.clearFinalError()
-
-        }
-
-    }
+//    LaunchedEffect(state.submitSuccess) {
+//
+//        if (state.submitSuccess) {
+//
+//            scope.launch {
+//                snackbarHostState.showSnackbar("Inspection details saved successfully")
+//            }
+//
+//            viewModel.clearFinalSuccess()
+//        }
+//
+//    }
+//
+//    LaunchedEffect(state.error) {
+//
+//        state.error?.let {
+//
+//            scope.launch {
+//                snackbarHostState.showSnackbar(it)
+//            }
+//
+//            viewModel.clearFinalError()
+//
+//        }
+//
+//    }
 
 
 
@@ -121,11 +123,9 @@ fun PreviousObservationScreen(
                             itemsList,
                         ) { item ->
 
-                            val answer =
-                                state.answers[item.questionId ?: 0]
+                            val answer = state.answers[item.questionId ?: 0]
 
-                            val remark =
-                                state.remarks[item.questionId ?: 0]
+                            val remark = state.remarks[item.questionId ?: 0]
                                     ?: item.remark
                                     ?: ""
 
@@ -133,9 +133,10 @@ fun PreviousObservationScreen(
 
                                 Text(
                                     text = item.sactionName ?: "",
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = Color.Gray
+                                    style = MaterialTheme.typography.labelLarge,
+                                    fontWeight = FontWeight.Bold
                                 )
+                                Spacer(Modifier.height(10.dp))
 
                                 ComplianceQuestionWithRemarksOnly(
                                     modifier = Modifier,
@@ -167,9 +168,10 @@ fun PreviousObservationScreen(
 
                         Text(
                             text = type,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.SemiBold
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = FontWeight.Bold
                         )
+                        Spacer(Modifier.height(10.dp))
 
                     }
 
@@ -177,8 +179,7 @@ fun PreviousObservationScreen(
                         list
                     ) { item ->
 
-                        val answer =
-                            state.answers[item.questionId ?: 0]
+                        val answer = state.answers[item.questionId ?: 0]
 
                         val remark =
                             state.remarks[item.questionId ?: 0]
@@ -189,36 +190,13 @@ fun PreviousObservationScreen(
 
                             Text(
                                 text = item.sactionName ?: "",
-                                style = MaterialTheme.typography.labelMedium,
-                                color = Color.Gray
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = FontWeight.Bold
                             )
-
-                            ComplianceQuestionNAWithRemarks(
-
+                            Spacer(Modifier.height(10.dp))
+                            ComplianceQuestionWithRemarksOnly(
                                 question = item.question ?: "",
-
-                                answer = answer,
-
                                 remarks = remark,
-
-                                onAnswerChange = {
-
-                                    viewModel.updateAnswer(
-                                        item.questionId ?: 0,
-                                        it
-                                    )
-
-                                },
-
-                                onRemarksChange = {
-
-                                    viewModel.updateRemark(
-                                        item.questionId ?: 0,
-                                        it
-                                    )
-
-                                }
-
                             )
 
                         }
@@ -231,30 +209,30 @@ fun PreviousObservationScreen(
 
                 item {
 
-                    Spacer(Modifier.height(24.dp))
+                    Spacer(Modifier.height(20.dp))
 
-                    Button(
+                    Text(
+                        text = "Final Remark *",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold
+                    )
 
-                        onClick = {
+                    Spacer(Modifier.height(8.dp))
 
-                            viewModel.submitFinal(
-                                inspectionId.toInt(),
-                                trainingCenterId,
-                                "Inspection Final Remark"
-                            )
+                    MultiLineEditText(
+                        value = viewModel.finalRemark,
+                        onValueChange = { viewModel.updateFinalRemark(it) },
+                        label = "Enter final inspection remark",
+                        isError = viewModel.finalRemark.isBlank()
+                    )
 
-                        },
-
-                        modifier = Modifier.fillMaxWidth(),
-
-                        shape = RoundedCornerShape(14.dp)
-
-                    ) {
-
-                        Text("Final Submit")
-
-                    }
-
+//                    if (viewModel.finalRemark.isBlank()) {
+//                        Text(
+//                            text = "Final remark is mandatory",
+//                            color = Color.Red,
+//                            style = MaterialTheme.typography.bodySmall
+//                        )
+//                    }
                 }
 
             }
