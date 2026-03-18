@@ -41,7 +41,7 @@ class AttendanceBatchListFragment  : BaseFragment<FragmentAttendanceBatchListBin
         viewModel.getAttendanceBatchListAPI(
             AttendanceBatchListReq(
                 BuildConfig.VERSION_NAME
-            ), AppUtil.getSavedTokenPreference(requireContext())
+            ), ""
         )
 
         showProgressDialog(getString(R.string.loading))

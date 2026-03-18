@@ -28,9 +28,7 @@ import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentLoginBinding
-import com.deendayalproject.fragments.ojt.FullScreenDialog
 import com.deendayalproject.model.request.LoginRequest
-import com.deendayalproject.model.response.OJTList
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.validateDeviceSecurity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -43,7 +41,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private var isProcessingLogin = false
 
     override fun initializeViews() {
-        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━LoginFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━LoginFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
@@ -55,12 +53,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         setupEditTextListeners()
         checkAutoLogin()
         disableScreenshots()
-
-
-
-
-
-
     }
 
 
@@ -299,8 +291,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         val accessToken = (data as? com.deendayalproject.model.response.LoginResponse)?.accessToken ?: ""
 
         AppUtil.saveLoginStatus(requireContext(), true)
-        AppUtil.saveTokenPreference(requireContext(), accessToken)
+       // AppUtil.saveTokenPreference(requireContext(), accessToken)
         AppUtil.saveLoginIdPreference(requireContext(), userId)
+        saveToken(requireContext(), accessToken)
 
         logFragmentEvent("Login_Successful", userId)
         setUserIdentifier(userId)

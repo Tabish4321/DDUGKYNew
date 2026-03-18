@@ -22,7 +22,9 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        validateDeviceSecurity(this)
+        if (!validateDeviceSecurity(this)) {
+            return
+        }
     }
 
     private fun disableScreenshots() {

@@ -27,6 +27,7 @@ import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.response.Form
 import com.deendayalproject.model.response.Module
 import com.deendayalproject.model.response.OJTList
+import com.deendayalproject.network.SecurePreferenceManager.clearToken
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.NoDataHelper
 import com.deendayalproject.util.ProgressDialogUtil
@@ -65,7 +66,7 @@ bindingInflater = FragmentHomeBinding::inflate
             when (item.itemId) {
                 R.id.nav_logout -> {
 
-                    viewModel.getLogOutAPI( AppUtil.getSavedTokenPreference(requireContext()))
+                    viewModel.getLogOutAPI( "")
                     viewModel.modules.observe(viewLifecycleOwner) { response ->
                         response.onSuccess { result ->
                             when (result.responseCode) {
@@ -73,6 +74,7 @@ bindingInflater = FragmentHomeBinding::inflate
                                     Toast.makeText(requireContext(),
                                         getString(R.string.logged_out), Toast.LENGTH_SHORT).show()
                                     AppUtil.saveLoginStatus(requireContext(), false)
+                                    clearToken(requireContext())
                                     findNavController().navigate(
                                         R.id.fragmentLogin,
                                         null,
@@ -224,7 +226,7 @@ bindingInflater = FragmentHomeBinding::inflate
 
     private fun fetchModules() {
         val loginId = AppUtil.getSavedLoginIdPreference(requireContext())
-        val token = AppUtil.getSavedTokenPreference(requireContext())
+        val token ="" //AppUtil.getSavedTokenPreference(requireContext())
 
         val request = ModulesRequest(
             loginId = loginId,
@@ -266,13 +268,6 @@ bindingInflater = FragmentHomeBinding::inflate
                 if (it is retrofit2.HttpException && it.code() == 401) {
                     AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
-
-
-
-
-
-
-
 
                 Toast.makeText(
                     requireContext(),

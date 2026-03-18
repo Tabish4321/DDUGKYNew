@@ -145,7 +145,7 @@ class CandidateAttendanceFragment : BaseFragment<FragmentCandidateAttendanceBind
                    val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
 
-                   commonViewModel.getInsertAttendance(AppUtil.getSavedTokenPreference(requireContext()),AttendanceInsertReq(AppUtil.getAndroidId(requireContext()),userPreferences.getUseID(),
+                   commonViewModel.getInsertAttendance("",AttendanceInsertReq(AppUtil.getAndroidId(requireContext()),userPreferences.getUseID(),
                        BuildConfig.VERSION_NAME,batchId,candidateId,
                        currentDate.toString(),"checkin",
                        formattedTime,"","",candidateName,AppUtil.getSavedEntityPreference(requireContext()),AppUtil.getSavedOrgIdPreference(requireContext()),AppUtil.getSavedHRIdPreference(requireContext())))
@@ -188,7 +188,7 @@ class CandidateAttendanceFragment : BaseFragment<FragmentCandidateAttendanceBind
 
                  val totalHoursValue = String.format("%02d:%02d:00", hours, minutes) // Format as HH:mm:ss
 
-                 commonViewModel.getInsertAttendance(AppUtil.getSavedTokenPreference(requireContext()),AttendanceInsertReq(AppUtil.getAndroidId(requireContext()),userPreferences.getUseID(),
+                 commonViewModel.getInsertAttendance("",AttendanceInsertReq(AppUtil.getAndroidId(requireContext()),userPreferences.getUseID(),
                      BuildConfig.VERSION_NAME,batchId,candidateId,
                      currentDate.toString(),"checkout",
                      "",formattedTime,totalHoursValue,candidateName,AppUtil.getSavedEntityPreference(requireContext()),AppUtil.getSavedOrgIdPreference(requireContext()),AppUtil.getSavedHRIdPreference(requireContext())))
@@ -251,7 +251,7 @@ class CandidateAttendanceFragment : BaseFragment<FragmentCandidateAttendanceBind
 
         viewModel.getAttendanceCheckAPI(AttendanceCheckReq(BuildConfig.VERSION_NAME,batchId,candidateId,
             AppUtil.getAndroidId(requireContext()),AppUtil.getSavedLoginIdPreference(requireContext())
-            ),AppUtil.getSavedTokenPreference(requireContext()))
+            ),"")
 
 
         showProgressDialog(getString(R.string.loading))
@@ -472,7 +472,7 @@ class CandidateAttendanceFragment : BaseFragment<FragmentCandidateAttendanceBind
                                             "",
                                             "",
                                             candidateName
-                                        ),AppUtil.getSavedTokenPreference(requireContext()))
+                                        ),"")
                                 }
                                 else{
 
@@ -501,7 +501,7 @@ class CandidateAttendanceFragment : BaseFragment<FragmentCandidateAttendanceBind
                                         ,formattedTime
                                         ,totalHoursValue
                                         ,candidateName)
-                                        ,AppUtil.getSavedTokenPreference(requireContext()))
+                                        ,"")
 
                                 }
 

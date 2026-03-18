@@ -91,7 +91,7 @@ class RFQTeamListFragment : BaseFragment<RfQteamListFragmentBinding>(
     }
 
     private fun fetchResidentialFacilityQTeamList() {
-        val token = AppUtil.getSavedTokenPreference(requireContext()).orEmpty()
+        val token =""
         val loginId = AppUtil.getSavedLoginIdPreference(requireContext()).orEmpty()
         if (loginId.isEmpty()) {
             showErrorToast(getString(R.string.login_id_not_found))

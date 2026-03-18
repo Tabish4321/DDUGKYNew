@@ -22,7 +22,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 5
-        versionName = "1.1.3" //1.1.2 //1.2.9//1.3.2//1.3.1//1.1.3 demo use
+        versionName = "1.1.3" //1.1.2 //1.2.9//1.3.2
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -57,7 +57,7 @@ android {
     productFlavors {
         create("prod") {
             dimension = "environment"
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
         } //BASE_URL_LIVE
 
         create("demo") {
@@ -123,6 +123,7 @@ dependencies {
     implementation(libs.androidx.datastore.core.android)
     kapt("com.google.dagger:hilt-compiler:2.51")
     kapt("androidx.hilt:hilt-compiler:1.1.0")
+
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
 
@@ -138,6 +139,12 @@ dependencies {
     // Location Services
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
+//    implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
+//    implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
+    // Firebase
+//    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+//    implementation("com.google.firebase:firebase-crashlytics-ktx")
+//    implementation("com.google.firebase:firebase-analytics-ktx")
 
 
     // Testing
@@ -182,6 +189,8 @@ dependencies {
         kapt("com.github.bumptech.glide:compiler:4.16.0")
 
     }
+
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 }
 
 kapt {

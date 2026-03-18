@@ -85,7 +85,7 @@ class RFSrlmListFragment : BaseFragment<RfSrlmListFragmentBinding>(
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
 
-        viewModel.getRFSRLMVerification(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.getRFSRLMVerification(request, "")
 
         viewModel.loading.observe(viewLifecycleOwner){loading ->
             if(loading){

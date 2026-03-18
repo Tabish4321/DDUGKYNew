@@ -73,7 +73,7 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
-        viewModel.fetchSrlmTeamTrainingList(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.fetchSrlmTeamTrainingList(request, "")
     }
 
     private fun setupRecyclerView() {
@@ -111,10 +111,12 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
 
     private fun onItemClick(center: TrainingCenter) {
         val action = SrlmVerListFragmentDirections.actionSrlmVerListFragmentToSrlmVerificationForm(
-            center.trainingCenterId.toString(),
-            center.trainingCenterName,
-            center.senctionOrder
+            centerId = center.trainingCenterId.toString(),
+            centerName =  center.trainingCenterName,
+            sanctionOrder = center.senctionOrder,
+            totalCapacity = center.tcCapacity
         )
+
         findNavController().navigate(action)
         logFragmentEvent("Training_Center_Selected", center.trainingCenterName)
     }

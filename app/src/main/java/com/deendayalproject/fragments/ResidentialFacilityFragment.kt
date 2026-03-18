@@ -870,7 +870,7 @@ class ResidentialFacilityFragment : Fragment() {
         val request = StateRequest(
             appVersion = BuildConfig.VERSION_NAME,
         )
-        viewModel.getStateList(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.getStateList(request, "")
 
 
         val sectionReq = SectionReq(
@@ -1808,7 +1808,7 @@ class ResidentialFacilityFragment : Fragment() {
                         stateCode = selectedStateCode,
                     )
                     viewModel.getDistrictList(
-                        request, AppUtil.getSavedTokenPreference(requireContext())
+                        request, ""
                     )
                 }
             }
@@ -1839,7 +1839,7 @@ class ResidentialFacilityFragment : Fragment() {
                         appVersion = BuildConfig.VERSION_NAME,
                         districtCode = selectedDistrictCode,
                     )
-                    // viewModel.getBlockList(request, AppUtil.getSavedTokenPreference(requireContext()))
+                    // viewModel.getBlockList(request, "")
                     // Toast.makeText(applicationContext,""+selectedStateCode,Toast.LENGTH_LONG).show()
                 }
             }
@@ -1865,7 +1865,7 @@ class ResidentialFacilityFragment : Fragment() {
                         appVersion = BuildConfig.VERSION_NAME,
                         blockCode = selectedBlockCode,
                     )
-                    viewModel.getGpList(request, AppUtil.getSavedTokenPreference(requireContext()))
+                    viewModel.getGpList(request, "")
                     // Toast.makeText(applicationContext,""+selectedStateCode,Toast.LENGTH_LONG).show()
                 }
             }
@@ -1889,7 +1889,7 @@ class ResidentialFacilityFragment : Fragment() {
                         gpCode = selectedGpCode,
                     )
                     viewModel.getVillageList(
-                        requestVill, AppUtil.getSavedTokenPreference(requireContext())
+                        requestVill, ""
                     )
 
                 }
@@ -2897,7 +2897,7 @@ class ResidentialFacilityFragment : Fragment() {
                         BuildConfig.VERSION_NAME,
                         AppUtil.getSavedLoginIdPreference(requireContext()),
                         ulbHashMap[spinnerSelectULB.selectedItem.toString()].toString()
-                    ), AppUtil.getSavedTokenPreference(requireContext())
+                    ), ""
                 )
 
             }
@@ -3048,7 +3048,7 @@ class ResidentialFacilityFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 districtCode = selectedDistrictCode,
             )
-            viewModel.getBlockList(request, AppUtil.getSavedTokenPreference(requireContext()))
+            viewModel.getBlockList(request, "")
         }
     }
 
@@ -3059,7 +3059,7 @@ class ResidentialFacilityFragment : Fragment() {
                     BuildConfig.VERSION_NAME,
                     AppUtil.getSavedLoginIdPreference(requireContext()),
                     selectedLgdDistrictCode
-                ), AppUtil.getSavedTokenPreference(requireContext())
+                ), ""
             )
         }
     }
@@ -4425,7 +4425,7 @@ class ResidentialFacilityFragment : Fragment() {
                                 appVersion = BuildConfig.VERSION_NAME,
                             )
                             viewModel.getStateList(
-                                request, AppUtil.getSavedTokenPreference(requireContext())
+                                request, ""
                             )
 
 

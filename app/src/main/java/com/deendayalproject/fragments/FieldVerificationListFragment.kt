@@ -102,7 +102,7 @@ class FieldVerificationListFragment : BaseFragment<FragmentFieldVerificationList
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
-        viewModel.fetchFieldVerificationList(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.fetchFieldVerificationList(request, "")
     }
 
     private fun setupRecyclerView() {

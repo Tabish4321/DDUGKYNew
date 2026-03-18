@@ -62,6 +62,10 @@ fun Double.roundHalfUp(): Int =
         .toInt()
 
 
+fun String?.orEmptySafe(): String {
+    return this ?: ""
+}
+
 
 /**
  * View visibility extensions

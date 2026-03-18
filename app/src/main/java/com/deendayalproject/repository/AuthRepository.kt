@@ -63,13 +63,13 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
 
     suspend fun fetchModules(request: ModulesRequest, token: String): Result<ModuleResponse> {
         return if(request.loginId == USER_NAME_FOR_APP)safeApiCall{  apiService.fetchModules(request)  }
-          else safeApiCallWithToken(token) {
+        else safeApiCallWithToken(token) {
             apiService.fetchModules(request)
         }
     }
 
     suspend fun logOutUser( token: String): Result<LoginResponse>{
-       return safeApiCallWithToken(token) {
+        return safeApiCallWithToken(token) {
             apiService.logOutUser()
         }
     }

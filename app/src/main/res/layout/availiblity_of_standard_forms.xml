@@ -921,6 +921,77 @@
             app:layout_constraintStart_toStartOf="parent"/>
 
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardFinalCapacity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/yesNoListOfCandidateAfterBatchFreezing"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/tvFinalCapacityTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Final Total Capacity Sanction By SRLM"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- Total Capacity EditText -->
+                <EditText
+                    android:id="@+id/etFinalTotalCapacity"
+                    style="@style/EditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="Enter Total Capacity"
+                    android:inputType="number"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/tvFinalCapacityTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <!-- Remarks EditText -->
+                <EditText
+                    android:id="@+id/etFinalCapacityRemarks"
+                    style="@style/EditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="Enter Remarks"
+                    android:visibility="gone"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:minLines="3"
+                    android:gravity="top|start"
+                    app:layout_constraintTop_toBottomOf="@id/etFinalTotalCapacity"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:layout_width="match_parent"
@@ -930,7 +1001,7 @@
             android:layout_marginTop="@dimen/dp_20"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
-            app:layout_constraintTop_toBottomOf="@id/yesNoListOfCandidateAfterBatchFreezing"
+            app:layout_constraintTop_toBottomOf="@id/cardFinalCapacity"
             app:layout_constraintStart_toStartOf="parent"
             />
 
@@ -946,6 +1017,7 @@
             app:boxStrokeColor="@color/color_dark_green"
             app:layout_constraintTop_toBottomOf="@id/llAvailOfStandardForms"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/dp_20"
             >
 
             <AutoCompleteTextView

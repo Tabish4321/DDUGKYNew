@@ -116,7 +116,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
         viewModel.getFacultyDetails(
             AttendanceCandidateListReq(batchId.toInt(),
                 BuildConfig.VERSION_NAME
-            ), AppUtil.getSavedTokenPreference(requireContext())
+            ), ""
         )
 
         showProgressDialog("Loading...")
@@ -160,7 +160,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                         "",
                         AppUtil.getAndroidId(requireContext())
 
-                    ),AppUtil.getSavedTokenPreference(requireContext()))
+                    ),"")
 
                 collectFacultyInsertAttendance()*/
 
@@ -215,7 +215,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                           totalHoursValue,
                           AppUtil.getAndroidId(requireContext())
 
-                      ),AppUtil.getSavedTokenPreference(requireContext()))
+                      ),"")
 
                   collectFacultyInsertAttendance()*/
 
@@ -514,7 +514,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                                             "",
                                             AppUtil.getAndroidId(requireContext())
 
-                                        ),AppUtil.getSavedTokenPreference(requireContext()))
+                                        ),"")
                                 }
                                 else{
 
@@ -542,7 +542,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                                             totalHoursValue,
                                             AppUtil.getAndroidId(requireContext())
 
-                                        ),AppUtil.getSavedTokenPreference(requireContext()))
+                                        ),"")
 
 
                                 }

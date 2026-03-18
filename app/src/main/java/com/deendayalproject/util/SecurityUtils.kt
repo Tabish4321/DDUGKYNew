@@ -11,29 +11,49 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.io.File
 
 private fun isDeviceRooted(): Boolean {
     val paths = arrayOf(
-        "/system/app/Superuser.apk",
         "/system/bin/su",
         "/system/xbin/su",
+        "/sbin/su",
+        "/system/sd/xbin/su",
+        "/system/bin/failsafe/su",
         "/data/local/xbin/su",
         "/data/local/bin/su",
-        "/system/sd/xbin/su"
+        "/data/local/su"
     )
     return paths.any { java.io.File(it).exists() }
 }
 
-private fun isEmulator(): Boolean {
-    return (
-            Build.FINGERPRINT.startsWith("generic")
-                    || Build.MODEL.contains("google_sdk")
-                    || Build.MODEL.lowercase().contains("emulator")
-                    || Build.MODEL.contains("Android SDK built for x86")
-                    || Build.MANUFACTURER.contains("Genymotion")
-                    || Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")
-                    || "google_sdk" == Build.PRODUCT
-            )
+
+    private fun isEmulator(): Boolean {
+
+        val fingerprint = Build.FINGERPRINT.lowercase()
+        val model = Build.MODEL.lowercase()
+        val manufacturer = Build.MANUFACTURER.lowercase()
+        val brand = Build.BRAND.lowercase()
+        val device = Build.DEVICE.lowercase()
+        val product = Build.PRODUCT.lowercase()
+        val hardware = Build.HARDWARE.lowercase()
+
+        return (
+                fingerprint.contains("generic")
+                        || fingerprint.contains("unknown")
+                        || model.contains("sdk")
+                        || model.contains("emulator")
+                        || model.contains("x86")
+                        || model.contains("google_sdk")
+                        || manufacturer.contains("genymotion")
+                        || brand.contains("generic")
+                        || device.contains("generic")
+                        || product.contains("sdk")
+                        || hardware.contains("goldfish")
+                        || hardware.contains("ranchu")
+                        || hardware.contains("vbox86")
+                )
+
 }
 
 
@@ -62,10 +82,7 @@ private fun isUsbDebuggingEnabled(context: Context): Boolean {
 }
 
 
-
-
  fun validateDeviceSecurity(context: Context): Boolean {
-
     if (isEmulator()) {
         showSecurityDialog(
             "Login is not allowed on Emulator",
@@ -86,26 +103,25 @@ private fun isUsbDebuggingEnabled(context: Context): Boolean {
         return false
     }
 
-//    if (isDeveloperOptionsEnabled(context)) {
-//        showSecurityDialog(
-//            "Disable Developer Options to continue",
-//            context = context
-//        ) {
-//            (context as Activity).finishAffinity()
-//        }
-//        return false
-//    }
+    if (isDeveloperOptionsEnabled(context)) {
+        showSecurityDialog(
+            "Disable Developer Options to continue",
+            context = context
+        ) {
+            (context as Activity).finishAffinity()
+        }
+        return false
+    }
 
-//    if (isUsbDebuggingEnabled(context)) {
-//        showSecurityDialog(
-//            "USB Debugging must be disabled",
-//            context = context
-//        ) {
-//            (context as Activity).finishAffinity()
-//        }
-//        return false
-//    }
-
+    if (isUsbDebuggingEnabled(context)) {
+        showSecurityDialog(
+            "USB Debugging must be disabled",
+            context = context
+        ) {
+            (context as Activity).finishAffinity()
+        }
+        return false
+    }
     return true
 }
 
