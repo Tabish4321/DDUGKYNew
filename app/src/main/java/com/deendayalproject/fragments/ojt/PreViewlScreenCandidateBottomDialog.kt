@@ -361,7 +361,40 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
 
 
 
+        binding.imgnavigationttrainingDetails.setOnClickListener {
+            istrainingDetailsVisible = !istrainingDetailsVisible
 
+            binding.trainingDetailsLayout.visibility =
+                if (istrainingDetailsVisible) View.VISIBLE else View.GONE
+            binding.imgnavigationttrainingDetails.setBackgroundResource(R.drawable.baseline_ojt_arrow_down_24)
+
+
+            binding.imgnavigationttrainingDetails.setBackgroundResource(
+                if (istrainingDetailsVisible)
+                    R.drawable.outline_ojt_arrow_up_24
+                else
+                    R.drawable.baseline_ojt_arrow_down_24
+
+            )
+        }
+
+
+
+
+
+        binding.imgnavigationQuestionttrainingDetails.setOnClickListener {
+            isquestionsDetailsVisible = !isquestionsDetailsVisible
+
+            binding.trainingQuestionDetailsLayout.visibility =
+                if (isquestionsDetailsVisible) View.VISIBLE else View.GONE
+            binding.imgnavigationQuestionttrainingDetails.setBackgroundResource(R.drawable.baseline_ojt_arrow_down_24)
+            binding.imgnavigationQuestionttrainingDetails.setBackgroundResource(
+                if (isquestionsDetailsVisible)
+                    R.drawable.outline_ojt_arrow_up_24
+                else
+                    R.drawable.baseline_ojt_arrow_down_24
+            )
+        }
 
 
 
@@ -379,6 +412,9 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
                     R.drawable.baseline_ojt_arrow_down_24
             )
         }
+
+
+
 
 
         binding.btnBack.setOnClickListener {
