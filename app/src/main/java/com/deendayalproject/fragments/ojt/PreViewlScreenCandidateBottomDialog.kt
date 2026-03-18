@@ -158,73 +158,17 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
     private var _binding: FragmentPreviewScreenBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
-
-    private var selectedAnswer = ""
-    private var selectednominatedAnswer = ""
-    private var selectedinstrumentAnswer = ""
-    private var selectedmaterialsAnswer = ""
-    private var selectedfacilitiesAnswer = ""
-    private var AreBoardingAandLoadingFacilitiesProvided = ""
-    private var selectedRandomDateStr: String? = null
-    private var HowMuchSelectedDate: String? = null
-    // Base64 holders
-
-    private lateinit var surfaceHolder: SurfaceHolder
-
-    private var videoPath: String = ""
-
-
-
-    private var isPlaying = false
-    private var isSelfie = false
-    private var camera: Camera? = null
-    private var mediaRecorder: MediaRecorder? = null
-    private var outputFile: File? = null
-
-    private var isRecording = false
-    private var currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK
-
-    private var countDownTimer: CountDownTimer? = null
-
-    private val RECORD_TIME = 180000L
-//    private val RECORD_TIME = 60000L
-
-    private var completed = false
-
-    // playback timer
-    private val handler = Handler(Looper.getMainLooper())
-    private var playbackRunnable: Runnable? = null
-
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-
-
     //    private var Bindinglatitude = 27.034750
 //    private var Bindinglongitutde = 79.487056
 //    var videoPath: String? = null
     private var latitude = 0.0
     private var longitude = 0.0
-    private var currentImageView: ImageView? = null
-    private var image1Base64 = ""
     var radius: Float = 100f
-    private var locationAddress = ""
-
-    //    private var compressDialog: ProgressDialog? = null
     private var isProcessingOJTFullScreenDialog = false
-    private lateinit var textToSpeech: TextToSpeech
-    var REQUEST_CODE_VIDEO_CAPTURE: Int = 2607
-    private val UTTERANCE_ID = "TTS_UTTERANCE"
-    private var currentSpeakingView: ImageView? = null
-    private var isSpeaking = false
-
-
-        private var selectedPosition = -1
     private var isProfileVisible = false
     private var istrainingDetailsVisible = false
     private var isquestionsDetailsVisible = false
-
-
-    private var recordedVideoUri: Uri? = null
-    private var finalVideoPath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -240,9 +184,6 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
         }
 
         }
-
-
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = FragmentPreviewScreenBinding.inflate(layoutInflater)
 
@@ -336,7 +277,7 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
         binding.tvMobileNo.text = batch[0].mobileNo
 
 
-        var imageData = batch[0].candidateImage
+
 
 
 //        binding.profileImageLayout.visibility= View.VISIBLE
@@ -377,11 +318,6 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
 
             )
         }
-
-
-
-
-
         binding.imgnavigationQuestionttrainingDetails.setOnClickListener {
             isquestionsDetailsVisible = !isquestionsDetailsVisible
 
@@ -395,9 +331,6 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
                     R.drawable.baseline_ojt_arrow_down_24
             )
         }
-
-
-
         binding.imgnavigation.setOnClickListener {
 
             isProfileVisible = !isProfileVisible
@@ -412,34 +345,18 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
                     R.drawable.baseline_ojt_arrow_down_24
             )
         }
-
-
-
-
-
         binding.btnBack.setOnClickListener {
             dismiss()
 
         }
-
-
-
-
-
-
-
-
-
-
-
         binding.radioGroupYesNoNa.setOnCheckedChangeListener(null)
 
         if (detail == null) {
             binding.radioGroupYesNoNa.clearCheck()
             binding.textRemarkareYouGivenSufficientInstument.visibility = View.GONE
         } else {
-            val value = "NO"
-//            val value = detail[0].candidateAvailable
+//            val value = "NO"
+            val value = detail[0].candidateAvailable
 
             when (value) {
                 "Yes" -> {
@@ -466,60 +383,6 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
                 if (value == "No") View.VISIBLE else View.GONE
         }
 
-
-//        binding.radioGroupYesNoNa.setOnCheckedChangeListener(null)
-//
-//        if (detail == null) {
-//            binding.radioGroupYesNoNa.clearCheck()
-//
-//        } else {
-//            when (detail[0].candidateAvailable) {
-//                "Yes" -> {
-//                    binding.radioYes.isChecked = true
-//                    binding.textRemarkareYouGivenSufficientInstument.visibility = View.GONE
-//
-//                }
-//
-//                "No" -> {
-//                    binding.radioNo.isChecked = true
-//                    binding.textRemarkareYouGivenSufficientInstument.visibility = View.VISIBLE
-//
-//                }
-//
-//                else -> {
-//                    binding.radioGroupinstrumentYesNo.clearCheck()
-//                    binding.textRemarkareYouGivenSufficientInstument.visibility = View.GONE
-//                }
-//            }
-//        }
-
-
-//        binding.radioGroupnominatedYesNo.setOnCheckedChangeListener(null)
-//
-//        if (detail == null) {
-//
-//            binding.radioGroupnominatedYesNo.clearCheck()
-//
-//        } else {
-//            when (detail[0].isFieldLevelSupervisorNominated) {
-//                "Yes" -> {
-//                    binding.radionominatedYes.isChecked = true
-//                    binding.textRemarkareYouGivenSufficientInstument.visibility = View.GONE
-//
-//                }
-//
-//                "No" -> {
-//                    binding.radionominatedNo.isChecked = true
-//                    binding.textRemarkareYouGivenSufficientInstument.visibility = View.VISIBLE
-//
-//                }
-//
-//                else -> {
-//                    binding.radioGroupinstrumentYesNo.clearCheck()
-//                    binding.textRemarkareYouGivenSufficientInstument.visibility = View.GONE
-//                }
-//            }
-//        }
         binding.radioGroupnominatedYesNo.setOnCheckedChangeListener(null)
 
         if (detail == null) {

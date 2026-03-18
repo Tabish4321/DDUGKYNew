@@ -226,7 +226,8 @@ bindingInflater = FragmentHomeBinding::inflate
 
     private fun fetchModules() {
         val loginId = AppUtil.getSavedLoginIdPreference(requireContext())
-        val token ="" //AppUtil.getSavedTokenPreference(requireContext())
+//        val token ="" //AppUtil.getSavedTokenPreference(requireContext())
+        val token =AppUtil.getSavedTokenPreference(requireContext())
 
         val request = ModulesRequest(
             loginId = loginId,
