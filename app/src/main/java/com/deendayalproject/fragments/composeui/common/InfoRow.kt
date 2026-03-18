@@ -25,13 +25,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun InfoRow(
     icon: ImageVector,
     label: String,
-    value: String
+    value: String?
 ) {
 
     Row(
@@ -73,7 +72,7 @@ fun InfoRow(
 
             // 🔹 Value
             Text(
-                text = value.ifBlank { "—" },
+                text = value!!.ifBlank { "—" },
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface,

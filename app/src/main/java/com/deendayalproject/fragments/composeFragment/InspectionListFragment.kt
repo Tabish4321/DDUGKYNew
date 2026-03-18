@@ -105,7 +105,10 @@ class InspectionListFragment :
                                             inspectionType = it.inspectionType,
                                             inspectionId = it.inspectionId,
                                             centerType = it.centerType,
-                                            inspectionDate = it.inspectionDate
+                                            inspectionDate = it.inspectionDate,
+                                            trainingCenterCode= it.inspectionCode,
+                                            piaName=it.piaName,
+                                            trainingCenterName = it.trainingCenterName
                                         )
                                     },
                                     isLoading = false,

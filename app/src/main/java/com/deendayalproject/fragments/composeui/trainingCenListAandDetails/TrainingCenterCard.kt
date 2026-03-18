@@ -11,18 +11,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Badge
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.Difference
+import androidx.compose.material.icons.filled.AccountBalance
+import androidx.compose.material.icons.filled.Business
+import androidx.compose.material.icons.filled.QrCode
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.deendayalproject.R
 import com.deendayalproject.fragments.composeui.common.InfoRow
 import com.deendayalproject.model.response.TrainingCenterListInspecRes
 
@@ -82,24 +80,22 @@ fun TrainingCenterCard(
                     modifier = Modifier.weight(1f)
                 ) {
 
-
                     InfoRow(
-                        icon = Icons.Default.Badge,
-                        label = "PRN Number",
-                        value = item.prnNumber
-                    )
-
-
-                    InfoRow(
-                        icon = Icons.Default.Description,
-                        label = "Sanction Letter No.",
-                        value = item.sanctionLetterNo
+                        icon = Icons.Default.Business,
+                        label = "PIA Name",
+                        value = item.piaName
                     )
 
                     InfoRow(
-                        icon = Icons.Default.Difference,
-                        label = "Inspection Type",
-                        value = item.inspectionType
+                        icon = Icons.Default.AccountBalance,
+                        label = "TC Name",
+                        value = item.trainingCenterName
+                    )
+
+                    InfoRow(
+                        icon = Icons.Default.QrCode,
+                        label = "TC Code",
+                        value = item.trainingCenterCode
                     )
 
                     InfoRow(
@@ -107,6 +103,7 @@ fun TrainingCenterCard(
                         label = "Center Type",
                         value = item.centerType
                     )
+
 
 
                 }

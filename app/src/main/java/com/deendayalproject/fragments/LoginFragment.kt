@@ -43,7 +43,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         setupPasswordToggle()
         setupEditTextListeners()
         checkAutoLogin()
-        disableScreenshots()
+       // disableScreenshots()
     }
 
 

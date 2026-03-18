@@ -7,5 +7,8 @@ data class TrainingCenterListInspecRes(
     val inspectionType: String,
     val inspectionId: String,
     val centerType: String,
-    val inspectionDate: String?
+    val inspectionDate: String?,
+    val trainingCenterCode: String?,
+    val piaName: String?,
+    val trainingCenterName: String?,
 )

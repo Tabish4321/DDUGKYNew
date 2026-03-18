@@ -157,7 +157,7 @@ fun AssessmentSection(
 
             InfoRow(
                 icon = Icons.Default.EventAvailable,
-                label = "Present on Assessment Date",
+                label = "Date of Assessment",
                 value = statusState.assessmentDate ?: "N/A"
             )
         }

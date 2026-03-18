@@ -67,23 +67,23 @@ fun PremiumTopBar(
                 }
             },
 
-            actions = {
-                Surface(
-                    shape = CircleShape,
-                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.15f),
-                    modifier = Modifier
-                        .padding(end = 12.dp)
-                        .size(36.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            imageVector = Icons.Default.Person,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                }
-            },
+//            actions = {
+//                Surface(
+//                    shape = CircleShape,
+//                    color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.15f),
+//                    modifier = Modifier
+//                        .padding(end = 12.dp)
+//                        .size(36.dp)
+//                ) {
+//                    Box(contentAlignment = Alignment.Center) {
+//                        Icon(
+//                            imageVector = Icons.Default.Person,
+//                            contentDescription = null,
+//                            tint = MaterialTheme.colorScheme.onPrimary
+//                        )
+//                    }
+//                }
+//            },
 
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = Color.Transparent

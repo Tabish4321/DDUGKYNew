@@ -1,5 +1,6 @@
 package com.deendayalproject.fragments.composeui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,8 @@ import com.deendayalproject.viewmodel.CandidateVerificationViewModel
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import com.deendayalproject.fragments.composeui.common.MultiLineEditText
@@ -119,36 +122,69 @@ fun PreviousObservationScreen(
                     .filterKeys { it != "OngoingBatchCandidate" }
                     .forEach { (_, itemsList) ->
 
-                        items(
-                            itemsList,
-                        ) { item ->
+                        items(itemsList) { item ->
 
                             val answer = state.answers[item.questionId ?: 0]
 
                             val remark = state.remarks[item.questionId ?: 0]
-                                    ?: item.remark
-                                    ?: ""
+                                ?: item.remark
+                                ?: ""
 
-                            Column {
+                            Card(
+                                colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
+                                shape = RoundedCornerShape(14.dp),
+                                elevation = CardDefaults.elevatedCardElevation(8.dp),
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(14.dp)
+                                ) {
 
-                                Text(
-                                    text = item.sactionName ?: "",
-                                    style = MaterialTheme.typography.labelLarge,
-                                    fontWeight = FontWeight.Bold
-                                )
-                                Spacer(Modifier.height(10.dp))
+                                    // Section Name
+                                    Text(
+                                        text = item.sactionName ?: "",
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
 
-                                ComplianceQuestionWithRemarksOnly(
-                                    modifier = Modifier,
-                                    question = item.question ?: "",
-                                    remarks = remark,
+                                    Spacer(Modifier.height(6.dp))
 
-                                )
+                                    // Question
+                                    Text(
+                                        text = item.question ?: "",
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
 
+                                    Spacer(Modifier.height(10.dp))
+                                    Text(
+                                        text = "Remarks:" ,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        fontWeight = FontWeight.Bold
+                                    )
+
+                                    // Remark Box
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(
+                                                Color.White,
+                                                RoundedCornerShape(10.dp)
+                                            )
+                                            .padding(10.dp)
+                                    ) {
+                                        Text(
+                                            text = remark.ifEmpty { "No remarks added" },
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                }
                             }
-
                         }
-
                     }
 
                 /* ---------------- ONGOING SECTION ---------------- */
@@ -165,19 +201,16 @@ fun PreviousObservationScreen(
                 grouped.forEach { (type, list) ->
 
                     item {
-
                         Text(
                             text = type,
-                            style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.Bold
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(vertical = 8.dp)
                         )
-                        Spacer(Modifier.height(10.dp))
-
                     }
 
-                    items(
-                        list
-                    ) { item ->
+                    items(list) { item ->
 
                         val answer = state.answers[item.questionId ?: 0]
 
@@ -186,39 +219,62 @@ fun PreviousObservationScreen(
                                 ?: item.remark
                                 ?: ""
 
-                        Column {
+                        Card(
+                            colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
+                            shape = RoundedCornerShape(14.dp),
+                            elevation = CardDefaults.elevatedCardElevation(8.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(14.dp)
+                            ) {
 
-                            Text(
-                                text = item.sactionName ?: "",
-                                style = MaterialTheme.typography.labelLarge,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Spacer(Modifier.height(10.dp))
-                            ComplianceQuestionWithRemarksOnly(
-                                question = item.question ?: "",
-                                remarks = remark,
-                            )
+                                Text(
+                                    text = item.sactionName ?: "",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontWeight = FontWeight.SemiBold
+                                )
 
+                                Spacer(Modifier.height(6.dp))
+
+                                Text(
+                                    text = item.question ?: "",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    fontWeight = FontWeight.Bold
+                                )
+
+                                Spacer(Modifier.height(10.dp))
+                                Text(
+                                    text = "Remarks:",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            Color.White,
+                                            RoundedCornerShape(10.dp)
+                                        )
+                                        .padding(10.dp)
+                                ) {
+                                    Text(
+                                        text =  remark.ifEmpty { "No remarks added" },
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
                         }
-
                     }
-
                 }
 
                 /* ---------------- FINAL SUBMIT ---------------- */
 
                 item {
-
-                    Spacer(Modifier.height(20.dp))
-
-                    Text(
-                        text = "Final Remark *",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold
-                    )
-
-                    Spacer(Modifier.height(8.dp))
-
+                    Spacer(Modifier.height(10.dp))
                     MultiLineEditText(
                         value = viewModel.finalRemark,
                         onValueChange = { viewModel.updateFinalRemark(it) },

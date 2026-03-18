@@ -21,6 +21,8 @@ data class  InspectionTcDetails(
     val inspectionType: String,
     val inspectionId: String,
     val centerType: String,
-    val inspectionDate: String?)
-
+    val inspectionDate: String?,
+    val inspectionCode:String?,
+    val trainingCenterCode:String?,
+    )
 

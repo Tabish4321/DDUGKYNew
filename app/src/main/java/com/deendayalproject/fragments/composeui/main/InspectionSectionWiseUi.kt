@@ -169,7 +169,6 @@ fun InspectionStepModernScreen(
                 PremiumTopBar(
                     toolbarTitle,
                     onBackClick = {
-
                         when (currentStep) {
 
                             2 -> {
@@ -281,7 +280,6 @@ fun InspectionStepModernScreen(
             }
         )
         { padding ->
-
 
             if (isLoading) {
                 Box(modifier = Modifier.padding(padding)) {

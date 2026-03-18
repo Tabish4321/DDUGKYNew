@@ -1,5 +1,7 @@
 package com.deendayalproject.fragments.composeui.trainingCenListAandDetails
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +20,7 @@ import com.deendayalproject.fragments.composeui.common.PremiumTopBar
 import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
 import com.deendayalproject.model.response.TrainingCenterListInspecRes
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun TrainingCenterListScreen(
     items: List<TrainingCenterListInspecRes>,
