@@ -28,6 +28,7 @@ import kotlin.jvm.java
 import kotlin.onFailure
 import kotlin.onSuccess
 
+//mac commit in use 20/03/2026
 class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding::inflate) {
 
     private lateinit var viewModel: SharedViewModel
