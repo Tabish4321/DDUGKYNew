@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
@@ -29,6 +32,8 @@ fun TrainingCenterListScreen(
     onItemClick: (TrainingCenterListInspecRes) -> Unit
 ) {
 
+
+
     Scaffold(
         topBar = {
             PremiumTopBar(
@@ -42,6 +47,21 @@ fun TrainingCenterListScreen(
 
             Box(modifier = Modifier.padding(innerPadding)) {
                 ShimmerTrainingList()
+            }
+
+        } else if (items.isEmpty() && !isLoading) {
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "No Training Centers Available",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.outline
+                )
             }
 
         } else {

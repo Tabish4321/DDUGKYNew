@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.R
 import com.deendayalproject.model.response.TrainerData
@@ -156,6 +157,62 @@ fun SingleTrainerCard(
                     )
                 }
             }
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TrainerCardPreview() {
+
+    val dummyList = listOf(
+        TrainerData(
+            trainerName = "Rishi Kumar",
+            trainerId = "TR123",
+            trainerDesignation = "Senior Trainer",
+            contactNumber = "9876543210",
+            trainerCode = 0,
+            trainerWithSubject = ""
+        ),
+        TrainerData(
+            trainerName = "Ankit Sharma",
+            trainerId = "TR456",
+            trainerDesignation = "Assistant Trainer",
+            contactNumber = "9123456780",
+            trainerCode = 0,
+            trainerWithSubject = ""
+        )
+    )
+
+    MaterialTheme {
+        Surface {
+            TrainerDataCard(
+                trainer = dummyList,
+                onVerifyTrainerClick = {}
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SingleTrainerCardPreview() {
+
+    val trainer = TrainerData(
+        trainerName = "Rishi Kumar",
+        trainerId = "TR123",
+        trainerDesignation = "Senior Trainer",
+        contactNumber = "9876543210",
+        trainerCode = 0,
+        trainerWithSubject = ""
+    )
+
+    MaterialTheme {
+        Surface {
+            SingleTrainerCard(
+                trainer = trainer,
+                onVerifyTrainerClick = {}
+            )
         }
     }
 }

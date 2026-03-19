@@ -11,5 +11,7 @@ data class SubjectListRes(
 
 data class SubjectListData(
     val subjectId: String,
-    val subject: String
+    val subject: String,
+    val trainerName: String,
+
 )

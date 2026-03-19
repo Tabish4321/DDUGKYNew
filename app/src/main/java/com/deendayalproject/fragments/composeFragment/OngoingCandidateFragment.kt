@@ -36,9 +36,7 @@ class OngoingCandidateFragment :
 
 
     override fun initializeViews() {
-
         hideStatusBar()
-
         candidateId = arguments?.getString("candidateId") ?: ""
         batchId = arguments?.getString("batchId") ?: ""
         candidateName = arguments?.getString("candidateName") ?: ""
@@ -57,7 +55,6 @@ class OngoingCandidateFragment :
 
         val candidateVerificationViewModel: CandidateAssessmentViewModel by viewModels()
 
-        // CandidateAssessmentViewModel
 
         binding.composeOngoingCandidate.apply {
 
@@ -65,11 +62,13 @@ class OngoingCandidateFragment :
                 ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
             )
 
+
             setContent {
 
                 val imageResponse by viewModel
                     .getCandidateImageRecords
                     .collectAsState()
+
                 OngoingCandidateSectionScreen(
                     context = requireContext(),
                     candidateVerificationViewModel,

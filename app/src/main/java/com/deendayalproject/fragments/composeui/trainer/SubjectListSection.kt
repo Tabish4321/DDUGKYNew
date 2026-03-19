@@ -11,19 +11,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.model.response.SubjectListData
+import com.deendayalproject.model.response.TrainerData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubjectListSection(
-
-    subjects: List<String>,
+    subjects: List<TrainerData>,
     subjectData: List<SubjectListData>,
     selectedSubject: String,
     deletingSubjectId: String?,
-
-    onSubjectSelect: (String) -> Unit,
+    onSubjectSelect: ( TrainerData?) -> Unit,
     onAddClick: () -> Unit,
     onDelete: (SubjectListData) -> Unit
 
@@ -64,7 +64,7 @@ fun SubjectListSection(
                 subjects.forEach { subject ->
 
                     DropdownMenuItem(
-                        text = { Text(subject) },
+                        text = { Text(subject.trainerWithSubject) },
                         onClick = {
                             onSubjectSelect(subject)
                             expanded = false
@@ -124,7 +124,7 @@ fun SubjectListSection(
                     ) {
 
                         Text(
-                            text = subject.subject,
+                            "${subject.trainerName} • ${subject.subject}" ,
                             style = MaterialTheme.typography.bodyLarge
                         )
 
@@ -161,4 +161,49 @@ fun SubjectListSection(
 
     }
 
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun SubjectListSectionPreview() {
+
+    val subjects = listOf(
+        "IT",
+        "Soft Skills",
+        "English",
+        "Domain",
+        "Entrepreneurship"
+    )
+
+    val dummyData = listOf(
+        SubjectListData(
+            subjectId = "1",
+            subject = "IT",
+            "rishi"
+        ),
+        SubjectListData(
+            subjectId = "2",
+            subject = "English",
+            "Porwal"
+        )
+    )
+
+    var selectedSubject by remember { mutableStateOf("IT") }
+
+    MaterialTheme {
+        Surface(modifier = Modifier.padding(16.dp)) {
+
+            SubjectListSection(
+                subjects = emptyList(),
+                subjectData = dummyData,
+                selectedSubject = selectedSubject,
+                deletingSubjectId = null,
+
+                onSubjectSelect = {  it },
+                onAddClick = {},
+                onDelete = {}
+            )
+        }
+    }
 }

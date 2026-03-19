@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.InspectionListFragmentBinding
+import com.deendayalproject.fragments.composeui.EmptyScreen
 import com.deendayalproject.fragments.composeui.common.ErrorScreen
 import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
 import com.deendayalproject.fragments.composeui.trainingCenListAandDetails.TrainingCenterListScreen
@@ -73,6 +74,7 @@ class InspectionListFragment :
                     }
                 }
 
+
                 Scaffold(
                     contentWindowInsets = WindowInsets(0),
                     snackbarHost = {
@@ -90,6 +92,7 @@ class InspectionListFragment :
 
                             dueDiligenceListResponse == null -> {
                                 // Optional empty state
+                                EmptyScreen({findNavController().navigateUp()},"Training Centers")
                             }
 
                             else -> {

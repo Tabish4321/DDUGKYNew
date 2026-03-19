@@ -2,7 +2,8 @@ package com.deendayalproject.model.uistate
 
 data class TrainerClassObservationUiState(
 
-    val subject: String = "",
+    //val subject: String = "",
+    val trainerCode:Int =0,
 
     val answers: List<String?> = List(14) { null },
 

@@ -11,5 +11,6 @@ data class TrainerData(
     val trainerName: String,
     val trainerId: String,
     val trainerDesignation: String,
-    val contactNumber: String
+    val contactNumber: String,
+    val trainerWithSubject: String
 )

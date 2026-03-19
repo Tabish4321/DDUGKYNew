@@ -135,14 +135,17 @@ fun InspectionStepModernScreen(
 
     LaunchedEffect(verificationState.submitSuccess) {
         if (verificationState.submitSuccess) {
-
-            snackbarHostState.showSnackbar("Inspection submitted successfully")
-
+            Toast.makeText(context, "Inspection submitted successfully",
+                Toast.LENGTH_SHORT).show()
+           // snackbarHostState.showSnackbar("Inspection submitted successfully")
+            findNavigator.previousBackStackEntry
+                ?.savedStateHandle
+                ?.set("inspection_success", true)
             condidateVerificationViewModel.clearFinalSuccess()
-
              findNavigator.popBackStack()
         }
     }
+
 
     LaunchedEffect(verificationState.error) {
         verificationState.error?.let {
@@ -162,7 +165,6 @@ fun InspectionStepModernScreen(
                     modifier = Modifier
                         .align(Alignment.TopCenter)
                         .padding(top = 12.dp)
-
                 )
             },
             topBar = {
@@ -255,8 +257,9 @@ fun InspectionStepModernScreen(
                             onClick = {
                                 if (currentStep == 7) {
                                     if (finalRemark.isBlank()) {
-                                            Toast.makeText(context, "Please enter final remark", Toast.LENGTH_SHORT).show()
-
+                                        scope.launch {
+                                            snackbarHostState.showSnackbar("Please enter final remark")
+                                        }
                                     } else {
 
                                         condidateVerificationViewModel.submitFinal(
@@ -295,7 +298,11 @@ fun InspectionStepModernScreen(
                             .fillMaxSize()
                     ) {
 
-                        InspectionProgressHeader(currentStep)
+                        InspectionProgressHeader(currentStep,
+                            onStepClick = { step ->
+                                onStepChange(step)
+                            }
+                        )
 
                         StandardFormComplianceScreen(
                             viewModel = documentMaintainViewModel,
@@ -326,7 +333,10 @@ fun InspectionStepModernScreen(
                     )
                     {
 
-                        InspectionProgressHeader(currentStep)
+                        InspectionProgressHeader(currentStep,
+                            onStepClick = { step ->
+                                onStepChange(step)
+                            })
 
                         LazyColumn(
                             modifier = Modifier.weight(1f),
@@ -492,6 +502,7 @@ fun InspectionStepModernScreen(
                                     item {
 
                                         TrainingQualityController(
+                                            trainerList = trainerList,
                                             viewModel = viewModelInspection,
                                             snackbarHostState = snackbarHostState,
                                             showForm = showTrainingForm,
@@ -549,34 +560,38 @@ fun InspectionStepModernScreen(
                 /* ---------------- BOTTOM SHEET ---------------- */
 
                 if (currentStep == 2 && selectedCandidate != null) {
-                    ProCandidateBottomSheet(
-                        condidateVerificationViewModel,
-                        previousSelectedBatch!!.batchId,
-                        snackbarHostState=snackbarHostState,
-                        candidateData = selectedCandidate!!,
-                        onDismiss = { selectedCandidate = null },
-                        // onSubmit = { selectedCandidate = null }
-                    )
+                    previousSelectedBatch?.let { batch ->
+                        ProCandidateBottomSheet(
+                            condidateVerificationViewModel,
+                            batch.batchId,
+                            snackbarHostState = snackbarHostState,
+                            candidateData = selectedCandidate!!,
+                            onDismiss = { selectedCandidate = null }
+                        )
+                    }
                 }
 
 
 
 
                 if (currentStep == 3 && ongoingSelectedCandidate != null) {
+                    LaunchedEffect(ongoingSelectedCandidate) {
+                        ongoingSelectedCandidate?.let { candidate ->
 
-                    findNavigator.navigate(
-                        InspectionBasicDetailsFragmentDirections
-                            .actionInspectionBasicDetailsFragmentToOngoingCandidateFragment(
-                                ongoingSelectedCandidate!!.candidateId,
-                                batchId = ongoingSelectedBatch!!.batchId.toString(),
-                                ongoingSelectedCandidate!!.name,
-                                ongoingSelectedCandidate!!.contactNumber,
-                                ongoingSelectedCandidate!!.rollNumber
+                            findNavigator.navigate(
+                                InspectionBasicDetailsFragmentDirections
+                                    .actionInspectionBasicDetailsFragmentToOngoingCandidateFragment(
+                                        candidate.candidateId,
+                                        batchId = ongoingSelectedBatch?.batchId.toString(),
+                                        candidate.name,
+                                        candidate.contactNumber,
+                                        candidate.rollNumber
+                                    )
                             )
-                    )
-                    ongoingSelectedCandidate = null
 
-
+                            ongoingSelectedCandidate = null
+                        }
+                    }
                 }
 
                 if (currentStep == 4 && showTrainerSheet) {
@@ -602,7 +617,7 @@ fun InspectionStepModernScreen(
                         viewModelInspection.getTrainersListInspection(
                             TrainerListReq(
                                 appVersion = BuildConfig.VERSION_NAME,
-                                trainingCenterId = trainingCenterId.toInt()
+                                trainingCenterId = trainingCenterId.toIntOrNull() ?: 0
                             )
                         )
                     }

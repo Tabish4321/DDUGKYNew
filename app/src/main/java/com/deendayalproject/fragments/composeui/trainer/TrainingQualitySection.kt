@@ -11,8 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.deendayalproject.fragments.composeui.TrainerInfoCard
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.ongoingcandidateverification.PremiumSubmitButton
+import com.deendayalproject.model.response.TrainerData
 import com.deendayalproject.viewmodel.InspectionViewModel
 import kotlinx.coroutines.launch
 
@@ -21,7 +23,7 @@ fun TrainingQualitySection(
     viewModel: InspectionViewModel,
     snackbarHostState: SnackbarHostState,
     inspectionId: Int,
-    subject: String,
+    trainerData: TrainerData,
     onClose: (String) -> Unit
 
 ) {
@@ -137,9 +139,13 @@ fun TrainingQualitySection(
 
 
         } else {
+
+            TrainerInfoCard(trainerData = trainerData)
+
             /* ----------------------------- */
             /* QUESTIONS */
             /* ----------------------------- */
+
 
             ComplianceQuestionWithRemarks(
                 question = "Trainer facing class",
@@ -354,7 +360,7 @@ fun TrainingQualitySection(
                     viewModel.updateTrainerClassObservationState(
                         answers,
                         remarks,
-                        subject
+                        trainerData.trainerCode
                     )
 
                     /* ----------------------------- */

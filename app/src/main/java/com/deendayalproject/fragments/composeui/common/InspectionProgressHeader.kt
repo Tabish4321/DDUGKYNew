@@ -8,6 +8,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -42,7 +43,10 @@ import androidx.compose.ui.unit.dp
 import com.deendayalproject.R
 
 @Composable
-fun InspectionProgressHeader(currentStep: Int) {
+fun InspectionProgressHeader(
+    currentStep: Int,
+    onStepClick: (Int) -> Unit
+) {
 
     val totalSteps = 7
 
@@ -54,7 +58,7 @@ fun InspectionProgressHeader(currentStep: Int) {
 
     val pulse by infiniteTransition.animateFloat(
         initialValue = 1f,
-        targetValue = 1.15f,
+        targetValue = 1.1f,
         animationSpec = infiniteRepeatable(
             animation = tween(700),
             repeatMode = RepeatMode.Reverse
@@ -63,17 +67,15 @@ fun InspectionProgressHeader(currentStep: Int) {
     )
 
     ElevatedCard(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(8.dp),
         shape = RoundedCornerShape(20.dp),
-        elevation = CardDefaults.elevatedCardElevation(6.dp),
+        elevation = CardDefaults.elevatedCardElevation(4.dp),
         colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
-
     ) {
 
-        Column(
-            modifier = Modifier.padding(18.dp)
-        ) {
+        Column(modifier = Modifier.padding(16.dp)) {
 
             Text(
                 text = "Inspection Progress",
@@ -81,7 +83,7 @@ fun InspectionProgressHeader(currentStep: Int) {
                 fontWeight = FontWeight.SemiBold
             )
 
-            Spacer(modifier = Modifier.height(18.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -98,36 +100,36 @@ fun InspectionProgressHeader(currentStep: Int) {
                         else -> inactiveColor
                     }
 
-                    val scale =
-                        if (step == currentStep) pulse else 1f
+                    val scale = if (step == currentStep) pulse else 1f
 
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable {
+                                // 🔥 Only allow valid navigation
+                                if (step <= currentStep + 1) {
+                                    onStepClick(step)
+                                }
+                            }
                     ) {
 
                         Box(
                             modifier = Modifier
                                 .size(30.dp)
                                 .scale(scale)
-                                .background(
-                                    color = color,
-                                    shape = CircleShape
-                                ),
+                                .background(color, CircleShape),
                             contentAlignment = Alignment.Center
                         ) {
 
                             if (step < currentStep) {
-
                                 Icon(
                                     Icons.Default.Check,
                                     contentDescription = null,
                                     tint = Color.White,
-                                    modifier = Modifier.size(18.dp)
+                                    modifier = Modifier.size(16.dp)
                                 )
-
                             } else {
-
                                 Text(
                                     text = "$step",
                                     color = if (step == currentStep)
@@ -140,22 +142,17 @@ fun InspectionProgressHeader(currentStep: Int) {
                         }
 
                         Spacer(modifier = Modifier.height(6.dp))
-
                     }
 
                     if (index != totalSteps - 1) {
 
                         val lineColor =
-                            if (step < currentStep)
-                                completedColor
-                            else
-                                inactiveColor
+                            if (step < currentStep) completedColor else inactiveColor
 
                         Spacer(
                             modifier = Modifier
-                                .height(1.dp)
+                                .height(2.dp)
                                 .weight(0.8f)
-                                .clip(RoundedCornerShape(10))
                                 .background(lineColor)
                         )
                     }
@@ -165,11 +162,11 @@ fun InspectionProgressHeader(currentStep: Int) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun InspectionProgressHeaderPreview() {
-
-    InspectionProgressHeader(
-        currentStep = 3
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun InspectionProgressHeaderPreview() {
+//
+//    InspectionProgressHeader(
+//        currentStep = 3
+//    )
+//}

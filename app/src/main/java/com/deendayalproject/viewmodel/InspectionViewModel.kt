@@ -865,7 +865,7 @@ class InspectionViewModel(application: Application) :
 
         answers: List<String?>,
         remarks: List<String>,
-        subject: String
+        trainerCode: Int
 
     ) {
 
@@ -873,7 +873,7 @@ class InspectionViewModel(application: Application) :
             _trainerClassObservationState.value.copy(
                 answers = answers,
                 remarks = remarks,
-                subject = subject
+                trainerCode = trainerCode
             )
     }
 
@@ -940,7 +940,8 @@ class InspectionViewModel(application: Application) :
 
             inspectionId = inspectionId,
 
-            subject = state.subject,
+        //    subject = state.subject,
+            trainerCode = state.trainerCode,
 
             trainerFacingClassQid = 1,
             trainerFacingClass = state.answers[0] ?: "",

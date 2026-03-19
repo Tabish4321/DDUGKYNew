@@ -4,7 +4,8 @@ data class saveTrainerClassObservationInspectionReq(
 
     val appVersion: String,
     val inspectionId: Int,
-    val subject: String,
+    //val subject: String,
+    val trainerCode:Int,
 
     val trainerFacingClassQid: Int,
     val trainerFacingClass: String,

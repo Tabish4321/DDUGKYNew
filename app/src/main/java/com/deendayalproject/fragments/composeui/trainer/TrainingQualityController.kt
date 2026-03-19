@@ -13,11 +13,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.model.request.SubjectDeleteReq
 import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.response.SubjectListData
+import com.deendayalproject.model.response.TrainerData
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.InspectionViewModel
 import com.google.android.material.progressindicator.CircularProgressIndicator
@@ -26,6 +28,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrainingQualityController(
+    trainerList: List<TrainerData>,
     viewModel: InspectionViewModel,
     snackbarHostState: SnackbarHostState,
     showForm: Boolean,
@@ -42,11 +45,11 @@ fun TrainingQualityController(
         AppUtil.getSavedInspectionIdPreference(context)
     }
 
-    val subjects = remember {
-        listOf("IT", "Soft Skills", "English", "Domain", "Entrepreneurship")
-    }
+//    val subjects = remember {
+//        listOf("IT", "Soft Skills", "English", "Domain", "Entrepreneurship")
+//    }
 
-    var selectedSubject by rememberSaveable { mutableStateOf("") }
+    var selectedTrainer by remember { mutableStateOf<TrainerData?>(null) }
     var deletingSubjectId by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
 
@@ -123,32 +126,24 @@ fun TrainingQualityController(
 
         } else {
             SubjectListSection(
-                subjects = subjects,
+                subjects = trainerList,
                 subjectData = addedSubjects,
-                selectedSubject = selectedSubject,
+                selectedSubject = selectedTrainer?.trainerWithSubject ?: "",
                 deletingSubjectId = deletingSubjectId,
-
-                onSubjectSelect = {
-                    selectedSubject = it
+                onSubjectSelect = { trainer ->
+                    selectedTrainer = trainer
                 },
 
                 onAddClick = {
 
-                    if (selectedSubject.isBlank()) {
-
-                        Toast.makeText(
-                            context,
-                            "Please select subject",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
+                    if (selectedTrainer == null) {
+                        Toast.makeText(context, "Please select trainer", Toast.LENGTH_SHORT).show()
                     } else {
                         onShowFormChange(true)
                     }
                 },
 
                 onDelete = { subject ->
-
                     deletingSubjectId = subject.subjectId
                     isLoading = true
 
@@ -172,9 +167,7 @@ fun TrainingQualityController(
                     .fillMaxSize(),
                 contentAlignment = androidx.compose.ui.Alignment.Center
             ) {
-
                 CircularProgressIndicator()
-
             }
 
         }
@@ -236,7 +229,8 @@ fun TrainingQualityController(
                             viewModel = viewModel,
                             snackbarHostState = snackbarHostState,
                             inspectionId = inspectionId.toInt(),
-                            subject = selectedSubject,
+                            trainerData = selectedTrainer!!, // ✅ full object
+
                             onClose = { msg ->
 
                                 Toast.makeText(
@@ -269,4 +263,27 @@ fun TrainingQualityController(
 
     }
 
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun TrainingQualityControllerStaticPreview() {
+
+    val dummySubjects = listOf(
+        SubjectListData("1", "IT","Risisi"),
+        SubjectListData("2", "English","porwal")
+    )
+
+    MaterialTheme {
+        SubjectListSection(
+            subjects = emptyList(),
+            subjectData = dummySubjects,
+            selectedSubject = "IT",
+            deletingSubjectId = null,
+            onSubjectSelect = {},
+            onAddClick = {},
+            onDelete = {}
+        )
+    }
 }

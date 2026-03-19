@@ -17,10 +17,17 @@ import androidx.compose.material.icons.filled.QrCode
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.deendayalproject.fragments.composeui.common.InfoRow
 import com.deendayalproject.model.response.TrainingCenterListInspecRes
 
@@ -47,37 +54,46 @@ fun TrainingCenterCard(
     ElevatedCard(
         onClick = onClick,
         colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
-        shape = RoundedCornerShape(14.dp),
-        elevation = CardDefaults.elevatedCardElevation(8.dp),
-        modifier = Modifier.fillMaxWidth()
+        shape = RoundedCornerShape(16.dp), // 🔥 slightly smoother
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 6.dp),
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
 
         Column {
 
+            // 🔷 Status Header (Refined)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
                     .background(
-                        if (isActive) Color(0xFF2E7D32) else Color(0xFFFF6F00)
+                        if (isActive)
+                            Color(0xFF2E7D32).copy(alpha = 0.95f)
+                        else
+                            Color(0xFFFF6F00).copy(alpha = 0.95f)
                     )
-                    .padding(6.dp)
+                    .padding(vertical = 8.dp),
+                contentAlignment = Alignment.Center
             ) {
-                androidx.compose.material3.Text(
+                Text(
                     text = if (isActive) "ACTIVE" else "PENDING",
-                    color = Color.White
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.White,
+                    fontWeight = FontWeight.SemiBold,
+                    letterSpacing = 1.2.sp
                 )
             }
 
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(20.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .padding(horizontal = 16.dp, vertical = 14.dp)
             ) {
 
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(6.dp),
-                    modifier = Modifier.weight(1f)
+                    verticalArrangement = Arrangement.spacedBy(2.dp), // tighter rhythm
+                    modifier = Modifier.fillMaxWidth()
                 ) {
 
                     InfoRow(
@@ -86,11 +102,15 @@ fun TrainingCenterCard(
                         value = item.piaName
                     )
 
+                    DividerLight()
+
                     InfoRow(
                         icon = Icons.Default.AccountBalance,
                         label = "TC Name",
                         value = item.trainingCenterName
                     )
+
+                    DividerLight()
 
                     InfoRow(
                         icon = Icons.Default.QrCode,
@@ -98,16 +118,23 @@ fun TrainingCenterCard(
                         value = item.trainingCenterCode
                     )
 
+                    DividerLight()
+
                     InfoRow(
                         icon = Icons.Default.School,
                         label = "Center Type",
                         value = item.centerType
                     )
-
-
-
                 }
             }
         }
     }
+}
+
+@Composable
+fun DividerLight() {
+    HorizontalDivider(
+        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.06f),
+        thickness = 0.8.dp
+    )
 }
