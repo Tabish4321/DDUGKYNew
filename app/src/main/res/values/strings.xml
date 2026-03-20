@@ -782,7 +782,6 @@
     <string name="train_domain2_button">Form 2</string>
 
 
-
     <!-- Field Verification Training Infrastructure Details -->
     <string name="field_ver_training_infra">Training Infrastructure </string>
 
@@ -821,7 +820,6 @@
 
     <string name="field_ver_geo_factory_field">Geo Tagging of Head Quarter and Factory Location(s). </string>
     <string name="field_ver_ctsa_off_note_field">The above details are to be captured and verified during the field visit by the concerned State/UT representative or CTSA officer.</string>
-
 
 
     <string name="training_center_id">Training Center ID</string>
@@ -886,12 +884,11 @@
     <string name="candidate_name">Candidate Name</string>
 
 
-
     <string name="batch_id">Batch Id\n</string>
     <string name="batch_name">Batch Name</string>
 
 
-    !--/      Ajit Ranjan create strig  19/01/2026-->
+    !--/ Ajit Ranjan create strig 19/01/2026-->
     <string name="contact_number">Mobile Number</string>
     <string name="attendance_marked">Attendance Marked</string>
     <string name="name">Name:</string>
@@ -925,37 +922,37 @@
     <string name="are_you_given_sufficient_instruments_to_work_during_ojt_tools_machinery_computers_etc">7 - Are you given sufficient instruments to work during OJT(tools, machinery, computers etc.)?</string>
     <string name="are_you_given_enough_materials_to_work_upon">8 - Are you given enough materials to work upon?</string>
     <string name="how_much_stipend_are_you_eligible_for">9 - How much stipend are you eligible for?</string>
-        <string name="how_much_stipend_are_you_getting">10- How much stipend are you getting?</string>
-        <string name="are_boarding_and_loading_facilities_provided">11 - Are boarding and loading facilities provided?</string>
-        <string name="candidate_id">Candidate ID</string>
-        <string name="candidate_id_profile">Candidate ID :</string>
-        <string name="compress_video">Compressing...</string>
-        <string name="batch_list">Batch List</string>
-        <string name="class_room_start_date">Class Start Date :</string>
-        <string name="class_room_end_date">Class End Date :</string>
-        <string name="ojt_start_date">OJT Start Date :</string>
-        <string name="enter_during_times">enter during times</string>
-        <string name="enter_your_eligible_for">enter your eligible for</string>
-        <string name="enter_your_getting_for">enter your getting for</string>
+    <string name="how_much_stipend_are_you_getting">10- How much stipend are you getting?</string>
+    <string name="are_boarding_and_loading_facilities_provided">11 - Are boarding and loading facilities provided?</string>
+    <string name="candidate_id">Candidate ID</string>
+    <string name="candidate_id_profile">Candidate ID :</string>
+    <string name="compress_video">Compressing...</string>
+    <string name="batch_list">Batch List</string>
+    <string name="class_room_start_date">Class Start Date :</string>
+    <string name="class_room_end_date">Class End Date :</string>
+    <string name="ojt_start_date">OJT Start Date :</string>
+    <string name="enter_during_times">enter during times</string>
+    <string name="enter_your_eligible_for">enter your eligible for</string>
+    <string name="enter_your_getting_for">enter your getting for</string>
     <!--    <string name="capture_video">12 - Upload the  Candidate Interview Video (geo tagged) </string>-->
-        <string name="capture_video"> Start the  Candidate Video Interview  </string>
-        <string name="capture_image">11 - Capture image</string>
-        <string name="candidate">Candidate Name:</string>
-        <string name="trainee_name">Trainee Name :</string>
-        <string name="father_s_name">Father\'s Name :</string>
-        <string name="ojt_status">OJT Status :</string>
-        <string name="ojt_status_cadidate">OJT Status</string>
-        <string name="tc_district">TC District :</string>
-        <string name="please_give_reason_for_no">enter the  reason</string>
-        <string name="on_job_training">On Job Training</string>
-        <string name="batch_id_ojt">Batch ID</string>
-        <string name="total_ojt_on_batch">Total OJT On Batch</string>
-        <string name="training_details">Training Details</string>
-        <string name="candidate_details">Candidate Details</string>
-        <string name="kpid">KPID :</string>
-        <string name="trade_name">Trade Name</string>
-        <string name="ojt_industry_name">OJT Industry Name :</string>
-        <string name="activity_did_you_do_on">Activity did you do on :</string>
+    <string name="capture_video"> Start the  Candidate Video Interview  </string>
+    <string name="capture_image">11 - Capture image</string>
+    <string name="candidate">Candidate Name:</string>
+    <string name="trainee_name">Trainee Name :</string>
+    <string name="father_s_name">Father\'s Name :</string>
+    <string name="ojt_status">OJT Status :</string>
+    <string name="ojt_status_cadidate">OJT Status</string>
+    <string name="tc_district">TC District :</string>
+    <string name="please_give_reason_for_no">enter the  reason</string>
+    <string name="on_job_training">On Job Training</string>
+    <string name="batch_id_ojt">Batch ID</string>
+    <string name="total_ojt_on_batch">Total OJT On Batch</string>
+    <string name="training_details">Training Details</string>
+    <string name="candidate_details">Candidate Details</string>
+    <string name="kpid">KPID :</string>
+    <string name="trade_name">Trade Name</string>
+    <string name="ojt_industry_name">OJT Industry Name :</string>
+    <string name="activity_did_you_do_on">Activity did you do on :</string>
     <string name="ojt_location">OJT Location :</string>
     <string name="on_job_training_verification">On Job Training Verification</string>
     <string name="on_job_training_verification_complete">OJT Complete Cadidate Verification Details</string>
@@ -977,7 +974,7 @@
     <string name="error_address">Error getting address</string>
     <string name="current_location">Your Current Location</string>
     <string name="interview_question">Interview Questions</string>
-    <string name="center_name_ojt">OJT Name</string>
+    <string name="center_name_ojt">OJT Name :</string>
     <string name="switchs">Switch</string>
     <string name="loading">Loading...</string>
     <string name="stop">Stop</string>
@@ -1148,7 +1145,6 @@
     <string name="please_upload_image_for_code_of_conduct_board">Please upload image for Code of Conduct Board</string>
     <string name="please_upload_image_for_attendance_summary_board">Please upload image for Attendance Summary Board</string>
     <string name="please_upload_you_selected_yes">Please upload %1$s (You selected Yes)</string>
-
 
 
     <string name="describe_the_activity">describe the activity</string>

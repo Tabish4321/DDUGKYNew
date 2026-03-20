@@ -144,12 +144,18 @@ import android.os.Handler
 import android.os.Looper
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.addCallback
+import androidx.annotation.OptIn
 import androidx.annotation.RequiresPermission
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import com.bumptech.glide.Glide
 import com.deendayalproject.databinding.FragmentPreviewScreenBinding
 import com.deendayalproject.model.response.VerificationDetails
+import com.deendayalproject.util.AppConstant.OJT_VIDEO_URL
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.nio.ByteBuffer
 //code commit 10/03/2026 Time 16:40 PM OJT Module add in Seoerate OJT Folder
 class PreViewlScreenCandidateBottomDialog( private val detail: List<VerificationDetails>,private val batch: List<OJTList>) :  DialogFragment() {
@@ -162,6 +168,7 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
     //    private var Bindinglatitude = 27.034750
 //    private var Bindinglongitutde = 79.487056
 //    var videoPath: String? = null
+    private var finalVideoPath: String? = ""
     private var latitude = 0.0
     private var longitude = 0.0
     var radius: Float = 100f
@@ -212,6 +219,7 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
     @SuppressLint("SuspiciousIndentation")
     override fun onStart() {
         super.onStart()
+
         dialog?.window?.apply {
             setLayout(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -361,16 +369,14 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
             when (value) {
                 "Yes" -> {
                     binding.yesLayout.visibility = View.VISIBLE
-                    binding.ImageLayout.visibility = View.VISIBLE
+
                     binding.textInputReon.visibility = View.GONE
-                    binding.VideoLinlayout.visibility = View.VISIBLE
                     binding.radioYes.isChecked = true
                 }
                 "No" -> {
                     binding.radioNo.isChecked = true
                     binding.textInputReon.visibility = View.VISIBLE
-                    binding.VideoLinlayout.visibility = View.VISIBLE
-                    binding.ImageLayout.visibility = View.VISIBLE
+
                     binding.yesLayout.visibility = View.GONE
                 }
                 else -> {
@@ -588,13 +594,17 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
         binding.tvHowMuchSelectedDate.keyListener = null
         binding.etSelectedRandomDate.keyListener = null
 
-//        playVideo("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-        detail[0].verificationVideo?.let { playVideo(it) }
+        playVideo(batch[0].candidateId)
 
-        Glide.with(requireContext())
-//            .load("https://fastly.picsum.photos/id/703/300/300.jpg?hmac=uTMUwdRYaCi0sD8hKj3Nz7WHmeeZeb1Dn8yITbQ4BGo")
-            .load( detail[0].verificationImage)
-            .into(binding.imageView)
+        finalVideoPath = detail[0].verificationImage
+        val bitmap = finalVideoPath?.let { base64ToBitmap(it) }
+
+        if (bitmap != null) {
+            binding.imageView.setImageBitmap(bitmap)
+        } else {
+            binding.imageView.setImageResource(R.drawable.no_data) // fallback
+        }
+
 
 
 
@@ -624,17 +634,48 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
             null
         }
     }
+    @OptIn(UnstableApi::class) private fun
+            playVideo(candidateId: String) {
 
-    private fun playVideo(url: String) {
+        val videoUrl =OJT_VIDEO_URL+candidateId
+
+
+        // ✅ Headers
+        val headers = mapOf(
+            "ddugkyappauth" to "Bearer "+AppUtil.getSavedTokenPreference(requireContext())
+        )
+
+        // ✅ DataSource with headers
+        val dataSourceFactory = DefaultHttpDataSource.Factory()
+            .setDefaultRequestProperties(headers)
+
+        val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+            .createMediaSource(MediaItem.fromUri(videoUrl))
+
+        // ✅ Player
         player = ExoPlayer.Builder(requireContext()).build()
         binding.playerView.player = player
 
-        val mediaItem = MediaItem.fromUri(url)
-        player?.setMediaItem(mediaItem)
-
-        player?.prepare()
-        player?.playWhenReady = true
+        player?.apply {
+            setMediaSource(mediaSource)
+            prepare()
+            playWhenReady = true
+        }
     }
+
+
+//        player = ExoPlayer.Builder(requireContext()).build()
+//        binding.playerView.player = player
+//
+//        val mediaItem = MediaItem.fromUri(url)
+//        player?.setMediaItem(mediaItem)
+//
+//        player?.prepare()
+//        player?.playWhenReady = true
+//    }
+
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         // 👉 Orientation unlock when dialog closed
@@ -652,5 +693,23 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
         player?.release()
         player = null
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
