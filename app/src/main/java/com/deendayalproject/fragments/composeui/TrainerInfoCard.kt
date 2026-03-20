@@ -29,16 +29,16 @@ import com.deendayalproject.model.response.TrainerData
 
 @Composable
 fun TrainerInfoCard(
-    trainerData: TrainerData
+    trainerData: TrainerData?
 ) {
 
-    ElevatedCard(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.elevatedCardElevation(6.dp),
-        colors = CardDefaults.elevatedCardColors( Color.White
-        )
-    ) {
+//    ElevatedCard(
+//        modifier = Modifier.fillMaxWidth(),
+//        shape = RoundedCornerShape(16.dp),
+//        elevation = CardDefaults.elevatedCardElevation(6.dp),
+//        colors = CardDefaults.elevatedCardColors( Color.White
+//        )
+//    ) {
 
         Row(
             modifier = Modifier
@@ -58,7 +58,7 @@ fun TrainerInfoCard(
             ) {
 
                 Text(
-                    text = trainerData.trainerName.take(1).uppercase(),
+                    text = trainerData!!.trainerName.take(1).uppercase(),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary
@@ -74,7 +74,7 @@ fun TrainerInfoCard(
             ) {
 
                 Text(
-                    text = trainerData.trainerWithSubject,
+                    text = trainerData!!.trainerWithSubject,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -82,7 +82,7 @@ fun TrainerInfoCard(
                 Spacer(modifier = Modifier.height(2.dp))
 
                 Text(
-                    text = "Code: ${trainerData.trainerCode}",
+                    text = "Contact Num.: ${trainerData!!.contactNumber}",
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray
                 )
@@ -93,4 +93,4 @@ fun TrainerInfoCard(
 
         }
     }
-}
+//}

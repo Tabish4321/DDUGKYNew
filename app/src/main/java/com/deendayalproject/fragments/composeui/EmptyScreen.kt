@@ -34,7 +34,7 @@ fun EmptyScreen(
     onBackClick: () -> Unit,
     title:String
 ) {
-
+    //Rishi _Test Comment
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
@@ -90,7 +90,6 @@ fun EmptyScreen(
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
-
 
                 Text(
                     text = "There are no data available at the moment. Please check again later.",

@@ -140,7 +140,7 @@ fun TrainingQualitySection(
 
         } else {
 
-            TrainerInfoCard(trainerData = trainerData)
+           // TrainerInfoCard(trainerData = trainerData)
 
             /* ----------------------------- */
             /* QUESTIONS */

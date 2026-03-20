@@ -1,6 +1,9 @@
 package com.deendayalproject.fragments.composeui.trainer
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -9,10 +12,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.deendayalproject.R
 import com.deendayalproject.model.response.SubjectListData
 import com.deendayalproject.model.response.TrainerData
 
@@ -32,70 +39,81 @@ fun SubjectListSection(
     var expanded by remember { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().background(Color.White).padding(1.dp),
         verticalArrangement = Arrangement.spacedBy(18.dp)
     ) {
 
-        /* -------- Dropdown -------- */
 
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded }
-        ) {
-
-            OutlinedTextField(
-                value = selectedSubject,
-                onValueChange = {},
-                readOnly = true,
-                label = { Text("Select Subject") },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded)
-                },
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .menuAnchor()
-            )
+                    .background(Color.White)
+                    .padding(horizontal = 1.dp, vertical = 10.dp),
+                horizontalArrangement = Arrangement.Absolute.Center,
+                verticalAlignment = Alignment.CenterVertically
 
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
             ) {
 
-                subjects.forEach { subject ->
+                // 🔹 Dropdown (takes remaining space)
+                ExposedDropdownMenuBox(
+                    expanded = expanded,
+                    onExpandedChange = { expanded = !expanded },
+                    modifier = Modifier.weight(1f).padding(1.dp)
+                ) {
 
-                    DropdownMenuItem(
-                        text = { Text(subject.trainerWithSubject) },
-                        onClick = {
-                            onSubjectSelect(subject)
-                            expanded = false
+                    OutlinedTextField(
+                        value = selectedSubject,
+                        onValueChange = {},
+                        readOnly = true,
+                        label = { Text("Select Subject") },
+                        trailingIcon = {
+                            ExposedDropdownMenuDefaults.TrailingIcon(expanded)
+                        },
+                        shape = RoundedCornerShape(10.dp),
+                        modifier = Modifier
+                            .menuAnchor()
+                            .fillMaxWidth()
+                            .background(Color.White)
+                    )
+
+                    ExposedDropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier.background(Color.White).padding(4.dp)
+                    ) {
+                        subjects.forEach { subject ->
+                            DropdownMenuItem(
+                                text = { Text(subject.trainerWithSubject) },
+                                onClick = {
+                                    onSubjectSelect(subject)
+                                    expanded = false
+                                }
+                            )
                         }
+                    }
+                }
+
+                Spacer(modifier = Modifier.width(10.dp))
+
+                // 🔹 Add Button (clean + compact)
+                FloatingActionButton(
+                    onClick = onAddClick,
+                    shape = RoundedCornerShape(10.dp),
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    elevation = FloatingActionButtonDefaults.elevation(
+                        defaultElevation = 6.dp,
+                        pressedElevation = 8.dp
+                    ),
+                    modifier = Modifier.size(48.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Add",
+                        modifier = Modifier.size(22.dp)
                     )
                 }
             }
-        }
-
-        /* -------- Add Button -------- */
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
-
-            FloatingActionButton(
-                onClick = onAddClick,
-                containerColor = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(52.dp)
-            ) {
-
-                Icon(
-                    Icons.Default.Add,
-                    contentDescription = null,
-                    tint = Color.White
-                )
-
-            }
-
-        }
 
         Text(
             text = "Added Subjects",
@@ -111,46 +129,54 @@ fun SubjectListSection(
 
                 ElevatedCard(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(14.dp),
-                    elevation = CardDefaults.elevatedCardElevation(6.dp)
+                    shape = RoundedCornerShape(10.dp),
+                    elevation = CardDefaults.elevatedCardElevation(8.dp),
+                    colors = CardDefaults.elevatedCardColors(
+                        containerColor = colorResource(id = R.color.white)
+                    ),
                 ) {
 
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
+                            .padding(horizontal = 14.dp, vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
 
                         Text(
-                            "${subject.trainerName} • ${subject.subject}" ,
-                            style = MaterialTheme.typography.bodyLarge
+                            text = "${subject.trainerName} • ${subject.subject}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(end = 8.dp)
                         )
 
                         if (deletingSubjectId == subject.subjectId) {
 
                             CircularProgressIndicator(
-                                modifier = Modifier.size(22.dp),
+                                modifier = Modifier.size(20.dp),
                                 strokeWidth = 2.dp
                             )
 
                         } else {
 
-                            IconButton(
-                                onClick = { onDelete(subject) }
-                            ) {
 
+                            IconButton(
+                                onClick = { onDelete(subject) },
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.error.copy(alpha = 0.1f))
+                            ) {
                                 Icon(
-                                    Icons.Default.Delete,
-                                    contentDescription = null,
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Delete",
                                     tint = MaterialTheme.colorScheme.error
                                 )
-
                             }
-
                         }
-
                     }
 
                 }
