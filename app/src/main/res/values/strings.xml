@@ -1145,8 +1145,6 @@
     <string name="please_upload_image_for_code_of_conduct_board">Please upload image for Code of Conduct Board</string>
     <string name="please_upload_image_for_attendance_summary_board">Please upload image for Attendance Summary Board</string>
     <string name="please_upload_you_selected_yes">Please upload %1$s (You selected Yes)</string>
-
-
     <string name="describe_the_activity">describe the activity</string>
     <string name="enter_the_reason">enter the reason</string>
     <string name="enter_the_candidate_response">enter the candidate response</string>
