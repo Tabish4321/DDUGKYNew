@@ -22,6 +22,7 @@ import com.deendayalproject.model.response.OJTBatchList
 import com.deendayalproject.model.response.OJTSanctionOrderNumber
 import com.deendayalproject.model.response.OJTTrainingCenterName
 import com.deendayalproject.model.response.OjtListByBatch
+import com.deendayalproject.network.SecurePreferenceManager.getToken
 import com.deendayalproject.util.AppUtil
 import kotlin.apply
 import kotlin.collections.forEach
@@ -84,7 +85,7 @@ class OJTSelectionFragment : BaseFragment<FragmentOnJobSelectionBinding>(Fragmen
     }
 
     private fun fetchModulesSanction() {
-        val token = AppUtil.getSavedTokenPreference(requireContext())
+        val token = getToken(requireContext())
         val request = ModulesOJTSanctionOrderRequest(BuildConfig.VERSION_NAME)
         showProgressDialog("Loading...")
         viewModel.fetchOJTSanctionOrderNumber(request, "Bearer $token")
@@ -111,7 +112,7 @@ class OJTSelectionFragment : BaseFragment<FragmentOnJobSelectionBinding>(Fragmen
     }
 
     private fun fetchModulesTrainingCenter(sanctionOrder: String) {
-        val token = AppUtil.getSavedTokenPreference(requireContext())
+        val token = getToken(requireContext())
         val request = ModulesOJTTrainingCenterRequest(
             BuildConfig.VERSION_NAME,
             sanctionOrder
@@ -153,7 +154,7 @@ class OJTSelectionFragment : BaseFragment<FragmentOnJobSelectionBinding>(Fragmen
 
 
 
-            val token = AppUtil.getSavedTokenPreference(requireContext())
+            val token = getToken(requireContext())
             val request = ModulesCandidateByOjtRequest2(
                 BuildConfig.VERSION_NAME,
 //                14.toString()
@@ -197,7 +198,7 @@ class OJTSelectionFragment : BaseFragment<FragmentOnJobSelectionBinding>(Fragmen
 
     }
     private fun fetchBatch(trainingCenterId: String) {
-        val token = AppUtil.getSavedTokenPreference(requireContext())
+        val token = getToken(requireContext())
         val request = ModulesOJTBatchRequest(
             BuildConfig.VERSION_NAME,
             trainingCenterId.toInt()

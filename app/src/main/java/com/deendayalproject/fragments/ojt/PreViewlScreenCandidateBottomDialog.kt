@@ -154,6 +154,7 @@ import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import com.bumptech.glide.Glide
 import com.deendayalproject.databinding.FragmentPreviewScreenBinding
 import com.deendayalproject.model.response.VerificationDetails
+import com.deendayalproject.network.SecurePreferenceManager.getToken
 import com.deendayalproject.util.AppConstant.OJT_VIDEO_URL
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.nio.ByteBuffer
@@ -642,7 +643,7 @@ class PreViewlScreenCandidateBottomDialog( private val detail: List<Verification
 
         // ✅ Headers
         val headers = mapOf(
-            "ddugkyappauth" to "Bearer "+AppUtil.getSavedTokenPreference(requireContext())
+            "ddugkyappauth" to "Bearer "+getToken(requireContext())
         )
 
         // ✅ DataSource with headers

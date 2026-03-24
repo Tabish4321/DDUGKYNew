@@ -18,6 +18,7 @@ import com.deendayalproject.model.response.CandidateOjtVerificationDetails
 import com.deendayalproject.model.response.OJTList
 import com.deendayalproject.model.response.OjtBatchRes
 import com.deendayalproject.model.response.VerificationDetails
+import com.deendayalproject.network.SecurePreferenceManager.getToken
 
 import com.deendayalproject.util.AppUtil
 import com.google.gson.Gson
@@ -93,7 +94,7 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
 
 
 
-            val token = AppUtil.getSavedTokenPreference(requireContext())
+            val token = getToken(requireContext())
             val request = ModulesOJTCompleteOjtRequest(
                 BuildConfig.VERSION_NAME,
                 batch.candidateId
@@ -127,7 +128,7 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
 
 //    private fun fetchBatch(trainingCenterId: String) {
     private fun fetchBatch() {
-        val token = AppUtil.getSavedTokenPreference(requireContext())
+        val token = getToken(requireContext())
         val request = ModulesCandidateByOjtRequest(
             BuildConfig.VERSION_NAME,
             AppUtil.getSavedOJTBatchIDPreference(requireContext())
@@ -169,7 +170,7 @@ class OJTChildFragment : BaseFragment<ChildFragmentBinding>(ChildFragmentBinding
 
 
 
-                            val token = AppUtil.getSavedTokenPreference(requireContext())
+                            val token = getToken(requireContext())
                             val request = ModulesOJTCompleteOjtRequest(
                                 BuildConfig.VERSION_NAME,
                                 candidateId.toString()

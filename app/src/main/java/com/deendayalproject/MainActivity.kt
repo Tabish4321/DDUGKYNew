@@ -8,6 +8,7 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import com.deendayalproject.base.BaseActivity
 import com.deendayalproject.util.FullScreenHelper
+import com.deendayalproject.util.validateDeviceSecurity
 //import com.deendayalproject.util.validateDeviceSecurity
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -145,6 +145,7 @@ import android.os.Looper
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.addCallback
 import androidx.annotation.RequiresPermission
+import com.deendayalproject.network.SecurePreferenceManager.getToken
 import java.nio.ByteBuffer
 //code commit 13/03/2026 Time 10:51 AM if user login DDUGKYUSER coditions mein static data use ho rhaa hai textView ke case mein  please update
 class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), SurfaceHolder.Callback {
@@ -473,7 +474,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
 
         binding.btnLogin.setOnClickListener {
             binding.trainingQuestionDetailsLayout.visibility = View.VISIBLE
-            val token = AppUtil.getSavedTokenPreference(requireContext())
+            val token = getToken(requireContext())
 //             FIRST — run validation
 //            if (!validateInputs()) {
 //                return@setOnClickListener

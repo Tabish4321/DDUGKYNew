@@ -175,10 +175,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     private fun handleLoginClick() {
 
-        if (!validateDeviceSecurity(requireContext())) {
-            resetButtonState()
-            return
-        }
+//        if (!validateDeviceSecurity(requireContext())) {
+//            resetButtonState()
+//            return
+//        }
 
         if (isProcessingLogin) return
 
