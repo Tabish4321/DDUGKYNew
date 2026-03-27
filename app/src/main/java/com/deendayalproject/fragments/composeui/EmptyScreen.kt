@@ -34,8 +34,6 @@ fun EmptyScreen(
     onBackClick: () -> Unit,
     title:String
 ) {
-    //Rishi _Test Comment
-    val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         topBar = {
@@ -43,12 +41,8 @@ fun EmptyScreen(
                 dynamicTitle = title,
                 onBackClick = onBackClick
             )
-        },
-        snackbarHost = {
-            SnackbarHost(snackbarHostState)
         }
     ) { padding ->
-
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -56,14 +50,11 @@ fun EmptyScreen(
                 .background(MaterialTheme.colorScheme.background),
             contentAlignment = Alignment.Center
         ) {
-
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.padding(24.dp)
             ) {
-
-                // 🔷 Premium Icon Container
                 Surface(
                     shape = CircleShape,
                     color = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f),
@@ -71,33 +62,27 @@ fun EmptyScreen(
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Icon(
-                            imageVector = Icons.Default.Domain, // 🔥 Professional icon
+                            imageVector = Icons.Default.Domain,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(42.dp)
                         )
                     }
                 }
-
                 Spacer(modifier = Modifier.height(20.dp))
-
-                // 🔹 Title
                 Text(
                     text = "No ${title} Found",
                     style = typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
-
                 Spacer(modifier = Modifier.height(8.dp))
-
                 Text(
                     text = "There are no data available at the moment. Please check again later.",
                     style = typography.bodyMedium,
                     color = MaterialTheme.colorScheme.outline,
                     textAlign = TextAlign.Center
                 )
-
             }
         }
     }

@@ -6,8 +6,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.deendayalproject.R
 
 @Composable
 fun ComplianceQuestionWithRemarks(
@@ -18,6 +20,9 @@ fun ComplianceQuestionWithRemarks(
     onAnswerChange: (String) -> Unit,
     onRemarksChange: (String) -> Unit
 ) {
+
+    val yesLabel = stringResource(R.string.label_yes)
+    val noLabel = stringResource(R.string.label_no)
 
     ElevatedCard(
         modifier = Modifier.fillMaxWidth(),
@@ -46,18 +51,18 @@ fun ComplianceQuestionWithRemarks(
 
             PremiumSelector(
                 options = listOf(
-                    PremiumOption("Yes", Color(0xFF22C55E)),
-                    PremiumOption("No", Color(0xFFEF4444))
+                    PremiumOption(yesLabel, Color(0xFF22C55E)),
+                    PremiumOption(noLabel, Color(0xFFEF4444))
                 ),
                 selected = answer,
                 onSelect = onAnswerChange
             )
 
-            if (answer == "No") {
+            if (answer == noLabel) {
                 MultiLineEditText(
                     value = remarks,
                     onValueChange = onRemarksChange,
-                    label = "Remarks",
+                    label = stringResource(R.string.remarks),
                     isRequired = true,
                     isError = isError && remarks.isBlank()
                 )

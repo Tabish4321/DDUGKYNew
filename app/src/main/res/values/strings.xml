@@ -902,5 +902,7 @@
     <string name="ok">Ok</string>
     <string name="failed_attendance">Mark Failed Try Again</string>
 
+    <string name="label_yes">Yes</string>
+    <string name="label_no">No</string>
 
 </resources>

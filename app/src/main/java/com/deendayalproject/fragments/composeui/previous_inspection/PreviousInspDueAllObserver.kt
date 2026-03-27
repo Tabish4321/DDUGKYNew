@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.deendayalproject.model.response.PreviousObservationRes
 import com.deendayalproject.model.response.PreviousObservationUiState
 import androidx.compose.runtime.toMutableStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.common.InfoRow
@@ -57,8 +58,19 @@ fun PreviousInspectionDueAllObserver(
 
         if (isLoading) {
             ShimmerTrainingList()
+        } else if(observationList.isEmpty()){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "No Data Available",
+                    color = Color.Black
+                )
+            }
         } else {
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()

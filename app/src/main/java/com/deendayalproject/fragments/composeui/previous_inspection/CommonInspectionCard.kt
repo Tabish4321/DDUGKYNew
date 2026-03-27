@@ -63,6 +63,13 @@ fun CommonInspectionCard(
     val saveSuccess by viewModel.saveSuccess.collectAsState()
     var capturedBitmap by remember { mutableStateOf<Bitmap?>(null) }
 
+    LaunchedEffect(Unit) {
+        viewModel.errorMessage.collect {
+            // snackbarHostState.showSnackbar(it)
+            Toast.makeText(context,it, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     val openCameraLauncher =
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.TakePicturePreview()
@@ -75,8 +82,7 @@ fun CommonInspectionCard(
                 val stream = ByteArrayOutputStream()
                 it.compress(Bitmap.CompressFormat.JPEG, 80, stream)
 
-             var  attachmentBase64 =
-                    Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT)
+             var  attachmentBase64 = Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT)
             }
         }
 
@@ -84,6 +90,7 @@ fun CommonInspectionCard(
     var answer by remember { mutableStateOf<String?>(null) }
     var remark by remember { mutableStateOf("") }
     var attachmentBase64 by remember { mutableStateOf<String?>(null) }
+    val previouseInspectionID=AppUtil.getPreviouseSavedInspectionIdPreference(context)
 
 
     LaunchedEffect(answer) {
@@ -241,10 +248,11 @@ fun CommonInspectionCard(
                             return@Button
                         }
 
+
                         viewModel.savePreviousInspectionObservation(
                             savePreviousInspectionQuesReq(
                                 appVersion = BuildConfig.VERSION_NAME,
-                                inspectionId = item.inspectionId,
+                                previousInspectionId = previouseInspectionID.toInt(),
                                 candidateId = item.candidateId ?: "",
                                 batchId = item.batchId ?: 0,
                                 questionId = item.questionId,
@@ -253,7 +261,7 @@ fun CommonInspectionCard(
                                 sactionName = item.sectionName,
                                 sactionType = item.sectionType ?: "",
                                 attachment = attachmentBase64 ?: "",
-                                trainerCode = item.trainerCode?:0,
+                                trainerCode = item.subject?.toIntOrNull() ?: 0,
                                 subject = item.subject?:""
                             ),
                             AppUtil.getSavedTokenPreference(context)

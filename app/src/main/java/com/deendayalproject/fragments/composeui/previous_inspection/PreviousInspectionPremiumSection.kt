@@ -20,12 +20,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.model.request.InspectionRequestBody
 import com.deendayalproject.model.response.DueDiligenceItemResponse
 import com.deendayalproject.model.uistate.InspectionTab
+import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.PreviousAndDueViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -49,6 +51,9 @@ fun PreviousInspectionSection(
                 sanctionOrder = sanctionOrder
             )
         )
+       // var priviouseInspectionId= state.previousList.getOrNull(0)!!.previousInspectionId
+       // AppUtil.savePreviouseInspectionIdPreference(context,priviouseInspectionId.toString())
+
     }
 
     ElevatedCard(
@@ -141,6 +146,7 @@ fun PreviousInspectionList(
     items: List<PreviousInspectionItemResponse>,
     onItemClick: (PreviousInspectionItemResponse) -> Unit
 ) {
+    val context= LocalContext.current
 
     if (items.isEmpty()) {
         EmptyStateView(
@@ -155,7 +161,7 @@ fun PreviousInspectionList(
     ) {
 
         items.forEachIndexed { index, item ->
-
+            AppUtil.savePreviouseInspectionIdPreference(context,item.previousInspectionId.toString())
             val animatedAlpha by animateFloatAsState(
                 targetValue = 1f,
                 animationSpec = tween(

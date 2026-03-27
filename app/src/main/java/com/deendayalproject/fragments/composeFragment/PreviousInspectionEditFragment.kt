@@ -35,7 +35,7 @@ class PreviousInspectionEditFragment :
                 viewModel.getPreviousInsQues(
                     PreviousInsQuesReq(
                         appVersion = BuildConfig.VERSION_NAME,
-                        inspectionId = AppUtil.getSavedInspectionIdPreference(requireContext()).toInt()
+                        previousInspectionId = AppUtil.getPreviouseSavedInspectionIdPreference(requireContext()).toInt()
                     ),
                     AppUtil.getSavedTokenPreference(requireContext())
                 )

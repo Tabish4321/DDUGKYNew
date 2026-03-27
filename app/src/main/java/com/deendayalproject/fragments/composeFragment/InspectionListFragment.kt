@@ -2,6 +2,7 @@ package com.deendayalproject.fragments.composeFragment
 
 
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
@@ -62,7 +63,8 @@ class InspectionListFragment :
                 //  Error Snackbar Collector
                 LaunchedEffect(Unit) {
                     viewModel.errorMessage.collect {
-                        snackbarHostState.showSnackbar(it)
+                       // snackbarHostState.showSnackbar(it)
+                        Toast.makeText(context,it, Toast.LENGTH_SHORT).show()
                     }
                 }
 

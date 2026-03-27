@@ -2,7 +2,7 @@ package com.deendayalproject.model.request
 
 data class savePreviousInspectionQuesReq(
     val appVersion: String,
-    val inspectionId: Int,
+    val previousInspectionId: Int,
     val candidateId: String,
     val batchId: Int,
     val questionId: Int,

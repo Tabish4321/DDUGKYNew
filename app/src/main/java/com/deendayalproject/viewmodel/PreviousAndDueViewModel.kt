@@ -46,6 +46,7 @@ class PreviousAndDueViewModel(
 
             val previous = previousDeferred.await()
             val due = dueDeferred.await()
+
             Log.d("API_DEBUG", "Previous size = ${previous.getOrNull()?.size}")
             Log.d("API_DEBUG", "Previous size = ${previous.getOrNull()?.size}")
 

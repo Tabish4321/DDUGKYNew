@@ -1127,6 +1127,7 @@ class InspectionViewModel(application: Application) :
 
                     301 -> _errorMessage.emit("Please upgrade your app.")
 
+
                     else -> _errorMessage.emit(
                         response.responseDesc?.ifEmpty {
                             "Unknown server error"
@@ -1161,8 +1162,21 @@ class InspectionViewModel(application: Application) :
 
                     _loading.emit(false)
 
-                    if (response.responseCode == 200) {
-                        _saveSuccess.value = true
+                    when (response.responseCode) {
+
+                        200 ->  _saveSuccess.value = true
+
+                        202 -> _errorMessage.emit("No data available.")
+
+
+                        301 -> _errorMessage.emit("Please upgrade your app.")
+
+
+                        else -> _errorMessage.emit(
+                            response.responseDesc?.ifEmpty {
+                                "Unknown server error"
+                            } ?: "Unknown error"
+                        )
                     }
                 }
             )

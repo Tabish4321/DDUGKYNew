@@ -41,7 +41,8 @@ data class ValidateTrainerAttendance(
     val questionId: Int?,
     val question: String?,
     val remark: String?,
-    val trainerName: String?
+    val trainerName: String?,
+    val previousInspectionId:Int?
 )
 
 data class PreviousBatchDataVerification(

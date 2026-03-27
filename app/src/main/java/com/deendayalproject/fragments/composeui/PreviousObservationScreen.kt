@@ -56,6 +56,10 @@ fun PreviousObservationScreen(
         AppUtil.getSavedInspectionIdPreference(context)
     }
 
+    val previouseInspectionId = remember {
+        AppUtil.getPreviouseSavedInspectionIdPreference(context)
+    }
+
     val trainingCenterId = remember {
         AppUtil.getSavedTrainingCenterIdPreference(context).toInt()
     }
@@ -63,7 +67,7 @@ fun PreviousObservationScreen(
 
     LaunchedEffect(Unit) {
 
-        viewModel.loadObservation(inspectionId.toInt())
+        viewModel.loadObservation(previouseInspectionId.toInt())
 
     }
 

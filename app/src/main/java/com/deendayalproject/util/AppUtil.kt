@@ -339,6 +339,18 @@ object AppUtil {
         return sharedPreferences.getString("InspectionId", "") ?: ""
     }
 
+    fun savePreviouseInspectionIdPreference(context: Context, tokenCode: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("previousInspectionId", tokenCode).apply()
+    }
+
+    fun getPreviouseSavedInspectionIdPreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("previousInspectionId", "") ?: ""
+    }
+
 
     fun saveTrainingCenterIdPreference(context: Context, tokenCode: String) {
         val sharedPreferences =
