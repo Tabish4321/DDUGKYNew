@@ -148,7 +148,7 @@ fun TrainingQualitySection(
 
 
             ComplianceQuestionWithRemarks(
-                question = "Trainer facing class",
+                question = "Trainer facing class ?",
                 answer = facingClass,
                 remarks = facingClassRemark,
                 isError = showError && facingClass == null,
@@ -157,7 +157,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Trainer addressing all candidates",
+                question = "Trainer addressing all candidates ?",
                 answer = addressingAllCandidates,
                 remarks = addressingAllCandidatesRemark,
                 isError = showError && addressingAllCandidates == null,
@@ -166,7 +166,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Session covers plan as per lesson planner",
+                question = "Session covers plan as per lesson planner ?",
                 answer = lessonPlanCovered,
                 remarks = lessonPlanCoveredRemark,
                 isError = showError && lessonPlanCovered == null,
@@ -175,7 +175,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Maintains class discipline",
+                question = "Maintains class discipline ?",
                 answer = maintainsDiscipline,
                 remarks = maintainsDisciplineRemark,
                 isError = showError && maintainsDiscipline == null,
@@ -184,7 +184,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Trainer confident in communication",
+                question = "Trainer confident in communication ?",
                 answer = confidentCommunication,
                 remarks = confidentCommunicationRemark,
                 isError = showError && confidentCommunication == null,
@@ -193,7 +193,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Teaches without constantly referring materials",
+                question = "Teaches without constantly referring materials ?",
                 answer = teachesWithoutMaterial,
                 remarks = teachesWithoutMaterialRemark,
                 isError = showError && teachesWithoutMaterial == null,
@@ -202,7 +202,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Uses audiovisual aids in ≥50% classes",
+                question = "Uses audiovisual aids in ≥50% classes ?",
                 answer = usesAudioVisualAids,
                 remarks = usesAudioVisualAidsRemark,
                 isError = showError && usesAudioVisualAids == null,
@@ -211,7 +211,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Session interactive / participatory",
+                question = "Session interactive / participatory ?",
                 answer = sessionInteractive,
                 remarks = sessionInteractiveRemark,
                 isError = showError && sessionInteractive == null,
@@ -220,7 +220,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Encourages candidate questions",
+                question = "Encourages candidate questions ?",
                 answer = encouragesQuestions,
                 remarks = encouragesQuestionsRemark,
                 isError = showError && encouragesQuestions == null,
@@ -229,7 +229,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Answers queries clearly",
+                question = "Answers queries clearly ?",
                 answer = answersQueriesClearly,
                 remarks = answersQueriesClearlyRemark,
                 isError = showError && answersQueriesClearly == null,
@@ -238,7 +238,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Uses stories, pictures, role plays, examples",
+                question = "Uses stories, pictures, role plays, examples ?",
                 answer = usesStoriesExamples,
                 remarks = usesStoriesExamplesRemark,
                 isError = showError && usesStoriesExamples == null,
@@ -247,7 +247,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Conducts internal assessments on schedule",
+                question = "Conducts internal assessments on schedule ?",
                 answer = conductsInternalAssessments,
                 remarks = conductsInternalAssessmentsRemark,
                 isError = showError && conductsInternalAssessments == null,
@@ -256,7 +256,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Evaluates performance and provides feedback",
+                question = "Evaluates performance and provides feedback ?",
                 answer = evaluatesPerformance,
                 remarks = evaluatesPerformanceRemark,
                 isError = showError && evaluatesPerformance == null,
@@ -265,7 +265,7 @@ fun TrainingQualitySection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Guides on job readiness & career progression",
+                question = "Guides on job readiness & career progression ?",
                 answer = guidesCareerProgression,
                 remarks = guidesCareerProgressionRemark,
                 isError = showError && guidesCareerProgression == null,
@@ -320,20 +320,20 @@ fun TrainingQualitySection(
                     )
 
                     val questions = listOf(
-                        "Trainer facing class",
-                        "Trainer addressing all candidates",
-                        "Session covers plan as per lesson planner",
-                        "Maintains class discipline",
-                        "Trainer confident in communication",
-                        "Teaches without constantly referring materials",
-                        "Uses audiovisual aids in ≥50% classes",
-                        "Session interactive",
-                        "Encourages candidate questions",
-                        "Answers queries clearly",
-                        "Uses stories/examples",
-                        "Conducts internal assessments",
-                        "Evaluates performance",
-                        "Guides on career progression"
+                        "Trainer facing class ?",
+                        "Trainer addressing all candidates ?",
+                        "Session covers plan as per lesson planner ?",
+                        "Maintains class discipline ?",
+                        "Trainer confident in communication ?",
+                        "Teaches without constantly referring materials ?",
+                        "Uses audiovisual aids in ≥50% classes ?",
+                        "Session interactive ?",
+                        "Encourages candidate questions ?",
+                        "Answers queries clearly ?",
+                        "Uses stories/examples ?",
+                        "Conducts internal assessments ?",
+                        "Evaluates performance ?",
+                        "Guides on career progression ?"
                     )
 
                     answers.forEachIndexed { index, answer ->

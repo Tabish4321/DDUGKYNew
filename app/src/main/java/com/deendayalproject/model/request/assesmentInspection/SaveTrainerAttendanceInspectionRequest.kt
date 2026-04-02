@@ -22,6 +22,11 @@ data class SaveTrainerAttendanceInspectionRequest(
 
     val trainerEntryExitAclpQid: Int,
     val trainerEntryExitAclp: String,
-    val trainerEntryExitAclpRemark: String?
+    val trainerEntryExitAclpRemark: String?,
+
+    val replacementArrangementQid: Int,
+    val replacementArrangement: String?,
+    val replacementArrangementRemark: String?
 
 )
+

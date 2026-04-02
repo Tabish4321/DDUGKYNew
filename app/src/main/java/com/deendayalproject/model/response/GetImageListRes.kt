@@ -15,5 +15,14 @@ data class CandidateProofItem(
     val rationCardPath: String?,
     val naregaCardPath: String?,
     val pipCert: String?,
-    val disablityCertPath: String?
+    val disablityCertPath: String?,
+    val isRationCard: String?,
+    val isRsby: String?,
+    val isPmayg: String?,
+    val isMinority: String?,
+    val isPip: String?,
+    val isCastCategory: String?,
+    val isSHG: String?,
+    val isDisablity: String?,
+    val isNrega: String?
 )

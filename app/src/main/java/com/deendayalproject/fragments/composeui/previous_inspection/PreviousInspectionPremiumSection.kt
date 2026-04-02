@@ -91,7 +91,7 @@ fun PreviousInspectionSection(
                 Tab(
                     selected = state.selectedTab == InspectionTab.PREVIOUS,
                     onClick = { viewModel.selectTab(InspectionTab.PREVIOUS) },
-                    text = { Text("Previous") }
+                    text = { Text("Previous Inspection") }
                 )
                 Tab(
                     selected = state.selectedTab == InspectionTab.DUE_DILIGENCE,

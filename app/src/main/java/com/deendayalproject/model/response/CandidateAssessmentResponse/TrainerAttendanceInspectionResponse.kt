@@ -18,5 +18,9 @@ data class TrainerAttendanceInspectionResponse(
 
     val trainerEntryExitAclpQid: Int,
     val trainerEntryExitAclp: String?,
-    val trainerEntryExitAclpRemark: String?
+    val trainerEntryExitAclpRemark: String?,
+
+    val replacementArrangementQid: Int,
+    val replacementArrangement: String?,
+    val replacementArrangementRemark: String?
 )

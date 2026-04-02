@@ -85,7 +85,7 @@ fun CommonInspectionCard(
              var  attachmentBase64 = Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT)
             }
         }
-
+// testing..
     var expanded by remember { mutableStateOf(false) }
     var answer by remember { mutableStateOf<String?>(null) }
     var remark by remember { mutableStateOf("") }
@@ -94,7 +94,6 @@ fun CommonInspectionCard(
 
 
     LaunchedEffect(answer) {
-
         if (
             item.sectionType == "LearningMaterialVerification"
             && answer == "Yes"

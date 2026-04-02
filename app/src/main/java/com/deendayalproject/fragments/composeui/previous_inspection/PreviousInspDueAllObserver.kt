@@ -19,6 +19,7 @@ import com.deendayalproject.model.response.PreviousObservationUiState
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.common.InfoRow
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
@@ -67,7 +68,8 @@ fun PreviousInspectionDueAllObserver(
             ) {
                 Text(
                     text = "No Data Available",
-                    color = Color.Black
+                    color = Color.Black,
+                    textAlign = TextAlign.Center
                 )
             }
         } else {
@@ -92,7 +94,6 @@ fun PreviousInspectionDueAllObserver(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-
                                 if (isExpanded) {
                                     onExpandChange(null)
                                 } else {
@@ -106,30 +107,8 @@ fun PreviousInspectionDueAllObserver(
                             modifier = Modifier.padding(16.dp),
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
-
-                            Text(
-                                text = item.title,
-                                style = MaterialTheme.typography.titleMedium
-                            )
-
-                            InfoRow(
-                                icon = Icons.Default.CheckCircle,
-                                label = "Conducted By",
-                                value = item.conductedBy
-                            )
-
-                            InfoRow(
-                                icon = Icons.Default.PendingActions,
-                                label = "Observation",
-                                value = item.originalRemarks
-                            )
-
-                            AnimatedVisibility(isExpanded) {
-
-                                Column {
-
                                     ComplianceQuestionWithRemarks(
-                                        question = "Are deviations from due diligence addressed?",
+                                        question = item.title,
                                         answer = item.selectionYesNo,
                                         remarks = item.inputRemarks,
                                         onAnswerChange = {
@@ -141,7 +120,6 @@ fun PreviousInspectionDueAllObserver(
                                                 item.copy(inputRemarks = it)
                                         }
                                     )
-
                                     Spacer(Modifier.height(10.dp))
 
                                     Button(
@@ -150,7 +128,6 @@ fun PreviousInspectionDueAllObserver(
                                     ) {
                                         Text("Save")
                                     }
-                                }
                             }
                         }
                     }
@@ -158,4 +135,3 @@ fun PreviousInspectionDueAllObserver(
             }
         }
     }
-}

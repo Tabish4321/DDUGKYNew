@@ -58,16 +58,16 @@ fun DistributedLearningSection(
 
         mutableStateListOf(
 
-            TlmQuestion("Received Domain Curriculum"),
-            TlmQuestion("Received Bilingual TLM for IT Skills"),
-            TlmQuestion("Received Bilingual TLM for Soft Skills"),
-            TlmQuestion("Received Bilingual TLM for English Skills"),
-            TlmQuestion("Received Training Kit"),
-            TlmQuestion("Received Bilingual ID Card"),
-            TlmQuestion("Practical Learning Provided"),
-            TlmQuestion("Usage of Lab Tools & Equipment"),
-            TlmQuestion("Tablets Uploaded with TLM & Info Content"),
-            TlmQuestion("IP Enabled Camera Footage for Assessments Available")
+            TlmQuestion("Received Domain Curriculum ?"),
+            TlmQuestion("Received Bilingual TLM for IT Skills ?"),
+            TlmQuestion("Received Bilingual TLM for Soft Skills ?"),
+            TlmQuestion("Received Bilingual TLM for English Skills ?"),
+            TlmQuestion("Received Training Kit ?"),
+            TlmQuestion("Received Bilingual ID Card ?"),
+            TlmQuestion("Practical Learning Provided ?"),
+            TlmQuestion("Usage of Lab Tools & Equipment ?"),
+            TlmQuestion("Tablets Uploaded with TLM & Info Content ?"),
+            TlmQuestion("IP Enabled Camera Footage for Assessments Available ?")
         )
     }
 

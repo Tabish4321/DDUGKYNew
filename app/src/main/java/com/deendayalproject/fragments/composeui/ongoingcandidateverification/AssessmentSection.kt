@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
+import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarksForYes
 import com.deendayalproject.fragments.composeui.common.InfoRow
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.CandidateAssessmentViewModel
@@ -170,7 +171,7 @@ fun AssessmentSection(
 
 
             ComplianceQuestionWithRemarks(
-                question = "Present during the assessment day",
+                question = "Present during the assessment day ?",
                 answer = presentDuringAssesment,
                 remarks = presentDuringAssesmentRemarks,
                 isError = showError && presentDuringAssesment == null,
@@ -179,7 +180,7 @@ fun AssessmentSection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Verified via IP Enabled Camera",
+                question = "Verified via IP Enabled Camera ?",
                 answer = cameraAnswer,
                 remarks = cameraRemark,
                 isError = showError && cameraAnswer == null,
@@ -188,7 +189,7 @@ fun AssessmentSection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Seriousness during test",
+                question = "Seriousness during test ?",
                 answer = seriousnessAnswer,
                 remarks = seriousnessRemark,
                 isError = showError && seriousnessAnswer == null,
@@ -196,8 +197,8 @@ fun AssessmentSection(
                 onRemarksChange = { seriousnessRemark = it }
             )
 
-            ComplianceQuestionWithRemarks(
-                question = "Malpractices observed",
+            ComplianceQuestionWithRemarksForYes(
+                question = "Malpractices observed ?",
                 answer = malpracticeAnswer,
                 remarks = malpracticeRemark,
                 isError = showError && malpracticeAnswer == null,
@@ -205,8 +206,8 @@ fun AssessmentSection(
                 onRemarksChange = { malpracticeRemark = it }
             )
 
-            ComplianceQuestionWithRemarks(
-                question = "Difference between actual and revaluation marks >10%",
+            ComplianceQuestionWithRemarksForYes(
+                question = "Difference between actual and revaluation marks >10%  and diff in retest >20% ?",
                 answer = diffRevalAnswer,
                 remarks = diffRevalRemark,
                 isError = showError && diffRevalAnswer == null,
@@ -215,7 +216,7 @@ fun AssessmentSection(
             )
 
             ComplianceQuestionWithRemarks(
-                question = "Difference in retest marks >20%",
+                question = "Difference in retest marks >20% ?",
                 answer = diffRetestAnswer,
                 remarks = diffRetestRemark,
                 isError = showError && diffRetestAnswer == null,
@@ -259,11 +260,13 @@ fun AssessmentSection(
                     seriousnessAnswer == "No" && seriousnessRemark.isBlank() ->
                         snackbarHostState.showSnackbar("Please enter remarks for Seriousness during test")
 
-                    malpracticeAnswer == "No" && malpracticeRemark.isBlank() ->
+                    malpracticeAnswer == "Yes" && malpracticeRemark.isBlank() ->
                         snackbarHostState.showSnackbar("Please enter remarks for Malpractices")
 
-                    else -> {
+                    diffRevalAnswer == "Yes" && diffRevalRemark.isBlank() ->
+                        snackbarHostState.showSnackbar("Please enter remarks for actual and revaluation marks")
 
+                    else -> {
 //                        onSubmit(
 //                            cameraAnswer!!,
 //                            seriousnessAnswer!!,

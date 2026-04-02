@@ -166,15 +166,17 @@ fun AttendanceComplianceScreen(
             Divider()
 
 
+            item?.let { it.attendancePercentage!! }?.let {
+                if(it.toInt()<75) {
+                    InfoRow(
+                        icon = Icons.Default.SupportAgent,
+                        label = "Counselling Status",
+                        value = item?.counsellingStatus ?: "N/A"
+                    )
 
-
-            InfoRow(
-                icon = Icons.Default.SupportAgent,
-                label = "Counselling Status",
-                value = item?.counsellingStatus ?: "N/A"
-            )
-
-            Divider()
+                    Divider()
+                }
+            }
 
             InfoRow(
                 icon = Icons.Default.CheckCircle,
@@ -190,7 +192,7 @@ fun AttendanceComplianceScreen(
 
         ComplianceQuestionWithRemarks(
 
-            question = "Is candidate present today?",
+            question = "Candidate Attendance matches biometric attendance ?",
             answer = attendanceAnswer,
             remarks = attendanceRemark,
             isError = showError && attendanceAnswer == null,
@@ -198,19 +200,22 @@ fun AttendanceComplianceScreen(
             onRemarksChange = { attendanceRemark = it }
         )
 
+        item?.let { it.attendancePercentage!! }?.let {
+            if(it.toInt()<75){
+                ComplianceQuestionWithRemarks(
+                    question = "Counselling arranged if attendance <75% ?",
+                    answer = counsellingAnswer,
+                    remarks = counsellingRemark,
+                    isError = showError && counsellingAnswer == null,
+                    onAnswerChange = { counsellingAnswer = it },
+                    onRemarksChange = { counsellingRemark = it }
+                )
+            }
+        }
+
+
         ComplianceQuestionWithRemarks(
-
-            question = "Counselling completed?",
-            answer = counsellingAnswer,
-            remarks = counsellingRemark,
-            isError = showError && counsellingAnswer == null,
-            onAnswerChange = { counsellingAnswer = it },
-            onRemarksChange = { counsellingRemark = it }
-        )
-
-        ComplianceQuestionWithRemarks(
-
-            question = "Candidate attending regularly?",
+            question = "Candidate attended all classes regularly ?",
             answer = regularAttendanceAnswer,
             remarks = regularAttendanceRemark,
             isError = showError && regularAttendanceAnswer == null,

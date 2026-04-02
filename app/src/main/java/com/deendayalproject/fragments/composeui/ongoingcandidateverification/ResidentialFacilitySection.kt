@@ -1,6 +1,7 @@
 package com.deendayalproject.fragments.composeui.ongoingcandidateverification
 
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
@@ -33,35 +34,35 @@ fun ResidentialFacilitySection(
     val state by viewModel.residentialState.collectAsState()
 
     val questions = listOf(
-        "Separate Hostels for Males & Females",
-        "Hostel Name Board Available",
-        "Contact Details Board Available",
-        "Entitlement & Responsibilities Board in bilingual",
-        "Basic Information Boards Available",
-        "Biometric Attendance Captured Daily (6-10 pm)",
-        "Pick-up and Drop Facilities",
-        "Grievance Register Maintained",
-        "Individual Bed/Mat/Bed Sheet",
-        "Kitchen & Dining Hygienic",
-        "Dining and Recreation Space Adequate",
-        "Toilet Signage Available",
-        "Food Quality & Hygiene as per SOP",
-        "Food Committee Formed",
-        "Food As Per Prescribed Menu",
-        "Drinking Water Available",
-        "Toilet Hygiene Maintained",
-        "Overhead Water Tank Cleaned (every 2 months)",
-        "Quarterly Health Check-up Conducted",
-        "First Aid Kit as per SOP",
-        "Male/Female Doctor On Call Available",
-        "Security & Warden Present",
-        "Genset Used During Power Cuts",
-        "TV with Cable/Satellite Available",
-        "Indoor Games Equipment as per SOP",
-        "Warden’s Police Verification Completed",
-        "Grievance Register Easily Accessible",
-        "Grievances Addressed Properly",
-        "Hostel Maintained in Hygienic Condition"
+        "Separate Hostels for Males & Females ?",
+        "Hostel Name Board Available ?",
+        "Contact Details Board Available ?",
+        "Entitlement & Responsibilities Board in bilingual ?",
+        "Basic Information Boards Available ?",
+        "Biometric Attendance Captured Daily (6-10 pm) ?",
+        "Pick-up and Drop Facilities ?",
+        "Grievance Register Maintained ?",
+        "Individual Bed/Mat/Bed Sheet ?",
+        "Kitchen & Dining Hygienic ?",
+        "Dining and Recreation Space Adequate ?",
+        "Toilet Signage Available ?",
+        "Food Quality & Hygiene as per SOP ?",
+        "Food Committee Formed ?",
+        "Food As Per Prescribed Menu ?",
+        "Drinking Water Available ?",
+        "Toilet Hygiene Maintained ?",
+        "Overhead Water Tank Cleaned (every 2 months) ?",
+        "Quarterly Health Check-up Conducted ?",
+        "First Aid Kit as per SOP ?",
+        "Male/Female Doctor On Call Available ?",
+        "Security & Warden Present ?",
+        "Genset Used During Power Cuts ?",
+        "TV with Cable/Satellite Available ?",
+        "Indoor Games Equipment as per SOP ?",
+        "Warden’s Police Verification Completed ?",
+        "Grievance Register Easily Accessible ?",
+        "Grievances Addressed Properly ?",
+        "Hostel Maintained in Hygienic Condition ?"
     )
 
     val answers = remember { mutableStateListOf<String?>().apply { repeat(questions.size) { add(null) } } }
@@ -111,6 +112,7 @@ fun ResidentialFacilitySection(
     LaunchedEffect(state.error) {
         state.error?.let {
             snackbarHostState.showSnackbar(it)
+            Toast.makeText(context,it, Toast.LENGTH_SHORT).show()
             viewModel.clearResidentialError()
         }
     }
@@ -118,7 +120,7 @@ fun ResidentialFacilitySection(
     LaunchedEffect(state.saveSuccess) {
         if (state.saveSuccess) {
             viewModel.triggerRefresh()
-            snackbarHostState.showSnackbar("Saved successfully")
+            Toast.makeText(context,"Saved successfully", Toast.LENGTH_SHORT).show()
             viewModel.clearResidentialSuccess()
         }
     }

@@ -29,44 +29,24 @@ fun DueDiligenceEditScreen(
 
     var expandedIndex by remember { mutableStateOf<Int?>(null) }
 
-    val questionRes by viewModel.getPreviousDueDiligenceQuestion.collectAsState()
     val savedRes by viewModel.getSavedPreviousDueDiligenceQue.collectAsState()
     val saveRes by viewModel.savePreviousDueDiligenceQues.collectAsState()
 
-    var isLoading by remember { mutableStateOf(true) }
+    var isLoading by remember { mutableStateOf(false) }
 
     val inspectionId = AppUtil.getSavedInspectionIdPreference(context)
     val trainingCenterId = AppUtil.getSavedTrainingCenterIdPreference(context)
 
-    LaunchedEffect(Unit) {
-
-        viewModel.getPreviousDueDiligenceQuestion(
-            GetPrevDueQueList(
-                trainingCenterId = trainingCenterId,
-                appVersion = BuildConfig.VERSION_NAME
-            ),
-            AppUtil.getSavedTokenPreference(context)
-        )
-
-        delay(500)
-        isLoading = false
-    }
-
-    val observationList = questionRes?.wrappedList?.map { q ->
-
-        val saved = savedRes?.wrappedList?.find {
-            it.questionId == q.questionId
-        }
-
+     val observationList = listOf(
         PreviousObservationRes(
-            questionId = q.questionId,
-            title = "Due Diligence Question ${q.questionId}",
-            conductedBy = q.dueDiligenceBy,
-            remarks = q.dueDiligenceRemark,
-            preAnswer = saved?.inspectorAnswer,
-            preRemark = saved?.inspectorRemark
+            questionId = 1,
+            title = "Is the training center infrastructure available as per the approved due diligence?",
+            conductedBy = "",
+            remarks = "",
+            preAnswer = savedRes?.wrappedList?.firstOrNull()?.inspectorAnswer,
+            preRemark = savedRes?.wrappedList?.firstOrNull()?.inspectorRemark
         )
-    } ?: emptyList()
+    )
 
     PreviousInspectionDueAllObserver(
         observationItems = observationList,
@@ -89,38 +69,47 @@ fun DueDiligenceEditScreen(
         },
 
         onSubmit = { ui ->
+            val finalAnswer = ui.selectionYesNo ?: ""
+
+            val finalRemark = if (finalAnswer == "No") {
+                if (ui.inputRemarks.isBlank()) {
+                    Toast.makeText(context, "Remark is mandatory for No", Toast.LENGTH_SHORT).show()
+                    return@PreviousInspectionDueAllObserver
+                }
+                ui.inputRemarks
+            } else {
+                ""
+            }
 
             viewModel.savePreviousDueDiligenceQues(
                 SavePreDDQueReq(
                     appVersion = BuildConfig.VERSION_NAME,
                     inspectionId = inspectionId.toInt(),
                     questionId = ui.questionId,
-                    answer = ui.selectionYesNo ?: "",
+                    answer = finalAnswer,
                     trainingCenterId = trainingCenterId.toInt(),
-                    remark = ui.inputRemarks
+                    remark = finalRemark
                 ),
                 AppUtil.getSavedTokenPreference(context)
             )
+
         }
     )
 
     LaunchedEffect(saveRes) {
-
         saveRes?.let {
-
-            Toast.makeText(context, "Saved Successfully", Toast.LENGTH_SHORT).show()
-
-            expandedIndex = null
-
-            viewModel.getSavedPreviousDueDiligenceQue(
-                GetDDSaveDataReq(
-                    inspectionId = inspectionId,
-                    questionId = "0",
-                    appVersion = BuildConfig.VERSION_NAME,
-                    trainingCenterId = trainingCenterId
-                ),
-                AppUtil.getSavedTokenPreference(context)
-            )
+            Toast.makeText(context, it.responseDesc, Toast.LENGTH_SHORT).show()
         }
+        viewModel.getSavedPreviousDueDiligenceQue(
+            GetDDSaveDataReq(
+                inspectionId = inspectionId,
+                questionId = "1",
+                appVersion = BuildConfig.VERSION_NAME,
+                trainingCenterId = trainingCenterId
+            ),
+            AppUtil.getSavedTokenPreference(context)
+        )
     }
+
+
 }

@@ -20,5 +20,9 @@ val trainerQuestionList = listOf(
     TrainerQuestion(
         3,
         "Does the trainer enter & exit the class at the time mentioned in the ACLP?"
-    )
+    ),
+    TrainerQuestion(
+            4,
+    "Arrangement for replacement if leave was for more than 2 days?"
+)
 )

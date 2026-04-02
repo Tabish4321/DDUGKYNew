@@ -212,27 +212,27 @@ fun ProCandidateBottomSheet(
                     .padding(padding)
                     .padding(horizontal = 20.dp)
             ) {
-                Spacer(modifier = Modifier.height(16.dp))
-
-                CandidateHeader(
-                    candidateData = candidateData,
-                    onCloseClick = {
-                        scope.launch {
-                            sheetState.hide()
-                            condidateVerificationViewModel.resetForm()
-                            onDismiss() // Only close button works
-                        }
-                    }
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                HorizontalDivider(
-                    thickness = 1.dp,
-                    color = Color(0xFFE2E8F0)
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                CandidateHeader(
+//                    candidateData = candidateData,
+//                    onCloseClick = {
+//                        scope.launch {
+//                            sheetState.hide()
+//                            condidateVerificationViewModel.resetForm()
+//                            onDismiss() // Only close button works
+//                        }
+//                    }
+//                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                HorizontalDivider(
+//                    thickness = 1.dp,
+//                    color = Color(0xFFE2E8F0)
+//                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
 
                 if (state.isLoading) {
 
@@ -253,19 +253,54 @@ fun ProCandidateBottomSheet(
                         contentPadding = PaddingValues(bottom = 100.dp),
                     ) {
 
+                        item {
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            CandidateHeader(
+                                candidateData = candidateData,
+                                onCloseClick = {
+                                    scope.launch {
+                                        sheetState.hide()
+                                        condidateVerificationViewModel.resetForm()
+                                        onDismiss() // Only close button works
+                                    }
+                                }
+                            )
+
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            HorizontalDivider(
+                                thickness = 1.dp,
+                                color = Color(0xFFE2E8F0)
+                            )
+
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+
                         items(items=questionList,
                             key={it.id}
                         ) { question ->
 
-                            val parentValue = question.dependsOn?.let {
-                                state.getAnswer(it)
-                            }
+//                            val parentValue = question.dependsOn?.let {
+//                                state.getAnswer(it)
+//                            }
+//
+//                            val shouldShow = when {
+//                                question.dependsOn == null -> true
+//                                parentValue?.equals("Yes", true) == true -> true
+//                                else -> false
+//                            }
 
                             val shouldShow = when {
-                                question.dependsOn == null -> true
-                                parentValue?.equals("Yes", true) == true -> true
-                                else -> false
+                                question.dependsOn.isNullOrEmpty() -> true
+
+                                else -> {
+                                    question.dependsOn.all { key ->
+                                        state.getAnswer(key)?.equals("Yes", true) == true
+                                    }
+                                }
                             }
+
 
                             if (shouldShow) {
                                 CandidateDetailsQuestionN(condidateVerificationViewModel = condidateVerificationViewModel,question=question,state=state,   onAnswerChange = { value ->
@@ -282,7 +317,6 @@ fun ProCandidateBottomSheet(
                         }
                         item {
                             MultiLineEditText(
-
                                 value = state.replacementAction,
                                 onValueChange = {
                                     condidateVerificationViewModel.updateState {

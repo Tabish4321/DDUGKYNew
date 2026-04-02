@@ -9,7 +9,7 @@ import com.deendayalproject.model.uistate.CandidateVerificationUiState
 data class QuestionConfig(
     val id: String,
     val title: String,
-    val dependsOn: String? = null,
+    val dependsOn: List<String>? = null,
     val showIfYes: Boolean = true
 )
 
@@ -17,38 +17,29 @@ val questionList = listOf(
 
     QuestionConfig("externalAssessment", "External Assessment Completed"),
 
-    QuestionConfig(
-        "passedFailed",
-        "If Yes, Passed / Failed",
-        dependsOn = "externalAssessment"
-    ),
+    QuestionConfig("passedFailed", "If Yes, Passed / Failed", dependsOn = listOf("externalAssessment")),
 
-    QuestionConfig("certificateReceived", "Received certificate (if eligible)"),
+    QuestionConfig("certificateReceived", "Received certificate (if eligible)", dependsOn = listOf("externalAssessment")),
 
     QuestionConfig("ojtJoined", "OJT Joined"),
 
-    QuestionConfig("ojtCertificateReceived", "OJT certificate received (4.6B & 4.6C)"),
+    QuestionConfig("ojtCertificateReceived", "OJT certificate received (4.6B & 4.6C)", dependsOn =listOf( "ojtJoined")),
 
-    QuestionConfig("ojtEntitlementReceived", "OJT Entitlement received"),
+    QuestionConfig("ojtEntitlementReceived", "OJT Entitlement received", dependsOn = listOf("ojtJoined")),
 
-    QuestionConfig("ojtVerificationDone", "OJT verification done by the PIA Q.Team"),
+    QuestionConfig("ojtVerificationDone", "OJT verification done by the PIA Q.Team", dependsOn = listOf("ojtJoined")),
 
     QuestionConfig("offerLetterReceived", "Got offer letter"),
 
     QuestionConfig("performancePlanFilled", "Performance Evaluation Plan (SF 4.3N) filled or not"),
 
-    QuestionConfig("joinedJob", "Joined the job"),
+    QuestionConfig("joinedJob", "Joined the job", dependsOn = listOf("offerLetterReceived")),
 
-    QuestionConfig(
-        "candidateStatus",
-        "What is the current status of the candidate",
-        dependsOn = "joinedJob"
-    ),
+    QuestionConfig("candidateStatus", "What is the current status of the candidate", dependsOn = listOf("joinedJob")),
 
-    QuestionConfig("minimumWageMatch", "Is it match with the Minimum wages of the state"),
+    QuestionConfig("minimumWageMatch", "Is it match with the Minimum wages of the state",dependsOn = listOf("offerLetterReceived","joinedJob")),
 
-    QuestionConfig("ppsDisbursed", "PPS Amount disbursed to the candidates (as per the eligibility)")
-
+    QuestionConfig("ppsDisbursed", "PPS Amount disbursed to the candidates (as per the eligibility)",dependsOn = listOf("offerLetterReceived","joinedJob"))
 )
 
 fun CandidateVerificationUiState.getAnswer(id: String): String? =

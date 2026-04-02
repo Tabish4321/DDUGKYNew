@@ -18,6 +18,10 @@ data class TrainerAttendanceUiState(
     val trainerEntryExitAclp: String? = null,
     val trainerEntryExitAclpRemark: String = "",
 
+    val replacementArrangement: String?= null,
+    val replacementArrangementRemark: String = "",
+
+
     val isLoading: Boolean = false,
     val error: String? = null,
     val saveSuccess: Boolean = false

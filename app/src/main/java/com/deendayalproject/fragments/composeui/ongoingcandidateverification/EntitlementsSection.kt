@@ -1,6 +1,7 @@
 package com.deendayalproject.fragments.composeui.ongoingcandidateverification
 
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +14,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
+import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.CandidateAssessmentViewModel
 import com.deendayalproject.viewmodel.InspectionViewModel
 import kotlinx.coroutines.launch
@@ -29,6 +32,7 @@ fun EntitlementsSection(
 ) {
 
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     val state by viewModel.entitlementState.collectAsState()
 
@@ -122,15 +126,18 @@ fun EntitlementsSection(
     LaunchedEffect(state.error) {
 
         state.error?.let {
-            snackbarHostState.showSnackbar(it)
+            //snackbarHostState.showSnackbar(it)
+            Toast.makeText(context,it, Toast.LENGTH_SHORT).show()
+
             viewModel.clearEntitlementError()
         }
     }
 
     LaunchedEffect(state.saveSuccess) {
         if( state.saveSuccess){
+            Toast.makeText(context,"Entitlements saved successfully", Toast.LENGTH_SHORT).show()
             viewModel.triggerRefresh()
-            snackbarHostState.showSnackbar("Entitlements saved successfully")
+            //snackbarHostState.showSnackbar("Entitlements saved successfully")
             viewModel.clearEntitlementSaveSuccess()
         }
     }
@@ -143,7 +150,7 @@ fun EntitlementsSection(
     ) {
 
         ComplianceQuestionWithRemarks(
-            question = "Training free of cost",
+            question = "Training free of cost ?",
             answer = trainingFreeAnswer,
             remarks = trainingFreeRemark,
             isError = showError && trainingFreeAnswer == null,
@@ -152,7 +159,7 @@ fun EntitlementsSection(
         )
 
         ComplianceQuestionWithRemarks(
-            question = "Bank Account Opened as per instructions",
+            question = "Bank Account Opened as per instructions ?",
             answer = bankAccountAnswer,
             remarks = bankAccountRemark,
             isError = showError && bankAccountAnswer == null,
@@ -160,17 +167,19 @@ fun EntitlementsSection(
             onRemarksChange = { bankAccountRemark = it }
         )
 
-        ComplianceQuestionWithRemarks(
-            question = "Residential Facilities Provided / Entitlements Paid",
-            answer = residentialAnswer,
-            remarks = residentialRemark,
-            isError = showError && residentialAnswer == null,
-            onAnswerChange = { residentialAnswer = it },
-            onRemarksChange = { residentialRemark = it }
-        )
+        if(AppUtil.getSavedCenterTypePreference(context)=="Residential"){
+            ComplianceQuestionWithRemarks(
+                question = "Residential Facilities Provided / Entitlements Paid ?",
+                answer = residentialAnswer,
+                remarks = residentialRemark,
+                isError = showError && residentialAnswer == null,
+                onAnswerChange = { residentialAnswer = it },
+                onRemarksChange = { residentialRemark = it }
+            )
+        }
 
         ComplianceQuestionWithRemarks(
-            question = "Received Free Training Material",
+            question = "Received Free Training Material ?",
             answer = trainingMaterialAnswer,
             remarks = trainingMaterialRemark,
             isError = showError && trainingMaterialAnswer == null,
@@ -179,7 +188,7 @@ fun EntitlementsSection(
         )
 
         ComplianceQuestionWithRemarks(
-            question = "Uniform Provided in First Month",
+            question = "Uniform Provided in First Month ?",
             answer = uniformAnswer,
             remarks = uniformRemark,
             isError = showError && uniformAnswer == null,
@@ -188,7 +197,7 @@ fun EntitlementsSection(
         )
 
         ComplianceQuestionWithRemarks(
-            question = "Sanitary Pads/Masks Provided",
+            question = "Sanitary Pads/Masks Provided ?",
             answer = sanitaryAnswer,
             remarks = sanitaryRemark,
             isError = showError && sanitaryAnswer == null,
@@ -197,7 +206,7 @@ fun EntitlementsSection(
         )
 
         ComplianceQuestionWithRemarks(
-            question = "Medicine Provided if Sick",
+            question = "Medicine Provided if Sick ?",
             answer = medicineAnswer,
             remarks = medicineRemark,
             isError = showError && medicineAnswer == null,
@@ -206,7 +215,7 @@ fun EntitlementsSection(
         )
 
         ComplianceQuestionWithRemarks(
-            question = "Insurance Benefits Provided",
+            question = "Insurance Benefits Provided ?",
             answer = insuranceAnswer,
             remarks = insuranceRemark,
             isError = showError && insuranceAnswer == null,
@@ -214,14 +223,16 @@ fun EntitlementsSection(
             onRemarksChange = { insuranceRemark = it }
         )
 
-        ComplianceQuestionWithRemarks(
-            question = "To & Fro Travel Entitlement Paid",
-            answer = toFroEntitlementAnswer,
-            remarks = toFroEntitlementRemark,
-            isError = showError && toFroEntitlementAnswer == null,
-            onAnswerChange = { toFroEntitlementAnswer = it },
-            onRemarksChange = { toFroEntitlementRemark = it }
-        )
+        if(AppUtil.getSavedCenterTypePreference(context)!="Residential") {
+            ComplianceQuestionWithRemarks(
+                question = "To & Fro Travel Entitlement Paid ?",
+                answer = toFroEntitlementAnswer,
+                remarks = toFroEntitlementRemark,
+                isError = showError && toFroEntitlementAnswer == null,
+                onAnswerChange = { toFroEntitlementAnswer = it },
+                onRemarksChange = { toFroEntitlementRemark = it }
+            )
+        }
 
         Spacer(modifier = Modifier.height(10.dp))
 

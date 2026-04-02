@@ -74,17 +74,17 @@ fun ComplianceQuestionNAWithRemarks(
                     weight = 1f
                 ) { onAnswerChange("No") }
 
-                AnswerButton(
-                    text = "Not Applicable",
-                    selected = answer == "Not Applicable",
-                    color = Color(0xFFF59E0B),
-                    weight = 1.6f   // 👈 wider button
-                ) { onAnswerChange("Not Applicable") }
+//                AnswerButton(
+//                    text = "Not Applicable",
+//                    selected = answer == "Not Applicable",
+//                    color = Color(0xFFF59E0B),
+//                    weight = 1.6f   // 👈 wider button
+//                ) { onAnswerChange("Not Applicable") }
 
             }
 
-            if (answer == "No" || answer == "Not Applicable") {
-
+          //  if (answer == "No" || answer == "Not Applicable") {
+            if (answer == "No") {
                 MultiLineEditText(
                     value = remarks,
                     onValueChange = onRemarksChange,
@@ -92,7 +92,6 @@ fun ComplianceQuestionNAWithRemarks(
                     isRequired = answer == "No",
                     isError = answer == "No" && remarks.isBlank(),
                     modifier = Modifier.onFocusEvent {
-
                         if (it.isFocused) {
                             scope.launch {
                                 bringIntoViewRequester.bringIntoView()

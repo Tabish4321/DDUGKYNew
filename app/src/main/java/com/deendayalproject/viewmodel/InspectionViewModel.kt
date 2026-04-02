@@ -765,8 +765,13 @@ class InspectionViewModel(application: Application) :
             trainerEntryExitAclp =
                 dto.trainerEntryExitAclp,
 
-            trainerEntryExitAclpRemark =
-                dto.trainerEntryExitAclpRemark ?: "",
+            trainerEntryExitAclpRemark = dto.trainerEntryExitAclpRemark ?: "",
+
+            replacementArrangement =
+                dto.replacementArrangement,
+
+            replacementArrangementRemark =
+                dto.replacementArrangementRemark ?: "",
 
             isLoading = false
         )
@@ -799,7 +804,11 @@ class InspectionViewModel(application: Application) :
             trainerEntryExitAclp =
                 state.trainerEntryExitAclp ?: "",
             trainerEntryExitAclpRemark =
-                state.trainerEntryExitAclpRemark
+                state.trainerEntryExitAclpRemark,
+
+            replacementArrangementQid = 4,
+            replacementArrangement = state.replacementArrangement ?: "",
+            replacementArrangementRemark = state.replacementArrangementRemark
         )
     }
 
@@ -822,10 +831,12 @@ class InspectionViewModel(application: Application) :
         trainerAttendanceMatch: String?,
         trainerCounsellingArranged: String?,
         trainerEntryExitAclp: String?,
+        replacementArrangement:String?,
 
         trainerAttendanceMatchRemark: String?,
         trainerCounsellingArrangedRemark: String?,
-        trainerEntryExitAclpRemark: String?
+        trainerEntryExitAclpRemark: String?,
+        replacementArrangementRemark:String?
 
     ) {
 
@@ -840,7 +851,10 @@ class InspectionViewModel(application: Application) :
                 trainerCounsellingArrangedRemark = trainerCounsellingArrangedRemark ?: "",
 
                 trainerEntryExitAclp = trainerEntryExitAclp,
-                trainerEntryExitAclpRemark = trainerEntryExitAclpRemark ?: ""
+                trainerEntryExitAclpRemark = trainerEntryExitAclpRemark ?: "",
+
+                replacementArrangement = replacementArrangement,
+                replacementArrangementRemark = replacementArrangementRemark ?: ""
 
             )
         }
@@ -1087,9 +1101,7 @@ class InspectionViewModel(application: Application) :
                         .savePreviousDueDiligenceQues(req, header)
                 },
                 onSuccess = { response ->
-
                     _savePreviousDueDiligenceQues.value = response
-
                 }
 
             )

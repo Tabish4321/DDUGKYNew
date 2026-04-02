@@ -84,40 +84,63 @@ fun BasicRecordsSection(
 
             documents.clear()
 
-            documents.addAll(
-                listOf(
+            val isPovertyAvailable = listOf(
+                proof?.isRationCard,
+                proof?.isRsby,
+                proof?.isPmayg,
+                proof?.isPip,
+                proof?.isSHG,
+                proof?.isNrega
+            ).any { it == "Yes" }
+
+            if (isPovertyAvailable) {
+                documents.add(
                     DocumentVerificationState(
                         "Poverty Proof",
                         1,
                         proof?.pmaygAttachment,
                         uiState.povertyProof,
                         uiState.povertyProofRemark
-                    ),
+                    )
+                )
+            }
 
+            if (proof?.isCastCategory == "Yes") {
+                documents.add(
                     DocumentVerificationState(
                         "Category Proof",
                         2,
                         proof?.categoryCertPath,
                         uiState.categoryProof,
                         uiState.categoryProofRemark
-                    ),
+                    )
+                )
+            }
 
+            if (proof?.isMinority == "Yes") {
+                documents.add(
                     DocumentVerificationState(
                         "Minority Proof",
                         3,
                         proof?.minorityCertPath,
                         uiState.minorityProof,
                         uiState.minorityProofRemark
-                    ),
+                    )
+                )
+            }
 
-                    DocumentVerificationState(
-                        "Education Proof",
-                        4,
-                        proof?.pipCert,
-                        uiState.educationProof,
-                        uiState.educationProofRemark
-                    ),
+            documents.add(
+                DocumentVerificationState(
+                    "Education Proof",
+                    4,
+                    proof?.pipCert,
+                    uiState.educationProof,
+                    uiState.educationProofRemark
+                )
+            )
 
+            if (proof?.isDisablity == "Yes") {
+                documents.add(
                     DocumentVerificationState(
                         "Disability Proof",
                         5,
@@ -126,9 +149,15 @@ fun BasicRecordsSection(
                         uiState.pwdProofRemark
                     )
                 )
-            )
+            }
         }
     }
+
+    val poverty = documents.find { it.qid == 1 }
+    val category = documents.find { it.qid == 2 }
+    val minority = documents.find { it.qid == 3 }
+    val education = documents.find { it.qid == 4 }
+    val pwd = documents.find { it.qid == 5 }
 
 
 
@@ -142,7 +171,6 @@ fun BasicRecordsSection(
                 answer = doc.answer,
                 remarks = doc.remarks,
                 isError = false,
-
                 onAnswerChange = {
 
                     documents[index] =
@@ -187,30 +215,29 @@ fun BasicRecordsSection(
 
                         appVersion = BuildConfig.VERSION_NAME,
                         candidateId = candidateId,
-                        inspectionId =inspectionId,
+                        inspectionId = inspectionId,
                         batchId = batchId.toInt(),
 
                         povertyProofQid = 1,
-                        povertyProof = documents[0].answer ?: "",
-                        povertyProofRemark = documents[0].remarks,
+                        povertyProof = poverty?.answer ?: "",
+                        povertyProofRemark = poverty?.remarks ?: "",
 
                         categoryProofQid = 2,
-                        categoryProof = documents[1].answer ?: "",
-                        categoryProofRemark = documents[1].remarks,
+                        categoryProof = category?.answer ?: "",
+                        categoryProofRemark = category?.remarks ?: "",
 
                         minorityProofQid = 3,
-                        minorityProof = documents[2].answer ?: "",
-                        minorityProofRemark = documents[2].remarks,
+                        minorityProof = minority?.answer ?: "",
+                        minorityProofRemark = minority?.remarks ?: "",
 
                         educationProofQid = 4,
-                        educationProof = documents[3].answer ?: "",
-                        educationProofRemark = documents[3].remarks,
+                        educationProof = education?.answer ?: "",
+                        educationProofRemark = education?.remarks ?: "",
 
                         pwdProofQid = 5,
-                        pwdProof = documents[4].answer ?: "",
-                        pwdProofRemark = documents[4].remarks
+                        pwdProof = pwd?.answer ?: "",
+                        pwdProofRemark = pwd?.remarks ?: ""
                     )
-
                     candidateVerificationViewModel.saveCandidateBasicRecords(request)
 
                 }

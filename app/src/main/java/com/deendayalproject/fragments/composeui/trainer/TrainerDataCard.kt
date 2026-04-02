@@ -14,8 +14,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.deendayalproject.R
 import com.deendayalproject.model.response.TrainerData
 
@@ -29,14 +31,48 @@ fun TrainerDataCard(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
 
-        trainer.forEach { item ->
+        if(trainer.isNullOrEmpty()){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
 
-            SingleTrainerCard(
-                trainer = item,
-                onVerifyTrainerClick = {
-                    onVerifyTrainerClick(item)
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .padding(24.dp)
+                ) {
+
+                    Text(
+                        text = "No Data Available",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(0xFF444444),
+                        textAlign = TextAlign.Center
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Text(
+                        text = "There is currently no data to display.",
+                        fontSize = 14.sp,
+                        color = Color.Gray,
+                        textAlign = TextAlign.Center
+                    )
                 }
-            )
+            }
+            }
+        else{
+            trainer.forEach { item ->
+                SingleTrainerCard(
+                    trainer = item,
+                    onVerifyTrainerClick = {
+                        onVerifyTrainerClick(item)
+                    }
+                )
+            }
         }
     }
 }

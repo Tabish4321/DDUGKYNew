@@ -78,10 +78,13 @@ fun TrainerBottomSheet(
             answers[1] = state.trainerAttendanceMatch
             answers[2] = state.trainerCounsellingArranged
             answers[3] = state.trainerEntryExitAclp
+            answers[4] = state.replacementArrangement
+
 
             remarks[1] = state.trainerAttendanceMatchRemark
             remarks[2] = state.trainerCounsellingArrangedRemark
             remarks[3] = state.trainerEntryExitAclpRemark
+            remarks[4] = state.replacementArrangementRemark
         }
     }
 
@@ -186,12 +189,15 @@ fun TrainerBottomSheet(
                             }
 
                             viewModel.updateTrainerState(
-                                answers[1],
-                                answers[2],
-                                answers[3],
-                                remarks[1],
-                                remarks[2],
-                                remarks[3]
+                                trainerAttendanceMatch =answers[1],
+                                trainerCounsellingArranged = answers[2],
+                                trainerEntryExitAclp = answers[3],
+                                replacementArrangement =answers[4],
+                                trainerAttendanceMatchRemark = remarks[1],
+                                trainerCounsellingArrangedRemark = remarks[2],
+                                trainerEntryExitAclpRemark = remarks[3],
+                                replacementArrangementRemark = remarks[4]
+
                             )
 
                             viewModel.saveTrainerAttendance(
