@@ -35,7 +35,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 ) {
     //Risi tsting
 
-
     private lateinit var viewModel: SharedViewModel
     // private lateinit var batchAdapter: BaseRecyclerAdapter<AttendanceBatch, AttendanceBatchLayoutBinding>
 
@@ -47,7 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
     private fun setupNavHeader() {
         setupToolbar(
             binding.root,
-            "HOME",
+            getString(R.string.home),
             showBack = false,
             showLang = true,
             showProfile = true,
@@ -71,7 +70,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                         response.onSuccess { result ->
                             when (result.responseCode) {
                                 200 -> {
-                                    Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(requireContext(),
+                                        getString(R.string.logged_out), Toast.LENGTH_SHORT).show()
                                     AppUtil.saveLoginStatus(requireContext(), false)
                                     clearToken(requireContext())
                                     findNavController().navigate(
@@ -84,15 +84,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                                 }
                                 301 ->Toast.makeText(
                                     requireContext(),
-                                    "Please upgrade your app first.",
+                                    getString(R.string.please_upgrade_your_app_first),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
                         response.onFailure {
+
                             Toast.makeText(
                                 requireContext(),
-                                "Something went wrong. Try again.",
+                                getString(R.string.something_went_wrong_try_again),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -168,9 +169,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                 }
             },
             diffChecker = { old, new -> old.id == new.id },
-            recyclerViewParent = binding.container,
-            noDataTitle = "No modules available for your account",
-            noDataDescription = ""
+             recyclerViewParent = binding.container,
+             noDataTitle = getString(R.string.no_modules_available_for_your_account),
+             noDataDescription = ""
         )
         binding.rvModules.layoutManager = LinearLayoutManager(requireContext())
         binding.rvModules.adapter = adapter
@@ -210,6 +211,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
             "DDUGKY_CANDIDATE_ATTENDANCE_APP" ->
                 navigate(R.id.action_homeFragment_to_attendanceBatchListFragment)
+            "OJT_VERIFICATION_FORM_APP" ->
+                navigate(R.id.action_homeFragment_to_SelectionFragment)
 
             "DUE_DILIGENCE_INSPECTION_FORM" ->
                 navigate(R.id.action_homeFragment_to_inspectionListFragment)
@@ -255,7 +258,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                         adapter.notifyDataSetChanged()
 
                         if (updated.isEmpty()) {
-                            showToast("No modules available for your account")
+                            showToast( getString(R.string.no_modules_available_for_your_account))
                         }
                     },
                     onSessionExpired = { AppUtil.showSessionExpiredDialog(findNavController(), requireContext())},
@@ -270,7 +273,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
                 Toast.makeText(
                     requireContext(),
-                    "Something went wrong. Try again.",
+                    getString(R.string.something_went_wrong_try_again),
                     Toast.LENGTH_SHORT
                 ).show()
             }

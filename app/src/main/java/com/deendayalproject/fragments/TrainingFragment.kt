@@ -1332,7 +1332,7 @@ class TrainingFragment : Fragment() {
             if (fineLocationGranted || coarseLocationGranted) {
                 getCurrentLocation()
             } else {
-                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.location_permission_denied), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -1909,7 +1909,7 @@ class TrainingFragment : Fragment() {
             if (isGranted) launchCamera()
             else Toast.makeText(
                 requireContext(),
-                "Camera permission is required.",
+                getString(R.string.camera_permission_is_required),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -1920,7 +1920,7 @@ class TrainingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")
+        ProgressDialogUtil.showProgressDialog(requireContext(), getString(R.string.please_wait))
         return inflater.inflate(R.layout.fragment_training, container, false)
     }
 
@@ -1951,9 +1951,9 @@ class TrainingFragment : Fragment() {
 
         if (status == STATUS_QM || status == STATUS_SM) {
             AlertDialog.Builder(requireContext())
-                .setTitle("Remarks")
+                .setTitle(getString(R.string.remarks))
                 .setMessage(remarks)
-                .setPositiveButton("Okay") { dialog: DialogInterface?, _: Int ->
+                .setPositiveButton(getString(R.string.okay)) { dialog: DialogInterface?, _: Int ->
                     dialog?.dismiss()
                 }
                 .show()
@@ -3501,7 +3501,7 @@ class TrainingFragment : Fragment() {
             if (validateCCTVForm(view)) submitCCTVData(view)
             else Toast.makeText(
                 requireContext(),
-                "Complete all CCTV fields and photos.",
+                getString(R.string.complete_all_cctv_fields_and_photos),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -3509,7 +3509,7 @@ class TrainingFragment : Fragment() {
             if (validateElectricalForm(view)) submitElectricalData(view)
             else Toast.makeText(
                 requireContext(),
-                "Complete all electrical fields and photos.",
+                getString(R.string.complete_all_electrical_fields_and_photos),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -3517,7 +3517,7 @@ class TrainingFragment : Fragment() {
             if (validateGeneralDetailsForm()) submitGeneralDetails()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields and photos for General Details.",
+                getString(R.string.please_complete_all_fields_and_photos_for_general_details),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -3525,7 +3525,7 @@ class TrainingFragment : Fragment() {
             if (validateTcBasicInfoFields()) submitTCInfoDeatails()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for TC Details.",
+                getString(R.string.please_complete_all_fields_for_tc_details),
                 Toast.LENGTH_LONG
             ).show()
 
@@ -3534,7 +3534,7 @@ class TrainingFragment : Fragment() {
             if (validateSignagesInfoBoards()) submitSignagesInfoBoards()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for Signages&InfoBoards Details.",
+                getString(R.string.please_complete_all_fields_for_signages_infoboards_details),
                 Toast.LENGTH_LONG
             ).show()
 
@@ -3543,7 +3543,7 @@ class TrainingFragment : Fragment() {
             if (validateSupportInfrastructure()) submitInfraDetails()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for Availabilty of support InfraStructure Details.",
+                getString(R.string.please_complete_all_fields_for_availabilty_of_support_infrastructure_details),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -3552,7 +3552,7 @@ class TrainingFragment : Fragment() {
             if (validateCommonEquipment()) submitCommonEquipment()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for Common Equipment Details.",
+                getString(R.string.please_complete_all_fields_for_common_equipment_details),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -3560,7 +3560,7 @@ class TrainingFragment : Fragment() {
             if (validateDescriptionForm()) submitDescriptionOtherAreas()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for Description of other area Details.",
+                getString(R.string.please_complete_all_fields_for_description_of_other_area_details),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -3569,7 +3569,7 @@ class TrainingFragment : Fragment() {
             if(validateToiletsAndWashBasins()) submitWashBasins()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for Toilet & WashBasin Details.",
+                getString(R.string.please_complete_all_fields_for_toilet_washbasin_details),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -3579,7 +3579,7 @@ class TrainingFragment : Fragment() {
             if(validateItLAB()) submitItLab()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for (IT Lab) Details.",
+                getString(R.string.please_complete_all_fields_for_it_lab_details),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -3603,7 +3603,7 @@ class TrainingFragment : Fragment() {
             if(validateReceptionArea()) SubmitReceptionArea()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields Reception Area  Details.",
+                getString(R.string.please_complete_all_fields_reception_area_details),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -3612,7 +3612,7 @@ class TrainingFragment : Fragment() {
             if(validateCounsellingRoom()) SubmitCounsellingRoom()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for Submit CounsellingRoom Details.",
+                getString(R.string.please_complete_all_fields_for_submit_counsellingroom_details),
                 Toast.LENGTH_LONG
             ).show()
 //            SubmitReceptionArea()
@@ -3622,7 +3622,7 @@ class TrainingFragment : Fragment() {
             if(validateOfficeRoom()) SubmitOfficeRoom()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for Submit CounsellingRoom Details.",
+                getString(R.string.please_complete_all_fields_for_submit_counsellingroom_details),
                 Toast.LENGTH_LONG
             ).show()
 //            SubmitOfficeRoom()
@@ -3632,7 +3632,7 @@ class TrainingFragment : Fragment() {
             if(validateITComeDomainLab()) SubmitITComeDomainLab()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for Submit IT Come Domain Lab Details.",
+                getString(R.string.please_complete_all_fields_for_submit_it_come_domain_lab_details),
                 Toast.LENGTH_LONG
             ).show()
 //            SubmitITComeDomainLab()
@@ -3642,7 +3642,7 @@ class TrainingFragment : Fragment() {
             if(validateTheoryCumITLab()) SubmitTCITLABLab()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for Submit Theory Cum IT Lab Details.",
+                getString(R.string.please_complete_all_fields_for_submit_theory_cum_it_lab_details),
                 Toast.LENGTH_LONG
             ).show()
 
@@ -3655,7 +3655,7 @@ class TrainingFragment : Fragment() {
             if(validateTheoryCumDomainLab()) SubmitTCDL()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for Submit Theory Cum Domain Lab Details.",
+                getString(R.string.please_complete_all_fields_for_submit_theory_cum_domain_lab_details),
                 Toast.LENGTH_LONG
             ).show()
 //            SubmitTCDL()
@@ -3666,7 +3666,7 @@ class TrainingFragment : Fragment() {
             else
                 Toast.makeText(
                     requireContext(),
-                    "Please complete all fields for Submit Domain Lab Details.",
+                    getString(R.string.please_complete_all_fields_for_submit_domain_lab_details),
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -3678,7 +3678,7 @@ class TrainingFragment : Fragment() {
             if(validateTheoryClassRoom()) SubmitTCR()
             else Toast.makeText(
                 requireContext(),
-                "Please complete all fields for Submit Theory Class Room Details.",
+                getString(R.string.please_complete_all_fields_for_submit_theory_class_room_details),
                 Toast.LENGTH_LONG
             ).show()
 //            SubmitTCR()
@@ -3994,7 +3994,10 @@ class TrainingFragment : Fragment() {
                 ProgressDialogUtil.dismissProgressDialog()
                 Toast.makeText(
                     requireContext(),
-                    " Description Of Academic/Non-Academic Areas(IT Lab) details submission failed: ${it.message}",
+                    getString(
+                        R.string.description_of_academic_non_academic_areas_it_lab_details_submission_failed,
+                        it.message
+                    ),
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -4040,7 +4043,10 @@ class TrainingFragment : Fragment() {
                 ProgressDialogUtil.dismissProgressDialog()
                 Toast.makeText(
                     requireContext(),
-                    " Description Of Office Cum Counselling room details submission failed: ${it.message}",
+                    getString(
+                        R.string.description_of_office_cum_counselling_room_details_submission_failed,
+                        it.message
+                    ),
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -4084,7 +4090,7 @@ class TrainingFragment : Fragment() {
                 ProgressDialogUtil.dismissProgressDialog()
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Description Of ReceptionArea Submission Failed",
+                    title = getString(R.string.description_of_receptionarea_submission_failed),
                     message = "\n\nReason:\n${it.message}"
                 )
             }
@@ -4129,8 +4135,11 @@ class TrainingFragment : Fragment() {
 
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Submission Failed",
-                    message = "Description Of Office Room details submission failed:.\n\nReason:\n${it.message}"
+                    title = getString(R.string.submission_failed),
+                    message = getString(
+                        R.string.description_of_office_room_details_submission_failed_reason,
+                        it.message
+                    )
                 )
 
             }
@@ -4175,7 +4184,7 @@ class TrainingFragment : Fragment() {
                 ProgressDialogUtil.dismissProgressDialog()
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Description Of Academic(IT Come Domain Lab) Submission Failed",
+                    title = getString(R.string.description_of_academic_it_come_domain_lab_submission_failed),
                     message = "\n\nReason:\n${it.message}"
                 )
             }
@@ -4234,7 +4243,7 @@ class TrainingFragment : Fragment() {
                 ProgressDialogUtil.dismissProgressDialog()
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = " Theory Cum IT Lab Submission Failed",
+                    title = getString(R.string.theory_cum_it_lab_submission_failed),
                     message = "\n\nReason:\n${it.message}"
                 )
 
@@ -4288,7 +4297,7 @@ class TrainingFragment : Fragment() {
                 ProgressDialogUtil.dismissProgressDialog()
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Theory Cum Domain Lab Submission Failed",
+                    title = getString(R.string.theory_cum_domain_lab_submission_failed),
                     message = "\n\nReason:\n${it.message}"
                 )
             }
@@ -4340,7 +4349,7 @@ class TrainingFragment : Fragment() {
                 ProgressDialogUtil.dismissProgressDialog()
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Domain Lab Submission Failed",
+                    title = getString(R.string.domain_lab_submission_failed),
                     message = "\n\nReason:\n${it.message}"
                 )
 
@@ -4396,7 +4405,7 @@ class TrainingFragment : Fragment() {
                 ProgressDialogUtil.dismissProgressDialog()
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Theory Class Room Submission Failed",
+                    title = getString(R.string.theory_class_room_submission_failed),
                     message = "\n\nReason:\n${it.message}"
                 )
 
@@ -4407,7 +4416,7 @@ class TrainingFragment : Fragment() {
             result.onSuccess {
                 Toast.makeText(
                     requireContext(),
-                    "CCTV data submitted successfully!",
+                    getString(R.string.cctv_data_submitted_successfully),
                     Toast.LENGTH_LONG
                 ).show()
                 binding.layoutCCTVComplianceContent.gone()
@@ -4427,7 +4436,7 @@ class TrainingFragment : Fragment() {
             result.onFailure {
                 Toast.makeText(
                     requireContext(),
-                    "CCTV submission failed: ${it.message}",
+                    getString(R.string.cctv_submission_failed, it.message),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -4436,7 +4445,7 @@ class TrainingFragment : Fragment() {
             result.onSuccess {
                 Toast.makeText(
                     requireContext(),
-                    "Electrical data submitted successfully!",
+                    getString(R.string.electrical_data_submitted_successfully),
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -4465,7 +4474,7 @@ class TrainingFragment : Fragment() {
             result.onSuccess {
                 Toast.makeText(
                     requireContext(),
-                    "General details submitted successfully!",
+                    getString(R.string.general_details_submitted_successfully),
                     Toast.LENGTH_LONG
                 ).show()
                 binding.layoutGeneralDetailsContent.gone()
@@ -4481,11 +4490,15 @@ class TrainingFragment : Fragment() {
                 viewModel.getSectionsStatusData(requestTcInfraReq)
 
             }
+//            submission_failed
             result.onFailure {
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Submission Failed",
-                    message = "General details submission failed:\n\nReason:\n${it.message}"
+                    title = getString(R.string.submission_failed),
+                    message = getString(
+                        R.string.general_details_submission_failed_reason,
+                        it.message
+                    )
                 )
             }
         }
@@ -4493,7 +4506,7 @@ class TrainingFragment : Fragment() {
             result.onSuccess {
                 Toast.makeText(
                     requireContext(),
-                    "Training details submitted successfully!",
+                    getString(R.string.training_details_submitted_successfully),
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -4511,8 +4524,11 @@ class TrainingFragment : Fragment() {
             result.onFailure {
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Submission Failed",
-                    message = "raining details submission failed:\n\nReason:\n${it.message}"
+                    title = getString(R.string.submission_failed),
+                    message = getString(
+                        R.string.raining_details_submission_failed_reason,
+                        it.message
+                    )
                 )
             }
         }
@@ -4520,7 +4536,7 @@ class TrainingFragment : Fragment() {
             result.onSuccess {
                 Toast.makeText(
                     requireContext(),
-                    "Signages&InfoBoards details submitted successfully!",
+                    getString(R.string.signages_infoboards_details_submitted_successfully),
                     Toast.LENGTH_LONG
                 ).show()
                 binding.layoutSignagesInfoBoardsContent.gone()
@@ -4539,8 +4555,11 @@ class TrainingFragment : Fragment() {
             result.onFailure {
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Submission Failed",
-                    message = "Signages&InfoBoards details submission failed:\n\nReason:\n${it.message}"
+                    title = getString(R.string.submission_failed),
+                    message = getString(
+                        R.string.signages_infoboards_details_submission_failed_reason,
+                        it.message
+                    )
                 )
             }
         }
@@ -4548,7 +4567,7 @@ class TrainingFragment : Fragment() {
             result.onSuccess {
                 Toast.makeText(
                     requireContext(),
-                    "Support Infrastructure details submitted successfully!",
+                    getString(R.string.support_infrastructure_details_submitted_successfully),
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -4568,8 +4587,11 @@ class TrainingFragment : Fragment() {
             result.onFailure {
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Submission Failed",
-                    message = "Support Infrastructure details submission failed:\n\nReason:\n${it.message}"
+                    title = getString(R.string.submission_failed),
+                    message = getString(
+                        R.string.support_infrastructure_details_submission_failed_reason,
+                        it.message
+                    )
                 )
             }
         }
@@ -4577,7 +4599,7 @@ class TrainingFragment : Fragment() {
             result.onSuccess {
                 Toast.makeText(
                     requireContext(),
-                    "Common equipment details submitted successfully!",
+                    getString(R.string.common_equipment_details_submitted_successfully),
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -4599,8 +4621,11 @@ class TrainingFragment : Fragment() {
 
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Submission Failed",
-                    message = "Common equipment details submission failed: \n\nReason:\n${it.message}"
+                    title = getString(R.string.submission_failed),
+                    message = getString(
+                        R.string.common_equipment_details_submission_failed_reason,
+                        it.message
+                    )
                 )
             }
         }
@@ -4608,7 +4633,7 @@ class TrainingFragment : Fragment() {
             result.onSuccess {
                 Toast.makeText(
                     requireContext(),
-                    "Description of other area details submitted successfully!",
+                    getString(R.string.description_of_other_area_details_submitted_successfully),
                     Toast.LENGTH_LONG
                 ).show()
                 binding.layoutDescriptionOtherAreasContent.gone()
@@ -4628,8 +4653,11 @@ class TrainingFragment : Fragment() {
 
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Submission Failed",
-                    message = "Description of other area  details submission failed: \n\nReason:\n${it.message}"
+                    title = getString(R.string.submission_failed),
+                    message = getString(
+                        R.string.description_of_other_area_details_submission_failed_reason,
+                        it.message
+                    )
                 )
 
             }
@@ -4638,7 +4666,7 @@ class TrainingFragment : Fragment() {
             result.onSuccess {
                 Toast.makeText(
                     requireContext(),
-                    "Toilet & WashBasin details submitted successfully!",
+                    getString(R.string.toilet_washbasin_details_submitted_successfully),
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -4659,8 +4687,11 @@ class TrainingFragment : Fragment() {
 
                 GenericMessageDialog.show(
                     context = requireContext(),
-                    title = "Submission Failed",
-                    message = "Toilet & WashBasin details submission failed: \n\nReason:\n${it.message}"
+                    title = getString(R.string.submission_failed),
+                    message = getString(
+                        R.string.toilet_washbasin_details_submission_failed_reason,
+                        it.message
+                    )
                 )
 
             }
@@ -4885,13 +4916,13 @@ class TrainingFragment : Fragment() {
 
                     202 -> Toast.makeText(
                         requireContext(),
-                        "No data available.",
+                        getString(R.string.no_data_available),
                         Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
                         requireContext(),
-                        "Please upgrade your app.",
+                        getString(R.string.please_upgrade_your_app),
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -4902,7 +4933,12 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "${getString(R.string.failed)}: ${it.message ?: ""}",
+                    Toast.LENGTH_SHORT
+                ).show()
+
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -4961,13 +4997,13 @@ class TrainingFragment : Fragment() {
 
                     202 -> Toast.makeText(
                         requireContext(),
-                        "No data available.",
+                        getString(R.string.no_data_available),
                         Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
                         requireContext(),
-                        "Please upgrade your app.",
+                        getString(R.string.please_upgrade_your_app),
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -4977,7 +5013,8 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.failed)}: ${it.message ?: ""}", Toast.LENGTH_SHORT).show()
+
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -5034,13 +5071,13 @@ class TrainingFragment : Fragment() {
 
                     202 -> Toast.makeText(
                         requireContext(),
-                        "No data available.",
+                        getString(R.string.no_data_available),
                         Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
                         requireContext(),
-                        "Please upgrade your app.",
+                        getString(R.string.please_upgrade_your_app),
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -5050,7 +5087,7 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.failed)}: ${it.message ?: ""}", Toast.LENGTH_SHORT).show()
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -5112,13 +5149,13 @@ class TrainingFragment : Fragment() {
 
                     202 -> Toast.makeText(
                         requireContext(),
-                        "No data available.",
+                        getString(R.string.no_data_available),
                         Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
                         requireContext(),
-                        "Please upgrade your app.",
+                        getString(R.string.please_upgrade_your_app),
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -5128,7 +5165,7 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.failed)}: ${it.message ?: ""}", Toast.LENGTH_SHORT).show()
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -5189,13 +5226,13 @@ class TrainingFragment : Fragment() {
 
                     202 -> Toast.makeText(
                         requireContext(),
-                        "No data available.",
+                        getString(R.string.no_data_available),
                         Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
                         requireContext(),
-                        "Please upgrade your app.",
+                        getString(R.string.please_upgrade_your_app),
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -5205,7 +5242,8 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.failed)}: ${it.message ?: ""}", Toast.LENGTH_SHORT).show()
+
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -5247,13 +5285,13 @@ class TrainingFragment : Fragment() {
 
                     202 -> Toast.makeText(
                         requireContext(),
-                        "No data available.",
+                        getString(R.string.no_data_available),
                         Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
                         requireContext(),
-                        "Please upgrade your app.",
+                        getString(R.string.please_upgrade_your_app),
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -5263,7 +5301,8 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.failed)}: ${it.message ?: ""}", Toast.LENGTH_SHORT).show()
+
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -5303,13 +5342,13 @@ class TrainingFragment : Fragment() {
 
                     202 -> Toast.makeText(
                         requireContext(),
-                        "No data available.",
+                        getString(R.string.no_data_available),
                         Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
                         requireContext(),
-                        "Please upgrade your app.",
+                        getString(R.string.please_upgrade_your_app),
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -5319,7 +5358,8 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.failed)}: ${it.message ?: ""}", Toast.LENGTH_SHORT).show()
+
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -5364,13 +5404,13 @@ class TrainingFragment : Fragment() {
 
                     202 -> Toast.makeText(
                         requireContext(),
-                        "No data available.",
+                        getString(R.string.no_data_available),
                         Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
                         requireContext(),
-                        "Please upgrade your app.",
+                        getString(R.string.please_upgrade_your_app),
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -5382,7 +5422,8 @@ class TrainingFragment : Fragment() {
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
 
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.failed)}: ${it.message ?: ""}", Toast.LENGTH_SHORT).show()
+
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -5431,13 +5472,13 @@ class TrainingFragment : Fragment() {
 
                     202 -> Toast.makeText(
                         requireContext(),
-                        "No data available.",
+                        getString(R.string.submission_failed),
                         Toast.LENGTH_SHORT
                     ).show()
 
                     301 -> Toast.makeText(
                         requireContext(),
-                        "Please upgrade your app.",
+                        getString(R.string.please_upgrade_your_app),
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -5448,7 +5489,8 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.failed)}: ${it.message ?: ""}", Toast.LENGTH_SHORT).show()
+
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -5465,7 +5507,7 @@ class TrainingFragment : Fragment() {
                     200 -> {
                         Toast.makeText(
                             requireContext(),
-                            "Details sent successfully to Q-Team",
+                            getString(R.string.details_sent_successfully_to_q_team),
                             Toast.LENGTH_SHORT
                         ).show()
                         findNavController().navigateUp()
@@ -5479,7 +5521,8 @@ class TrainingFragment : Fragment() {
 
                     301 -> Toast.makeText(
                         requireContext(),
-                        "Please upgrade your app.",
+                        getString(R.string.please_upgrade_your_app)
+                        ,
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -5490,7 +5533,8 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.failed)}: ${it.message ?: ""}", Toast.LENGTH_SHORT).show()
+
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -5548,7 +5592,8 @@ class TrainingFragment : Fragment() {
 
                     301 -> Toast.makeText(
                         requireContext(),
-                        "Please upgrade your app.",
+                        getString(R.string.please_upgrade_your_app)
+                        ,
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -5558,7 +5603,8 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure {
                 ProgressDialogUtil.dismissProgressDialog()
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.failed)}: ${it.message ?: ""}", Toast.LENGTH_SHORT).show()
+
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
@@ -5667,7 +5713,7 @@ class TrainingFragment : Fragment() {
     private fun launchCamera() {
         val photoFile = createImageFile()
         if (photoFile == null) {
-            Toast.makeText(requireContext(), "Failed to create image file", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), getString(R.string.failed_to_create_image_file), Toast.LENGTH_SHORT)
                 .show()
             return
         }
@@ -5784,7 +5830,8 @@ class TrainingFragment : Fragment() {
         fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
             return if (spinner.selectedItemPosition == 0) {
                 spinner.requestFocus()
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.please_select, fieldName), Toast.LENGTH_SHORT).show()
                 false
             } else {
                 true
@@ -5794,7 +5841,7 @@ class TrainingFragment : Fragment() {
         // Helper function to check EditText input (if used)
         fun checkEditText(editText: EditText, fieldName: String): Boolean {
             return if (editText.text.toString().trim().isEmpty()) {
-                editText.error = "Please enter $fieldName"
+                editText.error = getString(R.string.please_enter, fieldName)
                 editText.requestFocus()
                 false
             } else {
@@ -5953,37 +6000,44 @@ class TrainingFragment : Fragment() {
 
         // ✅ Conditional image validations (for "Yes" selections)
         if (spinnerTcNameBoard.selectedItem.toString() == "Yes" && base64TcNameBoardImage.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "Please upload image for Training Centre Name Board", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),
+                getString(R.string.please_upload_image_for_training_centre_name_board), Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
         if (spinnerActivityAchievementBoard.selectedItem.toString() == "Yes" && base64ActivityAchievementBoardImage.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "Please upload image for Activity Summary Board", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),
+                getString(R.string.please_upload_image_for_activity_summary_board), Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
         if (spinnerStudentEntitlementBoard.selectedItem.toString() == "Yes" && base64StudentEntitlementBoardImage.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "Please upload image for Student Entitlement Board", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),
+                getString(R.string.please_upload_image_for_student_entitlement_board), Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
         if (spinnerContactDetailBoard.selectedItem.toString() == "Yes" && base64ContactDetailBoardImage.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "Please upload image for Contact Detail Board", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),
+                getString(R.string.please_upload_image_for_contact_detail_board), Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
         if (spinnerBasicInfoBoard.selectedItem.toString() == "Yes" && base64BasicInfoBoardImage.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "Please upload image for Basic Info Board", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),
+                getString(R.string.please_upload_image_for_basic_info_board), Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
         if (spinnerCodeConductBoard.selectedItem.toString() == "Yes" && base64CodeConductBoardImage.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "Please upload image for Code of Conduct Board", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),
+                getString(R.string.please_upload_image_for_code_of_conduct_board), Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
         if (spinnerStudentAttendanceBoard.selectedItem.toString() == "Yes" && base64StudentAttendanceBoardImage.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "Please upload image for Attendance Summary Board", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(),
+                getString(R.string.please_upload_image_for_attendance_summary_board), Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
@@ -6483,7 +6537,8 @@ class TrainingFragment : Fragment() {
             val (base64, proofName) = proofPair
             val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
             if (selected == "yes" && base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $proofName (You selected Yes)", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.please_upload_you_selected_yes, proofName), Toast.LENGTH_SHORT).show()
                 isValid = false
             }
         }
@@ -6523,7 +6578,7 @@ class TrainingFragment : Fragment() {
         // --- 2️⃣ Spinner Validation Helper ---
         fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
             if (spinner.selectedItemPosition <= 0) {
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.please_upload_you_selected_yes, fieldName), Toast.LENGTH_SHORT).show()
                 if (!firstFocusSet) {
                     spinner.requestFocus()
                     firstFocusSet = true
@@ -7973,38 +8028,110 @@ class TrainingFragment : Fragment() {
         }
     }
 
-    private val mandatoryRoomTypes = listOf(
-        "Reception Area",
-        "IT cum Domain Lab",
-        "Theory Cum IT Lab",
-        "Theory Cum Domain Lab",
-        "IT Lab",
-        "Domain Lab",
-        "Theory Class Room"
-    )
+//    private val mandatoryRoomTypes = listOf(
+//        "Reception Area",
+//        "IT cum Domain Lab",
+//        "Theory Cum IT Lab",
+//        "Theory Cum Domain Lab",
+//        "IT Lab",
+//        "Domain Lab",
+//        "Theory Class Room"
+//    )
 
 
+//    private fun validateMandatoryRooms(list: List<wrappedList>): Boolean {
+//
+//        if (list.isEmpty()) {
+//            Toast.makeText(requireContext(), "Please add required rooms.", Toast.LENGTH_SHORT).show()
+//            return false
+//        }
+//
+//        val roomTypes = list.map { it.roomType.trim() }
+//
+//        if (!roomTypes.contains("Reception Area")) {
+//            Toast.makeText(requireContext(), "Reception Area is mandatory.", Toast.LENGTH_SHORT).show()
+//            return false
+//        }
+//
+//        var hasIT = false
+//        var hasDomain = false
+//        var hasTheory = false
+//
+//        roomTypes.forEach { room ->
+//
+//            when (room) {
+//
+//                "IT Lab" -> hasIT = true
+//
+//                "Domain Lab" -> hasDomain = true
+//
+//                "Theory Class Room" -> hasTheory = true
+//
+//                "IT cum Domain Lab" -> {
+//                    hasIT = true
+//                    hasDomain = true
+//                }
+//
+//                "Theory Cum IT Lab" -> {
+//                    hasTheory = true
+//                    hasIT = true
+//                }
+//
+//                "Theory Cum Domain Lab" -> {
+//                    hasTheory = true
+//                    hasDomain = true
+//                }
+//            }
+//        }
+//
+//        if (!hasIT || !hasDomain || !hasTheory) {
+//
+//            val missing = mutableListOf<String>()
+//
+//            if (!hasIT) missing.add("IT Lab")
+//            if (!hasDomain) missing.add("Domain Lab")
+//            if (!hasTheory) missing.add("Theory Class Room")
+//
+//            Toast.makeText(
+//                requireContext(),
+//                "Missing required facility: ${missing.joinToString()}",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//
+//            return false
+//        }
+//        return true
+//    }
 
     private fun validateMandatoryRooms(list: List<wrappedList>): Boolean {
 
-        if (list.isEmpty()) {
-            Toast.makeText(requireContext(), "Please add required rooms.", Toast.LENGTH_SHORT).show()
-            return false
+        val rooms = list.map { it.roomType.trim() }
+
+        if ("Reception Area" !in rooms)
+            return toast("Reception Area is mandatory.")
+
+        val covered = buildSet {
+            rooms.forEach { room ->
+                if ("IT" in room) add("IT")
+                if ("Domain" in room) add("Domain")
+                if ("Theory" in room) add("Theory")
+            }
         }
 
-        val availableRoomTypes = list.map { it.roomType.trim() }
+        val missing = setOf("IT","Domain","Theory") - covered
 
-        val missingRooms = mandatoryRoomTypes.filter { mandatory ->
-            !availableRoomTypes.contains(mandatory)
-        }
-        return if (missingRooms.isNotEmpty()) {
-            val message = "These rooms are mandatory: \n${missingRooms.joinToString("\n")}"
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-            false
-        } else {
-            true
-        }
+        return if (missing.isEmpty()) true
+        else toast("Missing required facility: ${missing.joinToString()}")
     }
+
+    private fun toast(msg: String): Boolean {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+        return false
+    }
+
+
+
+
 
     private val usedNumbers = mutableSetOf<Int>()
 

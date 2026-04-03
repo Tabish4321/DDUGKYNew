@@ -57,8 +57,8 @@ class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
             onItemClick = { center, position ->
                 handleItemClick(center)
             },
-            noDataTitle = "No Training Centers",
-            noDataDescription = "No training centers available at the moment",
+            noDataTitle = getString(R.string.no_training_centers_available),
+            noDataDescription = getString(R.string.no_training_centers_available_at_the_moment),
             noDataIconRes = R.drawable.no_data
         )
     }
@@ -94,10 +94,10 @@ class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
                     },
                     onNoData = {
                         updateRecyclerViewData(binding.recyclerView.id, emptyList<TrainingCenterItem>())
-                        showToast("No data available.")
+                        showToast(getString(R.string.no_data_available))
                     },
                     onUpgradeRequired = {
-                        showToast("Please upgrade your app.")
+                        showToast(getString(R.string.please_upgrade_your_app ))
                     },
                     onSessionExpired = {
                         handleSessionExpired()
@@ -105,7 +105,7 @@ class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
                 )
             }
             result.onFailure { exception ->
-                showErrorToast("Failed: ${exception.message}")
+                showErrorToast(": ${exception.message ?: getString(R.string.failed)}")
                 logCrashlyticsError("observeViewModel", exception as Exception)
             }
         }
@@ -127,7 +127,7 @@ class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
                     data = response,
                     onSuccess = { data ->
                         val facilityId = response.facilityId.toString()
-                        showSuccessToast("RF Added successfully")
+                        showSuccessToast(getString(R.string.rf_added_successfully))
 
                         val action = RfCenterFragmentDirections.actionRfcenterFragmentToFragmentResidentialFacility(
                             centerId,
@@ -137,10 +137,10 @@ class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
                         findNavController().navigate(action)
                     },
                     onNoData = {
-                        showToast("No data available.")
+                        showToast(getString(R.string.no_data_available))
                     },
                     onUpgradeRequired = {
-                        showToast("Please upgrade your app.")
+                        showToast(getString(R.string.please_upgrade_your_app))
                     },
                     onSessionExpired = {
                         handleSessionExpired()
@@ -148,7 +148,7 @@ class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
                 )
             }
             result.onFailure { exception ->
-                showErrorToast("Failed: ${exception.message}")
+                showErrorToast(": ${exception.message ?: getString(R.string.failed)}")
                 logCrashlyticsError("observeAddNewRF", exception as Exception)
             }
         }

@@ -19,6 +19,78 @@
 
     </fragment>
 
+    <!--    OJT Start 19/01/2026-->
+    <fragment
+        android:id="@+id/fragmentOJTSelection"
+        android:name="com.deendayalproject.fragments.ojt.OJTSelectionFragment"
+        android:label="OJT"
+        tools:layout="@layout/fragment_on_job_selection">
+        <action
+            android:id="@+id/action_fragmentOJTSelection_to_homeFragment"
+            app:destination="@id/homeFragment" />
+
+
+        <action
+            android:id="@+id/action_fragmentOJTChild_to_OJTChild"
+            app:destination="@id/fragmentOJTChild" />
+
+
+    </fragment>
+
+
+
+
+
+    <!--    Test Purpose-->
+
+
+
+
+
+
+
+
+    <fragment
+        android:id="@+id/fragmentOJTChild"
+        android:name="com.deendayalproject.fragments.ojt.OJTChildFragment"
+        android:label="OJTChild"
+        tools:layout="@layout/child_fragment">
+
+        <!--        <action-->
+        <!--            android:id="@+id/action_fragmentOJTChild_to_fragmentOJT"-->
+        <!--            app:destination="@id/fragmentOJT" />-->
+
+
+        <argument
+            android:name="batchId"
+            app:argType="string"/>
+
+
+
+    </fragment>
+
+
+
+
+    <fragment
+        android:id="@+id/fragmentOJT"
+        android:name="com.deendayalproject.fragments.ojt.OJTTrainingFragment"
+        android:label="OJT Candidate Veryfication"
+        tools:layout="@layout/fragment_on_job_training">
+
+        <!--        <action-->
+        <!--            android:id="@+id/action_fragmentOJTSelection_to_homeFragment"-->
+        <!--            app:destination="@id/homeFragment" />-->
+
+
+        <!--        <action-->
+        <!--            android:id="@+id/action_fragmentOJTChild_to_OJTChild"-->
+        <!--            app:destination="@id/fragmentOJTChild" />-->
+
+
+    </fragment>
+
+
     <!-- Home Fragment -->
     <fragment
         android:id="@+id/homeFragment"
@@ -70,6 +142,9 @@
         <action
             android:id="@+id/action_homeFragment_to_inspectionListFragment"
             app:destination="@id/inspectionListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_SelectionFragment"
+            app:destination="@id/fragmentOJTSelection" />
 
     </fragment>
 

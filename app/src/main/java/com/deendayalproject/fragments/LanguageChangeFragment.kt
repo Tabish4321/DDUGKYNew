@@ -103,8 +103,8 @@ class LanguageChangeFragment : BaseFragment<FragmentLaguageChangeBinding>(
     private fun confirmLanguageChange(languageCode: String) {
         showYesNoDialog(
             context = requireContext(),
-            title = "Confirmation",
-            message = "Do you want to change language?",
+            title = getString(R.string.confirmation),
+            message = getString(R.string.do_you_want_to_change_language),
             onYesClicked = {
                 lifecycleScope.launch {
                     AppUtil.changeAppLanguage(requireContext(), languageCode)
@@ -134,13 +134,13 @@ class LanguageChangeFragment : BaseFragment<FragmentLaguageChangeBinding>(
             setBackground(ContextCompat.getDrawable(context, R.drawable.dialog_background))
 
             // Positive button (Yes) - Primary color
-            setPositiveButton("Yes") { dialog, _ ->
+            setPositiveButton( getString(R.string.yes)) { dialog, _ ->
                 onYesClicked()
                 dialog.dismiss()
             }
 
             // Negative button (No) - Outline style
-            setNegativeButton("No") { dialog, _ ->
+            setNegativeButton( getString(R.string.no)){ dialog, _ ->
                 onNoClicked()
                 dialog.dismiss()
             }

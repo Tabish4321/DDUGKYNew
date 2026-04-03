@@ -5,6 +5,8 @@
     <!-- Permissions -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
@@ -28,7 +30,9 @@
         android:roundIcon="@mipmap/ddy_logo"
         android:theme="@style/Theme.Ddugky"
         android:usesCleartextTraffic="false"
-        tools:targetApi="30">
+        tools:targetApi="30"
+        >
+        <!--        android:fullBackupContent="@xml/backup_rules"-->
 
 
         <provider

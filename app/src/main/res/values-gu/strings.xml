@@ -887,4 +887,21 @@
     <string name="batch_name">Batch Name</string>
 
 
+
+
+
+
+        <string name="contact_number">મોબાઇલ નંબર</string>
+        <string name="attendance_marked">હાજરી નોંધાઈ</string>
+        <string name="name">નામ:</string>
+        <string name="careof">કેર ઓફ:</string>
+        <string name="ok">બરાબર</string>
+        <string name="failed_attendance">હાજરી નોંધાઈ નથી, ફરી પ્રયાસ કરો</string>
+        <string name="gender">લિંગ</string>
+        <string name="date_of_birth">જન્મ તારીખ:</string>
+        <string name="mark_today_attention">આજની હાજરી નોંધો</string>
+        <string name="check_in">ચેક ઇન</string>
+
+
+
 </resources>

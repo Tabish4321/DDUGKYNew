@@ -45,6 +45,12 @@ import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModifyRfList
+import com.deendayalproject.model.request.ModulesCandidateByOjtRequest
+import com.deendayalproject.model.request.ModulesCandidateByOjtRequest2
+import com.deendayalproject.model.request.ModulesOJTBatchRequest
+import com.deendayalproject.model.request.ModulesOJTCompleteOjtRequest
+import com.deendayalproject.model.request.ModulesOJTSanctionOrderRequest
+import com.deendayalproject.model.request.ModulesOJTTrainingCenterRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
@@ -132,6 +138,8 @@ import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAt
 import com.deendayalproject.model.response.CandidateInspectionDetails
 import com.deendayalproject.model.response.CandidateInspectionDetailsResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
+import com.deendayalproject.model.response.CandidateOjtVerificationDetails
+import com.deendayalproject.model.response.CandidateOjtVerificationRequest
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.DistrictResponse
@@ -169,6 +177,12 @@ import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.NonAreaInformationRoom
 import com.deendayalproject.model.response.NonceResponse
 import com.deendayalproject.model.response.PreviousInsQues
+import com.deendayalproject.model.response.OJTList_Res
+import com.deendayalproject.model.response.OJT_BatchList_Res
+import com.deendayalproject.model.response.OJT_Sanction_Res
+import com.deendayalproject.model.response.OJT_TrainingCenter_Res
+import com.deendayalproject.model.response.OjtListByBatch_Res
+import com.deendayalproject.model.response.OjtRes
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
@@ -176,6 +190,8 @@ import com.deendayalproject.model.response.RfFinalSubmitRes
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
 import com.deendayalproject.model.response.RfQTeamListRes
+import com.deendayalproject.model.response.SaltResponse
+import com.deendayalproject.model.response.SaveCandidateOjtVerificationResponse
 import com.deendayalproject.model.response.SectionResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
@@ -575,7 +591,7 @@ interface ApiService {
 
 
 
-    //    Ajit Ranjan create 03/Novmber/2025  getRfNonLivingAreaInformation
+//    Ajit Ranjan create 03/Novmber/2025  getRfNonLivingAreaInformation
     @POST(value ="getRfNonLivingAreaInformation")
     suspend fun getRfNonLivingAreaInformation
                 (@Body request: LivingRoomListViewRQ) :
@@ -989,5 +1005,42 @@ interface ApiService {
     suspend fun insertInspectionFinalDetails(
         @Body request: InsertInspectionFinalDetailsRequest
     ): Response<InsertInspectionFinalDetailsResponse>
+    @POST(value = "getCompOjtSanctionOrder")
+    suspend fun getOJTSanctionOrderNumber(@Body request: ModulesOJTSanctionOrderRequest): Response<OJT_Sanction_Res>
+
+
+
+    @POST(value = "getCompOjtTrainingCenter")
+    suspend fun getOJTTrainingCenter(@Body request: ModulesOJTTrainingCenterRequest): Response<OJT_TrainingCenter_Res>
+
+
+
+
+    @POST(value = "getCompOjtBatch")
+    suspend fun getOJTBatch(@Body request: ModulesOJTBatchRequest): Response<OJT_BatchList_Res>
+
+
+    @POST(value = "getCompleteOjt")
+    suspend fun getCompleteOjtList(@Body request: ModulesOJTCompleteOjtRequest): Response<OJTList_Res>
+
+
+
+    @POST(value = "getCandidateOjtVerification")
+    suspend fun getCandidateOjtVerification(@Body request: ModulesOJTCompleteOjtRequest): Response<CandidateOjtVerificationDetails>
+
+    @POST(value = "saveCandidateOjtVerification")
+    suspend fun saveCandidateOjtVerification(@Body request: CandidateOjtVerificationRequest): Response<SaveCandidateOjtVerificationResponse>
+
+    @POST(value = "getOjtListByBatch")
+    suspend fun getOjtListBy(@Body request: ModulesCandidateByOjtRequest2): Response<OjtListByBatch_Res>
+
+//    OjtListByBatchRes
+//    OjtListBy
+//    getCandidateByOjt
+
+    @POST(value = "getCandidateByOjt")
+    suspend fun getCandidateByOjt(@Body request: ModulesCandidateByOjtRequest): Response<OjtRes>
+
+
 
 }

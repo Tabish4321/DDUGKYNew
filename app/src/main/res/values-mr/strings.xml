@@ -3,4 +3,20 @@
     <string name="app_name">Ddugky</string>
     <string name="batch_id">Batch Id\n</string>
     <string name="batch_name">Batch Name</string>
+
+
+
+        <string name="contact_number">मोबाईल क्रमांक</string>
+        <string name="attendance_marked">उपस्थिती नोंदवली</string>
+        <string name="name">नाव:</string>
+        <string name="careof">केअर ऑफ:</string>
+        <string name="ok">ठीक आहे</string>
+        <string name="failed_attendance">उपस्थिती नोंदवण्यात अयशस्वी</string>
+        <string name="gender">लिंग</string>
+        <string name="date_of_birth">जन्म तारीख:</string>
+        <string name="mark_today_attention">आजची उपस्थिती नोंदवा</string>
+        <string name="check_in">चेक इन</string>
+
+
+
 </resources>

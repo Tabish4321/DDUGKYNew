@@ -1,0 +1,60 @@
+package com.deendayalproject.model.response
+
+
+
+data class CandidateOjtVerificationDetails(
+    val responseCode: Int,
+    val responseDesc: String,
+    val wrappedList: List<VerificationDetails>
+)
+data class VerificationDetails(
+
+    val fatherName: String?,
+    val reason: String?,
+    val previousActivity: String?,
+    val youGivenSufficientInstumentRemark: String?,
+    val districtCode: String?,
+    val verificationTime: String?,
+    val latitude: String?,
+    val piaCode: String?,
+    val ojtStartByCandidate: String?,
+    val batchId: Int?,
+    val createdOn: String?,
+    val orgId: String?,
+    val youGivenEnoughMaterialsRemark: String?,
+    val areYouGivenEnoughMaterials: String?,
+    val verificationVideo: String?,
+    val isStipendSame: String?,
+    val trainingCenterId: Int?,
+    val trainingEndDate: String?,
+    val workplaceId: Int?,
+    val stipendRemark: String?,
+    val candidateRollNo: Int?,
+    val longitude: String?,
+    val ojtPlanId: Int?,
+    val employeersId: Int?,
+    val entityCode: String?,
+    val updatedBy: String?,
+    val isFieldLevelSupervisorNominated: String?,
+    val candidateAvailable: String?,
+    val supervisorInteractionTimeCount: String?,
+    val updatedOn: String?,
+    val verificationDate: String?,
+    val eligibleStipend: String?,
+    val bordingAndLoadingFacilitiesRemark: String?,
+    val month: String?,
+    val trainingStartDate: String?,
+    val bordingAndLoadingFacilities: String?,
+    val hrId: String?,
+    val createdBy: String?,
+    val fieldLevelSupervisorNominatedRemark: String?,
+    val ojtStartDate: String?,
+    val areYouGivenSufficientInstument: String?,
+    val verificationImage: String?,
+    val sanctionOrder: String?,
+    val ojtPlanVerificationDdugkyId: Int?,
+    val candidateId: String?,
+    val todayActivity: String?,
+    val stipendGetting: String?,
+    val status: String?
+)

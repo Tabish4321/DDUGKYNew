@@ -1,6 +1,7 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
+<<<<<<< HEAD
     <inspection_tool class="ComposePreviewDimensionRespectsLimit" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="composableFile" value="true" />
 <<<<<<< HEAD
@@ -90,5 +91,8 @@
       <option name="composableFile" value="true" />
 >>>>>>> new_baranch_with_tb_code-17jan
     </inspection_tool>
+=======
+    <inspection_tool class="UsePropertyAccessSyntax" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+>>>>>>> new_baranch_with_tb_code-ajeet_24fb
   </profile>
 </component>

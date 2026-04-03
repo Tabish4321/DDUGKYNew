@@ -62,8 +62,8 @@ class RFSrlmListFragment : BaseFragment<RfSrlmListFragmentBinding>(
                     )
                 findNavController().navigate(action)
             },
-            noDataTitle = "No Training Centers",
-            noDataDescription = "No training centers available at the moment",
+            noDataTitle = getString(R.string.no_training_centers_available),
+            noDataDescription = getString(R.string.no_training_centers_available_at_the_moment),
             noDataIconRes = R.drawable.no_data
         )
     }
@@ -108,10 +108,10 @@ class RFSrlmListFragment : BaseFragment<RfSrlmListFragmentBinding>(
                     },
                     onNoData = {
                         updateRecyclerViewData(binding.recyclerViewSRLM.id, emptyList<RfCenter>())
-                        showToast("No data available.")
+                        showToast(getString(R.string.no_data_available))
                     },
                     onUpgradeRequired = {
-                        showToast("Please upgrade your app.")
+                        showToast(getString(R.string.please_upgrade_your_app))
                     },
                     onSessionExpired = {
                         handleSessionExpired()
@@ -119,7 +119,9 @@ class RFSrlmListFragment : BaseFragment<RfSrlmListFragmentBinding>(
                 )
             }
             result.onFailure { exception ->
-                showErrorToast("Failed: ${exception.message}")
+
+                showErrorToast(": ${exception.message ?: getString(R.string.failed)}")
+
                 logCrashlyticsError("observeViewModel", exception as Exception)
             }
         }
@@ -129,7 +131,7 @@ class RFSrlmListFragment : BaseFragment<RfSrlmListFragmentBinding>(
 
     // Keep original method names as requested
     fun showProgressBar() {
-        showProgressDialog("Loading...")
+        showProgressDialog(getString(R.string.loading))
     }
 
     fun hideProgressBar() {

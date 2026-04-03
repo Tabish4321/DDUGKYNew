@@ -119,7 +119,7 @@ class RfMultipleListFragment : Fragment() {
                     202 -> {
                         hideProgressBar()
 
-                        Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT)
+                        Toast.makeText(requireContext(), getString(R.string.no_data_available), Toast.LENGTH_SHORT)
                             .show()
                     }
 
@@ -129,7 +129,7 @@ class RfMultipleListFragment : Fragment() {
 
                         Toast.makeText(
                             requireContext(),
-                            "Please upgrade your app.",
+                            getString(R.string.please_upgrade_your_app),
                             Toast.LENGTH_SHORT
                         ).show()
 
@@ -174,7 +174,8 @@ class RfMultipleListFragment : Fragment() {
                     200 -> {
                         hideProgressBar()
 
-                        Toast.makeText(requireContext(), "Rf Added.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.rf_added), Toast.LENGTH_SHORT).show()
                         val action =
                             RfMultipleListFragmentDirections.actionRfMultipleListFragmentToFragmentResidentialFacility(
                                 centerId, sanctionOrder, it.facilityId.toString(), "", ""
@@ -188,7 +189,7 @@ class RfMultipleListFragment : Fragment() {
                         adapter.updateData(mutableListOf())
                         Toast.makeText(
                             requireContext(),
-                            "No data available.",
+                            getString(R.string.no_data_available),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -199,7 +200,7 @@ class RfMultipleListFragment : Fragment() {
 
                         Toast.makeText(
                             requireContext(),
-                            "Please upgrade your app.",
+                            getString(R.string.please_upgrade_your_app),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -218,7 +219,8 @@ class RfMultipleListFragment : Fragment() {
             result.onFailure {
                 hideProgressBar()
 
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
+                    .show()
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->

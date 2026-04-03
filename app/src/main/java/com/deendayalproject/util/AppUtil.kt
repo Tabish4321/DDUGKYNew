@@ -53,6 +53,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.deendayalproject.R
+import com.deendayalproject.network.SecurePreferenceManager.getToken
+import com.deendayalproject.network.SecurePreferenceManager.saveToken
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import java.io.ByteArrayOutputStream
@@ -149,6 +151,24 @@ object AppUtil {
 //    Ajit Ranjan
 
 
+    fun saveOJTBatchIDPreference(context: Context, batchId: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("batchId", batchId).apply()
+    }
+
+    fun getSavedOJTBatchIDPreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("batchId", "") ?: ""
+    }
+
+
+
+
+
+
+
     fun hideKeyboard(context: Context, view: View?) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         val focusedView = view ?: (context as? Activity)?.currentFocus ?: View(context)
@@ -231,6 +251,8 @@ object AppUtil {
         // Convert bytes to hex string
         return hashBytes.joinToString("") { "%02x".format(it) }
     }
+
+
 
     fun createFileName(userId: Int?): String {
         return "${userId}_${System.currentTimeMillis()}.jpg"
@@ -639,34 +661,42 @@ object AppUtil {
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 
-
-/*
-    fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 1024): String? {
-        return try {
-            val options = BitmapFactory.Options()
-            options.inJustDecodeBounds = true
-
-            context.contentResolver.openInputStream(uri).use { stream ->
-                BitmapFactory.decodeStream(stream, null, options)
-            }
-
-            options.inSampleSize = calculateInSampleSize(options, maxSize, maxSize)
-            options.inJustDecodeBounds = false
-
-            val bitmap = context.contentResolver.openInputStream(uri).use { stream ->
-                BitmapFactory.decodeStream(stream, null, options)
-            } ?: return null
-
-            val outputStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
-            val byteArray = outputStream.toByteArray()
-            Base64.encodeToString(byteArray, Base64.NO_WRAP)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+    fun compressBitmap(bitmap: Bitmap): Bitmap {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream)
+        val bytes = stream.toByteArray()
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
     }
-*/
+
+
+
+    /*
+        fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 1024): String? {
+            return try {
+                val options = BitmapFactory.Options()
+                options.inJustDecodeBounds = true
+
+                context.contentResolver.openInputStream(uri).use { stream ->
+                    BitmapFactory.decodeStream(stream, null, options)
+                }
+
+                options.inSampleSize = calculateInSampleSize(options, maxSize, maxSize)
+                options.inJustDecodeBounds = false
+
+                val bitmap = context.contentResolver.openInputStream(uri).use { stream ->
+                    BitmapFactory.decodeStream(stream, null, options)
+                } ?: return null
+
+                val outputStream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
+                val byteArray = outputStream.toByteArray()
+                Base64.encodeToString(byteArray, Base64.NO_WRAP)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+    */
 
 //    fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 800): String? {
 //        return try {

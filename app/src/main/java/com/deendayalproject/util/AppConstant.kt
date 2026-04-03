@@ -12,6 +12,7 @@ object AppConstant {
     //"AES/CBC/PKCS5PADDING"
     const val CRYPT_ID =BuildConfig.CRYPT_ID
     const val CRYPT_IV =BuildConfig.CRYPT_IV
+    const val OJT_VIDEO_URL = "https://kaushal.dord.gov.in/demobackend/ddugkyapp/getOjtVerificationVideoByCandidateId/"
     const val ENVIRONMENT_TAG = "P"
     const val CAPTURE_INTENT_RESPONSE_DATA = "response"
     const val FACE_AUTH_UIADI= BuildConfig.FACE_AUTH_UIADI

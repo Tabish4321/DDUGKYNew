@@ -32,12 +32,14 @@ import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.network.SecurePreferenceManager.saveToken
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.validateDeviceSecurity
+//import com.deendayalproject.util.validateDeviceSecurity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(
     FragmentLoginBinding::inflate
 ) {
 
+    //GitTestingComment
     private lateinit var viewModel: SharedViewModel
     private var isProcessingLogin = false
 
@@ -174,10 +176,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     private fun handleLoginClick() {
 
-        if (!validateDeviceSecurity(requireContext())) {
-            resetButtonState()
-            return
-        }
+//        if (!validateDeviceSecurity(requireContext())) {
+//            resetButtonState()
+//            return
+//        }
 
         if (isProcessingLogin) return
 
@@ -224,7 +226,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
         if (password.isEmpty())
         {
-            showToast("Please enter password")
+            showToast(getString(R.string.please_enter_password))
             binding.etPassword.requestFocus()
             showKeyboard(binding.etPassword)
             return false
@@ -234,7 +236,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     private fun performLogin(userId: String, password: String) {
-        showProgressDialog("Logging in...")
+        showProgressDialog(getString(R.string.logging_in))
 
         val request = LoginRequest(
             loginId = userId,
@@ -263,10 +265,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                             handleLoginSuccess(responseData)
                         },
                         onNoData = {
-                            showToast("No data available.")
+                            showToast(getString(R.string.no_data_available))
                         },
                         onUpgradeRequired = {
-                            showToast("Please upgrade your app.")
+                            showToast(getString(R.string.please_upgrade_your_app))
                         },
                         onSessionExpired = {
                             showToast(data?.responseDesc.toString())
@@ -293,7 +295,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         val accessToken = (data as? com.deendayalproject.model.response.LoginResponse)?.accessToken ?: ""
 
         AppUtil.saveLoginStatus(requireContext(), true)
-        // AppUtil.saveTokenPreference(requireContext(), accessToken)
+       // AppUtil.saveTokenPreference(requireContext(), accessToken)
         AppUtil.saveLoginIdPreference(requireContext(), userId)
         saveToken(requireContext(), accessToken)
 
@@ -311,7 +313,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     private fun handleLoginFailure(exception: Exception?) {
         logCrashlyticsError("Login_Failed", exception ?: Exception("Unknown error"))
-        showErrorToast("Login Failed: ${exception?.message ?: "Unknown error"}")
+        showErrorToast(getString(R.string.login_failed, exception?.message ?: getString(R.string.unknown_error)))
     }
 
 

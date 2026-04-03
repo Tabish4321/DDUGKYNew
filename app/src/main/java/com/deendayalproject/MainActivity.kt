@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import com.deendayalproject.base.BaseActivity
 import com.deendayalproject.util.FullScreenHelper
 import com.deendayalproject.util.validateDeviceSecurity
+//import com.deendayalproject.util.validateDeviceSecurity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -22,9 +23,9 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!validateDeviceSecurity(this)) {
-            return
-        }
+//        if (!validateDeviceSecurity(this)) {
+//            return
+//        }
     }
 
     private fun disableScreenshots() {

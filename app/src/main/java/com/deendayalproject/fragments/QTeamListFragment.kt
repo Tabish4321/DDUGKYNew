@@ -39,13 +39,16 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
 
 
     // Location permission launcher
+//    showErrorToast(getString(R.string.failed, it.message))
     private val locationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                logFragmentEvent("Location_Permission_Granted")
+
+                logFragmentEvent(getString(R.string.location_permission_granted))
             } else {
-                showToast("❌ Location permission denied")
-                logFragmentEvent("Location_Permission_Denied")
+
+                showToast(getString(R.string.location_permission_denied))
+                logFragmentEvent(getString(R.string.location_permission_denied))
             }
         }
 
@@ -78,7 +81,7 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
     private fun setupToolbar() {
         setupToolbar(
             binding.root,
-            "Training Centers",
+            getString(R.string.training_centers),
             showBack = true,
             showLang = false,
             showProfile = false,
@@ -99,8 +102,8 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
             onItemClick = { center, position ->
                 handleTrainingCenterClick(center)
             },
-            noDataTitle = "No Training Centers",
-            noDataDescription = "No training centers available for verification",
+            noDataTitle = getString(R.string.no_training_centers),
+            noDataDescription = getString(R.string.no_training_centers_available_for_verification),
             noDataIconRes = R.drawable.no_data
         )
     }
@@ -159,7 +162,7 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
         logFragmentEvent("Fetch_Training_Centers_Started")
         setCustomKey("user_login_id", loginId)
 
-        showProgressDialog("Loading training centers...")
+        showProgressDialog(getString(R.string.loading_training_centers))
         viewModel.fetchQTeamTrainingList(request, "Bearer $token")
     }
 
@@ -175,18 +178,18 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
                         updateRecyclerViewData(binding.recyclerView.id, centers ?: emptyList())
                         logFragmentEvent("Training_Centers_Loaded", "Count: ${centers?.size ?: 0}")
                         if (centers.isNullOrEmpty()) {
-                            showToast("No training centers available")
+                            showToast(getString(R.string.no_training_centers_available))
                         }
                     },
                     onNoData = {
-                        showToast("No training centers available")
+                        showToast(getString(R.string.no_training_centers_available))
                         clearRecyclerViewData(binding.recyclerView.id)
                     },
                     onSessionExpired = {
                         handleSessionExpired()
                     },
                     onUpgradeRequired = {
-                        showToast("Please upgrade your app")
+                        showToast(getString(R.string.please_upgrade_your_app))
                     }
                 )
             }
@@ -194,7 +197,7 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
             result.onFailure { throwable ->
                 dismissProgressDialog()
                 logCrashlyticsError("fetchTrainingCenters", Exception(throwable))
-                showErrorToast("Failed to load training centers. Please try again.")
+                showErrorToast(getString(R.string.failed_to_load_training_centers_please_try_again))
             }
         }
 
@@ -218,7 +221,7 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
             locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             return
         }
-        showProgressDialog("Checking location...")
+        showProgressDialog(getString(R.string.checking_location))
 
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
@@ -241,7 +244,7 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
             .addOnFailureListener { exception ->
                 dismissProgressDialog()
                 logCrashlyticsError("checkGeofence", exception)
-                showErrorToast("Failed to get location")
+                showErrorToast(getString(R.string.failed_to_get_location))
                 onResult(false, null)
             }
     }

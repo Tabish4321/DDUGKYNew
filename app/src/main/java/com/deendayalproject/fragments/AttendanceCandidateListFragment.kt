@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
+import com.deendayalproject.R
 import com.deendayalproject.adapter.AttendanceCandidateAdapter
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentAttendanceCandidateListBinding
@@ -22,63 +23,63 @@ import kotlin.getValue
 
 
 class AttendanceCandidateListFragment : BaseFragment<FragmentAttendanceCandidateListBinding>(
-    FragmentAttendanceCandidateListBinding::inflate
-) {
-    private lateinit var viewModel: SharedViewModel
+        FragmentAttendanceCandidateListBinding::inflate
+    ) {
+        private lateinit var viewModel: SharedViewModel
 
-    private lateinit var candidateListAdapter: AttendanceCandidateAdapter
-    private var AttendanceCandidateList = mutableListOf<Candidate>()
+        private lateinit var candidateListAdapter: AttendanceCandidateAdapter
+        private var AttendanceCandidateList = mutableListOf<Candidate>()
 
-    private var batchId = 0
-    private var batchName = ""
-    private var batchRegNo = ""
-
-
-
-    override fun initializeViews() {
-        viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+        private var batchId = 0
+        private var batchName = ""
+        private var batchRegNo = ""
 
 
 
-        batchId = arguments?.getInt("batchId",0)!!
-        batchName = arguments?.getString("batchName").toString()
-        batchRegNo = arguments?.getString("batchRegNo").toString()
-
-        setupRecyclerView()
-        collectCandidateListRes()
-
-        viewModel.getAttendanceCandidateListAPI(
-            AttendanceCandidateListReq(batchId,
-                BuildConfig.VERSION_NAME
-            ), ""
-        )
-
-        showProgressDialog("Loading...")
+        override fun initializeViews() {
+            viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
 
-    }
 
-    override fun setupObservers() {
-    }
+            batchId = arguments?.getInt("batchId",0)!!
+            batchName = arguments?.getString("batchName").toString()
+            batchRegNo = arguments?.getString("batchRegNo").toString()
 
-    override fun setupClickListeners() {
+            setupRecyclerView()
+            collectCandidateListRes()
 
-        binding.toolbar.btnBack.setOnClickListener {
+            viewModel.getAttendanceCandidateListAPI(
+                AttendanceCandidateListReq(batchId,
+                    BuildConfig.VERSION_NAME
+                ), ""
+            )
 
-            findNavController().navigateUp()
+            showProgressDialog("Loading...")
+
+
         }
-        binding.toolbar.tvTitle.text= "Candidate List"
-    }
 
-    override fun loadInitialData() {
-    }
+        override fun setupObservers() {
+        }
 
-    private fun setupRecyclerView() {
+        override fun setupClickListeners() {
 
-        candidateListAdapter = AttendanceCandidateAdapter(AttendanceCandidateList, candidateRegNo = batchRegNo)
-        binding.recyclerViewCandidates.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewCandidates.adapter = candidateListAdapter
-    }
+            binding.toolbar.btnBack.setOnClickListener {
+
+                findNavController().navigateUp()
+            }
+            binding.toolbar.tvTitle.text= "Candidate List"
+        }
+
+        override fun loadInitialData() {
+        }
+
+        private fun setupRecyclerView() {
+
+            candidateListAdapter = AttendanceCandidateAdapter(AttendanceCandidateList, candidateRegNo = batchRegNo)
+            binding.recyclerViewCandidates.layoutManager = LinearLayoutManager(requireContext())
+            binding.recyclerViewCandidates.adapter = candidateListAdapter
+        }
 
     private fun collectCandidateListRes() {
         lifecycleScope.launch {
@@ -103,11 +104,13 @@ class AttendanceCandidateListFragment : BaseFragment<FragmentAttendanceCandidate
                         //  populateSpinnerVillage((response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>, spinnerSelectULB )
 
                         202 -> Toast.makeText(
-                            requireContext(), "No data available.", Toast.LENGTH_SHORT
+                            requireContext(), getString(R.string.no_data_available), Toast.LENGTH_SHORT
+//                            requireContext(), "No data available.", Toast.LENGTH_SHORT
                         ).show()
 
                         301 -> Toast.makeText(
-                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+
+                            requireContext(), getString(R.string.please_upgrade_your_app), Toast.LENGTH_SHORT
                         ).show()
 
                         401 -> AppUtil.showSessionExpiredDialog(
@@ -118,7 +121,7 @@ class AttendanceCandidateListFragment : BaseFragment<FragmentAttendanceCandidate
                 it.onFailure {
                     dismissProgressDialog()
 
-                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                    Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
                         .show()
                 }
             }

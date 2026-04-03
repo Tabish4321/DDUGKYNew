@@ -138,7 +138,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
             if (attendanceFlag=="checkin"){
                 //for audit
-                showProgressDialog("Loading...")
+                showProgressDialog(getString(R.string.loading))
                 invokeCaptureIntent()
                 /* val currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
                  val currentTime = LocalTime.now()
@@ -169,7 +169,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
             }
 
 
-            else toastLong("Checkin Already marked")
+            else toastLong(getString(R.string.checkin_already_marked))
 
 
 
@@ -183,7 +183,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
             if (attendanceFlag=="checkout"){
 
                 //for audit
-                showProgressDialog("Loading...")
+                showProgressDialog(getString(R.string.loading))
                 invokeCaptureIntent()
 
 
@@ -222,7 +222,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
             }
 
 
-            else toastLong("Kindly mark checkin First")
+            else toastLong(getString(R.string.kindly_mark_checkin_first))
 
 
 
@@ -265,7 +265,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            toastLong("❌ Location permission not granted")
+            toastLong(getString(R.string.location_permission_not_granted))
             return
         }
 
@@ -324,21 +324,21 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                         if (!captureResponse.isNullOrEmpty()) {
                             handleCaptureResponse(captureResponse)
                         } else {
-                            toastShort("Capture response is empty.")
+                            toastShort(getString(R.string.capture_response_is_empty))
                         }
                     } else {
-                        toastShort("Failed to get capture response data.")
+                        toastShort(getString(R.string.failed_to_get_capture_response_data))
                     }
                 } else {
-                    toastLong("Failed to capture data.")
+                    toastLong(getString(R.string.failed_to_capture_data))
                 }
             } catch (e: NullPointerException) {
                 e.printStackTrace()
-                toastShort("Error: Missing data in result.")
+                toastShort(getString(R.string.error_missing_data_in_result))
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                toastShort("An error occurred while processing the result.")
+                toastShort(getString(R.string.an_error_occurred_while_processing_the_result))
             }
         }
 
@@ -353,7 +353,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
             if (response.isSuccess) {
 
-                showProgressDialog("please Wait")
+                showProgressDialog(getString(R.string.please_wait))
                 // Process the response to generate the PoiType or other required fields
                 val poiType = XstreamCommonMethods.processPidBlockEkyc(
                     response.toXML(),
@@ -392,17 +392,17 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
             dismissProgressDialog()
             e.printStackTrace()
 
-            toastShort("Camera permission is required for this feature.")
+            toastShort(getString(R.string.camera_permission_is_required_for_this_feature))
         } catch (e: IllegalArgumentException) {
             // Handle cases where the response parsing might fail
             dismissProgressDialog()
             e.printStackTrace()
-            toastShort("Invalid Capture Response format.")
+            toastShort(getString(R.string.invalid_capture_response_format))
         } catch (e: Exception) {
             // Catch all other exceptions
             dismissProgressDialog()
             e.printStackTrace()
-            toastShort("An error occurred while processing the response.")
+            toastShort(getString(R.string.an_error_occurred_while_processing_the_response))
         }
     }
 
@@ -456,7 +456,8 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
                         val uidaiData = result.getOrNull()
                         if (uidaiData == null) {
-                            toastShort("Server error from UIDAI. Please try again.")
+                            toastShort(getString(R.string.server_error_from_uidai))
+
                             return@observe
                         }
 
@@ -558,20 +559,21 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                                 }
                                 val errorDesc =
                                     XstreamCommonMethods.getAuthErrorDescription(authRes?.info)
-                                toastShort(errorDesc ?: "EKYC Failed")
+                                toastShort(errorDesc ?: getString(R.string.ekyc_failed))
                             }
 
                         } catch (e: Exception) {
                             dismissProgressDialog()
                             e.printStackTrace()
-                            toastShort("Error processing KYC response")
+                            toastShort(getString(R.string.error_processing_kyc_response))
+
                         }
                     }
 
                     result.isFailure -> {
                         dismissProgressDialog()
                         val error = result.exceptionOrNull()
-                        toastShort(error?.message ?: "Something went wrong")
+                        toastShort(error?.message ?: getString(R.string.something_went_wrong))
                     }
 
                     else -> {
@@ -627,12 +629,12 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
             if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                 // Show a confirmation dialog before closing
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Exit")
-                    .setMessage("Do you want to close this screen?")
-                    .setPositiveButton("Yes") { _, _ ->
+                    .setTitle(getString(R.string.exit))
+                    .setMessage(getString(R.string.do_you_want_to_close_this_screen))
+                    .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         bottomSheetDialog.dismiss()
                     }
-                    .setNegativeButton("No", null)
+                    .setNegativeButton(getString(R.string.no), null)
                     .show()
                 return@setOnKeyListener true
             }
@@ -693,12 +695,12 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
                                         //    findNavController().navigate(SdrListFragmentDirections.actionSdrListFragmentToSdrVisitReport(formName,instituteName,finYear,instituteId))
                                     } else {
-                                        showAlertGeoFancingDialog(requireContext(),"Alert","❌ You are outside the institute area")
+                                        showAlertGeoFancingDialog(requireContext(),getString(R.string.alert),getString(R.string.you_are_outside_the_institute_area))
 
                                     }
                                 } else {
                                     toastLong("❌ Failed to retrieve current location")
-                                    showAlertGeoFancingDialog(requireContext(),"Alert","❌ Failed to retrieve current location Kindly on your gps from settings")
+                                    showAlertGeoFancingDialog(requireContext(),getString(R.string.alert),getString(R.string.failed_to_retrieve_current_location_Kindly_on_your_gps_from_settings))
                                 }
                             }
 
@@ -707,11 +709,11 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                         //  populateSpinnerVillage((response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>, spinnerSelectULB )
 
                         202 -> Toast.makeText(
-                            requireContext(), "No data available.", Toast.LENGTH_SHORT
+                            requireContext(), getString(R.string.no_data_available), Toast.LENGTH_SHORT
                         ).show()
 
                         301 -> Toast.makeText(
-                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                            requireContext(), getString(R.string.please_upgrade_your_app), Toast.LENGTH_SHORT
                         ).show()
 
                         401 -> AppUtil.showSessionExpiredDialog(
@@ -721,8 +723,7 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                 }
                 it.onFailure {
                     dismissProgressDialog()
-
-                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                    Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
                         .show()
                 }
             }
@@ -744,11 +745,11 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                         //  populateSpinnerVillage((response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>, spinnerSelectULB )
 
                         202 -> Toast.makeText(
-                            requireContext(), "No data available.", Toast.LENGTH_SHORT
+                            requireContext(), getString(R.string.no_data_available), Toast.LENGTH_SHORT
                         ).show()
 
                         301 -> Toast.makeText(
-                            requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT
+                            requireContext(), getString(R.string.please_upgrade_your_app), Toast.LENGTH_SHORT
                         ).show()
 
                         401 -> AppUtil.showSessionExpiredDialog(
@@ -758,9 +759,9 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
                 }
                 it.onFailure {
                     dismissProgressDialog()
-
-                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                    Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
                         .show()
+
                 }
             }
         }

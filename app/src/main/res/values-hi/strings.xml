@@ -870,4 +870,758 @@
     <string name="batch_id">Batch Id\n</string>
     <string name="batch_name">Batch Name</string>
 
+
+
+
+    <string name="contact_number">मोबाइल नंबर</string>
+    <string name="attendance_marked">उपस्थिति दर्ज</string>
+    <string name="name">नाम:</string>
+    <string name="careof">केयर ऑफ:</string>
+    <string name="ok">ठीक है</string>
+    <string name="failed_attendance">उपस्थिति दर्ज नहीं हुई, पुनः प्रयास करें</string>
+    <string name="gender">लिंग</string>
+    <string name="date_of_birth">जन्म तिथि:</string>
+    <string name="mark_today_attention">आज की उपस्थिति दर्ज करें</string>
+    <string name="check_in">चेक इन</string>
+    <string name="check_out">चेक आउट</string>
+    <string name="total_hours">कुल घंटे</string>
+    <string name="_00_00_am">00:00 AM</string>
+    <string name="roll_no">रोल नंबर</string>
+    <string name="login_id">लॉगिन आईडी</string>
+    <string name="on_the_job_training">ऑन द जॉब ट्रेनिंग</string>
+    <string name="pia_name">PIA नाम :</string>
+    <string name="date_of_verification">सत्यापन की तिथि</string>
+    <string name="verification_time">सत्यापन का समय</string>
+    <string name="location_image">स्थान की छवि</string>
+    <string name="interview_video">साक्षात्कार वीडियो</string>
+    <string name="is_the_candidatete_available_on_the_day_of_visit_to_the_ojt_location">1 - क्या उम्मीदवार OJT स्थान पर विज़िट के दिन उपलब्ध है?</string>
+    <string name="interview_of_the_candidate_with_a_time_stamped_go_tagged_video_device_it_could_be_mobile_tablet_etc_for_the_following">उम्मीदवार का टाइम स्टैम्प और जियो टैग्ड वीडियो डिवाइस (मोबाइल/टैबलेट आदि) से इंटरव्यू</string>
+    <string name="when_did_you_start_your_ojt">2 - आपने OJT कब शुरू किया?</string>
+    <string name="what_activity_are_you_doing_today">3 - आज आप कौन-सी गतिविधि कर रहे हैं?</string>
+    <string name="what_activity_did_you_do_a_random_day_to_be_chosen_by_the_ytem_from_last_6_days">4 - आपने 12 March को कौन-सी गतिविधि की थी?</string>
+    <string name="enter_you_activity">अपनी गतिविधि दर्ज करें</string>
+    <string name="whether_the_field_level_upervisor_isnominated_for_the_ojt">5 - क्या OJT के लिए फील्ड सुपरवाइजर नामित है?</string>
+    <string name="how_many_times_during_the_day_did_the_supervior_interact_with_you">6 - दिन में सुपरवाइजर ने आपसे कितनी बार बातचीत की?</string>
+    <string name="are_you_given_sufficient_instruments_to_work_during_ojt_tools_machinery_computers_etc">7 - क्या आपको OJT के दौरान पर्याप्त उपकरण दिए गए हैं?</string>
+    <string name="are_you_given_enough_materials_to_work_upon">8 - क्या आपको काम के लिए पर्याप्त सामग्री दी गई है?</string>
+    <string name="how_much_stipend_are_you_eligible_for">9 - आप कितने स्टाइपेंड के पात्र हैं?</string>
+    <string name="how_much_stipend_are_you_getting">10 - आपको कितना स्टाइपेंड मिल रहा है?</string>
+    <string name="are_boarding_and_loading_facilities_provided">11 - क्या बोर्डिंग और लॉजिंग की सुविधा दी गई है?</string>
+    <string name="candidate_id">उम्मीदवार आईडी</string>
+    <string name="candidate_id_profile">उम्मीदवार आईडी :</string>
+    <string name="compress_video">कंप्रेस हो रहा है...</string>
+    <string name="batch_list">बैच सूची</string>
+    <string name="class_room_start_date">क्लास शुरू होने की तिथि :</string>
+    <string name="class_room_end_date">क्लास समाप्ति तिथि :</string>
+    <string name="ojt_start_date">OJT शुरू होने की तिथि :</string>
+    <string name="enter_during_times">दिन में कितनी बार दर्ज करें</string>
+    <string name="enter_your_eligible_for">अपना पात्र स्टाइपेंड दर्ज करें</string>
+    <string name="enter_your_getting_for">मिल रहा स्टाइपेंड दर्ज करें</string>
+
+
+
+    <string name="capture_video">उम्मीदवार का वीडियो इंटरव्यू शुरू करें</string>
+
+    <string name="capture_image">11 - फोटो कैप्चर करें</string>
+
+    <string name="candidate">उम्मीदवार का नाम:</string>
+
+    <string name="trainee_name">प्रशिक्षु का नाम :</string>
+
+    <string name="father_s_name">पिता का नाम :</string>
+
+    <string name="ojt_status">OJT स्थिति :</string>
+
+    <string name="ojt_status_cadidate">OJT स्थिति</string>
+
+    <string name="tc_district">TC जिला :</string>
+
+    <string name="please_give_reason_for_no">कृपया कारण दर्ज करें</string>
+
+    <string name="on_job_training">ऑन जॉब ट्रेनिंग</string>
+
+    <string name="batch_id_ojt">बैच आईडी</string>
+
+    <string name="total_ojt_on_batch">बैच में कुल OJT</string>
+
+    <string name="training_details">प्रशिक्षण विवरण</string>
+
+    <string name="candidate_details">उम्मीदवार विवरण</string>
+
+    <string name="kpid">KPID :</string>
+
+    <string name="trade_name">ट्रेड नाम</string>
+
+    <string name="ojt_industry_name">OJT उद्योग का नाम :</string>
+
+    <string name="activity_did_you_do_on">आपने किस दिन कौन-सी गतिविधि की :</string>
+
+
+
+
+
+
+
+
+    <string name="ojt_location">OJT स्थान :</string>
+    <string name="on_job_training_verification">ऑन जॉब ट्रेनिंग सत्यापन</string>
+    <string name="on_job_training_verification_complete">OJT पूर्ण उम्मीदवार सत्यापन विवरण</string>
+    <string name="verification_date">सत्यापन तिथि</string>
+    <string name="no_of_candidates">उम्मीदवारों की संख्या</string>
+    <string name="ojt_name">OJT नाम</string>
+    <string name="number_of_completed_ojt">पूर्ण किए गए OJT की संख्या</string>
+    <string name="number_of_pending_ojt">लंबित OJT की संख्या</string>
+    <string name="select_sanction_order">स्वीकृति आदेश चुनें</string>
+    <string name="select_training_center">प्रशिक्षण केंद्र चुनें</string>
+    <string name="candidate_response">उम्मीदवार की प्रतिक्रिया</string>
+
+    <string name="batch_reg_no">बैच पंजीकरण संख्या</string>
+    <string name="mobile_no_ojt">मोबाइल नंबर:</string>
+    <string name="address">पता :</string>
+
+    <string name="location_not_found">स्थान नहीं मिला</string>
+    <string name="address_not_found">पता नहीं मिला</string>
+    <string name="error_address">पता प्राप्त करने में त्रुटि</string>
+    <string name="current_location">आपका वर्तमान स्थान</string>
+
+    <string name="interview_question">इंटरव्यू प्रश्न</string>
+    <string name="center_name_ojt">OJT नाम</string>
+
+    <string name="switchs">स्विच</string>
+    <string name="loading">लोड हो रहा है...</string>
+
+    <string name="stop">रोकें</string>
+    <string name="start">शुरू करें</string>
+
+    <string name="yes">हाँ</string>
+    <string name="no">नहीं</string>
+
+    <string name="exit">बाहर निकलें</string>
+    <string name="alert">अलर्ट</string>
+
+    <string name="Capture_response_is_empty">कैप्चर प्रतिक्रिया खाली है।</string>
+
+    <string name="failed_to_retrieve_current_location">❌ वर्तमान स्थान प्राप्त करने में विफल</string>
+
+    <string name="failed_to_retrieve_current_location_Kindly_on_your_gps_from_settings">
+वर्तमान स्थान प्राप्त नहीं हुआ। कृपया सेटिंग्स से GPS चालू करें
+</string>
+
+    <string name="you_are_outside_the_institute_area">❌ आप संस्थान के क्षेत्र से बाहर हैं</string>
+
+    <string name="something_went_wrong">कुछ गलत हो गया</string>
+
+    <string name="face_not_capture_proper_try_again">
+चेहरा सही से कैप्चर नहीं हुआ, कृपया पुनः प्रयास करें
+</string>
+
+    <string name="ekyc_failed">ई-केवाईसी विफल</string>
+
+    <string name="server_error_from_uidai">
+UIDAI सर्वर त्रुटि। कृपया पुनः प्रयास करें।
+</string>
+
+    <string name="location_permission_not_granted">
+❌ लोकेशन परमिशन नहीं दी गई
+</string>
+
+    <string name="do_you_want_to_close_this_screen">
+क्या आप इस स्क्रीन को बंद करना चाहते हैं?
+</string>
+
+    <string name="please_upgrade_your_app">
+कृपया अपना ऐप अपडेट करें।
+</string>
+
+    <string name="capture_response_is_empty">
+कैप्चर प्रतिक्रिया खाली है।
+</string>
+
+    <string name="failed_to_get_capture_response_data">
+कैप्चर प्रतिक्रिया डेटा प्राप्त करने में विफल।
+</string>
+
+    <string name="failed_to_capture_data">
+डेटा कैप्चर करने में विफल।
+</string>
+
+    <string name="error_missing_data_in_result">
+त्रुटि: परिणाम में डेटा अनुपलब्ध है।
+</string>
+
+    <string name="an_error_occurred_while_processing_the_result">
+परिणाम को प्रोसेस करते समय त्रुटि हुई।
+</string>
+
+    <string name="please_wait">कृपया प्रतीक्षा करें</string>
+
+    <string name="camera_permission_is_required_for_this_feature">
+इस फीचर के लिए कैमरा अनुमति आवश्यक है।
+</string>
+
+    <string name="invalid_capture_response_format">
+अमान्य कैप्चर प्रतिक्रिया प्रारूप।
+</string>
+
+    <string name="an_error_occurred_while_processing_the_response">
+प्रतिक्रिया को प्रोसेस करते समय त्रुटि हुई।
+</string>
+
+    <string name="please_wait_title">कृपया प्रतीक्षा करें...</string>
+
+    <string name="checkin_already_marked">
+चेक-इन पहले ही दर्ज किया जा चुका है
+</string>
+
+    <string name="kindly_mark_checkin_first">
+कृपया पहले चेक-इन दर्ज करें
+</string>
+
+    <string name="error_processing_kyc_response">
+KYC प्रतिक्रिया प्रोसेस करने में त्रुटि
+</string>
+
+    <string name="camera_permission_is_required">
+कैमरा अनुमति आवश्यक है।
+</string>
+
+    <string name="failed_to_fetch_details">
+विवरण प्राप्त करने में विफल
+</string>
+
+    <string name="failed_handling_response">
+प्रतिक्रिया संभालने में विफल: %1$s
+</string>
+
+    <string name="failed_processing_training_response">
+प्रशिक्षण प्रतिक्रिया प्रोसेस करने में विफल: %1$s
+</string>
+
+    <string name="training_api_failed">
+प्रशिक्षण API विफल: %1$s
+</string>
+
+    <string name="api_error">
+API त्रुटि: %1$s
+</string>
+
+    <string name="unknown">अज्ञात</string>
+
+
+    <string name="failed_processing_training_infra_response">
+ट्रेनिंग इन्फ्रा प्रतिक्रिया को प्रोसेस करने में विफल: %1$s
+</string>
+
+    <string name="training_infra_api_failed">
+ट्रेनिंग इन्फ्रा API विफल: %1$s
+</string>
+
+    <string name="failed_processing_assessment_certification_response"><![CDATA[
+आकलन और प्रमाणन प्रतिक्रिया को प्रोसेस करने में विफल: %1$s
+]]></string>
+
+    <string name="assessment_certification_api_failed"><![CDATA[
+आकलन और प्रमाणन API विफल: %1$s
+]]></string>
+
+    <string name="failed_processing_placement_response">
+प्लेसमेंट प्रतिक्रिया को प्रोसेस करने में विफल: %1$s
+</string>
+
+    <string name="placement_api_failed">
+प्लेसमेंट API विफल: %1$s
+</string>
+
+    <string name="location_permission_denied">लोकेशन अनुमति अस्वीकृत</string>
+
+    <string name="no_residential_facilities_to_view">
+देखने के लिए कोई रेसिडेंशियल सुविधा उपलब्ध नहीं है
+</string>
+
+    <string name="no_file_to_view">देखने के लिए कोई फ़ाइल उपलब्ध नहीं है</string>
+
+    <string name="failed_to_get_location">लोकेशन प्राप्त करने में विफल</string>
+
+    <string name="home">होम</string>
+
+    <string name="logged_out">लॉग आउट हो गया</string>
+
+    <string name="please_upgrade_your_app_first">
+कृपया पहले अपना ऐप अपडेट करें।
+</string>
+
+    <string name="something_went_wrong_try_again">
+कुछ गलत हो गया। कृपया पुनः प्रयास करें।
+</string>
+
+    <string name="no_modules_available_for_your_account">
+आपके खाते के लिए कोई मॉड्यूल उपलब्ध नहीं है
+</string>
+
+    <string name="do_you_want_to_change_language">
+क्या आप भाषा बदलना चाहते हैं?
+</string>
+
+    <string name="confirmation">पुष्टि</string>
+
+    <string name="please_enter_password">कृपया पासवर्ड दर्ज करें</string>
+
+    <string name="logging_in">लॉग इन हो रहा है...</string>
+
+    <string name="login_failed">लॉगिन विफल: %1$s</string>
+
+    <string name="unknown_error">अज्ञात त्रुटि</string>
+
+    <string name="kindly_select_first">कृपया पहले %1$s चुनें</string>
+
+    <string name="kindly_enter_remarks_first">
+कृपया पहले टिप्पणी दर्ज करें
+</string>
+
+    <string name="are_you_sure_you_want_to_submit_these_details">
+क्या आप वाकई इन विवरणों को सबमिट करना चाहते हैं?
+</string>
+
+    <string name="cancel">रद्द करें</string>
+
+    <string name="submitting">सबमिट किया जा रहा है...</string>
+
+    <string name="data_successfully_saved">
+डेटा सफलतापूर्वक सहेजा गया।
+</string>
+
+    <string name="unable_to_get_location">
+लोकेशन प्राप्त करने में असमर्थ
+</string>
+
+    <string name="failed">विफल: %1$s</string>
+
+    <string name="invalid_pdf_data">
+अमान्य PDF डेटा
+</string>
+
+    <string name="pdf_downloaded_to_downloads">
+PDF डाउनलोड फ़ोल्डर में डाउनलोड हो गया: %1$s
+</string>
+
+    <string name="error">त्रुटि: %1$s</string>
+
+    <string name="location_permission_granted">
+लोकेशन अनुमति प्रदान की गई
+</string>
+
+    <string name="training_centers">प्रशिक्षण केंद्र</string>
+
+    <string name="no_training_centers">
+कोई प्रशिक्षण केंद्र उपलब्ध नहीं है
+</string>
+
+    <string name="no_training_centers_available_for_verification">
+सत्यापन के लिए कोई प्रशिक्षण केंद्र उपलब्ध नहीं है
+</string>
+
+    <string name="loading_training_centers">
+प्रशिक्षण केंद्र लोड हो रहे हैं...
+</string>
+
+    <string name="no_training_centers_available">
+कोई प्रशिक्षण केंद्र उपलब्ध नहीं है
+</string>
+
+    <string name="failed_to_load_training_centers_please_try_again">
+प्रशिक्षण केंद्र लोड करने में विफल। कृपया पुनः प्रयास करें।
+</string>
+
+    <string name="checking_location">
+लोकेशन जांची जा रही है...
+</string>
+
+    <string name="living_area_submission_failed">
+लिविंग एरिया सबमिशन विफल: %1$s
+</string>
+
+    <string name="support_facilities_available_data_submitted_successfully">
+सपोर्ट सुविधाओं का डेटा सफलतापूर्वक सबमिट किया गया!
+</string>
+
+    <string name="residential_facilities_available_data_submitted_successfully">
+रेसिडेंशियल सुविधाओं का डेटा सफलतापूर्वक सबमिट किया गया!
+</string>
+
+    <string name="no_training_centers_available_at_the_moment">
+इस समय कोई प्रशिक्षण केंद्र उपलब्ध नहीं है
+</string>
+
+    <string name="please_enter_remark_for">
+कृपया %1$s के लिए टिप्पणी दर्ज करें
+</string>
+
+    <string name="complete_all_basic_information_fields_and_photos">
+सभी बेसिक जानकारी के फ़ील्ड और फ़ोटो पूर्ण करें।
+</string>
+
+    <string name="complete_all_infrastructure_details_and_compliance_s_fields_and_photos">
+सभी इंफ्रास्ट्रक्चर विवरण और अनुपालन के फ़ील्ड और फ़ोटो पूर्ण करें।
+</string>
+
+    <string name="complete_all_living_area_information_fields_and_photos">
+सभी लिविंग एरिया जानकारी के फ़ील्ड और फ़ोटो पूर्ण करें।
+</string>
+
+    <string name="complete_all_toilets_fields_and_photos">
+सभी टॉयलेट के फ़ील्ड और फ़ोटो पूर्ण करें।
+</string>
+
+    <string name="complete_all_urinals_washbasin_overhead_fields_and_photos">
+सभी यूरिनल/वॉशबेसिन/ओवरहेड फ़ील्ड और फ़ोटो पूर्ण करें।
+</string>
+
+    <string name="complete_all_non_living_areas_fields_and_photos">
+सभी नॉन-लिविंग एरिया के फ़ील्ड और फ़ोटो पूर्ण करें।
+</string>
+
+    <string name="complete_all_residential_facilities_available_fields_and_photos">
+सभी रेसिडेंशियल सुविधाओं के फ़ील्ड और फ़ोटो पूर्ण करें।
+</string>
+
+    <string name="complete_all_support_facilities_available_fields_and_photos">
+सभी सपोर्ट सुविधाओं के फ़ील्ड और फ़ोटो पूर्ण करें।
+</string>
+
+    <string name="failed_to_create_image_file">
+इमेज फ़ाइल बनाने में विफल
+</string>
+
+
+    <string name="upload_image_for_structurally_sound">संरचनात्मक रूप से सुरक्षित के लिए छवि अपलोड करें</string>
+
+    <string name="upload_image_for_visible_sign_of_leakage">
+लीकेज के दिखाई देने वाले संकेत के लिए छवि अपलोड करें
+</string>
+
+    <string name="upload_image_for_conformance_to_ddu_gky">
+DDU-GKY अनुरूपता के लिए छवि अपलोड करें
+</string>
+
+    <string name="upload_image_for_protection_of_stairs">
+सीढ़ियों की सुरक्षा के लिए छवि अपलोड करें
+</string>
+
+    <string name="upload_image_for_corridor">
+कॉरिडोर के लिए छवि अपलोड करें
+</string>
+
+    <string name="upload_image_for_securing_wires">
+तारों की सुरक्षा के लिए छवि अपलोड करें
+</string>
+
+    <string name="upload_image_for_switch_boards">
+स्विच बोर्ड के लिए छवि अपलोड करें
+</string>
+
+    <string name="upload_image_for_hostel_name_board">
+होस्टल नाम बोर्ड के लिए छवि अपलोड करें
+</string>
+
+    <string name="upload_image_for_entitlement_board">
+एंटाइटलमेंट बोर्ड के लिए छवि अपलोड करें
+</string>
+
+    <string name="upload_image_for_contact_detail">
+संपर्क विवरण के लिए छवि अपलोड करें
+</string>
+
+    <string name="upload_image_for_basic_info_board">
+बेसिक जानकारी बोर्ड के लिए छवि अपलोड करें
+</string>
+
+    <string name="upload_image_for_food_specification_board">
+फूड स्पेसिफिकेशन बोर्ड के लिए छवि अपलोड करें
+</string>
+
+    <string name="rf_added_successfully">RF सफलतापूर्वक जोड़ा गया</string>
+
+    <string name="rf_added">RF जोड़ा गया</string>
+
+    <string name="login_id_not_found">लॉगिन आईडी नहीं मिली</string>
+
+    <string name="loading_centers">केंद्र लोड हो रहे हैं...</string>
+
+    <string name="failed_to_navigate">नेविगेट करने में विफल: %1$s</string>
+
+    <string name="tc_male_capacity">TC पुरुष क्षमता: %1$s</string>
+
+    <string name="tc_female_capacity">TC महिला क्षमता: %1$s</string>
+
+    <string name="training_center_total_capacity">
+प्रशिक्षण केंद्र की कुल क्षमता: %1$s
+</string>
+
+    <string name="you_are_outside_the_training_center_area">
+आप प्रशिक्षण केंद्र क्षेत्र से बाहर हैं
+</string>
+
+    <string name="okay">ठीक है</string>
+
+    <string name="complete_all_cctv_fields_and_photos">
+सभी CCTV फ़ील्ड और फ़ोटो पूर्ण करें।
+</string>
+
+    <string name="complete_all_electrical_fields_and_photos">
+सभी इलेक्ट्रिकल फ़ील्ड और फ़ोटो पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_and_photos_for_general_details">
+कृपया सामान्य विवरण के लिए सभी फ़ील्ड और फ़ोटो पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_for_tc_details">
+कृपया TC विवरण के लिए सभी फ़ील्ड पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_for_signages_infoboards_details"><![CDATA[
+कृपया साइनएज और इन्फोबोर्ड विवरण के लिए सभी फ़ील्ड पूर्ण करें।
+]]></string>
+
+    <string name="please_complete_all_fields_for_availabilty_of_support_infrastructure_details">
+कृपया सपोर्ट इंफ्रास्ट्रक्चर उपलब्धता के सभी फ़ील्ड पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_for_common_equipment_details">
+कृपया कॉमन इक्विपमेंट विवरण के सभी फ़ील्ड पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_for_description_of_other_area_details">
+कृपया अन्य क्षेत्रों के विवरण के सभी फ़ील्ड पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_for_toilet_washbasin_details"><![CDATA[
+कृपया टॉयलेट और वॉशबेसिन विवरण के सभी फ़ील्ड पूर्ण करें।
+]]></string>
+
+    <string name="please_complete_all_fields_for_it_lab_details">
+कृपया IT लैब विवरण के सभी फ़ील्ड पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_reception_area_details">
+कृपया रिसेप्शन एरिया विवरण के सभी फ़ील्ड पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_for_submit_counsellingroom_details">
+कृपया काउंसलिंग रूम विवरण के सभी फ़ील्ड पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_for_submit_it_come_domain_lab_details">
+कृपया IT कम डोमेन लैब विवरण के सभी फ़ील्ड पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_for_submit_theory_cum_it_lab_details">
+कृपया थ्योरी कम IT लैब विवरण के सभी फ़ील्ड पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_for_submit_theory_cum_domain_lab_details">
+कृपया थ्योरी कम डोमेन लैब विवरण के सभी फ़ील्ड पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_for_submit_domain_lab_details">
+कृपया डोमेन लैब विवरण के सभी फ़ील्ड पूर्ण करें।
+</string>
+
+    <string name="please_complete_all_fields_for_submit_theory_class_room_details">
+कृपया थ्योरी क्लास रूम विवरण के सभी फ़ील्ड पूर्ण करें।
+</string>
+
+    <string name="description_of_academic_non_academic_areas_it_lab_details_submission_failed">
+अकादमिक/गैर-अकादमिक क्षेत्र (IT लैब) विवरण सबमिट करने में विफल: %1$s
+</string>
+
+    <string name="description_of_office_cum_counselling_room_details_submission_failed">
+ऑफिस कम काउंसलिंग रूम विवरण सबमिट करने में विफल: %1$s
+</string>
+
+    <string name="description_of_receptionarea_submission_failed">
+रिसेप्शन एरिया विवरण सबमिशन विफल
+</string>
+
+    <string name="submission_failed">
+सबमिशन विफल
+</string>
+
+
+    <string name="description_of_office_room_details_submission_failed_reason">
+ऑफिस रूम विवरण सबमिट करने में विफल।
+
+कारण:
+%1$s
+</string>
+
+    <string name="description_of_academic_it_come_domain_lab_submission_failed">
+अकादमिक (IT कम डोमेन लैब) विवरण सबमिशन विफल
+</string>
+
+    <string name="theory_cum_it_lab_submission_failed">
+थ्योरी कम IT लैब सबमिशन विफल
+</string>
+
+    <string name="theory_cum_domain_lab_submission_failed">
+थ्योरी कम डोमेन लैब सबमिशन विफल
+</string>
+
+    <string name="domain_lab_submission_failed">
+डोमेन लैब सबमिशन विफल
+</string>
+
+    <string name="theory_class_room_submission_failed">
+थ्योरी क्लास रूम सबमिशन विफल
+</string>
+
+    <string name="cctv_data_submitted_successfully">
+CCTV डेटा सफलतापूर्वक सबमिट किया गया!
+</string>
+
+    <string name="cctv_submission_failed">
+CCTV सबमिशन विफल: %1$s
+</string>
+
+    <string name="electrical_data_submitted_successfully">
+इलेक्ट्रिकल डेटा सफलतापूर्वक सबमिट किया गया!
+</string>
+
+    <string name="general_details_submitted_successfully">
+सामान्य विवरण सफलतापूर्वक सबमिट किया गया!
+</string>
+
+    <string name="general_details_submission_failed_reason">
+सामान्य विवरण सबमिशन विफल।
+
+कारण:
+%1$s
+</string>
+
+    <string name="training_details_submitted_successfully">
+ट्रेनिंग विवरण सफलतापूर्वक सबमिट किया गया!
+</string>
+
+    <string name="raining_details_submission_failed_reason">
+ट्रेनिंग विवरण सबमिशन विफल।
+
+कारण:
+%1$s
+</string>
+
+    <string name="signages_infoboards_details_submitted_successfully"><![CDATA[
+साइनएज और इन्फोबोर्ड विवरण सफलतापूर्वक सबमिट किया गया!
+]]></string>
+
+    <string name="signages_infoboards_details_submission_failed_reason"><![CDATA[
+साइनएज और इन्फोबोर्ड विवरण सबमिशन विफल।
+
+कारण:
+%1$s
+]]></string>
+
+    <string name="support_infrastructure_details_submitted_successfully">
+सपोर्ट इंफ्रास्ट्रक्चर विवरण सफलतापूर्वक सबमिट किया गया!
+</string>
+
+    <string name="support_infrastructure_details_submission_failed_reason">
+सपोर्ट इंफ्रास्ट्रक्चर विवरण सबमिशन विफल।
+
+कारण:
+%1$s
+</string>
+
+    <string name="common_equipment_details_submitted_successfully">
+कॉमन उपकरण विवरण सफलतापूर्वक सबमिट किया गया!
+</string>
+
+    <string name="common_equipment_details_submission_failed_reason">
+कॉमन उपकरण विवरण सबमिशन विफल।
+
+कारण:
+%1$s
+</string>
+
+    <string name="description_of_other_area_details_submitted_successfully">
+अन्य क्षेत्र विवरण सफलतापूर्वक सबमिट किया गया!
+</string>
+
+    <string name="description_of_other_area_details_submission_failed_reason">
+अन्य क्षेत्र विवरण सबमिशन विफल।
+
+कारण:
+%1$s
+</string>
+
+    <string name="toilet_washbasin_details_submitted_successfully"><![CDATA[
+टॉयलेट और वॉशबेसिन विवरण सफलतापूर्वक सबमिट किया गया!
+]]></string>
+
+    <string name="toilet_washbasin_details_submission_failed_reason"><![CDATA[
+टॉयलेट और वॉशबेसिन विवरण सबमिशन विफल।
+
+कारण:
+%1$s
+]]></string>
+
+    <string name="details_sent_successfully_to_q_team">
+विवरण सफलतापूर्वक Q-Team को भेज दिया गया
+</string>
+
+    <string name="please_select">
+कृपया %1$s चुनें
+</string>
+
+    <string name="please_enter">
+कृपया %1$s दर्ज करें
+</string>
+
+    <string name="please_upload_image_for_training_centre_name_board">
+कृपया ट्रेनिंग सेंटर नेम बोर्ड की छवि अपलोड करें
+</string>
+
+    <string name="please_upload_image_for_activity_summary_board">
+कृपया एक्टिविटी समरी बोर्ड की छवि अपलोड करें
+</string>
+
+    <string name="please_upload_image_for_student_entitlement_board">
+कृपया स्टूडेंट एंटाइटलमेंट बोर्ड की छवि अपलोड करें
+</string>
+
+    <string name="please_upload_image_for_contact_detail_board">
+कृपया कॉन्टैक्ट डिटेल बोर्ड की छवि अपलोड करें
+</string>
+
+    <string name="please_upload_image_for_basic_info_board">
+कृपया बेसिक जानकारी बोर्ड की छवि अपलोड करें
+</string>
+
+    <string name="please_upload_image_for_code_of_conduct_board">
+कृपया कोड ऑफ कंडक्ट बोर्ड की छवि अपलोड करें
+</string>
+
+    <string name="please_upload_image_for_attendance_summary_board">
+कृपया अटेंडेंस समरी बोर्ड की छवि अपलोड करें
+</string>
+
+    <string name="please_upload_you_selected_yes">
+कृपया %1$s अपलोड करें (आपने Yes चुना है)
+</string>
+
+    <string name="candidate_name">उम्मीदवार का नाम</string>
+
+
+    <string name="describe_the_activity">गतिविधि का विवरण दें</string>
+
+    <string name="enter_the_reason">कारण दर्ज करें</string>
+
+    <string name="enter_the_candidate_response">उम्मीदवार की प्रतिक्रिया दर्ज करें</string>
+    <string name="ojt_candidate_list">OJT उम्मीदवार सूची</string>
+    <string name="ojt_end_date">OJT समाप्ति तिथि :</string>
+
+    <string name="playing">वीडियो चल रहा है...</string>
+    <string name="play">चलाएँ</string>
+    <string name="front">सामने</string>
+    <string name="back">पीछे</string>
+    <string name="pause">रोकें</string>
 </resources>
