@@ -31,6 +31,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Base64
 import android.util.Log
 import android.widget.ImageView
@@ -54,6 +56,7 @@ import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.response.RoomDetail
 import com.deendayalproject.model.response.RoomItem
+import com.deendayalproject.util.orEmptySafe
 import com.deendayalproject.util.toastShort
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -272,6 +275,9 @@ class SrlmVerificationForm : Fragment() {
 
     private var latValue: String = ""
     private var langValue: String = ""
+    private var total_capacity: Int =0
+
+
 
 
     override fun onCreateView(
@@ -279,20 +285,17 @@ class SrlmVerificationForm : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSrlmverificatiomFormBinding.inflate(inflater, container, false)
-
+        centerId = arguments?.getString("centerId").toString()
+        centerName = arguments?.getString("centerName").toString()
+        sanctionOrder = arguments?.getString("sanctionOrder").toString()
+        total_capacity = arguments?.getString("totalCapacity").toString().toInt()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
-
         init()
-
-        centerId = arguments?.getString("centerId").toString()
-        centerName = arguments?.getString("centerName").toString()
-        sanctionOrder = arguments?.getString("sanctionOrder").toString()
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         if (hasLocationPermission()) {
             getCurrentLocation()
@@ -349,12 +352,80 @@ class SrlmVerificationForm : Fragment() {
         collectAllRoomDetails()
         collectQTeamInsertRes()
 
-
-
+        binding.availOfStandardFormsLayout.etFinalTotalCapacity.apply {
+            setText(total_capacity.toString())
+            setSelection(text.length)
+        }
+        updatefinalCapacity()
         listener()
+    }
 
+    var isEditing = false
 
+    fun updatefinalCapacity() {
+        binding.availOfStandardFormsLayout.etFinalTotalCapacity.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
 
+                if (isEditing) return
+
+                val remarksField =
+                    binding.availOfStandardFormsLayout.etFinalCapacityRemarks
+
+                if (s.isNullOrEmpty()) {
+                    remarksField.visibility = View.GONE
+                    return
+                }
+
+                val value = s.toString().toIntOrNull() ?: return
+
+                if (value > total_capacity) {
+
+                    isEditing = true
+
+                    Toast.makeText(
+                        requireContext(),
+                        "Final capacity cannot exceed $total_capacity",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    binding.availOfStandardFormsLayout
+                        .etFinalTotalCapacity.setText(total_capacity.toString())
+
+                    binding.availOfStandardFormsLayout
+                        .etFinalTotalCapacity.setSelection(
+                            binding.availOfStandardFormsLayout
+                                .etFinalTotalCapacity.text.length
+                        )
+
+                    remarksField.visibility = View.GONE
+
+                    isEditing = false
+                    return
+                }
+
+                if (value < total_capacity) {
+                    remarksField.visibility = View.VISIBLE
+                }
+                else {
+                    remarksField.visibility = View.GONE
+                    remarksField.setText("")
+                }
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {}
+
+            override fun onTextChanged(
+                s: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {}
+        })
     }
 
 
@@ -418,8 +489,6 @@ class SrlmVerificationForm : Fragment() {
 
 
             when (room.roomType) {
-
-
                 "Theory Class Room" -> {
                     showProgressBar()
                     val binding = TheoryClassRoomBinding.inflate(layoutInflater)
@@ -532,9 +601,7 @@ class SrlmVerificationForm : Fragment() {
                                     showBase64ImageDialog(requireContext(), lightsImage, "Lights Image")
                                 }
 
-                                binding.valueFans.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), fansRoomImage, "Fans Image")
-                                }
+                                binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), fansRoomImage, "Fans Image") }
 
                                 binding.valuePowerBackup.setOnClickListener {
                                     showBase64ImageDialog(requireContext(), ecPowerBackupImage, "Power Backup Image")
@@ -927,7 +994,7 @@ class SrlmVerificationForm : Fragment() {
                                 binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerChairImage, "Trainer Chair") }
                                 binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerTableImage, "Trainer Table") }
                                 binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), data.lightsImage, "Lights") }
-                                binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), data.fansImage, "Fans") }
+                                binding.valueFans.setOnClickListener {showBase64ImageDialog(requireContext(),data.fansImage, "Fans") }
                                 binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup") }
                                 binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(requireContext(), data.airConditionRoomImage, "Air Conditioning") }
                                 binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "IT cum Domain Lab Photo") }
@@ -1221,6 +1288,7 @@ class SrlmVerificationForm : Fragment() {
 
                         binding.yesNoFans.text = safeText(fans)
                         binding.valueFans.setOnClickListener {
+                            // observeFansCount(fansRoomImage, "Fans")
                             showBase64ImageDialog(
                                 requireContext(),
                                 fansRoomImage,
@@ -1338,7 +1406,7 @@ class SrlmVerificationForm : Fragment() {
                                 binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerChairImage, "Trainer Chair") }
                                 binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerTableImage, "Trainer Table") }
                                 binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), data.lightsImage, "Lights") }
-                                binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), data.fansImage, "Fans") }
+                                binding.valueFans.setOnClickListener {showBase64ImageDialog(requireContext(), data.fansImage, "Fans") }
                                 binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup") }
                                 binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(requireContext(), data.airConditionRoomImage, "Air Conditioning") }
                                 binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "IT Lab Photo") }
@@ -1426,7 +1494,7 @@ class SrlmVerificationForm : Fragment() {
                                 binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerChairImage, "Trainer Chair") }
                                 binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(requireContext(), data.trainerTableImage, "Trainer Table") }
                                 binding.valueLights.setOnClickListener { showBase64ImageDialog(requireContext(), data.lightsImage, "Lights") }
-                                binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), data.fansImage, "Fans") }
+                                binding.valueFans.setOnClickListener { showBase64ImageDialog(requireContext(), data.fansImage, title = "Fans") }
                                 binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(requireContext(), data.ecPowerBackupImage, "Power Backup") }
                                 binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.roomsPhotographsImage, "Domain Lab Photo") }
                                 binding.valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(requireContext(), data.domainEquipmentImage, "Domain Related Equipment") }
@@ -2802,12 +2870,51 @@ class SrlmVerificationForm : Fragment() {
 
         binding.availOfStandardFormsLayout.btnAvailOfStandardFormsNext.setOnClickListener {
 
-            // 🔹 First: Run all validations
-            if (selectedTcAvailOfStandardFormApproval.isEmpty()) {
-                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
-                    .show()
+            val finalCapacityText = binding.availOfStandardFormsLayout.etFinalTotalCapacity.text.toString()
+            val remarksTotalCapacity=binding.availOfStandardFormsLayout.etFinalCapacityRemarks.text.toString()
+
+            if (finalCapacityText.isEmpty()) {
+                Toast.makeText(requireContext(), "Enter Final Capacity", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            val finalCapacity = finalCapacityText.toIntOrNull()
+
+            if (finalCapacity == null) {
+                Toast.makeText(requireContext(), "Invalid Capacity", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (finalCapacity > total_capacity) {
+                Toast.makeText(
+                    requireContext(),
+                    "Final Capacity cannot be greater than $total_capacity",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            if (finalCapacity < total_capacity) {
+
+                val remarks = binding.availOfStandardFormsLayout
+                    .etFinalCapacityRemarks.text.toString()
+
+                if (remarks.isBlank()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Please enter remarks for reduced capacity",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+            }
+
+            // 🔹 First: Run all validations
+            if (selectedTcAvailOfStandardFormApproval.isEmpty()) {
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT) .show()
+                return@setOnClickListener
+            }
+
 
             if (selectedTcAvailOfStandardFormApproval == "Send for modification") {
                 selectedTcAvailOfStandardFormRemarks =
@@ -2833,9 +2940,7 @@ class SrlmVerificationForm : Fragment() {
                     dialog.dismiss()
                 }
                 .setPositiveButton("Submit") { dialog, _ ->
-
                     //  Hit the insert API
-
                     val requestTcQTeamSubmit = TcQTeamInsertReq(
                         appVersion = BuildConfig.VERSION_NAME,
                         loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -2883,13 +2988,13 @@ class SrlmVerificationForm : Fragment() {
                         tcStandardFormRemark = selectedTcAvailOfStandardFormRemarks,
                         latitude = latValue,
                         longitude = langValue,
+                        tcCapacityBySrlm = finalCapacityText.toInt(),
+                        capacityRemark = remarksTotalCapacity
                     )
 
                     // Show progress bar
                     binding.progressBar.visibility = View.VISIBLE
                     viewLifecycleOwner.lifecycleScope.launch {
-                        // Call API
-
                         viewModel.insertSrlmVerification(requestTcQTeamSubmit)
                     }
 
@@ -3253,7 +3358,7 @@ class SrlmVerificationForm : Fragment() {
 
 
 
-                            binding.yesNoTrade.text= x.trade
+                            binding.yesNoTrade.text= x.tradeName
                             binding.yesNoNatureofTraining.text= x.trainingNature
                             binding.yesNoTradeAsPerProject.text= x.tradesAvailable
                             binding.yesNoIsTrainingPlanAvail.text= x.trainingPlan
@@ -3520,15 +3625,15 @@ class SrlmVerificationForm : Fragment() {
 
                         for (x in dataInfra) {
 
-                            electricPowerImage = x.ecPowerBackupImage.toString()
-                            installBiometricImage = x.biomatricDeviceInstallationImage.toString()
-                            installationCCTVImage = x.cctvMoniotrInstallImage.toString()
-                            storagePlaceSecuringDocImage = x.storageSecuringImage.toString()
-                            printerCumImage = x.printerScannerImage.toString()
-                            digitalCameraImage = x.digitalCameraImage.toString()
-                            grievanceImage = x.grievanceRegisterImage.toString()
-                            minimumEquipmentImage = x.minimumEquipmentImage.toString()
-                            directionBoardsImage = x.directionBoardImage.toString()
+                            electricPowerImage = x.ecPowerBackupImage.orEmptySafe()
+                            installBiometricImage = x.biomatricDeviceInstallationImage.orEmptySafe()
+                            installationCCTVImage = x.cctvMoniotrInstallImage.orEmptySafe()
+                            storagePlaceSecuringDocImage = x.storageSecuringImage.orEmptySafe()
+                            printerCumImage = x.printerScannerImage.orEmptySafe()
+                            digitalCameraImage = x.digitalCameraImage.orEmptySafe()
+                            grievanceImage = x.grievanceRegisterImage.orEmptySafe()
+                            minimumEquipmentImage = x.minimumEquipmentImage.orEmptySafe()
+                            directionBoardsImage = x.directionBoardImage.orEmptySafe()
 
 
 
@@ -3908,8 +4013,8 @@ class SrlmVerificationForm : Fragment() {
 
 
     private fun showBase64ImageDialog(context: Context ,
-        base64ImageString: String?,
-        title: String = "Image",
+                                      base64ImageString: String?,
+                                      title: String = "Image",
     ) {
         try {
             //val imageView = ImageView(context)
@@ -3935,7 +4040,7 @@ class SrlmVerificationForm : Fragment() {
             dialog.show(parentFragmentManager, "ImagePreviewDialog")
 
         } catch (e: Exception) {
-           Log.d("SrlmVerification",e.toString())
+            Log.d("SrlmVerification",e.toString())
         }
     }
 
@@ -3964,6 +4069,69 @@ class SrlmVerificationForm : Fragment() {
             progress?.dismiss()
         }
     }
+
+
+//    private fun observeFansCount(fansImage: String?,title: String) {
+//        viewModel.getFansCountAPI.removeObservers(viewLifecycleOwner)
+//        viewModel.getFansCountAPI.observe(viewLifecycleOwner) { result ->
+//            result.onSuccess {
+//                when (it.responseCode) {
+//                    200 -> {
+//                        showBase64ImageWithCountDialog(
+//                            base64ImageString=fansImage,
+//                            title=title,
+//                           count = "${it.facilityId}"
+//                        )
+//                    }
+//                    301 ->Toast.makeText(
+//                        requireContext(),
+//                        "Please upgrade your app first.",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//            result.onFailure {
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Something went wrong",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
+//    }
+
+    protected fun showBase64ImageWithCountDialog(
+        base64ImageString: String?,
+        title: String = "Image",
+        count: String = "",
+    ) {
+        try {
+            val bitmap: Bitmap? = if (!base64ImageString.isNullOrBlank()) {
+                try {
+                    val cleanBase64 = base64ImageString
+                        .replace("data:image/png;base64,", "")
+                        .replace("data:image/jpg;base64,", "")
+                        .replace("data:image/jpeg;base64,", "")
+                        .replace("\\s".toRegex(), "")
+
+                    val decodedBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
+                    BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                } catch (e: Exception) {
+                    null
+                }
+            } else {
+                null
+            }
+            val dialog = ImagePreviewDialogFragment.newInstance(title = title,bitmap= bitmap, count = count)
+            dialog.show(parentFragmentManager, "ImagePreviewDialog")
+
+        } catch (e: Exception) {
+
+        }
+    }
+
+
+
 }
 
 

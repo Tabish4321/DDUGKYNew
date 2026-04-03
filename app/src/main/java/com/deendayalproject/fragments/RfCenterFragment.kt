@@ -80,7 +80,7 @@ class RfCenterFragment : BaseFragment<FragmentRfCenterBinding>(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
-        viewModel.fetchRfList(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.fetchRfList(request, "")
     }
 
     private fun observeViewModel() {

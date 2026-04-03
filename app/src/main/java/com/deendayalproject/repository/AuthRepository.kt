@@ -12,17 +12,19 @@ import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.SaltRequest
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.network.AppUpdateNotifier
 import com.deendayalproject.util.AppUtil
 import com.google.gson.Gson
 
 class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
     suspend fun loginUser(request: LoginRequest): Result<LoginResponse> {
+
         return try {
             val saltResp = apiService.getSalt(SaltRequest(request.loginId))
-            val concatPassWord = saltResp.nonce.trim() + request.password.trim()
-            val saltedRequest = request.copy(
-                password = AppUtil.sha512Hash(concatPassWord)
-            )
+            val concatPassWord = saltResp.nonce.trim() +
+                    request. password.trim()
+            val saltedRequest = request.copy(password = AppUtil.sha512Hash(concatPassWord))
+
 
             if(saltResp.responseCode==404){
                 Toast.makeText(context.applicationContext, saltResp?.responseDesc ?: "Invalid Login ID.", Toast.LENGTH_SHORT).show()
@@ -31,15 +33,18 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
             val response = apiService.loginUser(saltedRequest)
             if (response.isSuccessful) {
                 val body = response.body()
-                if (body?.responseCode == 200 && !body.accessToken.isNullOrEmpty()) {
-                    Result.success(body)
-                } else if(body?.responseDesc == "DDUGKYUSERDESC"){
-                    Result.success(body)
-                }else {
-                    Result.failure(Exception(body?.responseDesc ?: "Login failed"))
+                when {
+                    body?.responseCode == 200 && body.accessToken.isNotEmpty() -> Result.success(body)
+                    body?.responseCode == 301 -> {
+                        AppUpdateNotifier.notifyUpdateRequired()
+                        Result.failure(Exception("Update Required"))
+                    }
+                    body?.responseDesc == "DDUGKYUSERDESC" -> Result.success(body)
+                    else -> Result.failure(Exception(body?.responseDesc ?: "Login failed"))
                 }
             } else {
                 val error = response.errorBody()?.string()
+
                 val errorResponse = Gson().fromJson(error, LoginErrorResponse::class.java)
                 Result.failure(Exception(errorResponse?.errorMsg ?: "Login failed"))
             }
@@ -60,5 +65,7 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
             apiService.logOutUser()
         }
     }
+
+
 
 }

@@ -22,7 +22,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 9
-        versionName = "1.3.9" //1.1.3 D,1.3.9 L
+        versionName = "1.1.3" //1.1.2 //1.2.9
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -65,7 +65,7 @@ android {
             dimension = "environment"
             applicationIdSuffix = ""
             versionNameSuffix = ""
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
         }//BASE_URL_DEMO
     }
 
@@ -196,6 +196,8 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:1.6.7")
 
 
+
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 }
 
 kapt {

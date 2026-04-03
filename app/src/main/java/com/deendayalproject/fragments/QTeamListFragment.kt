@@ -147,7 +147,7 @@ class QTeamListFragment : BaseFragment<FragmentQTeamListBinding>(
 
     private fun fetchTrainingCenters() {
         val loginId = AppUtil.getSavedLoginIdPreference(requireContext())
-        val token = AppUtil.getSavedTokenPreference(requireContext())
+        val token = ""
         val imeiNo = AppUtil.getAndroidId(requireContext())
 
         val request = TrainingCenterRequest(

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.model.request.*
 import com.deendayalproject.model.response.*
+import com.deendayalproject.network.UiState
 import com.deendayalproject.repository.repomanager.RepositoryManager
 import com.deendayalproject.uidai.ekyc.UidaiKycRequest
 import com.deendayalproject.uidai.ekyc.UidaiResp
@@ -353,6 +354,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _getToiletWashbasinDetails = MutableLiveData<Result<GetUrinalWashRes>>()
     val getToiletWashbasinDetails: LiveData<Result<GetUrinalWashRes>> = _getToiletWashbasinDetails
+
 
     private val _ToiletCountListView = MutableLiveData<Result<ToiletCountList>>()
     val ToiletCountListView: LiveData<Result<ToiletCountList>> = _ToiletCountListView
@@ -1290,6 +1292,43 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             resultLiveData = _getLogOutAPI
         )
     }
+
+
+
+
+//    private val _fansState = MutableLiveData<UiState>()
+//    val fansState: LiveData<UiState> = _fansState
+//
+//    fun getFansCount(base64: String) {
+//
+//        val request = FansCountReq(
+//            appVersion = BuildConfig.VERSION_NAME,
+//            fansAttachment = base64
+//        )
+//        _fansState.value = UiState.Loading
+//
+//        viewModelScope.launch {
+//
+//            val result = repositoryManager.location.getFansCountAPI(request)
+//
+//            if (result.isSuccess && result. != null) {
+//
+//                val data = result.body()!!
+//
+//                if (data.responseCode == 200) {
+//                    _fansState.value =
+//                        FansUiState.ShowResult(base64, data.facilityId)
+//                } else {
+//                    _fansState.value =
+//                        FansUiState.Error(data.responseDesc)
+//                }
+//
+//            } else {
+//                _fansState.value =
+//                    FansUiState.Error("API Failed")
+//            }
+//        }
+//    }
 
 
 

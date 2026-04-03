@@ -401,8 +401,6 @@ object AppUtil {
         sharedPreferences.edit().clear().apply()
     }
 
-
-    // Add this function to your class
     fun decodeBase64ToBitmap(base64Str: String?) =
         try {
             base64Str?.let {
@@ -412,6 +410,14 @@ object AppUtil {
         } catch (e: Exception) {
             null
         }
+
+    // Add this function to your class
+    fun convertUriToBase64(uri: Uri, context: Context): String {
+        val inputStream = context.contentResolver.openInputStream(uri)
+        val bytes = inputStream?.readBytes()
+        inputStream?.close()
+        return Base64.encodeToString(bytes, Base64.DEFAULT)
+    }
 
     fun getTimeZone(): String {
         return TimeZone.getDefault().id

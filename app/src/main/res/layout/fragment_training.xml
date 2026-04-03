@@ -695,6 +695,8 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+
+
         <!-- Card 3: Toilets & Wash Basins -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardToiletsWashBasins"
@@ -792,38 +794,36 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="8dp">
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofMaleToilets"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Male Toilets Proof"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnUploadProofMaleToilets"
                             style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="44dp"
-                            android:layout_weight="1"
                             android:text="@string/upload"
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="8dp"
                             app:icon="@drawable/ic_upload" />
-
-                        <ImageView
-                            android:id="@+id/ivPreviewProofMaleToilets"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginStart="16dp"
-                            android:background="@drawable/bg_image_preview"
-                            android:contentDescription="Preview Male Toilets Proof"
-                            android:scaleType="centerCrop"
-                            android:visibility="gone" />
                     </LinearLayout>
 
                     <!-- Proof of Male Toilets Signage -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="20dp"
                         android:text="Proof of Male Toilets Signage"
                         android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp"
@@ -833,15 +833,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="8dp">
+                        android:orientation="vertical">
 
                         <ImageView
                             android:id="@+id/ivPreviewProofMaleToiletsSignage"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginEnd="16dp"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="12dp"
                             android:background="@drawable/bg_image_preview"
                             android:contentDescription="Preview Male Toilets Signage Proof"
                             android:scaleType="centerCrop"
@@ -850,9 +849,8 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnUploadProofMaleToiletsSignage"
                             style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="44dp"
-                            android:layout_weight="1"
                             android:text="@string/upload"
                             android:textAllCaps="false"
                             android:textSize="14sp"
@@ -865,7 +863,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="20dp"
                         android:hint="Female Toilets (In No.)"
                         app:boxStrokeColor="?attr/colorPrimary"
                         app:hintTextColor="?attr/colorOnSurface">
@@ -893,38 +891,36 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="8dp">
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofFemaleToilets"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Female Toilets Proof"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnUploadProofFemaleToilets"
                             style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="44dp"
-                            android:layout_weight="1"
                             android:text="@string/upload"
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="8dp"
                             app:icon="@drawable/ic_upload" />
-
-                        <ImageView
-                            android:id="@+id/ivPreviewProofFemaleToilets"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginStart="16dp"
-                            android:background="@drawable/bg_image_preview"
-                            android:contentDescription="Preview Female Toilets Proof"
-                            android:scaleType="centerCrop"
-                            android:visibility="gone" />
                     </LinearLayout>
 
                     <!-- Proof of Female Toilets Signage -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="20dp"
                         android:text="Proof of Female Toilets Signage"
                         android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp"
@@ -934,31 +930,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="8dp">
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofFemaleToiletsSignage"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Female Toilets Signage Proof"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnUploadProofFemaleToiletsSignage"
                             style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="44dp"
-                            android:layout_weight="1"
                             android:text="@string/upload"
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="8dp"
                             app:icon="@drawable/ic_upload" />
-
-                        <ImageView
-                            android:id="@+id/ivPreviewProofFemaleToiletsSignage"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginStart="16dp"
-                            android:background="@drawable/bg_image_preview"
-                            android:contentDescription="Preview Female Toilets Signage Proof"
-                            android:scaleType="centerCrop"
-                            android:visibility="gone" />
                     </LinearLayout>
 
                     <!-- Male Urinals -->
@@ -966,7 +960,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="20dp"
                         android:hint="Male Urinals (In No.)"
                         app:boxStrokeColor="?attr/colorPrimary"
                         app:hintTextColor="?attr/colorOnSurface">
@@ -994,31 +988,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="8dp">
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofMaleUrinals"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Male Urinals Proof"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnUploadProofMaleUrinals"
                             style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="44dp"
-                            android:layout_weight="1"
                             android:text="@string/upload"
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="8dp"
                             app:icon="@drawable/ic_upload" />
-
-                        <ImageView
-                            android:id="@+id/ivPreviewProofMaleUrinals"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginStart="16dp"
-                            android:background="@drawable/bg_image_preview"
-                            android:contentDescription="Preview Male Urinals Proof"
-                            android:scaleType="centerCrop"
-                            android:visibility="gone" />
                     </LinearLayout>
 
                     <!-- Male Wash Basins -->
@@ -1026,7 +1018,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="20dp"
                         android:hint="Male Wash Basins (In No.)"
                         app:boxStrokeColor="?attr/colorPrimary"
                         app:hintTextColor="?attr/colorOnSurface">
@@ -1054,31 +1046,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="8dp">
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofMaleWashBasins"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Male Wash Basins Proof"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnUploadProofMaleWashBasins"
                             style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="44dp"
-                            android:layout_weight="1"
                             android:text="@string/upload"
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="8dp"
                             app:icon="@drawable/ic_upload" />
-
-                        <ImageView
-                            android:id="@+id/ivPreviewProofMaleWashBasins"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginStart="16dp"
-                            android:background="@drawable/bg_image_preview"
-                            android:contentDescription="Preview Male Wash Basins Proof"
-                            android:scaleType="centerCrop"
-                            android:visibility="gone" />
                     </LinearLayout>
 
                     <!-- Female Wash Basins -->
@@ -1086,7 +1076,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="20dp"
                         android:hint="Female Wash Basins (In No.)"
                         app:boxStrokeColor="?attr/colorPrimary"
                         app:hintTextColor="?attr/colorOnSurface">
@@ -1114,31 +1104,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="8dp">
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofFemaleWashBasins"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Female Wash Basins Proof"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnUploadProofFemaleWashBasins"
                             style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="44dp"
-                            android:layout_weight="1"
                             android:text="@string/upload"
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="8dp"
                             app:icon="@drawable/ic_upload" />
-
-                        <ImageView
-                            android:id="@+id/ivPreviewProofFemaleWashBasins"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginStart="16dp"
-                            android:background="@drawable/bg_image_preview"
-                            android:contentDescription="Preview Female Wash Basins Proof"
-                            android:scaleType="centerCrop"
-                            android:visibility="gone" />
                     </LinearLayout>
 
                     <!-- Overhead Tanks -->
@@ -1147,7 +1135,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="20dp"
                         android:hint="Overhead Tanks"
                         app:boxStrokeColor="?attr/colorPrimary"
                         app:endIconMode="dropdown_menu"
@@ -1165,31 +1153,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="8dp">
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofOverheadTanks"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Overhead Tanks Proof"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnUploadProofOverheadTanks"
                             style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="44dp"
-                            android:layout_weight="1"
                             android:text="@string/upload"
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="8dp"
                             app:icon="@drawable/ic_upload" />
-
-                        <ImageView
-                            android:id="@+id/ivPreviewProofOverheadTanks"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginStart="16dp"
-                            android:background="@drawable/bg_image_preview"
-                            android:contentDescription="Preview Overhead Tanks Proof"
-                            android:scaleType="centerCrop"
-                            android:visibility="gone" />
                     </LinearLayout>
 
                     <!-- Type of Flooring -->
@@ -1198,7 +1184,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="20dp"
                         android:hint="Type of Flooring"
                         app:boxStrokeColor="?attr/colorPrimary"
                         app:endIconMode="dropdown_menu"
@@ -1216,31 +1202,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="8dp">
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/ivPreviewProofFlooring"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/bg_image_preview"
+                            android:contentDescription="Preview Flooring Proof"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnUploadProofFlooring"
                             style="@style/Widget.Material3.Button.OutlinedButton"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="44dp"
-                            android:layout_weight="1"
                             android:text="@string/upload"
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="8dp"
                             app:icon="@drawable/ic_upload" />
-
-                        <ImageView
-                            android:id="@+id/ivPreviewProofFlooring"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginStart="16dp"
-                            android:background="@drawable/bg_image_preview"
-                            android:contentDescription="Preview Flooring Proof"
-                            android:scaleType="centerCrop"
-                            android:visibility="gone" />
                     </LinearLayout>
 
                     <!-- Submit Button -->
@@ -1249,7 +1233,7 @@
                         android:layout_width="220dp"
                         android:layout_height="52dp"
                         android:layout_gravity="center"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="28dp"
                         android:layout_marginBottom="8dp"
                         android:text="@string/submit"
                         android:textAllCaps="false"
@@ -1261,6 +1245,8 @@
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+
 
         <!-- Card 4: Common Equipment -->
         <com.google.android.material.card.MaterialCardView

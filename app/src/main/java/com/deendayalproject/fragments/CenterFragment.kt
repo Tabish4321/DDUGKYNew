@@ -96,7 +96,7 @@ class CenterFragment : BaseFragment<FragmentCenterBinding>(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
-        viewModel.fetchTrainingCenters(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.fetchTrainingCenters(request, "")
     }
 
     private fun observeViewModel() {

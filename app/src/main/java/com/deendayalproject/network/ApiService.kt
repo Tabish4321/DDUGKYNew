@@ -507,7 +507,7 @@ interface ApiService {
     @POST(value ="getRfInfraDetailsAndComliance")
     suspend fun getgetCompliancesRFQTReqRFQT(@Body request: CompliancesRFQTReq) : Response<InfrastructureDetailsandCompliancesRFQT>
 
-//    Ajit Ranjan create 24/October/2025  getRfLivingAreaInformation
+    //    Ajit Ranjan create 24/October/2025  getRfLivingAreaInformation
     @POST(value ="getRfLivingAreaInformation")
     suspend fun getRfLivingAreaInformation(@Body request: RfLivingAreaInformationRQ) : Response<RfLivingAreaInformationResponse>
 
@@ -575,7 +575,7 @@ interface ApiService {
 
 
 
-//    Ajit Ranjan create 03/Novmber/2025  getRfNonLivingAreaInformation
+    //    Ajit Ranjan create 03/Novmber/2025  getRfNonLivingAreaInformation
     @POST(value ="getRfNonLivingAreaInformation")
     suspend fun getRfNonLivingAreaInformation
                 (@Body request: LivingRoomListViewRQ) :
@@ -586,7 +586,7 @@ interface ApiService {
 
 
 
-//    Ajit Ranjan create 04/Novmber/2025  getRfIndoorGameDetails
+    //    Ajit Ranjan create 04/Novmber/2025  getRfIndoorGameDetails
     @POST(value ="getRfIndoorGameDetails")
     suspend fun getRfIndoorGameDetails
                 (@Body request: RFGameRequest) :
@@ -655,7 +655,7 @@ interface ApiService {
             Response<ModifyRFRes>
 
 
-//    Ajit Ranjan create 17/Nov/2025  getToiletCountList
+    //    Ajit Ranjan create 17/Nov/2025  getToiletCountList
     @POST(value ="getToiletCountList")
     suspend fun getToiletCountList
                 (@Body request: ToiletCountListReq) :
@@ -985,11 +985,9 @@ interface ApiService {
     ): Response<BaseResponse<List<PreviousInspectionObservationDto>>>
 
 
-@POST("insertInspectionFinalDetails")
-suspend fun insertInspectionFinalDetails(
-    @Body request: InsertInspectionFinalDetailsRequest
-): Response<InsertInspectionFinalDetailsResponse>
-
-
+    @POST("insertInspectionFinalDetails")
+    suspend fun insertInspectionFinalDetails(
+        @Body request: InsertInspectionFinalDetailsRequest
+    ): Response<InsertInspectionFinalDetailsResponse>
 
 }

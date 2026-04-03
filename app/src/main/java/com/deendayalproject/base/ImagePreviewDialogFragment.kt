@@ -13,12 +13,14 @@ class ImagePreviewDialogFragment : DialogFragment() {
 
     companion object {
         private const val ARG_TITLE = "title"
+        private const val ARG_COUNT = "count"
         private const val ARG_BITMAP = "bitmap"
 
-        fun newInstance(title: String, bitmap: Bitmap?): ImagePreviewDialogFragment {
+        fun newInstance(title: String, bitmap: Bitmap?,count:String=""): ImagePreviewDialogFragment {
             return ImagePreviewDialogFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_TITLE, title)
+                    putString(ARG_COUNT, count)
                     putParcelable(ARG_BITMAP, bitmap)
                 }
             }
@@ -41,6 +43,8 @@ class ImagePreviewDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val title = arguments?.getString(ARG_TITLE) ?: ""
+        val count = arguments?.getString(ARG_COUNT) ?: ""
+
         val bitmap = arguments?.getParcelable<Bitmap>(ARG_BITMAP)
         binding.textViewTitle.text = title
         if (bitmap != null) {
@@ -49,6 +53,11 @@ class ImagePreviewDialogFragment : DialogFragment() {
         } else {
             binding.textNoImage.visibility = View.VISIBLE
             binding.imageViewPreview.setImageResource(R.drawable.no_data)
+        }
+
+        if(count.isNotEmpty() && !count.isBlank()){
+            binding.tvCount.visibility = View.VISIBLE
+            binding.tvCount.text = count
         }
         binding.buttonClose.setOnClickListener {
             dismiss()

@@ -11,11 +11,15 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.content.FileProvider
@@ -31,9 +35,11 @@ import androidx.viewbinding.ViewBinding
 import com.deendayalproject.R
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.ModernProgressDialog
+//import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.FileOutputStream
 
 abstract class BaseFragment<VB : ViewBinding>(
     private val bindingInflater: (inflater: LayoutInflater) -> VB
@@ -65,13 +71,12 @@ abstract class BaseFragment<VB : ViewBinding>(
         requireActivity().window.setSoftInputMode(
             SOFT_INPUT_ADJUST_RESIZE
         )
+        //Log.d("FRAGMENT NAME", "")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
 
         // Log fragment creation for crash analytics
         logFragmentEvent("Fragment_Created", this::class.java.simpleName)
@@ -100,6 +105,7 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     // ==================== MODERN PROGRESS DIALOG ====================
 
+
     @RequiresApi(Build.VERSION_CODES.R)
     @SuppressLint("WrongConstant")
     fun hideStatusBar() {
@@ -113,9 +119,6 @@ abstract class BaseFragment<VB : ViewBinding>(
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
     }
-
-
-
 
     protected fun showProgressDialog(message: String? = null, cancelable: Boolean = false) {
         try {
@@ -423,6 +426,36 @@ abstract class BaseFragment<VB : ViewBinding>(
             }
 
             val dialog = ImagePreviewDialogFragment.newInstance(title, bitmap)
+            dialog.show(parentFragmentManager, "ImagePreviewDialog")
+
+        } catch (e: Exception) {
+            logCrashlyticsError("showBase64ImageDialog", e)
+        }
+    }
+
+    protected fun showBase64ImageWithCountDialog(
+        base64ImageString: String?,
+        title: String = "Image",
+        count: String = "",
+    ) {
+        try {
+            val bitmap: Bitmap? = if (!base64ImageString.isNullOrBlank()) {
+                try {
+                    val cleanBase64 = base64ImageString
+                        .replace("data:image/png;base64,", "")
+                        .replace("data:image/jpg;base64,", "")
+                        .replace("data:image/jpeg;base64,", "")
+                        .replace("\\s".toRegex(), "")
+
+                    val decodedBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
+                    BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+                } catch (e: Exception) {
+                    null
+                }
+            } else {
+                null
+            }
+            val dialog = ImagePreviewDialogFragment.newInstance(title = title,bitmap= bitmap, count = count)
             dialog.show(parentFragmentManager, "ImagePreviewDialog")
 
         } catch (e: Exception) {

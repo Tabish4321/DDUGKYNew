@@ -167,6 +167,9 @@
             <argument
                 android:name="sanctionOrder"
                 app:argType="string"/>
+            <argument
+                android:name="totalCapacity"
+                app:argType="string"/>
 
         </action>
 

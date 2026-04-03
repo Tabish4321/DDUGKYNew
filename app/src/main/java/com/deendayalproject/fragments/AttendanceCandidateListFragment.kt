@@ -22,63 +22,63 @@ import kotlin.getValue
 
 
 class AttendanceCandidateListFragment : BaseFragment<FragmentAttendanceCandidateListBinding>(
-        FragmentAttendanceCandidateListBinding::inflate
-    ) {
-        private lateinit var viewModel: SharedViewModel
+    FragmentAttendanceCandidateListBinding::inflate
+) {
+    private lateinit var viewModel: SharedViewModel
 
-        private lateinit var candidateListAdapter: AttendanceCandidateAdapter
-        private var AttendanceCandidateList = mutableListOf<Candidate>()
+    private lateinit var candidateListAdapter: AttendanceCandidateAdapter
+    private var AttendanceCandidateList = mutableListOf<Candidate>()
 
-        private var batchId = 0
-        private var batchName = ""
-        private var batchRegNo = ""
-
-
-
-        override fun initializeViews() {
-            viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+    private var batchId = 0
+    private var batchName = ""
+    private var batchRegNo = ""
 
 
 
-            batchId = arguments?.getInt("batchId",0)!!
-            batchName = arguments?.getString("batchName").toString()
-            batchRegNo = arguments?.getString("batchRegNo").toString()
-
-            setupRecyclerView()
-            collectCandidateListRes()
-
-            viewModel.getAttendanceCandidateListAPI(
-                AttendanceCandidateListReq(batchId,
-                    BuildConfig.VERSION_NAME
-                ), AppUtil.getSavedTokenPreference(requireContext())
-            )
-
-            showProgressDialog("Loading...")
+    override fun initializeViews() {
+        viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
 
+
+        batchId = arguments?.getInt("batchId",0)!!
+        batchName = arguments?.getString("batchName").toString()
+        batchRegNo = arguments?.getString("batchRegNo").toString()
+
+        setupRecyclerView()
+        collectCandidateListRes()
+
+        viewModel.getAttendanceCandidateListAPI(
+            AttendanceCandidateListReq(batchId,
+                BuildConfig.VERSION_NAME
+            ), ""
+        )
+
+        showProgressDialog("Loading...")
+
+
+    }
+
+    override fun setupObservers() {
+    }
+
+    override fun setupClickListeners() {
+
+        binding.toolbar.btnBack.setOnClickListener {
+
+            findNavController().navigateUp()
         }
+        binding.toolbar.tvTitle.text= "Candidate List"
+    }
 
-        override fun setupObservers() {
-        }
+    override fun loadInitialData() {
+    }
 
-        override fun setupClickListeners() {
+    private fun setupRecyclerView() {
 
-            binding.toolbar.btnBack.setOnClickListener {
-
-                findNavController().navigateUp()
-            }
-            binding.toolbar.tvTitle.text= "Candidate List"
-        }
-
-        override fun loadInitialData() {
-        }
-
-        private fun setupRecyclerView() {
-
-            candidateListAdapter = AttendanceCandidateAdapter(AttendanceCandidateList, candidateRegNo = batchRegNo)
-            binding.recyclerViewCandidates.layoutManager = LinearLayoutManager(requireContext())
-            binding.recyclerViewCandidates.adapter = candidateListAdapter
-        }
+        candidateListAdapter = AttendanceCandidateAdapter(AttendanceCandidateList, candidateRegNo = batchRegNo)
+        binding.recyclerViewCandidates.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewCandidates.adapter = candidateListAdapter
+    }
 
     private fun collectCandidateListRes() {
         lifecycleScope.launch {

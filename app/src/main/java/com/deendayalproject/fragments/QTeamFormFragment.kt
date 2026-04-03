@@ -511,6 +511,38 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
     }
 
 
+//    private fun observeFansCount(fansImage: String,title: String) {
+//        viewModel.getFansCountAPI.removeObservers(viewLifecycleOwner)
+//        viewModel.getFansCountAPI.observe(viewLifecycleOwner) { result ->
+//            result.onSuccess {
+//                when (it.responseCode) {
+//                    200 -> {
+//                        showBase64ImageWithCountDialog(
+//                            base64ImageString=fansImage,
+//                          title =   title,
+//                            count = "${it.facilityId}"
+//                        )
+//                    }
+//                    301 ->Toast.makeText(
+//                        requireContext(),
+//                        "Please upgrade your app first.",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//            result.onFailure {
+//                Toast.makeText(
+//                    requireContext(),
+//                     "Something went wrong",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
+//    }
+
+
+
+
 
 
     private fun setupImageClickListeners() {
@@ -526,7 +558,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.valueTypeOfFlooring.setOnClickListener { showBase64ImageDialog(typeOfFlooringImage, "Type of Flooring") }
 
         // Desc area images
-        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
+        binding.valueFans.setOnClickListener {showBase64ImageDialog(fansImage, "Fans")} // observeFansCount(fansImage = fansImage, title = "Fans") } // showBase64ImageDialog(fansImage, "Fans")
         binding.valueCirculationArea.setOnClickListener { showBase64ImageDialog(circulationAreaImage, "Circulation Area") }
         binding.valueOpenSpace.setOnClickListener { showBase64ImageDialog(openSpaceImage, "Open Space") }
         binding.valueParking.setOnClickListener { showBase64ImageDialog(parkingSpaceImage, "Parking Space") }
@@ -543,6 +575,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.valueSwitchBoard.setOnClickListener { showBase64ImageDialog(switchBoardImage, "Switch Board") }
 
         // Signage images
+
         binding.signageLayout.valueCenterNameBoard.setOnClickListener { showBase64ImageDialog(tcNameBoardImage, "Training Center Name Board") }
         binding.signageLayout.valueSummaryAcheivement.setOnClickListener { showBase64ImageDialog(activitySummaryBoardImage, "Activity Summary Achievement") }
         binding.signageLayout.valueStudentEntitlement.setOnClickListener { showBase64ImageDialog(studentEntitlementBoardImage, "Student Entitlement Board") }
@@ -608,31 +641,31 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
     private fun setupNavigationButtons() {
         binding.apply {
-           trainingCenterInfoLayout.btnInfoNext.setOnClickListener { handleInfoNext() }
-           btnInfraNext.setOnClickListener { handleInfraNext() }
-           btnInfraPrevious.setOnClickListener { handleInfraPrevious() }
-           btnDescAcademiaNext.setOnClickListener { handleDescAcademiaNext() }
-           btnDescAcademiaPrevious.setOnClickListener { handleDescAcademiaPrevious() }
-           btnBasinNext.setOnClickListener { handleBasinNext() }
-           btnBasinPrevious.setOnClickListener { handleBasinPrevious() }
-           btnDescOtherAreaNext.setOnClickListener { handleDescOtherAreaNext() }
-           btnDescOtherAreaPrevious.setOnClickListener { handleDescOtherAreaPrevious() }
-           btnTeachingNext.setOnClickListener { handleTeachingNext() }
-           btnTeachingPrevious.setOnClickListener { handleTeachingPrevious() }
-           btnGeneralNext.setOnClickListener { handleGeneralNext() }
-           btnGeneralPrevious.setOnClickListener { handleGeneralPrevious() }
-           btnElectricalNext.setOnClickListener { handleElectricalNext() }
-           btnElectricalPrevious.setOnClickListener { handleElectricalPrevious() }
-           signageLayout.btnSignageNext.setOnClickListener { handleSignageNext() }
-           signageLayout.btnSignagePrevious.setOnClickListener { handleSignagePrevious() }
-           ipCameraLayout.btnIpEnableNext.setOnClickListener { handleIpEnableNext() }
-           ipCameraLayout.btnIpEnablePrevious.setOnClickListener { handleIpEnablePrevious() }
-           commonEquipmentLayout.btnCommonEquipmentNext.setOnClickListener { handleCommonEquipmentNext() }
-           commonEquipmentLayout.btnCommonEquipmentPrevious.setOnClickListener { handleCommonEquipmentPrevious() }
-           availSupportInfraLayout.btnAvailSupportInfraNext.setOnClickListener { handleAvailSupportInfraNext() }
-           availSupportInfraLayout.btnAvailSupportInfraPrevious.setOnClickListener { handleAvailSupportInfraPrevious() }
-           availOfStandardFormsLayout.btnAvailOfStandardFormsNext.setOnClickListener { handleAvailOfStandardFormsNext() }
-           availOfStandardFormsLayout.btnAvailOfStandardFormsPrevious.setOnClickListener { handleAvailOfStandardFormsPrevious() }  }
+            trainingCenterInfoLayout.btnInfoNext.setOnClickListener { handleInfoNext() }
+            btnInfraNext.setOnClickListener { handleInfraNext() }
+            btnInfraPrevious.setOnClickListener { handleInfraPrevious() }
+            btnDescAcademiaNext.setOnClickListener { handleDescAcademiaNext() }
+            btnDescAcademiaPrevious.setOnClickListener { handleDescAcademiaPrevious() }
+            btnBasinNext.setOnClickListener { handleBasinNext() }
+            btnBasinPrevious.setOnClickListener { handleBasinPrevious() }
+            btnDescOtherAreaNext.setOnClickListener { handleDescOtherAreaNext() }
+            btnDescOtherAreaPrevious.setOnClickListener { handleDescOtherAreaPrevious() }
+            btnTeachingNext.setOnClickListener { handleTeachingNext() }
+            btnTeachingPrevious.setOnClickListener { handleTeachingPrevious() }
+            btnGeneralNext.setOnClickListener { handleGeneralNext() }
+            btnGeneralPrevious.setOnClickListener { handleGeneralPrevious() }
+            btnElectricalNext.setOnClickListener { handleElectricalNext() }
+            btnElectricalPrevious.setOnClickListener { handleElectricalPrevious() }
+            signageLayout.btnSignageNext.setOnClickListener { handleSignageNext() }
+            signageLayout.btnSignagePrevious.setOnClickListener { handleSignagePrevious() }
+            ipCameraLayout.btnIpEnableNext.setOnClickListener { handleIpEnableNext() }
+            ipCameraLayout.btnIpEnablePrevious.setOnClickListener { handleIpEnablePrevious() }
+            commonEquipmentLayout.btnCommonEquipmentNext.setOnClickListener { handleCommonEquipmentNext() }
+            commonEquipmentLayout.btnCommonEquipmentPrevious.setOnClickListener { handleCommonEquipmentPrevious() }
+            availSupportInfraLayout.btnAvailSupportInfraNext.setOnClickListener { handleAvailSupportInfraNext() }
+            availSupportInfraLayout.btnAvailSupportInfraPrevious.setOnClickListener { handleAvailSupportInfraPrevious() }
+            availOfStandardFormsLayout.btnAvailOfStandardFormsNext.setOnClickListener { handleAvailOfStandardFormsNext() }
+            availOfStandardFormsLayout.btnAvailOfStandardFormsPrevious.setOnClickListener { handleAvailOfStandardFormsPrevious() }  }
     }
 
     private fun handleInfoNext() {
@@ -1156,7 +1189,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
                 if (location != null) {
-                   // binding.basicInfoInclude?.tvLatLang?.text = location.latitude.toString() + "," + location.longitude.toString()
+                    // binding.basicInfoInclude?.tvLatLang?.text = location.latitude.toString() + "," + location.longitude.toString()
                     latValue = location.latitude.toString()
                     langValue = location.longitude.toString()
                 } else {
@@ -1237,7 +1270,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 val data = response.wrappedList.firstOrNull()
                 if (data != null) {
                     binding.apply {
-                       yesNoTypeOfRoof.text = safeText(data.roofType)
+                        yesNoTypeOfRoof.text = safeText(data.roofType)
                         yesNoFalseCeiling.text = safeText(data.falseCeiling)
                         yesNoHeightCeiling.text = safeText(data.ceilingHeight.toString())
                         yesNoVentilationArea.text = safeText(data.ventilationArea.toString())
@@ -1603,7 +1636,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
         binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
         binding.valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
-        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
+        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") } //showBase64ImageDialog(fansImage, "Fans") }
         binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
         binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
         binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "IT cum Domain Lab Photo") }
@@ -1782,7 +1815,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
         binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
         binding.valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
-        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") }
+        binding.valueFans.setOnClickListener {showBase64ImageDialog(fansImage, title = "Fans") }// showBase64ImageDialog(fansImage, "Fans") }
         binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
         binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
         binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "IT Lab Photo") }
@@ -1857,29 +1890,30 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 
     private fun setupDomainLabImageClicks(binding: DomainLabLayoutBinding, data: Any) {
         binding.apply {
-           valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Type of Roof") }
-           valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
-           valueHeightCeiling.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Height of Ceiling") }
-           valueVentilationArea.setOnClickListener { showBase64ImageDialog(ventilationAreaImage, "Ventilation Area") }
-           valueSoundLevel.setOnClickListener { showBase64ImageDialog(soundLevelImage, "Sound Level") }
-           valueSoundProofAC.setOnClickListener { showBase64ImageDialog(centerSoundProofImage, "Sound Proof & AC") }
-           valueInfoBoard.setOnClickListener { showBase64ImageDialog(roomInfoBoardImage, "Room Info Board") }
-           valueInternalSignage.setOnClickListener { showBase64ImageDialog(internalSignageImage, "Internal Signage") }
-           valueCCTV.setOnClickListener { showBase64ImageDialog(audioCameraImage, "CCTV & Audio") }
-           valueLCDComputers.setOnClickListener { showBase64ImageDialog(lanEnabledImage, "LAN / LCD Digital Projector") }
-           valueChairForCan.setOnClickListener { showBase64ImageDialog(candidateChairImage, "Chair for Candidates") }
-           valueWritingBoard.setOnClickListener { showBase64ImageDialog(writingBoardImage, "Writing Board") }
-           valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
-           valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
-           valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
-           valueFans.setOnClickListener { showBase64ImageDialog(fansRoomImage, "Fans") }
-           valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
-           valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "Domain Lab Photo") }
-           valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(domainEquipmentImage, "Domain Related Equipment") }
-           valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
+            valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Type of Roof") }
+            valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
+            valueHeightCeiling.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Height of Ceiling") }
+            valueVentilationArea.setOnClickListener { showBase64ImageDialog(ventilationAreaImage, "Ventilation Area") }
+            valueSoundLevel.setOnClickListener { showBase64ImageDialog(soundLevelImage, "Sound Level") }
+            valueSoundProofAC.setOnClickListener { showBase64ImageDialog(centerSoundProofImage, "Sound Proof & AC") }
+            valueInfoBoard.setOnClickListener { showBase64ImageDialog(roomInfoBoardImage, "Room Info Board") }
+            valueInternalSignage.setOnClickListener { showBase64ImageDialog(internalSignageImage, "Internal Signage") }
+            valueCCTV.setOnClickListener { showBase64ImageDialog(audioCameraImage, "CCTV & Audio") }
+            valueLCDComputers.setOnClickListener { showBase64ImageDialog(lanEnabledImage, "LAN / LCD Digital Projector") }
+            valueChairForCan.setOnClickListener { showBase64ImageDialog(candidateChairImage, "Chair for Candidates") }
+            valueWritingBoard.setOnClickListener { showBase64ImageDialog(writingBoardImage, "Writing Board") }
+            valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
+            valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
+            valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
+            valueFans.setOnClickListener { showBase64ImageDialog(fansRoomImage, "Fans") }
+            valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
+            valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "Domain Lab Photo") }
+            valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(domainEquipmentImage, "Domain Related Equipment") }
+            valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
         }
 
     }
+
 
     private fun showTheoryCumDomainLabDialog(room: RoomItem) {
         showProgressDialog()
@@ -1889,7 +1923,6 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             .create()
         dialog.show()
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-
 
         val requestTcRoomDetails = AllRoomDetaisReques(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -1909,29 +1942,28 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                 val data = response.wrappedList.firstOrNull()
                 if (data != null) {
                     binding.apply {
-                       yesNoTypeOfRoof.text = safeText(data.roofType)
-                       yesNoFalseCeiling.text = safeText(data.falseCeiling)
-                       yesNoHeightCeiling.text = safeText(data.ceilingHeight)
-                       yesNoVentilationArea.text = safeText(data.ventilationArea)
-
-                       yesNoSoundLevel.text = safeText(data.soundLevel)
-                       yesNoSoundProofAC.text = safeText(data.centerSoundProof)
-                       yesNoInfoBoard.text = safeText(data.roomInfoBoard)
-                       yesNoInternalSignage.text = safeText(data.internalSignage)
-                       yesNoCCTV.text = safeText(data.audioCamera)
-                       yesNoLANComputers.text = safeText(data.lanEnabled)
-                       yesNoInternet.text = safeText(data.internetConnection)
-                       yesNoTypingTutor.text = safeText(data.typingTuterComp)
-                       yesNoTablets.text = safeText(data.tablet)
-                       yesNoStools.text = safeText(data.candidateChair)
-                       yesNoTrainerChair.text = safeText(data.trainerChair)
-                       yesNoTrainerTable.text = safeText(data.trainerTable)
-                       yesNoLights.text = safeText(data.lights)
-                       yesNoFans.text = safeText(data.fans)
-                       yesNoPowerBackup.text = safeText(data.ecPowerBackup)
-                       yesNoLabPhoto.text = safeText(data.roomsPhotographs)
-                       yesNodomainrelatedequipPhoto.text = safeText(data.domainEquipment)
-                       yesNoAirConditioning.text = safeText(data.airConditionRoom)
+                        yesNoTypeOfRoof.text = safeText(data.roofType)
+                        yesNoFalseCeiling.text = safeText(data.falseCeiling)
+                        yesNoHeightCeiling.text = safeText(data.ceilingHeight)
+                        yesNoVentilationArea.text = safeText(data.ventilationArea)
+                        yesNoSoundLevel.text = safeText(data.soundLevel)
+                        yesNoSoundProofAC.text = safeText(data.centerSoundProof)
+                        yesNoInfoBoard.text = safeText(data.roomInfoBoard)
+                        yesNoInternalSignage.text = safeText(data.internalSignage)
+                        yesNoCCTV.text = safeText(data.audioCamera)
+                        yesNoLANComputers.text = safeText(data.lanEnabled)
+                        yesNoInternet.text = safeText(data.internetConnection)
+                        yesNoTypingTutor.text = safeText(data.typingTuterComp)
+                        yesNoTablets.text = safeText(data.tablet)
+                        yesNoStools.text = safeText(data.candidateChair)
+                        yesNoTrainerChair.text = safeText(data.trainerChair)
+                        yesNoTrainerTable.text = safeText(data.trainerTable)
+                        yesNoLights.text = safeText(data.lights)
+                        yesNoFans.text = safeText(data.fans)
+                        yesNoPowerBackup.text = safeText(data.ecPowerBackup)
+                        yesNoLabPhoto.text = safeText(data.roomsPhotographs)
+                        yesNodomainrelatedequipPhoto.text = safeText(data.domainEquipment)
+                        yesNoAirConditioning.text = safeText(data.airConditionRoom)
                     }
 
 
@@ -2168,15 +2200,15 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                     onSuccess = { data ->
                         data?.forEach { x ->
                             binding.apply {
-                               valueCorridorNo.text = x.corridorNo
-                               valueLenghth.text = x.length
-                               valueWidth.text = x.width
-                               valueArea.text = x.areas
-                               valueLights.text = x.numberOfLights
-                               yesNoFans.text = x.numberOfFans
-                               yesNoCirculationArea.text = x.circulationArea
-                               yesNoOpenSpace.text = x.openSpace
-                               yesNoParking.text = x.parkingSpace
+                                valueCorridorNo.text = x.corridorNo
+                                valueLenghth.text = x.length
+                                valueWidth.text = x.width
+                                valueArea.text = x.areas
+                                valueLights.text = x.numberOfLights
+                                yesNoFans.text = x.numberOfFans
+                                yesNoCirculationArea.text = x.circulationArea
+                                yesNoOpenSpace.text = x.openSpace
+                                yesNoParking.text = x.parkingSpace
                             }
 
                             fansImage = x.descProofImagePath.toString()
@@ -2201,17 +2233,17 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                     data = it.wrappedList,
                     onSuccess = { data ->
                         data?.forEach { x ->
-                          binding.apply {
-                              yesNoTrade.text = x.trade
-                              yesNoNatureofTraining.text = x.trainingNature
-                              yesNoTradeAsPerProject.text = x.tradesAvailable
-                              yesNoIsTrainingPlanAvail.text = x.trainingPlan
-                              yesNoIsDomainCirAvail.text = x.domainCurriculum
-                              yesNoIsActivityCumLess.text = x.availableACLP
-                              yesNoIsWelcomeKitAvail.text = x.welcomeKit
-                              yesNoNameOfCertifyingAg.text = x.certifingAgencyName
-                              yesNoAssessmentMaterial.text = x.assessmentMaterial
-                          }
+                            binding.apply {
+                                yesNoTrade.text = x.tradeName
+                                yesNoNatureofTraining.text = x.trainingNature
+                                yesNoTradeAsPerProject.text = x.tradesAvailable
+                                yesNoIsTrainingPlanAvail.text = x.trainingPlan
+                                yesNoIsDomainCirAvail.text = x.domainCurriculum
+                                yesNoIsActivityCumLess.text = x.availableACLP
+                                yesNoIsWelcomeKitAvail.text = x.welcomeKit
+                                yesNoNameOfCertifyingAg.text = x.certifingAgencyName
+                                yesNoAssessmentMaterial.text = x.assessmentMaterial
+                            }
 
                             welcomeKitImage = x.welcomeKitPdf
                         }

@@ -1,7 +1,6 @@
 package com.deendayalproject.fragments
 
 import SharedViewModel
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
@@ -27,21 +25,24 @@ import com.deendayalproject.databinding.NavigationHeaderBinding
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.response.Form
 import com.deendayalproject.model.response.Module
+import com.deendayalproject.network.SecurePreferenceManager.clearToken
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.NoDataHelper
 import com.deendayalproject.util.ProgressDialogUtil
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(
-bindingInflater = FragmentHomeBinding::inflate
+    bindingInflater = FragmentHomeBinding::inflate
 ) {
+    //Risi tsting
 
 
     private lateinit var viewModel: SharedViewModel
+    // private lateinit var batchAdapter: BaseRecyclerAdapter<AttendanceBatch, AttendanceBatchLayoutBinding>
 
     private lateinit var adapter: BaseRecyclerAdapter<Module,ItemModuleBinding>
 
 
-    // ------------------- UI Setup ------------------------
+    // ------------------- UI Setup ----------------------
 
     private fun setupNavHeader() {
         setupToolbar(
@@ -61,26 +62,44 @@ bindingInflater = FragmentHomeBinding::inflate
     }
 
     private fun setupDrawerClicks() {
-
-
         binding.navigationView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_logout -> {
-                    Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show()
-                    AppUtil.saveLoginStatus(requireContext(), false)
 
-                    findNavController().navigate(
-                        R.id.fragmentLogin,
-                        null,
-                        androidx.navigation.NavOptions.Builder()
-                            .setPopUpTo(findNavController().graph.startDestinationId, true)
-                            .build()
-                    )
-
+                    viewModel.getLogOutAPI( "")
+                    viewModel.modules.observe(viewLifecycleOwner) { response ->
+                        response.onSuccess { result ->
+                            when (result.responseCode) {
+                                200 -> {
+                                    Toast.makeText(requireContext(), "Logged out", Toast.LENGTH_SHORT).show()
+                                    AppUtil.saveLoginStatus(requireContext(), false)
+                                    clearToken(requireContext())
+                                    findNavController().navigate(
+                                        R.id.fragmentLogin,
+                                        null,
+                                        androidx.navigation.NavOptions.Builder()
+                                            .setPopUpTo(findNavController().graph.startDestinationId, true)
+                                            .build()
+                                    )
+                                }
+                                301 ->Toast.makeText(
+                                    requireContext(),
+                                    "Please upgrade your app first.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        response.onFailure {
+                            Toast.makeText(
+                                requireContext(),
+                                "Something went wrong. Try again.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     true
                 }
-
                 else -> false
             }
         }
@@ -112,14 +131,14 @@ bindingInflater = FragmentHomeBinding::inflate
         adapter.notifyDataSetChanged()
     }
     private fun setupRecycler() {
-         adapter = BaseRecyclerAdapter(
+        adapter = BaseRecyclerAdapter(
             items = emptyList<Module>(),
             bindingInflater = ItemModuleBinding::inflate,
             onBind = { module, binding, position ->
 
                 binding.tvModuleName.text = module.moduleName
 
-              //  var  lists = List(4) { module.forms }.flatten() // for testing
+                //  var  lists = List(4) { module.forms }.flatten() // for testing
 
                 // Set up nested form adapter
                 val formAdapter = BaseRecyclerAdapter(
@@ -149,14 +168,21 @@ bindingInflater = FragmentHomeBinding::inflate
                 }
             },
             diffChecker = { old, new -> old.id == new.id },
-             recyclerViewParent = binding.container,
-             noDataTitle = "No modules available for your account",
-             noDataDescription = ""
+            recyclerViewParent = binding.container,
+            noDataTitle = "No modules available for your account",
+            noDataDescription = ""
         )
         binding.rvModules.layoutManager = LinearLayoutManager(requireContext())
         binding.rvModules.adapter = adapter
 
-
+//        adapter = ModuleAdapter(emptyList()) { form: Form ->
+//            handleFormClick(form)
+//        }
+//
+//        binding.rvModules.apply {
+//            layoutManager = LinearLayoutManager(requireContext())
+//            adapter = this@HomeFragment.adapter
+//        }
     }
 
     private fun handleFormClick(form: Form) {
@@ -199,7 +225,7 @@ bindingInflater = FragmentHomeBinding::inflate
 
     private fun fetchModules() {
         val loginId = AppUtil.getSavedLoginIdPreference(requireContext())
-        val token = AppUtil.getSavedTokenPreference(requireContext())
+        val token ="" //AppUtil.getSavedTokenPreference(requireContext())
 
         val request = ModulesRequest(
             loginId = loginId,
@@ -220,18 +246,18 @@ bindingInflater = FragmentHomeBinding::inflate
                 handleApiResponse(responseCode = result.responseCode,
                     result.wrappedList,
                     onSuccess = {
-               // val updated = emptyList<Module>() // for testing
+                        // val updated = emptyList<Module>() // for testing
                         val updated = result.wrappedList?.map { module ->
-                    module.isExpanded = false
-                    module
-                    } ?: emptyList()
-                     adapter.update(updated)
+                            module.isExpanded = false
+                            module
+                        } ?: emptyList()
+                        adapter.update(updated)
                         adapter.notifyDataSetChanged()
 
                         if (updated.isEmpty()) {
                             showToast("No modules available for your account")
                         }
-                 },
+                    },
                     onSessionExpired = { AppUtil.showSessionExpiredDialog(findNavController(), requireContext())},
                 )
             }
@@ -261,14 +287,12 @@ bindingInflater = FragmentHomeBinding::inflate
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.R)
     override fun initializeViews() {
         Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━HomeFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
-        hideStatusBar()
         setupNavHeader()
         setupViewModel()
-        }
+    }
 
     override fun setupObservers() {
         observeViewModel()

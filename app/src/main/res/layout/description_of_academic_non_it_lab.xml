@@ -1534,15 +1534,46 @@
 
 
 
+                <!--                <FrameLayout-->
+                <!--                    android:id="@+id/ivPreviewITLFansInNoFrame"-->
+                <!--                    android:layout_width="120dp"-->
+                <!--                    android:layout_height="120dp"-->
+                <!--                    android:layout_marginStart="8dp"-->
+                <!--                    android:visibility="gone">-->
+
                 <ImageView
                     android:id="@+id/ivPreviewITLFansInNo"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:background="@drawable/bg_image_preview"
-                    android:contentDescription="@string/proof_of_fans_in_no"
-                    android:visibility="gone" />
+                    android:contentDescription="@string/proof_of_fans_in_no" />
+
+                <!--                    <TextView-->
+                <!--                        android:id="@+id/tvCount"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:text="5"-->
+                <!--                        android:textColor="@android:color/white"-->
+                <!--                        android:textStyle="bold"-->
+                <!--                        android:textSize="14sp"-->
+                <!--                        android:background="@drawable/bg_count_circle"-->
+                <!--                        android:padding="10dp"-->
+                <!--                        android:layout_gravity="top|end"-->
+                <!--                        android:layout_margin="6dp"/>-->
+
+                <!--                </FrameLayout>-->
+
+
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/ivPreviewITLFansInNo"-->
+                <!--                    android:layout_width="120dp"-->
+                <!--                    android:layout_height="120dp"-->
+                <!--                    android:layout_marginStart="8dp"-->
+                <!--                    android:scaleType="centerCrop"-->
+                <!--                    android:background="@drawable/bg_image_preview"-->
+                <!--                    android:contentDescription="@string/proof_of_fans_in_no"-->
+                <!--                    android:visibility="gone" />-->
 
 
 
