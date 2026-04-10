@@ -3,123 +3,102 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/universalToolbar"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@drawable/nav_header_gradient"
-    android:elevation="8dp"
-    app:contentInsetStart="0dp"
-    >
+    android:layout_height="64dp"
+    android:background="@color/login_btn"
+    android:elevation="6dp"
+    app:contentInsetStart="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="12dp"
-        android:paddingEnd="16dp">
+        android:paddingEnd="12dp">
 
-        <!-- Back Button - Modern ripple + larger tap area -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/profilePic"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="60dp"
+            android:layout_height="45dp"
+            app:icon="@drawable/list"
+            app:iconTint="@color/white"
+        app:iconSize="50dp"
+        app:backgroundTint="@android:color/transparent"
+        app:rippleColor="@color/white"
+        app:cornerRadius="22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Back Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnBack"
             style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             app:icon="@drawable/back_arrow"
             app:iconTint="@color/white"
-            app:iconSize="24dp"
+            app:iconSize="22dp"
             app:backgroundTint="@android:color/transparent"
-            app:cornerRadius="24dp"
             app:rippleColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
+            app:cornerRadius="22dp"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toEndOf="@id/profilePic"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <!-- DDU-GKY Logo - Slightly bigger & rounded -->
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/logo_img"
-            android:layout_width="160dp"
-            android:layout_height="64dp"
-            android:src="@drawable/ddy_logo"
-            android:scaleType="fitCenter"
-            android:elevation="6dp"
-            android:padding="8dp"
-            android:background="@color/white_brilliant"
-            app:shapeAppearanceOverlay="@style/RoundedTopCorners"
-            app:layout_constraintStart_toEndOf="@id/btnBack"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0"
-            android:layout_marginStart="8dp"
-            android:visibility="gone" />
-
-        <!-- Screen Title - Modern bold with subtle shadow -->
+        <!-- Title -->
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Screen Title"
             android:textColor="@color/white"
-            android:textSize="21sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:fontFamily="@font/avenir_next_demi_bold"
             android:ellipsize="end"
-            android:maxLines="2"
-            android:shadowColor="#80000000"
-            android:shadowDx="0"
-            android:shadowDy="2"
-            android:shadowRadius="4"
-            android:layout_marginStart="12dp"
+            android:maxLines="1"
+            android:layout_marginStart="10dp"
             app:layout_constraintStart_toEndOf="@id/btnBack"
             app:layout_constraintEnd_toStartOf="@id/changeLanguage"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-        <!-- Language Toggle - Modern floating style -->
-        <!--        <com.google.android.material.button.MaterialButton-->
-        <!--            android:id="@+id/changeLanguage"-->
-        <!--            android:layout_width="44dp"-->
-        <!--            android:layout_height="44dp"-->
-        <!--            app:icon="@drawable/ic_lang_toggle"-->
-        <!--            app:cornerRadius="22dp"-->
-        <!--            app:layout_constraintEnd_toStartOf="@id/profilePic"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            android:layout_marginEnd="8dp"-->
-        <!--            android:visibility="" />-->
+        <!-- Language Icon -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/changeLanguage"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/ic_lang_toggle"
+            android:src="@drawable/language_update"
+            android:scaleType="centerInside"
+            android:padding="6dp"
+            android:elevation="4dp"
             app:shapeAppearanceOverlay="@style/CircleImageView"
             app:strokeColor="@color/white"
             app:strokeWidth="2.5dp"
-            app:layout_constraintEnd_toStartOf="@id/profilePic"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="8dp"
-            android:scaleType="fitCenter"
-            android:elevation="6dp"
-            android:padding="8dp"
             android:background="@color/white_brilliant"
-            android:visibility="gone" />
-
-        <!-- Profile Pic - Circle with border -->
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/profilePic"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_user_avatar"
-            app:shapeAppearanceOverlay="@style/CircleImageView"
-            app:strokeColor="@color/white"
-            app:strokeWidth="2.5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="8dp"
-            android:scaleType="fitCenter"
-            android:elevation="6dp"
-            android:padding="8dp"
-            android:background="@color/white_brilliant"
             android:visibility="gone" />
 
+        <!-- Logo (Optional - cleaner placement) -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/logo_img"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ddy_logo"
+            android:scaleType="fitCenter"
+            android:background="@color/white_brilliant"
+            android:padding="6dp"
+            android:elevation="4dp"
+            android:visibility="gone"
+            app:shapeAppearanceOverlay="@style/RoundedTopCorners"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="8dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.appcompat.widget.Toolbar>

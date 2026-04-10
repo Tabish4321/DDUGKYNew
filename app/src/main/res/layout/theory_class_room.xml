@@ -15,31 +15,36 @@
         android:paddingBottom="@dimen/dp_100">
 
         <!-- Toolbar -->
+
+
+        <!-- Section Start -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_100"
-            android:background="@color/color_dark_blue"
+            android:layout_height="wrap_content"
+            android:background="@color/login_btn"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/backButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/backButton"
                 android:layout_marginStart="@dimen/dp_20"
                 android:padding="@dimen/dp_5"
                 android:scaleType="fitCenter"
-                android:src="@drawable/back_arrow"/>
+                android:src="@drawable/back_arrow" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/theory_class_room"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_16"/>
+                android:textSize="@dimen/sp_16" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="150dp"
@@ -49,14 +54,12 @@
                 android:padding="@dimen/dp_5"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ddy_logo"
+                android:visibility="gone"
                 app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
-
 
 
         </androidx.appcompat.widget.Toolbar>
 
-
-        <!-- Section Start -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/trainingInfraFields"
             android:layout_width="match_parent"

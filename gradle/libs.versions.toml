@@ -24,6 +24,7 @@ foundation = "1.10.3"
 animation = "1.10.3"
 room-ktx = "2.8.4"
 foundation-version = "1.10.5"
+browser = "1.10.0"
 
 [libraries]
 # AndroidX
@@ -80,6 +81,7 @@ androidx-foundation = { group = "androidx.compose.foundation", name = "foundatio
 androidx-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "animation" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room-ktx" }
 foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation-version" }
+androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -63,6 +63,10 @@ fun EntitlementsSection(
 
     var showError by remember { mutableStateOf(false) }
 
+    val isNonResidential = AppUtil.getSavedCenterTypePreference(context) != "Residential"
+    val isResidential = AppUtil.getSavedCenterTypePreference(context) == "Residential"
+
+
     /* ---------------------- */
     /* LOAD API */
     /* ---------------------- */
@@ -167,7 +171,7 @@ fun EntitlementsSection(
             onRemarksChange = { bankAccountRemark = it }
         )
 
-        if(AppUtil.getSavedCenterTypePreference(context)=="Residential"){
+        if(isResidential){
             ComplianceQuestionWithRemarks(
                 question = "Residential Facilities Provided / Entitlements Paid ?",
                 answer = residentialAnswer,
@@ -223,12 +227,12 @@ fun EntitlementsSection(
             onRemarksChange = { insuranceRemark = it }
         )
 
-        if(AppUtil.getSavedCenterTypePreference(context)!="Residential") {
+        if(isNonResidential) {
             ComplianceQuestionWithRemarks(
                 question = "To & Fro Travel Entitlement Paid ?",
                 answer = toFroEntitlementAnswer,
                 remarks = toFroEntitlementRemark,
-                isError = showError && toFroEntitlementAnswer == null,
+                isError =  showError && toFroEntitlementAnswer == null,
                 onAnswerChange = { toFroEntitlementAnswer = it },
                 onRemarksChange = { toFroEntitlementRemark = it }
             )
@@ -250,7 +254,7 @@ fun EntitlementsSection(
                     bankAccountAnswer == null ->
                         snackbarHostState.showSnackbar("Please select: Bank Account Opened")
 
-                    residentialAnswer == null ->
+                    isResidential&& residentialAnswer == null ->
                         snackbarHostState.showSnackbar("Please select: Residential Facilities Provided")
 
                     trainingMaterialAnswer == null ->
@@ -267,30 +271,32 @@ fun EntitlementsSection(
 
                     insuranceAnswer == null ->
                         snackbarHostState.showSnackbar("Please select: Insurance Benefits Provided")
-                    toFroEntitlementAnswer == null ->
-                        snackbarHostState.showSnackbar("Please select: Io & Fro Travel Entitlement Paid")
+
+                 //   toFroEntitlementAnswer == null -> snackbarHostState.showSnackbar("Please select: Io & Fro Travel Entitlement Paid")
+                    isNonResidential && toFroEntitlementAnswer == null ->
+                        snackbarHostState.showSnackbar("Please select: To & Fro Travel Entitlement Paid")
 
                     else -> {
 
                         viewModel.updateEntitlementState(
                             trainingFreeAnswer!!,
                             bankAccountAnswer!!,
-                            residentialAnswer!!,
+                            residential = if(isResidential) residentialAnswer!! else "",
                             trainingMaterialAnswer!!,
                             uniformAnswer!!,
                             sanitaryAnswer!!,
                             medicineAnswer!!,
                             insuranceAnswer!!,
-                            toEntitlementPaid = toFroEntitlementAnswer!!,
+                            toEntitlementPaid = if (isNonResidential) toFroEntitlementAnswer!! else "",
                             trainingFreeRemark,
                             bankAccountRemark,
-                            residentialRemark,
+                            if(isResidential) residentialRemark else "",
                             trainingMaterialRemark,
                             uniformRemark,
                             sanitaryRemark,
                             medicineRemark,
                             insuranceRemark,
-                            toFroEntitlementRemark
+                            if (isNonResidential) toFroEntitlementRemark else ""
                         )
 
                         viewModel.saveEntitlements(

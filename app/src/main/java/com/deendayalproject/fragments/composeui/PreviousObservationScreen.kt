@@ -1,5 +1,7 @@
 package com.deendayalproject.fragments.composeui
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -66,9 +68,13 @@ fun PreviousObservationScreen(
 
 
     LaunchedEffect(Unit) {
-
-        viewModel.loadObservation(previouseInspectionId.toInt())
-
+        val id = previouseInspectionId.toIntOrNull()
+        if (id != null) {
+            viewModel.loadObservation(id)
+        } else {
+            Toast.makeText(context, "Invalid ID:${previouseInspectionId}", Toast.LENGTH_SHORT).show()
+            //Log.e("PreviousObservation", "Invalid ID: $previouseInspectionId")
+        }
     }
 
 //    LaunchedEffect(state.submitSuccess) {

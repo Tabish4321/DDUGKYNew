@@ -1,14 +1,16 @@
 package com.deendayalproject.fragments
 
 import SharedViewModel
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -26,6 +28,10 @@ import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.response.Form
 import com.deendayalproject.model.response.Module
 import com.deendayalproject.network.SecurePreferenceManager.clearToken
+import com.deendayalproject.util.AppConstant
+import com.deendayalproject.util.AppConstant.DDUGKY_ABOUT_WEB_URL
+import com.deendayalproject.util.AppConstant.DDUGKY_CONTACTS_WEB_URL
+import com.deendayalproject.util.AppConstant.DDUGKY_WEB_URL
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.NoDataHelper
 import com.deendayalproject.util.ProgressDialogUtil
@@ -58,11 +64,49 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
         val headerBinding = NavigationHeaderBinding.bind(binding.navigationView.getHeaderView(0))
         headerBinding.loginId.text = AppUtil.getSavedLoginIdPreference(requireContext())
+
     }
+
+    private fun openWebPage(url: String): Boolean {
+        val intent = Intent(requireContext(), WebViewActivity::class.java)
+        intent.putExtra("url", url)
+        startActivity(intent)
+        return true
+    }
+
 
     private fun setupDrawerClicks() {
         binding.navigationView.setNavigationItemSelectedListener { item ->
             when (item.itemId) {
+
+                R.id.nav_website -> {
+                    openWebPage(DDUGKY_WEB_URL)
+                }
+
+                R.id.nav_about -> {
+                    openWebPage(DDUGKY_ABOUT_WEB_URL)
+                }
+
+                R.id.nav_contact -> {
+                    openWebPage(DDUGKY_CONTACTS_WEB_URL)
+                }
+
+                R.id.nav_share -> {
+                    val shareText = """
+        Download our app using the link below:
+
+        https://kaushal.rural.gov.in/backendApi/api/downloadDdugkyApp
+
+        Experience a seamless and user-friendly platform for your needs.
+    """.trimIndent()
+                    val intent = Intent(Intent.ACTION_SEND)
+                    intent.type = "text/plain"
+                    intent.putExtra(Intent.EXTRA_TEXT, shareText)
+                    startActivity(Intent.createChooser(intent, "Share App"))
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    true
+                }
+
                 R.id.nav_logout -> {
 
                     viewModel.getLogOutAPI( "")

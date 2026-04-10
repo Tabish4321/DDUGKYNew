@@ -19,13 +19,12 @@ class BaseToolbarComponent(
     private val btnBack: MaterialButton? = rootView.findViewById(R.id.btnBack)
     private val tvTitle: TextView? = rootView.findViewById(R.id.tvTitle)
     private val langIcon: ShapeableImageView? = rootView.findViewById(R.id.changeLanguage)
-    private val profileIcon: ShapeableImageView? = rootView.findViewById(R.id.profilePic)
+    private val profileIcon: MaterialButton? = rootView.findViewById(R.id.profilePic)
     private val appLogo: ShapeableImageView =rootView.findViewById(R.id.logo_img)
 
     fun setup(
         title: String? = null,
         @StringRes titleRes: Int? = null,
-
         showBack: Boolean = true,
         showLang: Boolean = true,
         showProfile: Boolean = true,
@@ -41,8 +40,9 @@ class BaseToolbarComponent(
 
 
         if(tvTitle?.text == "HOME") {
-            appLogo.visibility = View.VISIBLE
-            tvTitle.visibility= View.GONE
+            appLogo.visibility = View.GONE
+            tvTitle.visibility= View.VISIBLE
+            tvTitle.setText("DashBoard")
         }else{
             appLogo.visibility = View.GONE
             tvTitle?.visibility = View.VISIBLE

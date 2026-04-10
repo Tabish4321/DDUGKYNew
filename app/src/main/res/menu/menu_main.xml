@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp">
+        <item
+            android:id="@+id/nav_website"
+            android:title="Official Website"
+            app:actionLayout="@layout/item_menu_end_icon" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:title="About Us"
+            app:actionLayout="@layout/item_menu_end_icon"
+            />
+
+        <item
+            android:id="@+id/nav_contact"
+            android:title="Contact Us"
+            app:actionLayout="@layout/item_menu_end_icon"
+            />
+
+<!--        <item-->
+<!--            android:id="@+id/nav_help"-->
+<!--            android:title="Help"-->
+<!--            app:actionLayout="@layout/item_menu_end_icon"-->
+<!--            />-->
+
+
+        <item
+            android:id="@+id/nav_share"
+            android:title="Share App"
+            app:actionLayout="@layout/item_menu_end_icon"
+            />
+    </group>
+
     <item
         android:id="@+id/nav_logout"
         android:title="Logout" />
+
 </menu>
