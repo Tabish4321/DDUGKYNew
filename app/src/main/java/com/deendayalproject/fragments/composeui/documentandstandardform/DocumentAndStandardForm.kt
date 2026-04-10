@@ -111,6 +111,7 @@ fun StandardFormComplianceScreen(
                         remarks = remark,
                         isError = answer == null || (answer == "No" && remark.isBlank()),
                         onAnswerChange = {
+                            focusManager.clearFocus()
                             viewModel.updateStandardAnswer(index, it)
                         },
                         onRemarksChange = {

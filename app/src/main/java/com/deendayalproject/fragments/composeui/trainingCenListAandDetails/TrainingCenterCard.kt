@@ -49,12 +49,12 @@ fun TrainingCenterCard(
         currentDate
     }
 
-    val isActive =true//inspectionDate == currentDate
+    val isActive = inspectionDate == currentDate
 
     ElevatedCard(
         onClick = onClick,
         colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
-        shape = RoundedCornerShape(16.dp), // 🔥 slightly smoother
+        shape = RoundedCornerShape(16.dp), //  slightly smoother
         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 6.dp),
         modifier = Modifier
             .fillMaxWidth()
@@ -77,7 +77,7 @@ fun TrainingCenterCard(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = if (isActive) "ACTIVE" else "PENDING",
+                    text = if (isActive) "ACTIVE" else "UPCOMING",
                     style = MaterialTheme.typography.labelMedium,
                     color = Color.White,
                     fontWeight = FontWeight.SemiBold,

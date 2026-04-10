@@ -77,7 +77,7 @@ fun TrainingCenterListScreen(
 
                 items(
                     items,
-                    key = { it.id }
+                    key = { it.inspectionId }
                 ) { item ->
                     TrainingCenterCard(
                         item = item,
