@@ -33,9 +33,6 @@
         tools:targetApi="30"
         >
         <!--        android:fullBackupContent="@xml/backup_rules"-->
-
-
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
