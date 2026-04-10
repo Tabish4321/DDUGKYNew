@@ -41,7 +41,7 @@
 # ---------- Models ----------
 -keep class com.deendayalproject.model.** { *; }
 -keep class com.deendayalproject.uidai.** { *; }
-
+-keep class com.deendayalproject.base.BaseResponse { *; }
 
 
 

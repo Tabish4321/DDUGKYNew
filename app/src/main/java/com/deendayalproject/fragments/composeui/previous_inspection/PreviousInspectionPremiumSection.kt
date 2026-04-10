@@ -112,29 +112,83 @@ fun PreviousInspectionSection(
                         }
                     }
 
-                    state.error != null -> {
-                        Text(
-                            text = state.error!!,
-                            color = MaterialTheme.colorScheme.error
-                        )
-                    }
-
                     else -> {
                         if (it == InspectionTab.PREVIOUS) {
-                            PreviousInspectionList(
-                                items = state.previousList,
-                                onItemClick = onEditClick
-                            )
-                        } else {
-                            DueDiligenceList(
-                                items = state.dueDiligenceList,
-                                onEditClick = {
-                                    viewModel.openDueDiligenceEdit()
+                            if (state.previousList.isEmpty()) {
+                                if (!state.error.isNullOrEmpty()) {
+                                    Text(
+                                        text = state.error!!,
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                } else {
+                                    EmptyStateView("No Previous Inspection Found")
                                 }
-                            )
+
+                            } else {
+                                PreviousInspectionList(
+                                    items = state.previousList,
+                                    onItemClick = onEditClick
+                                )
+                            }
+
+                        }
+                        else {
+
+                            if (state.dueDiligenceList.isEmpty()) {
+                                if (!state.error.isNullOrEmpty()) {
+                                    Text(
+                                        text = state.error!!,
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                } else {
+                                    EmptyStateView("No Due Diligence Found")
+                                }
+                            } else {
+                                DueDiligenceList(
+                                    items = state.dueDiligenceList,
+                                    onEditClick = {
+                                        viewModel.openDueDiligenceEdit()
+                                    }
+                                )
+                            }
                         }
                     }
                 }
+
+
+//                when {
+//                    state.isLoading -> {
+//                        Box(
+//                            modifier = Modifier.fillMaxWidth(),
+//                            contentAlignment = Alignment.Center
+//                        ) {
+//                            CircularProgressIndicator()
+//                        }
+//                    }
+//
+//                    state.error != null -> {
+//                        Text(
+//                            text = state.error!!,
+//                            color = MaterialTheme.colorScheme.error
+//                        )
+//                    }
+//
+//                    else -> {
+//                        if (it == InspectionTab.PREVIOUS) {
+//                            PreviousInspectionList(
+//                                items = state.previousList,
+//                                onItemClick = onEditClick
+//                            )
+//                        } else {
+//                            DueDiligenceList(
+//                                items = state.dueDiligenceList,
+//                                onEditClick = {
+//                                    viewModel.openDueDiligenceEdit()
+//                                }
+//                            )
+//                        }
+//                    }
+//                }
             }
         }
     }

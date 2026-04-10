@@ -1,5 +1,6 @@
 package com.deendayalproject.fragments.composeui.documentandstandardform
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -84,6 +85,15 @@ fun StandardFormComplianceScreen(
         viewModel.loadInspectionStandardForm(inspectionId)
     }
 
+    LaunchedEffect(state.saveSuccess) {
+        if(state.saveSuccess){
+            Toast.makeText(
+                context,
+                "Inspection standard form saved successfully",
+                Toast.LENGTH_SHORT
+            ).show()        }
+    }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -111,6 +121,7 @@ fun StandardFormComplianceScreen(
                         remarks = remark,
                         isError = answer == null || (answer == "No" && remark.isBlank()),
                         onAnswerChange = {
+                            focusManager.clearFocus()
                             viewModel.updateStandardAnswer(index, it)
                         },
                         onRemarksChange = {
@@ -123,9 +134,7 @@ fun StandardFormComplianceScreen(
 
                     Button(
                         onClick = {
-
                             focusManager.clearFocus()
-
                             val answers = state.answers
                             val remarks = state.remarks
 

@@ -18,7 +18,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        disableScreenshots()
+       // disableScreenshots()
     }
 
     override fun onResume() {

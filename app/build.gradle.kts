@@ -22,14 +22,14 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 9
-        versionName = "1.1.3" //1.1.2 //1.2.9
+        versionName = "1.4.0" //1.1.3 //1.2.9
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             isDebuggable = false
             applicationIdSuffix = ""
             versionNameSuffix = ""
@@ -64,7 +64,7 @@ android {
             dimension = "environment"
             applicationIdSuffix = ""
             versionNameSuffix = ""
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
         }//BASE_URL_DEMO
     }
 
@@ -76,7 +76,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.11"
     }
-
 
     buildFeatures {
         viewBinding = true

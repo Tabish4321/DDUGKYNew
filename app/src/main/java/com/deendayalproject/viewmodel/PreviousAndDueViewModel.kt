@@ -27,8 +27,7 @@ class PreviousAndDueViewModel(
     val openDueDiligenceEdit = _openDueDiligenceEdit.asSharedFlow()
 
     fun openDueDiligenceEdit() {
-        viewModelScope.launch {
-            _openDueDiligenceEdit.emit(Unit)
+        viewModelScope.launch { _openDueDiligenceEdit.emit(Unit)
         }
     }
 
@@ -39,25 +38,42 @@ class PreviousAndDueViewModel(
 
     fun loadData(request: InspectionRequestBody) {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
+            try {
+                _uiState.update { it.copy(isLoading = true, error = null) }
 
-            val previousDeferred = async { repositoryManager.inspectionRepo.getPreviousInspection(request) }
-            val dueDeferred = async { repositoryManager.inspectionRepo.getDueDiligence(request) }
+                val previousDeferred =
+                    async { repositoryManager.inspectionRepo.getPreviousInspection(request) }
+                val dueDeferred =
+                    async { repositoryManager.inspectionRepo.getDueDiligence(request) }
 
-            val previous = previousDeferred.await()
-            val due = dueDeferred.await()
+                val previous = previousDeferred.await()
+                val due = dueDeferred.await()
 
-            Log.d("API_DEBUG", "Previous size = ${previous.getOrNull()?.size}")
-            Log.d("API_DEBUG", "Previous size = ${previous.getOrNull()?.size}")
+                Log.d("API_DEBUG", "Previous size = ${previous.getOrNull()?.size}")
+                Log.d("API_DEBUG", "Due size = ${due.getOrNull()?.size}")
 
-            _uiState.update {
-                it.copy(
-                    isLoading = false,
-                    previousList = previous.getOrNull() ?: emptyList(),
-                    dueDiligenceList = due.getOrNull() ?: emptyList(),
-                    error = previous.exceptionOrNull()?.message
-                        ?: due.exceptionOrNull()?.message
-                )
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        previousList = previous.getOrNull() ?: emptyList(),
+                        dueDiligenceList = due.getOrNull() ?: emptyList(),
+                        error = when {
+                            previous.isFailure -> previous.exceptionOrNull()?.message
+                            due.isFailure -> due.exceptionOrNull()?.message
+                            else -> null
+                        }
+                    )
+                }
+            }
+            catch (e: Exception){
+                Log.e("API_DEBUG", "CRASH = ${e.message}", e)
+
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        error = e.message
+                    )
+                }
             }
         }
     }

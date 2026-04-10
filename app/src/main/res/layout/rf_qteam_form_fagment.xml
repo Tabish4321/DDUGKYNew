@@ -19,8 +19,8 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/universalToolbar"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@drawable/nav_header_gradient"
+            android:layout_height="wrap_content"
+            android:background="@color/login_btn"
             android:elevation="8dp"
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"

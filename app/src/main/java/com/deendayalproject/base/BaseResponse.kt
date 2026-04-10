@@ -6,5 +6,6 @@ data class BaseResponse<T>(
     val responseCode: Int,
     val responseDesc: String,
     val facilityId: Int,
-    val resultImage: String?
+    val resultImage: String?,
+    val status: String = ""
 )

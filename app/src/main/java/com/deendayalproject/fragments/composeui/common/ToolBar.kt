@@ -34,26 +34,21 @@ fun PremiumTopBar(
     onBackClick: () -> Unit
 ) {
 
-
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(colorResource(id = R.color.color_dark_blue))
+            .background(colorResource(id = R.color.login_btn))
 
     ) {
 
         TopAppBar(
             title = {
                 Column {
-
                     Text(
                         text = dynamicTitle,
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onPrimary
                     )
-
-
                 }
             },
 

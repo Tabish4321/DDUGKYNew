@@ -49,16 +49,24 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
-        android:layout_width="320dp"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/design_default_color_surface"
-        app:itemHorizontalPadding="20dp"
+        android:background="@color/white"
+        android:elevation="8dp"
+        app:itemHorizontalPadding="24dp"
+        app:itemVerticalPadding="16dp"
         app:itemIconPadding="16dp"
         app:itemIconSize="24dp"
-        app:itemTextAppearance="@style/NavItemTextAppearance"
+        app:itemTextColor="@color/login_btn"
+        app:itemIconTint="@color/button_solid_light"
+        app:itemBackground="@drawable/nav_item_background"
+        app:itemRippleColor="@color/login_btn"
+        app:itemTextAppearance="@style/NavTextModern"
         app:menu="@menu/menu_main"
-        app:headerLayout="@layout/navigation_header" />
+        app:headerLayout="@layout/navigation_header"
+
+        />
 
 <!--    &lt;!&ndash; Navigation Drawer - Modern Look &ndash;&gt;-->
 <!--    <com.google.android.material.navigation.NavigationView-->

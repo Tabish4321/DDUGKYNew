@@ -67,6 +67,13 @@
     <color name="colorOnSurface">#212121</color>
     <color name="colorSurface">#FFFFFF</color>
 
+    <color name="md_primary">#6750A4</color>
+    <color name="md_primary_light">#7F67BE</color>
+    <color name="md_on_primary">#FFFFFF</color>
+    <color name="md_surface">#FFFFFF</color>
+    <color name="md_shadow">#20000000</color>
+    <color name="language_card_bg">#EDE7F6</color>
+
 
 
 </resources>

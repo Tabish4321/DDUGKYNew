@@ -1,5 +1,6 @@
 package com.deendayalproject.fragments.composeui.ongoingcandidateverification
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
 import com.deendayalproject.fragments.composeui.common.InfoRow
@@ -82,6 +84,7 @@ fun AttendanceComplianceScreen(
     /* ----------------------------- */
     /* PREFILL FORM */
     /* ----------------------------- */
+    val context = LocalContext.current
 
     LaunchedEffect(
         state.biomatricAttendance,
@@ -104,7 +107,8 @@ fun AttendanceComplianceScreen(
 
     LaunchedEffect(state.error) {
         state.error?.let {
-            snackbarHostState.showSnackbar(it)
+            Toast.makeText(context,it, Toast.LENGTH_SHORT).show()
+            //snackbarHostState.showSnackbar(it)
             candidateAssessmentViewModel.clearCandidateAttendanceError()
 
         }
@@ -118,7 +122,9 @@ fun AttendanceComplianceScreen(
 
         if (state.saveSuccess) {
             candidateAssessmentViewModel.triggerRefresh()
-            snackbarHostState.showSnackbar("Saved Successfully")
+            Toast.makeText(context,"Saved Successfully", Toast.LENGTH_SHORT).show()
+
+            //  snackbarHostState.showSnackbar("Saved Successfully")
             candidateAssessmentViewModel.clearCandidateAttendanceSuccess()
         }
     }
@@ -233,7 +239,6 @@ fun AttendanceComplianceScreen(
 
             val isValid =
                 attendanceAnswer != null &&
-                        counsellingAnswer != null &&
                         regularAttendanceAnswer != null &&
                         !(attendanceAnswer == "No" && attendanceRemark.isBlank()) &&
                         !(counsellingAnswer == "No" && counsellingRemark.isBlank()) &&

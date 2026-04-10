@@ -24,6 +24,11 @@ object AppConstant {
     const val ENCRYPT_IV_KEY = "\$10A80\$10A80\$10A"
     const val ENCRYPT_KEY = "\$10A80\$10A80\$10A"
 
+    const val DDUGKY_WEB_URL ="https://kaushal.rural.gov.in/"
+
+    const val DDUGKY_ABOUT_WEB_URL ="https://kaushal.rural.gov.in/#/about-us"
+    const val DDUGKY_CONTACTS_WEB_URL ="https://kaushal.rural.gov.in/#/contact-us"
+
 
 
 }
