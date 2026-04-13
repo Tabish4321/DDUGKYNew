@@ -99,10 +99,7 @@ open class BaseActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             AppUpdateNotifier.updateRequired.collect { required ->
                 if (required) {
-                    AppUpdateManager.checkAndUpdate(
-                        this@BaseActivity,
-                        "https://kaushal.rural.gov.in/backendApi/api/downloadDdugkyApp"
-                    )
+                    AppUpdateManager.checkAndUpdate(this@BaseActivity)
                 }
             }
         }

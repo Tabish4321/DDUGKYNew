@@ -42,6 +42,7 @@ import com.deendayalproject.repository.repomanager.RepositoryManager
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import kotlin.onFailure
 
 class InspectionViewModel(application: Application) :
     AndroidViewModel(application) {
@@ -64,7 +65,8 @@ class InspectionViewModel(application: Application) :
 
     private fun <T> executeApiCall(
         apiCall: suspend () -> Result<T>,
-        onSuccess: suspend (T) -> Unit
+        onSuccess: suspend (T) -> Unit,
+        onFailure: suspend (Throwable) -> Unit = {}
     ) {
 
         viewModelScope.launch {
@@ -91,6 +93,7 @@ class InspectionViewModel(application: Application) :
                                     ?: "Something went wrong"
                             )
                         }
+                        onFailure(throwable)
                     }
 
             } catch (e: Exception) {
@@ -102,6 +105,7 @@ class InspectionViewModel(application: Application) :
             }
         }
     }
+
 
 
 
@@ -447,6 +451,9 @@ class InspectionViewModel(application: Application) :
                         } ?: "Unknown error"
                     )
                 }
+            },
+            onFailure = {
+                _candidateOngoingBatchList.emit(null)
             }
         )
     }

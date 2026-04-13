@@ -63,7 +63,11 @@ fun SubjectListSection(
                 ) {
 
                     OutlinedTextField(
-                        value = selectedSubject,
+                        value = if (selectedSubject.isNullOrBlank()) {
+                            "Please Select"
+                        } else {
+                            selectedSubject
+                        },
                         onValueChange = {},
                         readOnly = true,
                         label = { Text("Select Subject") },

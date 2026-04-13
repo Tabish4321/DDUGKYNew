@@ -7,10 +7,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
@@ -18,9 +21,13 @@ import androidx.navigation.NavController
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.fragments.composeFragment.InspectionBasicDetailsFragmentDirections
+import com.deendayalproject.fragments.composeui.LocationHandle.LocationMismatchDialog
+import com.deendayalproject.fragments.composeui.LocationHandle.rememberGeofenceChecker
 import com.deendayalproject.fragments.composeui.PreviousObservationScreen
 import com.deendayalproject.fragments.composeui.batchAndCandidate.BatchListSection
 import com.deendayalproject.fragments.composeui.batchAndCandidate.CandidateDataPreviousBatchCard
+import com.deendayalproject.fragments.composeui.common.EmptyStateView
+import com.deendayalproject.fragments.composeui.common.ErrorScreen
 import com.deendayalproject.fragments.composeui.common.InspectionProgressHeader
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
 import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
@@ -119,8 +126,6 @@ fun InspectionStepModernScreen(
         ongoingSelectedCandidate = null
     }
 
-
-
     LaunchedEffect(openDueDiligenceEdit) {
         openDueDiligenceEdit?.let {
 
@@ -149,371 +154,423 @@ fun InspectionStepModernScreen(
 
     LaunchedEffect(verificationState.error) {
         verificationState.error?.let {
-
             snackbarHostState.showSnackbar(it)
-
             condidateVerificationViewModel.clearFinalError()
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Scaffold(
-            contentWindowInsets = WindowInsets(0),
-            snackbarHost = {
-                SnackbarHost(
-                    snackbarHostState,
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .padding(top = 12.dp)
-                )
-            },
-            topBar = {
-                PremiumTopBar(
-                    toolbarTitle,
-                    onBackClick = {
-                        when (currentStep) {
+    var isEligible by remember { mutableStateOf(true) }
+    var showDialog by remember { mutableStateOf(false) }
+    var distance by remember { mutableStateOf<Float?>(null) }
 
-                            2 -> {
-                                if (previousSelectedBatch != null) {
-                                    previousSelectedBatch = null
-                                } else {
-                                    onStepChange(currentStep - 1)
-                                }
-                            }
+   // "28.6296845 &  77.2189032" jeevan bharti
+    trainingDetails?.coordinate?.let { coord ->
+        rememberGeofenceChecker(apiCoordinate = coord) { inside, dist ->
+            isEligible = inside
+            distance = dist
 
-                            3 -> {
-                                if (ongoingSelectedBatch != null) {
-                                    ongoingSelectedBatch = null
-                                    ongoingSelectedCandidate = null
-                                } else {
-                                    onStepChange(currentStep - 1)
-                                }
-                            }
-
-                            5 -> {
-
-                                if (showTrainingForm) {
-
-                                    showTrainingForm = false
-
-                                } else {
-
-                                    onStepChange(currentStep - 1)
-
-                                }
-
-                            }
-
-                            6 -> {
-                                onStepChange(currentStep - 1)
-                            }
-
-                            7 -> {
-                                onStepChange(currentStep - 1)
-                            }
-
-                            else -> {
-                                if (currentStep > 1) {
-                                    onStepChange(currentStep - 1)
-                                } else {
-                                    backDispatcher?.onBackPressedDispatcher?.onBackPressed()
-                                }
-                            }
-                        }
-                    }
-
-                )
-            },
-            bottomBar = {
-                Surface(
-                    tonalElevation = 8.dp,
-                    color = colorResource(R.color.white),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .navigationBarsPadding()
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-
-                        if (currentStep > 1) {
-                            OutlinedButton(
-                                onClick = {
-                                    if (currentStep > 1) {
-                                        onStepChange(currentStep - 1)
-                                    }
-                                },
-                                modifier = Modifier.weight(1f),
-                                shape = RoundedCornerShape(50)
-                            ) {
-                                Text("Previous")
-                            }
-                        }
-
-                        Button(
-                            onClick = {
-                                if (currentStep == 7) {
-                                    if (finalRemark.isBlank()) {
-                                        scope.launch {
-                                            snackbarHostState.showSnackbar("Please enter final remark")
-                                        }
-                                    } else {
-
-                                        condidateVerificationViewModel.submitFinal(
-                                            AppUtil.getSavedInspectionIdPreference(context).toInt(),
-                                            AppUtil.getSavedTrainingCenterIdPreference(context).toInt(),
-                                            finalRemark
-                                        )
-
-                                    }
-                                } else  if (currentStep < 7) {   // 👈 updated max step
-                                    onStepChange(currentStep + 1)
-                                }
-                            },
-                            modifier = Modifier.weight(1f),
-                            shape = RoundedCornerShape(50)
-                        ) {
-                                Text(if (currentStep == 7) "Submit" else "Next")
-                        }
-                    }
-                }
+            if (!inside) {
+                showDialog = true
             }
-        )
-        { padding ->
+        }
+    }
 
-            if (isLoading) {
-                Box(modifier = Modifier.padding(padding)) {
-                    ShimmerTrainingList()
+    Box(modifier = Modifier.fillMaxSize()) {
+
+        if (showDialog && !isEligible) {
+            LocationMismatchDialog(
+                distance = distance,
+                onOkClick = {
+                    showDialog = false
+                    backDispatcher?.onBackPressedDispatcher?.onBackPressed()
                 }
-            } else {
+            )
+        }
 
-                if (currentStep == 6) {
-
-                    Column(
-                        modifier = Modifier
-                            .padding(padding)
-                            .fillMaxSize()
-                    ) {
-
-                        InspectionProgressHeader(currentStep,
-                            onStepClick = { step ->
-                                onStepChange(step)
-                            }
-                        )
-
-                        StandardFormComplianceScreen(
-                            viewModel = documentMaintainViewModel,
-                            snackbarHostState = snackbarHostState
-                        )
+        if (isEligible) {
+            if (showDialog) {
+                LocationMismatchDialog(
+                    distance = distance,
+                    onOkClick = {
+                        showDialog = false
+                        backDispatcher?.onBackPressedDispatcher?.onBackPressed()
                     }
-                }else if(currentStep == 7){
-                    Column(
+                )
+            }
+        }
+        if (isEligible) {
+            Scaffold(
+                contentWindowInsets = WindowInsets(0),
+                snackbarHost = {
+                    SnackbarHost(
+                        snackbarHostState,
                         modifier = Modifier
-                            .padding(padding)
-                            .fillMaxSize()
-                    ) {
-                        PreviousObservationScreen(
-                            viewModel = condidateVerificationViewModel,
-                            snackbarHostState = snackbarHostState,
-                            onFinalSubmit = {}
-                        )
-                    }
-
-                }
-                else {
-
-                    Column(
-                        modifier = Modifier
-                            .padding(padding)
-                            .fillMaxSize()
-                            .background(colorResource(id = R.color.white))
+                            .align(Alignment.TopCenter)
+                            .padding(top = 12.dp)
                     )
-                    {
-
-                        InspectionProgressHeader(currentStep,
-                            onStepClick = { step ->
-                                onStepChange(step)
-                            })
-
-                        LazyColumn(
-                            modifier = Modifier.weight(1f),
-                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
-                            verticalArrangement = Arrangement.spacedBy(16.dp),
-                        )
-                        {
-
-
+                },
+                topBar = {
+                    PremiumTopBar(
+                        toolbarTitle,
+                        onBackClick = {
                             when (currentStep) {
 
-                                /* ---------------- STEP 1 ---------------- */
-                                1 -> {
-                                    item {
-
-                                        TrainingCenterDetails(
-                                            prnNumber = prnNumber,
-                                            sanctionLetter = sanctionLetter,
-                                            inspectionType = inspectionType,
-                                            trainingCenterId = trainingDetails?.trainingCenterId
-                                                ?: "",
-                                            trainingCenterName = trainingDetails?.trainingCenterName
-                                                ?: "",
-                                            inchargeName = trainingDetails?.inchargeName ?: "",
-                                            mobileNumber = trainingDetails?.mobileNumber ?: "",
-                                            email = trainingDetails?.emailId ?: "",
-                                            tradeAndCapacity = trainingDetails?.tradeAndCapacity
-                                                ?: "",
-                                            coordinate = trainingDetails?.coordinate ?: "",
-                                            roleName = trainingDetails?.roleName ?: ""
-
-                                        )
-
-                                        Spacer(modifier = Modifier.height(20.dp))
-
-                                        PreviousInspectionSection(
-                                            viewModel,
-                                            trainingCenterId = AppUtil.getSavedTrainingCenterIdPreference(
-                                                context
-                                            ),
-                                            sanctionOrder = sanctionLetter,
-                                            onEditClick = { onEditClick(it) }
-                                        )
-                                    }
-                                }
-
-                                /* ---------------- STEP 2 ---------------- */
                                 2 -> {
-
-                                    if (previousSelectedBatch == null) {
-
-                                        item {
-                                            if (batchList.isEmpty()) {
-                                                Text("No batch available")
-                                            } else {
-                                                BatchListSection(
-                                                    batchList = batchList,
-                                                    onBatchClick = {
-                                                        previousSelectedBatch = it
-                                                        onBatchSelected(it.batchId)   //  CALL API
-                                                    }
-                                                )
-                                            }
-                                        }
-
+                                    if (previousSelectedBatch != null) {
+                                        previousSelectedBatch = null
                                     } else {
-
-                                        item {
-
-                                            if (candidateList.isEmpty()) {
-
-                                                Text("No candidates available")
-
-                                            } else {
-
-                                                CandidateDataPreviousBatchCard(
-                                                    candidate = candidateList.map {
-                                                        CandidateListInspectionRes(
-                                                            candidateId = it.candidateId ?: "",
-                                                            name = it.candidateName ?: "",
-                                                            rollNumber = it.rollNo?.toString()
-                                                                ?: "",
-                                                            contactNumber = it.mobileNo ?: "",
-                                                            status = it.status
-
-                                                        )
-                                                    },
-                                                    onVerifyCandidateClick = {
-                                                        selectedCandidate = it
-                                                    }
-                                                )
-                                            }
-                                        }
+                                        onStepChange(currentStep - 1)
                                     }
                                 }
 
-                                /* ---------------- STEP 3 ---------------- */
                                 3 -> {
-
-                                    if (ongoingSelectedBatch == null) {
-
-                                        item {
-
-                                            if (ongoingBatchList.isEmpty()) {
-                                                Text("No ongoing batch available")
-                                            } else {
-                                                BatchListSection(
-                                                    batchList = ongoingBatchList,
-                                                    onBatchClick = {
-                                                        ongoingSelectedBatch = it
-                                                        onOngoingBatchSelected(it.batchId)
-                                                    }
-                                                )
-                                            }
-                                        }
-
+                                    if (ongoingSelectedBatch != null) {
+                                        ongoingSelectedBatch = null
+                                        ongoingSelectedCandidate = null
                                     } else {
-
-                                        item {
-
-                                            if (ongoingCandidateList.isEmpty()) {
-                                                Text("No ongoing candidates available")
-                                            } else {
-
-                                                CandidateDataPreviousBatchCard(
-                                                    candidate = ongoingCandidateList.map {
-                                                        CandidateListInspectionRes(
-                                                            candidateId = it.candidateId ?: "",
-                                                            name = it.candidateName ?: "",
-                                                            rollNumber = it.rollNo?.toString()
-                                                                ?: "",
-                                                            contactNumber = it.mobileNo ?: "",
-                                                            status = it.status
-                                                        )
-                                                    },
-                                                    onVerifyCandidateClick = {
-                                                        ongoingSelectedCandidate = it
-                                                    }
-                                                )
-                                            }
-                                        }
-
-
-                                    }
-                                }
-
-                                4 -> {
-
-                                    item {
-
-                                        TrainerDataCard(
-                                            trainer = trainerList,
-                                            onVerifyTrainerClick = { trainer ->
-                                                selectedTrainer = trainer
-                                                showTrainerSheet = true
-                                            }
-                                        )
+                                        onStepChange(currentStep - 1)
                                     }
                                 }
 
                                 5 -> {
 
-                                    item {
+                                    if (showTrainingForm) {
 
-                                        TrainingQualityController(
-                                            trainerList = trainerList,
-                                            viewModel = viewModelInspection,
-                                            snackbarHostState = snackbarHostState,
-                                            showForm = showTrainingForm,
-                                            onShowFormChange = { showTrainingForm = it }
-                                        )
+                                        showTrainingForm = false
+
+                                    } else {
+
+                                        onStepChange(currentStep - 1)
 
                                     }
 
                                 }
 
-                                /* 6 -> {
+                                6 -> {
+                                    onStepChange(currentStep - 1)
+                                }
+
+                                7 -> {
+                                    onStepChange(currentStep - 1)
+                                }
+
+                                else -> {
+                                    if (currentStep > 1) {
+                                        onStepChange(currentStep - 1)
+                                    } else {
+                                        backDispatcher?.onBackPressedDispatcher?.onBackPressed()
+                                    }
+                                }
+                            }
+                        }
+
+                    )
+                },
+                bottomBar = {
+                    Surface(
+                        tonalElevation = 8.dp,
+                        color = colorResource(R.color.white),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .navigationBarsPadding()
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+
+                            if (currentStep > 1) {
+                                OutlinedButton(
+                                    onClick = {
+                                        if (currentStep > 1) {
+                                            onStepChange(currentStep - 1)
+                                        }
+                                    },
+                                    modifier = Modifier.weight(1f),
+                                    shape = RoundedCornerShape(50)
+                                ) {
+                                    Text("Previous")
+                                }
+                            }
+
+                            Button(
+                                onClick = {
+                                    if (currentStep == 7) {
+                                        if (finalRemark.isBlank()) {
+                                            scope.launch {
+                                                snackbarHostState.showSnackbar("Please enter final remark")
+                                            }
+                                        } else {
+
+                                            condidateVerificationViewModel.submitFinal(
+                                                AppUtil.getSavedInspectionIdPreference(context)
+                                                    .toInt(),
+                                                AppUtil.getSavedTrainingCenterIdPreference(context)
+                                                    .toInt(),
+                                                finalRemark
+                                            )
+
+                                        }
+                                    } else if (currentStep < 7) {   // 👈 updated max step
+                                        onStepChange(currentStep + 1)
+                                    }
+                                },
+                                modifier = Modifier.weight(1f),
+                                shape = RoundedCornerShape(50)
+                            ) {
+                                Text(if (currentStep == 7) "Submit" else "Next")
+                            }
+                        }
+                    }
+                }
+            )
+            { padding ->
+
+                if (isLoading) {
+                    Box(modifier = Modifier.padding(padding)) {
+                        ShimmerTrainingList()
+                    }
+                } else {
+
+                    if (currentStep == 6) {
+
+                        Column(
+                            modifier = Modifier
+                                .padding(padding)
+                                .fillMaxSize()
+                        ) {
+
+                            InspectionProgressHeader(
+                                currentStep,
+                                onStepClick = { step ->
+                                    onStepChange(step)
+                                }
+                            )
+
+                            StandardFormComplianceScreen(
+                                viewModel = documentMaintainViewModel,
+                                snackbarHostState = snackbarHostState
+                            )
+                        }
+                    } else if (currentStep == 7) {
+                        Column(
+                            modifier = Modifier
+                                .padding(padding)
+                                .fillMaxSize()
+                        ) {
+                            PreviousObservationScreen(
+                                viewModel = condidateVerificationViewModel,
+                                snackbarHostState = snackbarHostState,
+                                onFinalSubmit = {}
+                            )
+                        }
+
+                    } else {
+
+                        Column(
+                            modifier = Modifier
+                                .padding(padding)
+                                .fillMaxSize()
+                                .background(colorResource(id = R.color.white))
+                        )
+                        {
+
+                            InspectionProgressHeader(
+                                currentStep,
+                                onStepClick = { step ->
+                                    onStepChange(step)
+                                })
+
+                            LazyColumn(
+                                modifier = Modifier.weight(1f),
+                                contentPadding = PaddingValues(
+                                    horizontal = 16.dp,
+                                    vertical = 12.dp
+                                ),
+                                verticalArrangement = Arrangement.spacedBy(16.dp),
+                            )
+                            {
+
+
+                                when (currentStep) {
+
+                                    /* ---------------- STEP 1 ---------------- */
+                                    1 -> {
+                                        item {
+
+                                            TrainingCenterDetails(
+                                                prnNumber = prnNumber,
+                                                sanctionLetter = sanctionLetter,
+                                                inspectionType = inspectionType,
+                                                trainingCenterId = trainingDetails?.trainingCenterId
+                                                    ?: "",
+                                                trainingCenterName = trainingDetails?.trainingCenterName
+                                                    ?: "",
+                                                inchargeName = trainingDetails?.inchargeName ?: "",
+                                                mobileNumber = trainingDetails?.mobileNumber ?: "",
+                                                email = trainingDetails?.emailId ?: "",
+                                                tradeAndCapacity = trainingDetails?.tradeAndCapacity
+                                                    ?: "",
+                                                coordinate = trainingDetails?.coordinate ?: "",
+                                                roleName = trainingDetails?.roleName ?: ""
+
+                                            )
+
+                                            Spacer(modifier = Modifier.height(20.dp))
+
+                                            PreviousInspectionSection(
+                                                viewModel,
+                                                trainingCenterId = AppUtil.getSavedTrainingCenterIdPreference(
+                                                    context
+                                                ),
+                                                sanctionOrder = sanctionLetter,
+                                                onEditClick = { onEditClick(it) }
+                                            )
+                                        }
+                                    }
+
+                                    /* ---------------- STEP 2 ---------------- */
+                                    2 -> {
+
+                                        if (previousSelectedBatch == null) {
+
+                                            item {
+                                                if (batchList.isEmpty()) {
+                                                    //     Text("No batch available")
+                                                    EmptyStateView(
+                                                        "No Batch Data available",
+                                                        modifier = Modifier.fillMaxSize()
+                                                    )
+
+                                                } else {
+                                                    BatchListSection(
+                                                        batchList = batchList,
+                                                        onBatchClick = {
+                                                            previousSelectedBatch = it
+                                                            onBatchSelected(it.batchId)   //  CALL API
+                                                        }
+                                                    )
+                                                }
+                                            }
+
+                                        } else {
+
+                                            item {
+
+                                                if (candidateList.isEmpty()) {
+                                                    //Text("No candidates available")
+                                                    EmptyStateView("No candidates available")
+                                                } else {
+
+                                                    CandidateDataPreviousBatchCard(
+                                                        candidate = candidateList.map {
+                                                            CandidateListInspectionRes(
+                                                                candidateId = it.candidateId ?: "",
+                                                                name = it.candidateName ?: "",
+                                                                rollNumber = it.rollNo?.toString()
+                                                                    ?: "",
+                                                                contactNumber = it.mobileNo ?: "",
+                                                                status = it.status
+
+                                                            )
+                                                        },
+                                                        onVerifyCandidateClick = {
+                                                            selectedCandidate = it
+                                                        }
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    /* ---------------- STEP 3 ---------------- */
+                                    3 -> {
+
+                                        if (ongoingSelectedBatch == null) {
+
+                                            item {
+
+                                                if (ongoingBatchList.isEmpty()) {
+//                                                Text("No ongoing batch available")
+                                                    EmptyStateView("No ongoing batch available")
+
+                                                } else {
+                                                    BatchListSection(
+                                                        batchList = ongoingBatchList,
+                                                        onBatchClick = {
+                                                            ongoingSelectedBatch = it
+                                                            onOngoingBatchSelected(it.batchId)
+                                                        }
+                                                    )
+                                                }
+                                            }
+
+                                        } else {
+
+                                            item {
+
+                                                if (ongoingCandidateList.isEmpty()) {
+                                                    //Text("No ongoing candidates available")
+                                                    EmptyStateView("No ongoing candidates available")
+
+                                                } else {
+                                                    CandidateDataPreviousBatchCard(
+                                                        candidate = ongoingCandidateList.map {
+                                                            CandidateListInspectionRes(
+                                                                candidateId = it.candidateId ?: "",
+                                                                name = it.candidateName ?: "",
+                                                                rollNumber = it.rollNo?.toString()
+                                                                    ?: "",
+                                                                contactNumber = it.mobileNo ?: "",
+                                                                status = it.status,
+                                                                candidateProfilePic = it.candidateProfilePic
+                                                                    ?: ""
+                                                            )
+                                                        },
+                                                        onVerifyCandidateClick = {
+                                                            ongoingSelectedCandidate = it
+                                                        }
+                                                    )
+                                                }
+                                            }
+
+
+                                        }
+                                    }
+
+                                    4 -> {
+
+                                        item {
+
+                                            TrainerDataCard(
+                                                trainer = trainerList,
+                                                onVerifyTrainerClick = { trainer ->
+                                                    selectedTrainer = trainer
+                                                    showTrainerSheet = true
+                                                }
+                                            )
+                                        }
+                                    }
+
+                                    5 -> {
+
+                                        item {
+
+                                            TrainingQualityController(
+                                                trainerList = trainerList,
+                                                viewModel = viewModelInspection,
+                                                snackbarHostState = snackbarHostState,
+                                                showForm = showTrainingForm,
+                                                onShowFormChange = { showTrainingForm = it }
+                                            )
+
+                                        }
+
+                                    }
+
+                                    /* 6 -> {
 
                                 item {
 
@@ -552,78 +609,79 @@ fun InspectionStepModernScreen(
 //                                    }
 //
 //                                }
+                                }
                             }
                         }
                     }
-                }
 
-                /* ---------------- BOTTOM SHEET ---------------- */
+                    /* ---------------- BOTTOM SHEET ---------------- */
 
-                if (currentStep == 2 && selectedCandidate != null) {
-                    previousSelectedBatch?.let { batch ->
-                        ProCandidateBottomSheet(
-                            condidateVerificationViewModel,
-                            batch.batchId,
+                    if (currentStep == 2 && selectedCandidate != null) {
+                        previousSelectedBatch?.let { batch ->
+                            ProCandidateBottomSheet(
+                                condidateVerificationViewModel,
+                                batch.batchId,
+                                snackbarHostState = snackbarHostState,
+                                candidateData = selectedCandidate!!,
+                                onDismiss = { selectedCandidate = null }
+                            )
+                        }
+                    }
+
+
+
+
+                    if (currentStep == 3 && ongoingSelectedCandidate != null) {
+                        LaunchedEffect(ongoingSelectedCandidate) {
+                            ongoingSelectedCandidate?.let { candidate ->
+
+                                findNavigator.navigate(
+                                    InspectionBasicDetailsFragmentDirections
+                                        .actionInspectionBasicDetailsFragmentToOngoingCandidateFragment(
+                                            candidate.candidateId,
+                                            batchId = ongoingSelectedBatch?.batchId.toString(),
+                                            candidate.name,
+                                            candidate.contactNumber,
+                                            candidate.rollNumber
+                                        )
+                                )
+
+                                ongoingSelectedCandidate = null
+                            }
+                        }
+                    }
+
+                    if (currentStep == 4 && showTrainerSheet) {
+
+                        TrainerBottomSheet(
                             snackbarHostState = snackbarHostState,
-                            candidateData = selectedCandidate!!,
-                            onDismiss = { selectedCandidate = null }
-                        )
-                    }
-                }
-
-
-
-
-                if (currentStep == 3 && ongoingSelectedCandidate != null) {
-                    LaunchedEffect(ongoingSelectedCandidate) {
-                        ongoingSelectedCandidate?.let { candidate ->
-
-                            findNavigator.navigate(
-                                InspectionBasicDetailsFragmentDirections
-                                    .actionInspectionBasicDetailsFragmentToOngoingCandidateFragment(
-                                        candidate.candidateId,
-                                        batchId = ongoingSelectedBatch?.batchId.toString(),
-                                        candidate.name,
-                                        candidate.contactNumber,
-                                        candidate.rollNumber
-                                    )
-                            )
-
-                            ongoingSelectedCandidate = null
-                        }
-                    }
-                }
-
-                if (currentStep == 4 && showTrainerSheet) {
-
-                    TrainerBottomSheet(
-                        snackbarHostState=snackbarHostState,
-                        viewModel = viewModelInspection,
-                        trainerName = selectedTrainer?.trainerName ?: "NA",
-                        trainerId = selectedTrainer?.trainerId ?: "NA",
-                        trainerCode = selectedTrainer!!.trainerCode,
-                        onDismiss = {
-                            showTrainerSheet = false
-                        }
-                    )
-                }
-
-                LaunchedEffect(currentStep) {
-
-                    if (currentStep == 4 && !trainerApiCalled) {
-
-                        trainerApiCalled = true
-
-                        viewModelInspection.getTrainersListInspection(
-                            TrainerListReq(
-                                appVersion = BuildConfig.VERSION_NAME,
-                                trainingCenterId = trainingCenterId.toIntOrNull() ?: 0
-                            )
+                            viewModel = viewModelInspection,
+                            trainerName = selectedTrainer?.trainerName ?: "NA",
+                            trainerId = selectedTrainer?.trainerId ?: "NA",
+                            trainerCode = selectedTrainer!!.trainerCode,
+                            onDismiss = {
+                                showTrainerSheet = false
+                            }
                         )
                     }
 
-                    if (currentStep != 4) {
-                        trainerApiCalled = false
+                    LaunchedEffect(currentStep) {
+
+                        if (currentStep == 4 && !trainerApiCalled) {
+
+                            trainerApiCalled = true
+
+                            viewModelInspection.getTrainersListInspection(
+                                TrainerListReq(
+                                    appVersion = BuildConfig.VERSION_NAME,
+                                    trainingCenterId = trainingCenterId.toIntOrNull() ?: 0
+                                )
+                            )
+                        }
+
+                        if (currentStep != 4) {
+                            trainerApiCalled = false
+                        }
                     }
                 }
             }
