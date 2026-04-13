@@ -15,6 +15,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import com.deendayalproject.R
+import com.deendayalproject.fragments.composeui.file.ProfileAvatar
 import com.deendayalproject.model.response.CandidateListInspectionRes
 
 
@@ -36,7 +37,8 @@ fun CandidateDataPreviousBatchCard(
                     name = item.name,
                     rollNumber = item.rollNumber,
                     contactNumber = item.contactNumber,
-                    status = item.status
+                    status = item.status,
+                    candidateProfilePic = item.candidateProfilePic
                 ),
                 onVerifyCandidateClick = {
                     onVerifyCandidateClick(item)
@@ -73,20 +75,11 @@ fun SingleCandidateDataPreviousBatchCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                Box(
-                    modifier = Modifier
-                        .size(50.dp)
-                        .clip(CircleShape)
-                        .background(Color(0xFFE3F2FD)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = candidate.name.take(1).uppercase(),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF795FDA)
-                    )
-                }
+                ProfileAvatar(
+                    name = candidate.name,
+                    base64Image = candidate.candidateProfilePic
+                )
+
 
                 Spacer(modifier = Modifier.width(10.dp))
 

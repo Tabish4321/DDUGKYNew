@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.R
+import com.deendayalproject.fragments.composeui.common.EmptyStateView
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
 import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
 import com.deendayalproject.model.response.TrainingCenterListInspecRes
@@ -37,7 +38,7 @@ fun TrainingCenterListScreen(
     Scaffold(
         topBar = {
             PremiumTopBar(
-                dynamicTitle = "Training Centers",
+                dynamicTitle = "Training Centers (Inspection)",
                 onBackClick = onBackClick
             )
         }
@@ -50,20 +51,7 @@ fun TrainingCenterListScreen(
             }
 
         } else if (items.isEmpty() && !isLoading) {
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "No Training Centers Available",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.outline
-                )
-            }
-
+            EmptyStateView("No Training Centers Available")
         } else {
 
             LazyColumn(

@@ -31,7 +31,7 @@ fun PremiumInspectionTabsUltra(
 
     val listState = rememberLazyListState()
 
-    // ⭐ AUTO SCROLL WHEN PAGE CHANGE
+    //  AUTO SCROLL WHEN PAGE CHANGE
     LaunchedEffect(pagerState.currentPage) {
         listState.animateScrollToItem(pagerState.currentPage)
     }

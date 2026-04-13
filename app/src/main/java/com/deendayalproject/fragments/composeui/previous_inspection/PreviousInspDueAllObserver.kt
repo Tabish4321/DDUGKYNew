@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import com.deendayalproject.fragments.composeui.common.ComplianceQuestionWithRemarks
+import com.deendayalproject.fragments.composeui.common.EmptyStateView
 import com.deendayalproject.fragments.composeui.common.InfoRow
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
 import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
@@ -60,18 +61,8 @@ fun PreviousInspectionDueAllObserver(
         if (isLoading) {
             ShimmerTrainingList()
         } else if(observationList.isEmpty()){
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "No Data Available",
-                    color = Color.Black,
-                    textAlign = TextAlign.Center
-                )
-            }
+            EmptyStateView("No Due Diligence Data Available")
+
         } else {
             LazyColumn(
                 modifier = Modifier

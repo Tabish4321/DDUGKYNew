@@ -22,6 +22,7 @@ import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.InspectionViewModel
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.fragments.composeui.EmptyScreen
+import com.deendayalproject.fragments.composeui.common.EmptyStateView
 import com.deendayalproject.util.NoDataHelper
 
 @Composable
@@ -47,7 +48,7 @@ fun PreviousInspectionEditScreen(
         pageCount = { tabs.size }
     )
 
-    // ⭐ SAVE SUCCESS → REFRESH LIST
+    //  SAVE SUCCESS → REFRESH LIST
     LaunchedEffect(saveSuccess) {
 
         if (saveSuccess) {
@@ -88,16 +89,7 @@ fun PreviousInspectionEditScreen(
                 val filtered = allList.filter { it.sectionName == tab.sectionKey }
 
                 if (filtered.isEmpty()) {
-
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "No Data Available",
-                            color = Color.Black
-                        )
-                    }
+                    EmptyStateView("No Previous Inspection Available")
 
                 } else {
 

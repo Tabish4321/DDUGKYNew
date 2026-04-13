@@ -1120,6 +1120,7 @@ class CandidateAssessmentViewModel(
 
             )
 
+
           val result=  repository.saveEntitlementsDistributionInspection(request)
 
             result.onSuccess {
