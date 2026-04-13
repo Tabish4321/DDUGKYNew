@@ -21,8 +21,8 @@ android {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
-        versionCode = 13
-        versionName = "1.4.0"
+        versionCode = 15
+        versionName = "2.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -141,25 +141,13 @@ dependencies {
 
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
-
 //    video play use
     implementation("androidx.media3:media3-exoplayer:1.3.1")
     implementation("androidx.media3:media3-ui:1.3.1")
 
 
-
-
-
-
     // Location Services
     implementation("com.google.android.gms:play-services-location:21.3.0")
-
-//    implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
-//    implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
-    // Firebase
-//    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
-//    implementation("com.google.firebase:firebase-crashlytics-ktx")
-//    implementation("com.google.firebase:firebase-analytics-ktx")
 
 
     // Testing
