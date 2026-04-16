@@ -68,32 +68,15 @@ class InspectionBasicDetailsFragment :
             )
 
             setContent {
-
                 val batchResponse by viewModel.previousBatchList.collectAsState()
                 val tcResponse by viewModel.tcDetails.collectAsState()
                 val candidateResponse by viewModel.candidatePrevBatchList.collectAsState()
                 val isLoading by viewModel.loading.collectAsState()
-
-
-                val ongoingBatchResponse by viewModel
-                    .onGoingBatchList
-                    .collectAsState()
-
-                val ongoingCandidateResponse by viewModel
-                    .candidateOngoingBatchList
-                    .collectAsState()
-
-                val ongoingBatchList =
-                    ongoingBatchResponse?.wrappedList ?: emptyList()
-
-                val ongoingCandidateList =
-                    ongoingCandidateResponse?.wrappedList ?: emptyList()
-
-
-
-
+                val ongoingBatchResponse by viewModel.onGoingBatchList.collectAsState()
+                val ongoingCandidateResponse by viewModel.candidateOngoingBatchList.collectAsState()
+                val ongoingBatchList = ongoingBatchResponse?.wrappedList ?: emptyList()
+                val ongoingCandidateList = ongoingCandidateResponse?.wrappedList ?: emptyList()
                 val snackbarHostState = remember { SnackbarHostState() }
-
                 var currentStep by rememberSaveable  { mutableStateOf(1) }
 
                 /* -------------------------------

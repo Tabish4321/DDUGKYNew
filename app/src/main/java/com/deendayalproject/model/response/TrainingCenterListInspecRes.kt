@@ -11,4 +11,5 @@ data class TrainingCenterListInspecRes(
     val trainingCenterCode: String?,
     val piaName: String?,
     val trainingCenterName: String?,
+    val inspectionCode: String?
 )

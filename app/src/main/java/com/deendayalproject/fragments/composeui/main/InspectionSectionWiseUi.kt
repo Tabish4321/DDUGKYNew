@@ -166,6 +166,11 @@ fun InspectionStepModernScreen(
    // "28.6296845 &  77.2189032" jeevan bharti
     trainingDetails?.coordinate?.let { coord ->
         rememberGeofenceChecker(apiCoordinate = coord) { inside, dist ->
+            if(BuildConfig.DEBUG){
+                isEligible = true
+                showDialog = false
+                return@rememberGeofenceChecker
+            }
             isEligible = inside
             distance = dist
 
@@ -174,7 +179,6 @@ fun InspectionStepModernScreen(
             }
         }
     }
-
     Box(modifier = Modifier.fillMaxSize()) {
 
         if (showDialog && !isEligible) {

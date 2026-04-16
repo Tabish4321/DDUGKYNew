@@ -40,7 +40,7 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = false
+            isDebuggable = true
         }
     }
     defaultConfig {
