@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Business
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.QrCode
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.CardDefaults
@@ -114,8 +115,8 @@ fun TrainingCenterCard(
 
                     InfoRow(
                         icon = Icons.Default.QrCode,
-                        label = "TC Code",
-                        value = item.trainingCenterCode
+                        label = "Inspection Code",
+                        value = item.inspectionCode
                     )
 
                     DividerLight()
@@ -124,6 +125,14 @@ fun TrainingCenterCard(
                         icon = Icons.Default.School,
                         label = "Center Type",
                         value = item.centerType
+                    )
+
+                    DividerLight()
+
+                    InfoRow(
+                        icon = Icons.Default.DateRange,
+                        label = "Inspection Date",
+                        value = item.inspectionDate
                     )
                 }
             }

@@ -113,7 +113,8 @@ class InspectionListFragment :
                                             inspectionDate = it.inspectionDate,
                                             trainingCenterCode= it.inspectionCode,
                                             piaName=it.piaName,
-                                            trainingCenterName = it.trainingCenterName
+                                            trainingCenterName = it.trainingCenterName,
+                                            inspectionCode = it.inspectionCode
                                         )
                                     },
                                     isLoading = false,

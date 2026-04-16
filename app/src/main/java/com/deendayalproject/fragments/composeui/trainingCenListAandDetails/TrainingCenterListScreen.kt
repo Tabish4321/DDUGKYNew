@@ -32,9 +32,6 @@ fun TrainingCenterListScreen(
     onBackClick: () -> Unit,
     onItemClick: (TrainingCenterListInspecRes) -> Unit
 ) {
-
-
-
     Scaffold(
         topBar = {
             PremiumTopBar(

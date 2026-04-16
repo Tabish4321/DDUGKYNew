@@ -42,28 +42,14 @@ import com.deendayalproject.util.AppUtil
 
 @Composable
 fun PreviousObservationScreen(
-
     viewModel: CandidateVerificationViewModel,
-
-    snackbarHostState: SnackbarHostState,
-    onFinalSubmit: () -> Unit
 ) {
 
     val state by viewModel.state.collectAsState()
-
-    val scope = rememberCoroutineScope()
     val context=LocalContext.current
-
-    val inspectionId = remember {
-        AppUtil.getSavedInspectionIdPreference(context)
-    }
 
     val previouseInspectionId = remember {
         AppUtil.getPreviouseSavedInspectionIdPreference(context)
-    }
-
-    val trainingCenterId = remember {
-        AppUtil.getSavedTrainingCenterIdPreference(context).toInt()
     }
 
 
@@ -71,39 +57,8 @@ fun PreviousObservationScreen(
         val id = previouseInspectionId.toIntOrNull()
         if (id != null) {
             viewModel.loadObservation(id)
-        } else {
-            Toast.makeText(context, "Invalid ID:${previouseInspectionId}", Toast.LENGTH_SHORT).show()
-            //Log.e("PreviousObservation", "Invalid ID: $previouseInspectionId")
         }
     }
-
-//    LaunchedEffect(state.submitSuccess) {
-//
-//        if (state.submitSuccess) {
-//
-//            scope.launch {
-//                snackbarHostState.showSnackbar("Inspection details saved successfully")
-//            }
-//
-//            viewModel.clearFinalSuccess()
-//        }
-//
-//    }
-//
-//    LaunchedEffect(state.error) {
-//
-//        state.error?.let {
-//
-//            scope.launch {
-//                snackbarHostState.showSnackbar(it)
-//            }
-//
-//            viewModel.clearFinalError()
-//
-//        }
-//
-//    }
-
 
 
     Box(
@@ -289,7 +244,8 @@ fun PreviousObservationScreen(
                         value = viewModel.finalRemark,
                         onValueChange = { viewModel.updateFinalRemark(it) },
                         label = "Enter final inspection remark",
-                        isError = viewModel.finalRemark.isBlank()
+                        isError = viewModel.finalRemark.isBlank(),
+                        maxLength = 2000
                     )
 
 //                    if (viewModel.finalRemark.isBlank()) {
