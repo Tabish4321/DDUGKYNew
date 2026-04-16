@@ -22,7 +22,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 14
-        versionName = "2.0.1"
+        versionName = "1.1.3"//"2.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -57,14 +57,14 @@ android {
     productFlavors {
         create("prod") {
             dimension = "environment"
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
         } //BASE_URL_LIVE
 
         create("demo") {
             dimension = "environment"
             applicationIdSuffix = ""
             versionNameSuffix = ""
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
         }//BASE_URL_DEMO
     }
 

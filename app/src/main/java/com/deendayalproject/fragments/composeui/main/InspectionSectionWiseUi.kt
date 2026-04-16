@@ -27,7 +27,6 @@ import com.deendayalproject.fragments.composeui.PreviousObservationScreen
 import com.deendayalproject.fragments.composeui.batchAndCandidate.BatchListSection
 import com.deendayalproject.fragments.composeui.batchAndCandidate.CandidateDataPreviousBatchCard
 import com.deendayalproject.fragments.composeui.common.EmptyStateView
-import com.deendayalproject.fragments.composeui.common.ErrorScreen
 import com.deendayalproject.fragments.composeui.common.InspectionProgressHeader
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
 import com.deendayalproject.fragments.composeui.common.ShimmerTrainingList
@@ -74,7 +73,6 @@ fun InspectionStepModernScreen(
     trainingDetails: TrainingInspCenterDetails?,
     onEditClick: (PreviousInspectionItemResponse) -> Unit
 ) {
-
     val backDispatcher = LocalOnBackPressedDispatcherOwner.current
     val context = LocalContext.current
     var trainerApiCalled by remember { mutableStateOf(false) }
@@ -365,14 +363,11 @@ fun InspectionStepModernScreen(
                                 .fillMaxSize()
                         ) {
                             PreviousObservationScreen(
-                                viewModel = condidateVerificationViewModel,
-                                snackbarHostState = snackbarHostState,
-                                onFinalSubmit = {}
+                                viewModel = condidateVerificationViewModel
                             )
                         }
 
                     } else {
-
                         Column(
                             modifier = Modifier
                                 .padding(padding)
