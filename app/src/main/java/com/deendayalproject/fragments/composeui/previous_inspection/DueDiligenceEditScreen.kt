@@ -12,12 +12,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.model.request.GetDDSaveDataReq
-import com.deendayalproject.model.request.GetPrevDueQueList
 import com.deendayalproject.model.request.SavePreDDQueReq
 import com.deendayalproject.model.response.PreviousObservationRes
 import com.deendayalproject.util.AppUtil
 import com.deendayalproject.viewmodel.InspectionViewModel
-import kotlinx.coroutines.delay
 
 @Composable
 fun DueDiligenceEditScreen(
@@ -37,7 +35,7 @@ fun DueDiligenceEditScreen(
     val inspectionId = AppUtil.getSavedInspectionIdPreference(context)
     val trainingCenterId = AppUtil.getSavedTrainingCenterIdPreference(context)
 
-     val observationList = listOf(
+    val observationList = listOf(
         PreviousObservationRes(
             questionId = 1,
             title = "Is the training center infrastructure available as per the approved due diligence?",

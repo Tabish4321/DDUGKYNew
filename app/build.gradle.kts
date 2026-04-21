@@ -21,8 +21,8 @@ android {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
-        versionCode = 16
-        versionName = "2.0.1"
+        versionCode = 18
+        versionName = "2.0.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -153,13 +153,6 @@ dependencies {
 
     // Location Services
     implementation("com.google.android.gms:play-services-location:21.3.0")
-
-//    implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
-//    implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
-    // Firebase
-//    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
-//    implementation("com.google.firebase:firebase-crashlytics-ktx")
-//    implementation("com.google.firebase:firebase-analytics-ktx")
 
 
     // Testing

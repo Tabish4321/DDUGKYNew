@@ -18,5 +18,6 @@ data class TrainingInspCenterDetails(
     val emailId: String,
     val tradeAndCapacity: String,
     val coordinate: String,
-    val roleName: String
+    val roleName: String,
+    val revisedSanctionOrderDoc: String
 )

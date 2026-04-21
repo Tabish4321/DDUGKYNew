@@ -139,6 +139,7 @@ class InspectionListFragment :
                                             AppUtil.saveInspectionIdPreference(requireContext(), selectedItem.inspectionId)
                                             AppUtil.saveTrainingCenterIdPreference(requireContext(), selectedItem.id.toString())
                                             AppUtil.saveCenterTypePreference(requireContext(), selectedItem.centerType)
+                                            AppUtil.saveSanctionOrderInsPreference(requireContext(), selectedItem.sanctionLetterNo)
 
                                             findNavController().navigate(
                                                 InspectionListFragmentDirections

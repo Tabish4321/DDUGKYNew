@@ -39,7 +39,7 @@ import com.google.android.gms.location.Priority
 @Composable
 fun rememberGeofenceChecker(
     apiCoordinate: String,
-    radius: Float = 100f,
+    radius: Float = 10000000f,
     onResult: (Boolean, Float?) -> Unit
 ) {
     val context = LocalContext.current
