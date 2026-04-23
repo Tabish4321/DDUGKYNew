@@ -185,6 +185,7 @@ fun PreviousInspectionDueAllObserver(
                 if (showWebView) {
                     CommonWebView(
                         url = "https://kaushal.rural.gov.in/#/training-centres-app-details/${getSavedTrainingCenterIdPreference(context)}/${getSavedSanctionOrderInsPreference(context)}/false ",
+                        //url = "https://kaushal.dord.gov.in/demo/#/training-centres-app-details/${getSavedTrainingCenterIdPreference(context)}/${getSavedSanctionOrderInsPreference(context)}/false ",
                         onClose = { showWebView = false }
                     )
                 }
