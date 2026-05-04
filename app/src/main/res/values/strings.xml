@@ -216,6 +216,7 @@
     <string name="training_center_address">Training Center Address</string>
     <string name="training_center_name">Training Center Name</string>
 
+
     <string name="sanction_order">Sanction Order</string>
     <string name="district_name">District Name</string>
     <string name="center_name">Center Name</string>
@@ -963,6 +964,7 @@
     <string name="number_of_completed_ojt">Number Of completed OJT</string>
     <string name="number_of_pending_ojt">Number of Pending OJT</string>
     <string name="select_sanction_order">Select Sanction Order</string>
+
     <string name="select_training_center">Select Training Center</string>
     <string name="candidate_response">candidate response</string>
 
@@ -1155,5 +1157,10 @@
     <string name="front">Front</string>
     <string name="back">Back</string>
     <string name="pause">pause</string>
+
+
+
+    <string name="select_pia_name">Select PIA Name</string>
+    <string name="pia_name_ojt" >PIA Name</string>
 
 </resources>
