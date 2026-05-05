@@ -17,6 +17,7 @@ import com.deendayalproject.model.response.OJT_Sanction_Res
 import com.deendayalproject.model.response.OJT_TrainingCenter_Res
 import com.deendayalproject.model.response.OjtListByBatch_Res
 import com.deendayalproject.model.response.OjtRes
+import com.deendayalproject.model.response.OjtSRLMRes
 import com.deendayalproject.model.response.SaveCandidateOjtVerificationResponse
 import com.deendayalproject.network.ApiService
 
@@ -71,6 +72,19 @@ class OJTRepository(context: Context) : BaseRepository<ApiService>(context) {
 
             apiService.getCandidateByOjt(request)
         }
+
+
+//       SRLM OJT Verification Implimentation
+
+
+
+    suspend fun fetchgetSanctionOrderListOjt(request: ModulesOJTSanctionOrderRequest, token: String): Result<OjtSRLMRes> =
+        safeApiCallWithToken(token) {
+
+            apiService.fetchgetSanctionOrderListOjt(request)
+        }
+
+
     suspend fun logOutUser( token: String): Result<LoginResponse>{
         return safeApiCallWithToken(token) {
             apiService.logOutUser()

@@ -1159,8 +1159,8 @@
     <string name="pause">pause</string>
 
 
-
-    <string name="select_pia_name">Select PIA Name</string>
+    <string name="srlm_on_job_training">SRLM On Job Training</string>
+    <string name="select_pia_name_sanctionOrderNo">Select PIA Name &amp; Sanction Order No</string>
     <string name="pia_name_ojt" >PIA Name</string>
 
 </resources>

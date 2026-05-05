@@ -26,6 +26,8 @@ import com.deendayalproject.model.response.OJTBatchList
 import com.deendayalproject.model.response.OJTSanctionOrderNumber
 import com.deendayalproject.model.response.OJTTrainingCenterName
 import com.deendayalproject.model.response.OjtListByBatch
+import com.deendayalproject.model.response.OjtSRLMRes
+import com.deendayalproject.model.response.SRLMRes
 import com.deendayalproject.network.SecurePreferenceManager.getToken
 import com.deendayalproject.util.AppUtil
 import kotlin.collections.forEach
@@ -37,10 +39,15 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
     private lateinit var viewModel: SharedViewModel
 
     // ---------- Sanction Order ----------
-    private var OJTSanctionOrderList: List<OJTSanctionOrderNumber> = emptyList()
+    private var SanctionOrderListOjt: List<SRLMRes> = emptyList()
+    private lateinit var OJTSanctionOrderListAdapter: ArrayAdapter<String>
+//    private var OJTSanctionOrderList: List<OJTSanctionOrderNumber> = emptyList()
+    private var OJTSanctionOrderList: List<SRLMRes> = emptyList()
     private val OJTSanctionOrderNumberList = kotlin.collections.ArrayList<String>()
     private lateinit var OJTSanctionOrderAdapter: ArrayAdapter<String>
-    private var selectedOJTSanctionOrder: OJTSanctionOrderNumber? = null
+
+//    private var selectedOJTSanctionOrder: OJTSanctionOrderNumber? = null
+    private var selectedOJTSanctionOrder: SRLMRes? = null
 
     // ---------- Training Center ----------
     private var OJTTrainingCenterList: List<OJTTrainingCenterName> = emptyList()
@@ -76,7 +83,7 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
         binding.toolbar.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
-        binding.toolbar.tvTitle.text = getStrings(R.string.on_job_training)
+        binding.toolbar.tvTitle.text = getStrings(R.string.srlm_on_job_training)
     }
 
     private fun setupViewModel() {
@@ -86,31 +93,88 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
     }
 
+
+
+
+
+//    SanctionOrderListOjt
+
+//    private fun fetchgetSanctionOrderListOjt() {
+//        val token = getToken(requireContext())
+//        val request = ModulesOJTSanctionOrderRequest(BuildConfig.VERSION_NAME)
+//        showProgressDialog("Loading...")
+//        viewModel.fetchgetSanctionOrderListOjt(request, "Bearer $token")
+//    }
+
     private fun fetchModulesSanction() {
+
         val token = getToken(requireContext())
         val request = ModulesOJTSanctionOrderRequest(BuildConfig.VERSION_NAME)
         showProgressDialog("Loading...")
-        viewModel.fetchOJTSanctionOrderNumber(request, "Bearer $token")
+        viewModel.fetchgetSanctionOrderListOjt(request, "Bearer $token")
+
+
+//        val token = getToken(requireContext())
+//        val request = ModulesOJTSanctionOrderRequest(BuildConfig.VERSION_NAME)
+//        showProgressDialog("Loading...")
+//        viewModel.fetchOJTSanctionOrderNumber(request, "Bearer $token")
     }
 
+
+
+
     private fun setupSanctionOrder() {
-        OJTSanctionOrderAdapter = ArrayAdapter(
+
+
+
+        OJTSanctionOrderListAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
             OJTSanctionOrderNumberList
         )
 
-        binding.OjtspinnerSanctionOrder.apply {
-            setAdapter(OJTSanctionOrderAdapter)
+        binding.OjtspinnerPiaName.apply {
+            setAdapter(OJTSanctionOrderListAdapter)
             keyListener = null
             setOnClickListener { showDropDown() }
+
             setOnItemClickListener { _, _, position, _ ->
-                selectedOJTSanctionOrder = OJTSanctionOrderList[position]
-                clearTrainingCenter()
-                clearBatchRecycler()
-                fetchModulesTrainingCenter(selectedOJTSanctionOrder!!.sanctionOrder)
+
+                if (OJTSanctionOrderList.isNotEmpty() && position < OJTSanctionOrderList.size) {
+
+                    selectedOJTSanctionOrder = OJTSanctionOrderList[position]
+                    clearTrainingCenter()
+                    clearBatchRecycler()
+
+                } else {
+//                    Toast.makeText(requireContext(), "Data not available", Toast.LENGTH_SHORT).show()
+                }
             }
+//            setOnItemClickListener { _, _, position, _ ->
+//                selectedOJTSanctionOrder = OJTSanctionOrderList[position]
+//                clearTrainingCenter()
+//                clearBatchRecycler()
+//            }
         }
+
+
+//        OJTSanctionOrderAdapter = ArrayAdapter(
+//            requireContext(),
+//            android.R.layout.simple_dropdown_item_1line,
+//            OJTSanctionOrderNumberList
+//        )
+//
+//        binding.OjtspinnerSanctionOrder.apply {
+//            setAdapter(OJTSanctionOrderAdapter)
+//            keyListener = null
+//            setOnClickListener { showDropDown() }
+//            setOnItemClickListener { _, _, position, _ ->
+//                selectedOJTSanctionOrder = OJTSanctionOrderList[position]
+//                clearTrainingCenter()
+//                clearBatchRecycler()
+//                fetchModulesTrainingCenter(selectedOJTSanctionOrder!!.sanctionOrder)
+//            }
+//        }
     }
 
     private fun fetchModulesTrainingCenter(sanctionOrder: String) {
@@ -228,17 +292,59 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
     }
 
     private fun observeViewModel() {
-        viewModel.ojtSanctionNo.observe(viewLifecycleOwner) { response ->
-            response.onSuccess {
+
+
+        viewModel.SanctionOrderListOjt.observe(viewLifecycleOwner) { response ->
+
+            response.onSuccess { res ->
+
                 dismissProgressDialog()
-                OJTSanctionOrderList = it.wrappedList
-                OJTSanctionOrderNumberList.clear()
-                OJTSanctionOrderList.forEach { so ->
-                    OJTSanctionOrderNumberList.add(so.sanctionOrder)
+
+                if (res.responseCode == 200) {
+                    // ✅ Normal Success
+                    SanctionOrderListOjt = res.wrappedList
+                    OJTSanctionOrderListAdapter.clear()
+
+                    SanctionOrderListOjt.forEach { so ->
+                        OJTSanctionOrderListAdapter.add(so.piaName)
+                    }
+
+                    OJTSanctionOrderListAdapter.notifyDataSetChanged()
+
+                } else {
+                    // 🔥 Dynamic message from API
+                    res.responseDesc?.let { message ->
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    // List clear (optional)
+                    OJTSanctionOrderListAdapter.clear()
+                    OJTSanctionOrderListAdapter.notifyDataSetChanged()
                 }
-                OJTSanctionOrderAdapter.notifyDataSetChanged()
+            }
+
+            response.onFailure {
+                dismissProgressDialog()
+
+                // अगर failure में भी dynamic message है
+                val errorMsg = it.message ?: "Error"
+                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
             }
         }
+
+
+
+//        viewModel.ojtSanctionNo.observe(viewLifecycleOwner) { response ->
+//            response.onSuccess {
+//                dismissProgressDialog()
+//                OJTSanctionOrderList = it.wrappedList
+//                OJTSanctionOrderNumberList.clear()
+//                OJTSanctionOrderList.forEach { so ->
+//                    OJTSanctionOrderNumberList.add(so.sanctionOrder)
+//                }
+//                OJTSanctionOrderAdapter.notifyDataSetChanged()
+//            }
+//        }
 
         viewModel.ojtTrainingCenterRequest.observe(viewLifecycleOwner) { response ->
             response.onSuccess {

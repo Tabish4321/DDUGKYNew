@@ -120,6 +120,7 @@ import com.deendayalproject.model.response.OJT_Sanction_Res
 import com.deendayalproject.model.response.OJT_TrainingCenter_Res
 import com.deendayalproject.model.response.OjtListByBatch_Res
 import com.deendayalproject.model.response.OjtRes
+import com.deendayalproject.model.response.OjtSRLMRes
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
@@ -716,6 +717,10 @@ interface ApiService {
 
     @POST(value = "getCandidateByOjt")
     suspend fun getCandidateByOjt(@Body request: ModulesCandidateByOjtRequest): Response<OjtRes>
+
+
+    @POST(value = "getSanctionOrderListOjt")
+    suspend fun fetchgetSanctionOrderListOjt(@Body request: ModulesOJTSanctionOrderRequest): Response<OjtSRLMRes>
 
 
 

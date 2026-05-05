@@ -71,6 +71,12 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
 
 
+    private val _SanctionOrderListOjt = MutableLiveData<Result<OjtSRLMRes>>()
+
+    val SanctionOrderListOjt: LiveData<Result<OjtSRLMRes>> = _SanctionOrderListOjt
+
+
+
     val ListByBatch: LiveData<Result<OjtListByBatch_Res>> = _ListByBatch
     private val _ojtSanctionNo = MutableLiveData<Result<OJT_Sanction_Res>>()
     private val _ojtTrainingCenterRequest = MutableLiveData<Result<OJT_TrainingCenter_Res>>()
@@ -1424,6 +1430,34 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             resultLiveData = _OjtListByBatch
         )
     }
+
+
+    fun fetchgetSanctionOrderListOjt(request: ModulesOJTSanctionOrderRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+
+                repositoryManager.ojt.fetchgetSanctionOrderListOjt(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _SanctionOrderListOjt
+        )
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     private val _getLogOutAPI = MutableLiveData<Result<LoginResponse>>()
