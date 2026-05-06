@@ -116,8 +116,10 @@ import com.deendayalproject.model.response.NonAreaInformationRoom
 import com.deendayalproject.model.response.NonceResponse
 import com.deendayalproject.model.response.OJTList_Res
 import com.deendayalproject.model.response.OJT_BatchList_Res
+import com.deendayalproject.model.response.OJT_OjtVerifiedTrainingCenter_Res
 import com.deendayalproject.model.response.OJT_Sanction_Res
 import com.deendayalproject.model.response.OJT_TrainingCenter_Res
+import com.deendayalproject.model.response.OJT_VerifiedBatchListSRLM_Res
 import com.deendayalproject.model.response.OjtListByBatch_Res
 import com.deendayalproject.model.response.OjtRes
 import com.deendayalproject.model.response.OjtSRLMRes
@@ -697,6 +699,19 @@ interface ApiService {
     suspend fun getOJTBatch(@Body request: ModulesOJTBatchRequest): Response<OJT_BatchList_Res>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     @POST(value = "getCompleteOjt")
     suspend fun getCompleteOjtList(@Body request: ModulesOJTCompleteOjtRequest): Response<OJTList_Res>
 
@@ -722,6 +737,18 @@ interface ApiService {
     @POST(value = "getSanctionOrderListOjt")
     suspend fun fetchgetSanctionOrderListOjt(@Body request: ModulesOJTSanctionOrderRequest): Response<OjtSRLMRes>
 
+
+
+
+
+
+
+
+    @POST(value = "getOjtVerifiedTrainingCenter")
+    suspend fun fetchgetCompOjtTrainingCenter(@Body request: ModulesOJTTrainingCenterRequest): Response<OJT_OjtVerifiedTrainingCenter_Res>
+
+    @POST(value = "getVerifiedBatchList")
+    suspend fun fetchgetVerifiedBatchList(@Body request: ModulesOJTBatchRequest): Response<OJT_VerifiedBatchListSRLM_Res>
 
 
 }

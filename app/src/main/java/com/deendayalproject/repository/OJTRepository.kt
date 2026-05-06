@@ -13,13 +13,18 @@ import com.deendayalproject.model.response.CandidateOjtVerificationRequest
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.OJTList_Res
 import com.deendayalproject.model.response.OJT_BatchList_Res
+import com.deendayalproject.model.response.OJT_OjtVerifiedTrainingCenter_Res
 import com.deendayalproject.model.response.OJT_Sanction_Res
 import com.deendayalproject.model.response.OJT_TrainingCenter_Res
+import com.deendayalproject.model.response.OJT_VerifiedBatchListSRLM_Res
 import com.deendayalproject.model.response.OjtListByBatch_Res
 import com.deendayalproject.model.response.OjtRes
 import com.deendayalproject.model.response.OjtSRLMRes
 import com.deendayalproject.model.response.SaveCandidateOjtVerificationResponse
 import com.deendayalproject.network.ApiService
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.POST
 
 
 // Ajit Ranjan create 27/Jan/2026 OJT Implimentation
@@ -36,10 +41,27 @@ class OJTRepository(context: Context) : BaseRepository<ApiService>(context) {
             apiService.getOJTTrainingCenter(request)
         }
 
+
+
+
+
+
+
     suspend fun fetchOJTBatchList(request: ModulesOJTBatchRequest, token: String): Result<OJT_BatchList_Res> =
         safeApiCallWithToken(token) {
             apiService.getOJTBatch(request)
         }
+
+
+
+
+
+
+
+
+
+
+
     suspend fun fetchOJTCompleteOjtList(request: ModulesOJTCompleteOjtRequest, token: String): Result<OJTList_Res> =
         safeApiCallWithToken(token) {
             apiService.getCompleteOjtList(request)
@@ -82,6 +104,23 @@ class OJTRepository(context: Context) : BaseRepository<ApiService>(context) {
         safeApiCallWithToken(token) {
 
             apiService.fetchgetSanctionOrderListOjt(request)
+        }
+
+
+
+    suspend fun fetchgetCompOjtTrainingCenter(request: ModulesOJTTrainingCenterRequest, token: String): Result<OJT_OjtVerifiedTrainingCenter_Res> =
+        safeApiCallWithToken(token) {
+            apiService.fetchgetCompOjtTrainingCenter(request)
+        }
+
+
+
+
+
+
+    suspend fun fetchgetVerifiedBatchList(request: ModulesOJTBatchRequest, token: String): Result<OJT_VerifiedBatchListSRLM_Res> =
+        safeApiCallWithToken(token) {
+            apiService.fetchgetVerifiedBatchList(request)
         }
 
 

@@ -1354,6 +1354,11 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
+
+
+
+
+
     fun fetchOJTBatch(request: ModulesOJTBatchRequest, token: String) {
         handleApiCall(
             apiCall = {
@@ -1365,6 +1370,24 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             resultLiveData = _ojtBatchRequest
         )
     }
+
+    private val _VerifiedBatchList = MutableLiveData<Result<OJT_VerifiedBatchListSRLM_Res>>()
+
+    val VerifiedBatchList: LiveData<Result<OJT_VerifiedBatchListSRLM_Res>> = _VerifiedBatchList
+
+    fun fetchgetVerifiedBatchList(request: ModulesOJTBatchRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchgetVerifiedBatchList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _VerifiedBatchList
+        )
+    }
+
+
 
     fun fetchOJTgetCompleteOjt(request: ModulesOJTCompleteOjtRequest, token: String) {
         handleApiCall(
@@ -1442,6 +1465,24 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                 )
             },
             resultLiveData = _SanctionOrderListOjt
+        )
+    }
+
+
+
+    private val _CompOjtTrainingCenter = MutableLiveData<Result<OJT_OjtVerifiedTrainingCenter_Res>>()
+
+    val CompOjtTrainingCenter: LiveData<Result<OJT_OjtVerifiedTrainingCenter_Res>> = _CompOjtTrainingCenter
+
+    fun fetchgetCompOjtTrainingCenter(request: ModulesOJTTrainingCenterRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchgetCompOjtTrainingCenter(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _CompOjtTrainingCenter
         )
     }
 
