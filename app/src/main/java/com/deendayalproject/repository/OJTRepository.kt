@@ -17,7 +17,9 @@ import com.deendayalproject.model.response.OJT_OjtVerifiedTrainingCenter_Res
 import com.deendayalproject.model.response.OJT_Sanction_Res
 import com.deendayalproject.model.response.OJT_TrainingCenter_Res
 import com.deendayalproject.model.response.OJT_VerifiedBatchListSRLM_Res
+import com.deendayalproject.model.response.OjtListByBatchSRLMRes
 import com.deendayalproject.model.response.OjtListByBatch_Res
+import com.deendayalproject.model.response.OjtListChildSRLMRes
 import com.deendayalproject.model.response.OjtRes
 import com.deendayalproject.model.response.OjtSRLMRes
 import com.deendayalproject.model.response.SaveCandidateOjtVerificationResponse
@@ -89,6 +91,18 @@ class OJTRepository(context: Context) : BaseRepository<ApiService>(context) {
         }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     suspend fun fetchCandidateByOjtBy(request: ModulesCandidateByOjtRequest, token: String): Result<OjtRes> =
         safeApiCallWithToken(token) {
 
@@ -123,6 +137,24 @@ class OJTRepository(context: Context) : BaseRepository<ApiService>(context) {
             apiService.fetchgetVerifiedBatchList(request)
         }
 
+
+
+
+
+
+
+
+
+    suspend fun fetVerifiedBatchCandidateList(request: ModulesCandidateByOjtRequest2, token: String): Result<OjtListByBatchSRLMRes> =
+        safeApiCallWithToken(token) {
+
+            apiService.getVerifiedBatchCandidateList(request)
+        }
+
+    suspend fun getVerifiedCompleteOjt(request: ModulesOJTCompleteOjtRequest, token: String): Result<OjtListChildSRLMRes> =
+        safeApiCallWithToken(token) {
+            apiService.getVerifiedCompleteOjt(request)
+        }
 
     suspend fun logOutUser( token: String): Result<LoginResponse>{
         return safeApiCallWithToken(token) {

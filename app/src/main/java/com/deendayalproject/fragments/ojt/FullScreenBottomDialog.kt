@@ -146,7 +146,10 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.addCallback
 import androidx.annotation.RequiresPermission
 import com.deendayalproject.network.SecurePreferenceManager.getToken
+import com.google.gson.GsonBuilder
 import java.nio.ByteBuffer
+import java.util.concurrent.TimeUnit
+
 //code commit 13/03/2026 Time 10:51 AM if user login DDUGKYUSER coditions mein static data use ho rhaa hai textView ke case mein  please update
 class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), SurfaceHolder.Callback {
 
@@ -2168,6 +2171,9 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         }
     }
 
+
+
+
     fun uploadCandidateOjtVerification(
         token: String,
         finalVideoPath: String,
@@ -2245,11 +2251,11 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
             .addFormDataPart("stipendRemark", RemarkbordingAndLoadingFacilities)
 
 
-            .addFormDataPart(
-                "verificationVideo",
-                videoFile.name,
-                videoFile.asRequestBody("video/mp4".toMediaType())
-            )
+//            .addFormDataPart(
+//                "verificationVideo",
+//                videoFile.name,
+//                videoFile.asRequestBody("video/mp4".toMediaType())
+//            )
             .build()
         val request = Request.Builder()
             .url(BuildConfig.BASE_URL + "saveCandidateOjtVerification")

@@ -1389,6 +1389,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
 
 
+
+
+
+
     fun fetchOJTgetCompleteOjt(request: ModulesOJTCompleteOjtRequest, token: String) {
         handleApiCall(
             apiCall = {
@@ -1400,6 +1404,36 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             resultLiveData = _CompleteOjt
         )
     }
+
+
+
+
+
+
+
+
+
+    private val _VerifiedCompleteChildOjt = MutableLiveData<Result<OjtListChildSRLMRes>>()
+
+    val VerifiedCompleteChildOjt: LiveData<Result<OjtListChildSRLMRes>> = _VerifiedCompleteChildOjt
+
+    fun getVerifiedCompleteOjt(request: ModulesOJTCompleteOjtRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.getVerifiedCompleteOjt(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _VerifiedCompleteChildOjt
+        )
+    }
+
+
+
+
+
+
     fun fetchgetCandidateOjtVerification(request: ModulesOJTCompleteOjtRequest, token: String) {
         handleApiCall(
             apiCall = {
@@ -1441,6 +1475,17 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
     fun fetchCandidateByOjtBy(request: ModulesCandidateByOjtRequest, token: String) {
         handleApiCall(
             apiCall = {
@@ -1470,6 +1515,20 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     private val _CompOjtTrainingCenter = MutableLiveData<Result<OJT_OjtVerifiedTrainingCenter_Res>>()
 
     val CompOjtTrainingCenter: LiveData<Result<OJT_OjtVerifiedTrainingCenter_Res>> = _CompOjtTrainingCenter
@@ -1491,6 +1550,27 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
 
 
+
+
+
+
+    private val _VerifiedBatchCandidateSRLMCandidateList = MutableLiveData<Result<OjtListByBatchSRLMRes>>()
+
+    val VerifiedBatchCandidateSRLMCandidateList: LiveData<Result<OjtListByBatchSRLMRes>> = _VerifiedBatchCandidateSRLMCandidateList
+
+
+    fun fetchgetVerifiedBatchCandidateList(request: ModulesCandidateByOjtRequest2, token: String) {
+        handleApiCall(
+            apiCall = {
+
+                repositoryManager.ojt.fetVerifiedBatchCandidateList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _VerifiedBatchCandidateSRLMCandidateList
+        )
+    }
 
 
 

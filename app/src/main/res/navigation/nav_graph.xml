@@ -42,6 +42,8 @@
             app:destination="@id/fragmentOJTChild" />
 
 
+
+
     </fragment>
 
 
@@ -56,14 +58,32 @@
         android:name="com.deendayalproject.fragments.ojt.ojt_SRLM.OJTSclectionSRLMFragment"
         android:label="OJTSRLM"
         tools:layout="@layout/fragment_o_j_t_sclection_s_r_l_m">
+
+
+
+
         <action
             android:id="@+id/action_fragmentOJTSelection_to_homeFragment"
             app:destination="@id/homeFragment" />
 
 
-<!--        <action-->
-<!--            android:id="@+id/action_fragmentOJTChild_to_OJTChild"-->
-<!--            app:destination="@id/fragmentOJTChild" />-->
+
+
+
+        <action
+            android:id="@+id/action_fragmentOJTSelectionSRLM_to_homeFragment"
+            app:destination="@id/homeFragment" />
+
+
+
+
+
+
+
+        <action
+            android:id="@+id/action_fragmentOJTChild_to_OJTChildSRLM"
+            app:destination="@id/fragmentOJTChildSRLM" />
+
 
 
     </fragment>
@@ -99,6 +119,30 @@
 
 
     </fragment>
+
+
+
+
+
+    <fragment
+        android:id="@+id/fragmentOJTChildSRLM"
+        android:name="com.deendayalproject.fragments.ojt.ojt_SRLM.OJTChildSRLMFragment"
+        android:label="OJTChild"
+        tools:layout="@layout/fragment_o_j_t_child_s_r_l_m">
+
+        <!--        <action-->
+        <!--            android:id="@+id/action_fragmentOJTChild_to_fragmentOJT"-->
+        <!--            app:destination="@id/fragmentOJT" />-->
+
+
+        <argument
+            android:name="batchId"
+            app:argType="string"/>
+
+
+
+    </fragment>
+
 
 
 

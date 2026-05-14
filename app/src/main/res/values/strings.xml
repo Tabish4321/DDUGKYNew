@@ -1161,6 +1161,12 @@
 
     <string name="srlm_on_job_training">SRLM On Job Training</string>
     <string name="select_pia_name_sanctionOrderNo">Select PIA Name &amp; Sanction Order No</string>
-    <string name="pia_name_ojt" >PIA Name</string>
+    <string name="pia_name_ojt">PIA Name</string>
+    <string name="verification_status">Verification Status</string>
+    <string name="ojtplanid">OjtPlanId</string>
+    <string name="ojt_candidate_srlm_list">SRLM OJT Candidate List</string>
 
+    <string name="srlm_on_job_training_verification_complete">SRLM OJT  Verification Details</string>
+
+    <string name="srlm_on_job_training_verification">SRLM On Job Training Verification</string>
 </resources>

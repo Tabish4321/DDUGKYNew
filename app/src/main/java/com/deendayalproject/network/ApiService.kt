@@ -120,7 +120,9 @@ import com.deendayalproject.model.response.OJT_OjtVerifiedTrainingCenter_Res
 import com.deendayalproject.model.response.OJT_Sanction_Res
 import com.deendayalproject.model.response.OJT_TrainingCenter_Res
 import com.deendayalproject.model.response.OJT_VerifiedBatchListSRLM_Res
+import com.deendayalproject.model.response.OjtListByBatchSRLMRes
 import com.deendayalproject.model.response.OjtListByBatch_Res
+import com.deendayalproject.model.response.OjtListChildSRLMRes
 import com.deendayalproject.model.response.OjtRes
 import com.deendayalproject.model.response.OjtSRLMRes
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
@@ -726,6 +728,14 @@ interface ApiService {
     @POST(value = "getOjtListByBatch")
     suspend fun getOjtListBy(@Body request: ModulesCandidateByOjtRequest2): Response<OjtListByBatch_Res>
 
+
+
+
+
+
+
+
+
 //    OjtListByBatchRes
 //    OjtListBy
 //    getCandidateByOjt
@@ -749,6 +759,17 @@ interface ApiService {
 
     @POST(value = "getVerifiedBatchList")
     suspend fun fetchgetVerifiedBatchList(@Body request: ModulesOJTBatchRequest): Response<OJT_VerifiedBatchListSRLM_Res>
+
+
+    @POST(value = "getVerifiedBatchCandidateList")
+    suspend fun getVerifiedBatchCandidateList(@Body request: ModulesCandidateByOjtRequest2): Response<OjtListByBatchSRLMRes>
+
+
+
+
+    @POST(value = "getVerifiedCompleteOjt")
+    suspend fun getVerifiedCompleteOjt(@Body request: ModulesOJTCompleteOjtRequest): Response<OjtListChildSRLMRes>
+
 
 
 }

@@ -38,7 +38,7 @@
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/on_job_training_verification"
+            android:text="@string/srlm_on_job_training_verification"
             android:textColor="@color/white"
             android:layout_marginStart="12dp"
             app:layout_constraintStart_toEndOf="@id/btnBack"
