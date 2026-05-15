@@ -49,7 +49,18 @@
                 android:textColor="@color/color_dark_green"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCareOfName" />
+            <SearchView
+                android:id="@+id/searchViewPiaName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:queryHint="@string/search_pia_name"
+                android:iconifiedByDefault="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
 
+                android:textColor="@color/color_dark_green"
+                android:textSize="15sp"
+                tools:ignore="LabelFor" />
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tPiaName"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -64,6 +75,9 @@
                 app:boxStrokeColor="@color/color_dark_green"
                 app:layout_constraintStart_toStartOf="@+id/tvFollowType"
                 app:layout_constraintTop_toBottomOf="@+id/tvFollowType">
+
+
+
 
                 <AutoCompleteTextView
                     android:id="@+id/OjtspinnerPiaName"

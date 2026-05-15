@@ -6,7 +6,7 @@
 
 
 
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -54,7 +54,9 @@
             android:exported="true"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.Ddugky"
-            tools:ignore="IntentFilterExportedReceiver">
+            tools:ignore="IntentFilterExportedReceiver"
+            android:supportsPictureInPicture="true"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

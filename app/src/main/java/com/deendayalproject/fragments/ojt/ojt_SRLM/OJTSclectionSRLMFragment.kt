@@ -2,42 +2,30 @@ package com.deendayalproject.fragments.ojt.ojt_SRLM
 
 import SharedViewModel
 import android.content.pm.ActivityInfo
-import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.SearchView
 import android.widget.Toast
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
-import com.deendayalproject.adapter.BatchAdapter
 import com.deendayalproject.adapter.BatchSRLMAdapter
-import com.deendayalproject.adapter.OjtListByBatchAdapter
+import com.deendayalproject.adapter.OjtListByBatchSRLMAdapter
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentOJTSclectionSRLMBinding
 import com.deendayalproject.model.request.ModulesCandidateByOjtRequest2
 import com.deendayalproject.model.request.ModulesOJTBatchRequest
 import com.deendayalproject.model.request.ModulesOJTSanctionOrderRequest
 import com.deendayalproject.model.request.ModulesOJTTrainingCenterRequest
-import com.deendayalproject.model.response.OJTBatchList
-import com.deendayalproject.model.response.OJTSanctionOrderNumber
-import com.deendayalproject.model.response.OJTTrainingCenterName
-import com.deendayalproject.model.response.OJT_OjtVerifiedTrainingCenter_Res
-import com.deendayalproject.model.response.OJT_VerifiedBatchListSRLM_Res
-import com.deendayalproject.model.response.OjtListByBatch
-import com.deendayalproject.model.response.OjtSRLMRes
+import com.deendayalproject.model.response.ListByBatchSRLM
 import com.deendayalproject.model.response.OjtVerifiedTrainingCenter
 import com.deendayalproject.model.response.SRLMRes
 import com.deendayalproject.model.response.VerifiedBatchListSRLM
 import com.deendayalproject.network.SecurePreferenceManager.getToken
 import com.deendayalproject.util.AppUtil
-import kotlin.collections.forEach
 
 
 class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(FragmentOJTSclectionSRLMBinding::inflate) {
@@ -54,6 +42,10 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
     // ---------- Training Center ----------
 
 
+    private var batchId: String = ""
+
+
+
     private var OJTTrainingCenterList: List<OjtVerifiedTrainingCenter> = emptyList()
     private val OJTTrainingCenterNameList = kotlin.collections.ArrayList<String>()
     private lateinit var OJTTrainingCenterAdapter: ArrayAdapter<String>
@@ -62,9 +54,9 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
 
     // ---------- Batch ----------
     private var OJTBatchList: List<VerifiedBatchListSRLM> = emptyList()
-    private var OJTByBatchList: List<OjtListByBatch> = emptyList()
+    private var OJTByBatchList: List<ListByBatchSRLM> = emptyList()
     private lateinit var batchAdapter: BatchSRLMAdapter
-    private lateinit var ojtListBatchAdapter: OjtListByBatchAdapter
+    private lateinit var ojtListBatchAdapter: OjtListByBatchSRLMAdapter
     private var selectedBatch: VerifiedBatchListSRLM? = null
 
     override fun initializeViews() {
@@ -130,22 +122,24 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
 
 
     }
+    private var filteredSanctionList: List<SRLMRes> = emptyList()
 
     private fun setupSanctionOrder() {
-
-
 
         OJTSanctionOrderListAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
-            OJTSanctionOrderNumberList
+            ArrayList()
         )
 
         binding.OjtspinnerPiaName.apply {
+
             setAdapter(OJTSanctionOrderListAdapter)
+
             keyListener = null
 
             setOnClickListener {
+
                 if (OJTSanctionOrderListAdapter.count > 0) {
                     showDropDown()
                 } else {
@@ -175,11 +169,153 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
                 } else {
                     Toast.makeText(context, "Data mismatch!", Toast.LENGTH_SHORT).show()
                 }
+
+
+
+
+
+
+//                val selectedItem =
+//                    OJTSanctionOrderListAdapter.getItem(position).toString()
+//
+//                val item2 = filteredSanctionList.find {
+//                    "${it.piaName} (${it.sanctionOrder})" == selectedItem
+//                }
+//
+//                item2?.let { fetchModulesTrainingCenters(it.sanctionOrder)
+//                }
+//
+//                if (item2 != null) {
+//
+//                    selectedOJTSanctionOrder = item2
+//
+//                    // Set selected value in dropdown
+//                    setText("${item2.piaName} (${item2.sanctionOrder})", false)
+//
+//                    clearTrainingCenter()
+//                    clearBatchRecycler()
+//
+//                    fetchModulesTrainingCenters(item2.sanctionOrder)
+//
+//                } else {
+//
+//                    Toast.makeText(
+//                        context,
+//                        "Data mismatch!",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
             }
         }
 
-
+        setupSearchView()
     }
+    private fun setupSearchView() {
+
+        filteredSanctionList = SanctionOrderListOjt
+
+        updateDropdown(filteredSanctionList)
+
+        binding.searchViewPiaName.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                val searchText = newText?.trim()?.lowercase() ?: ""
+
+                filteredSanctionList =
+                    if (searchText.isEmpty()) {
+
+                        SanctionOrderListOjt
+
+                    } else {
+
+                        SanctionOrderListOjt.filter {
+
+                            it.piaName.lowercase().contains(searchText) ||
+                                    it.sanctionOrder.lowercase().contains(searchText)
+                        }
+                    }
+
+                updateDropdown(filteredSanctionList)
+
+                // Auto open dropdown while typing
+                if (filteredSanctionList.isNotEmpty()) {
+
+                    binding.OjtspinnerPiaName.showDropDown()
+
+                }
+
+                return true
+            }
+        })
+    }
+    private fun updateDropdown(list: List<SRLMRes>) {
+
+        val displayList = list.map {
+
+            "${it.piaName} (${it.sanctionOrder})"
+        }
+
+        OJTSanctionOrderListAdapter.clear()
+
+        OJTSanctionOrderListAdapter.addAll(displayList)
+
+        OJTSanctionOrderListAdapter.notifyDataSetChanged()
+    }
+//    private fun setupSanctionOrder() {
+//
+//
+//
+//        OJTSanctionOrderListAdapter = ArrayAdapter(
+//            requireContext(),
+//            android.R.layout.simple_dropdown_item_1line,
+//            OJTSanctionOrderNumberList
+//        )
+//
+//        binding.OjtspinnerPiaName.apply {
+//            setAdapter(OJTSanctionOrderListAdapter)
+//            keyListener = null
+//
+//            setOnClickListener {
+//                if (OJTSanctionOrderListAdapter.count > 0) {
+//                    showDropDown()
+//                } else {
+//                    Toast.makeText(context, "No data available", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//
+//            setOnItemClickListener { parent, _, position, _ ->
+//
+//                val selectedPiaName = parent.getItemAtPosition(position).toString()
+//
+//                val item = SanctionOrderListOjt.find {
+//                    it.piaName.trim() == selectedPiaName.trim()
+//                }
+//
+//                if (item != null) {
+//
+//                    selectedOJTSanctionOrder = item
+//
+//                    clearTrainingCenter()
+//                    clearBatchRecycler()
+//
+//
+//
+//                    fetchModulesTrainingCenters(item.sanctionOrder)
+//
+//                } else {
+//                    Toast.makeText(context, "Data mismatch!", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+//
+//
+//    }
 
     private fun setupTrainingCenter() {
         OJTTrainingCenterAdapter = ArrayAdapter(
@@ -242,14 +378,13 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
                 BuildConfig.VERSION_NAME,
                 batch.batchId.toString()
             )
+            batch.batchId.toString()
             showProgressDialog("Loading...")
-            viewModel.fetchOJTgetOjtListByBatch(request, "Bearer $token")
+            viewModel.fetchgetVerifiedBatchCandidateList(request, "Bearer $token")
+            batchId=batch.batchId.toString()
 
 
-
-
-
-        }
+            }
 
 
         FetchOjtListByBatch()
@@ -266,9 +401,10 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
 
     private fun FetchOjtListByBatch() {
 
-        ojtListBatchAdapter = OjtListByBatchAdapter { batch ->
-            AppUtil.saveOJTBatchIDPreference(requireContext(), batch.ojtplanId.toString())
-            findNavController().navigate(R.id.action_fragmentOJTChild_to_OJTChild)
+        ojtListBatchAdapter = OjtListByBatchSRLMAdapter { batch ->
+
+//            findNavController().navigate(R.id.action_fragmentOJTChild_to_OJTChildSRLM)
+            findNavController().navigate(R.id.action_fragmentOJTChild_to_OJTChildSRLM)
 
         }
         binding.rvModules2.apply {
@@ -390,6 +526,34 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
                     OJTBatchList = data.wrappedList
                     batchAdapter.setItems(OJTBatchList)
                 }
+            }
+
+            response.onFailure { error ->
+                dismissProgressDialog()
+                Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+
+        viewModel.VerifiedBatchCandidateSRLMCandidateList.observe(viewLifecycleOwner) { response ->
+            response.onSuccess { data ->
+                dismissProgressDialog()
+
+                if (data.responseDesc == "No data available.") {
+
+                    Toast.makeText(
+                        requireContext(),
+                        data.responseDesc,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                } else {
+
+                    OJTByBatchList = data.wrappedList
+                    ojtListBatchAdapter.setItems(OJTByBatchList)
+                }
+
             }
 
             response.onFailure { error ->

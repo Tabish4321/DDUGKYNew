@@ -166,6 +166,22 @@ object AppUtil {
 
 
 
+    fun saveOJTCandidateIDPreference(context: Context, batchId: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("candidateId", batchId).apply()
+    }
+
+    fun getSavedOJTCandidateIDPreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("candidateId", "") ?: ""
+    }
+
+
+
+
+
 
 
     fun hideKeyboard(context: Context, view: View?) {

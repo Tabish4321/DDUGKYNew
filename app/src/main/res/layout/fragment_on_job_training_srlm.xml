@@ -38,7 +38,7 @@
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/on_job_training_verification"
+            android:text="@string/srlm_on_job_training_verification"
             android:textColor="@color/white"
             android:layout_marginStart="12dp"
             app:layout_constraintStart_toEndOf="@id/btnBack"
@@ -670,14 +670,13 @@
                             android:textStyle="bold" />
 
 
-                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:layout_marginTop="@dimen/dp_10"
 
-                            android:id="@+id/trainingQuestionDetailsLayout"
-                            xmlns:app="http://schemas.android.com/apk/res-auto">
+                            android:id="@+id/trainingQuestionDetailsLayout">
 <!--                            android:padding="@dimen/dp_17">-->
 <!--                            android:visibility="gone"-->
 
@@ -780,111 +779,113 @@
                                 </RadioGroup>
 
 
-                                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                    android:layout_width="150dp"
-                                    android:layout_gravity="center"
-                                    android:background="@color/black"
-                                    android:id="@+id/VideoLinlayout"
-                                    android:layout_height="wrap_content">
-<!--                                    android:visibility="gone"-->
-                                    <TextView
-                                        android:id="@+id/tvTitleVideo"
-                                        android:layout_width="wrap_content"
-                                        android:layout_centerHorizontal="true"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/capture_video"
-                                        android:textStyle="bold"
-                                        android:textColor="@color/white"
-                                        android:textSize="16sp"/>
-
-                                    <!-- Camera / Video -->
-                                    <FrameLayout
-                                        android:id="@+id/videoContainer"
-                                        android:layout_width="150dp"
-                                        android:layout_height="150dp"
-
-                                        android:layout_below="@id/tvTitleVideo">
-
-                                        <SurfaceView
-                                            android:id="@+id/surfaceView"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"/>
-
-                                        <VideoView
-                                            android:id="@+id/videoView"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:visibility="gone"/>
-
-                                    </FrameLayout>
-
-                                    <!-- Timer -->
-                                    <TextView
-                                        android:id="@+id/tvTimer"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="03:00"
-                                        android:textSize="20sp"
-                                        android:textColor="#fff"
-                                        android:layout_below="@id/videoContainer"
-                                        android:layout_centerHorizontal="true"
-                                        android:layout_marginTop="0dp"/>
-
-                                    <!-- Buttons -->
-                                    <LinearLayout
-                                        android:id="@+id/buttonLayout"
+                                    <RelativeLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@id/tvTimer"
-                                        android:gravity="center"
-                                        android:orientation="horizontal"
-                                        android:layout_marginTop="0dp">
+                                        android:layout_gravity="center"
+                                        android:background="@color/black"
+                                        android:id="@+id/VideoLinlayout"
+                                        android:layout_height="wrap_content">
+    <!--                                    android:visibility="gone"-->
+                                        <TextView
+                                            android:id="@+id/tvTitleVideo"
+                                            android:layout_width="wrap_content"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/capture_video"
+                                            android:textStyle="bold"
+                                            android:textColor="@color/white"
+                                            android:textSize="16sp"/>
 
-                                        <Button
-                                            android:id="@+id/btnRecord"
-                                            android:text="@string/start"
-                                            android:textSize="8sp"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"/>
+                                        <!-- Camera / Video -->
+                                        <FrameLayout
+                                            android:id="@+id/videoContainer"
+                                            android:layout_width="300dp"
+                                            android:layout_marginTop="10dp"
+                                            android:layout_height="250dp"
+                                            android:layout_marginEnd="30dp"
+                                            android:layout_marginStart="30dp"
+                                            android:layout_below="@id/tvTitleVideo">
 
-                                        <Button
-                                            android:id="@+id/btnPlayPause"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"
-                                            android:visibility="gone"
-                                            android:textSize="8sp"
-                                            android:layout_marginStart="8dp"
-                                            android:text="@string/play"/>
+                                            <SurfaceView
+                                                android:id="@+id/surfaceView"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent" />
 
-                                        <Button
-                                            android:id="@+id/btnStop"
-                                            android:text="@string/stop"
-                                            android:visibility="gone"
-                                            android:textSize="8sp"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"
-                                            android:layout_marginStart="8dp"/>
+                                            <VideoView
+                                                android:id="@+id/videoView"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:visibility="gone"/>
 
-                                        <Button
-                                            android:id="@+id/btnSwitch"
-                                            android:text="@string/back"
-                                            android:textSize="8sp"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"
-                                            android:layout_marginStart="8dp"/>
+                                        </FrameLayout>
 
-                                        <Button
-                                            android:id="@+id/btnDelete"
-                                            android:text="@string/delete"
-                                            android:visibility="gone"
-                                            android:textSize="8sp"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"
-                                            android:layout_marginStart="8dp"/>
+                                        <!-- Timer -->
+                                        <TextView
+                                            android:id="@+id/tvTimer"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="03:00"
+                                            android:textSize="20sp"
+                                            android:textColor="#fff"
+                                            android:layout_below="@id/videoContainer"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_marginTop="0dp"/>
 
-                                    </LinearLayout>
+                                        <!-- Buttons -->
+                                        <LinearLayout
+                                            android:id="@+id/buttonLayout"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@id/tvTimer"
+                                            android:gravity="center"
+                                            android:orientation="horizontal"
+                                            android:layout_marginTop="0dp">
 
-                                </RelativeLayout>
+                                            <Button
+                                                android:id="@+id/btnRecord"
+                                                android:text="@string/start"
+                                                android:textSize="8sp"
+                                                android:layout_width="80dp"
+                                                android:layout_height="36dp"/>
+
+                                            <Button
+                                                android:id="@+id/btnPlayPause"
+                                                android:layout_width="80dp"
+                                                android:layout_height="36dp"
+                                                android:visibility="gone"
+                                                android:textSize="8sp"
+                                                android:layout_marginStart="8dp"
+                                                android:text="@string/play"/>
+
+                                            <Button
+                                                android:id="@+id/btnStop"
+                                                android:text="@string/stop"
+                                                android:visibility="gone"
+                                                android:textSize="8sp"
+                                                android:layout_width="80dp"
+                                                android:layout_height="36dp"
+                                                android:layout_marginStart="8dp"/>
+
+                                            <Button
+                                                android:id="@+id/btnSwitch"
+                                                android:text="@string/front"
+                                                android:textSize="8sp"
+                                                android:layout_width="80dp"
+                                                android:layout_height="36dp"
+                                                android:layout_marginStart="8dp"/>
+
+                                            <Button
+                                                android:id="@+id/btnDelete"
+                                                android:text="@string/delete"
+                                                android:visibility="gone"
+                                                android:textSize="8sp"
+                                                android:layout_width="80dp"
+                                                android:layout_height="36dp"
+                                                android:layout_marginStart="8dp"/>
+
+                                        </LinearLayout>
+
+                                    </RelativeLayout>
 
 
                                 <LinearLayout
