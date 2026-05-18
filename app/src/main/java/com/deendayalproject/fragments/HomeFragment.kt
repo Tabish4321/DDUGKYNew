@@ -215,8 +215,8 @@ bindingInflater = FragmentHomeBinding::inflate
             "OJT_VERIFICATION_FORM_APP" ->
 
 
-//            navigate(R.id.action_homeFragment_to_SelectionSrlm)
-                navigate(R.id.action_homeFragment_to_SelectionFragment)
+            navigate(R.id.action_homeFragment_to_SelectionSrlm)
+//                navigate(R.id.action_homeFragment_to_SelectionFragment)
 
         }
     }
