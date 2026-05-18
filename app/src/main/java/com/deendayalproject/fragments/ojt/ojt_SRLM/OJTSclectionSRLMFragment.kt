@@ -16,6 +16,7 @@ import com.deendayalproject.adapter.BatchSRLMAdapter
 import com.deendayalproject.adapter.OjtListByBatchSRLMAdapter
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.FragmentOJTSclectionSRLMBinding
+import com.deendayalproject.fragments.RfCenterFragmentDirections
 import com.deendayalproject.model.request.ModulesCandidateByOjtRequest2
 import com.deendayalproject.model.request.ModulesOJTBatchRequest
 import com.deendayalproject.model.request.ModulesOJTSanctionOrderRequest
@@ -365,23 +366,32 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
         batchAdapter = BatchSRLMAdapter { batch ->
 
 
-            isProfileVisible = !isProfileVisible
+//            isProfileVisible = !isProfileVisible
+////
+//            binding.rvModules2.visibility = if (isProfileVisible) View.VISIBLE else View.GONE
 //
-            binding.rvModules2.visibility = if (isProfileVisible) View.VISIBLE else View.GONE
-
-            selectedBatch = batch
+//            selectedBatch = batch
 
 
+//            findNavController().navigate(R.id.action_fragmentOJTChild_to_OJTChildSRLM)
+//            fragmentOJTChildSRLM
+            val action = OJTSclectionSRLMFragmentDirections.actionFragmentOJTChildToOJTChildSRLM(batch.batchId.toString())
+//            val action = Fra.actionRfCenterFragmentToRfMultipleListFragment(
+//            val action = RfCenterFragmentDirections.actionRfCenterFragmentToRfMultipleListFragment(
+//                centerId,
+//                sanctionOrder
+//            )
+            findNavController().navigate(action)
 
-            val token = getToken(requireContext())
-            val request = ModulesCandidateByOjtRequest2(
-                BuildConfig.VERSION_NAME,
-                batch.batchId.toString()
-            )
-            batch.batchId.toString()
-            showProgressDialog("Loading...")
-            viewModel.fetchgetVerifiedBatchCandidateList(request, "Bearer $token")
-            batchId=batch.batchId.toString()
+//            val token = getToken(requireContext())
+//            val request = ModulesCandidateByOjtRequest2(
+//                BuildConfig.VERSION_NAME,
+//                batch.batchId.toString()
+//            )
+//            batch.batchId.toString()
+//            showProgressDialog("Loading...")
+//            viewModel.fetchgetVerifiedBatchCandidateList(request, "Bearer $token")
+//            batchId=batch.batchId.toString()
 
 
             }
@@ -404,7 +414,7 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
         ojtListBatchAdapter = OjtListByBatchSRLMAdapter { batch ->
 
 //            findNavController().navigate(R.id.action_fragmentOJTChild_to_OJTChildSRLM)
-            findNavController().navigate(R.id.action_fragmentOJTChild_to_OJTChildSRLM)
+//            findNavController().navigate(R.id.action_fragmentOJTChild_to_OJTChildSRLM)
 
         }
         binding.rvModules2.apply {

@@ -151,6 +151,16 @@ import com.deendayalproject.network.SecurePreferenceManager.getToken
 import java.nio.ByteBuffer
 //code commit 13/03/2026 Time 10:51 AM if user login DDUGKYUSER coditions mein static data use ho rhaa hai textView ke case mein  please update
 class SRLMBottomDialog( private val batch: List<ChildSRLM>) :  DialogFragment(), SurfaceHolder.Callback {
+
+
+//    private var _binding: FragmentOnJobTrainingBinding? = null
+
+
+
+
+
+
+//    private var _binding: FragmentOnJobTrainingSrlmBinding? = null
 private var _binding: FragmentOnJobTrainingSrlmBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel

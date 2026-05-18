@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.deendayalproject.R
 import com.deendayalproject.model.response.ChildSRLM
+import com.deendayalproject.model.response.ListByBatchSRLM
 import com.deendayalproject.model.response.OJTList
 import com.deendayalproject.model.response.OjtBatchRes
 import com.deendayalproject.model.response.OjtListChildSRLMRes
@@ -33,12 +34,12 @@ import java.util.Locale
 
 
 class ChildSRLMAdapter(
-    private val listener: (ChildSRLM) -> Unit
+    private val listener: (ListByBatchSRLM) -> Unit
 ) : RecyclerView.Adapter<ChildSRLMAdapter.BatchViewHolder>() {
 
-    private val items = kotlin.collections.ArrayList<ChildSRLM>()
+    private val items = kotlin.collections.ArrayList<ListByBatchSRLM>()
 
-    fun setItems(list: List<ChildSRLM>) {
+    fun setItems(list: List<ListByBatchSRLM>) {
         items.clear()
         items.addAll(list)
         notifyDataSetChanged()
@@ -51,52 +52,53 @@ class ChildSRLMAdapter(
         val Tvcandidate_status: TextView = itemView.findViewById(R.id.Tvcandidate_status)
         val Tvverification_date: TextView = itemView.findViewById(R.id.Tvverification_date)
 
-        fun bind(batch: ChildSRLM) {
+        fun bind(batch: ListByBatchSRLM) {
 
             TvcandidateId.text = batch.candidateId
-            TvcandidatName.text = batch.piaName
+            TvcandidatName.text = batch.candidateName
+//            Tvcandidate_status.text = batch.candidateName
 //            Tvverification_date.text = batch.verificationDate
 
             val context = itemView.context
 
-//            val verificationValue = batch.verificationStatus
+            val verificationValue = batch.verificationStatus
 //            val verificationValue = "Complete"
 
 
-//            when (verificationValue) {
-//                "NA" -> {
-//
-//                    Tvcandidate_status.text ="Add Verification"
-//                    Tvcandidate_status.setTextColor(Color.BLUE)
-//
-//                    // underline add
-//                    Tvcandidate_status.paintFlags =
-//                        Tvcandidate_status.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-//                }
-//
-//
-//                "Completed" -> {
-//
-//                    Tvcandidate_status.text = "Completed"
-////                    Tvcandidate_status.setTextColor(Color.GREEN)
-//                    Tvcandidate_status.setTextColor(Color.parseColor("#008000"))
-//
-//                    // underline add
-//                    Tvcandidate_status.paintFlags =
-//                        Tvcandidate_status.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-//                }
-//
-//                else -> {
-//
-//
-//                    Tvcandidate_status.setTextColor(Color.BLACK)
-//
-//                    Tvcandidate_status.paintFlags =
-//                        Tvcandidate_status.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
-//
-//                    Tvcandidate_status.setOnClickListener(null)
-//                }
-//            }
+            when (verificationValue) {
+                "NA" -> {
+
+                    Tvcandidate_status.text ="Add Verification"
+                    Tvcandidate_status.setTextColor(Color.BLUE)
+
+                    // underline add
+                    Tvcandidate_status.paintFlags =
+                        Tvcandidate_status.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                }
+
+
+                "Completed" -> {
+
+                    Tvcandidate_status.text = "Completed"
+//                    Tvcandidate_status.setTextColor(Color.GREEN)
+                    Tvcandidate_status.setTextColor(Color.parseColor("#008000"))
+
+                    // underline add
+                    Tvcandidate_status.paintFlags =
+                        Tvcandidate_status.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                }
+
+                else -> {
+
+
+                    Tvcandidate_status.setTextColor(Color.BLACK)
+
+                    Tvcandidate_status.paintFlags =
+                        Tvcandidate_status.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
+
+                    Tvcandidate_status.setOnClickListener(null)
+                }
+            }
 
             // Full item click (optional)
             itemView.setOnClickListener {

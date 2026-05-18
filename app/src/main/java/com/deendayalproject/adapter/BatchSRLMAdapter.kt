@@ -18,12 +18,7 @@ import com.deendayalproject.model.response.OJTList
 import com.deendayalproject.model.response.VerifiedBatchListSRLM
 
 
-//<!--           {
-//            "batchId": 241,
-//            "batchRegNo": "BT25D270241",
-//            "courseName": "Multi-Skill Technician (Home Appliances)",
-//            "numberOfOJT": 2
-//        }-->
+
 class BatchSRLMAdapter(
     private val listener: (VerifiedBatchListSRLM) -> Unit
 ) : RecyclerView.Adapter<BatchSRLMAdapter.BatchViewHolder>() {
