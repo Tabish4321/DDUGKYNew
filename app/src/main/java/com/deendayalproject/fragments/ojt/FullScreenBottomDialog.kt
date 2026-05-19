@@ -147,7 +147,13 @@ import androidx.activity.addCallback
 import androidx.annotation.RequiresPermission
 import com.deendayalproject.network.SecurePreferenceManager.getToken
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import okhttp3.ConnectionPool
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.Response
+import java.io.IOException
 import java.nio.ByteBuffer
 import java.util.concurrent.TimeUnit
 
@@ -2173,11 +2179,15 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
     }
 
 
+    private var uploadJob: Job? = null
+
     private fun uploadCandidateOjtVerification(
         token: String,
         finalVideoPath: String,
         image1Base64: String
     ) {
+
+        if (!isAdded) return
 
         if (finalVideoPath.isEmpty()) {
             Toast.makeText(requireContext(), "Video path missing", Toast.LENGTH_SHORT).show()
@@ -2191,300 +2201,813 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
             return
         }
 
+        if (videoFile.length() <= 0) {
+            Toast.makeText(requireContext(), "Video file empty", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         Log.d("VIDEO_PATH", finalVideoPath)
-        Log.d("VIDEO_SIZE", "${videoFile.length() / 1024} KB")
+        Log.d("VIDEO_SIZE_MB", "${videoFile.length() / (1024 * 1024)} MB")
 
         val progressDialog = ProgressDialog(requireContext()).apply {
-            setMessage("Uploading...")
+            setMessage("Uploading video...\nPlease wait")
             setCancelable(false)
             show()
         }
 
-        try {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
 
-            val client = OkHttpClient.Builder()
-                .connectTimeout(5, TimeUnit.MINUTES)
-                .writeTimeout(5, TimeUnit.MINUTES)
-                .readTimeout(5, TimeUnit.MINUTES)
-                .retryOnConnectionFailure(true)
-                .build()
+            activity?.runOnUiThread {
 
-            //==========================
-            // SAFE VALUES
-            //==========================
+                if (!isAdded) return@runOnUiThread
 
-            val selectedDate =
-                binding.tvSelectedDate.text?.toString()?.trim().orEmpty()
+                if (progressDialog.isShowing) {
+                    progressDialog.dismiss()
+                }
 
-            val howMuchSelectedDate =
-                binding.tvHowMuchSelectedDate.text?.toString()?.trim().orEmpty()
+                AlertDialog.Builder(requireContext())
+                    .setTitle("Upload Failed")
+                    .setMessage(throwable.localizedMessage ?: "Unknown Error")
+                    .setPositiveButton("OK", null)
+                    .show()
+            }
+        }
 
-            val gettingFor =
-                binding.etOjtEnterYourGettingFor.text?.toString()?.trim().orEmpty()
+        uploadJob = lifecycleScope.launch(
+            Dispatchers.IO + SupervisorJob() + exceptionHandler
+        ) {
 
-            val duringTimes =
-                binding.etOjtEnterDuringTimes.text?.toString()?.trim().orEmpty()
+            try {
 
-            val previousDoingToday =
-                binding.etSelectedRandomDate.text?.toString()?.trim().orEmpty()
+                //========================================
+                // BETTER OKHTTP CLIENT
+                //========================================
 
-            val doingToday =
-                binding.etOjtTrainingCenter.text?.toString()?.trim().orEmpty()
+                val client = OkHttpClient.Builder()
 
-            val noReason =
-                binding.etNoReason.text?.toString()?.trim().orEmpty()
+                    // Slow Internet Support
+                    .connectTimeout(10, TimeUnit.MINUTES)
+                    .writeTimeout(10, TimeUnit.MINUTES)
+                    .readTimeout(10, TimeUnit.MINUTES)
 
-            val remarkBoarding =
-                binding.etRemarkbordingAndLoadingFacilities.text?.toString()?.trim().orEmpty()
+                    // Retry
+                    .retryOnConnectionFailure(true)
 
-            val remarkSupervisor =
-                binding.etRemarkFieldLevelSupervisorNominated.text?.toString()?.trim().orEmpty()
+                    // Better Connection
+                    .connectionPool(
+                        ConnectionPool(
+                            5,
+                            5,
+                            TimeUnit.MINUTES
+                        )
+                    )
 
-            val remarkMaterials =
-                binding.etRemarkareYouGivenEnoughMaterials.text?.toString()?.trim().orEmpty()
+                    // Auto Retry Interceptor
+                    .addInterceptor { chain ->
 
-            val remarkInstrument =
-                binding.etRemarkareYouGivenSufficientInstument.text?.toString()?.trim().orEmpty()
+                        var response: Response? = null
+                        var tryCount = 0
+                        val maxLimit = 3
 
-            val remarkFacilities =
-                binding.etRemarkAreBoardingAandLoadingFacilitiesProvided.text?.toString()?.trim().orEmpty()
-
-            //==========================
-            // MULTIPART BODY
-            //==========================
-
-            val requestBody = MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-
-                .addFormDataPart("appVersion", BuildConfig.VERSION_NAME)
-                .addFormDataPart("ojtPlanId", batch[0].ojtPlanId.toString())
-                .addFormDataPart("sanctionOrder", batch[0].sanctionOrder ?: "")
-                .addFormDataPart("trainingCenterId", batch[0].trainingCenterId.toString())
-                .addFormDataPart(
-                    "batchId",
-                    AppUtil.getSavedOJTBatchIDPreference(requireContext())
-                )
-                .addFormDataPart("candidateId", batch[0].candidateId ?: "")
-                .addFormDataPart("piaCode", batch[0].piaCode ?: "")
-                .addFormDataPart("employeersId", batch[0].employeersId.toString())
-                .addFormDataPart("month", binding.tvMonth.text.toString())
-                .addFormDataPart("fatherName", batch[0].fatherName ?: "")
-                .addFormDataPart("districtCode", batch[0].districtCode ?: "")
-                .addFormDataPart("trainingStartDate", batch[0].batchStartDate ?: "")
-                .addFormDataPart("trainingEndDate", batch[0].batchEndDate ?: "")
-                .addFormDataPart("ojtStartDate", selectedRandomDateStr ?: "")
-                .addFormDataPart("ojtEndDate", batch[0].ojtEndDate ?: "")
-                .addFormDataPart("verificationDate", binding.tvCurrentDate.text.toString())
-                .addFormDataPart("verificationTime", binding.tvTime.text.toString())
-                .addFormDataPart("candidateAvailable", selectedAnswer ?: "")
-                .addFormDataPart("workPlaceId", batch[0].workplaceId ?: "")
-                .addFormDataPart("reason", noReason)
-                .addFormDataPart("ojtStartByCandidate", selectedDate)
-                .addFormDataPart("todayActivity", doingToday)
-
-                .addFormDataPart(
-                    "previousActivity",
-                    howMuchSelectedDate + " " + previousDoingToday
-                )
-
-                .addFormDataPart(
-                    "isFieldLevelSupervisorNominated",
-                    selectednominatedAnswer ?: ""
-                )
-
-                .addFormDataPart(
-                    "supervisorInteractionTimeCount",
-                    duringTimes
-                )
-
-                .addFormDataPart(
-                    "areYouGivenSufficientInstument",
-                    selectedinstrumentAnswer ?: ""
-                )
-
-                .addFormDataPart(
-                    "areYouGivenEnoughMaterials",
-                    selectedmaterialsAnswer ?: ""
-                )
-
-                .addFormDataPart(
-                    "eligibleStipend",
-                    selectedstipinedAnswer ?: ""
-                )
-
-                .addFormDataPart(
-                    "stipendGetting",
-                    gettingFor
-                )
-
-                .addFormDataPart(
-                    "bordingAndLoadingFacilities",
-                    AreBoardingAandLoadingFacilitiesProvided ?: ""
-                )
-
-                .addFormDataPart(
-                    "candidateRollNo",
-                    batch[0].rollNo.toString()
-                )
-
-                .addFormDataPart(
-                    "latitude",
-                    latitude.toString()
-                )
-
-                .addFormDataPart(
-                    "longitude",
-                    longitude.toString()
-                )
-
-                .addFormDataPart(
-                    "verificationImage",
-                    image1Base64
-                )
-
-                // VIDEO PART
-                .addFormDataPart(
-                    "verificationVideo",
-                    videoFile.name,
-                    videoFile.asRequestBody("video/mp4".toMediaTypeOrNull())
-                )
-
-                .addFormDataPart(
-                    "fieldLevelSupervisorNominatedRemark",
-                    remarkSupervisor
-                )
-
-                .addFormDataPart(
-                    "youGivenSufficientInstumentRemark",
-                    remarkInstrument
-                )
-
-                .addFormDataPart(
-                    "youGivenEnoughMaterialsRemark",
-                    remarkMaterials
-                )
-
-                .addFormDataPart(
-                    "bordingAndLoadingFacilitiesRemark",
-                    remarkFacilities
-                )
-
-                .addFormDataPart(
-                    "isStipendSame",
-                    selectedfacilitiesAnswer ?: ""
-                )
-
-                .addFormDataPart(
-                    "stipendRemark",
-                    remarkBoarding
-                )
-
-                .build()
-
-            val request = Request.Builder()
-                .url(BuildConfig.BASE_URL + "saveCandidateOjtVerification")
-                .post(requestBody)
-                .addHeader("ddugkyappauth", "Bearer $token")
-                .build()
-
-            //==========================
-            // API CALL
-            //==========================
-
-            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-
-                try {
-
-                    val response = client.newCall(request).execute()
-
-                    val responseBody = response.body?.string().orEmpty()
-
-                    Log.d("API_RESPONSE_CODE", response.code.toString())
-                    Log.d("API_RESPONSE", responseBody)
-
-                    withContext(Dispatchers.Main) {
-
-                        progressDialog.dismiss()
-
-                        if (response.isSuccessful) {
+                        while (tryCount < maxLimit) {
 
                             try {
 
-                                val jsonObject = JSONObject(responseBody)
+                                response = chain.proceed(chain.request())
 
-                                val message =
-                                    jsonObject.optString(
-                                        "responseDesc",
-                                        "Upload Successful"
-                                    )
-
-                                AlertDialog.Builder(requireContext())
-                                    .setTitle("Success")
-                                    .setMessage(message)
-                                    .setCancelable(false)
-                                    .setPositiveButton("OK") { dialog, _ ->
-                                        dialog.dismiss()
-                                        this@FullScreenDialog.dialog?.dismiss()
-                                    }
-                                    .show()
+                                if (response.isSuccessful) {
+                                    break
+                                }
 
                             } catch (e: Exception) {
-
-                                AlertDialog.Builder(requireContext())
-                                    .setTitle("Success")
-                                    .setMessage(responseBody)
-                                    .setPositiveButton("OK") { dialog, _ ->
-                                        dialog.dismiss()
-                                    }
-                                    .show()
+                                e.printStackTrace()
                             }
 
-                        } else {
+                            tryCount++
 
-                            AlertDialog.Builder(requireContext())
-                                .setTitle("Server Error")
-                                .setMessage(
-                                    "HTTP ${response.code}\n\n$responseBody"
-                                )
-                                .setPositiveButton("OK") { dialog, _ ->
-                                    dialog.dismiss()
-                                }
-                                .show()
+                            Thread.sleep(2000)
                         }
+
+                        response ?: throw IOException("Unable to connect server")
                     }
 
-                } catch (e: Exception) {
+                    .build()
 
-                    withContext(Dispatchers.Main) {
+                //========================================
+                // SAFE TEXT VALUES
+                //========================================
 
+                val selectedDate =
+                    binding.tvSelectedDate.text?.toString()?.trim().orEmpty()
+
+                val howMuchSelectedDate =
+                    binding.tvHowMuchSelectedDate.text?.toString()?.trim().orEmpty()
+
+                val gettingFor =
+                    binding.etOjtEnterYourGettingFor.text?.toString()?.trim().orEmpty()
+
+                val duringTimes =
+                    binding.etOjtEnterDuringTimes.text?.toString()?.trim().orEmpty()
+
+                val previousDoingToday =
+                    binding.etSelectedRandomDate.text?.toString()?.trim().orEmpty()
+
+                val doingToday =
+                    binding.etOjtTrainingCenter.text?.toString()?.trim().orEmpty()
+
+                val noReason =
+                    binding.etNoReason.text?.toString()?.trim().orEmpty()
+
+                val remarkBoarding =
+                    binding.etRemarkbordingAndLoadingFacilities.text?.toString()?.trim().orEmpty()
+
+                val remarkSupervisor =
+                    binding.etRemarkFieldLevelSupervisorNominated.text?.toString()?.trim().orEmpty()
+
+                val remarkMaterials =
+                    binding.etRemarkareYouGivenEnoughMaterials.text?.toString()?.trim().orEmpty()
+
+                val remarkInstrument =
+                    binding.etRemarkareYouGivenSufficientInstument.text?.toString()?.trim().orEmpty()
+
+                val remarkFacilities =
+                    binding.etRemarkAreBoardingAandLoadingFacilitiesProvided.text?.toString()?.trim().orEmpty()
+
+                //========================================
+                // VIDEO REQUEST BODY
+                //========================================
+
+                val videoRequestBody =
+                    videoFile.asRequestBody("video/mp4".toMediaTypeOrNull())
+
+                //========================================
+                // MULTIPART REQUEST
+                //========================================
+
+                val requestBody = MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+
+                    .addFormDataPart("appVersion", BuildConfig.VERSION_NAME)
+                    .addFormDataPart("ojtPlanId", batch[0].ojtPlanId.toString())
+                    .addFormDataPart("sanctionOrder", batch[0].sanctionOrder ?: "")
+                    .addFormDataPart("trainingCenterId", batch[0].trainingCenterId.toString())
+
+                    .addFormDataPart(
+                        "batchId",
+                        AppUtil.getSavedOJTBatchIDPreference(requireContext())
+                    )
+
+                    .addFormDataPart("candidateId", batch[0].candidateId ?: "")
+                    .addFormDataPart("piaCode", batch[0].piaCode ?: "")
+                    .addFormDataPart("employeersId", batch[0].employeersId.toString())
+                    .addFormDataPart("month", binding.tvMonth.text.toString())
+                    .addFormDataPart("fatherName", batch[0].fatherName ?: "")
+                    .addFormDataPart("districtCode", batch[0].districtCode ?: "")
+                    .addFormDataPart("trainingStartDate", batch[0].batchStartDate ?: "")
+                    .addFormDataPart("trainingEndDate", batch[0].batchEndDate ?: "")
+                    .addFormDataPart("ojtStartDate", selectedRandomDateStr ?: "")
+                    .addFormDataPart("ojtEndDate", batch[0].ojtEndDate ?: "")
+                    .addFormDataPart("verificationDate", binding.tvCurrentDate.text.toString())
+                    .addFormDataPart("verificationTime", binding.tvTime.text.toString())
+                    .addFormDataPart("candidateAvailable", selectedAnswer ?: "")
+                    .addFormDataPart("workPlaceId", batch[0].workplaceId ?: "")
+                    .addFormDataPart("reason", noReason)
+                    .addFormDataPart("ojtStartByCandidate", selectedDate)
+                    .addFormDataPart("todayActivity", doingToday)
+
+                    .addFormDataPart(
+                        "previousActivity",
+                        "$howMuchSelectedDate $previousDoingToday"
+                    )
+
+                    .addFormDataPart(
+                        "isFieldLevelSupervisorNominated",
+                        selectednominatedAnswer ?: ""
+                    )
+
+                    .addFormDataPart(
+                        "supervisorInteractionTimeCount",
+                        duringTimes
+                    )
+
+                    .addFormDataPart(
+                        "areYouGivenSufficientInstument",
+                        selectedinstrumentAnswer ?: ""
+                    )
+
+                    .addFormDataPart(
+                        "areYouGivenEnoughMaterials",
+                        selectedmaterialsAnswer ?: ""
+                    )
+
+                    .addFormDataPart(
+                        "eligibleStipend",
+                        selectedstipinedAnswer ?: ""
+                    )
+
+                    .addFormDataPart(
+                        "stipendGetting",
+                        gettingFor
+                    )
+
+                    .addFormDataPart(
+                        "bordingAndLoadingFacilities",
+                        AreBoardingAandLoadingFacilitiesProvided ?: ""
+                    )
+
+                    .addFormDataPart(
+                        "candidateRollNo",
+                        batch[0].rollNo.toString()
+                    )
+
+                    .addFormDataPart(
+                        "latitude",
+                        latitude.toString()
+                    )
+
+                    .addFormDataPart(
+                        "longitude",
+                        longitude.toString()
+                    )
+
+                    .addFormDataPart(
+                        "verificationImage",
+                        image1Base64
+                    )
+
+                    // VIDEO PART
+                    .addFormDataPart(
+                        "verificationVideo",
+                        videoFile.name,
+                        videoRequestBody
+                    )
+
+                    .addFormDataPart(
+                        "fieldLevelSupervisorNominatedRemark",
+                        remarkSupervisor
+                    )
+
+                    .addFormDataPart(
+                        "youGivenSufficientInstumentRemark",
+                        remarkInstrument
+                    )
+
+                    .addFormDataPart(
+                        "youGivenEnoughMaterialsRemark",
+                        remarkMaterials
+                    )
+
+                    .addFormDataPart(
+                        "bordingAndLoadingFacilitiesRemark",
+                        remarkFacilities
+                    )
+
+                    .addFormDataPart(
+                        "isStipendSame",
+                        selectedfacilitiesAnswer ?: ""
+                    )
+
+                    .addFormDataPart(
+                        "stipendRemark",
+                        remarkBoarding
+                    )
+
+                    .build()
+
+                //========================================
+                // REQUEST
+                //========================================
+
+                val request = Request.Builder()
+                    .url(BuildConfig.BASE_URL + "saveCandidateOjtVerification")
+                    .post(requestBody)
+                    .addHeader("ddugkyappauth", "Bearer $token")
+                    .build()
+
+                //========================================
+                // EXECUTE API
+                //========================================
+
+                val response = client.newCall(request).execute()
+
+                val responseBody =
+                    response.body?.string()?.trim().orEmpty()
+
+                Log.d("UPLOAD_RESPONSE_CODE", response.code.toString())
+                Log.d("UPLOAD_RESPONSE", responseBody)
+
+                withContext(Dispatchers.Main) {
+
+                    if (!isAdded) return@withContext
+
+                    if (progressDialog.isShowing) {
                         progressDialog.dismiss()
+                    }
 
-                        Log.e("UPLOAD_ERROR", e.message.toString())
+                    if (response.isSuccessful) {
+
+                        var successMessage = "Upload Successful"
+
+                        try {
+
+                            val jsonObject = JSONObject(responseBody)
+
+                            successMessage =
+                                jsonObject.optString(
+                                    "responseDesc",
+                                    responseBody
+                                )
+
+                        } catch (e: Exception) {
+
+                            successMessage = responseBody
+                        }
 
                         AlertDialog.Builder(requireContext())
-                            .setTitle("Exception")
-                            .setMessage(e.localizedMessage ?: "Unknown Error")
+                            .setTitle("Success")
+                            .setCancelable(false)
+                            .setMessage(successMessage)
                             .setPositiveButton("OK") { dialog, _ ->
+
                                 dialog.dismiss()
+
+                                if (isAdded) {
+                                    dismiss()
+                                }
                             }
+                            .show()
+
+                    } else {
+
+                        AlertDialog.Builder(requireContext())
+                            .setTitle("Server Error")
+                            .setMessage(
+                                "HTTP ${response.code}\n\n$responseBody"
+                            )
+                            .setPositiveButton("OK", null)
                             .show()
                     }
                 }
+
+            } catch (e: Exception) {
+
+                withContext(Dispatchers.Main) {
+
+                    if (!isAdded) return@withContext
+
+                    if (progressDialog.isShowing) {
+                        progressDialog.dismiss()
+                    }
+
+                    Log.e("UPLOAD_EXCEPTION", e.toString())
+
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Exception")
+                        .setMessage(e.localizedMessage ?: "Unknown Error")
+                        .setPositiveButton("OK", null)
+                        .show()
+                }
             }
-
-        } catch (e: Exception) {
-
-            progressDialog.dismiss()
-
-            e.printStackTrace()
-
-            Toast.makeText(
-                requireContext(),
-                e.localizedMessage,
-                Toast.LENGTH_LONG
-            ).show()
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        code commit 19-05-2026 time 09:12AM
+//    private fun uploadCandidateOjtVerification(
+//        token: String,
+//        finalVideoPath: String,
+//        image1Base64: String
+//    ) {
+//
+//        if (finalVideoPath.isEmpty()) {
+//            Toast.makeText(requireContext(), "Video path missing", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//
+//        val videoFile = File(finalVideoPath)
+//
+//        if (!videoFile.exists()) {
+//            Toast.makeText(requireContext(), "Video file not found", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//
+//        Log.d("VIDEO_PATH", finalVideoPath)
+//        Log.d("VIDEO_SIZE", "${videoFile.length() / 1024} KB")
+//
+//        val progressDialog = ProgressDialog(requireContext()).apply {
+//            setMessage("Uploading...")
+//            setCancelable(false)
+//            show()
+//        }
+//
+//        try {
+//
+//            val client = OkHttpClient.Builder()
+//                .connectTimeout(5, TimeUnit.MINUTES)
+//                .writeTimeout(5, TimeUnit.MINUTES)
+//                .readTimeout(5, TimeUnit.MINUTES)
+//                .retryOnConnectionFailure(true)
+//                .build()
+//
+//            //==========================
+//            // SAFE VALUES
+//            //==========================
+//
+//            val selectedDate =
+//                binding.tvSelectedDate.text?.toString()?.trim().orEmpty()
+//
+//            val howMuchSelectedDate =
+//                binding.tvHowMuchSelectedDate.text?.toString()?.trim().orEmpty()
+//
+//            val gettingFor =
+//                binding.etOjtEnterYourGettingFor.text?.toString()?.trim().orEmpty()
+//
+//            val duringTimes =
+//                binding.etOjtEnterDuringTimes.text?.toString()?.trim().orEmpty()
+//
+//            val previousDoingToday =
+//                binding.etSelectedRandomDate.text?.toString()?.trim().orEmpty()
+//
+//            val doingToday =
+//                binding.etOjtTrainingCenter.text?.toString()?.trim().orEmpty()
+//
+//            val noReason =
+//                binding.etNoReason.text?.toString()?.trim().orEmpty()
+//
+//            val remarkBoarding =
+//                binding.etRemarkbordingAndLoadingFacilities.text?.toString()?.trim().orEmpty()
+//
+//            val remarkSupervisor =
+//                binding.etRemarkFieldLevelSupervisorNominated.text?.toString()?.trim().orEmpty()
+//
+//            val remarkMaterials =
+//                binding.etRemarkareYouGivenEnoughMaterials.text?.toString()?.trim().orEmpty()
+//
+//            val remarkInstrument =
+//                binding.etRemarkareYouGivenSufficientInstument.text?.toString()?.trim().orEmpty()
+//
+//            val remarkFacilities =
+//                binding.etRemarkAreBoardingAandLoadingFacilitiesProvided.text?.toString()?.trim().orEmpty()
+//
+//            //==========================
+//            // MULTIPART BODY
+//            //==========================
+//
+//            val requestBody = MultipartBody.Builder()
+//                .setType(MultipartBody.FORM)
+//
+//                .addFormDataPart("appVersion", BuildConfig.VERSION_NAME)
+//                .addFormDataPart("ojtPlanId", batch[0].ojtPlanId.toString())
+//                .addFormDataPart("sanctionOrder", batch[0].sanctionOrder ?: "")
+//                .addFormDataPart("trainingCenterId", batch[0].trainingCenterId.toString())
+//                .addFormDataPart(
+//                    "batchId",
+//                    AppUtil.getSavedOJTBatchIDPreference(requireContext())
+//                )
+//                .addFormDataPart("candidateId", batch[0].candidateId ?: "")
+//                .addFormDataPart("piaCode", batch[0].piaCode ?: "")
+//                .addFormDataPart("employeersId", batch[0].employeersId.toString())
+//                .addFormDataPart("month", binding.tvMonth.text.toString())
+//                .addFormDataPart("fatherName", batch[0].fatherName ?: "")
+//                .addFormDataPart("districtCode", batch[0].districtCode ?: "")
+//                .addFormDataPart("trainingStartDate", batch[0].batchStartDate ?: "")
+//                .addFormDataPart("trainingEndDate", batch[0].batchEndDate ?: "")
+//                .addFormDataPart("ojtStartDate", selectedRandomDateStr ?: "")
+//                .addFormDataPart("ojtEndDate", batch[0].ojtEndDate ?: "")
+//                .addFormDataPart("verificationDate", binding.tvCurrentDate.text.toString())
+//                .addFormDataPart("verificationTime", binding.tvTime.text.toString())
+//                .addFormDataPart("candidateAvailable", selectedAnswer ?: "")
+//                .addFormDataPart("workPlaceId", batch[0].workplaceId ?: "")
+//                .addFormDataPart("reason", noReason)
+//                .addFormDataPart("ojtStartByCandidate", selectedDate)
+//                .addFormDataPart("todayActivity", doingToday)
+//
+//                .addFormDataPart(
+//                    "previousActivity",
+//                    howMuchSelectedDate + " " + previousDoingToday
+//                )
+//
+//                .addFormDataPart(
+//                    "isFieldLevelSupervisorNominated",
+//                    selectednominatedAnswer ?: ""
+//                )
+//
+//                .addFormDataPart(
+//                    "supervisorInteractionTimeCount",
+//                    duringTimes
+//                )
+//
+//                .addFormDataPart(
+//                    "areYouGivenSufficientInstument",
+//                    selectedinstrumentAnswer ?: ""
+//                )
+//
+//                .addFormDataPart(
+//                    "areYouGivenEnoughMaterials",
+//                    selectedmaterialsAnswer ?: ""
+//                )
+//
+//                .addFormDataPart(
+//                    "eligibleStipend",
+//                    selectedstipinedAnswer ?: ""
+//                )
+//
+//                .addFormDataPart(
+//                    "stipendGetting",
+//                    gettingFor
+//                )
+//
+//                .addFormDataPart(
+//                    "bordingAndLoadingFacilities",
+//                    AreBoardingAandLoadingFacilitiesProvided ?: ""
+//                )
+//
+//                .addFormDataPart(
+//                    "candidateRollNo",
+//                    batch[0].rollNo.toString()
+//                )
+//
+//                .addFormDataPart(
+//                    "latitude",
+//                    latitude.toString()
+//                )
+//
+//                .addFormDataPart(
+//                    "longitude",
+//                    longitude.toString()
+//                )
+//
+//                .addFormDataPart(
+//                    "verificationImage",
+//                    image1Base64
+//                )
+//
+//                // VIDEO PART
+//                .addFormDataPart(
+//                    "verificationVideo",
+//                    videoFile.name,
+//                    videoFile.asRequestBody("video/mp4".toMediaTypeOrNull())
+//                )
+//
+//                .addFormDataPart(
+//                    "fieldLevelSupervisorNominatedRemark",
+//                    remarkSupervisor
+//                )
+//
+//                .addFormDataPart(
+//                    "youGivenSufficientInstumentRemark",
+//                    remarkInstrument
+//                )
+//
+//                .addFormDataPart(
+//                    "youGivenEnoughMaterialsRemark",
+//                    remarkMaterials
+//                )
+//
+//                .addFormDataPart(
+//                    "bordingAndLoadingFacilitiesRemark",
+//                    remarkFacilities
+//                )
+//
+//                .addFormDataPart(
+//                    "isStipendSame",
+//                    selectedfacilitiesAnswer ?: ""
+//                )
+//
+//                .addFormDataPart(
+//                    "stipendRemark",
+//                    remarkBoarding
+//                )
+//
+//                .build()
+//
+//            val request = Request.Builder()
+//                .url(BuildConfig.BASE_URL + "saveCandidateOjtVerification")
+//                .post(requestBody)
+//                .addHeader("ddugkyappauth", "Bearer $token")
+//                .build()
+//
+//            //==========================
+//            // API CALL
+//            //==========================
+////==========================
+//// API CALL
+////==========================
+//
+//            lifecycleScope.launch(Dispatchers.IO) {
+//
+//                try {
+//
+//                    val response = client.newCall(request).execute()
+//
+//                    val responseBody = response.body?.string().orEmpty()
+//
+//                    Log.d("API_RESPONSE_CODE", response.code.toString())
+//                    Log.d("API_RESPONSE", responseBody)
+//
+//                    withContext(Dispatchers.Main) {
+//
+//                        // Safety check - ensure fragment is still attached
+//                        if (!isAdded || context == null) {
+//                            return@withContext
+//                        }
+//
+//                        progressDialog.dismiss()
+//
+//                        if (response.isSuccessful) {
+//
+//                            try {
+//
+//                                val jsonObject = JSONObject(responseBody)
+//
+//                                val message =
+//                                    jsonObject.optString(
+//                                        "responseDesc",
+//                                        "Upload Successful"
+//                                    )
+//
+//                                AlertDialog.Builder(requireContext())
+//                                    .setTitle("Success")
+//                                    .setMessage(message)
+//                                    .setCancelable(false)
+//                                    .setPositiveButton("OK") { dialog, _ ->
+//                                        dialog.dismiss()
+//                                        this@FullScreenDialog.dialog?.dismiss()
+//                                    }
+//                                    .show()
+//
+//                            } catch (e: Exception) {
+//
+//                                AlertDialog.Builder(requireContext())
+//                                    .setTitle("Success")
+//                                    .setMessage(responseBody)
+//                                    .setPositiveButton("OK") { dialog, _ ->
+//                                        dialog.dismiss()
+//                                    }
+//                                    .show()
+//                            }
+//
+//                        } else {
+//
+//                            AlertDialog.Builder(requireContext())
+//                                .setTitle("Server Error")
+//                                .setMessage(
+//                                    "HTTP ${response.code}\n\n$responseBody"
+//                                )
+//                                .setPositiveButton("OK") { dialog, _ ->
+//                                    dialog.dismiss()
+//                                }
+//                                .show()
+//                        }
+//                    }
+//
+//                } catch (e: Exception) {
+//
+//                    withContext(Dispatchers.Main) {
+//
+//                        // Safety check
+//                        if (!isAdded || context == null) {
+//                            return@withContext
+//                        }
+//
+//                        progressDialog.dismiss()
+//
+//                        Log.e("UPLOAD_ERROR", e.message.toString())
+//
+//                        AlertDialog.Builder(requireContext())
+//                            .setTitle("Exception")
+//                            .setMessage(e.localizedMessage ?: "Unknown Error")
+//                            .setPositiveButton("OK") { dialog, _ ->
+//                                dialog.dismiss()
+//                            }
+//                            .show()
+//                    }
+//                }
+//            }
+//
+////            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+////
+////                try {
+////
+////                    val response = client.newCall(request).execute()
+////
+////                    val responseBody = response.body?.string().orEmpty()
+////
+////                    Log.d("API_RESPONSE_CODE", response.code.toString())
+////                    Log.d("API_RESPONSE", responseBody)
+////
+////                    withContext(Dispatchers.Main) {
+////
+////                        progressDialog.dismiss()
+////
+////                        if (response.isSuccessful) {
+////
+////                            try {
+////
+////                                val jsonObject = JSONObject(responseBody)
+////
+////                                val message =
+////                                    jsonObject.optString(
+////                                        "responseDesc",
+////                                        "Upload Successful"
+////                                    )
+////
+////                                AlertDialog.Builder(requireContext())
+////                                    .setTitle("Success")
+////                                    .setMessage(message)
+////                                    .setCancelable(false)
+////                                    .setPositiveButton("OK") { dialog, _ ->
+////                                        dialog.dismiss()
+////                                        this@FullScreenDialog.dialog?.dismiss()
+////                                    }
+////                                    .show()
+////
+////                            } catch (e: Exception) {
+////
+////                                AlertDialog.Builder(requireContext())
+////                                    .setTitle("Success")
+////                                    .setMessage(responseBody)
+////                                    .setPositiveButton("OK") { dialog, _ ->
+////                                        dialog.dismiss()
+////                                    }
+////                                    .show()
+////                            }
+////
+////                        } else {
+////
+////                            AlertDialog.Builder(requireContext())
+////                                .setTitle("Server Error")
+////                                .setMessage(
+////                                    "HTTP ${response.code}\n\n$responseBody"
+////                                )
+////                                .setPositiveButton("OK") { dialog, _ ->
+////                                    dialog.dismiss()
+////                                }
+////                                .show()
+////                        }
+////                    }
+////
+////                } catch (e: Exception) {
+////
+////                    withContext(Dispatchers.Main) {
+////
+////                        progressDialog.dismiss()
+////
+////                        Log.e("UPLOAD_ERROR", e.message.toString())
+////
+////                        AlertDialog.Builder(requireContext())
+////                            .setTitle("Exception")
+////                            .setMessage(e.localizedMessage ?: "Unknown Error")
+////                            .setPositiveButton("OK") { dialog, _ ->
+////                                dialog.dismiss()
+////                            }
+////                            .show()
+////                    }
+////                }
+////            }
+//
+//        } catch (e: Exception) {
+//
+//            progressDialog.dismiss()
+//
+//            e.printStackTrace()
+//
+//            Toast.makeText(
+//                requireContext(),
+//                e.localizedMessage,
+//                Toast.LENGTH_LONG
+//            ).show()
+//        }
+//    }
 
 //    fun uploadCandidateOjtVerification(
 //        token: String,
