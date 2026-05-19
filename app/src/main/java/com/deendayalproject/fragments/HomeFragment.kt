@@ -241,13 +241,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
             "RESIDENTIAL_FACILITY_FORM_QTEAM" -> navigate(R.id.action_homeFragment_to_RFQTeamListFragment)
 
-            "FIELD_VERIFICATION_FORM" -> navigate(R.id.action_homeFragment_to_fieldVerificationFragment)
+            //"FIELD_VERIFICATION_FORM" -> navigate(R.id.action_homeFragment_to_fieldVerificationFragment)
 
             "DDUGKY_CANDIDATE_ATTENDANCE_APP" -> navigate(R.id.action_homeFragment_to_attendanceBatchListFragment)
 
             "OJT_VERIFICATION_FORM_APP" -> navigate(R.id.action_homeFragment_to_SelectionFragment)
 
             "DUE_DILIGENCE_INSPECTION_FORM" -> navigate(R.id.action_homeFragment_to_inspectionListFragment)
+
+            "CAPTIVE_FIELD_VERIFICATION_FORM" ->  navigate(R.id.action_homeFragment_to_fieldVerificationFragment)
 
         }
     }

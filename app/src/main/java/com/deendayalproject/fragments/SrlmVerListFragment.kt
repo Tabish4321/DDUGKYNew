@@ -248,17 +248,6 @@ class SrlmVerListFragment : BaseFragment<FragmentSrlmListLayoutBinding>(
     }
 
 
-
-    // Maintain original method names for compatibility
-    fun showProgressBar() {
-        showProgressDialog(getString(R.string.loading_training_centers))
-    }
-
-    fun hideProgressBar() {
-        dismissProgressDialog()
-    }
-
-
 //    fun updateTrainingCentersData(newList: List<TrainingCenter>) {
 //        trainingCentersList.clear()
 //        trainingCentersList.addAll(newList)

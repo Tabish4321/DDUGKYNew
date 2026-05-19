@@ -12,11 +12,8 @@ data class InspectionSection(
 
 
 //data class PreviousInspectionUiState(
-//
 //    val isLoading: Boolean = false,
-//
 //    val sections: List<InspectionSection> = emptyList(),
-//
 //    val error: String? = null
 //
 //)

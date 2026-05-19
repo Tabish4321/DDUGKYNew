@@ -521,6 +521,23 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     protected fun View.isGone(): Boolean = visibility == View.GONE
 
+    private val progress: androidx.appcompat.app.AlertDialog? by lazy {
+        AppUtil.getProgressDialog(context)
+    }
+
+    fun showProgressBar() {
+        if (context != null && isAdded && progress?.isShowing == false) {
+            progress?.show()
+        }
+    }
+
+    fun hideProgressBar() {
+        if (progress?.isShowing == true) {
+            progress?.dismiss()
+        }
+    }
+
+
     // Safe context
     protected fun safeContext(): Context? {
         return if (isAdded) requireContext() else null

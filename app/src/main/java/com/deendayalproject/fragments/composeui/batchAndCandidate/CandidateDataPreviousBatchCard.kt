@@ -65,7 +65,6 @@ fun SingleCandidateDataPreviousBatchCard(
         ),
         shape = RoundedCornerShape(12.dp)
     ) {
-
         Column(
             modifier = Modifier.padding(14.dp)
         ) {

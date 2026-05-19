@@ -1,5 +1,6 @@
 package com.deendayalproject.fragments.formfragment
 
+import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
@@ -11,6 +12,7 @@ class RFSRLMFormFragment : BaseFormSrmRF() {
     override fun tvtitle() {
         //super.tvtitle()
         binding.toolbar.tvTitle.text=getString(R.string.residential_facility_srlm)
+        binding.toolbar.profilePic.visibility= View.GONE
     }
 
     override  fun submitFinalForm() {

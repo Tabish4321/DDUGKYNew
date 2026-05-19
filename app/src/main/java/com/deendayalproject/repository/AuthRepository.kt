@@ -52,9 +52,8 @@ class AuthRepository(context: Context) : BaseRepository<ApiService>(context) {
                 }
             } else {
                 val error = response.errorBody()?.string()
-
                 val errorResponse = Gson().fromJson(error, LoginErrorResponse::class.java)
-                Result.failure(Exception(errorResponse?.errorMsg ?: "Login failed"))
+                Result.failure(Exception(errorResponse?.responseDesc ?: "Login failed"))
             }
         } catch (e: Exception) {
             Result.failure(e)

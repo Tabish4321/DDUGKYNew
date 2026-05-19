@@ -50,10 +50,8 @@ class FieldVerificationListFragment : BaseFragment<FragmentFieldVerificationList
             }
         }
 
-
     override fun initializeViews() {
-        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━FieldVerificationListFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-
+        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━FieldVerificationListFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
         setupToolbar(
             root = binding.root,
             titleRes = R.string.field_ver_list,
@@ -81,8 +79,6 @@ class FieldVerificationListFragment : BaseFragment<FragmentFieldVerificationList
                 }*/
                 findNavController().navigateUp()
             }
-
-
         setupRecyclerView()
     }
 

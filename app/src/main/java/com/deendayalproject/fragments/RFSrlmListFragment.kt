@@ -129,12 +129,4 @@ class RFSrlmListFragment : BaseFragment<RfSrlmListFragmentBinding>(
 
     }
 
-    // Keep original method names as requested
-    fun showProgressBar() {
-        showProgressDialog(getString(R.string.loading))
-    }
-
-    fun hideProgressBar() {
-        dismissProgressDialog()
-    }
 }
