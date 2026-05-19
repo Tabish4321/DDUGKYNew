@@ -33,13 +33,19 @@ import com.deendayalproject.network.SecurePreferenceManager.getToken
 import com.deendayalproject.util.AppUtil
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.deendayalproject.model.request.ModulesCandidateByOjtRequest2
 import com.deendayalproject.model.response.ListByBatchSRLM
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 //class OJTChildSRLMFragment :
 //    BaseFragment<FragmentOJTChildSRLMBinding>(FragmentOJTChildSRLMBinding::inflate) {
@@ -348,20 +354,10 @@ import retrofit2.HttpException
 class OJTChildSRLMFragment : BaseFragment<FragmentOJTChildSRLMBinding>(FragmentOJTChildSRLMBinding::inflate) {
 
     private lateinit var viewModel: SharedViewModel
+    private var isBottomSheetOpened = false
     // ---------- Batch ----------
     private var CompleteOJTList: List<ChildSRLM> = emptyList()
-    private var VerificationDetails: List<ChildSRLM> = emptyList()
-//    private var VerificationDetails: List<VerificationDetails> = emptyList()
-
-
-
-
-    private var CompleteOJTSRLMList: List<ChildSRLM> = emptyList()
     private var VerificationSRLMDetails: List<ChildSRLM> = emptyList()
-
-    private var OJTSRLMList: List<ChildSRLM> = emptyList()
-
-
 
     private var OJTList: List<ListByBatchSRLM> = emptyList()
     private lateinit var childAdapter: ChildSRLMAdapter
@@ -482,7 +478,20 @@ class OJTChildSRLMFragment : BaseFragment<FragmentOJTChildSRLMBinding>(FragmentO
             viewModel.getVerifiedCompleteOjt(request, "Bearer $token")
 
 
-
+            parentFragmentManager.setFragmentResultListener(
+                "BOTTOM_SHEET_DISMISSED",
+                viewLifecycleOwner
+            ) { _, _ ->
+                isBottomSheetOpened = false
+            }
+            // ✅ NEW LISTENER (IMPORTANT)
+            parentFragmentManager.setFragmentResultListener(
+                "REFRESH_DATA",
+                viewLifecycleOwner
+            ) { _, _ ->
+                observeViewModel()
+            }
+            observeViewModel()
 
 
 
@@ -601,80 +610,166 @@ class OJTChildSRLMFragment : BaseFragment<FragmentOJTChildSRLMBinding>(FragmentO
 
 
 
+    @SuppressLint("RepeatOnLifecycleWrongUsage")
     private fun observeViewModel() {
-        viewModel.VerifiedBatchCandidateSRLMCandidateList.observe(viewLifecycleOwner) { response ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                viewModel.VerifiedBatchCandidateSRLMCandidateList.observe(viewLifecycleOwner) { response ->
 
 
-            response.onSuccess { result ->
+                    response.onSuccess { result ->
+                        if (isBottomSheetOpened) return@onSuccess
+//                if (isBottomSheetOpened) return@observe
+                        dismissProgressDialog()
 
-                dismissProgressDialog()
+                        // ✅ Check Response Code
+                        if (result.responseCode == 200) {
 
-                // ✅ Check Response Code
-                if (result.responseCode == 200) {
+                            // ✅ Check Data Available
+                            if (!result.wrappedList.isNullOrEmpty()) {
 
-                    // ✅ Check Data Available
-                    if (!result.wrappedList.isNullOrEmpty()) {
+                                OJTList = result.wrappedList
+                                childAdapter.setItems(OJTList)
 
-                        OJTList = result.wrappedList
-                        childAdapter.setItems(OJTList)
-
-                        // ✅ Print JSON
-                        val gson = Gson()
-                        val jsonString = gson.toJson(OJTList)
-                        Log.d("JSON_DATA", jsonString)
-
-
-                        // ✅ CHECK PERMISSION HERE
+                                // ✅ Print JSON
+                                val gson = Gson()
+                                val jsonString = gson.toJson(OJTList)
+                                Log.d("JSON_DATA", jsonString)
 
 
+                                // ✅ CHECK PERMISSION HERE
 
 
-                    } else {
-                        // ❌ No Data
-                        childAdapter.setItems(emptyList())
 
+
+                            } else {
+                                // ❌ No Data
+                                childAdapter.setItems(emptyList())
+                                isBottomSheetOpened = true
+                                Toast.makeText(
+                                    requireContext(),
+                                    "No Data Found",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        } else {
+                            // ❌ API Returned Error Code
+                            Toast.makeText(
+                                requireContext(),
+                                result.responseDesc ?: "Server Error",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    response.onFailure { error ->
+
+                        dismissProgressDialog()
+
+                        // ✅ Handle 401 Session Expired
+                        if (error is HttpException && error.code() == 401) {
+                            AppUtil.showSessionExpiredDialog(
+                                findNavController(),
+                                requireContext()
+                            )
+                            return@onFailure
+                        }
+
+                        // ❌ Other Errors (Network / Timeout etc.)
                         Toast.makeText(
                             requireContext(),
-                            "No Data Found",
+                            error.message ?: "Something went wrong. Try again.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
 
-                } else {
-                    // ❌ API Returned Error Code
-                    Toast.makeText(
-                        requireContext(),
-                        result.responseDesc ?: "Server Error",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
 
-            response.onFailure { error ->
 
-                dismissProgressDialog()
 
-                // ✅ Handle 401 Session Expired
-                if (error is HttpException && error.code() == 401) {
-                    AppUtil.showSessionExpiredDialog(
-                        findNavController(),
-                        requireContext()
-                    )
-                    return@onFailure
                 }
 
-                // ❌ Other Errors (Network / Timeout etc.)
-                Toast.makeText(
-                    requireContext(),
-                    error.message ?: "Something went wrong. Try again.",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
-
-
-
-
         }
+
+
+
+
+
+//        viewModel.VerifiedBatchCandidateSRLMCandidateList.observe(viewLifecycleOwner) { response ->
+//
+//
+//            response.onSuccess { result ->
+////                if (isBottomSheetOpened) return@observe
+//                dismissProgressDialog()
+//
+//                // ✅ Check Response Code
+//                if (result.responseCode == 200) {
+//
+//                    // ✅ Check Data Available
+//                    if (!result.wrappedList.isNullOrEmpty()) {
+//
+//                        OJTList = result.wrappedList
+//                        childAdapter.setItems(OJTList)
+//
+//                        // ✅ Print JSON
+//                        val gson = Gson()
+//                        val jsonString = gson.toJson(OJTList)
+//                        Log.d("JSON_DATA", jsonString)
+//
+//
+//                        // ✅ CHECK PERMISSION HERE
+//
+//
+//
+//
+//                    } else {
+//                        // ❌ No Data
+//                        childAdapter.setItems(emptyList())
+//
+//                        Toast.makeText(
+//                            requireContext(),
+//                            "No Data Found",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//
+//                } else {
+//                    // ❌ API Returned Error Code
+//                    Toast.makeText(
+//                        requireContext(),
+//                        result.responseDesc ?: "Server Error",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//
+//            response.onFailure { error ->
+//
+//                dismissProgressDialog()
+//
+//                // ✅ Handle 401 Session Expired
+//                if (error is HttpException && error.code() == 401) {
+//                    AppUtil.showSessionExpiredDialog(
+//                        findNavController(),
+//                        requireContext()
+//                    )
+//                    return@onFailure
+//                }
+//
+//                // ❌ Other Errors (Network / Timeout etc.)
+//                Toast.makeText(
+//                    requireContext(),
+//                    error.message ?: "Something went wrong. Try again.",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//
+//
+//
+//
+//        }
 
         viewModel.VerifiedCompleteChildOjt.observe(
             viewLifecycleOwner

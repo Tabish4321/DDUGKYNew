@@ -784,6 +784,7 @@
                                         android:layout_gravity="center"
                                         android:background="@color/black"
                                         android:id="@+id/VideoLinlayout"
+                                        android:visibility="gone"
                                         android:layout_height="wrap_content">
     <!--                                    android:visibility="gone"-->
                                         <TextView

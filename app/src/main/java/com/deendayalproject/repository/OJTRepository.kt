@@ -24,6 +24,9 @@ import com.deendayalproject.model.response.OjtRes
 import com.deendayalproject.model.response.OjtSRLMRes
 import com.deendayalproject.model.response.SaveCandidateOjtVerificationResponse
 import com.deendayalproject.network.ApiService
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -155,6 +158,53 @@ class OJTRepository(context: Context) : BaseRepository<ApiService>(context) {
         safeApiCallWithToken(token) {
             apiService.getVerifiedCompleteOjt(request)
         }
+
+
+
+    suspend fun uploadCandidateOjtVerification(
+
+        token: String,
+
+        map: Map<String, RequestBody>,
+
+        videoPart: MultipartBody.Part
+
+    ): Result<ResponseBody> =
+
+        safeApiCallWithToken(token) {
+
+            apiService.uploadCandidateOjtVerification(
+                token,
+                map,
+                videoPart
+            )
+        }
+
+
+    suspend fun uploadCandidateOjtSRLMVerification(
+
+        token: String,
+
+        map: Map<String, RequestBody>,
+
+        videoPart: MultipartBody.Part
+
+    ): Result<ResponseBody> =
+
+        safeApiCallWithToken(token) {
+
+            apiService.uploadCandidateOjtSRLMVerification(
+                token,
+                map,
+                videoPart
+            )
+        }
+
+
+
+
+
+
 
     suspend fun logOutUser( token: String): Result<LoginResponse>{
         return safeApiCallWithToken(token) {
