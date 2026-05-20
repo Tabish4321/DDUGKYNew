@@ -8,6 +8,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -97,14 +98,21 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.addCallback
 import androidx.annotation.RequiresPermission
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.deendayalproject.databinding.FragmentOnJobTrainingSrlmBinding
 import com.deendayalproject.model.response.ChildSRLM
 import com.deendayalproject.network.SecurePreferenceManager.getToken
 import com.deendayalproject.util.ProgressDialogUtil.dismissProgressDialog
 import com.deendayalproject.util.ProgressDialogUtil.showProgressDialog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.util.concurrent.TimeUnit
 
 class SRLMBottomDialog( private val batch: List<ChildSRLM>) :  DialogFragment(), SurfaceHolder.Callback {
 
@@ -217,7 +225,7 @@ private var _binding: FragmentOnJobTrainingSrlmBinding? = null
 
         fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
-        setupObserver()
+
 
 
 
@@ -609,11 +617,11 @@ private var _binding: FragmentOnJobTrainingSrlmBinding? = null
                 if (location != null) {
                     val isInside = isUserInsideGeofence(location, latitude, longitude, radius)
                     if (isInside) {
-                        uploadCandidateOjtVerification(image1Base64)
-//                            token,
-//                            finalVideoPath.toString(),
-//                            image1Base64
-//                        )
+                        uploadCandidateOjtVerification(
+                            token,
+                            finalVideoPath.toString(),
+                            image1Base64
+                        )
                     } else {
                         showAlertGeoFancingDialog(
                             requireContext(),
@@ -2135,334 +2143,430 @@ private var _binding: FragmentOnJobTrainingSrlmBinding? = null
             )
         }
     }
-    private fun setupObserver() {
 
-        viewModel.uploadOjtSRLMResponse.observe(
-            this,
-            Observer { result ->
 
-                dismissProgressDialog()
-
-                //------------------------------------
-                // SUCCESS
-                //------------------------------------
-
-                if (result.isSuccess) {
-
-                    try {
-
-                        val responseText =
-                            result.getOrNull()?.string().orEmpty()
-
-                        Log.d(
-                            "UPLOAD_RESPONSE",
-                            responseText
-                        )
-
-                        val jsonObject =
-                            JSONObject(responseText)
-
-                        val responseCode =
-                            jsonObject.optInt("responseCode")
-
-                        val responseDesc =
-                            jsonObject.optString(
-                                "responseDesc"
-                            )
-
-                        //------------------------------------
-                        // SUCCESS RESPONSE
-                        //------------------------------------
-
-                        if (responseCode == 200 ||
-                            responseCode == 201
-                        ) {
-
-                            AlertDialog.Builder(
-                                requireContext()
-                            )
-                                .setTitle("Success")
-                                .setMessage(responseDesc)
-                                .setCancelable(false)
-
-                                .setPositiveButton("OK") {
-                                        dialog,
-                                        _ ->
-
-                                    dialog.dismiss()
-                                    parentFragmentManager.setFragmentResult(
-                                        "REFRESH_DATA",
-                                        Bundle()
-                                    )
-                                    this@SRLMBottomDialog.dismissAllowingStateLoss()
-
-                                }
-                                .show()
-                        }
-
-                        //------------------------------------
-                        // UPDATE REQUIRED
-                        //------------------------------------
-
-                        else if (responseCode == 301) {
-
-                            AlertDialog.Builder(
-                                requireContext()
-                            )
-                                .setTitle("Update Required")
-                                .setMessage(responseDesc)
-
-                                .setCancelable(false)
-
-                                .setPositiveButton("OK") {
-                                        dialog,
-                                        _ ->
-                                    parentFragmentManager.setFragmentResult(
-                                        "REFRESH_DATA",
-                                        Bundle()
-                                    )
-                                    this@SRLMBottomDialog.dismissAllowingStateLoss()
-                                    dialog.dismiss()
-                                }
-                                .show()
-                        }
-
-                        //------------------------------------
-                        // TOKEN ISSUE
-                        //------------------------------------
-
-                        else if (responseCode == 422) {
-
-                            val errorMsg =
-                                jsonObject.optString(
-                                    "errorMsg"
-                                )
-
-                            AlertDialog.Builder(
-                                requireContext()
-                            )
-                                .setTitle("Session Expired")
-                                .setMessage(errorMsg)
-
-                                .setCancelable(false)
-
-                                .setPositiveButton("OK") {
-                                        dialog,
-                                        _ ->
-                                    parentFragmentManager.setFragmentResult(
-                                        "REFRESH_DATA",
-                                        Bundle()
-                                    )
-                                    this@SRLMBottomDialog.dismissAllowingStateLoss()
-                                    dialog.dismiss()
-                                }
-                                .show()
-                        }
-
-                        //------------------------------------
-                        // OTHER ERROR
-                        //------------------------------------
-
-                        else {
-
-                            AlertDialog.Builder(
-                                requireContext()
-                            )
-                                .setTitle("Error")
-                                .setMessage(responseDesc)
-
-                                .setPositiveButton("OK") {
-                                        dialog,
-                                        _ ->
-
-//                                    dialog.dismiss()
-//                                    parentFragmentManager.setFragmentResult(
-//                                        "REFRESH_DATA",
-//                                        Bundle()
-//                                    )
-                                    dismiss()
-                                    dialog.dismiss()
-                                    parentFragmentManager.setFragmentResult(
-                                        "REFRESH_DATA",
-                                        Bundle()
-                                    )
-                                    this@SRLMBottomDialog.dismissAllowingStateLoss()
-//                                    requireActivity().finish()
-                                }
-                                .show()
-                        }
-
-                    } catch (e: Exception) {
-
-                        e.printStackTrace()
-
-                        AlertDialog.Builder(
-                            requireContext()
-                        )
-                            .setTitle("Error")
-                            .setMessage(
-                                e.localizedMessage
-                            )
-
-                            .setPositiveButton("OK") {
-                                    dialog,
-                                    _ ->
-                                parentFragmentManager.setFragmentResult(
-                                    "REFRESH_DATA",
-                                    Bundle()
-                                )
-                                this@SRLMBottomDialog.dismissAllowingStateLoss()
-                                dialog.dismiss()
-                            }
-                            .show()
-                    }
-                }
-
-                //------------------------------------
-                // FAILURE
-                //------------------------------------
-
-                else {
-
-                    AlertDialog.Builder(
-                        requireContext()
-                    )
-                        .setTitle("Failed")
-                        .setMessage(
-                            result.exceptionOrNull()?.localizedMessage
-                                ?: "Something went wrong"
-                        )
-
-                        .setPositiveButton("OK") {
-                                dialog,
-                                _ ->
-
-                            dialog.dismiss()
-                        }
-                        .show()
-                }
-            }
-        )
+    private fun safe(value: String?): String {
+        return value?.trim() ?: ""
     }
 
-    private fun String.toRequestBodyData(): RequestBody {
 
-        return this.toRequestBody(
-            "text/plain".toMediaTypeOrNull()
-        )
-    }
 
-    private fun uploadCandidateOjtVerification(image1Base64: String) {
 
-        val token = "Bearer ${getToken(requireContext())}"
 
-        //------------------------------------
-        // VIDEO VALIDATION
-        //------------------------------------
-        if (finalVideoPath.isNullOrEmpty()) {
-            Toast.makeText(requireContext(), "Video path missing", Toast.LENGTH_SHORT).show()
-            return
+
+    private fun uploadCandidateOjtVerification(
+        token: String,
+        finalVideoPath: String,
+        image1Base64: String
+    ) {
+
+        if (!isAdded) return
+
+        val progressDialog = ProgressDialog(requireContext()).apply {
+            setMessage("Uploading please wait...")
+            setCancelable(false)
+            show()
         }
 
-        val videoFile = File(finalVideoPath!!)
+        //------------------------------------
+        // ALL TEXT VALUES
+        //------------------------------------
+
+        val SelectedDate = safe(binding.tvSelectedDate.text.toString())
+        val HowMuchSelectedDate = safe(binding.tvHowMuchSelectedDate.text.toString())
+        val EnterYourGettingFor = safe(binding.etOjtEnterYourGettingFor.text.toString())
+        val EnterDuringTimes = safe(binding.etOjtEnterDuringTimes.text.toString())
+        val PrevousDoingToday = safe(binding.etSelectedRandomDate.text.toString())
+        val DoingToday = safe(binding.etOjtTrainingCenter.text.toString())
+        val NoReason = safe(binding.etNoReason.text.toString())
+
+        val RemarkbordingAndLoadingFacilities =
+            safe(binding.etRemarkbordingAndLoadingFacilities.text.toString())
+
+        val RemarkFieldLevelSupervisorNominated =
+            safe(binding.etRemarkFieldLevelSupervisorNominated.text.toString())
+
+        val RemarkareYouGivenEnoughMaterials =
+            safe(binding.etRemarkareYouGivenEnoughMaterials.text.toString())
+
+        val RemarkareYouGivenSufficientInstument =
+            safe(binding.etRemarkareYouGivenSufficientInstument.text.toString())
+
+        val RemarkAreBoardingAandLoadingFacilitiesProvided =
+            safe(binding.etRemarkAreBoardingAandLoadingFacilitiesProvided.text.toString())
+
+        //------------------------------------
+        // VIDEO CHECK
+        //------------------------------------
+
+        val videoFile = File(finalVideoPath)
 
         if (!videoFile.exists()) {
-            Toast.makeText(requireContext(), "Video file not found", Toast.LENGTH_SHORT).show()
+
+            progressDialog.dismiss()
+
+            Toast.makeText(
+                requireContext(),
+                "Video file not found",
+                Toast.LENGTH_LONG
+            ).show()
+
             return
         }
 
         //------------------------------------
-        // VIDEO PART
+        // OKHTTP CLIENT
         //------------------------------------
+
+        val client = OkHttpClient.Builder()
+            .connectTimeout(5, TimeUnit.MINUTES)
+            .writeTimeout(5, TimeUnit.MINUTES)
+            .readTimeout(5, TimeUnit.MINUTES)
+            .retryOnConnectionFailure(true)
+            .build()
+
+        //------------------------------------
+        // VIDEO REQUEST BODY
+        //------------------------------------
+
         val videoRequestBody =
             videoFile.asRequestBody("video/mp4".toMediaTypeOrNull())
 
-        val videoPart =
-            MultipartBody.Part.createFormData(
+        //------------------------------------
+        // MULTIPART BODY
+        //------------------------------------
+
+        val body = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+
+            .addFormDataPart("appVersion", safe(BuildConfig.VERSION_NAME))
+            .addFormDataPart("ojtPlanId", safe(batch[0].ojtPlanId.toString()))
+            .addFormDataPart("sanctionOrder", safe(batch[0].sanctionOrder))
+            .addFormDataPart("trainingCenterId", safe(batch[0].trainingCenterId.toString()))
+            .addFormDataPart("batchId", safe(AppUtil.getSavedOJTBatchIDPreference(requireContext())))
+            .addFormDataPart("candidateId", safe(batch[0].candidateId))
+            .addFormDataPart("piaCode", safe(batch[0].piaCode))
+            .addFormDataPart("employeersId", safe(batch[0].employeersId.toString()))
+            .addFormDataPart("month", safe(binding.tvMonth.text.toString()))
+            .addFormDataPart("fatherName", safe(batch[0].fatherName))
+            .addFormDataPart("districtCode", safe(batch[0].districtCode))
+            .addFormDataPart("trainingStartDate", safe(batch[0].batchStartDate))
+            .addFormDataPart("trainingEndDate", safe(batch[0].batchEndDate))
+            .addFormDataPart("ojtStartDate", safe(selectedRandomDateStr.toString()))
+            .addFormDataPart("ojtEndDate", safe(batch[0].ojtEndDate))
+            .addFormDataPart("verificationDate", safe(binding.tvCurrentDate.text.toString()))
+            .addFormDataPart("verificationTime", safe(binding.tvTime.text.toString()))
+            .addFormDataPart("candidateAvailable", safe(selectedAnswer))
+            .addFormDataPart("workPlaceId", safe(batch[0].workplaceId))
+            .addFormDataPart("reason", NoReason)
+            .addFormDataPart("ojtStartByCandidate", SelectedDate)
+            .addFormDataPart("todayActivity", DoingToday)
+            .addFormDataPart(
+                "previousActivity",
+                safe(HowMuchSelectedDate + " " + PrevousDoingToday)
+            )
+            .addFormDataPart(
+                "isFieldLevelSupervisorNominated",
+                safe(selectednominatedAnswer)
+            )
+            .addFormDataPart(
+                "supervisorInteractionTimeCount",
+                EnterDuringTimes
+            )
+            .addFormDataPart(
+                "areYouGivenSufficientInstument",
+                safe(selectedinstrumentAnswer)
+            )
+            .addFormDataPart(
+                "areYouGivenEnoughMaterials",
+                safe(selectedmaterialsAnswer)
+            )
+            .addFormDataPart("eligibleStipend", safe(selectedstipinedAnswer))
+            .addFormDataPart("stipendGetting", EnterYourGettingFor)
+            .addFormDataPart(
+                "bordingAndLoadingFacilities",
+                safe(AreBoardingAandLoadingFacilitiesProvided)
+            )
+            .addFormDataPart(
+                "candidateRollNo",
+                safe(batch[0].rollNo.toString())
+            )
+            .addFormDataPart("latitude", safe(latitude.toString()))
+            .addFormDataPart("longitude", safe(longitude.toString()))
+
+            // IMAGE BASE64
+            .addFormDataPart(
+                "verificationImage",
+                safe(image1Base64)
+            )
+
+            // VIDEO
+            .addFormDataPart(
                 "verificationVideo",
                 videoFile.name,
                 videoRequestBody
             )
 
-        //------------------------------------
-        // IMAGE PART (🔥 FIXED - NO BASE64)
-        //------------------------------------
-        val imageFile = File(image1Base64) // <-- ensure you have real path
-
-        val imagePart = if (imageFile.exists()) {
-            val imageRequestBody =
-                imageFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
-
-            MultipartBody.Part.createFormData(
-                "verificationImage",
-                imageFile.name,
-                imageRequestBody
+            .addFormDataPart(
+                "fieldLevelSupervisorNominatedRemark",
+                RemarkFieldLevelSupervisorNominated
             )
-        } else null
+
+            .addFormDataPart(
+                "youGivenSufficientInstumentRemark",
+                RemarkareYouGivenSufficientInstument
+            )
+
+            .addFormDataPart(
+                "youGivenEnoughMaterialsRemark",
+                RemarkareYouGivenEnoughMaterials
+            )
+
+            .addFormDataPart(
+                "bordingAndLoadingFacilitiesRemark",
+                RemarkAreBoardingAandLoadingFacilitiesProvided
+            )
+
+            .addFormDataPart(
+                "isStipendSame",
+                safe(selectedfacilitiesAnswer)
+            )
+
+            .addFormDataPart(
+                "stipendRemark",
+                RemarkbordingAndLoadingFacilities
+            )
+
+            .build()
 
         //------------------------------------
-        // SAFE REQUEST BODY FUNCTION
+        // REQUEST
         //------------------------------------
-        fun String?.toBody(): RequestBody =
-            (this ?: "").trim().toRequestBody("text/plain".toMediaTypeOrNull())
 
-        fun Int?.toBody(): RequestBody =
-            (this ?: 0).toString().toBody()
-
-        //------------------------------------
-        // MAP
-        //------------------------------------
-        val map = HashMap<String, RequestBody>()
-
-        map["appVersion"] = BuildConfig.VERSION_NAME.toBody()
-        map["ojtPlanId"] = batch[0].ojtPlanId.toBody()
-        map["sanctionOrder"] = batch[0].sanctionOrder.toBody()
-        map["trainingCenterId"] = batch[0].trainingCenterId.toBody()
-
-        map["batchId"] =
-            AppUtil.getSavedOJTBatchIDPreference(requireContext()).toBody()
-
-        map["candidateId"] = batch[0].candidateId.toBody()
-        map["piaCode"] = batch[0].piaCode.toBody()
-        map["employeersId"] = batch[0].employeersId.toBody()
-
-        map["month"] = binding.tvMonth.text.toString().toBody()
-        map["fatherName"] = batch[0].fatherName.toBody()
-        map["districtCode"] = batch[0].districtCode.toBody()
-
-        map["trainingStartDate"] = batch[0].batchStartDate.toBody()
-        map["trainingEndDate"] = batch[0].batchEndDate.toBody()
-
-        map["ojtStartDate"] = selectedRandomDateStr.toBody()
-        map["ojtEndDate"] = batch[0].ojtEndDate.toBody()
-
-        map["verificationDate"] = binding.tvCurrentDate.text.toString().toBody()
-        map["verificationTime"] = binding.tvTime.text.toString().toBody()
-
-        map["candidateAvailable"] = selectedAnswer.toBody()
-
-        map["reason"] = binding.etNoReason.text.toString().toBody()
-
-        map["latitude"] = latitude.toString().toBody()
-        map["longitude"] = longitude.toString().toBody()
-
-        //------------------------------------
-        // IMPORTANT FIX: DO NOT SEND BASE64
-        //------------------------------------
-        // map["verificationImage"] = ❌ REMOVE THIS
+        val request = Request.Builder()
+            .url(BuildConfig.BASE_URL + "saveSrlmCandidateOjtVerification")
+            .post(body)
+            .addHeader("ddugkyappauth", "Bearer $token")
+            .build()
 
         //------------------------------------
         // API CALL
         //------------------------------------
-        showProgressDialog(requireContext(), "Uploading...")
 
-        viewModel.uploadCandidateOjtSRLMVerification(
-            token,
-            map,
-            videoPart,
-            imagePart // 👈 ADD THIS in API
-        )
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            try {
+
+                Log.d("UPLOAD_API", request.url.toString())
+                Log.d("UPLOAD_TOKEN", token)
+                Log.d("VIDEO_PATH", videoFile.absolutePath)
+                Log.d("VIDEO_SIZE_MB", "${videoFile.length() / (1024 * 1024)} MB")
+
+                val response = client.newCall(request).execute()
+
+                val responseBody = response.body?.string() ?: ""
+
+                Log.d("UPLOAD_RESPONSE_CODE", response.code.toString())
+                Log.d("UPLOAD_RESPONSE", responseBody)
+
+                withContext(Dispatchers.Main) {
+
+                    if (!isAdded) return@withContext
+
+                    progressDialog.dismiss()
+
+                    if (response.isSuccessful) {
+
+                        try {
+
+                            val jsonObject = JSONObject(responseBody)
+
+                            val message =
+                                jsonObject.optString(
+                                    "responseDesc",
+                                    "Upload Successful"
+                                )
+
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("Success")
+                                .setMessage(message)
+                                .setCancelable(false)
+                                .setPositiveButton("OK") { dialog, _ ->
+
+                                    dialog.dismiss()
+
+                                    parentFragmentManager.setFragmentResult(
+                                        "REFRESH_DATA",
+                                        Bundle()
+                                    )
+                                    this@SRLMBottomDialog.dismissAllowingStateLoss()
+                                    dialog.dismiss()
+
+//                                    dismissAllowingStateLoss()
+                                }
+                                .show()
+
+                        } catch (e: Exception) {
+
+                            AlertDialog.Builder(requireContext())
+                                .setTitle("Success")
+                                .setMessage(responseBody)
+                                .setPositiveButton("OK") { dialog, _ ->
+
+                                    dialog.dismiss()
+
+                                    parentFragmentManager.setFragmentResult(
+                                        "REFRESH_DATA",
+                                        Bundle()
+                                    )
+                                    this@SRLMBottomDialog.dismissAllowingStateLoss()
+                                    dialog.dismiss()
+                                }
+                                .show()
+                        }
+
+                    } else {
+
+                        AlertDialog.Builder(requireContext())
+                            .setTitle("Server Error")
+                            .setMessage(
+                                "HTTP ${response.code}\n\n$responseBody"
+                            )
+                            .setPositiveButton("OK", null)
+                            .show()
+                    }
+                }
+
+            } catch (e: Exception) {
+
+                withContext(Dispatchers.Main) {
+
+                    if (!isAdded) return@withContext
+
+                    progressDialog.dismiss()
+
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("Exception")
+                        .setMessage(e.localizedMessage ?: "Unknown Error")
+                        .setPositiveButton("OK", null)
+                        .show()
+                }
+
+                Log.e("UPLOAD_EXCEPTION", e.toString())
+            }
+        }
     }
+//    private fun uploadCandidateOjtVerification(image1Base64: String) {
+//
+//        val token = "Bearer ${getToken(requireContext())}"
+//
+//        //------------------------------------
+//        // VIDEO VALIDATION
+//        //------------------------------------
+//        if (finalVideoPath.isNullOrEmpty()) {
+//            Toast.makeText(requireContext(), "Video path missing", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//
+//        val videoFile = File(finalVideoPath!!)
+//
+//        if (!videoFile.exists()) {
+//            Toast.makeText(requireContext(), "Video file not found", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//
+//        //------------------------------------
+//        // VIDEO PART
+//        //------------------------------------
+//        val videoRequestBody =
+//            videoFile.asRequestBody("video/mp4".toMediaTypeOrNull())
+//
+//        val videoPart =
+//            MultipartBody.Part.createFormData(
+//                "verificationVideo",
+//                videoFile.name,
+//                videoRequestBody
+//            )
+//
+//        //------------------------------------
+//        // IMAGE PART (🔥 FIXED - NO BASE64)
+//        //------------------------------------
+//        val imageFile = File(image1Base64) // <-- ensure you have real path
+//
+//        val imagePart = if (imageFile.exists()) {
+//            val imageRequestBody =
+//                imageFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
+//
+//            MultipartBody.Part.createFormData(
+//                "verificationImage",
+//                imageFile.name,
+//                imageRequestBody
+//            )
+//        } else null
+//
+//        //------------------------------------
+//        // SAFE REQUEST BODY FUNCTION
+//        //------------------------------------
+//        fun String?.toBody(): RequestBody =
+//            (this ?: "").trim().toRequestBody("text/plain".toMediaTypeOrNull())
+//
+//        fun Int?.toBody(): RequestBody =
+//            (this ?: 0).toString().toBody()
+//
+//        //------------------------------------
+//        // MAP
+//        //------------------------------------
+//        val map = HashMap<String, RequestBody>()
+//
+//        map["appVersion"] = BuildConfig.VERSION_NAME.toBody()
+//        map["ojtPlanId"] = batch[0].ojtPlanId.toBody()
+//        map["sanctionOrder"] = batch[0].sanctionOrder.toBody()
+//        map["trainingCenterId"] = batch[0].trainingCenterId.toBody()
+//
+//        map["batchId"] =
+//            AppUtil.getSavedOJTBatchIDPreference(requireContext()).toBody()
+//
+//        map["candidateId"] = batch[0].candidateId.toBody()
+//        map["piaCode"] = batch[0].piaCode.toBody()
+//        map["employeersId"] = batch[0].employeersId.toBody()
+//
+//        map["month"] = binding.tvMonth.text.toString().toBody()
+//        map["fatherName"] = batch[0].fatherName.toBody()
+//        map["districtCode"] = batch[0].districtCode.toBody()
+//
+//        map["trainingStartDate"] = batch[0].batchStartDate.toBody()
+//        map["trainingEndDate"] = batch[0].batchEndDate.toBody()
+//
+//        map["ojtStartDate"] = selectedRandomDateStr.toBody()
+//        map["ojtEndDate"] = batch[0].ojtEndDate.toBody()
+//
+//        map["verificationDate"] = binding.tvCurrentDate.text.toString().toBody()
+//        map["verificationTime"] = binding.tvTime.text.toString().toBody()
+//
+//        map["candidateAvailable"] = selectedAnswer.toBody()
+//
+//        map["reason"] = binding.etNoReason.text.toString().toBody()
+//
+//        map["latitude"] = latitude.toString().toBody()
+//        map["longitude"] = longitude.toString().toBody()
+//
+//        //------------------------------------
+//        // IMPORTANT FIX: DO NOT SEND BASE64
+//        //------------------------------------
+//        // map["verificationImage"] = ❌ REMOVE THIS
+//
+//        //------------------------------------
+//        // API CALL
+//        //------------------------------------
+//        showProgressDialog(requireContext(), "Uploading...")
+//
+//        viewModel.uploadCandidateOjtSRLMVerification(
+//            token,
+//            map,
+//            videoPart,
+//            imagePart // 👈 ADD THIS in API
+//        )
+//    }
 
 
 

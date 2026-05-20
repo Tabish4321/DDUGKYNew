@@ -2477,6 +2477,10 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
             }
         }
     }
+
+
+
+
 //           Code is runing some mobile
 //    fun uploadCandidateOjtVerification(
 //        token: String,

@@ -155,6 +155,7 @@ import com.bumptech.glide.Glide
 import com.deendayalproject.databinding.FragmentPreviewScreenBinding
 import com.deendayalproject.databinding.FragmentPreviewScreenSrlmBinding
 import com.deendayalproject.model.response.ChildSRLM
+import com.deendayalproject.model.response.ListByBatchSRLM
 import com.deendayalproject.model.response.VerificationDetails
 import com.deendayalproject.network.SecurePreferenceManager.getToken
 import com.deendayalproject.util.AppConstant.OJT_VIDEO_URL
@@ -275,45 +276,41 @@ class PreViewlScreenCandidateBottomSRLMDialog(private val detail: List<ChildSRLM
 
 
 
-//        binding.tvPiaName.text = batch[0].piaName
-////        binding.tvActivityTitle.text =
-////            getString(R.string.what_activity_did_you_do_a_random_day_to_be_chosen_by_the_ytem_from_last_6_days)
-//        binding.tvCenterName.text = batch[0].trainingCenterName
-////        binding.tvCandidate.text = batch[0].candidateName
-//        binding.tvKpid.text = batch[0].candidateId
-//        binding.tvStatus.text = batch[0].status
-//
-//
-////        binding.tvStipned.text =
-////            getString(R.string.how_much_stipend_are_you_eligible_for) + "\n" + "₹" + batch[0].stipend
-//        binding.tvFatherName.text = batch[0].fatherName
-//        binding.tvDistrict.text = batch[0].districtName
-//        binding.tvTrainingStart.text = batch[0].batchStartDate
-//        binding.tvTrainingEnd.text = batch[0].batchEndDate
-//        binding.tvOjtStart.text = batch[0].ojtStartDate ?: ""
-//        binding.tvOjtEnd.text = batch[0].ojtEndDate ?: ""
-//        binding.tvOjtLocation.text = batch[0].workplaceName
-//        binding.tvOjtIndustryName.text = batch[0].employeersName
-//        binding.tvMobileNo.text = batch[0].mobileNo
+        binding.tvPiaName.text = batch[0].piaName
+//        binding.tvActivityTitle.text =
+//            getString(R.string.what_activity_did_you_do_a_random_day_to_be_chosen_by_the_ytem_from_last_6_days)
+        binding.tvCenterName.text = batch[0].trainingCenterName
+        binding.tvCandidate.text = batch[0].candidateName
+        binding.tvKpid.text = batch[0].candidateId
+        binding.tvStatus.text = batch[0].status
+
+
+//        binding.tvStipned.text =
+//            getString(R.string.how_much_stipend_are_you_eligible_for) + "\n" + "₹" + batch[0].stipend
+        binding.tvFatherName.text = batch[0].fatherName
+        binding.tvDistrict.text = batch[0].districtName
+        binding.tvTrainingStart.text = batch[0].batchStartDate
+        binding.tvTrainingEnd.text = batch[0].batchEndDate
+        binding.tvOjtStart.text = batch[0].ojtStartDate ?: ""
+        binding.tvOjtEnd.text = batch[0].ojtEndDate ?: ""
+        binding.tvOjtLocation.text = batch[0].workplaceName
+        binding.tvOjtIndustryName.text = batch[0].employeersName
+        binding.tvMobileNo.text = batch[0].mobileNo
 
 
 //        binding.profileImageLayout.visibility= View.VISIBLE
 //        binding.profileImageLayout.visibility =
-//            if (selectedPosition) View.VISIBLE else View.GONE
+////            if (selectedPosition) View.VISIBLE else View.GONE
 //
 //        binding.profileImageLayout.setOnClickListener {
 //
 ////                listener(batch)
 //
 //            selectedPosition = if (selectedPosition == selectedPosition) -1 else selectedPosition
-
-
+//
+//
 //        }
 
-//        binding.btnRecord.setOnClickListener {
-//            dismissKeyboard()
-//            checkPermissionAndRecord()
-//        }
 
 
         binding.imgnavigationttrainingDetails.setOnClickListener {
@@ -554,9 +551,9 @@ class PreViewlScreenCandidateBottomSRLMDialog(private val detail: List<ChildSRLM
         binding.etOjtEnterDuringTimes.keyListener = null
 //        binding.etRemarkFieldLevelSupervisorNominated.setText(detail[0].fieldLevelSupervisorNominatedRemark)
         binding.etRemarkFieldLevelSupervisorNominated.keyListener = null
-//        binding.tvSelectedDate.setText(detail[0].ojtStartDate)
+        binding.tvSelectedDate.setText(detail[0].ojtStartDate)
 //        binding.etOjtTrainingCenter.setText(detail[0].todayActivity)
-        binding.etOjtTrainingCenter.keyListener = null
+//        binding.etOjtTrainingCenter.keyListener = null
 
 
 //        binding.tvHowMuchSelectedDate.setText(detail[0].previousActivity)
@@ -577,33 +574,6 @@ class PreViewlScreenCandidateBottomSRLMDialog(private val detail: List<ChildSRLM
         binding.tvHowMuchSelectedDate.keyListener = null
         binding.etSelectedRandomDate.keyListener = null
 
-//        playVideo(batch[0].candidateId)
-
-//        finalVideoPath = detail[0].verificationImage
-        val bitmap = finalVideoPath?.let { base64ToBitmap(it) }
-
-        if (bitmap != null) {
-            binding.imageView.setImageBitmap(bitmap)
-        } else {
-            binding.imageView.setImageResource(R.drawable.no_data) // fallback
-        }
-
-
-//        val reason = detail[0].reason.orEmpty()
-//
-//        val visibility = if (reason.isBlank()) View.GONE else View.VISIBLE
-
-//        binding.textRemarkReaon.visibility = visibility
-//        binding.etRemarkReaon.visibility = visibility
-
-// optional: set text when available
-//        if (visibility == View.VISIBLE) {
-//            binding.etRemarkReaon.setText(reason)
-//        }
-//        binding.etRemarkReaon.setText(detail[0].reason)
-//        binding.etRemarkReaon.keyListener = null
-//
-//    }
 
     }
     fun base64ToBitmap(base64Str: String): Bitmap? {

@@ -743,6 +743,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     app:cardCornerRadius="@dimen/dp_5"
+                    android:visibility="gone"
                     android:id="@+id/CardViewQuestion"
                     app:cardElevation="@dimen/dp_5"
                     android:layout_marginTop="@dimen/dp_10"
@@ -1508,7 +1509,7 @@
                                             android:fontFamily="@font/avenir_next_regular"
                                             android:layout_height="wrap_content"
                                             android:textSize="16sp"
-
+                                              android:visibility="gone"
                                             android:layout_marginTop="@dimen/dp_20"
                                             android:textAlignment="viewStart"
                                             android:textStyle="bold"
