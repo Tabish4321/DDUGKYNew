@@ -1,6 +1,8 @@
 package com.deendayalproject.fragments.composeui.trainingCenListAandDetails
 
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -23,11 +25,17 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deendayalproject.fragments.composeui.common.InfoRow
+import com.deendayalproject.util.AppUtil.downloadAndOpenPdf
+import com.deendayalproject.util.AppUtil.getFileSize
+import com.deendayalproject.util.isNull
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun TrainingCenterDetails(
@@ -41,11 +49,21 @@ fun TrainingCenterDetails(
     email: String,
     tradeAndCapacity: String,
     coordinate: String,
-    roleName: String
+    roleName: String,
+    revisedDoc: String,
+    context: Context,
 ) {
 
     var expanded by remember { mutableStateOf(false) }
     val haptic = LocalHapticFeedback.current
+
+    var isDownloading by remember { mutableStateOf(false) }
+    var progress by remember { mutableStateOf(0f) }
+    var fileSizeText by remember { mutableStateOf("Unknown size") }
+    var statusText by remember { mutableStateOf("Not downloaded") }
+    val scope = rememberCoroutineScope()
+
+
 
     val rotation by animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
@@ -53,14 +71,105 @@ fun TrainingCenterDetails(
         label = ""
     )
 
+
+
+    //  DOWNLOAD CARD
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(4.dp),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+    )
+    {
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(14.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Column(modifier = Modifier.weight(1f)) {
+
+                Text(
+                    "Revised Sanction Order",
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+
+                Text(
+                    fileSizeText,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                Text(
+                    statusText,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.primary
+                )
+
+                if (isDownloading) {
+                    LinearProgressIndicator(
+                        progress = progress,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 6.dp)
+                    )
+                }
+            }
+
+            IconButton(
+                onClick = {
+                    if (revisedDoc == ""){
+
+                        Toast.makeText(
+                            context,
+                            "PDF not found",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    else{
+                        isDownloading = true
+                        statusText = "Downloading..."
+
+                        scope.launch {
+                            for (i in 1..100) {
+                                progress = i / 100f
+                                delay(15)
+                            }
+
+                            fileSizeText = getFileSize(revisedDoc)
+                            statusText = "Downloaded"
+                            isDownloading = false
+
+                            downloadAndOpenPdf(context, revisedDoc)
+                        }
+                    }
+
+                },
+                enabled = !isDownloading
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Download,
+                    contentDescription = "Download",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
+    }
+
+
     ElevatedCard(
         colors = CardDefaults.elevatedCardColors(containerColor = Color.White),
-        shape = RoundedCornerShape(14.dp),
+        shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.elevatedCardElevation(8.dp),
         modifier = Modifier.fillMaxWidth()
-    ){
+    )
+    {
 
-        Column(modifier = Modifier.padding(22.dp)) {
+        Column(modifier = Modifier.padding(12.dp)) {
 
             Row(
                 modifier = Modifier
@@ -69,13 +178,14 @@ fun TrainingCenterDetails(
                         expanded = !expanded
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                     },
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.Top
             ) {
+
 
                 Box(
                     modifier = Modifier
-                        .size(52.dp)
-                        .clip(RoundedCornerShape(16.dp))
+                        .size(48.dp)
+                        .clip(RoundedCornerShape(14.dp))
                         .background(
                             Brush.linearGradient(
                                 listOf(
@@ -93,27 +203,48 @@ fun TrainingCenterDetails(
                     )
                 }
 
-                Spacer(modifier = Modifier.width(16.dp))
+                Spacer(modifier = Modifier.width(14.dp))
 
-                Column(modifier = Modifier.weight(1f)) {
+                // 🔹 TEXT SECTION (better spacing)
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(top = 2.dp) //  thoda upar adjust
+                ) {
+
                     Text(
                         "Training Center Details",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
-                    Text(
-                        if (expanded) "Tap to collapse" else "Tap to expand",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
 
-                Icon(
-                    Icons.Default.KeyboardArrowDown,
-                    contentDescription = null,
-                    modifier = Modifier.rotate(rotation),
-                    tint = MaterialTheme.colorScheme.primary
-                )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(top = 4.dp)
+                    ) {
+
+                        Text(
+                            if (expanded) "Tap to collapse" else "Tap to expand",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.weight(1f)
+                        )
+
+                        Icon(
+                            imageVector = if (expanded)
+                                Icons.Default.KeyboardArrowUp
+                            else
+                                Icons.Default.KeyboardArrowDown,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.rotate(rotation)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+
+                }
             }
 
             AnimatedVisibility(
@@ -152,6 +283,8 @@ fun TrainingCenterDetails(
 )
 @Composable
 fun TrainingCenterDetailsPreview() {
+    val context = LocalContext.current
+
     MaterialTheme {
         Surface {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -167,7 +300,9 @@ fun TrainingCenterDetailsPreview() {
                     email = "trainingcenter@gov.in",
                     tradeAndCapacity = "Electrician - 30 Seats",
                     coordinate = "28.6139° N, 77.2090° E",
-                    roleName = "Center Manager"
+                    roleName = "Center Manager",
+                   "",
+                    context = context
                 )
             }
         }

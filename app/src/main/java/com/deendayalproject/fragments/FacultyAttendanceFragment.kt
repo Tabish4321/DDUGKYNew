@@ -408,10 +408,28 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
 
 
     private fun getTransactionID(): String {
-        val secureRandom = SecureRandom()
-        return secureRandom.nextInt(9999).toString()
-    }
+        val prefix = "DDUGKY"
+        val suffix = "AEAD"
 
+        // 12 digit random number
+        val random = SecureRandom()
+        val n = (100000000000L + (random.nextDouble() * 900000000000L)).toLong()
+
+        val date = Date()
+
+        val yyyy = SimpleDateFormat("yyyy", Locale.getDefault()).format(date)
+        val mm = SimpleDateFormat("MM", Locale.getDefault()).format(date)
+        val dd = SimpleDateFormat("dd", Locale.getDefault()).format(date)
+
+        val hh = SimpleDateFormat("HH", Locale.getDefault()).format(date) // 24-hour format better
+        val min = SimpleDateFormat("mm", Locale.getDefault()).format(date)
+        val ss = SimpleDateFormat("ss", Locale.getDefault()).format(date)
+
+        val strDate = yyyy + mm + dd
+        val strTime = hh + min + ss
+
+        return "$prefix$n$strDate$strTime$suffix"
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun invokeCaptureIntent() {
@@ -424,17 +442,9 @@ class FacultyAttendanceFragment : BaseFragment<FragmentFacultyAttendanceBinding>
             )
             startUidaiAuthResult.launch(intent1)
 
-            // val packageName = "com.example.otherapp" // Replace with the target app's package name
-            val intent =
-                requireContext().packageManager.getLaunchIntentForPackage(AppConstant.CAPTURE_INTENT)
-            intent?.putExtra(
-                AppConstant.CAPTURE_INTENT_REQUEST,
-                createPidOptions(getTransactionID(), "auth")
-            )
-            if (intent != null) {
-                startActivity(intent)
-            }
         } catch (exp: Exception) {
+
+            toastShort("Failed to open capture app")
         }
 
     }

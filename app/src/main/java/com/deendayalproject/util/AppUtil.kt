@@ -7,6 +7,7 @@ import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
@@ -50,6 +51,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import com.deendayalproject.R
@@ -58,6 +60,8 @@ import com.deendayalproject.network.SecurePreferenceManager.saveToken
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.io.InputStream
 import java.security.MessageDigest
 import java.security.SecureRandom
@@ -312,6 +316,20 @@ object AppUtil {
             context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         return sharedPreferences.getString("CenterType", "") ?: ""
     }
+
+
+    fun saveSanctionOrderInsPreference(context: Context, tokenCode: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("SanctionOrderIns", tokenCode).apply()
+    }
+
+    fun getSavedSanctionOrderInsPreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("SanctionOrderIns", "") ?: ""
+    }
+
 
     fun showBase64Dialog(context: Context, base64: String) {
 
@@ -823,9 +841,43 @@ fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 800): String? {
             }
         }
 
+    fun getFileSize(base64: String): String {
+        return try {
+            val bytes = Base64.decode(base64, Base64.DEFAULT)
+            val kb = bytes.size / 1024
+            "$kb KB"
+        } catch (e: Exception) {
+            "Unknown size"
+        }
+    }
 
+    fun downloadAndOpenPdf(context: Context, base64: String) {
+        try {
+            val pdfBytes = Base64.decode(base64, Base64.DEFAULT)
 
+            val file = File(context.cacheDir, "revised_document.pdf")
+            val fos = FileOutputStream(file)
+            fos.write(pdfBytes)
+            fos.flush()
+            fos.close()
 
+            val uri = FileProvider.getUriForFile(
+                context,
+                "${context.packageName}.provider",
+                file
+            )
+
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setDataAndType(uri, "application/pdf")
+            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+
+            context.startActivity(intent)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Unable to open PDF", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 
 

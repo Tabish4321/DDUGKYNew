@@ -21,8 +21,8 @@ android {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
-        versionCode = 14
-        versionName ="2.0.3" //"1.1.3"//"2.0.1"
+        versionCode = 19
+        versionName = "2.0.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -40,10 +40,9 @@ android {
         }
         getByName("debug") {
             isMinifyEnabled = false
-            isDebuggable = true
+            isDebuggable = false
         }
     }
-
     defaultConfig {
         buildConfigField("String", "CRYPT_ID", projectProperties["CRYPT_ID"] as String)
         buildConfigField("String", "CRYPT_IV", projectProperties["CRYPT_IV"] as String)
@@ -58,14 +57,14 @@ android {
     productFlavors {
         create("prod") {
             dimension = "environment"
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
         } //BASE_URL_LIVE
 
         create("demo") {
             dimension = "environment"
             applicationIdSuffix = ""
             versionNameSuffix = ""
-            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_DEMO"] as String)
+            buildConfigField("String", "BASE_URL", projectProperties["BASE_URL_LIVE"] as String)
         }//BASE_URL_DEMO
     }
 
@@ -78,12 +77,15 @@ android {
         kotlinCompilerExtensionVersion = "1.5.11"
     }
 
+
     buildFeatures {
         viewBinding = true
         buildConfig = true
         compose = true
+
     }
 }
+
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = "17"
@@ -151,13 +153,6 @@ dependencies {
 
     // Location Services
     implementation("com.google.android.gms:play-services-location:21.3.0")
-
-//    implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
-//    implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
-    // Firebase
-//    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
-//    implementation("com.google.firebase:firebase-crashlytics-ktx")
-//    implementation("com.google.firebase:firebase-analytics-ktx")
 
 
     // Testing

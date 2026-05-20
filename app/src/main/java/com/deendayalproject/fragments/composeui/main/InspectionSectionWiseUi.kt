@@ -140,12 +140,12 @@ fun InspectionStepModernScreen(
         if (verificationState.submitSuccess) {
             Toast.makeText(context, "Inspection submitted successfully",
                 Toast.LENGTH_SHORT).show()
-           // snackbarHostState.showSnackbar("Inspection submitted successfully")
+            // snackbarHostState.showSnackbar("Inspection submitted successfully")
             findNavigator.previousBackStackEntry
                 ?.savedStateHandle
                 ?.set("inspection_success", true)
             condidateVerificationViewModel.clearFinalSuccess()
-             findNavigator.popBackStack()
+            findNavigator.popBackStack()
         }
     }
 
@@ -161,7 +161,7 @@ fun InspectionStepModernScreen(
     var showDialog by remember { mutableStateOf(false) }
     var distance by remember { mutableStateOf<Float?>(null) }
 
-   // "28.6296845 &  77.2189032" jeevan bharti
+    // "28.6296845 &  77.2189032" jeevan bharti
     trainingDetails?.coordinate?.let { coord ->
         rememberGeofenceChecker(apiCoordinate = coord) { inside, dist ->
             if(BuildConfig.DEBUG){
@@ -173,6 +173,7 @@ fun InspectionStepModernScreen(
             distance = dist
 
             if (!inside) {
+               // showDialog = false
                 showDialog = true
             }
         }
@@ -399,6 +400,8 @@ fun InspectionStepModernScreen(
                                     1 -> {
                                         item {
 
+
+
                                             TrainingCenterDetails(
                                                 prnNumber = prnNumber,
                                                 sanctionLetter = sanctionLetter,
@@ -413,8 +416,10 @@ fun InspectionStepModernScreen(
                                                 tradeAndCapacity = trainingDetails?.tradeAndCapacity
                                                     ?: "",
                                                 coordinate = trainingDetails?.coordinate ?: "",
-                                                roleName = trainingDetails?.roleName ?: ""
-
+                                                roleName = trainingDetails?.roleName ?: "",
+                                                revisedDoc = trainingDetails?.revisedSanctionOrderDoc
+                                                    ?: "",
+                                                    context = context
                                             )
 
                                             Spacer(modifier = Modifier.height(20.dp))
@@ -687,3 +692,9 @@ fun InspectionStepModernScreen(
         }
     }
 }
+
+
+
+
+
+

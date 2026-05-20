@@ -231,34 +231,6 @@ class FieldVerificationListFragment : BaseFragment<FragmentFieldVerificationList
         return results[0] <= radiusInMeters
     }
 
-    // Helper methods for data management
-//    fun updateFieldVerificationData(newList: List<FieldVerificationItem>) {
-//        fieldVerificationList.clear()
-//        fieldVerificationList.addAll(newList)
-//        updateRecyclerViewData(binding.recyclerView.id, fieldVerificationList)
-//    }
-
-//    fun getCurrentFieldVerificationList(): List<FieldVerificationItem> {
-//        return getRecyclerViewItems(binding.recyclerView.id)
-//    }
-
-//    fun clearFieldVerificationList() {
-//        fieldVerificationList.clear()
-//        updateRecyclerViewData(binding.recyclerView.id, fieldVerificationList)
-//    }
-
-//    fun filterFieldVerificationList(query: String) {
-//        val filteredList = if (query.isEmpty()) {
-//            fieldVerificationList
-//        } else {
-//            fieldVerificationList.filter {
-//                it.piaName?.contains(query, ignoreCase = true) == true ||
-//                        it.prnNo?.contains(query, ignoreCase = true) == true ||
-//                        it.districtName?.contains(query, ignoreCase = true) == true
-//            }
-//        }
-//        updateRecyclerViewData(binding.recyclerView.id, filteredList)
-//    }
 
     // Location permission check helper
     fun hasLocationPermission(): Boolean {
