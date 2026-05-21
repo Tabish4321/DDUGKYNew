@@ -173,39 +173,6 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
 
 
 
-
-
-
-//                val selectedItem =
-//                    OJTSanctionOrderListAdapter.getItem(position).toString()
-//
-//                val item2 = filteredSanctionList.find {
-//                    "${it.piaName} (${it.sanctionOrder})" == selectedItem
-//                }
-//
-//                item2?.let { fetchModulesTrainingCenters(it.sanctionOrder)
-//                }
-//
-//                if (item2 != null) {
-//
-//                    selectedOJTSanctionOrder = item2
-//
-//                    // Set selected value in dropdown
-//                    setText("${item2.piaName} (${item2.sanctionOrder})", false)
-//
-//                    clearTrainingCenter()
-//                    clearBatchRecycler()
-//
-//                    fetchModulesTrainingCenters(item2.sanctionOrder)
-//
-//                } else {
-//
-//                    Toast.makeText(
-//                        context,
-//                        "Data mismatch!",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
             }
         }
 
@@ -268,55 +235,6 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
 
         OJTSanctionOrderListAdapter.notifyDataSetChanged()
     }
-//    private fun setupSanctionOrder() {
-//
-//
-//
-//        OJTSanctionOrderListAdapter = ArrayAdapter(
-//            requireContext(),
-//            android.R.layout.simple_dropdown_item_1line,
-//            OJTSanctionOrderNumberList
-//        )
-//
-//        binding.OjtspinnerPiaName.apply {
-//            setAdapter(OJTSanctionOrderListAdapter)
-//            keyListener = null
-//
-//            setOnClickListener {
-//                if (OJTSanctionOrderListAdapter.count > 0) {
-//                    showDropDown()
-//                } else {
-//                    Toast.makeText(context, "No data available", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//
-//            setOnItemClickListener { parent, _, position, _ ->
-//
-//                val selectedPiaName = parent.getItemAtPosition(position).toString()
-//
-//                val item = SanctionOrderListOjt.find {
-//                    it.piaName.trim() == selectedPiaName.trim()
-//                }
-//
-//                if (item != null) {
-//
-//                    selectedOJTSanctionOrder = item
-//
-//                    clearTrainingCenter()
-//                    clearBatchRecycler()
-//
-//
-//
-//                    fetchModulesTrainingCenters(item.sanctionOrder)
-//
-//                } else {
-//                    Toast.makeText(context, "Data mismatch!", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
-//
-//
-//    }
 
     private fun setupTrainingCenter() {
         OJTTrainingCenterAdapter = ArrayAdapter(

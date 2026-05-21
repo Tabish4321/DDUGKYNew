@@ -192,6 +192,10 @@ bindingInflater = FragmentHomeBinding::inflate
             "TRAINING_CENTER_APP" ->
                 navigate(R.id.action_homeFragment_to_centerFragment)
 
+
+            "OJT_SRLM_VERIFICATION_FORM_APP" ->
+                navigate(R.id.action_homeFragment_to_SelectionSrlm)
+
             "RESIDENTIAL_FACILITY_FORM" ->
                 navigate(R.id.action_homeFragment_to_rfCenterFragment)
 
@@ -213,10 +217,8 @@ bindingInflater = FragmentHomeBinding::inflate
             "DDUGKY_CANDIDATE_ATTENDANCE_APP" ->
                 navigate(R.id.action_homeFragment_to_attendanceBatchListFragment)
             "OJT_VERIFICATION_FORM_APP" ->
-
-
-//            navigate(R.id.action_homeFragment_to_SelectionSrlm)
                 navigate(R.id.action_homeFragment_to_SelectionFragment)
+//                navigate(R.id.action_homeFragment_to_SelectionFragment)
 
         }
     }

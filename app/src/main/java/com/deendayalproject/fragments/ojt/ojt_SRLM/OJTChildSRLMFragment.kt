@@ -47,21 +47,35 @@ import com.google.gson.Gson
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-class OJTChildSRLMFragment : BaseFragment<FragmentOJTChildSRLMBinding>(FragmentOJTChildSRLMBinding::inflate) {
+
+
+
+
+
+
+
+
+class OJTChildSRLMFragment :
+    BaseFragment<FragmentOJTChildSRLMBinding>(
+        FragmentOJTChildSRLMBinding::inflate
+    ) {
 
     private lateinit var viewModel: SharedViewModel
     private var isBottomSheetOpened = false
-    // ---------- Batch ----------
     private var CompleteOJTList: List<ChildSRLM> = emptyList()
     private var VerificationSRLMDetails: List<ChildSRLM> = emptyList()
 
-
-    private var OJTList: List<ListByBatchSRLM> = emptyList()
     private lateinit var childAdapter: ChildSRLMAdapter
+
     private var batchId: String = ""
-    //    private var selectedBatch: OJTList? = null
-    private var selectedBatch: OjtBatchRes? = null
-    var verificationStatus : String? = null
+    private var verificationStatus: String? = null
+
+    // ✅ Selected Candidate Id
+    private var selectedCandidateId: String = ""
+
+    // =========================================================
+    // PERMISSION LAUNCHER
+    // =========================================================
 
     private val permissionLauncher =
         registerForActivityResult(
@@ -85,8 +99,8 @@ class OJTChildSRLMFragment : BaseFragment<FragmentOJTChildSRLMBinding>(FragmentO
                 (fineLocationGranted || coarseLocationGranted)
             ) {
 
-                // ✅ All Permission Granted
-                openVerificationScreen()
+                // ✅ Permission Granted
+                callCompleteOjtApi()
 
             } else {
 
@@ -98,132 +112,105 @@ class OJTChildSRLMFragment : BaseFragment<FragmentOJTChildSRLMBinding>(FragmentO
             }
         }
 
-    override fun initializeViews() {
-        setupViewModel()
+    // =========================================================
+    // INITIALIZE
+    // =========================================================
 
-//        setupTrainingCenter()
-        setupBatchRecycler()
+    override fun initializeViews() {
+
+        setupViewModel()
+        setupRecyclerView()
+
         arguments?.let { bundle ->
             batchId = bundle.getString("batchId").orEmpty()
         }
 
-
         val token = getToken(requireContext())
+
         val request = ModulesCandidateByOjtRequest2(
             BuildConfig.VERSION_NAME,
-            batchId.toString()
+            batchId
         )
 
         showProgressDialog("Loading...")
-        viewModel.fetchgetVerifiedBatchCandidateList(request, "Bearer $token")
 
-
-
-//        fetchBatch()
-    }
-
-    override fun loadInitialData() {
-//        fetchModulesSanction()
-        fetchBatch()
+        viewModel.fetchgetVerifiedBatchCandidateList(
+            request,
+            "Bearer $token"
+        )
     }
 
     override fun setupObservers() {
         observeViewModel()
     }
 
+    override fun loadInitialData() {}
+
     override fun setupClickListeners() {
+
         binding.toolbar.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
-        binding.toolbar.tvTitle.text = getString(R.string.ojt_candidate_srlm_list)
+
+        binding.toolbar.tvTitle.text =
+            getString(R.string.ojt_candidate_srlm_list)
     }
+
+    // =========================================================
+    // VIEWMODEL
+    // =========================================================
 
     private fun setupViewModel() {
-        // 👉 Lock screen in Portrait mode
+
         requireActivity().requestedOrientation =
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+
+        viewModel =
+            ViewModelProvider(this)[SharedViewModel::class.java]
     }
 
+    // =========================================================
+    // RECYCLER VIEW
+    // =========================================================
 
-
-
-
-
-
-
-
-    private fun setupBatchRecycler() {
-
-
-        childAdapter = ChildSRLMAdapter { batch ->
-
-            verificationStatus=batch.verificationStatus
-
-//             batch.candidateName
-            checkAndRequestPermissions()
-
-
-            val token = getToken(requireContext())
-            val request = ModulesOJTCompleteOjtRequest(
-//            BuildConfig.VERSION_NAME,
-//                BuildConfig.VERSION_NAME,2508460350.toString()
-                BuildConfig.VERSION_NAME,batch.candidateId
-//            AppUtil.getSavedOJTBatchIDPreference(requireContext())
-            )
-            showProgressDialog("Loading...")
-            viewModel.getVerifiedCompleteOjt(request, "Bearer $token")
-
-
-            parentFragmentManager.setFragmentResultListener(
-                "BOTTOM_SHEET_DISMISSED",
-                viewLifecycleOwner
-            ) { _, _ ->
-                isBottomSheetOpened = false
-            }
-            // ✅ NEW LISTENER (IMPORTANT)
-            parentFragmentManager.setFragmentResultListener(
-                "REFRESH_DATA",
-                viewLifecycleOwner
-            ) { _, _ ->
-                observeViewModel()
-            }
+    private fun setupRecyclerView() {
+        parentFragmentManager.setFragmentResultListener(
+            "BOTTOM_SHEET_DISMISSED",
+            viewLifecycleOwner
+        ) { _, _ ->
+            isBottomSheetOpened = false
+        }
+        // ✅ NEW LISTENER (IMPORTANT)
+        parentFragmentManager.setFragmentResultListener(
+            "REFRESH_DATA",
+            viewLifecycleOwner
+        ) { _, _ ->
             observeViewModel()
 
-
-
-
         }
+        observeViewModel()
+        childAdapter = ChildSRLMAdapter { batch ->
 
-//        }
+            // ✅ Save Status & Candidate Id
+            verificationStatus = batch.verificationStatus
+            selectedCandidateId = batch.candidateId
+
+            // ✅ FIRST CHECK PERMISSION
+            checkAndRequestPermissions()
+        }
 
         binding.rvModules.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+
+            layoutManager =
+                LinearLayoutManager(requireContext())
+
             adapter = childAdapter
         }
-
-
-
     }
 
-
-
-    //    private fun fetchBatch(trainingCenterId: String) {
-    private fun fetchBatch() {
-
-
-
-        val token = getToken(requireContext())
-        val request = ModulesOJTCompleteOjtRequest(
-//            BuildConfig.VERSION_NAME,
-            BuildConfig.VERSION_NAME,2508460350.toString()
-//            AppUtil.getSavedOJTBatchIDPreference(requireContext())
-        )
-        showProgressDialog("Loading...")
-        viewModel.getVerifiedCompleteOjt(request, "Bearer $token")
-
-    }
-
+    // =========================================================
+    // CHECK PERMISSION
+    // =========================================================
 
     private fun checkAndRequestPermissions() {
 
@@ -256,12 +243,11 @@ class OJTChildSRLMFragment : BaseFragment<FragmentOJTChildSRLMBinding>(FragmentO
             (fineLocationPermission || coarseLocationPermission)
         ) {
 
-            // ✅ Already Granted
-            openVerificationScreen()
+            // ✅ Permission Already Granted
+            callCompleteOjtApi()
 
         } else {
 
-            // ✅ Ask Permission One Time
             permissionLauncher.launch(
                 arrayOf(
                     Manifest.permission.CAMERA,
@@ -274,136 +260,93 @@ class OJTChildSRLMFragment : BaseFragment<FragmentOJTChildSRLMBinding>(FragmentO
     }
 
     // =========================================================
-    // OPEN SCREEN AFTER PERMISSION
+    // CALL API
     // =========================================================
 
-    private fun openVerificationScreen() {
+    private fun callCompleteOjtApi() {
 
-        if (verificationStatus != "Completed") {
-//        if (verificationStatus != "NA") {
+        val token = getToken(requireContext())
 
-            val dialog =
-                SRLMBottomDialog(CompleteOJTList)
+        val request = ModulesOJTCompleteOjtRequest(
+            BuildConfig.VERSION_NAME,
+            selectedCandidateId
+        )
 
-            dialog.show(
-                parentFragmentManager,
-                "Full Screen Dialog"
-            )
+        showProgressDialog("Loading...")
 
-        } else {
-//             VerificationDetails batch
-            val dialog =
-                PreViewlScreenCandidateBottomSRLMDialog(
-                    VerificationSRLMDetails,
-                    CompleteOJTList
-                )
-
-            dialog.show(
-                parentFragmentManager,
-                "PreViewlScreenCandidateBottomDialog"
-            )
-            Toast.makeText(
-                requireContext(),
-                "Verification already completed for this candidate.",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
+        viewModel.getVerifiedCompleteOjt(
+            request,
+            "Bearer $token"
+        )
     }
 
-    private fun clearBatchRecycler() {
-        selectedBatch = null
-        OJTList = emptyList()
-        childAdapter.setItems(emptyList())
-    }
+    // =========================================================
+    // OBSERVE VIEWMODEL
+    // =========================================================
 
-
-
-    @SuppressLint("RepeatOnLifecycleWrongUsage")
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewModel.VerifiedBatchCandidateSRLMCandidateList.observe(viewLifecycleOwner) { response ->
+        // =====================================================
+        // CANDIDATE LIST
+        // =====================================================
 
+        viewModel.VerifiedBatchCandidateSRLMCandidateList.observe(
+            viewLifecycleOwner
+        ) { response ->
 
-                    response.onSuccess { result ->
-                        if (isBottomSheetOpened) return@onSuccess
-//                if (isBottomSheetOpened) return@observe
-                        dismissProgressDialog()
+            response.onSuccess { result ->
+                if (isBottomSheetOpened) return@onSuccess
+                dismissProgressDialog()
 
-                        // ✅ Check Response Code
-                        if (result.responseCode == 200) {
+                if (result.responseCode == 200) {
 
-                            // ✅ Check Data Available
-                            if (!result.wrappedList.isNullOrEmpty()) {
+                    if (!result.wrappedList.isNullOrEmpty()) {
 
-                                OJTList = result.wrappedList
-                                childAdapter.setItems(OJTList)
+                        childAdapter.setItems(result.wrappedList)
 
-                                // ✅ Print JSON
-                                val gson = Gson()
-                                val jsonString = gson.toJson(OJTList)
-                                Log.d("JSON_DATA", jsonString)
+                    } else {
 
+                        childAdapter.setItems(emptyList())
 
-                                // ✅ CHECK PERMISSION HERE
-
-
-
-
-                            } else {
-                                // ❌ No Data
-                                childAdapter.setItems(emptyList())
-                                isBottomSheetOpened = true
-                                Toast.makeText(
-                                    requireContext(),
-                                    "No Data Found",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                        } else {
-                            // ❌ API Returned Error Code
-                            Toast.makeText(
-                                requireContext(),
-                                result.responseDesc ?: "Server Error",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-
-                    response.onFailure { error ->
-
-                        dismissProgressDialog()
-
-                        // ✅ Handle 401 Session Expired
-                        if (error is HttpException && error.code() == 401) {
-                            AppUtil.showSessionExpiredDialog(
-                                findNavController(),
-                                requireContext()
-                            )
-                            return@onFailure
-                        }
-
-                        // ❌ Other Errors (Network / Timeout etc.)
                         Toast.makeText(
                             requireContext(),
-                            error.message ?: "Something went wrong. Try again.",
+                            "No Data Found",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
 
+                } else {
 
-
-
+                    Toast.makeText(
+                        requireContext(),
+                        result.responseDesc ?: "Server Error",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
+                isBottomSheetOpened = true
+            }
 
+            response.onFailure { error ->
+
+                dismissProgressDialog()
+
+                Toast.makeText(
+                    requireContext(),
+                    error.message ?: "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
+
+        // =====================================================
+        // COMPLETE OJT API
+        // =====================================================
 
         viewModel.VerifiedCompleteChildOjt.observe(
             viewLifecycleOwner
         ) { response ->
+
             response.onSuccess { result ->
 
                 dismissProgressDialog()
@@ -412,19 +355,28 @@ class OJTChildSRLMFragment : BaseFragment<FragmentOJTChildSRLMBinding>(FragmentO
 
                     if (!result.wrappedList.isNullOrEmpty()) {
 
-                        VerificationSRLMDetails =
-                            result.wrappedList
+                        // ✅ SET DATA
+                        CompleteOJTList = result.wrappedList
+                        VerificationSRLMDetails = result.wrappedList
 
+                        // ✅ NOW OPEN DIALOG
+                        openVerificationScreen()
 
-                        CompleteOJTList =
-                            result.wrappedList
+                    } else {
+
+                        // ✅ EMPTY LIST
+                        Toast.makeText(
+                            requireContext(),
+                            "Data is not available",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
 
                 } else {
 
                     Toast.makeText(
                         requireContext(),
-                        result.responseDesc
-                            ?: "Server Error",
+                        result.responseDesc ?: "Server Error",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -434,36 +386,506 @@ class OJTChildSRLMFragment : BaseFragment<FragmentOJTChildSRLMBinding>(FragmentO
 
                 dismissProgressDialog()
 
-                if (error is HttpException &&
-                    error.code() == 401
-                ) {
-
-                    AppUtil.showSessionExpiredDialog(
-                        findNavController(),
-                        requireContext()
-                    )
-
-                    return@onFailure
-                }
-
                 Toast.makeText(
                     requireContext(),
-                    error.message
-                        ?: "Something went wrong",
+                    error.message ?: "Something went wrong",
                     Toast.LENGTH_SHORT
                 ).show()
             }
         }
+    }
+
+    // =========================================================
+    // OPEN SCREEN
+    // =========================================================
+
+    private fun openVerificationScreen() {
+
+        if (CompleteOJTList.isEmpty()) {
+
+            Toast.makeText(
+                requireContext(),
+                "Data is not available",
+                Toast.LENGTH_LONG
+            ).show()
+
+            return
         }
 
+        // ✅ OPEN DIALOG
+        if (verificationStatus != "Completed") {
 
+            val dialog = SRLMBottomDialog(
+                ArrayList(CompleteOJTList)
+            )
 
+            dialog.show(
+                parentFragmentManager,
+                "Full Screen Dialog"
+            )
+
+        } else {
+
+            val dialog =
+                PreViewlScreenCandidateBottomSRLMDialog(
+                    VerificationSRLMDetails,
+                    ArrayList(CompleteOJTList)
+                )
+
+            dialog.show(
+                parentFragmentManager,
+                "PreViewlScreenCandidateBottomDialog"
+            )
+        }
     }
+
+    // =========================================================
+    // DESTROY
+    // =========================================================
 
     override fun onDestroy() {
         super.onDestroy()
-        // 👉 Orientation unlock when dialog closed
+
         requireActivity().requestedOrientation =
             ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     }
 }
+
+
+
+
+
+
+
+//class OJTChildSRLMFragment : BaseFragment<FragmentOJTChildSRLMBinding>(FragmentOJTChildSRLMBinding::inflate) {
+//
+//    private lateinit var viewModel: SharedViewModel
+//    private var isBottomSheetOpened = false
+//    // ---------- Batch ----------
+//    private var CompleteOJTList: List<ChildSRLM> = emptyList()
+//    private var VerificationSRLMDetails: List<ChildSRLM> = emptyList()
+//
+//
+//    private var OJTList: List<ListByBatchSRLM> = emptyList()
+//    private lateinit var childAdapter: ChildSRLMAdapter
+//    private var batchId: String = ""
+//    //    private var selectedBatch: OJTList? = null
+//    private var selectedBatch: OjtBatchRes? = null
+//    var verificationStatus : String? = null
+//
+//    private val permissionLauncher =
+//        registerForActivityResult(
+//            ActivityResultContracts.RequestMultiplePermissions()
+//        ) { permissions ->
+//
+//            val cameraGranted =
+//                permissions[Manifest.permission.CAMERA] == true
+//
+//            val microphoneGranted =
+//                permissions[Manifest.permission.RECORD_AUDIO] == true
+//
+//            val fineLocationGranted =
+//                permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true
+//
+//            val coarseLocationGranted =
+//                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
+//
+//            if (cameraGranted &&
+//                microphoneGranted &&
+//                (fineLocationGranted || coarseLocationGranted)
+//            ) {
+//
+//                // ✅ All Permission Granted
+//                openVerificationScreen()
+//
+//            } else {
+//
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Camera, Microphone & Location Permission Required",
+//                    Toast.LENGTH_LONG
+//                ).show()
+//            }
+//        }
+//
+//    override fun initializeViews() {
+//        setupViewModel()
+//
+////        setupTrainingCenter()
+//        setupBatchRecycler()
+//        arguments?.let { bundle ->
+//            batchId = bundle.getString("batchId").orEmpty()
+//        }
+//
+//
+//        val token = getToken(requireContext())
+//        val request = ModulesCandidateByOjtRequest2(
+//            BuildConfig.VERSION_NAME,
+//            batchId.toString()
+//        )
+//
+//        showProgressDialog("Loading...")
+//        viewModel.fetchgetVerifiedBatchCandidateList(request, "Bearer $token")
+//
+//
+//
+////        fetchBatch()
+//    }
+//
+//    override fun loadInitialData() {
+////        fetchModulesSanction()
+//
+//    }
+//
+//    override fun setupObservers() {
+//        observeViewModel()
+//    }
+//
+//    override fun setupClickListeners() {
+//        binding.toolbar.btnBack.setOnClickListener {
+//            findNavController().navigateUp()
+//        }
+//        binding.toolbar.tvTitle.text = getString(R.string.ojt_candidate_srlm_list)
+//    }
+//
+//    private fun setupViewModel() {
+//        // 👉 Lock screen in Portrait mode
+//        requireActivity().requestedOrientation =
+//            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+//        viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+//    }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    private fun setupBatchRecycler() {
+//
+//
+//        childAdapter = ChildSRLMAdapter { batch ->
+//            AppUtil.saveOJTBatchIDPreference(requireContext(), batchId.toString())
+//            verificationStatus=batch.verificationStatus
+//
+////             batch.candidateName
+//            checkAndRequestPermissions()
+//            fetchBatch()
+//
+//            val token = getToken(requireContext())
+//            val request = ModulesOJTCompleteOjtRequest(
+////            BuildConfig.VERSION_NAME,
+////                BuildConfig.VERSION_NAME,2508460350.toString()
+//                BuildConfig.VERSION_NAME,batch.candidateId
+////            AppUtil.getSavedOJTBatchIDPreference(requireContext())
+//            )
+//            showProgressDialog("Loading...")
+//            viewModel.getVerifiedCompleteOjt(request, "Bearer $token")
+//
+//
+//            parentFragmentManager.setFragmentResultListener(
+//                "BOTTOM_SHEET_DISMISSED",
+//                viewLifecycleOwner
+//            ) { _, _ ->
+//                isBottomSheetOpened = false
+//            }
+//            // ✅ NEW LISTENER (IMPORTANT)
+//            parentFragmentManager.setFragmentResultListener(
+//                "REFRESH_DATA",
+//                viewLifecycleOwner
+//            ) { _, _ ->
+//                observeViewModel()
+//
+//            }
+//            observeViewModel()
+//
+//
+//
+//
+//        }
+//
+////        }
+//
+//        binding.rvModules.apply {
+//            layoutManager = LinearLayoutManager(requireContext())
+//            adapter = childAdapter
+//        }
+//
+//
+//
+//    }
+//
+//
+//
+//    //    private fun fetchBatch(trainingCenterId: String) {
+//    private fun fetchBatch() {
+//
+//
+//
+//        val token = getToken(requireContext())
+//        val request = ModulesOJTCompleteOjtRequest(
+////            BuildConfig.VERSION_NAME,
+//            BuildConfig.VERSION_NAME,
+//            AppUtil.getSavedOJTBatchIDPreference(requireContext())
+//        )
+////        2508460350.toString()
+//        showProgressDialog("Loading...")
+//        viewModel.getVerifiedCompleteOjt(request, "Bearer $token")
+//
+//    }
+//
+//
+//    private fun checkAndRequestPermissions() {
+//
+//        val cameraPermission =
+//            ContextCompat.checkSelfPermission(
+//                requireContext(),
+//                Manifest.permission.CAMERA
+//            ) == PackageManager.PERMISSION_GRANTED
+//
+//        val microphonePermission =
+//            ContextCompat.checkSelfPermission(
+//                requireContext(),
+//                Manifest.permission.RECORD_AUDIO
+//            ) == PackageManager.PERMISSION_GRANTED
+//
+//        val fineLocationPermission =
+//            ContextCompat.checkSelfPermission(
+//                requireContext(),
+//                Manifest.permission.ACCESS_FINE_LOCATION
+//            ) == PackageManager.PERMISSION_GRANTED
+//
+//        val coarseLocationPermission =
+//            ContextCompat.checkSelfPermission(
+//                requireContext(),
+//                Manifest.permission.ACCESS_COARSE_LOCATION
+//            ) == PackageManager.PERMISSION_GRANTED
+//
+//        if (cameraPermission &&
+//            microphonePermission &&
+//            (fineLocationPermission || coarseLocationPermission)
+//        ) {
+//
+//            // ✅ Already Granted
+//            openVerificationScreen()
+//
+//        } else {
+//
+//            // ✅ Ask Permission One Time
+//            permissionLauncher.launch(
+//                arrayOf(
+//                    Manifest.permission.CAMERA,
+//                    Manifest.permission.RECORD_AUDIO,
+//                    Manifest.permission.ACCESS_FINE_LOCATION,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION
+//                )
+//            )
+//        }
+//    }
+//
+//    // =========================================================
+//    // OPEN SCREEN AFTER PERMISSION
+//    // =========================================================
+//
+//    private fun openVerificationScreen() {
+//
+//
+//
+//        // Check list empty or not
+//        if (CompleteOJTList.isEmpty()) {
+//
+//            return@openVerificationScreen
+//        }
+//
+//        // If data available
+//        if (verificationStatus != "Completed") {
+//
+//            val dialog = SRLMBottomDialog(
+//                ArrayList(CompleteOJTList)
+//            )
+//
+//            dialog.show(
+//                parentFragmentManager,
+//                "Full Screen Dialog"
+//            )
+//
+//        } else {
+//
+//            val dialog = PreViewlScreenCandidateBottomSRLMDialog(
+//                VerificationSRLMDetails,
+//                ArrayList(CompleteOJTList)
+//            )
+//
+//            dialog.show(
+//                parentFragmentManager,
+//                "PreViewlScreenCandidateBottomDialog"
+//            )
+//        }
+//    }
+//
+//    private fun clearBatchRecycler() {
+//        selectedBatch = null
+//        OJTList = emptyList()
+//        childAdapter.setItems(emptyList())
+//    }
+//
+//
+//
+//    @SuppressLint("RepeatOnLifecycleWrongUsage")
+//    private fun observeViewModel() {
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//
+//                viewModel.VerifiedBatchCandidateSRLMCandidateList.observe(viewLifecycleOwner) { response ->
+//
+//
+//                    response.onSuccess { result ->
+//                        if (isBottomSheetOpened) return@onSuccess
+////                if (isBottomSheetOpened) return@observe
+//                        dismissProgressDialog()
+//
+//                        // ✅ Check Response Code
+//                        if (result.responseCode == 200) {
+//
+//                            // ✅ Check Data Available
+//                            if (!result.wrappedList.isNullOrEmpty()) {
+//
+//                                OJTList = result.wrappedList
+//                                childAdapter.setItems(OJTList)
+//
+//                                // ✅ Print JSON
+//                                val gson = Gson()
+//                                val jsonString = gson.toJson(OJTList)
+//                                Log.d("JSON_DATA", jsonString)
+//
+//
+//                                // ✅ CHECK PERMISSION HERE
+//
+//
+//
+//
+//                            } else {
+//                                // ❌ No Data
+//                                childAdapter.setItems(emptyList())
+//                                isBottomSheetOpened = true
+//                                Toast.makeText(
+//                                    requireContext(),
+//                                    "No Data Found",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//                            }
+//
+//                        } else {
+//                            // ❌ API Returned Error Code
+//                            Toast.makeText(
+//                                requireContext(),
+//                                result.responseDesc ?: "Server Error",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        }
+//                    }
+//
+//                    response.onFailure { error ->
+//
+//                        dismissProgressDialog()
+//
+//                        // ✅ Handle 401 Session Expired
+//                        if (error is HttpException && error.code() == 401) {
+//                            AppUtil.showSessionExpiredDialog(
+//                                findNavController(),
+//                                requireContext()
+//                            )
+//                            return@onFailure
+//                        }
+//
+//                        // ❌ Other Errors (Network / Timeout etc.)
+//                        Toast.makeText(
+//                            requireContext(),
+//                            error.message ?: "Something went wrong. Try again.",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//
+//
+//
+//
+//                }
+//
+//            }
+//        }
+//
+//        viewModel.VerifiedCompleteChildOjt.observe(
+//            viewLifecycleOwner
+//        ) { response ->
+//            response.onSuccess { result ->
+//
+//                dismissProgressDialog()
+//
+//                if (result.responseCode == 200) {
+//
+//                    if (!result.wrappedList.isNullOrEmpty()) {
+//
+//                        VerificationSRLMDetails = result.wrappedList
+//
+//
+//                        CompleteOJTList = result.wrappedList
+//
+//                } else {
+//
+//                    Toast.makeText(
+//                        requireContext(),
+//                        result.responseDesc
+//                            ?: "Server Error",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//               else if (result.responseCode == 202) {
+//                    CompleteOJTList
+//
+////                    Toast.makeText(
+////                        requireContext(),
+////                        result.responseDesc,
+////                        Toast.LENGTH_SHORT
+////                    ).show()
+//               }
+//
+//            response.onFailure { error ->
+//
+//                dismissProgressDialog()
+//
+//                if (error is HttpException &&
+//                    error.code() == 401
+//                ) {
+//
+//                    AppUtil.showSessionExpiredDialog(
+//                        findNavController(),
+//                        requireContext()
+//                    )
+//
+//                    return@onFailure
+//                }
+//
+//                Toast.makeText(
+//                    requireContext(),
+//                    error.message
+//                        ?: "Something went wrong",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
+//        }
+//
+//
+//
+//    }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        // 👉 Orientation unlock when dialog closed
+//        requireActivity().requestedOrientation =
+//            ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+//    }
+//}

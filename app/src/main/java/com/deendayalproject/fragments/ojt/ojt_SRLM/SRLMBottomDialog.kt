@@ -2241,6 +2241,7 @@ private var _binding: FragmentOnJobTrainingSrlmBinding? = null
 
             .addFormDataPart("appVersion", safe(BuildConfig.VERSION_NAME))
             .addFormDataPart("ojtPlanId", safe(batch[0].ojtPlanId.toString()))
+            .addFormDataPart("ojtPlanVerificationId", safe(batch[0].ojtPlanVerificationId.toString()))
             .addFormDataPart("sanctionOrder", safe(batch[0].sanctionOrder))
             .addFormDataPart("trainingCenterId", safe(batch[0].trainingCenterId.toString()))
             .addFormDataPart("batchId", safe(AppUtil.getSavedOJTBatchIDPreference(requireContext())))
