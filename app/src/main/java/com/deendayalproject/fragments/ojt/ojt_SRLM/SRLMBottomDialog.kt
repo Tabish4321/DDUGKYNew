@@ -153,11 +153,17 @@ private var _binding: FragmentOnJobTrainingSrlmBinding? = null
     private var outputFile: File? = null
 
     private var isRecording = false
+
     private var currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK
 
     private var countDownTimer: CountDownTimer? = null
 
     private val RECORD_TIME = 180000L
+
+
+    private var remainingRecordingTime = RECORD_TIME
+
+    private var isPaused = false
 //    private val RECORD_TIME = 60000L
 
     private var completed = false
@@ -877,13 +883,27 @@ private var _binding: FragmentOnJobTrainingSrlmBinding? = null
 
 
 
+        binding.btnPause.setOnClickListener {
 
+            if (isRecording) {
+
+                if (!isPaused) {
+
+                    pauseRecording()
+
+                } else {
+
+                    resumeRecording()
+                }
+            }
+        }
 
         binding.btnRecord.setOnClickListener {
             binding.btnPlayPause.visibility = View.GONE
             binding.btnStop.visibility = View.VISIBLE
             binding.btnSwitch.visibility = View.VISIBLE
             binding.btnStop.visibility = View.VISIBLE
+            binding.btnSwitch.visibility = View.GONE
 
 //            binding.videoContainer.visibility = View.VISIBLE
 
@@ -983,12 +1003,53 @@ private var _binding: FragmentOnJobTrainingSrlmBinding? = null
         width: Int,
         height: Int
     ) {}
+    private fun pauseRecording() {
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+            mediaRecorder?.pause()
+
+            countDownTimer?.cancel()
+
+            isPaused = true
+
+            binding.btnPause.text = "Resume"
+
+            Toast.makeText(
+                requireContext(),
+                "Recording Paused",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun resumeRecording() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+            mediaRecorder?.resume()
+
+            isPaused = false
+
+            binding.btnPause.text = "Pause"
+
+            startTimer()
+
+            Toast.makeText(
+                requireContext(),
+                "Recording Resumed",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
     // ---------------- Recording ----------------
-
     private fun startRecording() {
 
         completed = false
+
+        remainingRecordingTime = RECORD_TIME
+
+        binding.btnPause.visibility = View.VISIBLE
 
         outputFile = File(
             requireContext().getExternalFilesDir(null),
@@ -996,28 +1057,36 @@ private var _binding: FragmentOnJobTrainingSrlmBinding? = null
         )
 
         camera?.stopPreview()
+
         camera?.unlock()
 
         mediaRecorder = MediaRecorder()
 
         mediaRecorder?.apply {
+
             setCamera(camera)
 
             setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
+
             setVideoSource(MediaRecorder.VideoSource.CAMERA)
 
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
 
             setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+
             setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+
             setVideoSize(640, 480)
+
             setVideoFrameRate(20)
 
             setVideoEncodingBitRate(300 * 1000)
+
             setAudioEncodingBitRate(64 * 1000)
 
             setOrientationHint(
-                if (currentCameraId ==
+                if (
+                    currentCameraId ==
                     Camera.CameraInfo.CAMERA_FACING_FRONT
                 ) 270 else 90
             )
@@ -1027,27 +1096,92 @@ private var _binding: FragmentOnJobTrainingSrlmBinding? = null
             setPreviewDisplay(binding.surfaceView.holder.surface)
 
             prepare()
-            start()
 
+            start()
         }
 
         isRecording = true
-        binding.btnSwitch.visibility = View.GONE
+
+        isPaused = false
+
+        binding.btnPause.text = "Pause"
+
         startTimer()
     }
+//    private fun startRecording() {
+//
+//        completed = false
+//
+//        outputFile = File(
+//            requireContext().getExternalFilesDir(null),
+//            "VIDEO_${System.currentTimeMillis()}.mp4"
+//        )
+//
+//        camera?.stopPreview()
+//        camera?.unlock()
+//
+//        mediaRecorder = MediaRecorder()
+//
+//        mediaRecorder?.apply {
+//            setCamera(camera)
+//
+//            setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
+//            setVideoSource(MediaRecorder.VideoSource.CAMERA)
+//
+//            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+//
+//            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+//            setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+//            setVideoSize(640, 480)
+//            setVideoFrameRate(20)
+//
+//            setVideoEncodingBitRate(300 * 1000)
+//            setAudioEncodingBitRate(64 * 1000)
+//
+//            setOrientationHint(
+//                if (currentCameraId ==
+//                    Camera.CameraInfo.CAMERA_FACING_FRONT
+//                ) 270 else 90
+//            )
+//
+//            setOutputFile(outputFile!!.absolutePath)
+//
+//            setPreviewDisplay(binding.surfaceView.holder.surface)
+//
+//            prepare()
+//            start()
+//
+//        }
+//
+//        isRecording = true
+//        binding.btnSwitch.visibility = View.GONE
+//        startTimer()
+//    }
 
     // ---------------- Recording Timer ----------------
-
     private fun startTimer() {
 
-        countDownTimer = object : CountDownTimer(RECORD_TIME, 1000) {
+        countDownTimer = object : CountDownTimer(
+            remainingRecordingTime,
+            1000
+        ) {
 
-            override fun onTick(millisUntilFinished: Long) {
+            override fun onTick(
+                millisUntilFinished: Long
+            ) {
 
-                val sec = millisUntilFinished / 1000
+                remainingRecordingTime =
+                    millisUntilFinished
+
+                val sec =
+                    millisUntilFinished / 1000
 
                 binding.tvTimer.text =
-                    String.format("%02d:%02d", sec / 60, sec % 60)
+                    String.format(
+                        "%02d:%02d",
+                        sec / 60,
+                        sec % 60
+                    )
             }
 
             override fun onFinish() {
@@ -1059,6 +1193,27 @@ private var _binding: FragmentOnJobTrainingSrlmBinding? = null
 
         }.start()
     }
+//    private fun startTimer() {
+//
+//        countDownTimer = object : CountDownTimer(RECORD_TIME, 1000) {
+//
+//            override fun onTick(millisUntilFinished: Long) {
+//
+//                val sec = millisUntilFinished / 1000
+//
+//                binding.tvTimer.text =
+//                    String.format("%02d:%02d", sec / 60, sec % 60)
+//            }
+//
+//            override fun onFinish() {
+//
+//                completed = true
+//
+//                stopAndSave()
+//            }
+//
+//        }.start()
+//    }
 
     // ---------------- Stop Recording ----------------
 
@@ -1067,33 +1222,35 @@ private var _binding: FragmentOnJobTrainingSrlmBinding? = null
         countDownTimer?.cancel()
 
         try {
+
             mediaRecorder?.stop()
+
         } catch (e: Exception) {
+
             e.printStackTrace()
         }
 
         mediaRecorder?.release()
+
         mediaRecorder = null
 
         camera?.lock()
 
         isRecording = false
 
+        isPaused = false
+
+        binding.btnPause.visibility = View.GONE
+
         binding.btnStop.visibility = View.GONE
+
         binding.surfaceView.visibility = View.GONE
-        binding.btnSwitch.visibility = View.GONE
+
         binding.videoView.visibility = View.VISIBLE
+
         binding.btnDelete.visibility = View.VISIBLE
+
         binding.btnPlayPause.visibility = View.VISIBLE
-
-//        playVideo()
-        outputFile?.let { file ->
-
-            val path = file.absolutePath
-            finalVideoPath=path
-
-
-        }
     }
 
     private fun stopAndSave() {

@@ -43,39 +43,16 @@ class BatchSRLMAdapter(
 
 
         fun bind(batch: VerifiedBatchListSRLM) {
-            tvBatchName.text =   ": "+ batch.batchName
+            tvBatchName.text =   ": "+ batch.courseName
 
             BatchId.text = ": "+ batch.batchRegNo.toString()
             tabMode.text = ": "+ batch.numberOfOJT.toString()
-            // Arrow icon set based on selected position
-//            android:src="@drawable/outline_arrow_forward"
-//            if (selectedPosition == position) {
-//                imgExpand.setBackgroundResource(R.drawable.ic_up_arrow)
-//                val params = imgExpand.layoutParams
-//                params.width = 40   // pixels me hota hai
-//                params.height = 40
-//                imgExpand.layoutParams = params
-//            } else {
-//                imgExpand.setBackgroundResource(R.drawable.ic_down_arrow)
-//                val params = imgExpand.layoutParams
-//                params.width = 40   // pixels me hota hai
-//                params.height = 40
-//                imgExpand.layoutParams = params
-//            }
+
             itemView.setOnClickListener {
-                // Toggle selection
-//                selectedPosition =
-//                    if (selectedPosition == position) -1 else position
 
                 notifyDataSetChanged()
                 listener(batch)
 
-
-//                Toast.makeText(
-//                    itemView.context,
-//                    "Form submitted successfully",
-//                    Toast.LENGTH_SHORT
-//                ).show()
 
             }
         }

@@ -51,13 +51,15 @@ class ChildSRLMAdapter(
         val TvcandidatName: TextView = itemView.findViewById(R.id.TvcandidatName)
         val Tvcandidate_status: TextView = itemView.findViewById(R.id.Tvcandidate_status)
         val Tvverification_date: TextView = itemView.findViewById(R.id.Tvverification_date)
+        val ojtPlanId: TextView = itemView.findViewById(R.id.Tvojt_text)
 
         fun bind(batch: ListByBatchSRLM) {
 
             TvcandidateId.text = batch.candidateId
             TvcandidatName.text = batch.candidateName
+            ojtPlanId.text = batch.ojtPlanId.toString()
 //            Tvcandidate_status.text = batch.candidateName
-//            Tvverification_date.text = batch.verificationDate
+            Tvverification_date.text = batch.verificationDate
 
             val context = itemView.context
 
@@ -109,7 +111,7 @@ class ChildSRLMAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BatchViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_child, parent, false)
+            .inflate(R.layout.item_child_srlm, parent, false)
         return BatchViewHolder(view)
     }
 
