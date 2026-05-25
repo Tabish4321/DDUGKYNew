@@ -842,6 +842,8 @@ class ResidentialFacilityFragment : Fragment() {
 
 
 
+
+
         binding.spinnerDiningRecreationAreaSeparate.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(

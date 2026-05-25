@@ -31,6 +31,7 @@ abstract class BaseRepository<T : Any>(val context: Context) {
                     ?: Result.failure(Exception("Empty response body"))
             } else {
                 when (response.code()) {
+                    500 -> Result.failure(Exception("Server"))
                     401 -> Result.failure(Exception("Unauthorized"))
                     202 -> Result.failure(Exception("No data available"))
                     else -> Result.failure(

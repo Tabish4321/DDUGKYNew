@@ -6,6 +6,9 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
 import android.graphics.drawable.RippleDrawable
@@ -15,6 +18,7 @@ import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextWatcher
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -62,6 +66,8 @@ import com.deendayalproject.model.response.YearlyPlacementDetails
 import com.deendayalproject.model.response.YearlyTrainingItem
 import com.deendayalproject.model.response.toYearlyItem
 import com.deendayalproject.model.response.toYearlyTrainingItem
+import com.deendayalproject.util.toastShort
+import com.google.gson.GsonBuilder
 import java.text.NumberFormat
 
 class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
@@ -81,7 +87,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     private lateinit var certAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
     private lateinit var placementAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
     private lateinit var fieldAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
-
+  //AMDDUGKY
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
     private lateinit var photoUri: Uri
@@ -692,23 +698,82 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         binding.btnFieldNext.setOnClickListener { handleFieldSubmit() }
     }
 
+//    private fun navigateToPreviousSection(currentSection: String) {
+//        val sectionMap = mapOf(
+//            "fin" to Pair(binding.verOrg, binding.verFin),
+//            "training" to Pair(binding.verFin, binding.verTraining),
+//            "trainingInfra" to Pair(binding.verTraining, binding.verTrainingInfra),
+//            "cert" to Pair(binding.verTrainingInfra, binding.verCert),
+//            "placement" to Pair(binding.verCert, binding.verPlacement),
+//            "field" to Pair(binding.verPlacement, binding.verField)
+//        )
+//
+//        sectionMap[currentSection]?.let { (showSection, hideSection) ->
+//            showSection.visibility = View.VISIBLE
+//            hideSection.visibility = View.GONE
+//
+//            binding.scroll.post {
+//                binding.scroll.smoothScrollTo(0, 0)
+//            }
+//        }
+//    }
+
     private fun navigateToPreviousSection(currentSection: String) {
-        val sectionMap = mapOf(
-            "fin" to Pair(binding.verOrg, binding.verFin),
-            "training" to Pair(binding.verFin, binding.verTraining),
-            "trainingInfra" to Pair(binding.verTraining, binding.verTrainingInfra),
-            "cert" to Pair(binding.verTrainingInfra, binding.verCert),
-            "placement" to Pair(binding.verCert, binding.verPlacement),
-            "field" to Pair(binding.verPlacement, binding.verField)
-        )
 
-        sectionMap[currentSection]?.let { (showSection, hideSection) ->
-            showSection.visibility = View.VISIBLE
-            hideSection.visibility = View.GONE
+//        // Hide all sections first
+//        binding.verOrg.visibility = View.GONE
+//        binding.verFin.visibility = View.GONE
+//        binding.verTraining.visibility = View.GONE
+//        binding.verTrainingInfra.visibility = View.GONE
+//        binding.verCert.visibility = View.GONE
+//        binding.verPlacement.visibility = View.GONE
+//        binding.verField.visibility = View.GONE
 
-            binding.scroll.post {
-                binding.scroll.smoothScrollTo(0, 0)
+        // Hide all expand layouts first
+        binding.trainingInfraExpand.visibility = View.GONE
+        binding.verFinExpand.visibility = View.GONE
+        binding.verTrainingExpand.visibility = View.GONE
+        binding.verTrainingInfraExpand.visibility = View.GONE
+        binding.verCertExpand.visibility = View.GONE
+        binding.verPlacementExpand.visibility = View.GONE
+        binding.verFieldExpand.visibility = View.GONE
+
+        when (currentSection) {
+
+            "fin" -> {
+                binding.verOrg.visibility = View.VISIBLE
+                binding.trainingInfraExpand.visibility = View.VISIBLE
             }
+
+            "training" -> {
+                binding.verFin.visibility = View.VISIBLE
+                binding.verFinExpand.visibility = View.VISIBLE
+            }
+
+            "trainingInfra" -> {
+                binding.verTraining.visibility = View.VISIBLE
+                binding.verTrainingExpand.visibility = View.VISIBLE
+            }
+
+            "cert" -> {
+                binding.verTrainingInfra.visibility = View.VISIBLE
+                binding.verTrainingInfraExpand.visibility = View.VISIBLE
+            }
+
+            "placement" -> {
+                binding.verCert.visibility = View.VISIBLE
+                binding.verCertExpand.visibility = View.VISIBLE
+            }
+
+            "field" -> {
+                binding.verPlacement.visibility = View.VISIBLE
+                binding.verPlacementExpand.visibility = View.VISIBLE
+            }
+        }
+
+        // Scroll top
+        binding.scroll.post {
+            binding.scroll.smoothScrollTo(0, 0)
         }
     }
 
@@ -843,61 +908,149 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         binding.verFieldExpand.visibility = View.VISIBLE
     }
 
-//    private fun handleFieldSubmit() {
-//        binding.verFieldExpand.visibility = View.GONE
-//        binding.tvFieldHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
-//
-//        val sectionMap = collectAllRemarksSectionWise()
-//        val manpowerFound = sectionMap["Organization"]?.any {
-//            it.requirement.contains(
-//                "Manpower",
-//                ignoreCase = true
-//            )
-//        } ?: false
-//
-//        Log.d("section Map :: ", sectionMap.toString())
-//        Log.d("manpowerFound :: ", manpowerFound.toString())
-//    }
-
-
     private fun handleFieldSubmit() {
-        binding.verFieldExpand.visibility = View.GONE
-        binding.tvFieldHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
 
-        // collect all remarks
+        // Hide current section
+        binding.verFieldExpand.visibility = View.GONE
+        binding.tvFieldHead.setCompoundDrawablesWithIntrinsicBounds(
+            0,
+            0,
+            R.drawable.ic_verified,
+            0
+        )
+
+        // Prepare final submit data
         val finalSubmitData = collectAllRemarksSectionWise()
 
-        // Call submit API
+        // Show loader
+        showProgressBar()
+
+        // Remove old observers
+        viewModel.submitFieldVerificationDetails.removeObservers(viewLifecycleOwner)
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val jsonResponse = gson.toJson(finalSubmitData)
+        Log.d("SubmitFieldVerificationDetailsRequest", "✅ Success Response:\n$jsonResponse")
+        // Call API
         viewModel.submitFieldVerification(finalSubmitData)
 
-        // Observe the LiveData once (remove previous observers first for safety)
-        viewModel.submitFieldVerificationDetails.removeObservers(viewLifecycleOwner)
+        // Observe response
         viewModel.submitFieldVerificationDetails.observe(viewLifecycleOwner) { result ->
+
+            // Hide loader
+            hideProgressBar()
             result.onSuccess { response ->
                 try {
-                    val item = response.responseCode.toInt()
-                    if (item == 200){
-                        Log.d("Field Verification Submit if", item.toString())
+                    val responseCode = response.responseCode.toInt()
+
+                    if (responseCode == 200) {
+
+                        // Success Message
+                        toastShort(
+                            response.responseDesc
+                                ?: "Field Verification submitted successfully"
+                        )
+
+                        Log.d(
+                            "FieldVerification",
+                            "Submit Success : ${response.responseDesc}"
+                        )
+
                         val navController = findNavController()
 
-                        // Signal to the list that it should refresh
+                        // Refresh previous screen
                         navController.previousBackStackEntry
                             ?.savedStateHandle
                             ?.set("refresh_pia_list", true)
 
+                        // Navigate back
                         navController.navigateUp()
+
                     } else {
-                        Log.d("Field Verification Submit else", item.toString())
+                        binding.verFieldExpand.visibility = View.VISIBLE
+
+                        // API Failure Message
+                        toastShort(
+                            response.responseDesc
+                                ?: "Failed to submit field verification"
+                        )
+
+                        Log.e(
+                            "FieldVerification",
+                            "Submit Failed : ${response.responseCode}"
+                        )
                     }
+
                 } catch (e: Exception) {
+
+                    hideProgressBar()
+                    binding.verFieldExpand.visibility = View.VISIBLE
+
                     e.printStackTrace()
-                    showErrorToast("Failed processing submitFieldVerification response: ${e.message}")
+
+                    toastShort(
+                        "Something went wrong while processing response"
+                    )
+                    Log.e(
+                        "FieldVerification",
+                        "Exception : ${e.message}"
+                    )
                 }
-            }.onFailure { e ->
-                showErrorToast("SubmitFieldVerification API failed: ${e.message ?: "Unknown"}")
+            }.onFailure { error ->
+
+                hideProgressBar()
+                binding.verFieldExpand.visibility = View.VISIBLE
+
+                // API Error
+                toastShort(
+                    error.message ?: "Unable to submit field verification"
+                )
+
+                Log.e(
+                    "FieldVerification",
+                    "API Error : ${error.message}"
+                )
             }
         }
     }
+
+
+//    private fun handleFieldSubmit() {
+//        binding.verFieldExpand.visibility = View.GONE
+//        binding.tvFieldHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+//        // collect all remarks
+//        val finalSubmitData = collectAllRemarksSectionWise()
+//
+//        // Call submit API
+//        viewModel.submitFieldVerification(finalSubmitData)
+//
+//        // Observe the LiveData once (remove previous observers first for safety)
+//        viewModel.submitFieldVerificationDetails.removeObservers(viewLifecycleOwner)
+//        viewModel.submitFieldVerificationDetails.observe(viewLifecycleOwner) { result ->
+//            result.onSuccess { response ->
+//                try {
+//                    val item = response.responseCode.toInt()
+//                    if (item == 200){
+//                        Log.d("Field Verification Submit if", item.toString())
+//                        val navController = findNavController()
+//                        // Signal to the list that it should refresh
+//                        navController.previousBackStackEntry
+//                            ?.savedStateHandle
+//                            ?.set("refresh_pia_list", true)
+//
+//                        navController.navigateUp()
+//                    } else {
+//                        Log.d("Field Verification Submit else", item.toString())
+//                        toastShort("${response.responseCode}: ${response.responseDesc}")
+//                    }
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                    toastShort("Failed processing submitFieldVerification response: ${e.message}")
+//                }
+//            }.onFailure { e ->
+//                toastShort("SubmitFieldVerification API failed: ${e.message ?: "Unknown"}")
+//            }
+//        }
+//    }
 
     // ==================== OBSERVERS ====================
 
@@ -1265,7 +1418,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 }
             }
             .addOnFailureListener {
-                showToast(getString(R.string.failed_to_get_location, it.message ?: ""))
+                toastShort(getString(R.string.failed_to_get_location, it.message ?: ""))
             }
     }
 
@@ -1419,9 +1572,9 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         }
         val textColor = strokeColor
         val rippleColor = ColorUtils.setAlphaComponent(strokeColor, 80)
-        val transparentFill = android.graphics.Color.TRANSPARENT
+        val transparentFill = Color.TRANSPARENT
 
-        fun makeButtonBackground(): android.graphics.drawable.Drawable {
+        fun makeButtonBackground(): Drawable {
             val cornerRadius = (10 * dp)
             val strokeWidth = (1.8f * dp).toInt()
 
@@ -1435,7 +1588,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             val mask = GradientDrawable().apply {
                 shape = GradientDrawable.RECTANGLE
                 this.cornerRadius = cornerRadius
-                setColor(android.graphics.Color.WHITE)
+                setColor(Color.WHITE)
             }
 
             val inset = (1.5f * dp).toInt()
@@ -1603,61 +1756,30 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         return remarkList
     }
 
-    // Alternative if API expects different structure
-//    data class FieldVerificationFinalSubmit(
-//        val appVersion: String,
-//        val loginId: String,
-//        val captiveEmpanelmentId: String,
-//        val prnNo: String,
-//        val remarks: List<RemarkItem> // All remarks flattened
-//    )
-
-    // Then modify collectAllRemarksSectionWise to flatten all remarks:
     private fun collectAllRemarksSectionWise(): FieldVerificationFinalSubmit {
         commitFocusedEditText()
-
-        val allRemarks = mutableListOf<RemarkItem>().apply {
-            addAll(collectRemarksFromSection("Organization", orgItems))
-            addAll(collectRemarksFromSection("Finance", finItems))
-            addAll(collectRemarksFromSection("Training", trainingItems))
-            addAll(collectRemarksFromSection("TrainingInfra", trainingInfraItems))
-            addAll(collectRemarksFromSection("Certification", certItems))
-            addAll(collectRemarksFromSection("Placement", placementItems))
-            addAll(collectRemarksFromSection("FieldVisit", fieldItems))
-        }
-
         return FieldVerificationFinalSubmit(
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             captiveEmpanelmentId = captiveEmpanelmentId,
             prnNo = prnNo,
-            remarks = allRemarks
+            Organization = collectRemarksFromSection("Organization", orgItems),
+            Finance = collectRemarksFromSection("Finance", finItems),
+            Training = collectRemarksFromSection("Training", trainingItems),
+            TrainingInfra = collectRemarksFromSection("TrainingInfra", trainingInfraItems),
+            Certification = collectRemarksFromSection("Certification", certItems),
+            Placement = collectRemarksFromSection("Placement", placementItems),
+            FieldVisit = collectRemarksFromSection("FieldVisit", fieldItems),
         )
     }
-
-
-//    private fun collectAllRemarksSectionWise(): Map<String, List<RemarkItem>> {
-//        commitFocusedEditText()
-//        val result = FieldVerificationDetailRequest
-//        return mapOf(
-//            "Organization" to collectRemarksFromSection("Organization", orgItems),
-//            "Finance" to collectRemarksFromSection("Finance", finItems),
-//            "Training" to collectRemarksFromSection("Training", trainingItems),
-//            "TrainingInfra" to collectRemarksFromSection("TrainingInfra", trainingInfraItems),
-//            "Certification" to collectRemarksFromSection("Certification", certItems),
-//            "Placement" to collectRemarksFromSection("Placement", placementItems),
-//            "FieldVisit" to collectRemarksFromSection("FieldVisit", fieldItems)
-//        )
-//    }
 
     private fun commitFocusedEditText() {
         try {
             view?.findFocus()?.clearFocus()
-        } catch (_: Exception) { /* ignore */
+        } catch (_: Exception) {
         }
     }
 
-    // ==================== DATA INITIALIZATION METHODS ====================
 
     private fun getOrgItems(): MutableList<FieldVerificationItem> {
         return mutableListOf(
@@ -2053,7 +2175,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         val fullText = "$label $value"
         val spannable = SpannableString(fullText)
         spannable.setSpan(
-            android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+            StyleSpan(Typeface.BOLD),
             0,
             label.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -2065,10 +2187,8 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
 
 
-    // Simple data model
 
 
-// Update your FieldVerificationItem data class to include attachments
 data class FieldVerificationItem(
     val id: String,
     val requirement: String,
@@ -2078,5 +2198,5 @@ data class FieldVerificationItem(
     val imageUri: String? = null,
     val allowRemark: Boolean = false,
     var remarkText: String? = null,
-    var attachments: List<AttachmentItem> = emptyList() // NEW: For storing captured files
+    var attachments: List<AttachmentItem> = emptyList()
 )

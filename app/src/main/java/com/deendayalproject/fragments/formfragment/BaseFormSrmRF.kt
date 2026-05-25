@@ -152,7 +152,9 @@ open class BaseFormSrmRF  : Fragment() {
         setupBackNavigation()
     }
 
-    open  fun tvtitle(){}
+    open  fun tvtitle(){
+        binding.toolbar.profilePic.visibility=View.GONE
+    }
 
     // -----------------------------------------
     // INITIAL LOAD

@@ -55,9 +55,7 @@ fun DistributedLearningSection(
 
 
     val questions = remember {
-
         mutableStateListOf(
-
             TlmQuestion("Received Domain Curriculum ?"),
             TlmQuestion("Received Bilingual TLM for IT Skills ?"),
             TlmQuestion("Received Bilingual TLM for Soft Skills ?"),
