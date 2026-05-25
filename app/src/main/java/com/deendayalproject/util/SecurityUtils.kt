@@ -122,6 +122,9 @@ private fun isUsbDebuggingEnabled(context: Context): Boolean {
         }
         return false
     }
+
+
+
     return true
 }
 

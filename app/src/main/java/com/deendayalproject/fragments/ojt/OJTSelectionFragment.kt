@@ -82,6 +82,7 @@ class OJTSelectionFragment : BaseFragment<FragmentOnJobSelectionBinding>(Fragmen
         requireActivity().requestedOrientation =
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
+
     }
 
     private fun fetchModulesSanction() {

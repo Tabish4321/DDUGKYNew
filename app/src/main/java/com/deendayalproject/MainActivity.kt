@@ -1,6 +1,14 @@
 package com.deendayalproject
 import android.graphics.Color
+import android.media.MediaRecorder
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.view.TextureView
+import android.view.View
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.TextView
+import android.widget.VideoView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -11,7 +19,6 @@ import com.deendayalproject.util.FullScreenHelper
 import com.deendayalproject.util.validateDeviceSecurity
 //import com.deendayalproject.util.validateDeviceSecurity
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {

@@ -154,7 +154,6 @@ dependencies {
     // Location Services
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
-
     // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -173,6 +172,9 @@ dependencies {
 
     implementation("org.apache.santuario:xmlsec:2.0.3") {
         exclude(group = "org.codehaus.woodstox")
+
+
+
     }
 
     implementation("androidx.media3:media3-transformer:1.3.1")
