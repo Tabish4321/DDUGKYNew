@@ -68,7 +68,12 @@ data class OrganizationDetails(
 /** proofOfIndustryExistence */
 data class ProofOfIndustryExistence(
     @SerializedName("dateOfIncorporation")
-    val dateOfIncorporation: String? = null // e.g., "2017-06-30T18:30:00.000+00:00"
+    val dateOfIncorporation: String? = null, // e.g., "2017-06-30T18:30:00.000+00:00"
+    @SerializedName("durationOfOrg")
+     val durationOfOrg: String? =null,
+    @SerializedName("factoryRegistrationAttachment")
+    val factoryRegistrationAttachment : String? =null
+
 )
 
 /** industryRegistration */
@@ -134,7 +139,10 @@ data class BankDetails(
     val panLinked: Boolean? = null,
 
     @SerializedName("selfDeclarationDocument")
-    var selfDeclarationDocument: String? = null
+    var selfDeclarationDocument: String? = null,
+    @SerializedName("bankAccountPassbook")
+    var bankAccountPassbook : String? =null
+
 )
 
 /** manpowerAgencyCheck */

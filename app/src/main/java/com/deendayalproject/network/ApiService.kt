@@ -12,6 +12,7 @@ import com.deendayalproject.model.request.AttendanceInsertReq
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.CandidatePreviousBatchReq
+import com.deendayalproject.model.request.CaptivePiaOfficerSelfieRequest
 import com.deendayalproject.model.request.CompliancesRFQTReq
 import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DeleteLivingRoomList
@@ -140,6 +141,7 @@ import com.deendayalproject.model.response.CandidateInspectionDetailsResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.CandidateOjtVerificationDetails
 import com.deendayalproject.model.response.CandidateOjtVerificationRequest
+import com.deendayalproject.model.response.CaptivePiaOfficerSelfieResponse
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.DistrictResponse
@@ -1041,6 +1043,10 @@ interface ApiService {
     @POST(value = "getCandidateByOjt")
     suspend fun getCandidateByOjt(@Body request: ModulesCandidateByOjtRequest): Response<OjtRes>
 
+    @POST("getCaptivePiaOfficerSelfie")
+    suspend fun getCaptivePiaOfficerSelfie(
+        @Body request: CaptivePiaOfficerSelfieRequest
+    ): Response<CaptivePiaOfficerSelfieResponse>
 
 
 }

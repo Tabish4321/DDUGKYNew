@@ -2,9 +2,11 @@ package com.deendayalproject.repository
 
 import android.content.Context
 import com.deendayalproject.base.BaseRepository
+import com.deendayalproject.model.request.CaptivePiaOfficerSelfieRequest
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
 import com.deendayalproject.model.request.FieldVerificationListRequest
+import com.deendayalproject.model.response.CaptivePiaOfficerSelfieResponse
 import com.deendayalproject.model.response.FieldVerificationDetailResponse
 import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.network.ApiService
@@ -17,6 +19,14 @@ class FieldVerificationRepository(context: Context) : BaseRepository<ApiService>
     ): Result<FieldVerificationListResponse> =
         safeApiCallWithToken(token) {
             apiService.getFieldVerificationList(request)
+        }
+
+    suspend fun getCaptivePiaOfficerSelfie(
+        request: CaptivePiaOfficerSelfieRequest,
+        token: String
+    ): Result<CaptivePiaOfficerSelfieResponse> =
+        safeApiCallWithToken(token) {
+            apiService.getCaptivePiaOfficerSelfie(request)
         }
 
     suspend fun getFieldVerificationDetail(request: FieldVerificationDetailRequest): Result<FieldVerificationDetailResponse> =

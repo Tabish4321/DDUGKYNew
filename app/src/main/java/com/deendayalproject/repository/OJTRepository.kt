@@ -2,6 +2,7 @@ package com.deendayalproject.repository
 
 import android.content.Context
 import com.deendayalproject.base.BaseRepository
+import com.deendayalproject.model.request.CaptivePiaOfficerSelfieRequest
 import com.deendayalproject.model.request.ModulesCandidateByOjtRequest
 import com.deendayalproject.model.request.ModulesCandidateByOjtRequest2
 import com.deendayalproject.model.request.ModulesOJTBatchRequest
@@ -10,6 +11,7 @@ import com.deendayalproject.model.request.ModulesOJTSanctionOrderRequest
 import com.deendayalproject.model.request.ModulesOJTTrainingCenterRequest
 import com.deendayalproject.model.response.CandidateOjtVerificationDetails
 import com.deendayalproject.model.response.CandidateOjtVerificationRequest
+import com.deendayalproject.model.response.CaptivePiaOfficerSelfieResponse
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.OJTList_Res
 import com.deendayalproject.model.response.OJT_BatchList_Res
@@ -76,6 +78,7 @@ class OJTRepository(context: Context) : BaseRepository<ApiService>(context) {
             apiService.logOutUser()
         }
     }
+
 
 
 
