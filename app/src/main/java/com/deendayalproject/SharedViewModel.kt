@@ -3,18 +3,15 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.deendayalproject.BuildConfig
 import com.deendayalproject.model.request.*
 import com.deendayalproject.model.response.*
-import com.deendayalproject.network.UiState
 import com.deendayalproject.repository.repomanager.RepositoryManager
 import com.deendayalproject.uidai.ekyc.UidaiKycRequest
 import com.deendayalproject.uidai.ekyc.UidaiResp
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import retrofit2.Response
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -59,6 +56,12 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _OjtListByBatch = MutableLiveData<Result<OjtRes>>()
 
     val OjtListByBatch: LiveData<Result<OjtRes>> = _OjtListByBatch
+
+
+
+    private val _SanctionOrderListOjt = MutableLiveData<Result<OjtSRLMRes>>()
+
+    val SanctionOrderListOjt: LiveData<Result<OjtSRLMRes>> = _SanctionOrderListOjt
 
 
 
@@ -1363,6 +1366,11 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
+
+
+
+
+
     fun fetchOJTBatch(request: ModulesOJTBatchRequest, token: String) {
         handleApiCall(
             apiCall = {
@@ -1375,6 +1383,28 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
+    private val _VerifiedBatchList = MutableLiveData<Result<OJT_VerifiedBatchListSRLM_Res>>()
+
+    val VerifiedBatchList: LiveData<Result<OJT_VerifiedBatchListSRLM_Res>> = _VerifiedBatchList
+
+    fun fetchgetVerifiedBatchList(request: ModulesOJTBatchRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchgetVerifiedBatchList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _VerifiedBatchList
+        )
+    }
+
+
+
+
+
+
+
     fun fetchOJTgetCompleteOjt(request: ModulesOJTCompleteOjtRequest, token: String) {
         handleApiCall(
             apiCall = {
@@ -1386,6 +1416,36 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             resultLiveData = _CompleteOjt
         )
     }
+
+
+
+
+
+
+
+
+
+    private val _VerifiedCompleteChildOjt = MutableLiveData<Result<OjtListChildSRLMRes>>()
+
+    val VerifiedCompleteChildOjt: LiveData<Result<OjtListChildSRLMRes>> = _VerifiedCompleteChildOjt
+
+    fun getVerifiedCompleteOjt(request: ModulesOJTCompleteOjtRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.getVerifiedCompleteOjt(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _VerifiedCompleteChildOjt
+        )
+    }
+
+
+
+
+
+
     fun fetchgetCandidateOjtVerification(request: ModulesOJTCompleteOjtRequest, token: String) {
         handleApiCall(
             apiCall = {
@@ -1427,6 +1487,17 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
     fun fetchCandidateByOjtBy(request: ModulesCandidateByOjtRequest, token: String) {
         handleApiCall(
             apiCall = {
@@ -1439,6 +1510,159 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             resultLiveData = _OjtListByBatch
         )
     }
+
+
+    fun fetchgetSanctionOrderListOjt(request: ModulesOJTSanctionOrderRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+
+                repositoryManager.ojt.fetchgetSanctionOrderListOjt(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _SanctionOrderListOjt
+        )
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private val _CompOjtTrainingCenter = MutableLiveData<Result<OJT_OjtVerifiedTrainingCenter_Res>>()
+
+    val CompOjtTrainingCenter: LiveData<Result<OJT_OjtVerifiedTrainingCenter_Res>> = _CompOjtTrainingCenter
+
+    fun fetchgetCompOjtTrainingCenter(request: ModulesOJTTrainingCenterRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchgetCompOjtTrainingCenter(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _CompOjtTrainingCenter
+        )
+    }
+
+
+
+
+
+
+
+
+
+
+    private val _VerifiedBatchCandidateSRLMCandidateList = MutableLiveData<Result<OjtListByBatchSRLMRes>>()
+
+    val VerifiedBatchCandidateSRLMCandidateList: LiveData<Result<OjtListByBatchSRLMRes>> = _VerifiedBatchCandidateSRLMCandidateList
+
+
+    fun fetchgetVerifiedBatchCandidateList(request: ModulesCandidateByOjtRequest2, token: String) {
+        handleApiCall(
+            apiCall = {
+
+                repositoryManager.ojt.fetVerifiedBatchCandidateList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _VerifiedBatchCandidateSRLMCandidateList
+        )
+    }
+
+
+
+
+
+
+
+    private val _uploadOjtResponse =
+        MutableLiveData<Result<ResponseBody>>()
+
+    val uploadOjtResponse:
+            LiveData<Result<ResponseBody>>
+        get() = _uploadOjtResponse
+    fun uploadCandidateOjtVerification(
+
+        token: String,
+
+        map: Map<String, RequestBody>,
+
+        videoPart: MultipartBody.Part,
+        imagePart: MultipartBody.Part?
+
+    ) {
+
+        handleApiCall(
+
+            apiCall = {
+
+                repositoryManager.ojt
+                    .uploadCandidateOjtVerification(
+                        token,
+                        map,
+                        videoPart
+                    )
+            },
+
+            resultLiveData = _uploadOjtResponse
+        )
+    }
+
+
+
+    private val _uploadOjtSRLMResponse = MutableLiveData<Result<ResponseBody>>()
+
+    val uploadOjtSRLMResponse:
+            LiveData<Result<ResponseBody>>
+        get() = _uploadOjtSRLMResponse
+    fun uploadCandidateOjtSRLMVerification(
+
+        token: String,
+
+        map: Map<String, RequestBody>,
+
+        videoPart: MultipartBody.Part,
+        imagePart: MultipartBody.Part?
+
+    ) {
+
+        handleApiCall(
+
+            apiCall = {
+
+                repositoryManager.ojt
+                    .uploadCandidateOjtSRLMVerification(
+                        token,
+                        map,
+                        videoPart
+                    )
+            },
+
+            resultLiveData = _uploadOjtSRLMResponse
+        )
+    }
+
+
+
+
+
+
+
 
 
     private val _getLogOutAPI = MutableLiveData<Result<LoginResponse>>()

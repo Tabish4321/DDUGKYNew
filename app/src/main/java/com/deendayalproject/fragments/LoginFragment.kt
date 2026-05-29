@@ -1,26 +1,15 @@
 package com.deendayalproject.fragments
 
 
-import android.graphics.Color
-import android.graphics.Typeface
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 
-import android.provider.Settings
 import SharedViewModel
-import android.content.Context
 import android.os.Build
-import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat.finishAffinity
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -31,9 +20,7 @@ import com.deendayalproject.databinding.FragmentLoginBinding
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.network.SecurePreferenceManager.saveToken
 import com.deendayalproject.util.AppUtil
-import com.deendayalproject.util.validateDeviceSecurity
-//import com.deendayalproject.util.validateDeviceSecurity
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(
     FragmentLoginBinding::inflate
@@ -43,8 +30,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private lateinit var viewModel: SharedViewModel
     private var isProcessingLogin = false
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun initializeViews() {
-        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━LoginFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
 
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 

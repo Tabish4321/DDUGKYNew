@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="3dp"
+    android:layout_marginVertical="3dp"
+    app:cardElevation="4dp"
+    app:strokeColor="@color/login_btn">
+
+    <!-- Main Parent Layout -->
+
+    <LinearLayout
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- ================= HEADER ROW ================= -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#E0E0E0"
+            android:padding="8dp">
+
+            <!-- Candidate ID -->
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/candidate_id"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textSize="14sp"/>
+
+            <!-- Candidate Name -->
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/candidate_name"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textSize="14sp"/>
+
+            <!-- Verification Date -->
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/verification_date"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textSize="14sp"/>
+
+            <!-- Status -->
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/ojt_status_cadidate"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <!-- ================= DATA SECTION ================= -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white">
+
+            <!-- ================= TOP DATA ROW ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <!-- Candidate ID -->
+
+                <TextView
+                    android:id="@+id/TvcandidateId"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="25672529"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+
+                <!-- Candidate Name -->
+
+                <TextView
+                    android:id="@+id/TvcandidatName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ajit Ranjan LIC Bharti Building"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:maxLines="2"
+                    android:ellipsize="end"/>
+
+                <!-- Verification Date -->
+
+                <TextView
+                    android:id="@+id/Tvverification_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="31/03/2026"
+                    android:ellipsize="end"/>
+
+                <!-- Candidate Status -->
+
+                <TextView
+                    android:id="@+id/Tvcandidate_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:gravity="center"
+                    android:text="Pending"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+
+            </LinearLayout>
+
+            <!-- ================= OJT PLAN SECTION ================= -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dp_20"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="12dp">
+
+                <!-- OJT PLAN ID -->
+
+                <TextView
+                    android:id="@+id/Tvojt_plan_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ojt_plan_id"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"/>
+
+                <!-- OJT TEXT -->
+
+                <TextView
+                    android:id="@+id/Tvojt_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="This is OJT Plan Description Text"
+                    android:textSize="13sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:ellipsize="end"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

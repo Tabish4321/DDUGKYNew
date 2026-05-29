@@ -18,6 +18,7 @@ import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
+import com.deendayalproject.model.request.FansCountReq
 import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
@@ -149,6 +150,7 @@ import com.deendayalproject.model.response.DueDiligenceItemResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.FacultyDetailsRes
+import com.deendayalproject.model.response.FansCountRes
 import com.deendayalproject.model.response.FieldVerificationDetailResponse
 import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
@@ -181,10 +183,15 @@ import com.deendayalproject.model.response.NonceResponse
 import com.deendayalproject.model.response.PreviousInsQues
 import com.deendayalproject.model.response.OJTList_Res
 import com.deendayalproject.model.response.OJT_BatchList_Res
+import com.deendayalproject.model.response.OJT_OjtVerifiedTrainingCenter_Res
 import com.deendayalproject.model.response.OJT_Sanction_Res
 import com.deendayalproject.model.response.OJT_TrainingCenter_Res
+import com.deendayalproject.model.response.OJT_VerifiedBatchListSRLM_Res
+import com.deendayalproject.model.response.OjtListByBatchSRLMRes
 import com.deendayalproject.model.response.OjtListByBatch_Res
+import com.deendayalproject.model.response.OjtListChildSRLMRes
 import com.deendayalproject.model.response.OjtRes
+import com.deendayalproject.model.response.OjtSRLMRes
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
@@ -228,11 +235,18 @@ import com.deendayalproject.model.uistate.GetCandidateInspectionRequest
 import com.deendayalproject.model.uistate.PreviousInspectionObservationDto
 import com.deendayalproject.uidai.ekyc.UidaiKycRequest
 import com.deendayalproject.uidai.ekyc.UidaiResp
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
+import retrofit2.http.PartMap
 import retrofit2.http.Url
 
 interface ApiService {
@@ -250,12 +264,12 @@ interface ApiService {
         @Body request: SaltRequest
     ): NonceResponse
 
+
     @POST("modulenforms")
     suspend fun fetchModules(@Body request: ModulesRequest): Response<ModuleResponse>
 
     @POST("getTrainingCenterList")
     suspend fun getTrainingCenterList(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
-
 
     @POST(value = "getTrainingCenterVerificationList")
     suspend fun getQTeamTrainingList(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
@@ -525,7 +539,7 @@ interface ApiService {
     @POST(value ="getRfInfraDetailsAndComliance")
     suspend fun getgetCompliancesRFQTReqRFQT(@Body request: CompliancesRFQTReq) : Response<InfrastructureDetailsandCompliancesRFQT>
 
-    //    Ajit Ranjan create 24/October/2025  getRfLivingAreaInformation
+//    Ajit Ranjan create 24/October/2025  getRfLivingAreaInformation
     @POST(value ="getRfLivingAreaInformation")
     suspend fun getRfLivingAreaInformation(@Body request: RfLivingAreaInformationRQ) : Response<RfLivingAreaInformationResponse>
 
@@ -604,7 +618,7 @@ interface ApiService {
 
 
 
-    //    Ajit Ranjan create 04/Novmber/2025  getRfIndoorGameDetails
+//    Ajit Ranjan create 04/Novmber/2025  getRfIndoorGameDetails
     @POST(value ="getRfIndoorGameDetails")
     suspend fun getRfIndoorGameDetails
                 (@Body request: RFGameRequest) :
@@ -673,7 +687,7 @@ interface ApiService {
             Response<ModifyRFRes>
 
 
-    //    Ajit Ranjan create 17/Nov/2025  getToiletCountList
+//    Ajit Ranjan create 17/Nov/2025  getToiletCountList
     @POST(value ="getToiletCountList")
     suspend fun getToiletCountList
                 (@Body request: ToiletCountListReq) :
@@ -1047,6 +1061,74 @@ interface ApiService {
     suspend fun getCaptivePiaOfficerSelfie(
         @Body request: CaptivePiaOfficerSelfieRequest
     ): Response<CaptivePiaOfficerSelfieResponse>
+
+    @POST(value = "getSanctionOrderListOjt")
+    suspend fun fetchgetSanctionOrderListOjt(@Body request: ModulesOJTSanctionOrderRequest): Response<OjtSRLMRes>
+
+
+
+
+
+
+
+
+    @POST(value = "getOjtVerifiedTrainingCenter")
+    suspend fun fetchgetCompOjtTrainingCenter(@Body request: ModulesOJTTrainingCenterRequest): Response<OJT_OjtVerifiedTrainingCenter_Res>
+
+    @POST(value = "getVerifiedBatchList")
+    suspend fun fetchgetVerifiedBatchList(@Body request: ModulesOJTBatchRequest): Response<OJT_VerifiedBatchListSRLM_Res>
+
+
+    @POST(value = "getVerifiedBatchCandidateList")
+    suspend fun getVerifiedBatchCandidateList(@Body request: ModulesCandidateByOjtRequest2): Response<OjtListByBatchSRLMRes>
+
+
+
+
+    @POST(value = "getVerifiedCompleteOjt")
+    suspend fun getVerifiedCompleteOjt(@Body request: ModulesOJTCompleteOjtRequest): Response<OjtListChildSRLMRes>
+
+
+
+
+    @Multipart
+    @POST("saveCandidateOjtVerification")
+    suspend fun uploadCandidateOjtVerification(
+
+        @Header("ddugkyappauth")
+        token: String,
+
+        @PartMap
+        map: Map<String, @JvmSuppressWildcards RequestBody>,
+
+        @Part
+        verificationVideo: MultipartBody.Part
+
+    ): Response<ResponseBody>
+
+
+
+    @Multipart
+    @POST("saveSrlmCandidateOjtVerification")
+    suspend fun uploadCandidateOjtSRLMVerification(
+
+        @Header("ddugkyappauth")
+        token: String,
+
+        @PartMap
+        map: Map<String, @JvmSuppressWildcards RequestBody>,
+
+        @Part
+        verificationVideo: MultipartBody.Part
+
+    ): Response<ResponseBody>
+
+
+
+
+
+
+
 
 
 }

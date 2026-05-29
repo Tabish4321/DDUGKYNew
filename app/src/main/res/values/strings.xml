@@ -216,6 +216,7 @@
     <string name="training_center_address">Training Center Address</string>
     <string name="training_center_name">Training Center Name</string>
 
+
     <string name="sanction_order">Sanction Order</string>
     <string name="district_name">District Name</string>
     <string name="center_name">Center Name</string>
@@ -964,6 +965,7 @@
     <string name="number_of_completed_ojt">Number Of completed OJT</string>
     <string name="number_of_pending_ojt">Number of Pending OJT</string>
     <string name="select_sanction_order">Select Sanction Order</string>
+
     <string name="select_training_center">Select Training Center</string>
     <string name="candidate_response">candidate response</string>
 
@@ -1159,4 +1161,17 @@
     <string name="label_yes">Yes</string>
     <string name="label_no">No</string>
 
+
+    <string name="srlm_on_job_training">SRLM On Job Training</string>
+    <string name="select_pia_name_sanctionOrderNo">Select PIA Name &amp; Sanction Order No</string>
+    <string name="pia_name_ojt">PIA Name</string>
+    <string name="verification_status">Verification Status</string>
+    <string name="ojtplanid">OjtPlanId</string>
+    <string name="ojt_candidate_srlm_list">SRLM OJT Candidate List</string>
+
+    <string name="srlm_on_job_training_verification_complete">SRLM OJT  Verification Details</string>
+
+    <string name="srlm_on_job_training_verification">SRLM On Job Training Verification</string>
+    <string name="search_pia_name">Search PIA Name</string>
+    <string name="ojt_plan_id">OJT Plan Id</string>
 </resources>

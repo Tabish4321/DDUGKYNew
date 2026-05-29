@@ -38,7 +38,7 @@
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/on_job_training_verification"
+            android:text="@string/srlm_on_job_training_verification_complete"
             android:textColor="@color/white"
             android:layout_marginStart="12dp"
             app:layout_constraintStart_toEndOf="@id/btnBack"
@@ -209,8 +209,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginTop="@dimen/dp_10"
                         android:visibility="gone"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:id="@+id/trainingDetailsLayout"
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:padding="@dimen/dp_17">
@@ -230,18 +230,24 @@
 
 
                             <TableRow>
+
                                 <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
                                     android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
                                     android:text="@string/pia_name"
-
                                     android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/tvPiaName"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
                                     android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="" />
+                                    android:text=""
+                                    android:maxLines="10"
+                                    android:ellipsize="none" />
                             </TableRow>
 
 
@@ -302,124 +308,224 @@
 
                             <!-- District -->
                             <TableRow>
-                                <TextView
-                                    android:textStyle="bold"
-                                    android:textSize="16sp"
 
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/tc_district" />
+
 
                                 <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
                                     android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
+                                    android:text="@string/tc_district"
+                                    android:textStyle="bold" />
+
+                                <TextView
                                     android:id="@+id/tvDistrict"
-                                    />
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text=""
+                                    android:maxLines="10"
+                                    android:ellipsize="none" />
+
+
+
+
                             </TableRow>
 
                             <!-- Center Name -->
                             <TableRow>
-                                <TextView
-                                    android:textStyle="bold"
 
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:textSize="16sp"
-                                    android:text="@string/center_name_ojt" />
+                                    android:text="@string/center_name_ojt"
+                                    android:textStyle="bold" />
 
                                 <TextView
-                                    android:textSize="16sp"
                                     android:id="@+id/tvCenterName"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="Ajit Micro Tech Computer Center" />
+                                    android:text=""
+                                    android:maxLines="10"
+                                    android:ellipsize="none" />
+
+
+
+
+
+
+
+
+
                             </TableRow>
 
                             <!-- Training Dates -->
                             <TableRow>
-                                <TextView
-                                    android:textStyle="bold"
-                                    android:textSize="16sp"
 
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/class_room_start_date" />
+                                    android:text="@string/class_room_start_date"
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/tvTrainingStart"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
                                     android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="01/01/2026" />
+                                    android:text=""
+                                    android:maxLines="10"
+                                    android:ellipsize="none" />
+
+
+
+
+
+
+
+
                             </TableRow>
 
                             <TableRow>
-                                <TextView
-                                    android:textStyle="bold"
-                                    android:textSize="16sp"
 
+
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/class_room_end_date" />
+                                    android:text="@string/class_room_end_date"
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/tvTrainingEnd"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
                                     android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="19/01/2026" />
+                                    android:text=""
+                                    android:maxLines="10"
+                                    android:ellipsize="none" />
+
+
+
+
+
                             </TableRow>
 
                             <!-- OJT Dates -->
                             <TableRow>
-                                <TextView
-                                    android:textStyle="bold"
 
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
                                     android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/ojt_start_date" />
+                                    android:text="@string/ojt_start_date"
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/tvOjtStart"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
                                     android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="01/01/2026" />
+                                    android:text=""
+                                    android:maxLines="10"
+                                    android:ellipsize="none" />
+
+
+
+
+
+
+
+
+
                             </TableRow>
 
 
                             <TableRow>
                                 <TextView
-                                    android:textStyle="bold"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
                                     android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/ojt_industry_name" />
+                                    android:text="@string/ojt_industry_name"
+                                    android:textStyle="bold" />
 
                                 <TextView
-                                    android:textSize="16sp"
                                     android:id="@+id/tvOjtIndustryName"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="NA" />
+                                    android:text=""
+                                    android:maxLines="10"
+                                    android:ellipsize="none" />
+
+
+
+
+
+
+
+
+
+
                             </TableRow>
 
                             <TableRow>
-                                <TextView
-                                    android:textStyle="bold"
-                                    android:textSize="16sp"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/ojt_location" />
+
+
 
                                 <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
                                     android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:text="@string/ojt_location"
+                                    android:textStyle="bold" />
+
+                                <TextView
                                     android:id="@+id/tvOjtLocation"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="NA" />
+                                    android:text=""
+                                    android:maxLines="10"
+                                    android:ellipsize="none" />
                             </TableRow>
 
                             <TableRow>
                                 <TextView
-                                    android:textStyle="bold"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
                                     android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/ojt_end_date" />
+                                    android:text="@string/ojt_end_date"
+                                    android:textStyle="bold" />
 
                                 <TextView
-                                    android:textSize="16sp"
                                     android:id="@+id/tvOjtEnd"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:textSize="16sp"
                                     android:fontFamily="@font/avenir_next_regular"
-                                    android:text="19/01/2026" />
+                                    android:text=""
+                                    android:maxLines="10"
+                                    android:ellipsize="none" />
                             </TableRow>
 
                         </TableLayout>
@@ -470,8 +576,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginTop="@dimen/dp_10"
                         android:visibility="gone"
+                        android:layout_marginTop="@dimen/dp_10"
                         android:id="@+id/profileImageLayout"
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:padding="@dimen/dp_17">
@@ -637,6 +743,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     app:cardCornerRadius="@dimen/dp_5"
+                    android:visibility="gone"
                     android:id="@+id/CardViewQuestion"
                     app:cardElevation="@dimen/dp_5"
                     android:layout_marginTop="@dimen/dp_10"
@@ -645,6 +752,7 @@
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
+                        
                         android:layout_height="wrap_content">
                         <ImageView
                             android:layout_width="wrap_content"
@@ -674,12 +782,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
+                            android:visibility="gone"
                             android:layout_marginTop="@dimen/dp_10"
-
                             android:id="@+id/trainingQuestionDetailsLayout"
-                            xmlns:app="http://schemas.android.com/apk/res-auto">
-<!--                            android:padding="@dimen/dp_17">-->
-<!--                            android:visibility="gone"-->
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:padding="@dimen/dp_17">
+
 
 
                             <LinearLayout
@@ -780,119 +888,11 @@
                                 </RadioGroup>
 
 
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_gravity="center"
-                                    android:background="@color/black"
-                                    android:id="@+id/VideoLinlayout"
-                                    android:visibility="gone"
-                                    android:layout_height="wrap_content">
-                                    <!--                                    android:visibility="gone"-->
-                                    <TextView
-                                        android:id="@+id/tvTitleVideo"
-                                        android:layout_width="wrap_content"
-                                        android:layout_centerHorizontal="true"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/capture_video"
-                                        android:textStyle="bold"
-                                        android:textColor="@color/white"
-                                        android:textSize="16sp"/>
 
-                                    <!-- Camera / Video -->
-                                    <FrameLayout
-                                        android:id="@+id/videoContainer"
-                                        android:layout_width="300dp"
-                                        android:layout_marginTop="10dp"
-                                        android:layout_height="250dp"
-                                        android:layout_marginEnd="30dp"
-                                        android:layout_marginStart="30dp"
-                                        android:layout_below="@id/tvTitleVideo">
-
-                                        <SurfaceView
-                                            android:id="@+id/surfaceView"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent" />
-
-                                        <VideoView
-                                            android:id="@+id/videoView"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            android:visibility="gone"/>
-
-                                    </FrameLayout>
-
-                                    <!-- Timer -->
-                                    <TextView
-                                        android:id="@+id/tvTimer"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="03:00"
-                                        android:textSize="20sp"
-                                        android:textColor="#fff"
-                                        android:layout_below="@id/videoContainer"
-                                        android:layout_centerHorizontal="true"
-                                        android:layout_marginTop="0dp"/>
-
-                                    <!-- Buttons -->
-                                    <LinearLayout
-                                        android:id="@+id/buttonLayout"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@id/tvTimer"
-                                        android:gravity="center"
-                                        android:orientation="horizontal"
-                                        android:layout_marginTop="0dp">
-
-                                        <Button
-                                            android:id="@+id/btnRecord"
-                                            android:text="@string/start"
-                                            android:textSize="8sp"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"/>
-
-                                        <Button
-                                            android:id="@+id/btnPlayPause"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"
-                                            android:visibility="gone"
-                                            android:textSize="8sp"
-                                            android:layout_marginStart="8dp"
-                                            android:text="@string/play"/>
-
-                                        <Button
-                                            android:id="@+id/btnStop"
-                                            android:text="@string/stop"
-                                            android:visibility="gone"
-                                            android:textSize="8sp"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"
-                                            android:layout_marginStart="8dp"/>
-
-                                        <Button
-                                            android:id="@+id/btnSwitch"
-                                            android:text="@string/front"
-                                            android:textSize="8sp"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"
-                                            android:layout_marginStart="8dp"/>
-
-                                        <Button
-                                            android:id="@+id/btnDelete"
-                                            android:text="@string/delete"
-                                            android:visibility="gone"
-                                            android:textSize="8sp"
-                                            android:layout_width="80dp"
-                                            android:layout_height="36dp"
-                                            android:layout_marginStart="8dp"/>
-
-                                    </LinearLayout>
-
-                                </RelativeLayout>
                                 <LinearLayout
                                     android:id="@+id/yesLayout"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:visibility="gone"
                                     android:orientation="horizontal"
                                     android:paddingTop="12dp">
                                     <!--                    android:visibility="gone"-->
@@ -941,13 +941,7 @@
                                                 android:layout_weight="1"
                                                 android:textSize="16sp"/>
 
-                                            <ImageView
-                                                android:id="@+id/ivCalendar"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:src="@drawable/baseline_calendar_month_24"
-                                                android:contentDescription="Calendar Icon"
-                                                android:padding="8dp"/>
+
 
                                         </LinearLayout>
 
@@ -1014,13 +1008,7 @@
                                                 android:layout_weight="1"
                                                 android:textSize="16sp"/>
 
-                                            <ImageView
-                                                android:id="@+id/ivCalendarHowMuch"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:src="@drawable/baseline_calendar_month_24"
-                                                android:contentDescription="Calendar Icon"
-                                                android:padding="8dp"/>
+
 
                                         </LinearLayout>
                                         <ImageView
@@ -1035,6 +1023,7 @@
                                             android:layout_width="match_parent"
                                             android:orientation="horizontal"
                                             android:padding="12dp"
+
                                             android:layout_height="wrap_content">
                                             <TextView
                                                 android:id="@+id/tvSelectedRandomDate"
@@ -1228,7 +1217,6 @@
                                             android:id="@+id/textRemarkareYouGivenSufficientInstument"
                                             android:visibility="gone"
                                             android:fontFamily="@font/avenir_next_regular"
-                                            android:hint="@string/please_give_reason_for_no"
                                             app:boxStrokeColor="@color/color_dark_green">
 
                                             <com.google.android.material.textfield.TextInputEditText
@@ -1322,20 +1310,20 @@
                                             android:contentDescription="Play"/>
 
                                         <RadioGroup
-                                            android:id="@+id/radioGroupStipinedYesNo"
+                                            android:id="@+id/radioGroupfacilitiesYesNo"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:orientation="horizontal">
 
                                             <RadioButton
-                                                android:id="@+id/radioStipinedYes"
+                                                android:id="@+id/radiofacilitiesYes"
                                                 android:layout_width="wrap_content"
                                                 android:fontFamily="@font/avenir_next_regular"
                                                 android:layout_height="wrap_content"
                                                 android:text="@string/yes"/>
 
                                             <RadioButton
-                                                android:id="@+id/radioStipinedNo"
+                                                android:id="@+id/radiofacilitiesNo"
                                                 android:layout_width="wrap_content"
                                                 android:fontFamily="@font/avenir_next_regular"
                                                 android:layout_height="wrap_content"
@@ -1464,6 +1452,14 @@
 
                                         </RadioGroup>
 
+
+
+
+
+
+
+
+
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
@@ -1486,6 +1482,87 @@
 
 
 
+                                        <TextView
+
+                                            android:layout_width="wrap_content"
+                                            android:id="@+id/videoTitle"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="16sp"
+
+                                            android:layout_marginTop="@dimen/dp_20"
+                                            android:textAlignment="viewStart"
+                                            android:textStyle="bold"
+                                            android:text="@string/interview_video" />
+
+                                        <androidx.media3.ui.PlayerView
+                                            android:id="@+id/playerView"
+                                            android:layout_marginTop="@dimen/dp_20"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="200dp"/>
+
+
+
+                                        <TextView
+
+                                            android:layout_width="wrap_content"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="16sp"
+                                              android:visibility="gone"
+                                            android:layout_marginTop="@dimen/dp_20"
+                                            android:textAlignment="viewStart"
+                                            android:textStyle="bold"
+                                            android:text="@string/location_image" />
+
+
+                                        <com.google.android.material.card.MaterialCardView
+                                            android:layout_width="match_parent"
+                                            android:layout_marginTop="@dimen/dp_20"
+                                            android:layout_height="200dp"
+                                            app:cardCornerRadius="16dp"
+                                            app:cardElevation="6dp"
+                                            app:strokeWidth="1dp"
+                                            app:strokeColor="@color/light_blue">
+
+                                            <com.google.android.material.imageview.ShapeableImageView
+                                                android:id="@+id/imageView"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:scaleType="centerCrop"
+                                               />
+
+                                        </com.google.android.material.card.MaterialCardView>
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold"
+                                            android:textAlignment="viewStart"
+                                            android:layout_marginTop="@dimen/dp_10"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:text="@string/remarks"
+                                            android:layout_height="wrap_content"/>
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:id="@+id/textRemarkReaon"
+                                            android:visibility="gone"
+                                            android:fontFamily="@font/avenir_next_regular"
+                                            android:hint="@string/remarks"
+                                            app:boxStrokeColor="@color/color_dark_green">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/etRemarkReaon"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:textColor="@color/color_dark_green"
+                                                android:textSize="15sp" />
+
+                                        </com.google.android.material.textfield.TextInputLayout>
 
 
 
@@ -1538,41 +1615,7 @@
                                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:id="@+id/ImageLayout"
-                                    android:visibility="gone"
-                                    android:layout_height="wrap_content">
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:textSize="16sp"
-                                        android:textStyle="bold"
-
-                                        android:layout_marginStart="@dimen/dp_10"
-                                        android:text="@string/capture_image"
-                                        android:layout_height="wrap_content"/>
-
-
-
-                                    <ImageView
-                                        android:id="@+id/image1"
-                                        android:layout_width="100dp"
-                                        android:layout_height="100dp"
-                                        android:layout_weight="1"
-                                        android:layout_marginTop="10dp"
-                                        android:scaleType="centerCrop"
-                                        android:adjustViewBounds="true"
-                                        android:background="@drawable/no_image"
-                                        android:layout_marginEnd="@dimen/dp_10"
-                                        android:padding="@dimen/dp_5"
-                                        android:layout_gravity="center"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toBottomOf="@+id/lllatLang"
-
-                                        />
-                                </LinearLayout>
 
                                 <!--                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
                                 <!--                            android:layout_width="match_parent"-->
@@ -1637,6 +1680,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:text="@string/submit_button"
+        android:visibility="gone"
         android:textSize="16sp"
         android:textColor="@color/white"
         android:backgroundTint="@color/login_btn"
