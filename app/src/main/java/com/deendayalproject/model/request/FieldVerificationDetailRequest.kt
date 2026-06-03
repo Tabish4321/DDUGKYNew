@@ -30,5 +30,6 @@ data class FieldVerificationFinalSubmit(
     val TrainingInfra: List<RemarkItem>,
     val Certification: List<RemarkItem>,
     val Placement: List<RemarkItem>,
-    val FieldVisit: List<RemarkItem>
+    val FieldVisit: List<RemarkItem>,
+    val ResidentialFacility : List<RemarkItem>
 )

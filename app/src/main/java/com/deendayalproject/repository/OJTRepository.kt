@@ -9,6 +9,7 @@ import com.deendayalproject.model.request.ModulesOJTBatchRequest
 import com.deendayalproject.model.request.ModulesOJTCompleteOjtRequest
 import com.deendayalproject.model.request.ModulesOJTSanctionOrderRequest
 import com.deendayalproject.model.request.ModulesOJTTrainingCenterRequest
+import com.deendayalproject.model.request.TrainingCenterOpenStatusReq
 import com.deendayalproject.model.response.CandidateOjtVerificationDetails
 import com.deendayalproject.model.response.CandidateOjtVerificationRequest
 import com.deendayalproject.model.response.CaptivePiaOfficerSelfieResponse
@@ -25,6 +26,7 @@ import com.deendayalproject.model.response.OjtListChildSRLMRes
 import com.deendayalproject.model.response.OjtRes
 import com.deendayalproject.model.response.OjtSRLMRes
 import com.deendayalproject.model.response.SaveCandidateOjtVerificationResponse
+import com.deendayalproject.model.response.TrainingCenterOpenStatusRes
 import com.deendayalproject.network.ApiService
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -213,6 +215,8 @@ class OJTRepository(context: Context) : BaseRepository<ApiService>(context) {
             apiService.logOutUser()
         }
     }
+
+
 
 
 

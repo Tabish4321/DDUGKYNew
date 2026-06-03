@@ -97,6 +97,9 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     private val MAX_ALLOWED_DISTANCE = 500f
 
     private var isSelfieVerificationDone = false
+    private val organizationAttachments =
+        mutableMapOf<Int, MutableList<AttachmentItem>>()
+
 
     ////////////////////////////
 
@@ -882,6 +885,10 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     }
 
     private fun handleFinSubmit() {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val jsonResponse = gson.toJson(orgItems)
+        Log.d("Orgnization Data ", "✅ Success Response:\n$jsonResponse")
+
         binding.verFinExpand.visibility = View.GONE
         binding.tvFinHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
         binding.verTraining.visibility = View.VISIBLE
@@ -899,14 +906,21 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     }
 
     private fun handleTrainingSubmit() {
-        val allTrainingRemarks = validateAllRemarksForSection(trainingItems) ?: return
+
+        commitFocusedEditText()
+
+        val allTrainingRemarks =
+            validateAllRemarksForSection(trainingItems) ?: return
+
         binding.verTrainingExpand.visibility = View.GONE
+
         binding.tvTrainingHead.setCompoundDrawablesWithIntrinsicBounds(
             0,
             0,
             R.drawable.ic_verified,
             0
         )
+
         binding.verTrainingInfra.visibility = View.VISIBLE
         binding.verTrainingInfraExpand.visibility = View.VISIBLE
 
@@ -918,6 +932,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         )
 
         viewModel.getFieldVerificationTrainingInfraDetail(request)
+
         observeTrainingInfraDetails()
     }
 
@@ -990,6 +1005,9 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         if (officerSelfieBase64.isNullOrBlank()) {
             showToast("Please capture officer selfie")
             return
+        }
+        if (!validateSectionItems(orgItems)) {
+           return
         }
 
         // Hide current section
@@ -1219,7 +1237,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                         trainingDetails?.trainingPlacement?.tailorTrainingDoc
                     apiDomainForm1Base64 = trainingDetails?.domainSpecificTraining?.form1
                     apiDomainForm2Base64 = trainingDetails?.domainSpecificTraining?.form2
-                    trainingItems = getTrainingItems()
+                   // trainingItems = getTrainingItems()
 
                     updateRecyclerViewData(
                         binding.recyclerViewTraining.id,
@@ -1361,43 +1379,345 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         }
     }
 
+    private val organizationAttachmentLabels = mapOf(
+
+        0 to "uploadIndustryExistenceSelfDeclaration",
+
+        1 to "uploadIndustryRegistrationSelfDeclaration",
+
+        2 to "uploadEpfoChallansSelfDeclaration",
+
+        3 to "uploadTaxDetailsSelfDeclaration",
+
+        4 to "uploadBankDetailsSelfDeclaration",
+
+        5 to "uploadManpowerAgencyCheckSelfDeclaration"
+
+    )
+
+    private fun updateFieldDistance() {
+
+        if (
+            tcLatitude.isNotBlank() &&
+            tcLongitude.isNotBlank() &&
+            rfLatitude.isNotBlank() &&
+            rfLongitude.isNotBlank()
+        ) {
+
+            tcRfDistance = calculateDistance(
+                tcLatitude.toDouble(),
+                tcLongitude.toDouble(),
+                rfLatitude.toDouble(),
+                rfLongitude.toDouble()
+            )
+
+            Log.d(
+                "TC_RF_DISTANCE",
+                "${tcRfDistance / 1000} KM"
+            )
+        }
+
+    }
+
+    private fun getFileTypeFromUri(uri: Uri): String {
+
+        val type =
+            requireContext()
+                .contentResolver
+                .getType(uri)
+                ?: ""
+
+        return when {
+
+            type.contains("pdf") -> "pdf"
+
+            type.contains("png") -> "png"
+
+            type.contains("jpeg") -> "jpeg"
+
+            type.contains("jpg") -> "jpg"
+
+            else -> ""
+        }
+
+    }
+
+    private fun createAttachmentItem(
+    item: FieldVerificationItem,
+    position: Int,
+    photoUri: Uri
+
+    ): AttachmentItem? {
+        val base64 =
+            AppUtil.imageUriToBase64(
+                requireContext(),
+                photoUri
+            ) ?: return null
+
+        val fileType =
+            getFileTypeFromUri(photoUri)
+
+// Validate allowed file types
+        if (
+            !item.allowedFileTypes.contains(
+                fileType.lowercase()
+            )
+        ) {
+
+            showToast(
+                "Only PDF, PNG, JPG and JPEG files are allowed"
+            )
+
+            return null
+        }
+
+        val label = organizationAttachmentLabels[position]
+                ?: "uploadDocument"
+
+        val remark =
+            item.remarkText
+                ?.trim()
+                ?.ifEmpty {
+                    "Document verified"
+                }
+                ?: "Document verified"
+
+        return AttachmentItem(
+
+            label = label,
+
+            value = listOf(base64),
+
+            remark = remark,
+
+           // fileType = fileType
+        )
+
+    }
+
+
     private fun handleCameraSuccess() {
+        if (currentPhotoTarget == "Training Centre") {
+
+            captureTrainingCenterLocation {
+
+                updateFieldDistance()
+            }
+        }
+
+        if (currentPhotoTarget == "Residential Facilities") {
+
+            captureResidentialFacilityLocation {
+
+                updateFieldDistance()
+            }
+        }
         if (currentUploadPosition >= 0) {
             val pos = currentUploadPosition
 
             when (currentUploadList) {
+
+                "org" -> {
+
+                    val existing =
+                        orgItems.getOrNull(pos)
+
+                    if (existing != null) {
+
+                        val attachment =
+                            createAttachmentItem(
+                                item = existing,
+                                position = pos,
+                                photoUri = photoUri
+                            )
+
+                        if (attachment != null) {
+
+                            val updatedAttachments =
+                                existing.attachments.toMutableList()
+
+                            updatedAttachments.add(attachment)
+
+                            orgItems[pos] = existing.copy(
+
+                                imageUri = photoUri.toString(),
+
+                                uploadEnabled = true,
+
+                                attachments = updatedAttachments
+                            )
+
+                            updateRecyclerViewData(
+                                binding.recyclerView.id,
+                                orgItems
+                            )
+                        }
+                    }
+
+                }
+
                 "fin" -> {
                     val existing = finItems.getOrNull(pos)
                     if (existing != null) {
+                        val base64 =
+                            AppUtil.imageUriToBase64(requireContext(), photoUri) ?: ""
+
+                        val attachmentLabel =
+                            when (existing.id) {
+
+                                "uploadAnnualTurnoverSelfDeclaration" ->
+                                    "uploadAnnualTurnoverSelfDeclaration"
+
+                                "uploadNetWorthSelfDeclaration" ->
+                                    "uploadNetWorthSelfDeclaration"
+                                else -> "uploadDocument"
+                            }
+
+                        val updatedAttachments = existing.attachments.toMutableList()
+
+                        updatedAttachments.add(
+                            AttachmentItem(
+                                label = attachmentLabel,
+                                value = listOf(base64),
+                                remark = existing.remarkText
+                                    ?.trim()
+                                    ?.ifEmpty { "Document verified" }
+                                    ?: "Document verified"
+                            )
+                        )
                         finItems[pos] = existing.copy(
                             imageUri = photoUri.toString(),
                             uploadEnabled = true,
-                            attachments = listOf(
-                                AttachmentItem(
-                                    label = "Turnover",
-                                    value = base64FinanceFile ?: ""
-                                )
-                            )
+                            attachments = updatedAttachments
                         )
                         updateRecyclerViewData(binding.recyclerViewFin.id, finItems)
                     }
                 }
                 "training" -> {
+
                     val existing = trainingItems.getOrNull(pos)
+
                     if (existing != null) {
+
+                        val base64 =
+                            AppUtil.imageUriToBase64(requireContext(), photoUri) ?: ""
+
+                        val attachmentLabel =
+                            when (existing.id) {
+
+                                "uploadTrainingCriteriaSelfDeclaration" ->
+                                    "uploadTrainingCriteriaSelfDeclaration"
+
+                                "uploadTotalTrainingHoursSelfDeclaration" ->
+                                    "uploadTotalTrainingHoursSelfDeclaration"
+
+                                "uploadRepetitionClubbingNsqfSelfDeclaration" ->
+                                    "uploadRepetitionClubbingNsqfSelfDeclaration"
+
+                                "uploadBasicTrainingSelfDeclaration" ->
+                                    "uploadBasicTrainingSelfDeclaration"
+
+                                "uploadCommitmentSelfDeclaration" ->
+                                    "uploadCommitmentSelfDeclaration"
+
+                                "uploadTrainingPlacementSelfDeclaration" ->
+                                    "uploadTrainingPlacementSelfDeclaration"
+
+                                "uploadDomainSpecificTrainingSelfDeclaration" ->
+                                    "uploadDomainSpecificTrainingSelfDeclaration"
+
+                                else -> "uploadDocument"
+                            }
+
+                        val updatedAttachments =
+                            existing.attachments.toMutableList()
+
+                        updatedAttachments.add(
+                            AttachmentItem(
+                                label = attachmentLabel,
+                                value = listOf(base64),
+                                remark = existing.remarkText
+                                    ?.trim()
+                                    ?.ifEmpty { "Document verified" }
+                                    ?: "Document verified"
+                            )
+                        )
+
                         trainingItems[pos] = existing.copy(
                             imageUri = photoUri.toString(),
                             uploadEnabled = true,
-                            attachments = listOf(
-                                AttachmentItem(
-                                    label = "Additional Training",
-                                    value = base64TrainingFile ?: ""
-                                )
-                            )
+                            attachments = updatedAttachments
                         )
-                        updateRecyclerViewData(binding.recyclerViewTraining.id, trainingItems)
+
+                        updateRecyclerViewData(
+                            binding.recyclerViewTraining.id,
+                            trainingItems
+                        )
                     }
                 }
+                "trainingInfra" -> {
+
+                    val existing = trainingInfraItems.getOrNull(pos)
+
+                    if (existing != null) {
+
+                        val base64 = AppUtil.imageUriToBase64(requireContext(), photoUri) ?: ""
+
+                        val attachmentLabel =
+                            when (existing.id) {
+
+                                "uploadTrainingInfraSelfDeclaration" ->
+                                    "uploadTrainingInfraSelfDeclaration"
+
+                                "uploadTrainingCentrePhoto" ->
+                                    "uploadTrainingCentrePhoto"
+
+                                "uploadClassroomPhoto" ->
+                                    "uploadClassroomPhoto"
+
+                                "uploadToiletPhoto" ->
+                                    "uploadToiletPhoto"
+
+                                "uploadBuildingPhoto" ->
+                                    "uploadBuildingPhoto"
+
+                                "uploadTablesAndChairsPhoto" ->
+                                    "uploadTablesAndChairsPhoto"
+
+                                "uploadLightingAndSafetyPhoto" ->
+                                    "uploadLightingAndSafetyPhoto"
+
+                                else -> "uploadDocument"
+                            }
+
+                        val updatedAttachments =
+                            existing.attachments.toMutableList()
+
+                        updatedAttachments.add(
+                            AttachmentItem(
+                                label = attachmentLabel,
+                                value = listOf(base64),
+                                remark = existing.remarkText
+                                    ?.trim()
+                                    ?.ifEmpty { "Document verified" }
+                                    ?: "Document verified"
+                            )
+                        )
+
+                        trainingInfraItems[pos] = existing.copy(
+                            imageUri = photoUri.toString(),
+                            uploadEnabled = true,
+                            attachments = updatedAttachments
+                        )
+
+                        updateRecyclerViewData(
+                            binding.recyclerViewTrainingInfra.id,
+                            trainingInfraItems
+                        )
+                    }
+                }
+
+
                 "Self Declaration" -> {
                     val existing = trainingInfraItems.getOrNull(pos)
                     if (existing != null) {
@@ -1659,6 +1979,57 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     }
 
     @SuppressLint("MissingPermission")
+    private fun captureTrainingCenterLocation(
+        onCaptured: () -> Unit) {
+        fusedLocationClient.getCurrentLocation(
+            Priority.PRIORITY_HIGH_ACCURACY,
+            null
+        ).addOnSuccessListener { location ->
+
+            if (location != null) {
+
+                tcLatitude = location.latitude.toString()
+                tcLongitude = location.longitude.toString()
+
+                Log.d("TC_LOCATION", "$tcLatitude , $tcLongitude")
+
+                onCaptured()
+
+            } else {
+                showToast("Unable to capture Training Centre location")
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun captureResidentialFacilityLocation(
+        onCaptured: () -> Unit
+    ) {
+
+        fusedLocationClient.getCurrentLocation(
+            Priority.PRIORITY_HIGH_ACCURACY,
+            null
+        ).addOnSuccessListener { location ->
+
+            if (location != null) {
+
+                rfLatitude = location.latitude.toString()
+                rfLongitude = location.longitude.toString()
+
+                Log.d("RF_LOCATION", "$rfLatitude , $rfLongitude")
+
+                onCaptured()
+
+            } else {
+                showToast("Unable to capture Residential Facility location")
+            }
+        }
+
+    }
+
+
+
+    @SuppressLint("MissingPermission")
     private fun getCurrentLocation() {
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
@@ -1699,36 +2070,9 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                                 listOf("Current Latitude:: $latitude", "Current Longitude: : $longitude"),
                                 uploadEnabled = false,
                                 allowRemark = false
-                            ),
-                            FieldVerificationItem(
-                                id = "",
-                                "Officer Geo-Location Validation",
-                                "Officer must be within 500 meters during verification initiation and final submission.",
-                                listOf("Validation Status"),
-                                uploadEnabled = false,
-                                allowRemark = false
-                            ),
-                            FieldVerificationItem(
-                                id = "tc_rf_mapping",
-                                requirement = "TC and RF Geo-Location Mapping",
-                                verificationDoc = "Capture and verify geo-location coordinates for Training Center (TC) and Residential Facility (RF).",
-                                documents = listOf(
-                                    "TC Lat ${""} , TC Long${""}",
-                                    "RF Lat ${""} , RF Long${""}", ),
-                                uploadEnabled = false,
-                                allowRemark = true
-                            ),
-                            FieldVerificationItem(
-                                id = "distance_capture",
-                                requirement = "TC to RF Distance Measurement",
-                                verificationDoc = "System should calculate and store the distance between TC and RF locations.",
-                                documents = listOf(
-                                    "Distance : ${tcRfDistance.toInt()} meters"
-                                ),
-                                uploadEnabled = false,
-                                allowRemark = false
-                            ),
                             )
+                        )
+
                         updateRecyclerViewData(binding.recyclerViewField.id, fieldItems)
                     }
                 } else {
@@ -2097,7 +2441,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 attachments.add(
                     AttachmentItem(
                         label = "Self Declaration",
-                        value = base64TrainingInfraDeclarationFile!!
+                        value = listOf( base64TrainingInfraDeclarationFile!!)
                     )
                 )
             }
@@ -2105,7 +2449,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 attachments.add(
                     AttachmentItem(
                         label = "Training Centre File",
-                        value = base64TrainingInfraCentreFile!!
+                        value =  listOf(base64TrainingInfraCentreFile!!)
                     )
                 )
             }
@@ -2122,34 +2466,118 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             }
         }
 
-        // --- Add Field Visit coordinates to collected remarks ---
-        if (sectionName.equals("FieldVisit", ignoreCase = true)) {
-            val attachList = mutableListOf<AttachmentItem>()
+        if (sectionName.equals("Finance", ignoreCase = true)) {
 
-            if (!latitude.isNullOrBlank()) {
-                attachList.add(AttachmentItem(label = "latitude", value = latitude))
-            }
-            if (!longitude.isNullOrBlank()) {
-                attachList.add(AttachmentItem(label = "longitude", value = longitude))
-            }
+            val allAttachments = mutableListOf<AttachmentItem>()
 
-            if (!officerSelfieBase64.isNullOrBlank()) {
-                attachList.add(AttachmentItem(label = "officer_selfie", value = officerSelfieBase64!!))
+            sectionItems.forEach { item ->
+
+                if (item.attachments.isNotEmpty()) {
+
+                    allAttachments.addAll(item.attachments)
+                }
             }
 
-            if (attachList.isNotEmpty()) {
+            if (allAttachments.isNotEmpty()) {
+                remarkList.clear()
                 remarkList.add(
                     RemarkItem(
                         section = sectionName,
-                        requirement = "FIELD_VISIT_COORDINATES",
-                        remark = "",
-                        attachments = attachList
+                        requirement = "FINANCE_DETAILS",
+                        attachments = allAttachments,
+                        remark = ""
                     )
                 )
             }
         }
+
+        if (sectionName.equals("Training", ignoreCase = true)) {
+
+            val allAttachments = mutableListOf<AttachmentItem>()
+
+            sectionItems.forEach { item ->
+
+                if (item.attachments.isNotEmpty()) {
+
+                    allAttachments.addAll(item.attachments)
+                }
+            }
+
+            if (allAttachments.isNotEmpty()) {
+
+                remarkList.clear()
+
+                remarkList.add(
+                    RemarkItem(
+                        section = sectionName,
+                        requirement = "TRAINING_DETAILS",
+                        attachments = allAttachments,
+                        remark = ""
+                    )
+                )
+            }
+        }
+
+        if (sectionName.equals("TrainingInfra", ignoreCase = true)) {
+
+            val allAttachments = mutableListOf<AttachmentItem>()
+
+            sectionItems.forEach { item ->
+
+                if (item.attachments.isNotEmpty()) {
+
+                    allAttachments.addAll(item.attachments)
+                }
+            }
+
+            if (allAttachments.isNotEmpty()) {
+
+                remarkList.clear()
+
+                remarkList.add(
+                    RemarkItem(
+                        section = sectionName,
+                        requirement = "TRAINING_INFRA_DETAILS",
+                        attachments = allAttachments,
+                        remark = ""
+                    )
+                )
+            }
+        }
+
+
+        // --- Add Field Visit coordinates to collected remarks ---
+//        if (sectionName.equals("FieldVisit", ignoreCase = true)) {
+//            val attachList = mutableListOf<AttachmentItem>()
+//
+//            if (!latitude.isNullOrBlank()) {
+//                attachList.add(AttachmentItem(label = "latitude", value = latitude))
+//            }
+//            if (!longitude.isNullOrBlank()) {
+//                attachList.add(AttachmentItem(label = "longitude", value = longitude))
+//            }
+//
+//            if (!officerSelfieBase64.isNullOrBlank()) {
+//                attachList.add(AttachmentItem(label = "officer_selfie", value = officerSelfieBase64!!))
+//            }
+//
+//            if (attachList.isNotEmpty()) {
+//                remarkList.add(
+//                    RemarkItem(
+//                        section = sectionName,
+//                        requirement = "FIELD_VISIT_COORDINATES",
+//                        remark = "",
+//                        attachments = attachList
+//                    )
+//                )
+//            }
+//        }
         return remarkList
     }
+
+
+
+
 
     private fun collectAllRemarksSectionWise(): FieldVerificationFinalSubmit {
         commitFocusedEditText()
@@ -2165,6 +2593,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             Certification = collectRemarksFromSection("Certification", certItems),
             Placement = collectRemarksFromSection("Placement", placementItems),
             FieldVisit = collectRemarksFromSection("FieldVisit", fieldItems),
+            ResidentialFacility = emptyList()
         )
     }
 
@@ -2219,48 +2648,77 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 allowRemark = false
             ),
             FieldVerificationItem(
-                id = "ORG_MANPOWER",
-                requirement = resources.getString(R.string.field_ver_valid_manpower_doc),
-                verificationDoc = resources.getString(R.string.field_ver_valid_manpower_note_doc),
-                documents = emptyList(),
-                uploadEnabled = false,
-                allowRemark = true
-            ),
-            FieldVerificationItem(
-                id = "ORG_COUNTER_SIGN",
-                requirement = "Counter-Signed Document Verification",
-                verificationDoc = "Documents must be counter-signed by inspecting officer.",
+                id = "ORG_INDUSTRY_EXISTENCE",
+                requirement = "Industry Existence Verification",
+                verificationDoc = "Upload proof of industry existence verification document.",
                 documents = listOf(
-                    "Upload Counter Signed Document"
+                    "Upload Industry Existence Document"
                 ),
                 uploadEnabled = true,
                 allowRemark = true,
                 sectionType = "Organization"
             ),
+
             FieldVerificationItem(
-                id = "ORG_PAN_AADHAR",
-                requirement = "Aadhaar & PAN Verification",
-                verificationDoc = "Upload Aadhaar and PAN verification screenshots.",
+                id = "ORG_INDUSTRY_REGISTRATION",
+                requirement = "Industry Registration Verification",
+                verificationDoc = "Upload industry registration verification document.",
                 documents = listOf(
-                    "Upload Aadhaar Screenshot",
-                    "Upload PAN Screenshot"
+                    "Upload Industry Registration Document"
                 ),
                 uploadEnabled = true,
                 allowRemark = true,
-                allowMultiUpload = true,
                 sectionType = "Organization"
             ),
+
             FieldVerificationItem(
-                id = "ORG_MANPOWER",
-                requirement = "Non-Manpower Agency Declaration",
-                verificationDoc = "Authorized declaration confirming firm is not manpower agency.",
+                id = "ORG_EPFO_CHALLAN",
+                requirement = "EPFO Challan Verification",
+                verificationDoc = "Upload EPFO challan verification document.",
                 documents = listOf(
-                    "Upload Declaration"
+                    "Upload EPFO Challan"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
+                sectionType = "Organization"
+            ),
+
+            FieldVerificationItem(
+                id = "ORG_TAX_DETAILS",
+                requirement = "Tax Details Verification",
+                verificationDoc = "Upload GST and TAN verification document.",
+                documents = listOf(
+                    "Upload Tax Verification Document"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
+                sectionType = "Organization"
+            ),
+
+            FieldVerificationItem(
+                id = "ORG_BANK_DETAILS",
+                requirement = "Bank Details Verification",
+                verificationDoc = "Upload bank details verification document.",
+                documents = listOf(
+                    "Upload Bank Verification Document"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
+                sectionType = "Organization"
+            ),
+
+            FieldVerificationItem(
+                id = "ORG_MANPOWER_AGENCY",
+                requirement = "Manpower Agency Check Verification",
+                verificationDoc = "Upload manpower agency declaration verification document.",
+                documents = listOf(
+                    "Upload Manpower Agency Declaration"
                 ),
                 uploadEnabled = true,
                 allowRemark = true,
                 sectionType = "Organization"
             )
+
 
 
         )
@@ -2285,26 +2743,24 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 allowRemark = false
             ),
             FieldVerificationItem(
-                id = "FIN_TURNOVER",
-                requirement = "Last 3 Years Turnover Verification",
-                verificationDoc = "Verify turnover using balance sheets.",
+                id = "uploadAnnualTurnoverSelfDeclaration",
+                requirement = "Annual Turnover Self Declaration",
+                verificationDoc = "Verify the submitted self declaration document for annual turnover details.",
                 documents = listOf(
-                    "FY 2022-23",
-                    "FY 2023-24",
-                    "FY 2024-25"
+                    "upload Annual Turnover Self Declaration"
                 ),
-                uploadEnabled = false,
+                uploadEnabled = true,
                 allowRemark = true,
                 sectionType = "Finance"
             ),
             FieldVerificationItem(
-                id = "FIN_BALANCE",
-                requirement = "FY-wise Balance Sheet Verification",
-                verificationDoc = "Verify FY-wise balance sheets and financial data.",
+                id = "uploadNetWorthSelfDeclaration",
+                requirement = "Net Worth Self Declaration",
+                verificationDoc = "Verify the submitted self declaration document for net worth details.",
                 documents = listOf(
-                    "View Balance Sheet"
+                    "upload Net Worth Self Declaration"
                 ),
-                uploadEnabled = false,
+                uploadEnabled = true,
                 allowRemark = true,
                 sectionType = "Finance"
             )
@@ -2381,22 +2837,11 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 allowRemark = false
             ),
             FieldVerificationItem(
-                id = "TRAIN_EXP",
-                requirement = "Prior Training Experience Verification",
-                verificationDoc = "Verify previous training experience documents.",
+                id = "uploadTrainingCriteriaSelfDeclaration",
+                requirement = "Training Criteria Verification",
+                verificationDoc = "Verify the submitted self declaration document for training criteria details.",
                 documents = listOf(
-                    "Training Documents"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Training"
-            ),
-            FieldVerificationItem(
-                id = "TRAIN_500",
-                requirement = "Industry Willingness Declaration",
-                verificationDoc = "Declaration for training minimum 500 candidates.",
-                documents = listOf(
-                    "Upload Declaration"
+                    "Upload Training Criteria Self Declaration"
                 ),
                 uploadEnabled = true,
                 allowRemark = true,
@@ -2404,17 +2849,76 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             ),
 
             FieldVerificationItem(
-                id = "TRAIN_TOT",
-                requirement = "TOT Certified Trainers Declaration",
-                verificationDoc = "Declaration regarding TOT-certified trainers.",
+                id = "uploadTotalTrainingHoursSelfDeclaration",
+                requirement = "Total Training Hours Verification",
+                verificationDoc = "Verify the submitted self declaration document for total training hours.",
                 documents = listOf(
-                    "Upload Trainer Declaration"
+                    "Upload Total Training Hours Self Declaration"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
+                sectionType = "Training"
+            ),
+
+            FieldVerificationItem(
+                id = "uploadRepetitionClubbingNsqfSelfDeclaration",
+                requirement = "Repetition Clubbing and NSQF Verification",
+                verificationDoc = "Verify the submitted self declaration document for repetition clubbing and NSQF compliance.",
+                documents = listOf(
+                    "Upload Repetition Clubbing NSQF Self Declaration"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
+                sectionType = "Training"
+            ),
+
+            FieldVerificationItem(
+                id = "uploadBasicTrainingSelfDeclaration",
+                requirement = "Basic Training Verification",
+                verificationDoc = "Verify the submitted self declaration document for basic training details.",
+                documents = listOf(
+                    "Upload Basic Training Self Declaration"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
+                sectionType = "Training"
+            ),
+
+            FieldVerificationItem(
+                id = "uploadCommitmentSelfDeclaration",
+                requirement = "Commitment Verification",
+                verificationDoc = "Verify the submitted self declaration document for commitment details.",
+                documents = listOf(
+                    "Upload Commitment Self Declaration"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
+                sectionType = "Training"
+            ),
+
+            FieldVerificationItem(
+                id = "uploadTrainingPlacementSelfDeclaration",
+                requirement = "Training and Placement Verification",
+                verificationDoc = "Verify the submitted self declaration document for training and placement records.",
+                documents = listOf(
+                    "Upload Training Placement Self Declaration"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
+                sectionType = "Training"
+            ),
+
+            FieldVerificationItem(
+                id = "uploadDomainSpecificTrainingSelfDeclaration",
+                requirement = "Domain Specific Training Verification",
+                verificationDoc = "Verify the submitted self declaration document for domain specific training details.",
+                documents = listOf(
+                    "Upload Domain Specific Training Self Declaration"
                 ),
                 uploadEnabled = true,
                 allowRemark = true,
                 sectionType = "Training"
             )
-
         )
     }
 
@@ -2437,36 +2941,86 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 allowRemark = false
             ),
             FieldVerificationItem(
-                id = "TC_INFRA",
-                requirement = "TC Infrastructure Verification",
-                verificationDoc = "Upload infrastructure photos and remarks.",
+                id = "uploadTrainingInfraSelfDeclaration",
+                requirement = "Training Infrastructure Verification",
+                verificationDoc = "Verify the submitted self declaration document for training infrastructure.",
                 documents = listOf(
-                    "Classroom",
-                    "Toilet",
-                    "Building",
-                    "Tables and Chairs",
-                    "Lighting and Safety"
+                    "Upload Training Infrastructure Self Declaration"
                 ),
                 uploadEnabled = true,
                 allowRemark = true,
-                allowMultiUpload = true,
                 sectionType = "TrainingInfra"
             ),
 
             FieldVerificationItem(
-                id = "RF_INFRA",
-                requirement = "Residential Facility Verification",
-                verificationDoc = "Verify residential facility infrastructure.",
+                id = "uploadTrainingCentrePhoto",
+                requirement = "Training Centre Verification",
+                verificationDoc = "Verify the training centre infrastructure and captured photos.",
                 documents = listOf(
-                    "Building",
-                    "Safety Measures",
-                    "Canteen",
-                    "Bed Facility",
-                    "Drinking Water Facility"
+                    "Upload Training Centre Photo"
                 ),
                 uploadEnabled = true,
                 allowRemark = true,
-                allowMultiUpload = true,
+                sectionType = "TrainingInfra"
+            ),
+
+            FieldVerificationItem(
+                id = "uploadClassroomPhoto",
+                requirement = "Classroom Infrastructure Verification",
+                verificationDoc = "Verify the classroom infrastructure and captured photos.",
+                documents = listOf(
+                    "Upload Classroom Photo"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
+                sectionType = "TrainingInfra"
+            ),
+
+            FieldVerificationItem(
+                id = "uploadToiletPhoto",
+                requirement = "Toilet Facility Verification",
+                verificationDoc = "Verify the toilet facilities and captured photos.",
+                documents = listOf(
+                    "Upload Toilet Facility Photo"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
+                sectionType = "TrainingInfra"
+            ),
+
+            FieldVerificationItem(
+                id = "uploadBuildingPhoto",
+                requirement = "Building Infrastructure Verification",
+                verificationDoc = "Verify the building infrastructure and captured photos.",
+                documents = listOf(
+                    "Upload Building Photo"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
+                sectionType = "TrainingInfra"
+            ),
+
+            FieldVerificationItem(
+                id = "uploadTablesAndChairsPhoto",
+                requirement = "Tables and Chairs Verification",
+                verificationDoc = "Verify the tables and chairs arrangement and captured photos.",
+                documents = listOf(
+                    "Upload Tables and Chairs Photo"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
+                sectionType = "TrainingInfra"
+            ),
+
+            FieldVerificationItem(
+                id = "uploadLightingAndSafetyPhoto",
+                requirement = "Lighting and Safety Verification",
+                verificationDoc = "Verify the lighting and safety measures and captured photos.",
+                documents = listOf(
+                    "Upload Lighting and Safety Photo"
+                ),
+                uploadEnabled = true,
+                allowRemark = true,
                 sectionType = "TrainingInfra"
             )
         )
@@ -2490,17 +3044,6 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 uploadEnabled = false,
                 allowRemark = false
             ),
-            FieldVerificationItem(
-                id = "CERT_DECLARATION",
-                requirement = "Firm Declaration Verification",
-                verificationDoc = "Declaration uploaded by inspecting officer.",
-                documents = listOf(
-                    "Upload Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Certification"
-            )
         )
     }
 
@@ -2537,29 +3080,6 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 listOf("Form 1"),
                 uploadEnabled = false,
                 allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "PLACE_FY",
-                requirement = "FY-wise Placement Verification",
-                verificationDoc = "Verify placement records and documents.",
-                documents = listOf(
-                    "View Placement Details"
-                ),
-                uploadEnabled = false,
-                allowRemark = true,
-                sectionType = "Placement"
-            ),
-
-            FieldVerificationItem(
-                id = "PLACE_70",
-                requirement = "70% Placement Declaration",
-                verificationDoc = "Upload declaration confirming 70% placement.",
-                documents = listOf(
-                    "Upload Placement Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Placement"
             )
 
         )
@@ -2663,7 +3183,6 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             items.forEachIndexed { index, item ->
 
                 if (!item.commencement_certificate.isNullOrBlank()) {
-
                     add(
                         DocAction("📄 View Certificate ${index + 1}") {
                             openBase64Pdf(item.commencement_certificate)
@@ -2804,6 +3323,50 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         return spannable
     }
 
+    private fun validateSectionItems(
+
+        items: List<FieldVerificationItem>
+
+    ): Boolean {
+
+        items.forEach { item ->
+
+            // Mandatory remark validation
+            if (item.allowRemark) {
+
+                val remark =
+                    item.remarkText
+                        ?.trim()
+                        .orEmpty()
+
+                if (remark.isEmpty()) {
+
+                    showToast(
+                        "Please enter remark for ${item.requirement}"
+                    )
+
+                    return false
+                }
+            }
+
+            // Mandatory attachment validation
+            if (item.isAttachmentMandatory) {
+
+                if (item.attachments.isEmpty()) {
+
+                    showToast(
+                        "Please upload document for ${item.requirement}"
+                    )
+
+                    return false
+                }
+            }
+        }
+
+        return true
+
+    }
+
 }
 
 
@@ -2811,16 +3374,20 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
 
 data class FieldVerificationItem(
-    val id: String,
+    val id: String="",
     val requirement: String,
     val verificationDoc: String,
-    val documents: List<String>,
+    val documents: List<String> = emptyList(),
     val uploadEnabled: Boolean = false,
     val imageUri: String? = null,
     val allowRemark: Boolean = false,
     var remarkText: String? = null,
-    var attachments: List<AttachmentItem> = emptyList(),
-    val allowMultiUpload: Boolean = false,
+    var attachments: MutableList<AttachmentItem> = mutableListOf(),
+    val isAttachmentMandatory: Boolean = true,
+
     val sectionType: String = "",
-    val verificationStatus: String = "Pending"
-)
+    val verificationStatus: String = "Pending",
+    val allowMultiUpload: Boolean = false,
+    val allowedFileTypes: List<String> = listOf("pdf", "png", "jpg", "jpeg"),
+
+    )

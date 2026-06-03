@@ -297,34 +297,77 @@ fun InspectionStepModernScreen(
                                     Text("Previous")
                                 }
                             }
-
                             Button(
+
                                 onClick = {
+
                                     if (currentStep == 7) {
-                                        if (finalRemark.isBlank()) {
-                                            scope.launch {
-                                                snackbarHostState.showSnackbar("Please enter final remark")
+
+                                        when {
+
+                                            // =========================
+                                            // FINAL REMARK VALIDATION
+                                            // =========================
+
+                                            finalRemark.isBlank() -> {
+
+                                                scope.launch {
+
+                                                    snackbarHostState.showSnackbar(
+                                                        "Please enter final remark"
+                                                    )
+                                                }
                                             }
-                                        } else {
 
-                                            condidateVerificationViewModel.submitFinal(
-                                                AppUtil.getSavedInspectionIdPreference(context)
-                                                    .toInt(),
-                                                AppUtil.getSavedTrainingCenterIdPreference(context)
-                                                    .toInt(),
-                                                finalRemark
-                                            )
+                                            // =========================
+                                            // SUBMIT
+                                            // =========================
 
+                                            else -> {
+
+                                                condidateVerificationViewModel.submitFinal(
+
+                                                    AppUtil.getSavedInspectionIdPreference(
+                                                        context
+                                                    ).toInt(),
+
+                                                    AppUtil.getSavedTrainingCenterIdPreference(
+                                                        context
+                                                    ).toInt(),
+
+                                                    finalRemark,
+
+                                                    condidateVerificationViewModel.finalAttachmentBase64
+                                                )
+                                            }
                                         }
-                                    } else if (currentStep < 7) {   // 👈 updated max step
+
+                                    } else if (currentStep < 7) {
+
                                         onStepChange(currentStep + 1)
                                     }
                                 },
+
                                 modifier = Modifier.weight(1f),
+
                                 shape = RoundedCornerShape(50)
+
                             ) {
-                                Text(if (currentStep == 7) "Submit" else "Next")
+
+                                Text(
+
+                                    text = if (currentStep == 7) {
+
+                                        "Submit"
+
+                                    } else {
+
+                                        "Next"
+                                    }
+                                )
                             }
+
+
                         }
                     }
                 }

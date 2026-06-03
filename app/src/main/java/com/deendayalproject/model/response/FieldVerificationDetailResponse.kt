@@ -164,7 +164,9 @@ data class RemarkItem(
 )
 data class AttachmentItem(
     val label: String,
-    val value: String
+    //val value: String
+    val value: List<String> = emptyList(),
+    val remark: String? = ""
 )
 
 // optional wrapper if backend expects grouped remarks
