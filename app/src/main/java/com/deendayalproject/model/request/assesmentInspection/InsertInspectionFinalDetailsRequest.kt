@@ -4,5 +4,6 @@ data class InsertInspectionFinalDetailsRequest(
     val appVersion: String,
     val inspectionId: Int,
     val trainingCenterId: Int,
-    val finalRemark: String
+    val finalRemark: String,
+    val finalRemarkAttachment:String
 )

@@ -72,8 +72,23 @@ abstract class BaseRepository<T : Any>(val context: Context) {
                 }
 
             } else {
-                Result.failure(Exception("HTTP ${response.code()}"))
-            }
+                val errorBody = response.errorBody()?.string()
+
+                val errorMessage = try {
+
+                    val jsonObject = org.json.JSONObject(errorBody ?: "")
+
+                    listOfNotNull(
+                        jsonObject.optString("errorMsg").takeIf { it.isNotBlank() },
+                        jsonObject.optString("responseDesc").takeIf { it.isNotBlank() }
+                    ).joinToString(" : ")
+
+                } catch (e: Exception) {
+
+                    "HTTP ${response.code()}"
+                }
+
+                Result.failure(Exception(errorMessage))            }
 
         } catch (e: Exception) {
             Result.failure(e)

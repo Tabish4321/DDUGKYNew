@@ -14,10 +14,12 @@ import com.deendayalproject.model.request.InspectionPreviousBatchList
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.request.PreviousInsQuesReq
+import com.deendayalproject.model.request.PreviousInsQuesReqN
 import com.deendayalproject.model.request.SavePreDDQueReq
 import com.deendayalproject.model.request.SubjectDeleteReq
 import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.request.TrainerListReq
+import com.deendayalproject.model.request.TrainingCenterOpenStatusReq
 import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.savePreviousInspectionQuesReq
@@ -36,6 +38,7 @@ import com.deendayalproject.model.response.PreviousInsQues
 import com.deendayalproject.model.response.SubjectDeleteRes
 import com.deendayalproject.model.response.SubjectListRes
 import com.deendayalproject.model.response.TrainerListRes
+import com.deendayalproject.model.response.TrainingCenterOpenStatusRes
 import com.deendayalproject.model.uistate.TrainerAttendanceUiState
 import com.deendayalproject.model.uistate.TrainerClassObservationUiState
 import com.deendayalproject.repository.repomanager.RepositoryManager
@@ -61,6 +64,41 @@ class InspectionViewModel(application: Application) :
     private val _sessionExpired = MutableSharedFlow<Unit>()
     val sessionExpired = _sessionExpired.asSharedFlow()
 
+
+    private val _trainingCenterOpenStatus =
+        MutableStateFlow<TrainingCenterOpenStatusRes?>(null)
+
+    val trainingCenterOpenStatus:
+            StateFlow<TrainingCenterOpenStatusRes?> =
+        _trainingCenterOpenStatus.asStateFlow()
+
+
+    fun insertTrainingCenterOpenStatus(request: TrainingCenterOpenStatusReq, header: String) {
+        executeApiCall(apiCall = {
+            repositoryManager.inspectionRepo.insertTrainingCenterOpenStatus(
+                request,
+                header
+            )
+        }, onSuccess = { response ->
+            when (response.responseCode) {
+                200 -> {
+                    _trainingCenterOpenStatus.value = response
+                }
+
+                202 -> {
+                    _errorMessage.emit("No data available.")
+                }
+
+                301 -> {
+                    _errorMessage.emit("Please upgrade your app.")
+                }
+
+                else -> {
+                    _errorMessage.emit(response.responseDesc.ifEmpty {response.responseDesc})
+                }
+            }
+        })
+    }
 
 
     private fun <T> executeApiCall(
@@ -1214,8 +1252,6 @@ class InspectionViewModel(application: Application) :
     val getPreviousInsQues:
             StateFlow<PreviousInsQues?> =
         _getPreviousInsQues.asStateFlow()
-
-
 
 
 

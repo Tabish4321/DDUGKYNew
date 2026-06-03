@@ -7,6 +7,7 @@ package com.deendayalproject.repository
 import android.content.Context
 import com.deendayalproject.base.BaseRepository
 import com.deendayalproject.base.BaseResponse
+import com.deendayalproject.model.request.PreviousInsQuesReqN
 import com.deendayalproject.model.request.SaveBatchVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.InsertInspectionFinalDetailsRequest
 import com.deendayalproject.model.request.assesmentInspection.PreviousInspectionObservationRequest
@@ -37,7 +38,7 @@ class CandidateerificationRepository(
         }
 
     suspend fun getPreviousInspectionObservation(
-        request: PreviousInspectionObservationRequest
+        request: PreviousInsQuesReqN
     ): Result<List<PreviousInspectionObservationDto>> =
         safeApiCallN {
             apiService.getPreviousInspectionObservation(request)

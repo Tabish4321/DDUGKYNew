@@ -12,6 +12,7 @@ import com.deendayalproject.model.request.AttendanceInsertReq
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.CandidatePreviousBatchReq
+import com.deendayalproject.model.request.CaptivePiaOfficerSelfieRequest
 import com.deendayalproject.model.request.CompliancesRFQTReq
 import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DeleteLivingRoomList
@@ -56,6 +57,7 @@ import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.request.PreviousInsQuesReq
+import com.deendayalproject.model.request.PreviousInsQuesReqN
 import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
@@ -88,6 +90,7 @@ import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.ToiletRoomReq
 import com.deendayalproject.model.request.TrainerListReq
 import com.deendayalproject.model.request.TrainingCenterInfo
+import com.deendayalproject.model.request.TrainingCenterOpenStatusReq
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.ULBReq
 import com.deendayalproject.model.request.UrinalWashbasinReq
@@ -141,6 +144,7 @@ import com.deendayalproject.model.response.CandidateInspectionDetailsResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.CandidateOjtVerificationDetails
 import com.deendayalproject.model.response.CandidateOjtVerificationRequest
+import com.deendayalproject.model.response.CaptivePiaOfficerSelfieResponse
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.DistrictResponse
@@ -225,6 +229,7 @@ import com.deendayalproject.model.response.ToiletViewRes
 import com.deendayalproject.model.response.TrainerClassObservationResponse
 import com.deendayalproject.model.response.TrainerListRes
 import com.deendayalproject.model.response.TrainingCenterInfoRes
+import com.deendayalproject.model.response.TrainingCenterOpenStatusRes
 import com.deendayalproject.model.response.TrainingCenterResponse
 import com.deendayalproject.model.response.UlbRes
 import com.deendayalproject.model.response.VillageRes
@@ -991,14 +996,17 @@ interface ApiService {
 
 
 
+//    @POST("getInspectionObservation")
+//    suspend fun getPreviousInsQuesFinal(
+//        @Body previousInsQuesReq: PreviousInsQuesReqN
+//    ): Response<PreviousInsQues>
+
+
+
     @POST("getPreviousInspectionObservation")
     suspend fun getPreviousInsQues(
         @Body previousInsQuesReq: PreviousInsQuesReq
     ): Response<PreviousInsQues>
-
-
-
-
 
 
     @POST("savePreviousInspectionObservation")
@@ -1009,16 +1017,17 @@ interface ApiService {
 
 
 
-    @POST("getPreviousInspectionObservation")
+    @POST("getInspectionObservation")
     suspend fun getPreviousInspectionObservation(
-        @Body request: PreviousInspectionObservationRequest
-    ): Response<BaseResponse<List<PreviousInspectionObservationDto>>>
+        @Body request: PreviousInsQuesReqN
+    ):  Response<BaseResponse<List<PreviousInspectionObservationDto>>>
 
 
     @POST("insertInspectionFinalDetails")
     suspend fun insertInspectionFinalDetails(
         @Body request: InsertInspectionFinalDetailsRequest
     ): Response<InsertInspectionFinalDetailsResponse>
+
     @POST(value = "getCompOjtSanctionOrder")
     suspend fun getOJTSanctionOrderNumber(@Body request: ModulesOJTSanctionOrderRequest): Response<OJT_Sanction_Res>
 
@@ -1055,6 +1064,10 @@ interface ApiService {
     @POST(value = "getCandidateByOjt")
     suspend fun getCandidateByOjt(@Body request: ModulesCandidateByOjtRequest): Response<OjtRes>
 
+    @POST("getCaptivePiaOfficerSelfie")
+    suspend fun getCaptivePiaOfficerSelfie(
+        @Body request: CaptivePiaOfficerSelfieRequest
+    ): Response<CaptivePiaOfficerSelfieResponse>
 
     @POST(value = "getSanctionOrderListOjt")
     suspend fun fetchgetSanctionOrderListOjt(@Body request: ModulesOJTSanctionOrderRequest): Response<OjtSRLMRes>
@@ -1118,7 +1131,8 @@ interface ApiService {
     ): Response<ResponseBody>
 
 
-
+    @POST("insertTrainingCenterOpenStatus")
+    suspend fun insertTrainingCenterOpenStatus( @Body request: TrainingCenterOpenStatusReq): Response<TrainingCenterOpenStatusRes>
 
 
 

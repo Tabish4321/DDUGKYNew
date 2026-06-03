@@ -14,10 +14,12 @@ import com.deendayalproject.model.request.InspectionRequestBody
 import com.deendayalproject.model.request.InspectionTcDetailsReq
 import com.deendayalproject.model.request.OngoingSubmitBasicRecordsReq
 import com.deendayalproject.model.request.PreviousInsQuesReq
+import com.deendayalproject.model.request.PreviousInsQuesReqN
 import com.deendayalproject.model.request.SavePreDDQueReq
 import com.deendayalproject.model.request.SubjectDeleteReq
 import com.deendayalproject.model.request.SubjectReq
 import com.deendayalproject.model.request.TrainerListReq
+import com.deendayalproject.model.request.TrainingCenterOpenStatusReq
 import com.deendayalproject.model.request.assesmentInspection.GetCandidateRecordsVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveTrainerAttendanceInspectionRequest
@@ -40,6 +42,7 @@ import com.deendayalproject.model.response.SubjectDeleteRes
 import com.deendayalproject.model.response.SubjectListRes
 import com.deendayalproject.model.response.TrainerClassObservationResponse
 import com.deendayalproject.model.response.TrainerListRes
+import com.deendayalproject.model.response.TrainingCenterOpenStatusRes
 import com.deendayalproject.network.ApiService
 
 class InspectionRepository(context: Context) : BaseRepository<ApiService>(context) {
@@ -219,9 +222,15 @@ class InspectionRepository(context: Context) : BaseRepository<ApiService>(contex
 
 
 
+
     suspend fun savePreviousInspectionObservation  (savePreviousInspectionQuesReq: savePreviousInspectionQuesReq, header :String): Result<InsertRes> =
         safeApiCallWithToken(token = header) {
             apiService.savePreviousInspectionObservation(savePreviousInspectionQuesReq)
+        }
+
+    suspend fun insertTrainingCenterOpenStatus(request: TrainingCenterOpenStatusReq, header: String ): Result<TrainingCenterOpenStatusRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.insertTrainingCenterOpenStatus(request)
         }
 
 

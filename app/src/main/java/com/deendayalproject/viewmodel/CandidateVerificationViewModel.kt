@@ -5,11 +5,13 @@ import android.app.Application
 import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deendayalproject.BuildConfig
+import com.deendayalproject.model.request.PreviousInsQuesReqN
 import com.deendayalproject.model.request.SaveBatchVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.InsertInspectionFinalDetailsRequest
 import com.deendayalproject.model.request.assesmentInspection.PreviousInspectionObservationRequest
@@ -286,6 +288,8 @@ class CandidateVerificationViewModel(
 
     /*Final Sumbit Observation data*/
 
+
+
     private val _statefinal =
         MutableStateFlow(PreviousInspectionObservationUiState())
 
@@ -305,7 +309,7 @@ class CandidateVerificationViewModel(
             val result =
                 repository.getPreviousInspectionObservation(
 
-                    PreviousInspectionObservationRequest(
+                    PreviousInsQuesReqN(
                         BuildConfig.VERSION_NAME,
                         inspectionId
                     )
@@ -354,7 +358,6 @@ class CandidateVerificationViewModel(
             }.onFailure {
 
                 _statefinal.update {
-
                     it.copy(
                         isLoading = false,
                         error = it.error
@@ -404,13 +407,30 @@ class CandidateVerificationViewModel(
         finalRemark = value
     }
 
+    var finalAttachmentBase64 by mutableStateOf("")
+        private set
+
+    var finalAttachmentName by mutableStateOf("")
+        private set
+
+
+    fun updateFinalAttachment( base64: String, fileName: String ) {
+        finalAttachmentBase64 = base64
+        finalAttachmentName = fileName
+    }
+
+
+
+
+
 
     fun submitFinal(
         inspectionId: Int,
         trainingCenterId: Int,
-        remark: String
-    ) {
+        remark: String,
+        finalRemarkAttachment:String
 
+    ) {
         viewModelScope.launch {
 
             _statefinal.update {
@@ -423,7 +443,8 @@ class CandidateVerificationViewModel(
                         BuildConfig.VERSION_NAME,
                         inspectionId,
                         trainingCenterId,
-                        remark
+                        remark,
+                        finalRemarkAttachment
                     )
                 )
 

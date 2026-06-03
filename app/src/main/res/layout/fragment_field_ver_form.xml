@@ -17,122 +17,123 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/layout_toolbar_base" />
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/verOrg"
-        style="@style/editTextHome"
-        android:layout_width="match_parent"
-        android:visibility="visible"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
-        android:elevation="@dimen/dp_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-
-        <LinearLayout
-            android:id="@+id/llTopInfra"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/color_background_light_grey"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/tvTrainInfra"
-                android:fontFamily="@font/avenir_next_semi_bold"
-                android:text="@string/field_ver_organization_details"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_16"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-
-        </LinearLayout>
-
-
-        <View
-            android:id="@+id/viewInfra"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            android:layout_marginTop="@dimen/dp_8"
-            android:background="#F7F7F7"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/llTopInfra"/>
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/trainingInfraExpand"
+            android:id="@+id/verOrg"
+            style="@style/editTextHome"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:elevation="@dimen/dp_2"
             android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@+id/llTopInfra"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <TextView
-                android:id="@+id/btnInfoNext"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:id="@+id/llTopInfra"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="136dp"
-                android:background="@drawable/card_background"
-                android:elevation="4dp"
-                android:gravity="center_vertical"
-                android:padding="@dimen/dp_10"
-                android:text="@string/save_and_next"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_16"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvTrainInfra"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/field_ver_organization_details"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/viewInfra"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:clipToPadding="false"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                tools:listitem="@layout/item_field_ver_card"
-                tools:ignore="MissingConstraints" />
-
-            <TextView
+                android:layout_height="@dimen/dp_1"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="#F7F7F7"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llTopInfra"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/trainingInfraExpand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/InfoRemarks"
-                android:text="@string/remarkss"
-                android:layout_marginTop="@dimen/dp_20"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_16"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerView"
-                android:visibility="gone"/>
+                android:layout_marginTop="@dimen/dp_10"
+                android:elevation="@dimen/dp_2"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/llTopInfra"
+                app:layout_constraintStart_toStartOf="parent">
 
-            <EditText
-                android:id="@+id/etInfoRemarks"
-                style="@style/EditText"
-                android:hint="@string/remarks"
-                android:background="@drawable/edittext_background"
-                android:padding="12dp"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/InfoRemarks"
-                android:visibility="gone"
-                />
+                <TextView
+                    android:id="@+id/btnInfoNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="136dp"
+                    android:background="@drawable/card_background"
+                    android:elevation="4dp"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp_10"
+                    android:text="@string/save_and_next"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    tools:listitem="@layout/item_field_ver_card"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/InfoRemarks"
+                    android:text="@string/remarkss"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/etInfoRemarks"
+                    style="@style/EditText"
+                    android:hint="@string/remarks"
+                    android:background="@drawable/edittext_background"
+                    android:padding="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/InfoRemarks"
+                    android:visibility="gone"
+                    />
 
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- financial details -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -925,16 +926,8 @@
 
 
                 </LinearLayout>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
 </androidx.core.widget.NestedScrollView>
+
