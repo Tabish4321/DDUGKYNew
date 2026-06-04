@@ -532,6 +532,97 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/verResidentialFacility"
+            style="@style/editTextHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/verTrainingInfra">
+
+            <LinearLayout
+                android:id="@+id/llTopResidentialFacility"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_background_light_grey"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+                <TextView
+                    android:id="@+id/tvResidentialFacilityHead"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Residential Facility"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"/>
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/verResidentialFacilityExpand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/llTopResidentialFacility">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewResidentialFacility"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    tools:ignore="MissingConstraints"
+                    tools:listitem="@layout/item_field_ver_card"/>
+
+                <LinearLayout
+                    android:id="@+id/llBtnResidentialFacility"
+                    app:layout_constraintTop_toBottomOf="@id/recyclerViewResidentialFacility"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnResidentialFacilityPrevious"
+                        android:elevation="4dp"
+                        android:text="@string/previous"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/backgroung_overlay"
+                        android:layout_margin="8dp" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="@string/save_and_next"
+                        android:gravity="center"
+                        android:id="@+id/btnResidentialFacilityNext"
+                        android:textColor="@color/white"
+                        android:elevation="4dp"
+                        android:textSize="@dimen/sp_16"
+                        android:background="@drawable/card_background"
+                        android:layout_margin="8dp" />
+
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         <!-- Assessment & Certification details -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/verCert"
@@ -543,7 +634,7 @@
             android:elevation="@dimen/dp_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/verTrainingInfra">
+            app:layout_constraintTop_toBottomOf="@+id/verResidentialFacility">
 
 
             <LinearLayout

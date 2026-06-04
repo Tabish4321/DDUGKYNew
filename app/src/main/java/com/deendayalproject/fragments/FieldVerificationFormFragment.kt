@@ -22,43 +22,34 @@ import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import androidx.core.graphics.ColorUtils
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.base.BaseRecyclerAdapter
 import com.deendayalproject.base.NoDataConfig
 import com.deendayalproject.databinding.FragmentFieldVerFormBinding
 import com.deendayalproject.databinding.ItemFieldVerCardBinding
-import com.google.android.material.chip.Chip
-import android.widget.LinearLayout
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.AppCompatButton
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
-import com.deendayalproject.BuildConfig
-import com.deendayalproject.model.request.FieldVerificationDetailRequest
-import com.deendayalproject.util.AppUtil
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-import androidx.core.graphics.ColorUtils
 import com.deendayalproject.databinding.ItemFinancialRowBinding
 import com.deendayalproject.databinding.ItemPlacementRowBinding
 import com.deendayalproject.databinding.ItemTrainingRowBinding
 import com.deendayalproject.model.request.CaptivePiaOfficerSelfieRequest
+import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
 import com.deendayalproject.model.response.AnnualTurnover
 import com.deendayalproject.model.response.AttachmentItem
+import com.deendayalproject.model.response.FieldVerificationDetailResponse
 import com.deendayalproject.model.response.NetWorth
 import com.deendayalproject.model.response.RemarkItem
 import com.deendayalproject.model.response.TotalTrainingHoursRemark
@@ -68,163 +59,125 @@ import com.deendayalproject.model.response.YearlyPlacementDetails
 import com.deendayalproject.model.response.YearlyTrainingItem
 import com.deendayalproject.model.response.toYearlyItem
 import com.deendayalproject.model.response.toYearlyTrainingItem
+import com.deendayalproject.util.AppUtil
 import com.deendayalproject.util.toastShort
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.material.chip.Chip
 import com.google.gson.GsonBuilder
+import java.io.File
+import java.io.IOException
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
+
+
+// ─────────────────────────────────────────────────────────────
+//  Fragment
+// ─────────────────────────────────────────────────────────────
 
 class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     FragmentFieldVerFormBinding::inflate
 ) {
 
-    // Optional shared VM (attempt to obtain if present)
-    private var sharedViewModel: SharedViewModel? = null
+    // ── ViewModel ────────────────────────────────────────────
 
     private val viewModel: SharedViewModel by activityViewModels()
 
-    ///////////////////////////
-    private var officerSelfieBase64: String? = null
-
-    private var tcLatitude: String = ""
-    private var tcLongitude: String = ""
-
-    private var rfLatitude: String = ""
-    private var rfLongitude: String = ""
-
-    private var tcRfDistance: Float = 0f
-
-    private var isOfficerWithinRange = false
-
-    private val MAX_ALLOWED_DISTANCE = 500f
-
-    private var isSelfieVerificationDone = false
-    private val organizationAttachments =
-        mutableMapOf<Int, MutableList<AttachmentItem>>()
-
-
-    ////////////////////////////
-
-
-    // RecyclerView adapters
-    private lateinit var orgAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
-    private lateinit var finAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
-    private lateinit var trainingAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
-    private lateinit var trainingInfraAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
-    private lateinit var certAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
-    private lateinit var placementAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
-    private lateinit var fieldAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
-    //AMDDUGKY
-    private lateinit var permissionLauncher: ActivityResultLauncher<String>
-
-    private lateinit var photoUri: Uri
-
-    private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
-
-    private var currentPhotoTarget: String = ""
-
-    private var base64FinanceFile: String? = null
-
-    private var base64TrainingFile: String? = null
-
-    private var base64TrainingInfraDeclarationFile: String? = null
-
-    private var base64TrainingInfraCentreFile: String? = null
-
-    private var base64TrainingResFile: String? = null
-
-    private var selectedOrganizationInfoRemarks = ""
-
-    private var selectedFinanceRemarks = ""
-
-    private var selectedTrainingRemarks = ""
-
-    private var selectedTrainingInfraRemarks = ""
-
-    private var selectedCertRemarks = ""
-
-    private var selectedPlacementRemarks = ""
-
-    private var selectedFieldRemarks = ""
-
-    private var manpowerRemarkLocal: String? = null
-
-    private var orgItems: MutableList<FieldVerificationItem> = mutableListOf()
-    private var finItems: MutableList<FieldVerificationItem> = mutableListOf()
-
-    private var trainingItems: MutableList<FieldVerificationItem> = mutableListOf()
-
-    private var trainingInfraItems: MutableList<FieldVerificationItem> = mutableListOf()
-
-    private var certItems: MutableList<FieldVerificationItem> = mutableListOf()
-
-    private var placementItems: MutableList<FieldVerificationItem> = mutableListOf()
-
-    private var fieldItems: MutableList<FieldVerificationItem> = mutableListOf()
-
-    private var currentUploadPosition: Int = -1
-
-    private var currentUploadList: String = ""
-
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-
-    private var latitude: String = ""
-
-    private var longitude: String = ""
+    // ── Navigation args ──────────────────────────────────────
 
     private var captiveEmpanelmentId = ""
     private var prnNo = ""
 
-    /* to show the response fetched in the form variables use for Organisation Details */
+    // ── Officer verification state ───────────────────────────
+
+    private var officerSelfieBase64: String? = null
+    private var isSelfieVerificationDone = false
+
+    // ── Location state ───────────────────────────────────────
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var latitude: String = ""
+    private var longitude: String = ""
+    private var tcLatitude: String = ""
+    private var tcLongitude: String = ""
+    private var rfLatitude: String = ""
+    private var rfLongitude: String = ""
+    private var tcRfDistance: Float = 0f
+    private var isOfficerWithinRange = false
+
+    private companion object {
+        const val MAX_ALLOWED_DISTANCE = 500f
+        const val TAG = "FieldVerificationForm"
+    }
+
+    // ── Camera / permission launchers ────────────────────────
+
+    private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
+    private lateinit var permissionLauncher: ActivityResultLauncher<String>
+    private lateinit var photoUri: Uri
+    private var currentPhotoTarget: String = ""
+    private var currentUploadPosition: Int = -1
+    private var currentUploadList: String = ""
+
+    // ── Section item lists ───────────────────────────────────
+
+    private var orgItems: MutableList<FieldVerificationItem> = mutableListOf()
+    private var finItems: MutableList<FieldVerificationItem> = mutableListOf()
+    private var trainingItems: MutableList<FieldVerificationItem> = mutableListOf()
+    private var trainingInfraItems: MutableList<FieldVerificationItem> = mutableListOf()
+    private var residentialFacilityItems: MutableList<FieldVerificationItem> = mutableListOf()
+    private var certItems: MutableList<FieldVerificationItem> = mutableListOf()
+    private var placementItems: MutableList<FieldVerificationItem> = mutableListOf()
+    private var fieldItems: MutableList<FieldVerificationItem> = mutableListOf()
+
+    // ── RecyclerView adapters ─────────────────────────────────
+
+    private lateinit var orgAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
+    private lateinit var finAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
+    private lateinit var trainingAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
+    private lateinit var trainingInfraAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
+    private lateinit var residentialFacilityAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
+    private lateinit var certAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
+    private lateinit var placementAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
+    private lateinit var fieldAdapter: BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding>
+
+    // ── API response cache — Organisation ────────────────────
+
     private var apiDateOfIncorporation: String? = null
     private var durationOfOrg: String? = null
-
     private var factoryRegistrationAttachment: String? = null
-
-
-
     private var apiBankName: String? = null
-    private var apiManpowerRemarks: String? = null
-
-    /* EPFO 6 months challan */
     private var apiEpfoExistingStaff: String? = null
     private var apiEpfoDocumentUrl: String? = ""
-
-    // --- Tax Details (from API) ---
     private var apiGstNumber: String? = null
     private var apiTanNumber: String? = null
     private var apiTanAttachmentBase64: String? = null
-
-    // --- Bank Details (from API) ---
     private var apiBankAccountNumber: String? = null
     private var apiBankLetterBase64: String? = null
-    private var apibankAccountPassbook: String? = null
-
+    private var apiBankAccountPassbook: String? = null
     private var ifscCode: String? = null
-
     private var apiSelfDeclarationBase64: String? = null
-
-    // --- Industry Registration (from API) ---
     private var apiEpfoNumber: String? = null
     private var apiEsicNumber: String? = null
     private var apiFactoryRegNumber: String? = null
-
     private var apiEpfoAttachmentBase64: String? = null
     private var apiEsicAttachmentBase64: String? = null
     private var apiFactoryAttachmentBase64: String? = null
 
+    // ── API response cache — Finance ─────────────────────────
+
     private var apiAnnualTurnoverList: List<AnnualTurnover>? = null
     private var apiNetWorthList: List<NetWorth>? = null
 
-    private data class DocAction(val label: String, val onClick: () -> Unit)
+    // ── API response cache — Training ────────────────────────
 
-    // --- Training response holders ---
     private var apiTrainingCriteriaList: List<TrainingCriteriaItem>? = null
-    private var apitotalTrainingHoursRemarks:List<TotalTrainingHoursRemark>?= null
-
-
+    private var apiTotalTrainingHoursRemarks: List<TotalTrainingHoursRemark>? = null
     private var repetitionClubbingIfraNsqf: String? = null
-    private var apiRepetitionClubbingRemarks: String? = null
-
-    // Attachments (may be base64 or null)
     private var apiBasicSelfDeclarationBase64: String? = null
     private var apiCommitmentForm1Base64: String? = null
     private var apiCommitmentForm2Base64: String? = null
@@ -232,44 +185,72 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     private var apiDomainForm1Base64: String? = null
     private var apiDomainForm2Base64: String? = null
 
-    // --- Training Infra (from API) ---
+    // ── API response cache — Training Infra ──────────────────
+
     private var apiResidentialFacilityAvailable: String? = null
     private var apiResidentialFacilityDocumentBase64: String? = null
 
-    // Assessment & Certification (API-provided base64)
+    // ── API response cache — Certification ───────────────────
+
     private var apiAwardBodyCommitBase64: String? = null
     private var apiSeventyPctCommitBase64: String? = null
 
-    // Placement (API- provided base64)
+    // ── API response cache — Placement ───────────────────────
+
     private var apiPlacementList: List<YearlyPlacementDetails>? = null
     private var apiCommitmentSixMonthsBase64: String? = null
     private var apiCommitmentLessSixMonthsBase64: String? = null
     private var apiCommitmentMoreSixMonthsBase64: String? = null
 
-    override fun initializeViews() {
-        Log.d("FRAGMENT NAME", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━FieldVerificationFragment━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    // ─────────────────────────────────────────────────────────
+    //  BaseFragment lifecycle hooks
+    // ─────────────────────────────────────────────────────────
 
-        captiveEmpanelmentId = arguments?.getString("captiveEmpanelmentId").toString()
-        prnNo = arguments?.getString("prnNo").toString()
+    override fun initializeViews() {
+        Log.d(TAG, "initializeViews()")
+        captiveEmpanelmentId = arguments?.getString("captiveEmpanelmentId").orEmpty()
+        prnNo = arguments?.getString("prnNo").orEmpty()
 
         setupCameraLauncher()
         setupRecyclerViews()
         setupLocationClient()
-        hideAllSectionsInitially()
-        showSelfieVerificationScreen()
+        hideAllSections()
+        showOfficerVerificationDialog()
     }
 
     override fun setupObservers() {
-        observeFieldDetails()
+        observeOrgDetails()
     }
 
     override fun setupClickListeners() {
         setupToolbar()
         setupNavigationButtons()
-        setupSubmitButtons()
+        setupNextButtons()
     }
 
-    private fun hideAllSectionsInitially() {
+    override fun loadInitialData() {
+        viewModel.getFieldVerificationDetail(buildDetailRequest())
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Toolbar
+    // ─────────────────────────────────────────────────────────
+
+    private fun setupToolbar() {
+        setupToolbar(
+            root = binding.root,
+            titleRes = R.string.field_ver_head,
+            showBack = true,
+            showLang = false,
+            showProfile = false,
+            backClick = { findNavController().navigateUp() })
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Section visibility helpers
+    // ─────────────────────────────────────────────────────────
+
+    private fun hideAllSections() {
         binding.verOrg.visibility = View.GONE
         binding.verFin.visibility = View.GONE
         binding.verTraining.visibility = View.GONE
@@ -279,529 +260,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         binding.verField.visibility = View.GONE
     }
 
-    private fun showSelfieVerificationScreen() {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Officer Verification")
-            .setMessage(
-                "Please capture selfie and verify current location before starting field verification."
-            )
-            .setCancelable(false)
-            .setPositiveButton("Capture Selfie") { _, _ ->
-                currentUploadList = "Officer Selfie"
-                currentUploadPosition = 0
-                currentPhotoTarget = "Officer Selfie"
-                checkAndLaunchCamera()
-            }.show()
-    }
-
-    override fun loadInitialData() {
-        val request = FieldVerificationDetailRequest(
-            appVersion = BuildConfig.VERSION_NAME,
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            captiveEmpanelmentId = captiveEmpanelmentId,
-            prnNo = prnNo
-        )
-
-        viewModel.getFieldVerificationDetail(request)
-    }
-
-    private fun setupCameraLauncher() {
-        cameraLauncher =
-            registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-                if (success) {
-                    Log.d("Camera", "Captured image URI: $photoUri")
-                    handleCameraSuccess()
-                }
-            }
-
-        permissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-                if (isGranted) launchCamera()
-                else showToast(getString(R.string.camera_permission_is_required))
-            }
-    }
-
-    private fun setupRecyclerViews() {
-        setupOrgRecyclerView()
-        setupFinRecyclerView()
-        setupTrainingRecyclerView()
-        setupTrainingInfraRecyclerView()
-        setupCertRecyclerView()
-        setupPlacementRecyclerView()
-        setupFieldRecyclerView()
-    }
-
-    private fun setupOrgRecyclerView() {
-        orgItems = getOrgItems()
-
-        orgAdapter = setupRecyclerView(
-            recyclerView = binding.recyclerView,
-            items = orgItems,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = ItemFieldVerCardBinding::inflate,
-            onBind = { item, binding, position ->
-                bindFieldVerificationItem(item, binding, position, "org")
-            },
-            onItemClick = { item, position ->
-                // Handle item click if needed
-            },
-            noDataConfig = NoDataConfig(
-                title = "No Organization Items",
-                description = "There are no organization verification items to display"
-            )
-        )
-    }
-
-    private fun setupFinRecyclerView() {
-        finItems = getFinItems()
-
-        finAdapter = setupRecyclerView(
-            recyclerView = binding.recyclerViewFin,
-            items = finItems,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = ItemFieldVerCardBinding::inflate,
-            onBind = { item, binding, position ->
-                bindFieldVerificationItem(item, binding, position, "fin")
-            },
-            noDataConfig = NoDataConfig(
-                title = "No Financial Items",
-                description = "There are no financial verification items to display"
-            )
-        )
-    }
-
-    private fun setupTrainingRecyclerView() {
-        trainingItems = getTrainingItems()
-
-        trainingAdapter = setupRecyclerView(
-            recyclerView = binding.recyclerViewTraining,
-            items = trainingItems,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = ItemFieldVerCardBinding::inflate,
-            onBind = { item, binding, position ->
-                bindFieldVerificationItem(item, binding, position, "training")
-            },
-            noDataConfig = NoDataConfig(
-                title = "No Training Items",
-                description = "There are no training verification items to display"
-            )
-        )
-    }
-
-    private fun setupTrainingInfraRecyclerView() {
-        trainingInfraItems = getTrainingInfraItems()
-
-        trainingInfraAdapter = setupRecyclerView(
-            recyclerView = binding.recyclerViewTrainingInfra,
-            items = trainingInfraItems,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = ItemFieldVerCardBinding::inflate,
-            onBind = { item, binding, position ->
-                bindFieldVerificationItem(item, binding, position, "trainingInfra")
-            },
-            noDataConfig = NoDataConfig(
-                title = "No Training Infrastructure Items",
-                description = "There are no training infrastructure verification items to display"
-            )
-        )
-    }
-
-    private fun setupCertRecyclerView() {
-        certItems = getCertItems()
-
-        certAdapter = setupRecyclerView(
-            recyclerView = binding.recyclerViewCert,
-            items = certItems,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = ItemFieldVerCardBinding::inflate,
-            onBind = { item, binding, position ->
-                bindFieldVerificationItem(item, binding, position, "cert")
-            },
-            noDataConfig = NoDataConfig(
-                title = "No Certification Items",
-                description = "There are no certification verification items to display"
-            )
-        )
-    }
-
-    private fun setupPlacementRecyclerView() {
-        placementItems = getPlacementItems()
-
-        placementAdapter = setupRecyclerView(
-            recyclerView = binding.recyclerViewPlacement,
-            items = placementItems,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = ItemFieldVerCardBinding::inflate,
-            onBind = { item, binding, position ->
-                bindFieldVerificationItem(item, binding, position, "placement")
-            },
-            noDataConfig = NoDataConfig(
-                title = "No Placement Items",
-                description = "There are no placement verification items to display"
-            )
-        )
-    }
-
-    private fun setupFieldRecyclerView() {
-        fieldItems = getFieldItems()
-
-        fieldAdapter = setupRecyclerView(
-            recyclerView = binding.recyclerViewField,
-            items = fieldItems,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = ItemFieldVerCardBinding::inflate,
-            onBind = { item, binding, position ->
-                bindFieldVerificationItem(item, binding, position, "field", showIcons = false)
-            },
-            noDataConfig = NoDataConfig(
-                title = "No Field Visit Items",
-                description = "There are no field visit verification items to display"
-            )
-        )
-    }
-
-    private fun bindFieldVerificationItem(
-        item: FieldVerificationItem,
-        binding: ItemFieldVerCardBinding,
-        position: Int,
-        section: String,
-        showIcons: Boolean = true
-    ) {
-        binding.tvReqTitle.text = item.requirement
-        binding.tvVerification.text = item.verificationDoc
-
-        // Clear chips then add
-        binding.chipgroupDocuments.removeAllViews()
-        for (doc in item.documents) {
-            val chip = Chip(binding.root.context).apply {
-                text = doc
-                isClickable = true
-                isCheckable = false
-
-                if (showIcons) {
-                    val iconRes = if (item.uploadEnabled) R.drawable.file else R.drawable.ic_up
-                    closeIcon = context.getDrawable(iconRes)
-                    closeIconTint = context.getColorStateList(android.R.color.darker_gray)
-                    isCloseIconVisible = true
-                    iconEndPadding = 8f
-                    textEndPadding = 16f
-                } else {
-                    isCloseIconVisible = false
-                }
-
-                setOnClickListener {
-                    if (item.uploadEnabled) {
-                        handleUploadClick(section, position, doc)
-                    } else {
-                        handleViewClick(section, position, doc)
-                    }
-                }
-            }
-            binding.chipgroupDocuments.addView(chip)
-        }
-
-        // Handle image preview
-        handleImagePreview(item, binding)
-
-        // Handle remarks
-        handleRemarks(item, binding, position)
-    }
-
-    private fun handleImagePreview(item: FieldVerificationItem, binding: ItemFieldVerCardBinding) {
-        if (!item.imageUri.isNullOrBlank()) {
-            try {
-                binding.imageGroup.visibility = View.VISIBLE
-                if (currentPhotoTarget == "Training Centre") {
-                    binding.ivPreview1.setImageURI(Uri.parse(item.imageUri))
-                    binding.ivPreview1.visibility = View.VISIBLE
-                    binding.ivPreview.visibility = View.GONE
-                } else {
-                    binding.ivPreview.setImageURI(Uri.parse(item.imageUri))
-                    binding.ivPreview.visibility = View.VISIBLE
-                    binding.ivPreview1.visibility = View.GONE
-                }
-            } catch (e: Exception) {
-                binding.ivPreview.visibility = View.GONE
-                binding.ivPreview1.visibility = View.GONE
-                binding.imageGroup.visibility = View.GONE
-            }
-        } else {
-            binding.ivPreview.visibility = View.GONE
-            binding.ivPreview1.visibility = View.GONE
-            binding.imageGroup.visibility = View.GONE
-        }
-    }
-
-    private fun handleRemarks(
-        item: FieldVerificationItem,
-        binding: ItemFieldVerCardBinding,
-        position: Int
-    ) {
-        if (item.allowRemark) {
-            binding.remarkGroup.visibility = View.VISIBLE
-
-            // Prefill from item's stored value
-            val current = item.remarkText ?: ""
-            if (binding.etSectionRemark.text?.toString() != current) {
-                binding.etSectionRemark.setText(current)
-            }
-
-            // Remove previous watcher to avoid duplicates
-            binding.etSectionRemark.tag?.let { prev ->
-                if (prev is TextWatcher) {
-                    binding.etSectionRemark.removeTextChangedListener(prev)
-                }
-            }
-
-            val watcher = object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                    item.remarkText = s?.toString()?.trim()
-                }
-
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            }
-
-            binding.etSectionRemark.addTextChangedListener(watcher)
-            binding.etSectionRemark.tag = watcher
-        } else {
-            binding.remarkGroup.visibility = View.GONE
-            binding.etSectionRemark.tag?.let { prev ->
-                if (prev is TextWatcher) {
-                    binding.etSectionRemark.removeTextChangedListener(prev)
-                }
-            }
-            binding.etSectionRemark.tag = null
-        }
-    }
-
-    private fun handleUploadClick(section: String, position: Int, doc: String) {
-        currentUploadPosition = position
-        currentUploadList = section
-
-        currentPhotoTarget = when {
-            section == "fin" && doc == resources.getString(R.string.fin_turnover_button) -> "Turnover"
-            section == "training" && doc == resources.getString(R.string.train_tailor_button) -> "Additional tailor-made training If Yes Upload"
-            section == "trainingInfra" && doc == "Self Declaration" -> "Self Declaration"
-            section == "trainingInfra" && doc == "Training Centre" -> "Training Centre"
-            section == "field" && doc == "Capture Selfie" -> "Officer Selfie"
-            else -> doc
-        }
-
-        checkAndLaunchCamera()
-    }
-
-    private fun handleViewClick(section: String, position: Int, doc: String) {
-        when (section) {
-            "org" -> handleOrgViewClick(position, doc)
-            "fin" -> handleFinViewClick(position, doc)
-            "training" -> handleTrainingViewClick(position, doc)
-            "trainingInfra" -> handleTrainingInfraViewClick(position, doc)
-            "cert" -> handleCertViewClick(position, doc)
-            "placement" -> handlePlacementViewClick(position, doc)
-        }
-    }
-
-    private fun handleOrgViewClick(position: Int, doc: String) {
-        when {
-            position == 0 && doc == "Date of Incorporation (PRN)" -> {
-                showIndustryIncorporationDialog()
-               // showSimpleDialog("Date of incorporation", apiDateOfIncorporation ?: "Not Available")
-            }
-
-            position == 1 && doc == "View Registration Document" -> {
-                showIndustryRegistrationDialog()
-            }
-
-            position == 2 && doc == "EPFO Challan (6 Months)" -> {
-                showEpfoChallanDialog()
-            }
-
-            position == 3 && doc == "View" -> {
-                showTaxDetailsDialog()
-            }
-
-            position == 4 && doc == "View Account Details" -> {
-                showBankDetailsDialog()
-            }
-        }
-    }
-
-    private fun handleFinViewClick(position: Int, doc: String) {
-        when {
-            position == 0 && doc == resources.getString(R.string.fin_balance_sheet_button) -> {
-                val items = apiAnnualTurnoverList?.map { it.toYearlyItem() }
-                showFinancialDialog(resources.getString(R.string.fin_annual_turnover), items)
-            }
-
-            position == 1 && doc == resources.getString(R.string.fin_turnover_button) -> {
-                val items = apiNetWorthList?.map { it.toYearlyItem() }
-                showFinancialDialog(resources.getString(R.string.fin_net_worth), items)
-            }
-        }
-    }
-
-    private fun handleTrainingViewClick(position: Int, doc: String) {
-        when {
-            position == 0 && doc == resources.getString(R.string.train_target_button) -> {
-                val items = apiTrainingCriteriaList?.map { it.toYearlyTrainingItem() }
-                showTrainingDialog("Training Details", items)
-            }
-
-            position == 1 && doc == resources.getString(R.string.train_hour_button) -> {
-                val items = apitotalTrainingHoursRemarks
-                showTrainingHoursDialog("Training Hours", items)
-            }
-
-            position == 3 && doc == resources.getString(R.string.train_NSQF_course_button) -> {
-                showDocumentDialog("Basic Training", apiBasicSelfDeclarationBase64, doc)
-            }
-
-            position == 4 && doc == resources.getString(R.string.train_commitment1_button) -> {
-                showDocumentDialog("Captive Employers Commitment", apiCommitmentForm1Base64, doc)
-            }
-
-
-            position == 4 && doc == resources.getString(R.string.train_commitment2_button) -> {
-                showDocumentDialog("Captive Employers Commitment", apiCommitmentForm2Base64, doc)
-            }
-
-            position == 5 && doc == resources.getString(R.string.train_tailor_button) -> {
-                showDocumentDialog("Tailor Training Doc", apiTailorTrainingDocBase64, doc)
-            }
-
-            position == 6 && doc == resources.getString(R.string.train_domain1_button) -> {
-                showDocumentDialog("Domain Specific Training", apiDomainForm1Base64, doc)
-            }
-
-            position == 6 && doc == resources.getString(R.string.train_domain2_button) -> {
-                showDocumentDialog("Domain Specific Training", apiDomainForm2Base64, doc)
-            }
-        }
-    }
-
-    private fun handleTrainingInfraViewClick(position: Int, doc: String) {
-        if (position == 1 && doc == "View Residential Facilities") {
-            showResidentialFacilitiesDialog()
-        }
-    }
-
-    private fun handleCertViewClick(position: Int, doc: String) {
-        when {
-            position == 0 && doc == "Form 4" -> {
-                showDocumentDialog("Awarding Body", apiAwardBodyCommitBase64, "View Form 4")
-            }
-
-            position == 1 && doc == "Form 4" -> {
-                showDocumentDialog(
-                    "Certification for 70% Candidates",
-                    apiSeventyPctCommitBase64,
-                    "View Form 4"
-                )
-            }
-        }
-    }
-
-    private fun handlePlacementViewClick(position: Int, doc: String) {
-        when {
-            position == 0 && doc == "View Employment Details" -> {
-                showPlacementDialog("Placement Details", apiPlacementList)
-            }
-
-            position == 1 && doc == "Form 1" -> {
-                showDocumentDialog("Six Months", apiCommitmentSixMonthsBase64, "View Form 1")
-            }
-
-            position == 2 && doc == "Form 1" -> {
-                showDocumentDialog(
-                    "Commitment Less than Six Months",
-                    apiCommitmentLessSixMonthsBase64,
-                    "View Form 1"
-                )
-            }
-
-            position == 3 && doc == "Form 1" -> {
-                showDocumentDialog(
-                    "Commitment Greater than Six Months",
-                    apiCommitmentMoreSixMonthsBase64,
-                    "View Form 1"
-                )
-            }
-        }
-    }
-
-    private fun setupToolbar() {
-        setupToolbar(
-            root = binding.root,
-            titleRes = R.string.field_ver_head,
-            showBack = true,
-            showLang = false,
-            showProfile = false,
-            backClick = { findNavController().navigateUp()}
-        )
-//        binding.backButton.setOnClickListener {
-//            findNavController().navigateUp()
-//        }
-    }
-
-    private fun setupNavigationButtons() {
-        binding.btnFinPrevious.setOnClickListener { navigateToPreviousSection("fin") }
-        binding.btnTrainingPrevious.setOnClickListener { navigateToPreviousSection("training") }
-        binding.btnTrainingInfraPrevious.setOnClickListener { navigateToPreviousSection("trainingInfra") }
-        binding.btnCertPrevious.setOnClickListener { navigateToPreviousSection("cert") }
-        binding.btnPlacementPrevious.setOnClickListener { navigateToPreviousSection("placement") }
-        binding.btnFieldPrevious.setOnClickListener { navigateToPreviousSection("field") }
-    }
-
-    private fun setupSubmitButtons() {
-        binding.btnInfoNext.setOnClickListener { handleOrgSubmit() }
-        binding.btnFinNext.setOnClickListener { handleFinSubmit() }
-        binding.btnTrainingNext.setOnClickListener { handleTrainingSubmit() }
-        binding.btnTrainingInfraNext.setOnClickListener { handleTrainingInfraSubmit() }
-        binding.btnCertNext.setOnClickListener { handleCertSubmit() }
-        binding.btnPlacementNext.setOnClickListener { handlePlacementSubmit() }
-        binding.btnFieldNext.setOnClickListener { handleFieldSubmit() }
-    }
-
-//    private fun navigateToPreviousSection(currentSection: String) {
-//        val sectionMap = mapOf(
-//            "fin" to Pair(binding.verOrg, binding.verFin),
-//            "training" to Pair(binding.verFin, binding.verTraining),
-//            "trainingInfra" to Pair(binding.verTraining, binding.verTrainingInfra),
-//            "cert" to Pair(binding.verTrainingInfra, binding.verCert),
-//            "placement" to Pair(binding.verCert, binding.verPlacement),
-//            "field" to Pair(binding.verPlacement, binding.verField)
-//        )
-//
-//        sectionMap[currentSection]?.let { (showSection, hideSection) ->
-//            showSection.visibility = View.VISIBLE
-//            hideSection.visibility = View.GONE
-//
-//            binding.scroll.post {
-//                binding.scroll.smoothScrollTo(0, 0)
-//            }
-//        }
-//    }
-
-    private fun navigateToPreviousSection(currentSection: String) {
-
-//        // Hide all sections first
-//        binding.verOrg.visibility = View.GONE
-//        binding.verFin.visibility = View.GONE
-//        binding.verTraining.visibility = View.GONE
-//        binding.verTrainingInfra.visibility = View.GONE
-//        binding.verCert.visibility = View.GONE
-//        binding.verPlacement.visibility = View.GONE
-//        binding.verField.visibility = View.GONE
-
-        // Hide all expand layouts first
+    private fun hideAllExpandLayouts() {
         binding.trainingInfraExpand.visibility = View.GONE
         binding.verFinExpand.visibility = View.GONE
         binding.verTrainingExpand.visibility = View.GONE
@@ -809,389 +268,626 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         binding.verCertExpand.visibility = View.GONE
         binding.verPlacementExpand.visibility = View.GONE
         binding.verFieldExpand.visibility = View.GONE
+        binding.verResidentialFacilityExpand.visibility = View.GONE
+    }
 
+    private fun scrollToTop() {
+        binding.scroll.post { binding.scroll.smoothScrollTo(0, 0) }
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Navigation buttons (Previous)
+    // ─────────────────────────────────────────────────────────
+
+    private fun setupNavigationButtons() {
+        binding.btnFinPrevious.setOnClickListener { navigateBack(SectionTag.FIN) }
+        binding.btnTrainingPrevious.setOnClickListener { navigateBack(SectionTag.TRAINING) }
+        binding.btnTrainingInfraPrevious.setOnClickListener { navigateBack(SectionTag.TRAINING_INFRA) }
+        binding.btnResidentialFacilityPrevious.setOnClickListener { navigateBack(SectionTag.RESIDENTIAL) }
+        binding.btnCertPrevious.setOnClickListener { navigateBack(SectionTag.CERT) }
+        binding.btnPlacementPrevious.setOnClickListener { navigateBack(SectionTag.PLACEMENT) }
+        binding.btnFieldPrevious.setOnClickListener { navigateBack(SectionTag.FIELD) }
+    }
+
+    private fun navigateBack(currentSection: String) {
+        hideAllExpandLayouts()
         when (currentSection) {
-
-            "fin" -> {
+            SectionTag.FIN -> {
                 binding.verOrg.visibility = View.VISIBLE
                 binding.trainingInfraExpand.visibility = View.VISIBLE
             }
 
-            "training" -> {
+            SectionTag.TRAINING -> {
                 binding.verFin.visibility = View.VISIBLE
                 binding.verFinExpand.visibility = View.VISIBLE
             }
 
-            "trainingInfra" -> {
+            SectionTag.TRAINING_INFRA -> {
                 binding.verTraining.visibility = View.VISIBLE
                 binding.verTrainingExpand.visibility = View.VISIBLE
             }
 
-            "cert" -> {
+            SectionTag.RESIDENTIAL -> {
                 binding.verTrainingInfra.visibility = View.VISIBLE
                 binding.verTrainingInfraExpand.visibility = View.VISIBLE
             }
 
-            "placement" -> {
+            SectionTag.CERT -> {
+                binding.verResidentialFacility.visibility = View.VISIBLE
+                binding.verResidentialFacilityExpand.visibility = View.VISIBLE
+            }
+
+            SectionTag.PLACEMENT -> {
                 binding.verCert.visibility = View.VISIBLE
                 binding.verCertExpand.visibility = View.VISIBLE
             }
 
-            "field" -> {
+            SectionTag.FIELD -> {
                 binding.verPlacement.visibility = View.VISIBLE
                 binding.verPlacementExpand.visibility = View.VISIBLE
             }
         }
-
-        // Scroll top
-        binding.scroll.post {
-            binding.scroll.smoothScrollTo(0, 0)
-        }
+        scrollToTop()
     }
 
-    // ==================== SUBMIT HANDLERS ====================
+    // ─────────────────────────────────────────────────────────
+    //  Next / Submit buttons
+    // ─────────────────────────────────────────────────────────
 
-    private fun handleOrgSubmit() {
+    private fun setupNextButtons() {
+        binding.btnInfoNext.setOnClickListener {
+            onOrgNext()
+            logSectionGson(Requirement.ORG, orgItems)
+        }
+        binding.btnFinNext.setOnClickListener { onFinNext()
+            logSectionGson(Requirement.FIN, finItems)}
+        binding.btnTrainingNext.setOnClickListener { onTrainingNext()
+            captureTrainingCentreLocation { updateFieldDistance() }
+            logSectionGson(Requirement.TRAINING, trainingItems)}
+        binding.btnTrainingInfraNext.setOnClickListener { onTrainingInfraNext()
+            logSectionGson(Requirement.INFRA, trainingInfraItems)
+        }
+        binding.btnResidentialFacilityNext.setOnClickListener {
+            captureResidentialFacilityLocation { updateFieldDistance() }
+            onResidentialNext()
+            logSectionGson(Requirement.INFRA, residentialFacilityItems)}
+        binding.btnCertNext.setOnClickListener { onCertNext()
+            logSectionGson(Requirement.CERT, certItems)}
+        binding.btnPlacementNext.setOnClickListener { onPlacementNext()
+            logSectionGson(Requirement.PLACEMENT, placementItems)
+        }
+        binding.btnFieldNext.setOnClickListener { onFieldFinalSubmit()
+            logSectionGson(Requirement.FIELD, fieldItems)}
+    }
+
+    // ── Organisation ─────────────────────────────────────────
+
+    private fun onOrgNext() {
         if (!isSelfieVerificationDone) {
             showToast("Please complete officer verification first")
             return
         }
-        val allManpowerRemarks = validateAllRemarksForSection(orgItems) ?: return
-        binding.trainingInfraExpand.visibility = View.GONE
-        binding.tvTrainInfra.setCompoundDrawablesWithIntrinsicBounds(
-            0,
-            0,
-            R.drawable.ic_verified,
-            0
-        )
-        binding.verFin.visibility = View.VISIBLE
-        binding.verFinExpand.visibility = View.VISIBLE
+        if (!validateSectionItems(binding.recyclerView, orgItems)) return
 
-        val request = FieldVerificationDetailRequest(
-            appVersion = BuildConfig.VERSION_NAME,
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            captiveEmpanelmentId = captiveEmpanelmentId,
-            prnNo = prnNo
+        markSectionComplete(
+            headerView = binding.tvTrainInfra,
+            expandToHide = binding.trainingInfraExpand,
+            nextSection = binding.verFin,
+            nextExpand = binding.verFinExpand
         )
 
-        viewModel.getFieldVerificationFinDetail(request)
+        viewModel.getFieldVerificationFinDetail(buildDetailRequest())
         observeFinDetails()
 
-        if (hasLocationPermission()) {
-            getCurrentLocation()
-        } else {
-            requestLocationPermission()
-        }
+        if (hasLocationPermission()) getCurrentLocation() else requestLocationPermission()
     }
 
-    private fun handleFinSubmit() {
-        val gson = GsonBuilder().setPrettyPrinting().create()
-        val jsonResponse = gson.toJson(orgItems)
-        Log.d("Orgnization Data ", "✅ Success Response:\n$jsonResponse")
+    // ── Finance ──────────────────────────────────────────────
 
-        binding.verFinExpand.visibility = View.GONE
-        binding.tvFinHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
-        binding.verTraining.visibility = View.VISIBLE
-        binding.verTrainingExpand.visibility = View.VISIBLE
-
-        val request = FieldVerificationDetailRequest(
-            appVersion = BuildConfig.VERSION_NAME,
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            captiveEmpanelmentId = captiveEmpanelmentId,
-            prnNo = prnNo
+    private fun onFinNext() {
+        if (!validateSectionItems(binding.recyclerViewFin, finItems)) return
+        markSectionComplete(
+            headerView = binding.tvFinHead,
+            expandToHide = binding.verFinExpand,
+            nextSection = binding.verTraining,
+            nextExpand = binding.verTrainingExpand
         )
 
-        viewModel.getFieldVerificationTrainingDetail(request)
+        viewModel.getFieldVerificationTrainingDetail(buildDetailRequest())
         observeTrainingDetails()
     }
 
-    private fun handleTrainingSubmit() {
+    // ── Training ─────────────────────────────────────────────
 
+    private fun onTrainingNext() {
         commitFocusedEditText()
-
-        val allTrainingRemarks =
-            validateAllRemarksForSection(trainingItems) ?: return
-
-        binding.verTrainingExpand.visibility = View.GONE
-
-        binding.tvTrainingHead.setCompoundDrawablesWithIntrinsicBounds(
-            0,
-            0,
-            R.drawable.ic_verified,
-            0
+        logSectionGson("Finance", finItems)
+        if (!validateSectionItems(binding.recyclerViewTraining, trainingItems)) return
+        markSectionComplete(
+            headerView = binding.tvTrainingHead,
+            expandToHide = binding.verTrainingExpand,
+            nextSection = binding.verTrainingInfra,
+            nextExpand = binding.verTrainingInfraExpand
         )
 
-        binding.verTrainingInfra.visibility = View.VISIBLE
-        binding.verTrainingInfraExpand.visibility = View.VISIBLE
-
-        val request = FieldVerificationDetailRequest(
-            appVersion = BuildConfig.VERSION_NAME,
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            captiveEmpanelmentId = captiveEmpanelmentId,
-            prnNo = prnNo
-        )
-
-        viewModel.getFieldVerificationTrainingInfraDetail(request)
-
+        viewModel.getFieldVerificationTrainingInfraDetail(buildDetailRequest())
         observeTrainingInfraDetails()
     }
 
-    private fun handleTrainingInfraSubmit() {
-        if (base64TrainingInfraDeclarationFile.isNullOrBlank()) {
-            showToast("Please Capture Self Declaration")
-            return
-        }
-        if (base64TrainingInfraCentreFile.isNullOrBlank()) {
-            showToast("Please Capture Training Centre")
-            return
-        }
+    // ── Training Infra ───────────────────────────────────────
 
-        binding.verTrainingInfraExpand.visibility = View.GONE
-        binding.tvTrainingInfraHead.setCompoundDrawablesWithIntrinsicBounds(
-            0,
-            0,
-            R.drawable.ic_verified,
-            0
+    private fun onTrainingInfraNext() {
+        if (!validateSectionItems(binding.recyclerViewTrainingInfra, trainingInfraItems)) return
+        logSectionGson("Residential", residentialFacilityItems)
+
+        markSectionComplete(
+            headerView = binding.tvTrainingInfraHead,
+            expandToHide = binding.verTrainingInfraExpand,
+            nextSection = binding.verResidentialFacility,
+            nextExpand = binding.verResidentialFacilityExpand
         )
-        binding.verCert.visibility = View.VISIBLE
-        binding.verCertExpand.visibility = View.VISIBLE
+    }
 
-        val request = FieldVerificationDetailRequest(
-            appVersion = BuildConfig.VERSION_NAME,
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            captiveEmpanelmentId = captiveEmpanelmentId,
-            prnNo = prnNo
+    // ── Residential Facility ─────────────────────────────────
+
+    private fun onResidentialNext() {
+        commitFocusedEditText()
+        if (!validateSectionItems(binding.recyclerViewResidentialFacility, residentialFacilityItems)) return        markSectionComplete(
+            headerView = binding.tvResidentialFacilityHead,
+            expandToHide = binding.verResidentialFacilityExpand,
+            nextSection = binding.verCert,
+            nextExpand = binding.verCertExpand
         )
 
-        viewModel.getFieldVerificationCertificationDetail(request)
+        viewModel.getFieldVerificationCertificationDetail(buildDetailRequest())
         observeCertificationDetails()
     }
 
-    private fun handleCertSubmit() {
-        binding.verCertExpand.visibility = View.GONE
-        binding.tvCertHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
-        binding.verPlacement.visibility = View.VISIBLE
-        binding.verPlacementExpand.visibility = View.VISIBLE
+    // ── Certification ────────────────────────────────────────
 
-        val request = FieldVerificationDetailRequest(
-            appVersion = BuildConfig.VERSION_NAME,
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            captiveEmpanelmentId = captiveEmpanelmentId,
-            prnNo = prnNo
+    private fun onCertNext() {
+        if (!validateSectionItems(binding.recyclerViewCert, certItems)) return
+        markSectionComplete(
+            headerView = binding.tvCertHead,
+            expandToHide = binding.verCertExpand,
+            nextSection = binding.verPlacement,
+            nextExpand = binding.verPlacementExpand
         )
-
-        viewModel.getFieldVerificationPlacementDetail(request)
+        viewModel.getFieldVerificationPlacementDetail(buildDetailRequest())
         observePlacementDetails()
     }
 
-    private fun handlePlacementSubmit() {
-        binding.verPlacementExpand.visibility = View.GONE
-        binding.tvPlacementHead.setCompoundDrawablesWithIntrinsicBounds(
-            0,
-            0,
-            R.drawable.ic_verified,
-            0
+    // ── Placement ────────────────────────────────────────────
+
+    private fun onPlacementNext() {
+        if (!validateSectionItems(binding.recyclerViewPlacement, placementItems)) return
+        markSectionComplete(
+            headerView = binding.tvPlacementHead,
+            expandToHide = binding.verPlacementExpand,
+            nextSection = binding.verField,
+            nextExpand = binding.verFieldExpand
         )
-        binding.verField.visibility = View.VISIBLE
-        binding.verFieldExpand.visibility = View.VISIBLE
     }
 
-    private fun handleFieldSubmit() {
-        if (!isOfficerWithinRange) {
-            showToast("Officer must be within 500 meters for submission")
-            return
-        }
+    // ── Field Visit (Final Submit) ────────────────────────────
 
+    private fun onFieldFinalSubmit() {
         if (officerSelfieBase64.isNullOrBlank()) {
             showToast("Please capture officer selfie")
             return
         }
-        if (!validateSectionItems(orgItems)) {
-           return
+
+        binding.verFieldExpand.visibility = View.GONE
+        binding.tvFieldHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+
+        val finalPayload = buildFinalSubmitPayload()
+        logJson("FINAL_SUBMIT_JSON", finalPayload)
+
+        showProgressBar()
+        viewModel.submitFieldVerificationDetails.removeObservers(viewLifecycleOwner)
+        viewModel.submitFieldVerification(finalPayload)
+        viewModel.submitFieldVerificationDetails.observe(viewLifecycleOwner) { result ->
+            hideProgressBar()
+            result.onSuccess { handleFinalSubmitSuccess(it) }
+                .onFailure { handleFinalSubmitFailure(it) }
+        }
+    }
+
+    private fun handleFinalSubmitSuccess(response: FieldVerificationDetailResponse?) {
+        // Assuming response has responseCode and responseDesc (adjust type as needed)
+        try {
+            val r = response ?: throw Exception("Response is null")
+            if (r.responseCode.toInt() == 200) {
+                toastShort(r.responseDesc ?: "Field Verification submitted successfully")
+                Log.d(TAG, "Submit success: ${r.responseDesc}")
+                val nav = findNavController()
+                nav.previousBackStackEntry?.savedStateHandle?.set("refresh_pia_list", true)
+                nav.navigateUp()
+            } else {
+                binding.verFieldExpand.visibility = View.VISIBLE
+                toastShort(r.responseDesc ?: "Failed to submit field verification")
+                Log.e(TAG, "Submit failed: ${r.responseCode}")
+            }
+        } catch (e: Exception) {
+            binding.verFieldExpand.visibility = View.VISIBLE
+            e.printStackTrace()
+            toastShort("Something went wrong while processing response")
+            Log.e(TAG, "Exception: ${e.message}")
+        }
+    }
+
+    private fun handleFinalSubmitFailure(error: Throwable) {
+        hideProgressBar()
+        binding.verFieldExpand.visibility = View.VISIBLE
+        toastShort(error.message ?: "Unable to submit field verification")
+        Log.e(TAG, "API Error: ${error.message}")
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Reusable section-advance helper
+    // ─────────────────────────────────────────────────────────
+
+    private fun markSectionComplete(
+        headerView: TextView, expandToHide: View, nextSection: View, nextExpand: View
+    ) {
+        headerView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+        expandToHide.visibility = View.GONE
+        nextSection.visibility = View.VISIBLE
+        nextExpand.visibility = View.VISIBLE
+        scrollToTop()
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  RecyclerView setup
+    // ─────────────────────────────────────────────────────────
+
+    private fun setupRecyclerViews() {
+        orgItems = buildOrgItems()
+        finItems = buildFinItems()
+        trainingItems = buildTrainingItems()
+        trainingInfraItems = buildTrainingInfraItems()
+        residentialFacilityItems = buildResidentialFacilityItems()
+        certItems = buildCertItems()
+        placementItems = buildPlacementItems()
+        fieldItems = buildFieldItems()
+
+        orgAdapter = buildSectionAdapter(binding.recyclerView, orgItems, SectionTag.ORG)
+        finAdapter = buildSectionAdapter(binding.recyclerViewFin, finItems, SectionTag.FIN)
+        trainingAdapter =
+            buildSectionAdapter(binding.recyclerViewTraining, trainingItems, SectionTag.TRAINING)
+        trainingInfraAdapter = buildSectionAdapter(
+            binding.recyclerViewTrainingInfra,
+            trainingInfraItems,
+            SectionTag.TRAINING_INFRA
+        )
+        residentialFacilityAdapter = buildSectionAdapter(
+            binding.recyclerViewResidentialFacility,
+            residentialFacilityItems,
+            SectionTag.RESIDENTIAL
+        )
+        certAdapter = buildSectionAdapter(binding.recyclerViewCert, certItems, SectionTag.CERT)
+        placementAdapter =
+            buildSectionAdapter(binding.recyclerViewPlacement, placementItems, SectionTag.PLACEMENT)
+        fieldAdapter = buildSectionAdapter(
+            binding.recyclerViewField,
+            fieldItems,
+            SectionTag.FIELD,
+            showIcons = false
+        )
+    }
+
+    private fun buildSectionAdapter(
+        recyclerView: RecyclerView,
+        items: MutableList<FieldVerificationItem>,
+        section: String,
+        showIcons: Boolean = true
+    ): BaseRecyclerAdapter<FieldVerificationItem, ItemFieldVerCardBinding> {
+        return setupRecyclerView(
+            recyclerView = recyclerView,
+            items = items,
+            layoutManager = LinearLayoutManager(requireContext()),
+            bindingInflater = ItemFieldVerCardBinding::inflate,
+            onBind = { item, b, pos -> bindCardItem(item, b, pos, section, showIcons) },
+            onItemClick = { _, _ -> },
+            noDataConfig = NoDataConfig(
+                title = "No items", description = "No $section verification items to display"
+            )
+        )
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Card binding
+    // ─────────────────────────────────────────────────────────
+
+    private fun bindCardItem(
+        item: FieldVerificationItem,
+        b: ItemFieldVerCardBinding,
+        position: Int,
+        section: String,
+        showIcons: Boolean
+    ) {
+        b.tvReqTitle.text = item.requirement
+        b.tvVerification.text = item.verificationDoc
+
+        b.chipgroupDocuments.removeAllViews()
+        item.documents.forEach { doc ->
+            b.chipgroupDocuments.addView(buildDocChip(item, doc, section, position, showIcons))
         }
 
-        // Hide current section
-        binding.verFieldExpand.visibility = View.GONE
-        binding.tvFieldHead.setCompoundDrawablesWithIntrinsicBounds(
-            0,
-            0,
-            R.drawable.ic_verified,
-            0
-        )
+        bindImagePreview(item, b)
+        bindRemarkInput(item, b)
+    }
 
-        // Prepare final submit data
-        val finalSubmitData = collectAllRemarksSectionWise()
+    private fun buildDocChip(
+        item: FieldVerificationItem, doc: String, section: String, position: Int, showIcons: Boolean
+    ): Chip {
+        return Chip(requireContext()).apply {
+            text = doc
+            isClickable = true
+            isCheckable = false
 
-        // Show loader
-        showProgressBar()
+            if (showIcons) {
+                val iconRes = if (item.uploadEnabled) R.drawable.file else R.drawable.ic_up
+                closeIcon = context.getDrawable(iconRes)
+                closeIconTint = context.getColorStateList(android.R.color.darker_gray)
+                isCloseIconVisible = true
+                iconEndPadding = 8f
+                textEndPadding = 16f
+            } else {
+                isCloseIconVisible = false
+            }
 
-        // Remove old observers
-        viewModel.submitFieldVerificationDetails.removeObservers(viewLifecycleOwner)
-        val gson = GsonBuilder().setPrettyPrinting().create()
-        val jsonResponse = gson.toJson(finalSubmitData)
-        Log.d("SubmitFieldVerificationDetailsRequest", "✅ Success Response:\n$jsonResponse")
-        // Call API
-        viewModel.submitFieldVerification(finalSubmitData)
-
-        // Observe response
-        viewModel.submitFieldVerificationDetails.observe(viewLifecycleOwner) { result ->
-
-            // Hide loader
-            hideProgressBar()
-            result.onSuccess { response ->
-                try {
-                    val responseCode = response.responseCode.toInt()
-
-                    if (responseCode == 200) {
-
-                        // Success Message
-                        toastShort(
-                            response.responseDesc
-                                ?: "Field Verification submitted successfully"
-                        )
-
-                        Log.d(
-                            "FieldVerification",
-                            "Submit Success : ${response.responseDesc}"
-                        )
-
-                        val navController = findNavController()
-
-                        // Refresh previous screen
-                        navController.previousBackStackEntry
-                            ?.savedStateHandle
-                            ?.set("refresh_pia_list", true)
-
-                        // Navigate back
-                        navController.navigateUp()
-
-                    } else {
-                        binding.verFieldExpand.visibility = View.VISIBLE
-
-                        // API Failure Message
-                        toastShort(
-                            response.responseDesc
-                                ?: "Failed to submit field verification"
-                        )
-
-                        Log.e(
-                            "FieldVerification",
-                            "Submit Failed : ${response.responseCode}"
-                        )
-                    }
-
-                } catch (e: Exception) {
-
-                    hideProgressBar()
-                    binding.verFieldExpand.visibility = View.VISIBLE
-
-                    e.printStackTrace()
-
-                    toastShort(
-                        "Something went wrong while processing response"
-                    )
-                    Log.e(
-                        "FieldVerification",
-                        "Exception : ${e.message}"
-                    )
-                }
-            }.onFailure { error ->
-
-                hideProgressBar()
-                binding.verFieldExpand.visibility = View.VISIBLE
-
-                // API Error
-                toastShort(
-                    error.message ?: "Unable to submit field verification"
-                )
-
-                Log.e(
-                    "FieldVerification",
-                    "API Error : ${error.message}"
-                )
+            setOnClickListener {
+                if (item.uploadEnabled) onUploadChipClick(section, position, doc)
+                else onViewChipClick(section, position, doc)
             }
         }
     }
 
+    private fun bindImagePreview(item: FieldVerificationItem, b: ItemFieldVerCardBinding) {
+        if (!item.imageUri.isNullOrBlank()) {
+            try {
+                b.imageGroup.visibility = View.VISIBLE
+                val uri = Uri.parse(item.imageUri)
+                if (currentPhotoTarget == "Training Centre") {
+                    b.ivPreview1.setImageURI(uri); b.ivPreview1.visibility = View.VISIBLE
+                    b.ivPreview.visibility = View.GONE
+                } else {
+                    b.ivPreview.setImageURI(uri); b.ivPreview.visibility = View.VISIBLE
+                    b.ivPreview1.visibility = View.GONE
+                }
+            } catch (e: Exception) {
+                b.ivPreview.visibility = View.GONE
+                b.ivPreview1.visibility = View.GONE
+                b.imageGroup.visibility = View.GONE
+            }
+        } else {
+            b.ivPreview.visibility = View.GONE
+            b.ivPreview1.visibility = View.GONE
+            b.imageGroup.visibility = View.GONE
+        }
+    }
 
-//    private fun handleFieldSubmit() {
-//        binding.verFieldExpand.visibility = View.GONE
-//        binding.tvFieldHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
-//        // collect all remarks
-//        val finalSubmitData = collectAllRemarksSectionWise()
-//
-//        // Call submit API
-//        viewModel.submitFieldVerification(finalSubmitData)
-//
-//        // Observe the LiveData once (remove previous observers first for safety)
-//        viewModel.submitFieldVerificationDetails.removeObservers(viewLifecycleOwner)
-//        viewModel.submitFieldVerificationDetails.observe(viewLifecycleOwner) { result ->
-//            result.onSuccess { response ->
-//                try {
-//                    val item = response.responseCode.toInt()
-//                    if (item == 200){
-//                        Log.d("Field Verification Submit if", item.toString())
-//                        val navController = findNavController()
-//                        // Signal to the list that it should refresh
-//                        navController.previousBackStackEntry
-//                            ?.savedStateHandle
-//                            ?.set("refresh_pia_list", true)
-//
-//                        navController.navigateUp()
-//                    } else {
-//                        Log.d("Field Verification Submit else", item.toString())
-//                        toastShort("${response.responseCode}: ${response.responseDesc}")
-//                    }
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                    toastShort("Failed processing submitFieldVerification response: ${e.message}")
-//                }
-//            }.onFailure { e ->
-//                toastShort("SubmitFieldVerification API failed: ${e.message ?: "Unknown"}")
-//            }
-//        }
-//    }
+    private fun bindRemarkInput(item: FieldVerificationItem, b: ItemFieldVerCardBinding) {
+        if (!item.allowRemark) {
+            b.remarkGroup.visibility = View.GONE
+            removeExistingWatcher(b)
+            return
+        }
 
-    // ==================== OBSERVERS ====================
+        b.remarkGroup.visibility = View.VISIBLE
+        val current = item.remarkText.orEmpty()
+        if (b.etSectionRemark.text?.toString() != current) b.etSectionRemark.setText(current)
 
-    private fun observeFieldDetails() {
+        removeExistingWatcher(b)
+
+        val watcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                item.remarkText = s?.toString()?.trim()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+        b.etSectionRemark.addTextChangedListener(watcher)
+        b.etSectionRemark.tag = watcher
+    }
+
+    private fun removeExistingWatcher(b: ItemFieldVerCardBinding) {
+        (b.etSectionRemark.tag as? TextWatcher)?.let {
+            b.etSectionRemark.removeTextChangedListener(it)
+        }
+        b.etSectionRemark.tag = null
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Chip click dispatch
+    // ─────────────────────────────────────────────────────────
+
+    private fun onUploadChipClick(section: String, position: Int, doc: String) {
+        currentUploadPosition = position
+        currentUploadList = section
+        currentPhotoTarget = resolvePhotoTarget(section, doc)
+        checkAndLaunchCamera()
+    }
+
+    private fun resolvePhotoTarget(section: String, doc: String): String {
+        return when {
+            section == SectionTag.FIN && doc == resources.getString(R.string.fin_turnover_button) -> "Turnover"
+            section == SectionTag.TRAINING && doc == resources.getString(R.string.train_tailor_button) -> "Additional tailor-made training If Yes Upload"
+            section == SectionTag.TRAINING_INFRA && doc == "Self Declaration" -> "Self Declaration"
+            section == SectionTag.TRAINING_INFRA && doc == "Training Centre" -> "Training Centre"
+            section == SectionTag.FIELD && doc == "Capture Selfie" -> SectionTag.OFFICER_SELFIE
+            else -> doc
+        }
+    }
+
+    private fun onViewChipClick(section: String, position: Int, doc: String) {
+        when (section) {
+            SectionTag.ORG -> handleOrgView(position, doc)
+            SectionTag.FIN -> handleFinView(position, doc)
+            SectionTag.TRAINING -> handleTrainingView(position, doc)
+            SectionTag.TRAINING_INFRA -> handleTrainingInfraView(position, doc)
+            SectionTag.CERT -> handleCertView(position, doc)
+            SectionTag.PLACEMENT -> handlePlacementView(position, doc)
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  View-chip handlers per section
+    // ─────────────────────────────────────────────────────────
+
+    private fun handleOrgView(position: Int, doc: String) {
+        when {
+            position == 0 && doc == "Date of Incorporation (PRN)" -> showIndustryIncorporationDialog()
+            position == 1 && doc == "View Registration Document" -> showIndustryRegistrationDialog()
+            position == 2 && doc == "EPFO Challan (6 Months)" -> showEpfoChallanDialog()
+            position == 3 && doc == "View" -> showTaxDetailsDialog()
+            position == 4 && doc == "View Account Details" -> showBankDetailsDialog()
+        }
+    }
+
+    private fun handleFinView(position: Int, doc: String) {
+        when {
+            position == 0 && doc == resources.getString(R.string.fin_balance_sheet_button) -> showFinancialDialog(
+                resources.getString(R.string.fin_annual_turnover),
+                apiAnnualTurnoverList?.map { it.toYearlyItem() })
+
+            position == 1 && doc == resources.getString(R.string.fin_turnover_button) -> showFinancialDialog(
+                resources.getString(R.string.fin_net_worth),
+                apiNetWorthList?.map { it.toYearlyItem() })
+        }
+    }
+
+    private fun handleTrainingView(position: Int, doc: String) {
+        when {
+            position == 0 && doc == resources.getString(R.string.train_target_button) -> showTrainingDialog(
+                "Training Details",
+                apiTrainingCriteriaList?.map { it.toYearlyTrainingItem() })
+
+            position == 1 && doc == resources.getString(R.string.train_hour_button) -> showTrainingHoursDialog(
+                "Training Hours",
+                apiTotalTrainingHoursRemarks
+            )
+
+            position == 3 && doc == resources.getString(R.string.train_NSQF_course_button) -> showDocumentDialog(
+                "Basic Training",
+                apiBasicSelfDeclarationBase64,
+                doc
+            )
+
+            position == 4 && doc == resources.getString(R.string.train_commitment1_button) -> showDocumentDialog(
+                "Captive Employers Commitment",
+                apiCommitmentForm1Base64,
+                doc
+            )
+
+            position == 4 && doc == resources.getString(R.string.train_commitment2_button) -> showDocumentDialog(
+                "Captive Employers Commitment",
+                apiCommitmentForm2Base64,
+                doc
+            )
+
+            position == 5 && doc == resources.getString(R.string.train_tailor_button) -> showDocumentDialog(
+                "Tailor Training Doc",
+                apiTailorTrainingDocBase64,
+                doc
+            )
+
+            position == 6 && doc == resources.getString(R.string.train_domain1_button) -> showDocumentDialog(
+                "Domain Specific Training",
+                apiDomainForm1Base64,
+                doc
+            )
+
+            position == 6 && doc == resources.getString(R.string.train_domain2_button) -> showDocumentDialog(
+                "Domain Specific Training",
+                apiDomainForm2Base64,
+                doc
+            )
+        }
+    }
+
+    private fun handleTrainingInfraView(position: Int, doc: String) {
+        if (position == 1 && doc == "View Residential Facilities") showResidentialFacilitiesDialog()
+    }
+
+    private fun handleCertView(position: Int, doc: String) {
+        when {
+            position == 0 && doc == "Form 4" -> showDocumentDialog(
+                "Awarding Body",
+                apiAwardBodyCommitBase64,
+                "View Form 4"
+            )
+
+            position == 1 && doc == "Form 4" -> showDocumentDialog(
+                "Certification for 70% Candidates",
+                apiSeventyPctCommitBase64,
+                "View Form 4"
+            )
+        }
+    }
+
+    private fun handlePlacementView(position: Int, doc: String) {
+        when {
+            position == 0 && doc == "View Employment Details" -> showPlacementDialog(
+                "Placement Details",
+                apiPlacementList
+            )
+
+            position == 1 && doc == "Form 1" -> showDocumentDialog(
+                "Six Months",
+                apiCommitmentSixMonthsBase64,
+                "View Form 1"
+            )
+
+            position == 2 && doc == "Form 1" -> showDocumentDialog(
+                "Commitment Less than Six Months",
+                apiCommitmentLessSixMonthsBase64,
+                "View Form 1"
+            )
+
+            position == 3 && doc == "Form 1" -> showDocumentDialog(
+                "Commitment Greater than Six Months",
+                apiCommitmentMoreSixMonthsBase64,
+                "View Form 1"
+            )
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Observers
+    // ─────────────────────────────────────────────────────────
+
+    private fun observeOrgDetails() {
         viewModel.fieldDetail.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 val item = response.wrappedList.firstOrNull()
-                durationOfOrg=item?.organizationDetails?.proofOfIndustryExistence?.durationOfOrg
-                    factoryRegistrationAttachment=item?.organizationDetails?.proofOfIndustryExistence?.factoryRegistrationAttachment
-                apiDateOfIncorporation =
-                    item?.organizationDetails?.proofOfIndustryExistence?.dateOfIncorporation
-                apiBankName = item?.organizationDetails?.bankDetails?.bankName
-                apiManpowerRemarks = item?.organizationDetails?.manpowerAgencyCheck?.remarks
-                apiEpfoExistingStaff =
-                    item?.organizationDetails?.epfoChallans?.existingStaffRegisteredInEpfo
-                apiEpfoDocumentUrl = item?.organizationDetails?.epfoChallans?.epfoDocument
-                apiGstNumber = item?.organizationDetails?.taxDetails?.gstNumber
-                apiTanNumber = item?.organizationDetails?.taxDetails?.tanNumber
-                apiTanAttachmentBase64 = item?.organizationDetails?.taxDetails?.tanAttachment
-                apiBankAccountNumber = item?.organizationDetails?.bankDetails?.bankAccountNumber
-                apiBankLetterBase64 = item?.organizationDetails?.bankDetails?.bankLetterDocument
-                apibankAccountPassbook = item?.organizationDetails?.bankDetails?.bankAccountPassbook
-                ifscCode=item?.organizationDetails?.bankDetails?.ifscCode
-
-                apiSelfDeclarationBase64 =
-                    item?.organizationDetails?.bankDetails?.selfDeclarationDocument
-                apiEpfoNumber = item?.organizationDetails?.industryRegistration?.epfoNumber
-                apiEsicNumber = item?.organizationDetails?.industryRegistration?.esicNumber
-                apiFactoryRegNumber =
-                    item?.organizationDetails?.industryRegistration?.factoryRegistrationNumber
-                apiEpfoAttachmentBase64 =
-                    item?.organizationDetails?.industryRegistration?.epfoAttachment
-                apiEsicAttachmentBase64 =
-                    item?.organizationDetails?.industryRegistration?.esicAttachment
+                val org = item?.organizationDetails
+                durationOfOrg = org?.proofOfIndustryExistence?.durationOfOrg
+                factoryRegistrationAttachment =
+                    org?.proofOfIndustryExistence?.factoryRegistrationAttachment
+                apiDateOfIncorporation = org?.proofOfIndustryExistence?.dateOfIncorporation
+                apiBankName = org?.bankDetails?.bankName
+                apiEpfoExistingStaff = org?.epfoChallans?.existingStaffRegisteredInEpfo
+                apiEpfoDocumentUrl = org?.epfoChallans?.epfoDocument
+                apiGstNumber = org?.taxDetails?.gstNumber
+                apiTanNumber = org?.taxDetails?.tanNumber
+                apiTanAttachmentBase64 = org?.taxDetails?.tanAttachment
+                apiBankAccountNumber = org?.bankDetails?.bankAccountNumber
+                apiBankLetterBase64 = org?.bankDetails?.bankLetterDocument
+                apiBankAccountPassbook = org?.bankDetails?.bankAccountPassbook
+                ifscCode = org?.bankDetails?.ifscCode
+                apiSelfDeclarationBase64 = org?.bankDetails?.selfDeclarationDocument
+                apiEpfoNumber = org?.industryRegistration?.epfoNumber
+                apiEsicNumber = org?.industryRegistration?.esicNumber
+                apiFactoryRegNumber = org?.industryRegistration?.factoryRegistrationNumber
+                apiEpfoAttachmentBase64 = org?.industryRegistration?.epfoAttachment
+                apiEsicAttachmentBase64 = org?.industryRegistration?.esicAttachment
                 apiFactoryAttachmentBase64 =
-                    item?.organizationDetails?.industryRegistration?.factoryRegistrationAttachment
-
-                Log.d("FIELD_API", "DOI = $apiDateOfIncorporation")
-                Log.d("FIELD_API", "EPFO = $apiEpfoNumber")
+                    org?.industryRegistration?.factoryRegistrationAttachment
+                Log.d(TAG, "Org loaded — DOI=$apiDateOfIncorporation  EPFO=$apiEpfoNumber")
             }.onFailure {
-
                 showErrorToast(it.message ?: getString(R.string.failed_to_fetch_details))
             }
         }
@@ -1201,15 +897,10 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         viewModel.finDetail.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 try {
-                    val item = response.wrappedList?.firstOrNull()
-                    val financialDetails = item?.financialDetails
-                    apiAnnualTurnoverList = financialDetails?.annualTurnover
-                    apiNetWorthList = financialDetails?.netWorth
-
-                    Log.d(
-                        "FieldVerify",
-                        "Annual turnover count: ${financialDetails?.annualTurnover?.size}"
-                    )
+                    val fin = response.wrappedList?.firstOrNull()?.financialDetails
+                    apiAnnualTurnoverList = fin?.annualTurnover
+                    apiNetWorthList = fin?.netWorth
+                    Log.d(TAG, "Finance loaded — turnover count: ${fin?.annualTurnover?.size}")
                 } catch (e: Exception) {
                     showErrorToast(getString(R.string.failed_handling_response, e.message))
                 }
@@ -1223,35 +914,33 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         viewModel.trainingDetail.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 try {
-                    val item = response.wrappedList?.firstOrNull()
-                    val trainingDetails = item?.trainingDetails
-                    apiTrainingCriteriaList = trainingDetails?.trainingCriteria
-                    apitotalTrainingHoursRemarks = trainingDetails?.totalTrainingHoursRemarks
-                    apiRepetitionClubbingRemarks = trainingDetails?.repetitionClubbingRemarks
-                    repetitionClubbingIfraNsqf=trainingDetails?.repetitionClubbingIfraNsqf
+                    val training = response.wrappedList?.firstOrNull()?.trainingDetails
+                    apiTrainingCriteriaList = training?.trainingCriteria
+                    apiTotalTrainingHoursRemarks = training?.totalTrainingHoursRemarks
+                    repetitionClubbingIfraNsqf = training?.repetitionClubbingIfraNsqf
                     apiBasicSelfDeclarationBase64 =
-                        trainingDetails?.basicTraining?.selfDeclarationTrainingDoc
-                    apiCommitmentForm1Base64 = trainingDetails?.commitment?.form1
-                    apiCommitmentForm2Base64 = trainingDetails?.commitment?.form2
-                    apiTailorTrainingDocBase64 =
-                        trainingDetails?.trainingPlacement?.tailorTrainingDoc
-                    apiDomainForm1Base64 = trainingDetails?.domainSpecificTraining?.form1
-                    apiDomainForm2Base64 = trainingDetails?.domainSpecificTraining?.form2
-                   // trainingItems = getTrainingItems()
-
-                    updateRecyclerViewData(
-                        binding.recyclerViewTraining.id,
-                        trainingItems
-                    )
+                        training?.basicTraining?.selfDeclarationTrainingDoc
+                    apiCommitmentForm1Base64 = training?.commitment?.form1
+                    apiCommitmentForm2Base64 = training?.commitment?.form2
+                    apiTailorTrainingDocBase64 = training?.trainingPlacement?.tailorTrainingDoc
+                    apiDomainForm1Base64 = training?.domainSpecificTraining?.form1
+                    apiDomainForm2Base64 = training?.domainSpecificTraining?.form2
+                    updateRecyclerViewData(binding.recyclerViewTraining.id, trainingItems)
                 } catch (e: Exception) {
                     showErrorToast(
                         getString(
                             R.string.failed_processing_training_response,
                             e.message
-                        ))
+                        )
+                    )
                 }
             }.onFailure {
-                showErrorToast(getString(R.string.training_api_failed, it.message ?: getString(R.string.unknown)))
+                showErrorToast(
+                    getString(
+                        R.string.training_api_failed,
+                        it.message ?: getString(R.string.unknown)
+                    )
+                )
             }
         }
     }
@@ -1260,26 +949,26 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         viewModel.trainingInfraDetail.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 try {
-                    val item = response.wrappedList?.firstOrNull()
-                    val infra = item?.trainingInfrastrutureDetails
-                    val residential = infra?.residentialFacilityDetails
+                    val residential =
+                        response.wrappedList?.firstOrNull()?.trainingInfrastrutureDetails?.residentialFacilityDetails
                     apiResidentialFacilityAvailable = residential?.residentialFacilityAvailable
                     apiResidentialFacilityDocumentBase64 = residential?.residentialFacilityDocument
-
-                    Log.d("FieldVerify", "Residential available = $apiResidentialFacilityAvailable")
+                    Log.d(TAG, "Infra loaded — residential=${apiResidentialFacilityAvailable}")
                 } catch (e: Exception) {
                     showErrorToast(
                         getString(
                             R.string.failed_processing_training_infra_response,
                             e.message
-                        ))
+                        )
+                    )
                 }
             }.onFailure {
                 showErrorToast(
                     getString(
                         R.string.training_infra_api_failed,
-                        it.message ?:  getString(R.string.unknown)
-                    ))
+                        it.message ?: getString(R.string.unknown)
+                    )
+                )
             }
         }
     }
@@ -1288,29 +977,29 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         viewModel.certificationDetail.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 try {
-                    val item = response.wrappedList?.firstOrNull()
-                    val infra = item?.assessmentCertificationDetails
-                    val commitment = infra?.commitmentLetterDetails
+                    val commitment =
+                        response.wrappedList?.firstOrNull()?.assessmentCertificationDetails?.commitmentLetterDetails
                     apiAwardBodyCommitBase64 = commitment?.awardBodyCommit
                     apiSeventyPctCommitBase64 = commitment?.seventyPctCommit
-
                     Log.d(
-                        "assessmentCertificationDetails",
-                        "Award body available = ${!apiAwardBodyCommitBase64.isNullOrBlank()}"
+                        TAG,
+                        "Cert loaded — awardBody=${!apiAwardBodyCommitBase64.isNullOrBlank()}"
                     )
                 } catch (e: Exception) {
                     showErrorToast(
                         getString(
                             R.string.failed_processing_assessment_certification_response,
                             e.message
-                        ))
+                        )
+                    )
                 }
             }.onFailure {
                 showErrorToast(
                     getString(
                         R.string.assessment_certification_api_failed,
                         it.message ?: getString(R.string.unknown)
-                    ))
+                    )
+                )
             }
         }
     }
@@ -1319,28 +1008,51 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         viewModel.placementDetail.observe(viewLifecycleOwner) { result ->
             result.onSuccess { response ->
                 try {
-                    val item = response.wrappedList?.firstOrNull()
-                    val infra = item?.placementDetails
-                    apiPlacementList = infra?.yearWisePlacementDetails
-                    apiCommitmentSixMonthsBase64 = infra?.commitment?.commitmentSixMonths
-                    apiCommitmentLessSixMonthsBase64 = infra?.commitment?.commitmentLessSixMonths
-                    apiCommitmentMoreSixMonthsBase64 = infra?.commitment?.commitmentMoreSixMonths
-
-                    Log.d("FIELD_API", "Placement List = $apiPlacementList")
+                    val placement = response.wrappedList?.firstOrNull()?.placementDetails
+                    apiPlacementList = placement?.yearWisePlacementDetails
+                    apiCommitmentSixMonthsBase64 = placement?.commitment?.commitmentSixMonths
+                    apiCommitmentLessSixMonthsBase64 =
+                        placement?.commitment?.commitmentLessSixMonths
+                    apiCommitmentMoreSixMonthsBase64 =
+                        placement?.commitment?.commitmentMoreSixMonths
+                    Log.d(TAG, "Placement loaded — list size=${apiPlacementList?.size}")
                 } catch (e: Exception) {
                     showErrorToast(
                         getString(
                             R.string.failed_processing_placement_response,
                             e.message
-                        ))
+                        )
+                    )
                 }
             }.onFailure {
-                showErrorToast(getString(R.string.placement_api_failed, it.message ?: getString(R.string.unknown)))
+                showErrorToast(
+                    getString(
+                        R.string.placement_api_failed,
+                        it.message ?: getString(R.string.unknown)
+                    )
+                )
             }
         }
     }
 
-    // ==================== CAMERA & PERMISSION METHODS ====================
+    // ─────────────────────────────────────────────────────────
+    //  Camera
+    // ─────────────────────────────────────────────────────────
+
+    private fun setupCameraLauncher() {
+        cameraLauncher =
+            registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+                if (success) {
+                    Log.d(TAG, "Camera captured: $photoUri")
+                    onCameraSuccess()
+                }
+            }
+        permissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+                if (granted) launchCamera()
+                else showToast(getString(R.string.camera_permission_is_required))
+            }
+    }
 
     private fun checkAndLaunchCamera() {
         if (ContextCompat.checkSelfPermission(
@@ -1355,15 +1067,11 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     }
 
     private fun launchCamera() {
-        val photoFile = createImageFile()
-        if (photoFile == null) {
-            showToast("Failed to create image file")
-            return
-        }
+        val file = createImageFile() ?: run { showToast("Failed to create image file"); return }
         photoUri = FileProvider.getUriForFile(
             requireContext(),
             "${requireContext().packageName}.provider",
-            photoFile
+            file
         )
         cameraLauncher.launch(photoUri)
     }
@@ -1374,597 +1082,346 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         return try {
             File.createTempFile("JPEG_${timestamp}_", ".jpg", storageDir)
         } catch (e: IOException) {
-            e.printStackTrace()
-            null
+            e.printStackTrace(); null
         }
     }
 
-    private val organizationAttachmentLabels = mapOf(
+    // ─────────────────────────────────────────────────────────
+    //  Camera success handler
+    // ─────────────────────────────────────────────────────────
 
-        0 to "uploadIndustryExistenceSelfDeclaration",
-
-        1 to "uploadIndustryRegistrationSelfDeclaration",
-
-        2 to "uploadEpfoChallansSelfDeclaration",
-
-        3 to "uploadTaxDetailsSelfDeclaration",
-
-        4 to "uploadBankDetailsSelfDeclaration",
-
-        5 to "uploadManpowerAgencyCheckSelfDeclaration"
-
-    )
-
-    private fun updateFieldDistance() {
-
-        if (
-            tcLatitude.isNotBlank() &&
-            tcLongitude.isNotBlank() &&
-            rfLatitude.isNotBlank() &&
-            rfLongitude.isNotBlank()
-        ) {
-
-            tcRfDistance = calculateDistance(
-                tcLatitude.toDouble(),
-                tcLongitude.toDouble(),
-                rfLatitude.toDouble(),
-                rfLongitude.toDouble()
-            )
-
-            Log.d(
-                "TC_RF_DISTANCE",
-                "${tcRfDistance / 1000} KM"
-            )
+    private fun onCameraSuccess() {
+        // Capture geo coordinates when relevant
+        when (currentPhotoTarget) {
+            "Training Centre" -> captureTrainingCentreLocation { updateFieldDistance() }
+            "Residential Facilities" -> captureResidentialFacilityLocation { updateFieldDistance() }
         }
 
-    }
-
-    private fun getFileTypeFromUri(uri: Uri): String {
-
-        val type =
-            requireContext()
-                .contentResolver
-                .getType(uri)
-                ?: ""
-
-        return when {
-
-            type.contains("pdf") -> "pdf"
-
-            type.contains("png") -> "png"
-
-            type.contains("jpeg") -> "jpeg"
-
-            type.contains("jpg") -> "jpg"
-
-            else -> ""
-        }
-
-    }
-
-    private fun createAttachmentItem(
-    item: FieldVerificationItem,
-    position: Int,
-    photoUri: Uri
-
-    ): AttachmentItem? {
-        val base64 =
-            AppUtil.imageUriToBase64(
-                requireContext(),
-                photoUri
-            ) ?: return null
-
-        val fileType =
-            getFileTypeFromUri(photoUri)
-
-// Validate allowed file types
-        if (
-            !item.allowedFileTypes.contains(
-                fileType.lowercase()
-            )
-        ) {
-
-            showToast(
-                "Only PDF, PNG, JPG and JPEG files are allowed"
-            )
-
-            return null
-        }
-
-        val label = organizationAttachmentLabels[position]
-                ?: "uploadDocument"
-
-        val remark =
-            item.remarkText
-                ?.trim()
-                ?.ifEmpty {
-                    "Document verified"
-                }
-                ?: "Document verified"
-
-        return AttachmentItem(
-
-            label = label,
-
-            value = listOf(base64),
-
-            remark = remark,
-
-           // fileType = fileType
-        )
-
-    }
-
-
-    private fun handleCameraSuccess() {
-        if (currentPhotoTarget == "Training Centre") {
-
-            captureTrainingCenterLocation {
-
-                updateFieldDistance()
-            }
-        }
-
-        if (currentPhotoTarget == "Residential Facilities") {
-
-            captureResidentialFacilityLocation {
-
-                updateFieldDistance()
-            }
-        }
+        // Save photo into the correct section list
         if (currentUploadPosition >= 0) {
             val pos = currentUploadPosition
-
             when (currentUploadList) {
+                SectionTag.ORG -> savePhotoToSection(
+                    orgItems,
+                    pos,
+                    binding.recyclerView.id,
+                    ::resolveOrgLabel
+                )
 
-                "org" -> {
+                SectionTag.FIN -> savePhotoToSection(
+                    finItems,
+                    pos,
+                    binding.recyclerViewFin.id,
+                    ::resolveFinLabel
+                )
 
-                    val existing =
-                        orgItems.getOrNull(pos)
+                SectionTag.TRAINING -> savePhotoToSection(
+                    trainingItems,
+                    pos,
+                    binding.recyclerViewTraining.id,
+                    ::resolveTrainingLabel
+                )
 
-                    if (existing != null) {
+                SectionTag.TRAINING_INFRA -> savePhotoToSection(
+                    trainingInfraItems,
+                    pos,
+                    binding.recyclerViewTrainingInfra.id,
+                    ::resolveTrainingInfraLabel,
+                    defaultRemark = "Document verified"
+                )
 
-                        val attachment =
-                            createAttachmentItem(
-                                item = existing,
-                                position = pos,
-                                photoUri = photoUri
-                            )
+                SectionTag.RESIDENTIAL -> savePhotoToSection(
+                    residentialFacilityItems,
+                    pos,
+                    binding.recyclerViewResidentialFacility.id,
+                    ::resolveResidentialLabel,
+                    defaultRemark = "Document verified"
+                )
 
-                        if (attachment != null) {
+                SectionTag.CERT -> savePhotoToSection(
+                    certItems,
+                    pos,
+                    binding.recyclerViewCert.id,
+                    ::resolveCertLabel,
+                    defaultRemark = "Certification verified"
+                )
 
-                            val updatedAttachments =
-                                existing.attachments.toMutableList()
+                SectionTag.PLACEMENT -> savePhotoToSection(
+                    placementItems,
+                    pos,
+                    binding.recyclerViewPlacement.id,
+                    ::resolvePlacementLabel,
+                    defaultRemark = "Document verified"
+                )
 
-                            updatedAttachments.add(attachment)
-
-                            orgItems[pos] = existing.copy(
-
-                                imageUri = photoUri.toString(),
-
-                                uploadEnabled = true,
-
-                                attachments = updatedAttachments
-                            )
-
-                            updateRecyclerViewData(
-                                binding.recyclerView.id,
-                                orgItems
-                            )
-                        }
-                    }
-
-                }
-
-                "fin" -> {
-                    val existing = finItems.getOrNull(pos)
-                    if (existing != null) {
-                        val base64 =
-                            AppUtil.imageUriToBase64(requireContext(), photoUri) ?: ""
-
-                        val attachmentLabel =
-                            when (existing.id) {
-
-                                "uploadAnnualTurnoverSelfDeclaration" ->
-                                    "uploadAnnualTurnoverSelfDeclaration"
-
-                                "uploadNetWorthSelfDeclaration" ->
-                                    "uploadNetWorthSelfDeclaration"
-                                else -> "uploadDocument"
-                            }
-
-                        val updatedAttachments = existing.attachments.toMutableList()
-
-                        updatedAttachments.add(
-                            AttachmentItem(
-                                label = attachmentLabel,
-                                value = listOf(base64),
-                                remark = existing.remarkText
-                                    ?.trim()
-                                    ?.ifEmpty { "Document verified" }
-                                    ?: "Document verified"
-                            )
-                        )
-                        finItems[pos] = existing.copy(
-                            imageUri = photoUri.toString(),
-                            uploadEnabled = true,
-                            attachments = updatedAttachments
-                        )
-                        updateRecyclerViewData(binding.recyclerViewFin.id, finItems)
-                    }
-                }
-                "training" -> {
-
-                    val existing = trainingItems.getOrNull(pos)
-
-                    if (existing != null) {
-
-                        val base64 =
-                            AppUtil.imageUriToBase64(requireContext(), photoUri) ?: ""
-
-                        val attachmentLabel =
-                            when (existing.id) {
-
-                                "uploadTrainingCriteriaSelfDeclaration" ->
-                                    "uploadTrainingCriteriaSelfDeclaration"
-
-                                "uploadTotalTrainingHoursSelfDeclaration" ->
-                                    "uploadTotalTrainingHoursSelfDeclaration"
-
-                                "uploadRepetitionClubbingNsqfSelfDeclaration" ->
-                                    "uploadRepetitionClubbingNsqfSelfDeclaration"
-
-                                "uploadBasicTrainingSelfDeclaration" ->
-                                    "uploadBasicTrainingSelfDeclaration"
-
-                                "uploadCommitmentSelfDeclaration" ->
-                                    "uploadCommitmentSelfDeclaration"
-
-                                "uploadTrainingPlacementSelfDeclaration" ->
-                                    "uploadTrainingPlacementSelfDeclaration"
-
-                                "uploadDomainSpecificTrainingSelfDeclaration" ->
-                                    "uploadDomainSpecificTrainingSelfDeclaration"
-
-                                else -> "uploadDocument"
-                            }
-
-                        val updatedAttachments =
-                            existing.attachments.toMutableList()
-
-                        updatedAttachments.add(
-                            AttachmentItem(
-                                label = attachmentLabel,
-                                value = listOf(base64),
-                                remark = existing.remarkText
-                                    ?.trim()
-                                    ?.ifEmpty { "Document verified" }
-                                    ?: "Document verified"
-                            )
-                        )
-
-                        trainingItems[pos] = existing.copy(
-                            imageUri = photoUri.toString(),
-                            uploadEnabled = true,
-                            attachments = updatedAttachments
-                        )
-
-                        updateRecyclerViewData(
-                            binding.recyclerViewTraining.id,
-                            trainingItems
-                        )
-                    }
-                }
-                "trainingInfra" -> {
-
-                    val existing = trainingInfraItems.getOrNull(pos)
-
-                    if (existing != null) {
-
-                        val base64 = AppUtil.imageUriToBase64(requireContext(), photoUri) ?: ""
-
-                        val attachmentLabel =
-                            when (existing.id) {
-
-                                "uploadTrainingInfraSelfDeclaration" ->
-                                    "uploadTrainingInfraSelfDeclaration"
-
-                                "uploadTrainingCentrePhoto" ->
-                                    "uploadTrainingCentrePhoto"
-
-                                "uploadClassroomPhoto" ->
-                                    "uploadClassroomPhoto"
-
-                                "uploadToiletPhoto" ->
-                                    "uploadToiletPhoto"
-
-                                "uploadBuildingPhoto" ->
-                                    "uploadBuildingPhoto"
-
-                                "uploadTablesAndChairsPhoto" ->
-                                    "uploadTablesAndChairsPhoto"
-
-                                "uploadLightingAndSafetyPhoto" ->
-                                    "uploadLightingAndSafetyPhoto"
-
-                                else -> "uploadDocument"
-                            }
-
-                        val updatedAttachments =
-                            existing.attachments.toMutableList()
-
-                        updatedAttachments.add(
-                            AttachmentItem(
-                                label = attachmentLabel,
-                                value = listOf(base64),
-                                remark = existing.remarkText
-                                    ?.trim()
-                                    ?.ifEmpty { "Document verified" }
-                                    ?: "Document verified"
-                            )
-                        )
-
-                        trainingInfraItems[pos] = existing.copy(
-                            imageUri = photoUri.toString(),
-                            uploadEnabled = true,
-                            attachments = updatedAttachments
-                        )
-
-                        updateRecyclerViewData(
-                            binding.recyclerViewTrainingInfra.id,
-                            trainingInfraItems
-                        )
-                    }
-                }
-
-
-                "Self Declaration" -> {
-                    val existing = trainingInfraItems.getOrNull(pos)
-                    if (existing != null) {
-                        trainingInfraItems[pos] = existing.copy(
-                            imageUri = photoUri.toString(),
-                            uploadEnabled = true
-                        )
-                        base64TrainingInfraDeclarationFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        updateRecyclerViewData(binding.recyclerViewTrainingInfra.id, trainingInfraItems)
-                    }
-                }
-                "Training Centre" -> {
-                    val existing = trainingInfraItems.getOrNull(pos)
-                    if (existing != null) {
-                        trainingInfraItems[pos] = existing.copy(
-                            imageUri = photoUri.toString(),
-                            uploadEnabled = true
-                        )
-                        base64TrainingInfraCentreFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
-                        updateRecyclerViewData(binding.recyclerViewTrainingInfra.id, trainingInfraItems)
-                    }
-                }
-                "Officer Selfie" -> {
-
-                    Log.d("SELFIE_FLOW", "Officer Selfie Captured")
-
-                    officerSelfieBase64 =
-                        AppUtil.imageUriToBase64(requireContext(), photoUri)
-
-                    Log.d("SELFIE_FLOW", "Base64 Created")
-
+                SectionTag.OFFICER_SELFIE -> {
+                    Log.d(TAG, "Officer selfie captured")
+                    officerSelfieBase64 = AppUtil.imageUriToBase64(requireContext(), photoUri)
                     startOfficerVerificationFlow()
                 }
-//                "Officer Selfie" -> {
-//                    val existing = fieldItems.getOrNull(pos)
-//                    if (existing != null) {
-//                        fieldItems[currentUploadPosition] =
-//                            existing.copy(
-//                                imageUri = photoUri.toString(),
-//                                uploadEnabled = true
-//                            )
-//                        officerSelfieBase64 = AppUtil.imageUriToBase64(requireContext(), photoUri)
-//                        startOfficerVerificationFlow()
-//                    }
-//                }
             }
-
-            // reset flags
             currentUploadPosition = -1
             currentUploadList = ""
         }
+    }
 
-        // Store base64 files for later submission
-        when (currentPhotoTarget) {
-            "Turnover" -> {
-                base64FinanceFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
-            }
-            "Additional tailor-made training If Yes Upload" -> {
-                base64TrainingFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
-            }
-            "Self Declaration" -> {
-                base64TrainingInfraDeclarationFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
-            }
-            "Training Centre" -> {
-                base64TrainingInfraCentreFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
-            }
-            "Residential Facilities" -> {
-                base64TrainingResFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+    // ── Generic: save a photo into any section list ───────────
+
+    private fun savePhotoToSection(
+        items: MutableList<FieldVerificationItem>,
+        position: Int,
+        recyclerViewId: Int,
+        resolveLabel: (String) -> String,
+        defaultRemark: String = ""
+    ) {
+        val existing = items.getOrNull(position) ?: return
+
+        val base64 =
+            AppUtil.imageUriToBase64(requireContext(), photoUri) ?: return
+
+        val remark =
+            existing.remarkText
+                ?.trim()
+                ?.ifEmpty { defaultRemark }
+                ?: defaultRemark
+
+        val label = resolveLabel(existing.id)
+
+        val updatedAttachments =
+            existing.attachments.toMutableList()
+
+        val existingAttachment =
+            updatedAttachments.find { it.label == label }
+
+        if (existingAttachment != null) {
+
+            val mergedImages =
+                existingAttachment.value.toMutableList()
+
+            mergedImages.add(base64)
+
+            updatedAttachments.remove(existingAttachment)
+
+            updatedAttachments.add(
+                existingAttachment.copy(
+                    value = mergedImages,
+                    remark = remark
+                )
+            )
+
+        } else {
+
+            updatedAttachments.add(
+                AttachmentItem(
+                    label = label,
+                    value = mutableListOf(base64),
+                    remark = remark
+                )
+            )
+        }
+
+        items[position] = existing.copy(
+            imageUri = photoUri.toString(),
+            uploadEnabled = true,
+            attachments = updatedAttachments,
+            remarkText = existing.remarkText
+        )
+
+        updateRecyclerViewData(recyclerViewId, items)
+    }
+
+    private fun syncRecyclerRemarks(
+        recyclerView: RecyclerView,
+        items: MutableList<FieldVerificationItem>
+    ) {
+        for (i in items.indices) {
+            val holder = recyclerView.findViewHolderForAdapterPosition(i) as? BaseRecyclerAdapter<*, *>.BaseViewHolder
+            val binding = holder?.binding as? ItemFieldVerCardBinding
+
+            val latestRemark =
+                binding?.etSectionRemark
+                    ?.text
+                    ?.toString()
+                    ?.trim()
+
+            if (!latestRemark.isNullOrEmpty()) {
+
+                items[i].remarkText = latestRemark
             }
         }
     }
 
-    private fun startOfficerVerificationFlow() {
 
-        if (hasLocationPermission()) {
-            getOfficerCurrentLocation()
-        } else {
-            requestLocationPermission()
-        }
+
+    // ── Label resolvers per section ──────────────────────────
+
+    private fun resolveOrgLabel(id: String) = when (id) {
+        AttachmentLabel.ORG_EXISTENCE -> AttachmentLabel.ORG_EXISTENCE
+        AttachmentLabel.ORG_REGISTRATION -> AttachmentLabel.ORG_REGISTRATION
+        AttachmentLabel.ORG_EPFO -> AttachmentLabel.ORG_EPFO
+        AttachmentLabel.ORG_TAX -> AttachmentLabel.ORG_TAX
+        AttachmentLabel.ORG_BANK -> AttachmentLabel.ORG_BANK
+        AttachmentLabel.ORG_MANPOWER -> AttachmentLabel.ORG_MANPOWER
+        else -> id
+    }
+
+    private fun resolveFinLabel(id: String) = when (id) {
+        AttachmentLabel.FIN_TURNOVER -> AttachmentLabel.FIN_TURNOVER
+        AttachmentLabel.FIN_NETWORTH -> AttachmentLabel.FIN_NETWORTH
+        else -> id
+    }
+
+    private fun resolveTrainingLabel(id: String) = when (id) {
+        AttachmentLabel.TRAIN_CRITERIA -> AttachmentLabel.TRAIN_CRITERIA
+        AttachmentLabel.TRAIN_HOURS -> AttachmentLabel.TRAIN_HOURS
+        AttachmentLabel.TRAIN_NSQF -> AttachmentLabel.TRAIN_NSQF
+        AttachmentLabel.TRAIN_BASIC -> AttachmentLabel.TRAIN_BASIC
+        AttachmentLabel.TRAIN_COMMITMENT -> AttachmentLabel.TRAIN_COMMITMENT
+        AttachmentLabel.TRAIN_PLACEMENT -> AttachmentLabel.TRAIN_PLACEMENT
+        AttachmentLabel.TRAIN_DOMAIN -> AttachmentLabel.TRAIN_DOMAIN
+        else -> id
+    }
+
+    private fun resolveTrainingInfraLabel(id: String) = when (id) {
+        AttachmentLabel.INFRA_DECLARATION -> AttachmentLabel.INFRA_DECLARATION
+        AttachmentLabel.INFRA_CENTRE -> AttachmentLabel.INFRA_CENTRE
+        AttachmentLabel.INFRA_CLASSROOM -> AttachmentLabel.INFRA_CLASSROOM
+        AttachmentLabel.INFRA_TOILET -> AttachmentLabel.INFRA_TOILET
+        AttachmentLabel.INFRA_BUILDING -> AttachmentLabel.INFRA_BUILDING
+        AttachmentLabel.INFRA_TABLES -> AttachmentLabel.INFRA_TABLES
+        AttachmentLabel.INFRA_LIGHTING -> AttachmentLabel.INFRA_LIGHTING
+        else -> id
+    }
+
+    private fun resolveResidentialLabel(id: String) = when (id) {
+        AttachmentLabel.RES_DECLARATION -> AttachmentLabel.RES_DECLARATION
+        AttachmentLabel.RES_BUILDING -> AttachmentLabel.RES_BUILDING
+        AttachmentLabel.RES_SAFETY -> AttachmentLabel.RES_SAFETY
+        AttachmentLabel.RES_CANTEEN -> AttachmentLabel.RES_CANTEEN
+        AttachmentLabel.RES_BED_WATER -> AttachmentLabel.RES_BED_WATER
+        else -> id
+    }
+
+    private fun resolveCertLabel(id: String) = when (id) {
+        AttachmentLabel.CERT_DECLARATION -> AttachmentLabel.CERT_DECLARATION
+        else -> id
+    }
+
+    private fun resolvePlacementLabel(id: String) = when (id) {
+        AttachmentLabel.PLACEMENT_DETAILS -> AttachmentLabel.PLACEMENT_DETAILS
+        AttachmentLabel.PLACEMENT_COMMITMENT -> AttachmentLabel.PLACEMENT_COMMITMENT
+        else -> id
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Officer verification flow
+    // ─────────────────────────────────────────────────────────
+
+    private fun showOfficerVerificationDialog() {
+        AlertDialog.Builder(requireContext()).setTitle("Officer Verification")
+            .setMessage("Please capture selfie and verify current location before starting field verification.")
+            .setCancelable(false).setPositiveButton("Capture Selfie") { _, _ ->
+                currentUploadList = SectionTag.OFFICER_SELFIE
+                currentUploadPosition = 0
+                currentPhotoTarget = SectionTag.OFFICER_SELFIE
+                checkAndLaunchCamera()
+            }.show()
+    }
+
+    private fun startOfficerVerificationFlow() {
+        if (hasLocationPermission()) getOfficerCurrentLocation() else requestLocationPermission()
     }
 
     @SuppressLint("MissingPermission")
     private fun getOfficerCurrentLocation() {
-
         showProgressBar()
-
-        fusedLocationClient.getCurrentLocation(
-            Priority.PRIORITY_HIGH_ACCURACY,
-            null
-        ).addOnSuccessListener { location ->
-
-            hideProgressBar()
-
-            if (location != null) {
-
-                latitude = location.latitude.toString()
-                longitude = location.longitude.toString()
-
-                Log.d("OfficerLocation", "Lat : $latitude")
-                Log.d("OfficerLocation", "Lng : $longitude")
-
-                selfieVerificationApi()
-
-            } else {
-
-                showToast("Unable to fetch current location")
-            }
-
-        }.addOnFailureListener {
-
-            hideProgressBar()
-
-            showToast("Failed to fetch location")
-        }
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener { location ->
+                hideProgressBar()
+                if (location != null) {
+                    latitude = location.latitude.toString()
+                    longitude = location.longitude.toString()
+                    Log.d(TAG, "Officer location — $latitude, $longitude")
+                    callOfficerSelfieApi()
+                } else {
+                    showToast("Unable to fetch current location")
+                }
+            }.addOnFailureListener { hideProgressBar(); showToast("Failed to fetch location") }
     }
 
-    private fun selfieVerificationApi() {
-
+    private fun callOfficerSelfieApi() {
         val request = CaptivePiaOfficerSelfieRequest(
-
             appVersion = BuildConfig.VERSION_NAME,
-
             comment = "Officer Photo captured now",
-
             officerLatitude = latitude,
-
             officerLongitude = longitude,
-
             officerPhoto = officerSelfieBase64 ?: "",
-
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-
             createdBy = AppUtil.getSavedLoginIdPreference(requireContext())
         )
 
         showProgressBar()
-
-        viewModel.getCaptivePiaOfficerSelfie(request,"")
-
+        viewModel.getCaptivePiaOfficerSelfie(request, "")
         viewModel.officerSelfieApi.removeObservers(viewLifecycleOwner)
-
         viewModel.officerSelfieApi.observe(viewLifecycleOwner) { result ->
-
             hideProgressBar()
-
             result.onSuccess { response ->
-
                 try {
-
                     if (response.responseCode == 200) {
-
-                        Log.d(
-                            "SELFIE_FLOW",
-                            "Officer Selfie API Success"
-                        )
-
+                        Log.d(TAG, "Selfie API success")
                         isSelfieVerificationDone = true
-
-                        showToast(
-                            response.responseDesc
-                                ?: "Officer verification successful"
-                        )
-
-                        showOriginalForm()
-
+                        showToast(response.responseDesc ?: "Officer verification successful")
+                        revealOrgSection()
                     } else {
-
-                        showToast(
-                            response.responseDesc
-                                ?: "Verification failed"
-                        )
+                        showToast(response.responseDesc ?: "Verification failed")
                     }
-
                 } catch (e: Exception) {
-
                     e.printStackTrace()
-
-                    showToast(
-                        "Failed to process verification response"
-                    )
+                    showToast("Failed to process verification response")
                 }
-
             }.onFailure {
-
                 hideProgressBar()
-
-                Log.e(
-                    "SELFIE_FLOW",
-                    "API Failed : ${it.message}"
-                )
-
-                showToast(
-                    it.message ?: "Officer verification failed"
-                )
+                Log.e(TAG, "Selfie API failed: ${it.message}")
+                showToast(it.message ?: "Officer verification failed")
             }
         }
     }
 
-    private fun showOriginalForm() {
-
+    private fun revealOrgSection() {
         binding.verOrg.visibility = View.VISIBLE
         binding.trainingInfraExpand.visibility = View.VISIBLE
-
         binding.recyclerView.visibility = View.VISIBLE
         binding.btnInfoNext.visibility = View.VISIBLE
-
-        binding.scroll.post {
-
-            binding.scroll.smoothScrollTo(0, 0)
-        }
+        scrollToTop()
     }
-    // ==================== LOCATION METHODS ====================
+
+    // ─────────────────────────────────────────────────────────
+    //  Location
+    // ─────────────────────────────────────────────────────────
 
     private fun setupLocationClient() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
     private fun hasLocationPermission(): Boolean {
-        val fineLocation = ContextCompat.checkSelfPermission(
+        val fine = ContextCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.ACCESS_FINE_LOCATION
         )
-        val coarseLocation = ContextCompat.checkSelfPermission(
+        val coarse = ContextCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
-        return fineLocation == PackageManager.PERMISSION_GRANTED || coarseLocation == PackageManager.PERMISSION_GRANTED
+        return fine == PackageManager.PERMISSION_GRANTED || coarse == PackageManager.PERMISSION_GRANTED
     }
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            val fineLocationGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
-            val coarseLocationGranted =
-                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
-
-            if (fineLocationGranted || coarseLocationGranted) {
-                // Initial Selfie Verification Flow
-                if (!isSelfieVerificationDone) {
-                    getOfficerCurrentLocation()
-                } else {
-
-                    // Original Existing Flow
-                    getCurrentLocation()
-                }
-
+            val granted =
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true || permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
+            if (granted) {
+                if (!isSelfieVerificationDone) getOfficerCurrentLocation() else getCurrentLocation()
             } else {
-
                 showToast(getString(R.string.location_permission_denied))
             }
         }
@@ -1979,57 +1436,6 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     }
 
     @SuppressLint("MissingPermission")
-    private fun captureTrainingCenterLocation(
-        onCaptured: () -> Unit) {
-        fusedLocationClient.getCurrentLocation(
-            Priority.PRIORITY_HIGH_ACCURACY,
-            null
-        ).addOnSuccessListener { location ->
-
-            if (location != null) {
-
-                tcLatitude = location.latitude.toString()
-                tcLongitude = location.longitude.toString()
-
-                Log.d("TC_LOCATION", "$tcLatitude , $tcLongitude")
-
-                onCaptured()
-
-            } else {
-                showToast("Unable to capture Training Centre location")
-            }
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun captureResidentialFacilityLocation(
-        onCaptured: () -> Unit
-    ) {
-
-        fusedLocationClient.getCurrentLocation(
-            Priority.PRIORITY_HIGH_ACCURACY,
-            null
-        ).addOnSuccessListener { location ->
-
-            if (location != null) {
-
-                rfLatitude = location.latitude.toString()
-                rfLongitude = location.longitude.toString()
-
-                Log.d("RF_LOCATION", "$rfLatitude , $rfLongitude")
-
-                onCaptured()
-
-            } else {
-                showToast("Unable to capture Residential Facility location")
-            }
-        }
-
-    }
-
-
-
-    @SuppressLint("MissingPermission")
     private fun getCurrentLocation() {
         fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
             .addOnSuccessListener { location ->
@@ -2037,51 +1443,131 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                     latitude = location.latitude.toString()
                     longitude = location.longitude.toString()
 
-                    // Dummy mapped coordinates
-                    tcLatitude = "28.6139"
-                    tcLongitude = "77.2090"
+                    val currentLat = latitude.toDoubleOrNull()
+                    val currentLng = longitude.toDoubleOrNull()
 
-                    rfLatitude = "28.6160"
-                    rfLongitude = "77.2105"
+                    val tcLat = tcLatitude.toDoubleOrNull()
+                    val tcLng = tcLongitude.toDoubleOrNull()
 
-                    val officerDistance = calculateDistance(
-                        latitude.toDouble(),
-                        longitude.toDouble(),
-                        tcLatitude.toDouble(),
-                        tcLongitude.toDouble()
-                    )
-
-                    isOfficerWithinRange = officerDistance <= MAX_ALLOWED_DISTANCE
-
-                    // TC RF distance
-                    tcRfDistance = calculateDistance(
-                        tcLatitude.toDouble(),
-                        tcLongitude.toDouble(),
-                        rfLatitude.toDouble(),
-                        rfLongitude.toDouble()
-                    )
-
-                    if (::fieldAdapter.isInitialized) {
-                        fieldItems = mutableListOf(
-                            FieldVerificationItem(
-                                id = "",
-                                resources.getString(R.string.field_ver_geo_factory_field),
-                                resources.getString(R.string.field_ver_ctsa_off_note_field),
-                                listOf("Current Latitude:: $latitude", "Current Longitude: : $longitude"),
-                                uploadEnabled = false,
-                                allowRemark = false
-                            )
+                    if (currentLat != null && currentLng != null && tcLat != null && tcLng != null) {
+                        val officerDistance = calculateDistance(
+                            currentLat, currentLng, tcLat, tcLng
                         )
 
-                        updateRecyclerViewData(binding.recyclerViewField.id, fieldItems)
+                        isOfficerWithinRange = officerDistance <= MAX_ALLOWED_DISTANCE
                     }
+
+
+                    val rfLat = rfLatitude.toDoubleOrNull()
+                    val rfLng = rfLongitude.toDoubleOrNull()
+
+                    if (tcLat != null && tcLng != null && rfLat != null && rfLng != null) {
+                        tcRfDistance = calculateDistance(
+                            tcLat, tcLng, rfLat, rfLng
+                        )
+
+                    }
+
+
+                    if (::fieldAdapter.isInitialized) refreshFieldItems()
                 } else {
                     showToast("Unable to get location")
                 }
-            }
-            .addOnFailureListener {
+            }.addOnFailureListener {
                 toastShort(getString(R.string.failed_to_get_location, it.message ?: ""))
             }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun captureTrainingCentreLocation(onCaptured: () -> Unit) {
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                    tcLatitude = location.latitude.toString()
+                    tcLongitude = location.longitude.toString()
+                    Log.d(TAG, "TC location: $tcLatitude, $tcLongitude")
+                    showToast("Training Centre location captured successfully")
+                    onCaptured()
+                } else {
+                    showToast("Unable to capture Training Centre location")
+                }
+            }.addOnFailureListener { showToast("Failed to capture Training Centre location") }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun captureResidentialFacilityLocation(onCaptured: () -> Unit) {
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                    rfLatitude = location.latitude.toString()
+                    rfLongitude = location.longitude.toString()
+                    Log.d(TAG, "RF location: $rfLatitude, $rfLongitude")
+                    showToast("Residential Facility location captured successfully")
+                    onCaptured()
+                } else {
+                    showToast("Unable to capture Residential Facility location")
+                }
+            }.addOnFailureListener { showToast("Failed to capture Residential Facility location") }
+    }
+
+    private fun updateFieldDistance() {
+        if (tcLatitude.isNotBlank() && tcLongitude.isNotBlank() && rfLatitude.isNotBlank() && rfLongitude.isNotBlank()) {
+            tcRfDistance = calculateDistance(
+                tcLatitude.toDouble(),
+                tcLongitude.toDouble(),
+                rfLatitude.toDouble(),
+                rfLongitude.toDouble()
+            )
+            Log.d(TAG, "TC-RF distance: ${tcRfDistance / 1000} KM")
+            //showToast("Distance calculated successfully")
+            refreshFieldItems()
+        }
+    }
+
+    private fun refreshFieldItems() {
+        fieldItems = mutableListOf(
+//            FieldVerificationItem(
+//                id = "",
+//                requirement = resources.getString(R.string.field_ver_geo_factory_field),
+//                verificationDoc = resources.getString(R.string.field_ver_ctsa_off_note_field),
+//                documents = listOf(
+//                    "Current Latitude:: $latitude",
+//                    "Current Longitude: : $longitude"
+//                ),
+//                uploadEnabled = false,
+//                allowRemark = false
+//            ),
+            FieldVerificationItem(
+                id = "officer_location",
+                requirement = "Officer Current Location",
+                verificationDoc = "Officer current geo location verification",
+                documents = listOf("Latitude : $latitude", "Longitude : $longitude"),
+                uploadEnabled = false,
+                allowRemark = false
+            ), FieldVerificationItem(
+                id = "tc_location",
+                requirement = "Training Centre Location",
+                verificationDoc = "Training Centre geo coordinates",
+                documents = listOf("TC Latitude : $tcLatitude", "TC Longitude : $tcLongitude"),
+                uploadEnabled = false,
+                allowRemark = false
+            ), FieldVerificationItem(
+                id = "rf_location",
+                requirement = "Residential Facility Location",
+                verificationDoc = "Residential Facility geo coordinates",
+                documents = listOf("RF Latitude : $rfLatitude", "RF Longitude : $rfLongitude"),
+                uploadEnabled = false,
+                allowRemark = false
+            ), FieldVerificationItem(
+                id = "distance",
+                requirement = "Distance Between TC & RF",
+                verificationDoc = "Calculated distance between TC and RF",
+                documents = listOf("${tcRfDistance / 1000} KM"),
+                uploadEnabled = false,
+                allowRemark = false
+            )
+        )
+        updateRecyclerViewData(binding.recyclerViewField.id, fieldItems)
     }
 
     private fun calculateDistance(
@@ -2090,171 +1576,733 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         endLat: Double,
         endLng: Double
     ): Float {
-
         val results = FloatArray(1)
-
-        android.location.Location.distanceBetween(
-            startLat,
-            startLng,
-            endLat,
-            endLng,
-            results
-        )
-
+        android.location.Location.distanceBetween(startLat, startLng, endLat, endLng, results)
         return results[0]
     }
 
-    // ==================== DIALOG METHODS ====================
+    // ─────────────────────────────────────────────────────────
+    //  Validation helpers
+    // ─────────────────────────────────────────────────────────
 
-    private fun showSimpleDialog(title: String, message: String) {
-        AlertDialog.Builder(requireContext())
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton("OK", null)
-            .create()
-            .show()
-    }
+//    private fun validateAllRemarksForSection(
+//        items: List<FieldVerificationItem>,
+//        errorMessage: (FieldVerificationItem) -> String = {
+//            getString(
+//                R.string.please_enter_remark_for,
+//                it.requirement
+//            )
+//        }
+//    ): Map<String, String>? {
+//        commitFocusedEditText()
+//        val remarkItems = items.filter { it.allowRemark }
+//        if (remarkItems.isEmpty()) return emptyMap()
+//        remarkItems.forEach { item ->
+//            if (item.remarkText?.trim().isNullOrEmpty()) {
+//                showToast(errorMessage(item))
+//                return null
+//            }
+//        }
+//        return remarkItems.associate { it.requirement to it.remarkText!!.trim() }
+//    }
 
-    private fun showIndustryIncorporationDialog() {
+//    private fun validateSectionItems(
+//        items: List<FieldVerificationItem>
+//    ): Boolean {
+//        commitFocusedEditText()
+//
+//        val uploadItems = items.filter { it.uploadEnabled }
+//
+//        uploadItems.forEach { item ->
+//
+//            // Upload validation
+//            if (
+//                item.isAttachmentMandatory &&
+//                item.attachments.isEmpty()
+//            ) {
+//                showToast(
+//                    "Please upload document for ${item.requirement}"
+//                )
+//                return false
+//            }
+//
+//            // Remark validation
+//            if (item.allowRemark && item.remarkText.isNullOrBlank()) {
+//                showToast(
+//                    "Please enter remark for ${item.requirement}"
+//                )
+//                return false
+//            }
+//        }
+//
+//        return true
+//
+//    }
 
-        val msg = buildString {
+    private fun validateSectionItems(
+        recyclerView: RecyclerView,
+        items: MutableList<FieldVerificationItem>
+    ): Boolean {
+        commitFocusedEditText()
 
-            appendLine("📅 Date of Incorporation")
-            appendLine("      ${apiDateOfIncorporation ?: "Not Available"}")
-            appendLine()
+        syncRecyclerRemarks(recyclerView, items)
 
-            appendLine("⏳ Duration of Organization")
-            appendLine("     ${durationOfOrg ?: "Not Available"}")
-            appendLine()
+        val uploadItems =
+            items.filter { it.uploadEnabled }
 
-        }.trim()
+        uploadItems.forEach { item ->
 
-        val actions = buildList {
-            if (!factoryRegistrationAttachment.isNullOrBlank()) {
-                add(
-                    DocAction("View Factory Registration") {
-                        openBase64Pdf(apiEpfoAttachmentBase64!!)
-                    }
+            if (
+                item.isAttachmentMandatory &&
+                item.attachments.isEmpty()
+            ) {
+
+                showToast(
+                    "Please upload document for ${item.requirement}"
                 )
+
+                return false
+            }
+
+            if (
+                item.allowRemark &&
+                item.remarkText?.trim().isNullOrEmpty()
+            ) {
+
+                showToast(
+                    "Please enter remark for ${item.requirement}"
+                )
+
+                return false
             }
         }
 
-        showInfoWithHorizontalButtonsDialog(
-            "Industry Incorporation",
-            msg,
-            actions
+        return true
+
+    }
+
+
+
+
+
+    private fun commitFocusedEditText() {
+        try {
+            view?.findFocus()?.clearFocus()
+        } catch (_: Exception) {
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  Payload builders
+    // ─────────────────────────────────────────────────────────
+
+    private fun buildDetailRequest() = FieldVerificationDetailRequest(
+        appVersion = BuildConfig.VERSION_NAME,
+        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+        captiveEmpanelmentId = captiveEmpanelmentId,
+        prnNo = prnNo
+    )
+
+    private fun collectSectionRemarks(
+        sectionName: String, sectionItems: List<FieldVerificationItem>
+    ): List<RemarkItem> {
+        commitFocusedEditText()
+
+        val requirementKey = when (sectionName.uppercase()) {
+            "ORGANIZATION" -> Requirement.ORG
+            "FINANCE" -> Requirement.FIN
+            "TRAINING" -> Requirement.TRAINING
+            "TRAININGINFRA" -> Requirement.INFRA
+            "RESIDENTIALFACILITY" -> Requirement.RESIDENTIAL
+            "CERTIFICATION" -> Requirement.CERT
+            "PLACEMENT" -> Requirement.PLACEMENT
+            "FIELDVISIT" -> Requirement.FIELD
+            else -> sectionName.uppercase()
+        }
+
+        val allAttachments = sectionItems.flatMap { it.attachments }
+
+        return if (allAttachments.isNotEmpty()) {
+            listOf(
+                RemarkItem(
+                    section = sectionName,
+                    requirement = requirementKey,
+                    attachments = allAttachments
+                )
+            )
+        } else {
+            sectionItems.filter { it.allowRemark }.mapNotNull { item ->
+                    val r = item.remarkText?.trim().orEmpty()
+                    if (r.isEmpty()) null else RemarkItem(
+                        section = sectionName,
+                        requirement = item.id
+                    )
+                }
+        }
+    }
+
+    private fun buildFinalSubmitPayload(): FieldVerificationFinalSubmit {
+        commitFocusedEditText()
+
+        val fieldVisitAttachments = mutableListOf<AttachmentItem>().apply {
+            officerSelfieBase64?.let {
+                add(
+                    AttachmentItem(
+                        label = AttachmentLabel.FIELD_SELFIE,
+                        value = listOf(it),
+                        remark = "Officer selfie captured at login with geolocation"
+                    )
+                )
+            }
+            add(
+                AttachmentItem(
+                    label = AttachmentLabel.FIELD_GEO_INITIATION,
+                    value = listOf("Completed"),
+                    remark = "Officer found within 500 meters during verification initiation"
+                )
+            )
+            add(
+                AttachmentItem(
+                    label = AttachmentLabel.FIELD_GEO_FINAL,
+                    value = listOf("Completed"),
+                    remark = "Officer found within 500 meters during final submission"
+                )
+            )
+            if (tcLatitude.isNotBlank()) add(
+                AttachmentItem(
+                    label = AttachmentLabel.FIELD_TC_LAT,
+                    value = listOf(tcLatitude),
+                    remark = "Training Centre latitude captured during field visit"
+                )
+            )
+            if (tcLongitude.isNotBlank()) add(
+                AttachmentItem(
+                    label = AttachmentLabel.FIELD_TC_LNG,
+                    value = listOf(tcLongitude),
+                    remark = "Training Centre longitude captured during field visit"
+                )
+            )
+            if (rfLatitude.isNotBlank()) add(
+                AttachmentItem(
+                    label = AttachmentLabel.FIELD_RF_LAT,
+                    value = listOf(rfLatitude),
+                    remark = "Residential Facility latitude captured during field visit"
+                )
+            )
+            if (rfLongitude.isNotBlank()) add(
+                AttachmentItem(
+                    label = AttachmentLabel.FIELD_RF_LNG,
+                    value = listOf(rfLongitude),
+                    remark = "Residential Facility longitude captured during field visit"
+                )
+            )
+            if (tcRfDistance > 0f) add(
+                AttachmentItem(
+                    label = AttachmentLabel.FIELD_DISTANCE,
+                    value = listOf(String.format("%.2f KM", tcRfDistance / 1000)),
+                    remark = "Distance between Training Centre and Residential Facility captured"
+                )
+            )
+        }
+
+        return FieldVerificationFinalSubmit(
+            Organization = collectSectionRemarks("Organization", orgItems),
+            Finance = collectSectionRemarks("Finance", finItems),
+            Training = collectSectionRemarks("Training", trainingItems),
+            TrainingInfra = collectSectionRemarks("TrainingInfra", trainingInfraItems),
+            ResidentialFacility = collectSectionRemarks(
+                "ResidentialFacility",
+                residentialFacilityItems
+            ),
+            Certification = collectSectionRemarks("Certification", certItems),
+            Placement = collectSectionRemarks("Placement", placementItems),
+            FieldVisit = listOf(
+                RemarkItem(
+                    section = "FieldVisit",
+                    requirement = Requirement.FIELD,
+                    attachments = fieldVisitAttachments
+                )
+            ),
+            appVersion = BuildConfig.VERSION_NAME,
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            captiveEmpanelmentId = captiveEmpanelmentId,
+            prnNo = prnNo,
         )
     }
 
+    // ─────────────────────────────────────────────────────────
+    //  Item list builders
+    // ─────────────────────────────────────────────────────────
+
+    private fun buildOrgItems(): MutableList<FieldVerificationItem> = mutableListOf(
+        viewItem(
+            resources.getString(R.string.field_ver_industry_existence),
+            resources.getString(R.string.field_ver_valid_govt_note_doc),
+            listOf("Date of Incorporation (PRN)")
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_valid_epfo_esic_doc),
+            resources.getString(R.string.field_ver_valid_epfo_esic_note_doc),
+            listOf("View Registration Document")
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_epfo_challan_doc),
+            resources.getString(R.string.field_ver_valid_epfo_challan_note_doc),
+            listOf("EPFO Challan (6 Months)")
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_valid_industry_doc),
+            resources.getString(R.string.field_ver_valid_industry_note_doc),
+            listOf("View")
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_valid_bank_doc),
+            resources.getString(R.string.field_ver_valid_bank_note_doc),
+            listOf("View Account Details")
+        ),
+        uploadItem(
+            AttachmentLabel.ORG_EXISTENCE,
+            "Industry Existence Verification",
+            "Upload proof of industry existence verification document.",
+            "Upload Industry Existence Document",
+            "Organization"
+        ),
+        uploadItem(
+            AttachmentLabel.ORG_REGISTRATION,
+            "Industry Registration Verification",
+            "Upload industry registration verification document.",
+            "Upload Industry Registration Document",
+            "Organization"
+        ),
+        uploadItem(
+            AttachmentLabel.ORG_EPFO,
+            "EPFO Challan Verification",
+            "Upload EPFO challan verification document.",
+            "Upload EPFO Challan",
+            "Organization"
+        ),
+        uploadItem(
+            AttachmentLabel.ORG_TAX,
+            "Tax Details Verification",
+            "Upload GST and TAN verification document.",
+            "Upload Tax Verification Document",
+            "Organization"
+        ),
+        uploadItem(
+            AttachmentLabel.ORG_BANK,
+            "Bank Details Verification",
+            "Upload bank details verification document.",
+            "Upload Bank Verification Document",
+            "Organization"
+        ),
+        uploadItem(
+            AttachmentLabel.ORG_MANPOWER,
+            "Manpower Agency Check Verification",
+            "Upload manpower agency declaration verification document.",
+            "Upload Manpower Agency Declaration",
+            "Organization"
+        ),
+    )
+
+    private fun buildFinItems(): MutableList<FieldVerificationItem> = mutableListOf(
+        viewItem(
+            resources.getString(R.string.field_ver_industry_turnover_fin),
+            resources.getString(R.string.field_ver_industry_turnover_note_fin),
+            listOf(resources.getString(R.string.fin_balance_sheet_button))
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_industry_networth_fin),
+            resources.getString(R.string.field_ver_industry_networth_note_fin),
+            listOf(resources.getString(R.string.fin_turnover_button))
+        ),
+        uploadItem(
+            AttachmentLabel.FIN_TURNOVER,
+            "Annual Turnover Self Declaration",
+            "Verify the submitted self declaration document for annual turnover details.",
+            "upload Annual Turnover Self Declaration",
+            "Finance"
+        ),
+        uploadItem(
+            AttachmentLabel.FIN_NETWORTH,
+            "Net Worth Self Declaration",
+            "Verify the submitted self declaration document for net worth details.",
+            "upload Net Worth Self Declaration",
+            "Finance"
+        ),
+    )
+
+    private fun buildTrainingItems(): MutableList<FieldVerificationItem> = mutableListOf(
+        viewItem(
+            resources.getString(R.string.field_ver_exp_training),
+            resources.getString(R.string.field_ver_exp_note_training),
+            listOf(resources.getString(R.string.train_target_button))
+        ),
+        FieldVerificationItem(
+            id = "FIN_TURNOVER",
+            requirement = resources.getString(R.string.field_ver_hrs_training),
+            verificationDoc = resources.getString(R.string.field_ver_hrs_note_training),
+            documents = listOf(resources.getString(R.string.train_hour_button)),
+            uploadEnabled = false,
+            allowRemark = false
+        ),
+        FieldVerificationItem(
+            id = "FIN_NETWORTH",
+            requirement = resources.getString(R.string.field_ver_course_content_training),
+            verificationDoc = if (repetitionClubbingIfraNsqf.equals(
+                    "Y",
+                    ignoreCase = true
+                )
+            ) "YES" else "NO",
+            documents = listOf(),
+            uploadEnabled = false,
+            allowRemark = false
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_nsqf_courses_training),
+            resources.getString(R.string.field_ver_nsqf_courses_note_training),
+            listOf(resources.getString(R.string.train_NSQF_course_button))
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_500_cand_training),
+            resources.getString(R.string.field_ver_500_cand_note_training),
+            listOf(
+                resources.getString(R.string.train_commitment1_button),
+                resources.getString(R.string.train_commitment2_button)
+            )
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_job_training),
+            resources.getString(R.string.field_ver_job_note_training),
+            listOf(resources.getString(R.string.train_tailor_button))
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_domain_training),
+            resources.getString(R.string.field_ver_domain_note_training),
+            listOf(
+                resources.getString(R.string.train_domain1_button),
+                resources.getString(R.string.train_domain2_button)
+            )
+        ),
+        uploadItem(
+            AttachmentLabel.TRAIN_CRITERIA,
+            "Training Criteria Verification",
+            "Verify the submitted self declaration document for training criteria details.",
+            "Upload Training Criteria Self Declaration",
+            "Training"
+        ),
+        uploadItem(
+            AttachmentLabel.TRAIN_HOURS,
+            "Total Training Hours Verification",
+            "Verify the submitted self declaration document for total training hours.",
+            "Upload Total Training Hours Self Declaration",
+            "Training"
+        ),
+        uploadItem(
+            AttachmentLabel.TRAIN_NSQF,
+            "Repetition Clubbing and NSQF Verification",
+            "Verify the submitted self declaration document for repetition clubbing and NSQF compliance.",
+            "Upload Repetition Clubbing NSQF Self Declaration",
+            "Training"
+        ),
+        uploadItem(
+            AttachmentLabel.TRAIN_BASIC,
+            "Basic Training Verification",
+            "Verify the submitted self declaration document for basic training details.",
+            "Upload Basic Training Self Declaration",
+            "Training"
+        ),
+        uploadItem(
+            AttachmentLabel.TRAIN_COMMITMENT,
+            "Commitment Verification",
+            "Verify the submitted self declaration document for commitment details.",
+            "Upload Commitment Self Declaration",
+            "Training"
+        ),
+        uploadItem(
+            AttachmentLabel.TRAIN_PLACEMENT,
+            "Training and Placement Verification",
+            "Verify the submitted self declaration document for training and placement records.",
+            "Upload Training Placement Self Declaration",
+            "Training"
+        ),
+        uploadItem(
+            AttachmentLabel.TRAIN_DOMAIN,
+            "Domain Specific Training Verification",
+            "Verify the submitted self declaration document for domain specific training details.",
+            "Upload Domain Specific Training Self Declaration",
+            "Training"
+        ),
+    )
+
+
+
+    private fun buildCertItems(): MutableList<FieldVerificationItem> = mutableListOf(
+        viewItem(
+            resources.getString(R.string.field_ver_provide_cert),
+            resources.getString(R.string.field_ver_provide_note_cert),
+            listOf("Form 4")
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_res_conduct_cert),
+            resources.getString(R.string.field_ver_conduct_note_cert),
+            listOf("Form 4")
+        ),
+        uploadItem(
+            AttachmentLabel.CERT_DECLARATION,
+            "Assessment and Certification Verification",
+            "Verify the submitted self declaration document for assessment and certification.",
+            "Upload Certification Self Declaration",
+            "Certification"
+        ),
+    )
+
+    private fun buildPlacementItems(): MutableList<FieldVerificationItem> = mutableListOf(
+        viewItem(
+            resources.getString(R.string.field_ver_500_empl_placement),
+            resources.getString(R.string.field_ver_empl_note_placement),
+            listOf("View Employment Details")
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_70_per_cand_placement),
+            resources.getString(R.string.field_ver_empl_off_letter_note_placement),
+            listOf("Form 1")
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_70_per_less_cand_coursewise_placement),
+            resources.getString(R.string.field_ver_empl_off_letter_coursewise_less_note_placement),
+            listOf("Form 1")
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_70_per_more_cand_coursewise_placement),
+            resources.getString(R.string.field_ver_empl_off_letter_coursewise_more_note_placement),
+            listOf("Form 1")
+        ),
+        uploadItem(
+            AttachmentLabel.PLACEMENT_DETAILS,
+            "Placement Details Verification",
+            "Verify the submitted self declaration document for placement details.",
+            "Upload Placement Details Self Declaration",
+            "Placement"
+        ),
+        uploadItem(
+            AttachmentLabel.PLACEMENT_COMMITMENT,
+            "Placement Commitment Verification",
+            "Verify the submitted self declaration document for placement commitment.",
+            "Upload Commitment Self Declaration",
+            "Placement"
+        ),
+    )
+
+    private fun buildFieldItems(): MutableList<FieldVerificationItem> = mutableListOf(
+        viewItem(
+            resources.getString(R.string.field_ver_geo_factory_field),
+            resources.getString(R.string.field_ver_ctsa_off_note_field),
+            listOf("Lat: $latitude", "Long: $longitude")
+        )
+    )
+
+    fun buildTrainingInfraItems(): MutableList<FieldVerificationItem> = mutableListOf(
+        uploadItem(
+            AttachmentLabel.INFRA_DECLARATION,
+            "Training Infrastructure Verification",
+            "Verify the submitted self declaration document for training infrastructure.",
+            "Upload Training Infrastructure Self Declaration",
+            "TrainingInfra"
+        ),
+        uploadItem(
+            AttachmentLabel.INFRA_CENTRE,
+            "Training Centre Verification",
+            "Verify the training centre infrastructure and captured photos.",
+            "Upload Training Centre Photo",
+            "TrainingInfra"
+        ),
+        uploadItem(
+            AttachmentLabel.INFRA_CLASSROOM,
+            "Classroom Infrastructure Verification",
+            "Verify the classroom infrastructure and captured photos.",
+            "Upload Classroom Photo",
+            "TrainingInfra"
+        ),
+        uploadItem(
+            AttachmentLabel.INFRA_TOILET,
+            "Toilet Facility Verification",
+            "Verify the toilet facilities and captured photos.",
+            "Upload Toilet Facility Photo",
+            "TrainingInfra"
+        ),
+        uploadItem(
+            AttachmentLabel.INFRA_BUILDING,
+            "Building Infrastructure Verification",
+            "Verify the building infrastructure and captured photos.",
+            "Upload Building Photo",
+            "TrainingInfra"
+        ),
+        uploadItem(
+            AttachmentLabel.INFRA_TABLES,
+            "Tables and Chairs Verification",
+            "Verify the tables and chairs arrangement and captured photos.",
+            "Upload Tables and Chairs Photo",
+            "TrainingInfra"
+        ),
+        uploadItem(
+            AttachmentLabel.INFRA_LIGHTING,
+            "Lighting and Safety Verification",
+            "Verify the lighting and safety measures and captured photos.",
+            "Upload Lighting and Safety Photo",
+            "TrainingInfra"
+        ),
+    )
+
+    fun buildResidentialFacilityItems(): MutableList<FieldVerificationItem> = mutableListOf(
+        uploadItem(
+            AttachmentLabel.RES_DECLARATION,
+            "Residential Facility Verification",
+            "Verify the submitted self declaration document for residential facilities.",
+            "Upload Residential Facility Self Declaration",
+            "ResidentialFacility"
+        ),
+        uploadItem(
+            AttachmentLabel.RES_BUILDING,
+            "Residential Building Verification",
+            "Verify the residential building infrastructure and captured photos.",
+            "Upload Residential Building Photo",
+            "ResidentialFacility"
+        ),
+        uploadItem(
+            AttachmentLabel.RES_SAFETY,
+            "Residential Safety Measures Verification",
+            "Verify the residential safety measures and captured photos.",
+            "Upload Residential Safety Measures Photo",
+            "ResidentialFacility"
+        ),
+        uploadItem(
+            AttachmentLabel.RES_CANTEEN,
+            "Residential Canteen Verification",
+            "Verify the residential canteen facilities and captured photos.",
+            "Upload Residential Canteen Photo",
+            "ResidentialFacility"
+        ),
+        uploadItem(
+            AttachmentLabel.RES_BED_WATER,
+            "Bed and Drinking Water Verification",
+            "Verify the bed and drinking water facilities and captured photos.",
+            "Upload Residential Bed and Drinking Water Photo",
+            "ResidentialFacility"
+        ),
+    )
+
+
+
+    // ─────────────────────────────────────────────────────────
+    //  Dialogs
+    // ─────────────────────────────────────────────────────────
+
+    private fun showIndustryIncorporationDialog() {
+        val message = buildString {
+            appendLine("📅 Date of Incorporation")
+            appendLine("      ${apiDateOfIncorporation ?: "Not Available"}")
+            appendLine()
+            appendLine("⏳ Duration of Organization")
+            appendLine("     ${durationOfOrg ?: "Not Available"}")
+        }.trim()
+
+        val actions = buildList {
+            if (!factoryRegistrationAttachment.isNullOrBlank()) add(DialogAction("View Factory Registration") {
+                openBase64Pdf(
+                    apiEpfoAttachmentBase64!!
+                )
+            })
+        }
+        showInfoDialog("Industry Incorporation", message, actions)
+    }
+
     private fun showIndustryRegistrationDialog() {
-        val msg = buildString {
+        val message = buildString {
             appendLine("EPFO Number: ${apiEpfoNumber ?: "NA"}")
             appendLine("ESIC Number: ${apiEsicNumber ?: "NA"}")
             appendLine("Factory Registration Number: ${apiFactoryRegNumber ?: "NA"}")
         }.trim()
 
         val actions = buildList {
-            if (!apiEpfoAttachmentBase64.isNullOrBlank()) {
-                add(DocAction("View EPFO") { openBase64Pdf(apiEpfoAttachmentBase64!!) })
-            }
-            if (!apiEsicAttachmentBase64.isNullOrBlank()) {
-                add(DocAction("View ESIC") { openBase64Pdf(apiEsicAttachmentBase64!!) })
-            }
-            if (!apiFactoryAttachmentBase64.isNullOrBlank()) {
-                add(DocAction("View Factory") { openBase64Pdf(apiFactoryAttachmentBase64!!) })
-            }
+            if (!apiEpfoAttachmentBase64.isNullOrBlank()) add(DialogAction("View EPFO") {
+                openBase64Pdf(
+                    apiEpfoAttachmentBase64!!
+                )
+            })
+            if (!apiEsicAttachmentBase64.isNullOrBlank()) add(DialogAction("View ESIC") {
+                openBase64Pdf(
+                    apiEsicAttachmentBase64!!
+                )
+            })
+            if (!apiFactoryAttachmentBase64.isNullOrBlank()) add(DialogAction("View Factory") {
+                openBase64Pdf(
+                    apiFactoryAttachmentBase64!!
+                )
+            })
         }
-
-        showInfoWithHorizontalButtonsDialog("Industry Registration", msg, actions)
+        showInfoDialog("Industry Registration", message, actions)
     }
 
     private fun showEpfoChallanDialog() {
         val message =
             "Existing staff registered in EPFO: ${apiEpfoExistingStaff ?: "Not Available"}"
         val actions = buildList {
-            if (!apiEpfoDocumentUrl.isNullOrBlank()) {
-                add(DocAction("View EPFO Challan") { openBase64Pdf(apiEpfoDocumentUrl!!) })
-            }
+            if (!apiEpfoDocumentUrl.isNullOrBlank()) add(DialogAction("View EPFO Challan") {
+                openBase64Pdf(
+                    apiEpfoDocumentUrl!!
+                )
+            })
         }
-        showInfoWithHorizontalButtonsDialog("EPFO Challan (Last 6 Months)", message, actions)
+        showInfoDialog("EPFO Challan (Last 6 Months)", message, actions)
     }
 
     private fun showTaxDetailsDialog() {
-        val msg = buildString {
+        val message = buildString {
             appendLine("GST number: ${apiGstNumber ?: "—"}")
             appendLine("TAN number: ${apiTanNumber ?: "—"}")
         }.trim()
         val actions = buildList {
-            if (!apiTanAttachmentBase64.isNullOrBlank()) {
-                add(DocAction("View TAN") { openBase64Pdf(apiTanAttachmentBase64!!) })
-            }
+            if (!apiTanAttachmentBase64.isNullOrBlank()) add(DialogAction("View TAN") {
+                openBase64Pdf(
+                    apiTanAttachmentBase64!!
+                )
+            })
         }
-        showInfoWithHorizontalButtonsDialog("Tax Details", msg, actions)
+        showInfoDialog("Tax Details", message, actions)
     }
 
     private fun showBankDetailsDialog() {
-
-        val msg = buildString {
-
-            appendLine("🏛️ Bank Name")
-            appendLine("     ${apiBankName ?: "Not Available"}")
-            appendLine()
-
-//            appendLine("🔐 IFSC Code")
-//            appendLine("    ${ifscCode ?: "Not Available"}")
-//            appendLine()
-
-            appendLine("💳 Account Number")
-            appendLine("     ${apiBankAccountNumber ?: "Not Available"}")
+        val message = buildString {
+            appendLine("🏛️ Bank Name"); appendLine("     ${apiBankName ?: "Not Available"}"); appendLine()
+            appendLine("💳 Account Number"); appendLine("     ${apiBankAccountNumber ?: "Not Available"}")
         }.trim()
-
         val actions = buildList {
-
-            if (!apiBankLetterBase64.isNullOrBlank()) {
-                add(
-                    DocAction("View BankLetter") {
-                        openBase64Pdf(apiBankLetterBase64!!)
-                    }
+            if (!apiBankLetterBase64.isNullOrBlank()) add(DialogAction("View BankLetter") {
+                openBase64Pdf(
+                    apiBankLetterBase64!!
                 )
-            }
-
-            if (!apiSelfDeclarationBase64.isNullOrBlank()) {
-                add(
-                    DocAction("View SelfDeclaration") {
-                        openBase64Pdf(apiSelfDeclarationBase64!!)
-                    }
+            })
+            if (!apiSelfDeclarationBase64.isNullOrBlank()) add(DialogAction("View SelfDeclaration") {
+                openBase64Pdf(
+                    apiSelfDeclarationBase64!!
                 )
-            }
-
-            if (!apibankAccountPassbook.isNullOrBlank()) {
-                add(
-                    DocAction("View Passbook") {
-                        openBase64Pdf(apibankAccountPassbook!!)
-                    }
+            })
+            if (!apiBankAccountPassbook.isNullOrBlank()) add(DialogAction("View Passbook") {
+                openBase64Pdf(
+                    apiBankAccountPassbook!!
                 )
-            }
+            })
         }
-
-        showInfoWithHorizontalButtonsDialog(
-            title = "Bank Details",
-            message = msg,
-            actions = actions
-        )
+        showInfoDialog("Bank Details", message, actions)
     }
 
     private fun showResidentialFacilitiesDialog() {
-        val msg = buildString {
-            appendLine("Residential Facility Available: ${apiResidentialFacilityAvailable ?: "—"}")
-        }.trim()
+        val message = "Residential Facility Available: ${apiResidentialFacilityAvailable ?: "—"}"
         if (!apiResidentialFacilityDocumentBase64.isNullOrBlank()) {
-            val actions = buildList {
-                add(DocAction("Residential Facilities") {
-                    openBase64Pdf(
-                        apiResidentialFacilityDocumentBase64!!
-                    )
-                })
-            }
-            showInfoWithHorizontalButtonsDialog("Residential Facilities", msg, actions)
+            val actions = listOf(DialogAction("Residential Facilities") {
+                openBase64Pdf(apiResidentialFacilityDocumentBase64!!)
+            })
+            showInfoDialog("Residential Facilities", message, actions)
         } else {
             showToast("No Residential Facilities to View")
         }
@@ -2262,20 +2310,131 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
     private fun showDocumentDialog(title: String, base64: String?, buttonText: String) {
         if (!base64.isNullOrBlank()) {
-            val actions = buildList {
-                add(DocAction(buttonText) { openBase64Pdf(base64) })
-            }
-            showInfoWithHorizontalButtonsDialog(title, "", actions)
+            showInfoDialog(title, "", listOf(DialogAction(buttonText) { openBase64Pdf(base64) }))
         } else {
             showToast(getString(R.string.no_file_to_view))
         }
     }
 
-    private fun showInfoWithHorizontalButtonsDialog(
-        title: String,
-        message: String,
-        actions: List<DocAction>
-    ) {
+    private fun showFinancialDialog(title: String, list: List<YearlyFinancialItem>?) {
+        if (list.isNullOrEmpty()) {
+            showToast("No $title data found"); return
+        }
+        val dialogView = layoutInflater.inflate(R.layout.dialog_simple_list, null)
+        dialogView.findViewById<TextView>(R.id.tvDialogTitle).text = title
+        val rv = dialogView.findViewById<RecyclerView>(R.id.rvDialogList)
+        setupRecyclerView(
+            recyclerView = rv,
+            items = list,
+            layoutManager = LinearLayoutManager(requireContext()),
+            bindingInflater = ItemFinancialRowBinding::inflate,
+            onBind = { item, b, _ ->
+                b.tvYear.text = item.year ?: "-"
+                b.tvAmount.text = formatAmount(item.amount)
+                b.btnView.visibility =
+                    if (!item.attachmentBase64.isNullOrBlank()) View.VISIBLE else View.GONE
+                b.btnView.setOnClickListener { openBase64Pdf(item.attachmentBase64!!) }
+            },
+            noDataConfig = NoDataConfig("No Data Available", "No financial records found")
+        )
+        AlertDialog.Builder(requireContext()).setView(dialogView)
+            .setNegativeButton(resources.getString(R.string.close), null).show()
+    }
+
+    private fun showTrainingDialog(title: String, list: List<YearlyTrainingItem>?) {
+        if (list.isNullOrEmpty()) {
+            showToast("No $title data found"); return
+        }
+        val dialogView = layoutInflater.inflate(R.layout.dialog_simple_list, null)
+        dialogView.findViewById<TextView>(R.id.tvDialogTitle).text = title
+        val rv = dialogView.findViewById<RecyclerView>(R.id.rvDialogList)
+        setupRecyclerView(
+            recyclerView = rv,
+            items = list,
+            layoutManager = LinearLayoutManager(requireContext()),
+            bindingInflater = { inflater, parent, _ ->
+                ItemTrainingRowBinding.inflate(
+                    inflater,
+                    parent,
+                    false
+                )
+            },
+            onBind = { item, b, _ ->
+                b.tvYear.text = item.year ?: "-"
+                b.tvAllocated.text = "Allocated: ${formatNumber(item.targetAllocated)}"
+                b.tvAchieved.text = "Achieved: ${formatNumber(item.targetAchieved)}"
+                b.btnView.visibility =
+                    if (!item.attachmentBase64.isNullOrBlank()) View.VISIBLE else View.GONE
+                b.btnView.setOnClickListener { openBase64Pdf(item.attachmentBase64!!) }
+            },
+            noDataConfig = NoDataConfig("No Data Available", "No training records found")
+        )
+        AlertDialog.Builder(requireContext()).setView(dialogView).setNegativeButton("Close", null)
+            .show()
+    }
+
+    private fun showTrainingHoursDialog(title: String, items: List<TotalTrainingHoursRemark>?) {
+        if (items.isNullOrEmpty()) {
+            showInfoDialog(title, "No Training Details Available", emptyList()); return
+        }
+        val message = buildString {
+            items.forEachIndexed { _, item ->
+                appendLine(" Year"); appendLine("   ${item.year ?: "Not Available"}"); appendLine()
+                appendLine("Trade Name"); appendLine("   ${item.trade_name ?: "Not Available"}"); appendLine()
+                appendLine(" Training Duration"); appendLine("   ${item.trade_duration ?: 0} Hours"); appendLine()
+                appendLine("📄 Commencement Certificate- ${if (item.commencement_certificate.isNullOrBlank()) "Not Uploaded" else "Available"}")
+            }
+        }.trim()
+        val actions = buildList {
+            items.forEachIndexed { index, item ->
+                if (!item.commencement_certificate.isNullOrBlank()) add(DialogAction("📄 View Certificate ${index + 1}") {
+                    openBase64Pdf(
+                        item.commencement_certificate
+                    )
+                })
+            }
+        }
+        showInfoDialog(title, message, actions)
+    }
+
+    private fun showPlacementDialog(title: String, list: List<YearlyPlacementDetails>?) {
+        if (list.isNullOrEmpty()) {
+            showToast("No Placement data found"); return
+        }
+        val dialogView = layoutInflater.inflate(R.layout.dialog_simple_list, null)
+        dialogView.findViewById<TextView>(R.id.tvDialogTitle).text = title
+        val rv = dialogView.findViewById<RecyclerView>(R.id.rvDialogList)
+        setupRecyclerView(
+            recyclerView = rv,
+            items = list,
+            layoutManager = LinearLayoutManager(requireContext()),
+            bindingInflater = { inflater, parent, _ ->
+                ItemPlacementRowBinding.inflate(
+                    inflater,
+                    parent,
+                    false
+                )
+            },
+            onBind = { item, b, _ ->
+                b.tvYear.text = boldLabel("Year:", item.year ?: "-")
+                b.tvCandidatePlaced.text =
+                    boldLabel("Candidates Placed:", item.candidatePlaced.toString())
+                b.tvSanctionOrder.text =
+                    boldLabel("Sanction Order:", item.sanctionOrderId.toString())
+                b.tvEsicNumber.text = boldLabel("ESIC No:", item.esicNumber.toString())
+                b.tvEpfoNumber.text = boldLabel("EPFO No:", item.epfoNumber.toString())
+                b.btnView.visibility =
+                    if (!item.proofDocument.isNullOrBlank()) View.VISIBLE else View.GONE
+                b.btnView.setOnClickListener { openBase64Pdf(item.proofDocument!!) }
+            },
+            noDataConfig = NoDataConfig("No Data Available", "No placement records found")
+        )
+        AlertDialog.Builder(requireContext()).setView(dialogView)
+            .setNegativeButton(resources.getString(R.string.close), null).show()
+    }
+
+    /** Generic info dialog with horizontal action buttons */
+    private fun showInfoDialog(title: String, message: String, actions: List<DialogAction>) {
         val ctx = requireContext()
         val dp = ctx.resources.displayMetrics.density
 
@@ -2290,1104 +2449,76 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         }
 
         if (message.isNotEmpty()) {
-            val tv = TextView(ctx).apply {
+            container.addView(TextView(ctx).apply {
                 text = message
                 setTextColor(ContextCompat.getColor(ctx, android.R.color.black))
                 textSize = 14f
-            }
-            container.addView(tv)
+            })
         }
 
-        val row = LinearLayout(ctx).apply {
-            orientation = LinearLayout.HORIZONTAL
-            weightSum = actions.size.takeIf { it > 0 }?.toFloat() ?: 1f
-            layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply {
-                topMargin = (16 * dp).toInt()
-            }
-            clipToPadding = false
-        }
-        container.addView(row)
-
-        var dialog: AlertDialog? = null
-
-        val strokeColor = try {
-            ContextCompat.getColor(ctx, R.color.color_dark_blue)
-        } catch (_: Exception) {
-            ContextCompat.getColor(ctx, android.R.color.holo_blue_dark)
-        }
-        val textColor = strokeColor
-        val rippleColor = ColorUtils.setAlphaComponent(strokeColor, 80)
-        val transparentFill = Color.TRANSPARENT
-
-        fun makeButtonBackground(): Drawable {
-            val cornerRadius = (10 * dp)
-            val strokeWidth = (1.8f * dp).toInt()
-
-            val rounded = GradientDrawable().apply {
-                shape = GradientDrawable.RECTANGLE
-                this.cornerRadius = cornerRadius
-                setColor(transparentFill)
-                setStroke(strokeWidth, strokeColor)
-            }
-
-            val mask = GradientDrawable().apply {
-                shape = GradientDrawable.RECTANGLE
-                this.cornerRadius = cornerRadius
-                setColor(Color.WHITE)
-            }
-
-            val inset = (1.5f * dp).toInt()
-            val insetDrawable = InsetDrawable(rounded, inset, inset, inset, inset)
-
-            return RippleDrawable(ColorStateList.valueOf(rippleColor), insetDrawable, mask)
-        }
-
-        actions.forEach { action ->
-            val btn = AppCompatButton(ctx).apply {
-                text = action.label
-                isAllCaps = false
-                setTextColor(textColor)
-                layoutParams =
-                    LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply {
-                        marginStart = (6 * dp).toInt()
-                        marginEnd = (6 * dp).toInt()
-                    }
-                minHeight = (44 * dp).toInt()
-                setPadding(
-                    (10 * dp).toInt(),
-                    (10 * dp).toInt(),
-                    (10 * dp).toInt(),
-                    (10 * dp).toInt()
+        if (actions.isNotEmpty()) {
+            val strokeColor = runCatching {
+                ContextCompat.getColor(
+                    ctx,
+                    R.color.color_dark_blue
                 )
-                background = makeButtonBackground()
-                stateListAnimator = null
-                setOnClickListener {
-                    dialog?.dismiss()
-                    action.onClick()
-                }
-            }
-            row.addView(btn)
-        }
+            }.getOrElse { ContextCompat.getColor(ctx, android.R.color.holo_blue_dark) }
+            val rippleColor = ColorUtils.setAlphaComponent(strokeColor, 80)
 
-        dialog = AlertDialog.Builder(ctx)
-            .setTitle(title)
-            .setView(container)
-            .setNegativeButton(resources.getString(R.string.close), null)
-            .create()
-        dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_background)
-
-        dialog.show()
-    }
-
-//    var titleView = TextView(ctx).apply {
-//        text = title
-//        textSize = 18f
-//        setTextColor(ContextCompat.getColor(ctx, android.R.color.black))
-//        gravity = Gravity.CENTER
-//        setPadding(0, (12 * dp).toInt(), 0, (12 * dp).toInt())
-//    }
-
-    // ==================== VALIDATION & UTILITY METHODS ====================
-
-    private fun validateAllRemarksForSection(
-        items: List<FieldVerificationItem>,
-        errorMessageForItem: (FieldVerificationItem) -> String = {
-            getString(
-                R.string.please_enter_remark_for,
-                it.requirement
-            ) }
-    ): Map<String, String>? {
-        commitFocusedEditText()
-
-        val remarkItems = items.filter { it.allowRemark }
-        if (remarkItems.isEmpty()) return emptyMap()
-
-        remarkItems.forEach { item ->
-            val r = item.remarkText?.trim().orEmpty()
-            if (r.isEmpty()) {
-                showToast(errorMessageForItem(item))
-                return null
-            }
-        }
-
-        return remarkItems.associate { it.requirement to (it.remarkText!!.trim()) }
-    }
-
-
-    private fun collectRemarksFromSection(
-        sectionName: String,
-        sectionItems: List<FieldVerificationItem>
-    ): List<RemarkItem> {
-        commitFocusedEditText()
-
-        // collect normal per-item remarks (only items with allowRemark)
-        val remarkList = sectionItems
-            .filter { it.allowRemark }
-            .mapNotNull { item ->
-                val r = item.remarkText?.trim().orEmpty()
-                if (r.isEmpty()) null
-                else RemarkItem(section = sectionName, requirement = item.id, remark = r)
-            }
-            .toMutableList()
-
-        // Special case: attach captured base64 files into TrainingInfra section
-        if (sectionName.equals("TrainingInfra", ignoreCase = true)) {
-            val attachments = mutableListOf<AttachmentItem>()
-
-            if (!base64TrainingInfraDeclarationFile.isNullOrBlank()) {
-                attachments.add(
-                    AttachmentItem(
-                        label = "Self Declaration",
-                        value = listOf( base64TrainingInfraDeclarationFile!!)
-                    )
-                )
-            }
-            if (!base64TrainingInfraCentreFile.isNullOrBlank()) {
-                attachments.add(
-                    AttachmentItem(
-                        label = "Training Centre File",
-                        value =  listOf(base64TrainingInfraCentreFile!!)
-                    )
-                )
-            }
-            if (attachments.isNotEmpty()) {
-                // Add a single RemarkItem carrying the attachments map
-                remarkList.add(
-                    RemarkItem(
-                        section = sectionName,
-                        requirement = "TRAIN_INFRA_ATTACHMENTS",
-                        remark = "",
-                        attachments = attachments
-                    )
-                )
-            }
-        }
-
-        if (sectionName.equals("Finance", ignoreCase = true)) {
-
-            val allAttachments = mutableListOf<AttachmentItem>()
-
-            sectionItems.forEach { item ->
-
-                if (item.attachments.isNotEmpty()) {
-
-                    allAttachments.addAll(item.attachments)
-                }
+            val row = LinearLayout(ctx).apply {
+                orientation = LinearLayout.HORIZONTAL
+                weightSum = actions.size.toFloat()
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply { topMargin = (16 * dp).toInt() }
             }
 
-            if (allAttachments.isNotEmpty()) {
-                remarkList.clear()
-                remarkList.add(
-                    RemarkItem(
-                        section = sectionName,
-                        requirement = "FINANCE_DETAILS",
-                        attachments = allAttachments,
-                        remark = ""
-                    )
-                )
+            var dialog: AlertDialog? = null
+
+            actions.forEach { action ->
+                row.addView(AppCompatButton(ctx).apply {
+                    text = action.label
+                    isAllCaps = false
+                    setTextColor(strokeColor)
+                    layoutParams =
+                        LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+                            .apply {
+                                marginStart = (6 * dp).toInt(); marginEnd = (6 * dp).toInt()
+                            }
+                    minHeight = (44 * dp).toInt()
+                    val pad = (10 * dp).toInt()
+                    setPadding(pad, pad, pad, pad)
+                    background = buildButtonBackground(dp, strokeColor, rippleColor)
+                    stateListAnimator = null
+                    setOnClickListener { dialog?.dismiss(); action.onClick() }
+                })
             }
-        }
+            container.addView(row)
 
-        if (sectionName.equals("Training", ignoreCase = true)) {
-
-            val allAttachments = mutableListOf<AttachmentItem>()
-
-            sectionItems.forEach { item ->
-
-                if (item.attachments.isNotEmpty()) {
-
-                    allAttachments.addAll(item.attachments)
-                }
-            }
-
-            if (allAttachments.isNotEmpty()) {
-
-                remarkList.clear()
-
-                remarkList.add(
-                    RemarkItem(
-                        section = sectionName,
-                        requirement = "TRAINING_DETAILS",
-                        attachments = allAttachments,
-                        remark = ""
-                    )
-                )
-            }
-        }
-
-        if (sectionName.equals("TrainingInfra", ignoreCase = true)) {
-
-            val allAttachments = mutableListOf<AttachmentItem>()
-
-            sectionItems.forEach { item ->
-
-                if (item.attachments.isNotEmpty()) {
-
-                    allAttachments.addAll(item.attachments)
-                }
-            }
-
-            if (allAttachments.isNotEmpty()) {
-
-                remarkList.clear()
-
-                remarkList.add(
-                    RemarkItem(
-                        section = sectionName,
-                        requirement = "TRAINING_INFRA_DETAILS",
-                        attachments = allAttachments,
-                        remark = ""
-                    )
-                )
-            }
-        }
-
-
-        // --- Add Field Visit coordinates to collected remarks ---
-//        if (sectionName.equals("FieldVisit", ignoreCase = true)) {
-//            val attachList = mutableListOf<AttachmentItem>()
-//
-//            if (!latitude.isNullOrBlank()) {
-//                attachList.add(AttachmentItem(label = "latitude", value = latitude))
-//            }
-//            if (!longitude.isNullOrBlank()) {
-//                attachList.add(AttachmentItem(label = "longitude", value = longitude))
-//            }
-//
-//            if (!officerSelfieBase64.isNullOrBlank()) {
-//                attachList.add(AttachmentItem(label = "officer_selfie", value = officerSelfieBase64!!))
-//            }
-//
-//            if (attachList.isNotEmpty()) {
-//                remarkList.add(
-//                    RemarkItem(
-//                        section = sectionName,
-//                        requirement = "FIELD_VISIT_COORDINATES",
-//                        remark = "",
-//                        attachments = attachList
-//                    )
-//                )
-//            }
-//        }
-        return remarkList
-    }
-
-
-
-
-
-    private fun collectAllRemarksSectionWise(): FieldVerificationFinalSubmit {
-        commitFocusedEditText()
-        return FieldVerificationFinalSubmit(
-            appVersion = BuildConfig.VERSION_NAME,
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            captiveEmpanelmentId = captiveEmpanelmentId,
-            prnNo = prnNo,
-            Organization = collectRemarksFromSection("Organization", orgItems),
-            Finance = collectRemarksFromSection("Finance", finItems),
-            Training = collectRemarksFromSection("Training", trainingItems),
-            TrainingInfra = collectRemarksFromSection("TrainingInfra", trainingInfraItems),
-            Certification = collectRemarksFromSection("Certification", certItems),
-            Placement = collectRemarksFromSection("Placement", placementItems),
-            FieldVisit = collectRemarksFromSection("FieldVisit", fieldItems),
-            ResidentialFacility = emptyList()
-        )
-    }
-
-    private fun commitFocusedEditText() {
-        try {
-            view?.findFocus()?.clearFocus()
-        } catch (_: Exception) {
+            dialog = AlertDialog.Builder(ctx).setTitle(title).setView(container)
+                .setNegativeButton(resources.getString(R.string.close), null).create()
+                .also { it.window?.setBackgroundDrawableResource(R.drawable.dialog_background) }
+            dialog.show()
+        } else {
+            AlertDialog.Builder(ctx).setTitle(title).setView(container)
+                .setNegativeButton(resources.getString(R.string.close), null).create()
+                .also { it.window?.setBackgroundDrawableResource(R.drawable.dialog_background) }
+                .show()
         }
     }
 
 
-    private fun getOrgItems(): MutableList<FieldVerificationItem> {
-        return mutableListOf(
-            FieldVerificationItem(
-                id = "",
-                requirement = resources.getString(R.string.field_ver_industry_existence),
-                verificationDoc = resources.getString(R.string.field_ver_valid_govt_note_doc),
-                documents = listOf("Date of Incorporation (PRN)"),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "",
-                requirement = resources.getString(R.string.field_ver_valid_epfo_esic_doc),
-                verificationDoc = resources.getString(R.string.field_ver_valid_epfo_esic_note_doc),
-                documents = listOf("View Registration Document"),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "",
-                requirement = resources.getString(R.string.field_ver_epfo_challan_doc),
-                verificationDoc = resources.getString(R.string.field_ver_valid_epfo_challan_note_doc),
-                documents = listOf("EPFO Challan (6 Months)"),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "",
-                requirement = resources.getString(R.string.field_ver_valid_industry_doc),
-                verificationDoc = resources.getString(R.string.field_ver_valid_industry_note_doc),
-                documents = listOf("View"),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "",
-                requirement = resources.getString(R.string.field_ver_valid_bank_doc),
-                verificationDoc = resources.getString(R.string.field_ver_valid_bank_note_doc),
-                documents = listOf("View Account Details"),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "ORG_INDUSTRY_EXISTENCE",
-                requirement = "Industry Existence Verification",
-                verificationDoc = "Upload proof of industry existence verification document.",
-                documents = listOf(
-                    "Upload Industry Existence Document"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Organization"
-            ),
 
-            FieldVerificationItem(
-                id = "ORG_INDUSTRY_REGISTRATION",
-                requirement = "Industry Registration Verification",
-                verificationDoc = "Upload industry registration verification document.",
-                documents = listOf(
-                    "Upload Industry Registration Document"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Organization"
-            ),
+    // ─────────────────────────────────────────────────────────
+    //  Debug utilities
+    // ─────────────────────────────────────────────────────────
 
-            FieldVerificationItem(
-                id = "ORG_EPFO_CHALLAN",
-                requirement = "EPFO Challan Verification",
-                verificationDoc = "Upload EPFO challan verification document.",
-                documents = listOf(
-                    "Upload EPFO Challan"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Organization"
-            ),
-
-            FieldVerificationItem(
-                id = "ORG_TAX_DETAILS",
-                requirement = "Tax Details Verification",
-                verificationDoc = "Upload GST and TAN verification document.",
-                documents = listOf(
-                    "Upload Tax Verification Document"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Organization"
-            ),
-
-            FieldVerificationItem(
-                id = "ORG_BANK_DETAILS",
-                requirement = "Bank Details Verification",
-                verificationDoc = "Upload bank details verification document.",
-                documents = listOf(
-                    "Upload Bank Verification Document"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Organization"
-            ),
-
-            FieldVerificationItem(
-                id = "ORG_MANPOWER_AGENCY",
-                requirement = "Manpower Agency Check Verification",
-                verificationDoc = "Upload manpower agency declaration verification document.",
-                documents = listOf(
-                    "Upload Manpower Agency Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Organization"
-            )
-
-
-
+    private fun logSectionGson(sectionName: String, list: MutableList<FieldVerificationItem>) {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        Log.d(
+            "$sectionName ─────────────> Data",
+            gson.toJson(collectSectionRemarks(sectionName, list))
         )
-    }
-
-    private fun getFinItems(): MutableList<FieldVerificationItem> {
-        return mutableListOf(
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_industry_turnover_fin),
-                resources.getString(R.string.field_ver_industry_turnover_note_fin),
-                listOf(resources.getString(R.string.fin_balance_sheet_button)),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_industry_networth_fin),
-                resources.getString(R.string.field_ver_industry_networth_note_fin),
-                listOf(resources.getString(R.string.fin_turnover_button)),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "uploadAnnualTurnoverSelfDeclaration",
-                requirement = "Annual Turnover Self Declaration",
-                verificationDoc = "Verify the submitted self declaration document for annual turnover details.",
-                documents = listOf(
-                    "upload Annual Turnover Self Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Finance"
-            ),
-            FieldVerificationItem(
-                id = "uploadNetWorthSelfDeclaration",
-                requirement = "Net Worth Self Declaration",
-                verificationDoc = "Verify the submitted self declaration document for net worth details.",
-                documents = listOf(
-                    "upload Net Worth Self Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Finance"
-            )
-
-        )
-    }
-
-    private fun getTrainingItems(): MutableList<FieldVerificationItem> {
-        return mutableListOf(
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_exp_training),
-                resources.getString(R.string.field_ver_exp_note_training),
-                listOf(resources.getString(R.string.train_target_button)),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "FIN_TURNOVER",
-                resources.getString(R.string.field_ver_hrs_training),
-                resources.getString(R.string.field_ver_hrs_note_training),
-                listOf(resources.getString(R.string.train_hour_button)),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "FIN_NETWORTH",
-                resources.getString(R.string.field_ver_course_content_training),
-                if (repetitionClubbingIfraNsqf.equals("Y", ignoreCase = true)) {
-                    "YES"
-                } else {
-                    "NO"
-                },
-                listOf(),
-                uploadEnabled = false,
-                allowRemark = false,
-            ),
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_nsqf_courses_training),
-                resources.getString(R.string.field_ver_nsqf_courses_note_training),
-                listOf(resources.getString(R.string.train_NSQF_course_button)),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_500_cand_training),
-                resources.getString(R.string.field_ver_500_cand_note_training),
-                listOf(
-                    resources.getString(R.string.train_commitment1_button),
-                    resources.getString(R.string.train_commitment2_button)
-                ),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_job_training),
-                resources.getString(R.string.field_ver_job_note_training),
-                listOf(resources.getString(R.string.train_tailor_button)),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_domain_training),
-                resources.getString(R.string.field_ver_domain_note_training),
-                listOf(
-                    resources.getString(R.string.train_domain1_button),
-                    resources.getString(R.string.train_domain2_button)
-                ),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "uploadTrainingCriteriaSelfDeclaration",
-                requirement = "Training Criteria Verification",
-                verificationDoc = "Verify the submitted self declaration document for training criteria details.",
-                documents = listOf(
-                    "Upload Training Criteria Self Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Training"
-            ),
-
-            FieldVerificationItem(
-                id = "uploadTotalTrainingHoursSelfDeclaration",
-                requirement = "Total Training Hours Verification",
-                verificationDoc = "Verify the submitted self declaration document for total training hours.",
-                documents = listOf(
-                    "Upload Total Training Hours Self Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Training"
-            ),
-
-            FieldVerificationItem(
-                id = "uploadRepetitionClubbingNsqfSelfDeclaration",
-                requirement = "Repetition Clubbing and NSQF Verification",
-                verificationDoc = "Verify the submitted self declaration document for repetition clubbing and NSQF compliance.",
-                documents = listOf(
-                    "Upload Repetition Clubbing NSQF Self Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Training"
-            ),
-
-            FieldVerificationItem(
-                id = "uploadBasicTrainingSelfDeclaration",
-                requirement = "Basic Training Verification",
-                verificationDoc = "Verify the submitted self declaration document for basic training details.",
-                documents = listOf(
-                    "Upload Basic Training Self Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Training"
-            ),
-
-            FieldVerificationItem(
-                id = "uploadCommitmentSelfDeclaration",
-                requirement = "Commitment Verification",
-                verificationDoc = "Verify the submitted self declaration document for commitment details.",
-                documents = listOf(
-                    "Upload Commitment Self Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Training"
-            ),
-
-            FieldVerificationItem(
-                id = "uploadTrainingPlacementSelfDeclaration",
-                requirement = "Training and Placement Verification",
-                verificationDoc = "Verify the submitted self declaration document for training and placement records.",
-                documents = listOf(
-                    "Upload Training Placement Self Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Training"
-            ),
-
-            FieldVerificationItem(
-                id = "uploadDomainSpecificTrainingSelfDeclaration",
-                requirement = "Domain Specific Training Verification",
-                verificationDoc = "Verify the submitted self declaration document for domain specific training details.",
-                documents = listOf(
-                    "Upload Domain Specific Training Self Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "Training"
-            )
-        )
-    }
-
-    private fun getTrainingInfraItems(): MutableList<FieldVerificationItem> {
-        return mutableListOf(
-            FieldVerificationItem(
-                id = "TRAIN_INFRA_NSQF",
-                resources.getString(R.string.field_ver_nsqf_training_infra),
-                resources.getString(R.string.field_ver_nsqf_note_training_infra),
-                listOf("Self Declaration", "Training Centre"),
-                uploadEnabled = true,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "TRAIN_INFRA_RES",
-                resources.getString(R.string.field_ver_res_training_infra),
-                resources.getString(R.string.field_ver_res_note_training_infra),
-                documents = listOf("View Residential Facilities"),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "uploadTrainingInfraSelfDeclaration",
-                requirement = "Training Infrastructure Verification",
-                verificationDoc = "Verify the submitted self declaration document for training infrastructure.",
-                documents = listOf(
-                    "Upload Training Infrastructure Self Declaration"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "TrainingInfra"
-            ),
-
-            FieldVerificationItem(
-                id = "uploadTrainingCentrePhoto",
-                requirement = "Training Centre Verification",
-                verificationDoc = "Verify the training centre infrastructure and captured photos.",
-                documents = listOf(
-                    "Upload Training Centre Photo"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "TrainingInfra"
-            ),
-
-            FieldVerificationItem(
-                id = "uploadClassroomPhoto",
-                requirement = "Classroom Infrastructure Verification",
-                verificationDoc = "Verify the classroom infrastructure and captured photos.",
-                documents = listOf(
-                    "Upload Classroom Photo"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "TrainingInfra"
-            ),
-
-            FieldVerificationItem(
-                id = "uploadToiletPhoto",
-                requirement = "Toilet Facility Verification",
-                verificationDoc = "Verify the toilet facilities and captured photos.",
-                documents = listOf(
-                    "Upload Toilet Facility Photo"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "TrainingInfra"
-            ),
-
-            FieldVerificationItem(
-                id = "uploadBuildingPhoto",
-                requirement = "Building Infrastructure Verification",
-                verificationDoc = "Verify the building infrastructure and captured photos.",
-                documents = listOf(
-                    "Upload Building Photo"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "TrainingInfra"
-            ),
-
-            FieldVerificationItem(
-                id = "uploadTablesAndChairsPhoto",
-                requirement = "Tables and Chairs Verification",
-                verificationDoc = "Verify the tables and chairs arrangement and captured photos.",
-                documents = listOf(
-                    "Upload Tables and Chairs Photo"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "TrainingInfra"
-            ),
-
-            FieldVerificationItem(
-                id = "uploadLightingAndSafetyPhoto",
-                requirement = "Lighting and Safety Verification",
-                verificationDoc = "Verify the lighting and safety measures and captured photos.",
-                documents = listOf(
-                    "Upload Lighting and Safety Photo"
-                ),
-                uploadEnabled = true,
-                allowRemark = true,
-                sectionType = "TrainingInfra"
-            )
-        )
-    }
-
-    private fun getCertItems(): MutableList<FieldVerificationItem> {
-        return mutableListOf(
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_provide_cert),
-                resources.getString(R.string.field_ver_provide_note_cert),
-                listOf("Form 4"),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_res_conduct_cert),
-                resources.getString(R.string.field_ver_conduct_note_cert),
-                listOf("Form 4"),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-        )
-    }
-
-    private fun getPlacementItems(): MutableList<FieldVerificationItem> {
-        return mutableListOf(
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_500_empl_placement),
-                resources.getString(R.string.field_ver_empl_note_placement),
-                listOf("View Employment Details"),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_70_per_cand_placement),
-                resources.getString(R.string.field_ver_empl_off_letter_note_placement),
-                listOf("Form 1"),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_70_per_less_cand_coursewise_placement),
-                resources.getString(R.string.field_ver_empl_off_letter_coursewise_less_note_placement),
-                listOf("Form 1"),
-                uploadEnabled = false,
-                allowRemark = false
-            ),
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_70_per_more_cand_coursewise_placement),
-                resources.getString(R.string.field_ver_empl_off_letter_coursewise_more_note_placement),
-                listOf("Form 1"),
-                uploadEnabled = false,
-                allowRemark = false
-            )
-
-        )
-    }
-
-    private fun getFieldItems(): MutableList<FieldVerificationItem> {
-        return mutableListOf(
-            FieldVerificationItem(
-                id = "",
-                resources.getString(R.string.field_ver_geo_factory_field),
-                resources.getString(R.string.field_ver_ctsa_off_note_field),
-                listOf("Lat: ${latitude}", "Long: ${longitude}"),
-                uploadEnabled = false,
-                allowRemark = false
-            )
-        )
-    }
-
-
-    private fun showFinancialDialog(title: String, list: List<YearlyFinancialItem>?) {
-        if (list.isNullOrEmpty()) {
-            showToast("No $title data found")
-            return
-        }
-
-        val dialogView = layoutInflater.inflate(R.layout.dialog_simple_list, null)
-        val rv = dialogView.findViewById<RecyclerView>(R.id.rvDialogList)
-        val tvTitle = dialogView.findViewById<TextView>(R.id.tvDialogTitle)
-
-        tvTitle.text = title
-        rv.layoutManager = LinearLayoutManager(requireContext())
-
-        // Use BaseFragment's setupRecyclerView for dialogs too
-        setupRecyclerView(
-            recyclerView = rv,
-            items = list,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = ItemFinancialRowBinding::inflate,
-            onBind = { item, binding, _ ->
-                binding.tvYear.text = item.year ?: "-"
-                binding.tvAmount.text = formatAmount(item.amount)
-
-                binding.btnView.apply {
-                    if (!item.attachmentBase64.isNullOrBlank()) {
-                        visibility = View.VISIBLE
-                        setOnClickListener { openBase64Pdf(item.attachmentBase64!!) }
-                    } else {
-                        visibility = View.GONE
-                    }
-                }
-            },
-            noDataConfig = NoDataConfig(
-                title = "No Data Available",
-                description = "No financial records found"
-            )
-        )
-
-        AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .setNegativeButton(resources.getString(R.string.close), null)
-            .show()
-    }
-
-    private fun showTrainingHoursDialog(
-        title: String,
-        items: List<TotalTrainingHoursRemark>?
-    ) {
-
-        if (items.isNullOrEmpty()) {
-
-            showInfoWithHorizontalButtonsDialog(
-                title,
-                "No Training Details Available",
-                emptyList()
-            )
-            return
-        }
-
-        val msg = buildString {
-            items.forEachIndexed { index, item ->
-                appendLine(" Year")
-                appendLine("   ${item.year ?: "Not Available"}")
-                appendLine()
-                appendLine("Trade Name")
-                appendLine("   ${item.trade_name ?: "Not Available"}")
-                appendLine()
-                appendLine(" Training Duration")
-                appendLine("   ${item.trade_duration ?: 0} Hours")
-                appendLine()
-                appendLine("📄 Commencement Certificate- ${
-                    if (item.commencement_certificate.isNullOrBlank())
-                        "Not Uploaded"
-                    else
-                        "Available"
-                }")
-            }
-        }.trim()
-
-        val actions = buildList {
-
-            items.forEachIndexed { index, item ->
-
-                if (!item.commencement_certificate.isNullOrBlank()) {
-                    add(
-                        DocAction("📄 View Certificate ${index + 1}") {
-                            openBase64Pdf(item.commencement_certificate)
-                        }
-                    )
-                }
-            }
-        }
-
-        showInfoWithHorizontalButtonsDialog(
-            title = title,
-            message = msg,
-            actions = actions
-        )
-    }
-
-    private fun showTrainingDialog(title: String, list: List<YearlyTrainingItem>?) {
-        if (list.isNullOrEmpty()) {
-            showToast("No $title data found")
-            return
-        }
-
-        val dialogView = layoutInflater.inflate(R.layout.dialog_simple_list, null)
-        val rv = dialogView.findViewById<RecyclerView>(R.id.rvDialogList)
-        val tvTitle = dialogView.findViewById<TextView>(R.id.tvDialogTitle)
-
-        tvTitle.text = title
-        rv.layoutManager = LinearLayoutManager(requireContext())
-
-        setupRecyclerView(
-            recyclerView = rv,
-            items = list,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = { inflater, parent, _ ->
-                ItemTrainingRowBinding.inflate(inflater, parent, false)
-            },
-            onBind = { item, binding, _ ->
-                binding.tvYear.text = item.year ?: "-"
-                binding.tvAllocated.text = "Allocated: ${formatNumber(item.targetAllocated)}"
-                binding.tvAchieved.text = "Achieved: ${formatNumber(item.targetAchieved)}"
-
-                binding.btnView.apply {
-                    if (!item.attachmentBase64.isNullOrBlank()) {
-                        visibility = View.VISIBLE
-                        setOnClickListener { openBase64Pdf(item.attachmentBase64!!) }
-                    } else {
-                        visibility = View.GONE
-                    }
-                }
-            },
-            noDataConfig = NoDataConfig(
-                title = "No Data Available",
-                description = "No training records found"
-            )
-        )
-
-        AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .setNegativeButton("Close", null)
-            .show()
-    }
-
-    private fun showPlacementDialog(title: String, list: List<YearlyPlacementDetails>?) {
-        if (list.isNullOrEmpty()) {
-            showToast("No Placement data found")
-            return
-        }
-
-        val dialogView = layoutInflater.inflate(R.layout.dialog_simple_list, null)
-        val rv = dialogView.findViewById<RecyclerView>(R.id.rvDialogList)
-        val tvTitle = dialogView.findViewById<TextView>(R.id.tvDialogTitle)
-
-        tvTitle.text = title
-        rv.layoutManager = LinearLayoutManager(requireContext())
-
-        setupRecyclerView(
-            recyclerView = rv,
-            items = list,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = { inflater, parent, _ ->
-                ItemPlacementRowBinding.inflate(inflater, parent, false)
-            },
-            onBind = { item, binding, _ ->
-                binding.tvYear.text = boldLabel("Year:", item.year ?: "-")
-                binding.tvCandidatePlaced.text =
-                    boldLabel("Candidates Placed:", item.candidatePlaced.toString())
-                binding.tvSanctionOrder.text =
-                    boldLabel("Sanction Order:", item.sanctionOrderId.toString())
-                binding.tvEsicNumber.text = boldLabel("ESIC No:", item.esicNumber.toString())
-                binding.tvEpfoNumber.text = boldLabel("EPFO No:", item.epfoNumber.toString())
-
-                binding.btnView.apply {
-                    if (!item.proofDocument.isNullOrBlank()) {
-                        visibility = View.VISIBLE
-                        setOnClickListener { openBase64Pdf(item.proofDocument!!) }
-                    } else {
-                        visibility = View.GONE
-                    }
-                }
-            },
-            noDataConfig = NoDataConfig(
-                title = "No Data Available",
-                description = "No placement records found"
-            )
-        )
-
-        AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .setNegativeButton(resources.getString(R.string.close), null)
-            .show()
-
-    }
-
-
-    fun formatAmount(value: Double?): String {
-        if (value == null) return "₹ -"
-        val nf = NumberFormat.getInstance(Locale.getDefault())
-        nf.maximumFractionDigits = 2
-        return "₹ ${nf.format(value)}"
-    }
-
-    private fun formatNumber(value: Double?): String {
-        if (value == null) return "-"
-        val nf = NumberFormat.getInstance(Locale.getDefault())
-        nf.maximumFractionDigits = 2
-        return nf.format(value)
-    }
-
-    private fun boldLabel(label: String, value: String): SpannableString {
-        val fullText = "$label $value"
-        val spannable = SpannableString(fullText)
-        spannable.setSpan(
-            StyleSpan(Typeface.BOLD),
-            0,
-            label.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        return spannable
-    }
-
-    private fun validateSectionItems(
-
-        items: List<FieldVerificationItem>
-
-    ): Boolean {
-
-        items.forEach { item ->
-
-            // Mandatory remark validation
-            if (item.allowRemark) {
-
-                val remark =
-                    item.remarkText
-                        ?.trim()
-                        .orEmpty()
-
-                if (remark.isEmpty()) {
-
-                    showToast(
-                        "Please enter remark for ${item.requirement}"
-                    )
-
-                    return false
-                }
-            }
-
-            // Mandatory attachment validation
-            if (item.isAttachmentMandatory) {
-
-                if (item.attachments.isEmpty()) {
-
-                    showToast(
-                        "Please upload document for ${item.requirement}"
-                    )
-
-                    return false
-                }
-            }
-        }
-
-        return true
-
     }
 
 }
-
-
-
-
-
-data class FieldVerificationItem(
-    val id: String="",
-    val requirement: String,
-    val verificationDoc: String,
-    val documents: List<String> = emptyList(),
-    val uploadEnabled: Boolean = false,
-    val imageUri: String? = null,
-    val allowRemark: Boolean = false,
-    var remarkText: String? = null,
-    var attachments: MutableList<AttachmentItem> = mutableListOf(),
-    val isAttachmentMandatory: Boolean = true,
-
-    val sectionType: String = "",
-    val verificationStatus: String = "Pending",
-    val allowMultiUpload: Boolean = false,
-    val allowedFileTypes: List<String> = listOf("pdf", "png", "jpg", "jpeg"),
-
-    )
