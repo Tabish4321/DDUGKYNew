@@ -47,9 +47,11 @@ import com.deendayalproject.databinding.ItemTrainingRowBinding
 import com.deendayalproject.model.request.CaptivePiaOfficerSelfieRequest
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
+import com.deendayalproject.model.request.FieldVerificationFinalSubmitNEW
 import com.deendayalproject.model.response.AnnualTurnover
 import com.deendayalproject.model.response.AttachmentItem
 import com.deendayalproject.model.response.FieldVerificationDetailResponse
+import com.deendayalproject.model.response.FieldVerificationDetailResponseNEW
 import com.deendayalproject.model.response.NetWorth
 import com.deendayalproject.model.response.RemarkItem
 import com.deendayalproject.model.response.TotalTrainingHoursRemark
@@ -376,6 +378,27 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             nextExpand = binding.verFinExpand
         )
 
+        val request = FieldVerificationDetailRequest(
+
+            appVersion = BuildConfig.VERSION_NAME,
+
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+
+            captiveEmpanelmentId = captiveEmpanelmentId,
+
+            prnNo = prnNo,
+
+            data = collectSectionRemarksNew(
+                "ORGANIZATION",
+                orgItems
+            )
+        )
+
+        //collectSectionRemarksNew("ORGANIZATION", orgItems)
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        Log.d("ORGANIZATION NEW ─────────────> Data", gson.toJson(request))
+
+
         viewModel.getFieldVerificationFinDetail(buildDetailRequest())
         observeFinDetails()
 
@@ -470,19 +493,15 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     }
 
     // ── Field Visit (Final Submit) ────────────────────────────
-
     private fun onFieldFinalSubmit() {
         if (officerSelfieBase64.isNullOrBlank()) {
             showToast("Please capture officer selfie")
             return
         }
-
         binding.verFieldExpand.visibility = View.GONE
         binding.tvFieldHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
-
         val finalPayload = buildFinalSubmitPayload()
         logJson("FINAL_SUBMIT_JSON", finalPayload)
-
         showProgressBar()
         viewModel.submitFieldVerificationDetails.removeObservers(viewLifecycleOwner)
         viewModel.submitFieldVerification(finalPayload)
@@ -491,6 +510,128 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             result.onSuccess { handleFinalSubmitSuccess(it) }
                 .onFailure { handleFinalSubmitFailure(it) }
         }
+    }
+
+    private fun submitSection(
+        request: FieldVerificationFinalSubmitNEW,
+
+        expandView: View,
+
+        headerView: TextView,
+
+        nextSectionView: View? = null,
+
+        nextExpandView: View? = null
+
+    ) {
+
+        showProgressBar()
+
+        viewModel.submitFieldVerificationDetailsNEW
+            .removeObservers(viewLifecycleOwner)
+
+        viewModel.submitFieldVerificationNew(request)
+
+        viewModel.submitFieldVerificationDetailsNEW
+            .observe(viewLifecycleOwner) { result ->
+
+                hideProgressBar()
+
+                result.onSuccess { response ->
+
+                    handleSectionSuccess(
+
+                        response = response,
+
+                        expandView = expandView,
+
+                        headerView = headerView,
+
+                        nextSectionView = nextSectionView,
+
+                        nextExpandView = nextExpandView
+                    )
+                }.onFailure {
+
+                    handleSectionFailure(it)
+                }
+            }
+    }
+//
+    private fun handleSectionSuccess(
+
+        response: FieldVerificationDetailResponseNEW,
+
+        expandView: View,
+
+        headerView: TextView,
+
+        nextSectionView: View?,
+
+        nextExpandView: View?
+
+    ) {
+
+        val item = response.wrappedList.firstOrNull()
+
+        if (
+
+            response.responseCode == 200 &&
+            item?.completed == true
+
+        ) {
+
+            toastShort(
+                response.responseDesc
+                    ?: "Section submitted successfully"
+            )
+
+            // Hide current section
+            expandView.visibility = View.GONE
+
+            // Show verified icon
+            headerView.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
+
+            // Open next section
+            nextSectionView?.visibility = View.VISIBLE
+
+            nextExpandView?.visibility = View.VISIBLE
+
+        } else {
+
+            val pendingMessage = if (
+                item?.pendingFields?.isNotEmpty() == true
+            ) {
+
+                "\nPending : ${
+                    item.pendingFields.joinToString()
+                }"
+
+            } else {
+                ""
+            }
+
+            showToast(
+                response.responseDesc.orEmpty() + pendingMessage
+            )
+        }
+    }
+//
+    private fun handleSectionFailure(
+        throwable: Throwable
+    ) {
+
+        hideProgressBar()
+
+        showToast(
+            throwable.message
+                ?: "Something went wrong"
+        )
     }
 
     private fun handleFinalSubmitSuccess(response: FieldVerificationDetailResponse?) {
@@ -1702,6 +1843,54 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         captiveEmpanelmentId = captiveEmpanelmentId,
         prnNo = prnNo
     )
+
+
+    private fun collectSectionRemarksNew(
+
+        sectionName: String,
+
+        sectionItems: List<FieldVerificationItem>
+
+    ): RemarkItem {
+
+        commitFocusedEditText()
+
+        val requirementKey = when (sectionName.uppercase()) {
+
+            "ORGANIZATION" -> Requirement.ORG
+
+            "FINANCE" -> Requirement.FIN
+
+            "TRAINING" -> Requirement.TRAINING
+
+            "TRAININGINFRA" -> Requirement.INFRA
+
+            "RESIDENTIALFACILITY" -> Requirement.RESIDENTIAL
+
+            "CERTIFICATION" -> Requirement.CERT
+
+            "PLACEMENT" -> Requirement.PLACEMENT
+
+            "FIELDVISIT" -> Requirement.FIELD
+
+            else -> sectionName.uppercase()
+        }
+
+        val allAttachments = sectionItems.flatMap {
+
+            it.attachments
+        }
+
+        return RemarkItem(
+
+            section = sectionName,
+
+            requirement = requirementKey,
+
+            attachments = allAttachments
+        )
+    }
+
 
     private fun collectSectionRemarks(
         sectionName: String, sectionItems: List<FieldVerificationItem>

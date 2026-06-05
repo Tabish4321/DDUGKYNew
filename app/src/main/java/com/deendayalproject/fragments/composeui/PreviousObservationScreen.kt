@@ -111,13 +111,13 @@ fun PreviousObservationScreen(
                 // MAX 10 MB CHECK
                 // =====================
 
-                if (fileSizeInMB > 10) {
+                if (fileSizeInMB > 5) {
 
                     fileError = true
 
                     Toast.makeText(
                         context,
-                        "File size must be less than 10 MB",
+                        "File size must be less than 5 MB",
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -164,31 +164,20 @@ fun PreviousObservationScreen(
                 // FILE NAME
                 // =====================
 
-                val fileName =
-                    getFileName(
-                        context,
-                        uri
-                    )
+                val fileName = getFileName(context, uri)
+                val base64 = AppUtil.uriToBase64(context,uri)?:""
 
-
-
-                // =====================
-                // BASE64
-                // =====================
-
-                val inputStream =
-                    context.contentResolver
-                        .openInputStream(uri)
-
-                val bytes =
-                    inputStream?.readBytes()
-
-                val base64 =
-                    Base64.encodeToString(
-                        bytes,
-                        Base64.DEFAULT
-                    )
-
+//                // =====================
+//                // BASE64
+//                // =====================
+//
+//                val inputStream = context.contentResolver.openInputStream(uri)
+//
+//                val bytes = inputStream?.readBytes()
+//                val base64 = Base64.encodeToString(
+//                        bytes,
+//                        Base64.DEFAULT
+//                    )
 
 
                 // =====================

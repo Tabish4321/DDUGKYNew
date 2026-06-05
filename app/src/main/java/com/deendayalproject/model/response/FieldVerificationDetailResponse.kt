@@ -18,6 +18,33 @@ data class FieldVerificationDetailResponse(
     val responseDesc: String? = null
 )
 
+data class FieldVerificationDetailResponseNEW(
+
+    @SerializedName("wrappedList")
+    val wrappedList: List<SectionSaveResponseItem> = emptyList(),
+
+    @SerializedName("errorsMap")
+    val errorsMap: Map<String, Any>? = null,
+
+    @SerializedName("responseCode")
+    val responseCode: Int = 0,
+
+    @SerializedName("responseDesc")
+    val responseDesc: String? = null
+)
+
+data class SectionSaveResponseItem(
+
+    @SerializedName("section")
+    val section: String? = null,
+
+    @SerializedName("completed")
+    val completed: Boolean = false,
+
+    @SerializedName("pendingFields")
+    val pendingFields: List<String> = emptyList()
+)
+
 data class FieldVerificationDetailItem(
     @SerializedName("organizationDetails")
     val organizationDetails: OrganizationDetails? = null,

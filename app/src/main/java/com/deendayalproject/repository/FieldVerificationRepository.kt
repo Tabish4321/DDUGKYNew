@@ -5,9 +5,11 @@ import com.deendayalproject.base.BaseRepository
 import com.deendayalproject.model.request.CaptivePiaOfficerSelfieRequest
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
+import com.deendayalproject.model.request.FieldVerificationFinalSubmitNEW
 import com.deendayalproject.model.request.FieldVerificationListRequest
 import com.deendayalproject.model.response.CaptivePiaOfficerSelfieResponse
 import com.deendayalproject.model.response.FieldVerificationDetailResponse
+import com.deendayalproject.model.response.FieldVerificationDetailResponseNEW
 import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.network.ApiService
 
@@ -62,6 +64,11 @@ class FieldVerificationRepository(context: Context) : BaseRepository<ApiService>
     suspend fun submitFieldVerification(request: FieldVerificationFinalSubmit): Result<FieldVerificationDetailResponse> =
         safeApiCall {
             apiService.submitFieldVerification(request)
+        }
+
+    suspend fun submitFieldVerificationNEW(request: FieldVerificationFinalSubmitNEW): Result<FieldVerificationDetailResponseNEW> =
+        safeApiCall {
+            apiService.submitFieldVerificationNEW(request)
         }
 
 //    suspend fun submitFieldVerification(

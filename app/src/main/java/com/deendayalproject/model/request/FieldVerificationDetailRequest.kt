@@ -7,8 +7,11 @@ data class FieldVerificationDetailRequest(
     val loginId: String,
     val appVersion: String,
     val captiveEmpanelmentId: String,
-    val prnNo: String
-)
+    val prnNo: String,
+    val data: RemarkItem = RemarkItem( "","")
+
+    )
+
 
 
 //    data class FieldVerificationFinalSubmit(
@@ -18,6 +21,15 @@ data class FieldVerificationDetailRequest(
 //        val prnNo: String,
 //        val remarks:Map<String, List<RemarkItem>> //List<RemarkItem> // All remarks flattened
 //    )
+
+data class FieldVerificationFinalSubmitNEW(
+    val appVersion: String,
+    val loginId: String,
+    val captiveEmpanelmentId: String,
+    val prnNo: String,
+    val data: RemarkItem
+)
+
 
 data class FieldVerificationFinalSubmit(
     val appVersion: String,

@@ -476,6 +476,23 @@ object AppUtil {
         return Base64.encodeToString(bytes, Base64.DEFAULT)
     }
 
+    fun uriToBase64(context: Context, uri: Uri): String? {
+        return try {
+
+            val bytes = context.contentResolver
+                .openInputStream(uri)
+                ?.use { it.readBytes() }
+
+            bytes?.let {
+                Base64.encodeToString(it, Base64.NO_WRAP)
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     fun getTimeZone(): String {
         return TimeZone.getDefault().id
     }

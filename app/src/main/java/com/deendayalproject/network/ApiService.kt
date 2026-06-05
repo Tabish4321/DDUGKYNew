@@ -22,6 +22,7 @@ import com.deendayalproject.model.request.FansCountReq
 import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
+import com.deendayalproject.model.request.FieldVerificationFinalSubmitNEW
 import com.deendayalproject.model.request.FieldVerificationListRequest
 import com.deendayalproject.model.request.GetAttendanceDetailsReq
 import com.deendayalproject.model.request.GetDDSaveDataReq
@@ -154,6 +155,7 @@ import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.FacultyDetailsRes
 import com.deendayalproject.model.response.FansCountRes
 import com.deendayalproject.model.response.FieldVerificationDetailResponse
+import com.deendayalproject.model.response.FieldVerificationDetailResponseNEW
 import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.FinancialDetailsResponse
@@ -289,9 +291,12 @@ interface ApiService {
     suspend fun getResidentialFacilitiesList(@Body request: TrainingCenterRequest): Response<RfListResponse>
 
     @POST("insertCaptiveEmpanelmentVerification")
-    suspend fun submitFieldVerification(
-        @Body request: FieldVerificationFinalSubmit
+    suspend fun submitFieldVerification(@Body request: FieldVerificationFinalSubmit
     ): Response<FieldVerificationDetailResponse>
+
+    @POST("insertCaptiveEmpanelmentVerification")
+    suspend fun submitFieldVerificationNEW(@Body request: FieldVerificationFinalSubmitNEW
+    ): Response<FieldVerificationDetailResponseNEW>
 
 
     @POST(value = "insertCCTVCompliance")
