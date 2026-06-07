@@ -485,14 +485,14 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
-    fun submitFieldVerification(request: FieldVerificationFinalSubmit) {
-        handleApiCall(
-            apiCall = {
-                repositoryManager.fieldVerification.submitFieldVerification(request)
-            },
-            resultLiveData = _submitFieldVerification
-        )
-    }
+//    fun submitFieldVerification(request: FieldVerificationFinalSubmit) {
+//        handleApiCall(
+//            apiCall = {
+//                repositoryManager.fieldVerification.submitFieldVerification(request)
+//            },
+//            resultLiveData = _submitFieldVerification
+//        )
+//    }
 
     fun submitFieldVerificationNew(request: FieldVerificationFinalSubmitNEW) {
         handleApiCall(
