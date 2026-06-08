@@ -378,7 +378,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             nextExpand = binding.verFinExpand
         )
 
-        val request = FieldVerificationDetailRequest(
+        val request = FieldVerificationFinalSubmitNEW(
 
             appVersion = BuildConfig.VERSION_NAME,
 
@@ -388,11 +388,36 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
             prnNo = prnNo,
 
-            data = collectSectionRemarksNew(
-                "ORGANIZATION",
-                orgItems
-            )
+            data = collectSectionRemarksNew("ORGANIZATION", orgItems)
         )
+
+        submitSection(request = request,
+
+            headerView = binding.tvTrainInfra,
+
+            expandToHide = binding.trainingInfraExpand,
+
+            nextSection = binding.verFin,
+
+            nextExpand = binding.verFinExpand,
+
+            onSuccess = {
+
+                viewModel.getFieldVerificationFinDetail(
+                    buildDetailRequest()
+                )
+
+                observeFinDetails()
+
+                if (hasLocationPermission()) {
+
+                    getCurrentLocation()
+
+                } else {
+
+                    requestLocationPermission()
+                }
+            })
 
         //collectSectionRemarksNew("ORGANIZATION", orgItems)
         val gson = GsonBuilder().setPrettyPrinting().create()
@@ -404,6 +429,8 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
         if (hasLocationPermission()) getCurrentLocation() else requestLocationPermission()
     }
+
+
 
     // ── Finance ──────────────────────────────────────────────
 
