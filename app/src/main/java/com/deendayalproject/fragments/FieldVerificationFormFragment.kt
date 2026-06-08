@@ -339,7 +339,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     private fun setupNextButtons() {
         binding.btnInfoNext.setOnClickListener {
             onOrgNext()
-            logSectionGson(Requirement.ORG, orgItems)
+            //logSectionGson(Requirement.ORG, orgItems)
         }
         binding.btnFinNext.setOnClickListener { onFinNext()
             logSectionGson(Requirement.FIN, finItems)}
@@ -358,11 +358,25 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         binding.btnPlacementNext.setOnClickListener { onPlacementNext()
             logSectionGson(Requirement.PLACEMENT, placementItems)
         }
-        binding.btnFieldNext.setOnClickListener { onFieldFinalSubmit()
+        binding.btnFieldNext.setOnClickListener {
+            //onFieldFinalSubmit()
             logSectionGson(Requirement.FIELD, fieldItems)}
     }
 
     // ── Organisation ─────────────────────────────────────────
+
+    private fun commonFieldVarificationRequest(sectionName: String,sectionItems: List<FieldVerificationItem>):FieldVerificationFinalSubmitNEW{
+        return FieldVerificationFinalSubmitNEW(
+            appVersion = BuildConfig.VERSION_NAME,
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            captiveEmpanelmentId = captiveEmpanelmentId,
+            prnNo = prnNo,
+            data = collectSectionRemarksNew(
+                sectionName,
+                sectionItems
+            )
+        )
+    }
 
     private fun onOrgNext() {
         if (!isSelfieVerificationDone) {
@@ -371,66 +385,38 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         }
         if (!validateSectionItems(binding.recyclerView, orgItems)) return
 
-        markSectionComplete(
-            headerView = binding.tvTrainInfra,
-            expandToHide = binding.trainingInfraExpand,
-            nextSection = binding.verFin,
-            nextExpand = binding.verFinExpand
-        )
+        val request = commonFieldVarificationRequest("ORGANIZATION",orgItems)
 
-        val request = FieldVerificationFinalSubmitNEW(
+//            FieldVerificationFinalSubmitNEW(
+//
+//            appVersion = BuildConfig.VERSION_NAME,
+//
+//            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+//
+//            captiveEmpanelmentId = captiveEmpanelmentId,
+//
+//            prnNo = prnNo,
+//
+//            data = collectSectionRemarksNew(
+//                "ORGANIZATION",
+//                orgItems
+//            )
+//        )
 
-            appVersion = BuildConfig.VERSION_NAME,
-
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-
-            captiveEmpanelmentId = captiveEmpanelmentId,
-
-            prnNo = prnNo,
-
-            data = collectSectionRemarksNew("ORGANIZATION", orgItems)
-        )
-
-        submitSection(request = request,
-
-            headerView = binding.tvTrainInfra,
-
-            expandToHide = binding.trainingInfraExpand,
-
-            nextSection = binding.verFin,
-
-            nextExpand = binding.verFinExpand,
-
-            onSuccess = {
-
-                viewModel.getFieldVerificationFinDetail(
-                    buildDetailRequest()
-                )
-
-                observeFinDetails()
-
-                if (hasLocationPermission()) {
-
-                    getCurrentLocation()
-
-                } else {
-
-                    requestLocationPermission()
-                }
-            })
-
-        //collectSectionRemarksNew("ORGANIZATION", orgItems)
         val gson = GsonBuilder().setPrettyPrinting().create()
         Log.d("ORGANIZATION NEW ─────────────> Data", gson.toJson(request))
 
-
-        viewModel.getFieldVerificationFinDetail(buildDetailRequest())
-        observeFinDetails()
-
-        if (hasLocationPermission()) getCurrentLocation() else requestLocationPermission()
+        submitSection(request, headerView = binding.tvTrainInfra,binding.trainingInfraExpand,binding.verFin,binding.verFinExpand, onSuccess = {
+              viewModel.getFieldVerificationFinDetail(buildDetailRequest())
+             observeFinDetails()
+            if (hasLocationPermission()) {
+                getCurrentLocation()
+            } else {
+                requestLocationPermission()
+            }
+        }
+        )
     }
-
-
 
     // ── Finance ──────────────────────────────────────────────
 
@@ -442,6 +428,20 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             nextSection = binding.verTraining,
             nextExpand = binding.verTrainingExpand
         )
+//        val request = commonFieldVarificationRequest("ORGANIZATION",orgItems)
+//        val gson = GsonBuilder().setPrettyPrinting().create()
+//        Log.d("ORGANIZATION NEW ─────────────> Data", gson.toJson(request))
+//
+//        submitSection(request, headerView = binding.tvFinHead,binding.verFinExpand,binding.verTraining,binding.verTrainingExpand, onSuccess = {
+//            viewModel.getFieldVerificationTrainingDetail(buildDetailRequest())
+//            observeTrainingDetails()
+//            if (hasLocationPermission()) {
+//                getCurrentLocation()
+//            } else {
+//                requestLocationPermission()
+//            }
+//        }
+//        )
 
         viewModel.getFieldVerificationTrainingDetail(buildDetailRequest())
         observeTrainingDetails()
@@ -459,6 +459,20 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             nextSection = binding.verTrainingInfra,
             nextExpand = binding.verTrainingInfraExpand
         )
+//        val request = commonFieldVarificationRequest("ORGANIZATION",orgItems)
+//        val gson = GsonBuilder().setPrettyPrinting().create()
+//        Log.d("ORGANIZATION NEW ─────────────> Data", gson.toJson(request))
+//
+ //       submitSection(request, headerView = binding.tvTrainingHead,binding.verTrainingExpand,binding.verTrainingInfra,binding.verTrainingInfraExpand, onSuccess = {
+//            viewModel.getFieldVerificationTrainingInfraDetail(buildDetailRequest())
+//            observeTrainingInfraDetails()
+//            if (hasLocationPermission()) {
+//                getCurrentLocation()
+//            } else {
+//                requestLocationPermission()
+//            }
+//        }
+//        )
 
         viewModel.getFieldVerificationTrainingInfraDetail(buildDetailRequest())
         observeTrainingInfraDetails()
@@ -476,6 +490,13 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             nextSection = binding.verResidentialFacility,
             nextExpand = binding.verResidentialFacilityExpand
         )
+        //        val request = commonFieldVarificationRequest("ORGANIZATION",orgItems)
+//        val gson = GsonBuilder().setPrettyPrinting().create()
+//        Log.d("ORGANIZATION NEW ─────────────> Data", gson.toJson(request))
+//
+//        submitSection(request, headerView = binding.tvTrainingInfraHead,binding.verTrainingInfraExpand,binding.verResidentialFacility,binding.verResidentialFacilityExpand, onSuccess = {
+//        }
+//        )
     }
 
     // ── Residential Facility ─────────────────────────────────
@@ -488,9 +509,21 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             nextSection = binding.verCert,
             nextExpand = binding.verCertExpand
         )
+        //        val request = commonFieldVarificationRequest("ORGANIZATION",orgItems)
 
-        viewModel.getFieldVerificationCertificationDetail(buildDetailRequest())
-        observeCertificationDetails()
+        //        val gson = GsonBuilder().setPrettyPrinting().create()
+//        Log.d("ORGANIZATION NEW ─────────────> Data", gson.toJson(request))
+//
+//        submitSection(request, headerView = binding.tvResidentialFacilityHead,binding.verResidentialFacilityExpand,binding.verCert,binding.verCertExpand, onSuccess = {
+ //           viewModel.getFieldVerificationCertificationDetail(buildDetailRequest())
+  //          observeCertificationDetails()
+//        }
+//        }
+//        )
+            viewModel.getFieldVerificationCertificationDetail(buildDetailRequest())
+            observeCertificationDetails()
+
+
     }
 
     // ── Certification ────────────────────────────────────────
@@ -503,8 +536,21 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             nextSection = binding.verPlacement,
             nextExpand = binding.verPlacementExpand
         )
+        //        val request = commonFieldVarificationRequest("ORGANIZATION",orgItems)
+
+        //        val gson = GsonBuilder().setPrettyPrinting().create()
+//        Log.d("ORGANIZATION NEW ─────────────> Data", gson.toJson(request))
+//
+//        submitSection(request, headerView = binding.tvCertHead,binding.verCertExpand,binding.verPlacement,binding.verPlacementExpand, onSuccess = {
+        //           viewModel.getFieldVerificationPlacementDetail(buildDetailRequest())
+        //          observePlacementDetails()
+//        }
+//        }
+//        )
+
         viewModel.getFieldVerificationPlacementDetail(buildDetailRequest())
         observePlacementDetails()
+
     }
 
     // ── Placement ────────────────────────────────────────────
@@ -517,43 +563,54 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             nextSection = binding.verField,
             nextExpand = binding.verFieldExpand
         )
+        //        val request = commonFieldVarificationRequest("ORGANIZATION",orgItems)
+
+        //        val gson = GsonBuilder().setPrettyPrinting().create()
+//        Log.d("ORGANIZATION NEW ─────────────> Data", gson.toJson(request))
+//
+//        submitSection(request, headerView = binding.tvPlacementHead,binding.verPlacementExpand,binding.verField,binding.verPverFieldExpandlacementExpand, onSuccess = {
+//        }
+//        }
+//        )
+
     }
 
     // ── Field Visit (Final Submit) ────────────────────────────
-    private fun onFieldFinalSubmit() {
-        if (officerSelfieBase64.isNullOrBlank()) {
-            showToast("Please capture officer selfie")
-            return
-        }
-        binding.verFieldExpand.visibility = View.GONE
-        binding.tvFieldHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
-        val finalPayload = buildFinalSubmitPayload()
-        logJson("FINAL_SUBMIT_JSON", finalPayload)
-        showProgressBar()
-        viewModel.submitFieldVerificationDetails.removeObservers(viewLifecycleOwner)
-        viewModel.submitFieldVerification(finalPayload)
-        viewModel.submitFieldVerificationDetails.observe(viewLifecycleOwner) { result ->
-            hideProgressBar()
-            result.onSuccess { handleFinalSubmitSuccess(it) }
-                .onFailure { handleFinalSubmitFailure(it) }
-        }
-    }
+//    private fun onFieldFinalSubmit() {
+//        if (officerSelfieBase64.isNullOrBlank()) {
+//            showToast("Please capture officer selfie")
+//            return
+//        }
+//        binding.verFieldExpand.visibility = View.GONE
+//        binding.tvFieldHead.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_verified, 0)
+//        val finalPayload = buildFinalSubmitPayload()
+//        logJson("FINAL_SUBMIT_JSON", finalPayload)
+//        showProgressBar()
+//        viewModel.submitFieldVerificationDetails.removeObservers(viewLifecycleOwner)
+//        viewModel.submitFieldVerification(finalPayload)
+//        viewModel.submitFieldVerificationDetails.observe(viewLifecycleOwner) { result ->
+//            hideProgressBar()
+//            result.onSuccess { handleFinalSubmitSuccess(it) }
+//                .onFailure { handleFinalSubmitFailure(it) }
+//        }
+//    }
 
     private fun submitSection(
-        request: FieldVerificationFinalSubmitNEW,
 
-        expandView: View,
+        request: FieldVerificationFinalSubmitNEW,
 
         headerView: TextView,
 
-        nextSectionView: View? = null,
+        expandToHide: View,
 
-        nextExpandView: View? = null
+        nextSection: View,
+
+        nextExpand: View,
+
+        onSuccess: (() -> Unit)? = null
 
     ) {
-
         showProgressBar()
-
         viewModel.submitFieldVerificationDetailsNEW
             .removeObservers(viewLifecycleOwner)
 
@@ -566,25 +623,42 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
                 result.onSuccess { response ->
 
-                    handleSectionSuccess(
+                    val item = response.wrappedList.firstOrNull()
+                    Log.d("API_RESPONSE", item.toString())
+                    if (response.responseCode == 200 && item?.completed == true) {
 
-                        response = response,
+                        toastShort(response.responseDesc ?: "Section submitted successfully")
 
-                        expandView = expandView,
+                        // Hide current section
+                        expandToHide.visibility = View.GONE
 
-                        headerView = headerView,
+                        // Show verified icon
+                        headerView.setCompoundDrawablesWithIntrinsicBounds(
+                                0,
+                                0,
+                                R.drawable.ic_verified,
+                                0
+                            )
 
-                        nextSectionView = nextSectionView,
+                        // Open next section
+                        nextSection.visibility = View.VISIBLE
 
-                        nextExpandView = nextExpandView
-                    )
+                        nextExpand.visibility = View.VISIBLE
+
+                        onSuccess?.invoke()
+
+                    } else {
+
+                        val pendingMessage = if (item?.pendingFields?.isNotEmpty() == true) { "\nPending : ${item.pendingFields.joinToString()}" } else ""
+                        showToast(response.responseDesc.orEmpty() + pendingMessage)
+                    }
+
                 }.onFailure {
-
-                    handleSectionFailure(it)
+                    showToast(it.message ?: "Something went wrong")
                 }
             }
     }
-//
+
     private fun handleSectionSuccess(
 
         response: FieldVerificationDetailResponseNEW,
@@ -2649,7 +2723,6 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             .setNegativeButton(resources.getString(R.string.close), null).show()
     }
 
-    /** Generic info dialog with horizontal action buttons */
     private fun showInfoDialog(title: String, message: String, actions: List<DialogAction>) {
         val ctx = requireContext()
         val dp = ctx.resources.displayMetrics.density
