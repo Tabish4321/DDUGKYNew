@@ -1,5 +1,7 @@
 package com.deendayalproject.model.response
 
+import com.deendayalproject.model.SectionStatusFrmVeri
+
 data class TrainingDetailsResponse(
     val trainingCriteria: List<TrainingCriteriaItem>?,
     //val totalTrainingHoursRemarks: String?,
@@ -9,7 +11,8 @@ data class TrainingDetailsResponse(
     val commitment: CommitmentResponse?,
     val repetitionClubbingIfraNsqf : String?="",
     val trainingPlacement: TrainingPlacementResponse?,
-    val domainSpecificTraining: DomainSpecificResponse?
+    val domainSpecificTraining: DomainSpecificResponse?,
+
 )
 
 

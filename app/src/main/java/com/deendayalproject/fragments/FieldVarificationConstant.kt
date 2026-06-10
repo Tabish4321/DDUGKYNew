@@ -103,6 +103,12 @@ data class FieldVerificationItem(
     const val RES_SAFETY = "uploadResidentialSafetyMeasuresPhoto"
     const val RES_CANTEEN = "uploadResidentialCanteenPhoto"
     const val RES_BED_WATER = "uploadResidentialBedAndDrinkingWaterPhoto"
+     const val RES_Latitude = "residentialFacilityLatitude"
+     const val RES_Longitude = "residentialFacilityLongitude"
+     const val TC_Latitude = "trainingCentreLatitude"
+     const val TC_Longitude = "trainingCentreLongitude"
+
+
 
     // Certification
     const val CERT_DECLARATION = "uploadCertificationSelfDeclaration"

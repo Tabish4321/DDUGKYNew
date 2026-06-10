@@ -1,8 +1,10 @@
 package com.deendayalproject.model.response
 
+import com.deendayalproject.model.SectionStatusFrmVeri
+
 data class PlacementDetailsResponse(
     val yearWisePlacementDetails: List<YearlyPlacementDetails>?,
-    val commitment: PlacementCommitmentResponse?
+    val commitment: PlacementCommitmentResponse?,
 )
 
 data class YearlyPlacementDetails(

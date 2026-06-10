@@ -1,5 +1,6 @@
 package com.deendayalproject.model.response
 
+import com.deendayalproject.model.SectionStatusFrmVeri
 import com.deendayalproject.model.request.TrainingCenter
 import com.google.gson.annotations.SerializedName
 
@@ -52,15 +53,17 @@ data class FieldVerificationDetailItem(
     val trainingDetails: TrainingDetailsResponse? = null,
     val trainingInfrastrutureDetails: TrainingInfraDetailsResponse? = null,
     val assessmentCertificationDetails: AssessmentCertificationDetailsResponse? = null,
-    val placementDetails: PlacementDetailsResponse? = null
+    val placementDetails: PlacementDetailsResponse? = null,
+    val sectionStatus: SectionStatusFrmVeri?=null
 )
 
 data class AssessmentCertificationDetailsResponse(
-    val commitmentLetterDetails: CertificationDetails?
+    val commitmentLetterDetails: CertificationDetails?,
 )
 data class CertificationDetails(
     val awardBodyCommit: String?,
-    val seventyPctCommit: String?
+    val seventyPctCommit: String?,
+
 )
 
 data class TrainingInfraDetailsResponse(
@@ -68,7 +71,7 @@ data class TrainingInfraDetailsResponse(
 )
 data class ResidentialFacilityDetails(
     val residentialFacilityAvailable: String?,
-    val residentialFacilityDocument: String?
+    val residentialFacilityDocument: String?,
 )
 
 /** Root group under organizationDetails */
@@ -89,7 +92,7 @@ data class OrganizationDetails(
     val bankDetails: BankDetails? = null,
 
     @SerializedName("manpowerAgencyCheck")
-    val manpowerAgencyCheck: ManpowerAgencyCheck? = null
+    val manpowerAgencyCheck: ManpowerAgencyCheck? = null,
 )
 
 /** proofOfIndustryExistence */

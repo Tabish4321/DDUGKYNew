@@ -338,6 +338,7 @@ fun InspectionStepModernScreen(
                                                     finalRemark,
 
                                                     condidateVerificationViewModel.finalAttachmentBase64
+
                                                 )
                                             }
                                         }

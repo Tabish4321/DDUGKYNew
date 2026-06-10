@@ -3,6 +3,7 @@ package com.deendayalproject.viewmodel
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,6 +19,7 @@ import com.deendayalproject.model.request.assesmentInspection.PreviousInspection
 import com.deendayalproject.model.response.CandidateInspectionDetails
 import com.deendayalproject.model.uistate.*
 import com.deendayalproject.repository.CandidateerificationRepository
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -436,17 +438,20 @@ class CandidateVerificationViewModel(
             _statefinal.update {
                 it.copy(isLoading = true)
             }
+            var request =InsertInspectionFinalDetailsRequest(
+                BuildConfig.VERSION_NAME,
+                inspectionId,
+                trainingCenterId,
+                remark,
+                finalRemarkAttachment
+            )
 
-            val result =
-                repository.insertInspectionFinalDetails(
-                    InsertInspectionFinalDetailsRequest(
-                        BuildConfig.VERSION_NAME,
-                        inspectionId,
-                        trainingCenterId,
-                        remark,
-                        finalRemarkAttachment
-                    )
-                )
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            var str =gson.toJson(request)
+            Log.d("Final Sumbit Observation data", str)
+
+
+            val result = repository.insertInspectionFinalDetails(request)
 
             result.onSuccess { response ->
 

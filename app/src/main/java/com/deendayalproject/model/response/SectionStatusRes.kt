@@ -19,6 +19,7 @@ data class SectionStatus(
     val careraSection: Int,
     val toiletWashBasinSection: Int,
     val signageSection: Int,
-    val infoSection: Int
+    val infoSection: Int,
+
 )
 

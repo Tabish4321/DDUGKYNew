@@ -1,8 +1,10 @@
 package com.deendayalproject.model.response
 
+import com.deendayalproject.model.SectionStatusFrmVeri
+
 data class FinancialDetailsResponse(
     val annualTurnover: List<AnnualTurnover>?,
-    val netWorth: List<NetWorth>?
+    val netWorth: List<NetWorth>?,
 )
 
 data class AnnualTurnover(
@@ -16,6 +18,8 @@ data class NetWorth(
     val turnoverAmount: Double?,
     var sfp18Attachment: String? = null
 )
+
+
 
 // wrapper to represent any year-wise financial item (annual turnover / net worth)
 data class YearlyFinancialItem(

@@ -294,7 +294,7 @@ interface ApiService {
     suspend fun submitFieldVerification(@Body request: FieldVerificationFinalSubmit
     ): Response<FieldVerificationDetailResponse>
 
-    @POST("insertCaptiveEmpanelmentVerification")
+    @POST("insertCaptiveEmpanelmentVerificationSection")
     suspend fun submitFieldVerificationNEW(@Body request: FieldVerificationFinalSubmitNEW
     ): Response<FieldVerificationDetailResponseNEW>
 
