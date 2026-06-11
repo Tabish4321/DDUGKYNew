@@ -112,127 +112,151 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
         )
         showProgressDialog("Loading...")
         viewModel.fetchgetCompOjtTrainingCenter(request, "Bearer $token")
-//        viewModel.fetchOJTTrainingCenter(request, "Bearer $token")
-
-
-
-
-
-
-
-
-
     }
     private var filteredSanctionList: List<SRLMRes> = emptyList()
-
     private fun setupSanctionOrder() {
 
         OJTSanctionOrderListAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
-            ArrayList()
+            mutableListOf()
         )
 
         binding.OjtspinnerPiaName.apply {
 
             setAdapter(OJTSanctionOrderListAdapter)
 
+            threshold = 0
+
             keyListener = null
 
             setOnClickListener {
 
                 if (OJTSanctionOrderListAdapter.count > 0) {
-                    showDropDown()
+
+                    requestFocus()
+
+                    post {
+                        showDropDown()
+                    }
+
                 } else {
-                    Toast.makeText(context, "No data available", Toast.LENGTH_SHORT).show()
+
+                    Toast.makeText(
+                        requireContext(),
+                        "No data available",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             setOnItemClickListener { parent, _, position, _ ->
 
-                val selectedPiaName = parent.getItemAtPosition(position).toString()
+                try {
 
-                val item = SanctionOrderListOjt.find {
-                    it.piaName.trim() == selectedPiaName.trim()
-                }
+                    val selectedText =
+                        parent.getItemAtPosition(position)?.toString()
+                            ?: return@setOnItemClickListener
+                    val sanctionOrder = selectedText.substringAfter("(").substringBefore(")")
+                    fetchModulesTrainingCenters(sanctionOrder)
+                    val item = filteredSanctionList.find {
 
-                if (item != null) {
+                        selectedText == "${it.piaName} (${it.sanctionOrder})"
+
+                    }
+
+                    if (item == null) {
+
+
+
+                        return@setOnItemClickListener
+                    }
 
                     selectedOJTSanctionOrder = item
 
                     clearTrainingCenter()
+
                     clearBatchRecycler()
 
+                    setText(selectedText, false)
 
+                    dismissDropDown()
 
                     fetchModulesTrainingCenters(item.sanctionOrder)
 
-                } else {
-                    Toast.makeText(context, "Data mismatch!", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+
+                    e.printStackTrace()
+
+                    Toast.makeText(
+                        requireContext(),
+                        e.message ?: "Something went wrong",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-
-
-
             }
         }
 
         setupSearchView()
     }
+
     private fun setupSearchView() {
 
         filteredSanctionList = SanctionOrderListOjt
 
         updateDropdown(filteredSanctionList)
 
-        binding.searchViewPiaName.setOnQueryTextListener(object :
-            SearchView.OnQueryTextListener {
+        binding.searchViewPiaName.setOnQueryTextListener(
+            object : SearchView.OnQueryTextListener {
 
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
+                override fun onQueryTextChange(newText: String?): Boolean {
 
-                val searchText = newText?.trim()?.lowercase() ?: ""
+                    val searchText = newText?.trim()?.lowercase() ?: ""
 
-                filteredSanctionList =
-                    if (searchText.isEmpty()) {
+                    filteredSanctionList =
+                        if (searchText.isEmpty()) {
+                            SanctionOrderListOjt
+                        } else {
+                            SanctionOrderListOjt.filter {
 
-                        SanctionOrderListOjt
+                                it.piaName.lowercase().contains(searchText) ||
+                                        it.sanctionOrder.lowercase().contains(searchText)
+                            }
+                        }
+
+                    updateDropdown(filteredSanctionList)
+
+                    if (filteredSanctionList.isNotEmpty()) {
+
+                        binding.OjtspinnerPiaName.requestFocus()
+
+                        binding.OjtspinnerPiaName.post {
+                            binding.OjtspinnerPiaName.showDropDown()
+                        }
 
                     } else {
 
-                        SanctionOrderListOjt.filter {
-
-                            it.piaName.lowercase().contains(searchText) ||
-                                    it.sanctionOrder.lowercase().contains(searchText)
-                        }
+                        binding.OjtspinnerPiaName.dismissDropDown()
                     }
 
-                updateDropdown(filteredSanctionList)
-
-                // Auto open dropdown while typing
-                if (filteredSanctionList.isNotEmpty()) {
-
-                    binding.OjtspinnerPiaName.showDropDown()
-
+                    return true
                 }
-
-                return true
             }
-        })
+        )
     }
+
     private fun updateDropdown(list: List<SRLMRes>) {
 
         val displayList = list.map {
-
             "${it.piaName} (${it.sanctionOrder})"
         }
 
         OJTSanctionOrderListAdapter.clear()
-
         OJTSanctionOrderListAdapter.addAll(displayList)
-
         OJTSanctionOrderListAdapter.notifyDataSetChanged()
     }
 
@@ -283,34 +307,8 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
 
         batchAdapter = BatchSRLMAdapter { batch ->
 
-
-//            isProfileVisible = !isProfileVisible
-////
-//            binding.rvModules2.visibility = if (isProfileVisible) View.VISIBLE else View.GONE
-//
-//            selectedBatch = batch
-
-
-//            findNavController().navigate(R.id.action_fragmentOJTChild_to_OJTChildSRLM)
-//            fragmentOJTChildSRLM
             val action = OJTSclectionSRLMFragmentDirections.actionFragmentOJTChildToOJTChildSRLM(batch.batchId.toString())
-//            val action = Fra.actionRfCenterFragmentToRfMultipleListFragment(
-//            val action = RfCenterFragmentDirections.actionRfCenterFragmentToRfMultipleListFragment(
-//                centerId,
-//                sanctionOrder
-//            )
             findNavController().navigate(action)
-
-//            val token = getToken(requireContext())
-//            val request = ModulesCandidateByOjtRequest2(
-//                BuildConfig.VERSION_NAME,
-//                batch.batchId.toString()
-//            )
-//            batch.batchId.toString()
-//            showProgressDialog("Loading...")
-//            viewModel.fetchgetVerifiedBatchCandidateList(request, "Bearer $token")
-//            batchId=batch.batchId.toString()
-
 
             }
 
@@ -330,9 +328,6 @@ class OJTSclectionSRLMFragment : BaseFragment<FragmentOJTSclectionSRLMBinding>(F
     private fun FetchOjtListByBatch() {
 
         ojtListBatchAdapter = OjtListByBatchSRLMAdapter { batch ->
-
-//            findNavController().navigate(R.id.action_fragmentOJTChild_to_OJTChildSRLM)
-//            findNavController().navigate(R.id.action_fragmentOJTChild_to_OJTChildSRLM)
 
         }
         binding.rvModules2.apply {

@@ -194,221 +194,212 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_marginTop="@dimen/dp_10"
-                        android:visibility="gone"
+                         android:visibility="gone"
                         android:id="@+id/trainingDetailsLayout"
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:padding="@dimen/dp_17">
 
-
-                        <TableLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_below="@+id/title1"
-                            android:layout_marginTop="@dimen/dp_20"
                             android:layout_height="wrap_content"
-                            android:stretchColumns="1"
-                            android:padding="@dimen/dp_2"
+                            android:layout_below="@id/title1"
+                            android:layout_marginTop="@dimen/dp_20"
+                            android:orientation="vertical"
                             android:background="@color/white"
-                            >
+                            android:padding="12dp">
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/title1"
+                                android:layout_marginTop="@dimen/dp_20"
+                                android:orientation="vertical"
+                                android:background="@color/white"
+                                android:padding="12dp">
 
-
-
-                            <TableRow>
+                                ```
+                                <!-- PIA Name -->
                                 <TextView
-                                    android:textSize="16sp"
-                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:text="@string/pia_name"
-
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"/>
 
                                 <TextView
                                     android:id="@+id/tvPiaName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="12dp"
                                     android:textSize="16sp"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="" />
-                            </TableRow>
+                                    android:fontFamily="@font/avenir_next_regular"/>
 
-
-
-
-
-                            <TableRow>
+                                <!-- Month -->
                                 <TextView
-                                    android:textSize="16sp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:text="Month :"
-                                    android:visibility="gone"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:textSize="16sp"
+                                    android:visibility="gone"/>
 
                                 <TextView
                                     android:id="@+id/tvMonth"
-                                    android:visibility="gone"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="" />
-                            </TableRow>
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"/>
 
-                            <!-- Candidate -->
-
-
-                            <!-- Trainee Name -->
-                            <TableRow>
+                                <!-- Trainee Name -->
                                 <TextView
-                                    android:textStyle="bold"
-                                    android:fontFamily="@font/avenir_next_regular"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
                                     android:text="@string/trainee_name"
+                                    android:textStyle="bold"
                                     android:visibility="gone"/>
 
                                 <TextView
                                     android:id="@+id/tvTraineeName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:visibility="gone"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="DDUGKY" />
-                            </TableRow>
+                                    android:layout_marginBottom="12dp"/>
 
-                            <!-- Father's Name -->
-
-
-                            <!-- Block -->
-                            <TableRow>
+                                <!-- Status -->
                                 <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/ojt_status"
                                     android:textStyle="bold"
-                                    android:textSize="16sp"
-                                    android:visibility="gone"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/ojt_status" />
+                                    android:visibility="gone"/>
 
                                 <TextView
                                     android:id="@+id/tvStatus"
-                                    android:visibility="gone"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="Saurikh" />
-                            </TableRow>
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"/>
 
-                            <!-- District -->
-                            <TableRow>
+                                <!-- District -->
                                 <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/tc_district"
                                     android:textStyle="bold"
-                                    android:textSize="16sp"
-
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/tc_district" />
+                                    android:textSize="16sp"/>
 
                                 <TextView
-                                    android:textSize="16sp"
-                                    android:fontFamily="@font/avenir_next_regular"
                                     android:id="@+id/tvDistrict"
-                                    />
-                            </TableRow>
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="12dp"
+                                    android:textSize="16sp"
+                                    android:fontFamily="@font/avenir_next_regular"/>
 
-                            <!-- Center Name -->
-                            <TableRow>
-
+                                <!-- Center Name -->
                                 <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/center_name_ojt"
                                     android:textStyle="bold"
-                                     android:visibility="gone"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:textSize="16sp"
-                                    android:text="@string/center_name_ojt" />
+                                    android:visibility="gone"/>
 
                                 <TextView
-                                    android:textSize="16sp"
-                                    android:visibility="gone"
                                     android:id="@+id/tvCenterName"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="Ajit Micro Tech Computer Center" />
-                            </TableRow>
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:layout_marginBottom="12dp"/>
 
-                            <!-- Training Dates -->
-                            <TableRow>
+                                <!-- Class Room Start Date -->
                                 <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/class_room_start_date"
                                     android:textStyle="bold"
-                                    android:textSize="16sp"
-
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/class_room_start_date" />
+                                    android:textSize="16sp"/>
 
                                 <TextView
                                     android:id="@+id/tvTrainingStart"
-                                    android:textSize="16sp"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="01/01/2026" />
-                            </TableRow>
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="12dp"/>
 
-                            <TableRow>
+                                <!-- Class Room End Date -->
                                 <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/class_room_end_date"
                                     android:textStyle="bold"
-                                    android:textSize="16sp"
-
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/class_room_end_date" />
+                                    android:textSize="16sp"/>
 
                                 <TextView
                                     android:id="@+id/tvTrainingEnd"
-                                    android:textSize="16sp"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="19/01/2026" />
-                            </TableRow>
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="12dp"/>
 
-                            <!-- OJT Dates -->
-                            <TableRow>
+                                <!-- OJT Start Date -->
                                 <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/ojt_start_date"
                                     android:textStyle="bold"
-
-                                    android:textSize="16sp"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/ojt_start_date" />
+                                    android:textSize="16sp"/>
 
                                 <TextView
                                     android:id="@+id/tvOjtStart"
-                                    android:textSize="16sp"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="01/01/2026" />
-                            </TableRow>
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="12dp"/>
 
-
-                            <TableRow>
+                                <!-- OJT Industry Name -->
                                 <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/ojt_industry_name"
                                     android:textStyle="bold"
-                                    android:textSize="16sp"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/ojt_industry_name" />
+                                    android:textSize="16sp"/>
 
                                 <TextView
-                                    android:textSize="16sp"
                                     android:id="@+id/tvOjtIndustryName"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="NA" />
-                            </TableRow>
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="12dp"
+                                    android:textSize="16sp"/>
 
-                            <TableRow>
+                                <!-- OJT Location -->
                                 <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/ojt_location"
                                     android:textStyle="bold"
-                                    android:textSize="16sp"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/ojt_location" />
+                                    android:textSize="16sp"/>
 
                                 <TextView
-                                    android:textSize="16sp"
                                     android:id="@+id/tvOjtLocation"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="NA" />
-                            </TableRow>
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="12dp"
+                                    android:textSize="16sp"/>
 
-                            <TableRow>
+                                <!-- OJT End Date -->
                                 <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/ojt_end_date"
                                     android:textStyle="bold"
-                                    android:textSize="16sp"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="@string/ojt_end_date" />
+                                    android:textSize="16sp"/>
 
                                 <TextView
-                                    android:textSize="16sp"
                                     android:id="@+id/tvOjtEnd"
-                                    android:fontFamily="@font/avenir_next_regular"
-                                    android:text="19/01/2026" />
-                            </TableRow>
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"/>
 
-                        </TableLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -770,7 +761,7 @@
                                         android:layout_gravity="center"
                                         android:background="@color/black"
                                         android:id="@+id/VideoLinlayout"
-
+                                        android:visibility="gone"
                                         android:layout_height="wrap_content">
     <!--                                    android:visibility="gone"-->
                                         <TextView
