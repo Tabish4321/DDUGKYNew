@@ -76,4 +76,15 @@
 
 
 
+    <color name="chip_background">#F1F5F9</color>
+    <color name="chip_text">#1E2937</color>
+    <color name="chip_ripple">#64748B</color>
+    <color name="chip_icon_tint">#334155</color>
+    <color name="chip_close_icon_tint">#64748B</color>
+
+    <!-- Selected State (Optional) -->
+    <color name="chip_background_selected">#E0F2FE</color>
+    <color name="chip_text_selected">#0369A1</color>
+
+
 </resources>

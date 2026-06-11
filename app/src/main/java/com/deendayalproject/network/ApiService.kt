@@ -463,6 +463,10 @@ interface ApiService {
     suspend fun getTcAcademicNonAcademic(@Body request: AcademicNonAcademicArea) : Response<AcademicNonAcademicResponse>
 
 
+   // @POST("insertTcAcademicAreaDetailsTheoryClassRoom")
+  //  suspend fun insertAcademicAreaDetails(@Body request: Any): Response<ITLAbDetailsErrorResponse>
+
+
 // Ajit Ranjan ITLAB
 
 
@@ -479,6 +483,7 @@ interface ApiService {
     //    Ajit Ranjan  ReceptionArea
     @POST(value = "insertTcAcademicAreaDetailsTheoryClassRoom")
     suspend fun insertReceptionAreaBasicInfo(@Body request: ReceptionAreaRoomDetailsRequest) : Response<ITLAbDetailsErrorResponse>
+
 
 
 
@@ -1139,7 +1144,10 @@ interface ApiService {
     @POST("insertTrainingCenterOpenStatus")
     suspend fun insertTrainingCenterOpenStatus( @Body request: TrainingCenterOpenStatusReq): Response<TrainingCenterOpenStatusRes>
 
-
+    @POST("getFansCount")
+    suspend fun getFansCountAPI(
+        @Body fansCountReq: FansCountReq
+    ): Response<FansCountRes>
 
 
 

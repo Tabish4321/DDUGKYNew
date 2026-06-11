@@ -1390,11 +1390,6 @@ class TrainingFragment : Fragment() {
 
 
     private val imageTypeMap = mapOf(
-        // Office Equipment
-//        R.id.ivDocumentStoragePreview to ObjectType.DOCUMENT_STORAGE,
-//        R.id.ivPrinterScannerPreview to ObjectType.PRINTER_SCANNER,
-//        R.id.ivDigitalCameraPreview to ObjectType.DIGITAL_CAMERA,
-//        R.id.ivDigitalCameraPreview to ObjectType.DIGITAL_CAMERA,
 
         R.id.ivPreviewProofMaleToilets to ObjectType.FAN,
         R.id.ivPreviewOfficeCumAnOfficeTableNo to ObjectType.TABLE,
@@ -6392,6 +6387,8 @@ class TrainingFragment : Fragment() {
             parkingSpace = exclusiveParkingSpace,
             parkingSpaceImage = base64ParkingSpaceProofImage ?: "",
             proofImage = base64ProofUploadImage?:"",
+            lightsAiCount = "",
+            fansAiCount = ""
         )
         viewModel.submitTcDescriptionArea(request, token)
     }

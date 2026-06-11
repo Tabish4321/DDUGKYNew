@@ -117,6 +117,8 @@ data class FieldVerificationItem(
     const val PLACEMENT_DETAILS = "uploadPlacementDetailsSelfDeclaration"
     const val PLACEMENT_COMMITMENT = "uploadCommitmentSelfDeclaration"
 
+    const val PLACEMENT_OWN_ENTITY="uploadOwnEntityDeclaration"
+
     // Field Visit
     const val FIELD_SELFIE = "uploadOfficerSelfieWithGeoTag"
     const val FIELD_GEO_INITIATION = "verificationInitiationGeoValidation"

@@ -1,1024 +1,1119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scroll"
-    xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
-    android:background="@color/color_light_grey">
+    android:background="#F3F5F8">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/dp_100"
-        android:clipToPadding="false"
-        android:clipChildren="false">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false">
+
+        <!-- ══ Toolbar ══════════════════════════════════════════ -->
         <include
             android:id="@+id/toolbar"
             layout="@layout/layout_toolbar_base" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!-- ══════════════════════════════════════════════════════
+             SECTION 1 — Organisation Details
+        ══════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            xmlns:cv="http://schemas.android.com/apk/res-auto"
             android:id="@+id/verOrg"
-            style="@style/editTextHome"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="16dp"
             android:visibility="visible"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
-            android:elevation="@dimen/dp_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
+            cv:cardCornerRadius="14dp"
+            cv:cardElevation="1dp"
+            cv:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
-                android:id="@+id/llTopInfra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_background_light_grey"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:orientation="vertical">
 
-                <TextView
+                <!-- Accent strip -->
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tvTrainInfra"
-                    android:fontFamily="@font/avenir_next_semi_bold"
-                    android:text="@string/field_ver_organization_details"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="3dp"
+                    android:background="@color/color_dark_blue" />
 
-
-
-            </LinearLayout>
-
-
-            <View
-                android:id="@+id/viewInfra"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginTop="@dimen/dp_8"
-                android:background="#F7F7F7"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llTopInfra"/>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/trainingInfraExpand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:elevation="@dimen/dp_2"
-                android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@+id/llTopInfra"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <TextView
-                    android:id="@+id/btnInfoNext"
-                    android:layout_width="wrap_content"
+                <!-- Section header -->
+                <LinearLayout
+                    android:id="@+id/llTopInfra"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="136dp"
-                    android:background="@drawable/card_background"
-                    android:elevation="4dp"
+                    android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:padding="@dimen/dp_10"
-                    android:text="@string/save_and_next"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+                    <!-- Section number badge -->
+                    <TextView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:text="1"
+                        android:textColor="@color/color_dark_blue"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:gravity="center"
+                        android:background="@drawable/bg_circle_icon"
+                        android:backgroundTint="#EBF1FA"
+                        android:layout_marginEnd="12dp" />
+
+                    <TextView
+                        android:id="@+id/tvTrainInfra"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/field_ver_organization_details"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <!-- Divider -->
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:clipToPadding="false"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    tools:listitem="@layout/item_field_ver_card"
-                    tools:ignore="MissingConstraints" />
+                    android:layout_height="1dp"
+                    android:background="#F0F2F5" />
 
-                <TextView
+                <!-- Expand area -->
+                <LinearLayout
+                    android:id="@+id/trainingInfraExpand"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/InfoRemarks"
-                    android:text="@string/remarkss"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView"
-                    android:visibility="gone"/>
+                    android:orientation="vertical"
+                    android:visibility="visible">
 
-                <EditText
-                    android:id="@+id/etInfoRemarks"
-                    style="@style/EditText"
-                    android:hint="@string/remarks"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/InfoRemarks"
-                    android:visibility="gone"
-                    />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_field_ver_card" />
+
+                    <!-- Hidden legacy views — kept for binding compatibility -->
+                    <TextView
+                        android:id="@+id/InfoRemarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remarkss"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/etInfoRemarks"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/remarks"
+                        android:visibility="gone" />
+
+                    <!-- Save & Next button -->
+                    <TextView
+                        android:id="@+id/btnInfoNext"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/card_background"
+                        android:elevation="2dp"
+                        android:gravity="center"
+                        android:text="@string/save_and_next"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/avenir_next_semi_bold" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <!-- financial details -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!-- ══════════════════════════════════════════════════════
+             SECTION 2 — Financial Details
+        ══════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            xmlns:cv="http://schemas.android.com/apk/res-auto"
             android:id="@+id/verFin"
-            style="@style/editTextHome"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
-            android:elevation="@dimen/dp_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/verOrg">
-
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            cv:cardCornerRadius="14dp"
+            cv:cardElevation="1dp"
+            cv:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
-                android:id="@+id/llTopFin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_background_light_grey"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:orientation="vertical">
 
-                <TextView
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tvFinHead"
-                    android:fontFamily="@font/avenir_next_semi_bold"
-                    android:text="@string/field_ver_financial"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </LinearLayout>
-
-
-            <View
-                android:id="@+id/viewFin"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginTop="@dimen/dp_8"
-                android:background="#F7F7F7"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llTopFin"/>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/verFinExpand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:elevation="@dimen/dp_2"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/llTopFin"
-                app:layout_constraintStart_toStartOf="parent">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewFin"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:clipToPadding="false"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    tools:listitem="@layout/item_field_ver_card"
-                    tools:ignore="MissingConstraints" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/finRemarks"
-                    android:text="@string/remarkss"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewFin"
-                    android:visibility="gone"/>
-
-                <EditText
-                    android:id="@+id/etFinRemarks"
-                    style="@style/EditText"
-                    android:hint="@string/remarks"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/finRemarks"
-                    android:visibility="gone"/>
+                    android:layout_height="3dp"
+                    android:background="@color/color_dark_blue" />
 
                 <LinearLayout
+                    android:id="@+id/llTopFin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:id="@+id/llBtn"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewFin">
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:id="@+id/btnFinPrevious"
-                        android:elevation="4dp"
-                        android:text="@string/previous"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:text="2"
                         android:textColor="@color/color_dark_blue"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/backgroung_overlay"
-                        android:layout_margin="8dp" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:text="@string/save_and_next"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/avenir_next_semi_bold"
                         android:gravity="center"
-                        android:id="@+id/btnFinNext"
-                        android:textColor="@color/white"
-                        android:elevation="4dp"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/card_background"
-                        android:layout_margin="8dp" />
+                        android:background="@drawable/bg_circle_icon"
+                        android:backgroundTint="#EBF1FA"
+                        android:layout_marginEnd="12dp" />
 
+                    <TextView
+                        android:id="@+id/tvFinHead"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/field_ver_financial"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0F2F5" />
 
-        <!-- Training details -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
+                    android:id="@+id/verFinExpand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewFin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_field_ver_card" />
+
+                    <TextView
+                        android:id="@+id/finRemarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remarkss"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/etFinRemarks"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/remarks"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/llBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="16dp">
+
+                        <TextView
+                            android:id="@+id/btnFinPrevious"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:gravity="center"
+                            android:text="@string/previous"
+                            android:textColor="@color/color_dark_blue"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/backgroung_overlay" />
+
+                        <TextView
+                            android:id="@+id/btnFinNext"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:gravity="center"
+                            android:text="@string/save_and_next"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/card_background" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- ══════════════════════════════════════════════════════
+             SECTION 3 — Training Details
+        ══════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            xmlns:cv="http://schemas.android.com/apk/res-auto"
             android:id="@+id/verTraining"
-            style="@style/editTextHome"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
-            android:elevation="@dimen/dp_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/verFin">
-
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            cv:cardCornerRadius="14dp"
+            cv:cardElevation="1dp"
+            cv:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
-                android:id="@+id/llTopTraining"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_background_light_grey"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:orientation="vertical">
 
-                <TextView
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tvTrainingHead"
-                    android:fontFamily="@font/avenir_next_semi_bold"
-                    android:text="@string/field_ver_training"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </LinearLayout>
-
-
-            <View
-                android:id="@+id/viewTraining"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginTop="@dimen/dp_8"
-                android:background="#F7F7F7"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llTopTraining"/>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/verTrainingExpand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:elevation="@dimen/dp_2"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/llTopTraining"
-                app:layout_constraintStart_toStartOf="parent">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewTraining"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:clipToPadding="false"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    tools:listitem="@layout/item_field_ver_card"
-                    tools:ignore="MissingConstraints" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/trainingRemarks"
-                    android:text="@string/remarkss"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewTraining"
-                    android:visibility="gone"/>
-
-                <EditText
-                    android:id="@+id/etTrainingRemarks"
-                    style="@style/EditText"
-                    android:hint="@string/remarks"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/trainingRemarks"
-                    android:visibility="gone"
-                    />
+                    android:layout_height="3dp"
+                    android:background="@color/color_dark_blue" />
 
                 <LinearLayout
+                    android:id="@+id/llTopTraining"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:id="@+id/llBtnTraining"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewTraining">
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:id="@+id/btnTrainingPrevious"
-                        android:elevation="4dp"
-                        android:text="@string/previous"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:text="3"
                         android:textColor="@color/color_dark_blue"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/backgroung_overlay"
-                        android:layout_margin="8dp" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:text="@string/save_and_next"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/avenir_next_semi_bold"
                         android:gravity="center"
-                        android:id="@+id/btnTrainingNext"
-                        android:textColor="@color/white"
-                        android:elevation="4dp"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/card_background"
-                        android:layout_margin="8dp" />
+                        android:background="@drawable/bg_circle_icon"
+                        android:backgroundTint="#EBF1FA"
+                        android:layout_marginEnd="12dp" />
 
+                    <TextView
+                        android:id="@+id/tvTrainingHead"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/field_ver_training"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0F2F5" />
 
-        <!-- Training Infrastructure details -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
+                    android:id="@+id/verTrainingExpand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewTraining"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_field_ver_card" />
+
+                    <TextView
+                        android:id="@+id/trainingRemarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remarkss"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/etTrainingRemarks"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/remarks"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/llBtnTraining"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="16dp">
+
+                        <TextView
+                            android:id="@+id/btnTrainingPrevious"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:gravity="center"
+                            android:text="@string/previous"
+                            android:textColor="@color/color_dark_blue"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/backgroung_overlay" />
+
+                        <TextView
+                            android:id="@+id/btnTrainingNext"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:gravity="center"
+                            android:text="@string/save_and_next"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/card_background" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- ══════════════════════════════════════════════════════
+             SECTION 4 — Training Infrastructure
+        ══════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            xmlns:cv="http://schemas.android.com/apk/res-auto"
             android:id="@+id/verTrainingInfra"
-            style="@style/editTextHome"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
-            android:elevation="@dimen/dp_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/verTraining">
-
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            cv:cardCornerRadius="14dp"
+            cv:cardElevation="1dp"
+            cv:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
-                android:id="@+id/llTopTrainingInfra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_background_light_grey"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:orientation="vertical">
 
-                <TextView
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tvTrainingInfraHead"
-                    android:fontFamily="@font/avenir_next_semi_bold"
-                    android:text="@string/field_ver_training_infra"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </LinearLayout>
-
-
-            <View
-                android:id="@+id/viewTrainingInfra"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginTop="@dimen/dp_8"
-                android:background="#F7F7F7"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llTopTrainingInfra"/>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/verTrainingInfraExpand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:elevation="@dimen/dp_2"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/llTopTrainingInfra"
-                app:layout_constraintStart_toStartOf="parent">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewTrainingInfra"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:clipToPadding="false"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    tools:listitem="@layout/item_field_ver_card"
-                    tools:ignore="MissingConstraints" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/trainingRemarksInfra"
-                    android:text="@string/remarkss"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewTrainingInfra"
-                    android:visibility="gone"/>
-
-                <EditText
-                    android:id="@+id/etTrainingInfraRemarks"
-                    style="@style/EditText"
-                    android:hint="@string/remarks"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/trainingRemarksInfra"
-                    android:visibility="gone"/>
+                    android:layout_height="3dp"
+                    android:background="@color/color_dark_blue" />
 
                 <LinearLayout
+                    android:id="@+id/llTopTrainingInfra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:id="@+id/llBtnTrainingInfra"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewTrainingInfra">
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:id="@+id/btnTrainingInfraPrevious"
-                        android:elevation="4dp"
-                        android:text="@string/previous"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:text="4"
                         android:textColor="@color/color_dark_blue"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/backgroung_overlay"
-                        android:layout_margin="8dp" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:text="@string/save_and_next"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/avenir_next_semi_bold"
                         android:gravity="center"
-                        android:id="@+id/btnTrainingInfraNext"
-                        android:textColor="@color/white"
-                        android:elevation="4dp"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/card_background"
-                        android:layout_margin="8dp" />
+                        android:background="@drawable/bg_circle_icon"
+                        android:backgroundTint="#EBF1FA"
+                        android:layout_marginEnd="12dp" />
 
+                    <TextView
+                        android:id="@+id/tvTrainingInfraHead"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/field_ver_training_infra"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0F2F5" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
+                    android:id="@+id/verTrainingInfraExpand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewTrainingInfra"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_field_ver_card" />
+
+                    <TextView
+                        android:id="@+id/trainingRemarksInfra"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remarkss"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/etTrainingInfraRemarks"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/remarks"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/llBtnTrainingInfra"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="16dp">
+
+                        <TextView
+                            android:id="@+id/btnTrainingInfraPrevious"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:gravity="center"
+                            android:text="@string/previous"
+                            android:textColor="@color/color_dark_blue"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/backgroung_overlay" />
+
+                        <TextView
+                            android:id="@+id/btnTrainingInfraNext"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:gravity="center"
+                            android:text="@string/save_and_next"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/card_background" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- ══════════════════════════════════════════════════════
+             SECTION 5 — Residential Facility
+        ══════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            xmlns:cv="http://schemas.android.com/apk/res-auto"
             android:id="@+id/verResidentialFacility"
-            style="@style/editTextHome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
             android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/verTrainingInfra">
+            cv:cardCornerRadius="14dp"
+            cv:cardElevation="1dp"
+            cv:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
-                android:id="@+id/llTopResidentialFacility"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_background_light_grey"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                >
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvResidentialFacilityHead"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Residential Facility"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"/>
-            </LinearLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/verResidentialFacilityExpand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/llTopResidentialFacility">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewResidentialFacility"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:clipToPadding="false"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    tools:ignore="MissingConstraints"
-                    tools:listitem="@layout/item_field_ver_card"/>
+                    android:layout_height="3dp"
+                    android:background="@color/color_dark_blue" />
 
                 <LinearLayout
-                    android:id="@+id/llBtnResidentialFacility"
-                    app:layout_constraintTop_toBottomOf="@id/recyclerViewResidentialFacility"
+                    android:id="@+id/llTopResidentialFacility"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    >
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:id="@+id/btnResidentialFacilityPrevious"
-                        android:elevation="4dp"
-                        android:text="@string/previous"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:text="5"
                         android:textColor="@color/color_dark_blue"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/backgroung_overlay"
-                        android:layout_margin="8dp" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:text="@string/save_and_next"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/avenir_next_semi_bold"
                         android:gravity="center"
-                        android:id="@+id/btnResidentialFacilityNext"
-                        android:textColor="@color/white"
-                        android:elevation="4dp"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/card_background"
-                        android:layout_margin="8dp" />
+                        android:background="@drawable/bg_circle_icon"
+                        android:backgroundTint="#EBF1FA"
+                        android:layout_marginEnd="12dp" />
 
+                    <TextView
+                        android:id="@+id/tvResidentialFacilityHead"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="Residential Facility"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0F2F5" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:id="@+id/verResidentialFacilityExpand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewResidentialFacility"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_field_ver_card" />
+
+                    <LinearLayout
+                        android:id="@+id/llBtnResidentialFacility"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="16dp">
+
+                        <TextView
+                            android:id="@+id/btnResidentialFacilityPrevious"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:gravity="center"
+                            android:text="@string/previous"
+                            android:textColor="@color/color_dark_blue"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/backgroung_overlay" />
+
+                        <TextView
+                            android:id="@+id/btnResidentialFacilityNext"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:gravity="center"
+                            android:text="@string/save_and_next"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/card_background" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
 
-        <!-- Assessment & Certification details -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!-- ══════════════════════════════════════════════════════
+             SECTION 6 — Assessment & Certification
+        ══════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            xmlns:cv="http://schemas.android.com/apk/res-auto"
             android:id="@+id/verCert"
-            style="@style/editTextHome"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
-            android:elevation="@dimen/dp_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/verResidentialFacility">
-
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            cv:cardCornerRadius="14dp"
+            cv:cardElevation="1dp"
+            cv:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
-                android:id="@+id/llTopCert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_background_light_grey"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:orientation="vertical">
 
-                <TextView
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tvCertHead"
-                    android:fontFamily="@font/avenir_next_semi_bold"
-                    android:text="@string/field_ver_cert"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </LinearLayout>
-
-
-            <View
-                android:id="@+id/viewCert"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginTop="@dimen/dp_8"
-                android:background="#F7F7F7"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llTopCert"/>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/verCertExpand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:elevation="@dimen/dp_2"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/llTopCert"
-                app:layout_constraintStart_toStartOf="parent">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewCert"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:clipToPadding="false"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    tools:listitem="@layout/item_field_ver_card"
-                    tools:ignore="MissingConstraints" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/certRemarks"
-                    android:text="@string/remarkss"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewCert"
-                    android:visibility="gone"/>
-
-                <EditText
-                    android:id="@+id/etCertRemarks"
-                    style="@style/EditText"
-                    android:hint="@string/remarks"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/certRemarks"
-                    android:visibility="gone"/>
+                    android:layout_height="3dp"
+                    android:background="@color/color_dark_blue" />
 
                 <LinearLayout
+                    android:id="@+id/llTopCert"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:id="@+id/llBtnCert"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewCert">
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:id="@+id/btnCertPrevious"
-                        android:elevation="4dp"
-                        android:text="@string/previous"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:text="6"
                         android:textColor="@color/color_dark_blue"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/backgroung_overlay"
-                        android:layout_margin="8dp" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:text="@string/save_and_next"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/avenir_next_semi_bold"
                         android:gravity="center"
-                        android:id="@+id/btnCertNext"
-                        android:textColor="@color/white"
-                        android:elevation="4dp"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/card_background"
-                        android:layout_margin="8dp" />
+                        android:background="@drawable/bg_circle_icon"
+                        android:backgroundTint="#EBF1FA"
+                        android:layout_marginEnd="12dp" />
 
+                    <TextView
+                        android:id="@+id/tvCertHead"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/field_ver_cert"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0F2F5" />
 
-        <!-- Placement details -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
+                    android:id="@+id/verCertExpand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewCert"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_field_ver_card" />
+
+                    <TextView
+                        android:id="@+id/certRemarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remarkss"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/etCertRemarks"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/remarks"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/llBtnCert"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="16dp">
+
+                        <TextView
+                            android:id="@+id/btnCertPrevious"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:gravity="center"
+                            android:text="@string/previous"
+                            android:textColor="@color/color_dark_blue"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/backgroung_overlay" />
+
+                        <TextView
+                            android:id="@+id/btnCertNext"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:gravity="center"
+                            android:text="@string/save_and_next"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/card_background" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- ══════════════════════════════════════════════════════
+             SECTION 7 — Placement Details
+        ══════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            xmlns:cv="http://schemas.android.com/apk/res-auto"
             android:id="@+id/verPlacement"
-            style="@style/editTextHome"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
-            android:elevation="@dimen/dp_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/verCert">
-
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            cv:cardCornerRadius="14dp"
+            cv:cardElevation="1dp"
+            cv:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
-                android:id="@+id/llTopPlacement"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_background_light_grey"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:orientation="vertical">
 
-                <TextView
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tvPlacementHead"
-                    android:fontFamily="@font/avenir_next_semi_bold"
-                    android:text="@string/field_ver_placement"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </LinearLayout>
-
-
-            <View
-                android:id="@+id/viewPlacement"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginTop="@dimen/dp_8"
-                android:background="#F7F7F7"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llTopPlacement"/>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/verPlacementExpand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:elevation="@dimen/dp_2"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/llTopPlacement"
-                app:layout_constraintStart_toStartOf="parent">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewPlacement"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:clipToPadding="false"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    tools:listitem="@layout/item_field_ver_card"
-                    tools:ignore="MissingConstraints" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/placementRemarks"
-                    android:text="@string/remarkss"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewPlacement"
-                    android:visibility="gone"/>
-
-                <EditText
-                    android:id="@+id/etPlacementRemarks"
-                    style="@style/EditText"
-                    android:hint="@string/remarks"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/placementRemarks"
-                    android:visibility="gone"
-                    />
+                    android:layout_height="3dp"
+                    android:background="@color/color_dark_blue" />
 
                 <LinearLayout
+                    android:id="@+id/llTopPlacement"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:id="@+id/llBtnPlacement"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewPlacement">
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:id="@+id/btnPlacementPrevious"
-                        android:elevation="4dp"
-                        android:text="@string/previous"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:text="7"
                         android:textColor="@color/color_dark_blue"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/backgroung_overlay"
-                        android:layout_margin="8dp" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:text="@string/save_and_next"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/avenir_next_semi_bold"
                         android:gravity="center"
-                        android:id="@+id/btnPlacementNext"
-                        android:textColor="@color/white"
-                        android:elevation="4dp"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/card_background"
-                        android:layout_margin="8dp" />
+                        android:background="@drawable/bg_circle_icon"
+                        android:backgroundTint="#EBF1FA"
+                        android:layout_marginEnd="12dp" />
 
+                    <TextView
+                        android:id="@+id/tvPlacementHead"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/field_ver_placement"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0F2F5" />
 
-        <!-- Field Visit details -->
-        <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
+                    android:id="@+id/verPlacementExpand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewPlacement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_field_ver_card" />
+
+                    <TextView
+                        android:id="@+id/placementRemarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remarkss"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/etPlacementRemarks"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/remarks"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/llBtnPlacement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="16dp">
+
+                        <TextView
+                            android:id="@+id/btnPlacementPrevious"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:gravity="center"
+                            android:text="@string/previous"
+                            android:textColor="@color/color_dark_blue"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/backgroung_overlay" />
+
+                        <TextView
+                            android:id="@+id/btnPlacementNext"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:gravity="center"
+                            android:text="@string/save_and_next"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/card_background" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- ══════════════════════════════════════════════════════
+             SECTION 8 — Field Visit
+        ══════════════════════════════════════════════════════════ -->
+        <androidx.cardview.widget.CardView
+            xmlns:cv="http://schemas.android.com/apk/res-auto"
             android:id="@+id/verField"
-            style="@style/editTextHome"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_20"
-            android:elevation="@dimen/dp_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/verPlacement">
-
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            cv:cardCornerRadius="14dp"
+            cv:cardElevation="1dp"
+            cv:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
-                android:id="@+id/llTopField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_background_light_grey"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:orientation="vertical">
 
-                <TextView
+                <!-- Final section gets a green accent strip -->
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/tvFieldHead"
-                    android:fontFamily="@font/avenir_next_semi_bold"
-                    android:text="@string/field_ver_field"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </LinearLayout>
-
-
-            <View
-                android:id="@+id/viewField"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:layout_marginTop="@dimen/dp_8"
-                android:background="#F7F7F7"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/llTopField"/>
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/verFieldExpand"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:elevation="@dimen/dp_2"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/llTopField"
-                app:layout_constraintStart_toStartOf="parent">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewField"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:clipToPadding="false"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    tools:listitem="@layout/item_field_ver_card"
-                    tools:ignore="MissingConstraints" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fieldRemarks"
-                    android:text="@string/remarkss"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="@dimen/sp_16"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewField"
-                    android:visibility="gone"/>
-
-                <EditText
-                    android:id="@+id/etFieldRemarks"
-                    style="@style/EditText"
-                    android:hint="@string/remarks"
-                    android:background="@drawable/edittext_background"
-                    android:padding="12dp"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fieldRemarks"
-                    android:visibility="gone"
-                    />
+                    android:layout_height="3dp"
+                    android:background="@color/color_dark_green" />
 
                 <LinearLayout
+                    android:id="@+id/llTopField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:id="@+id/llBtnField"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewField">
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:text="8"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/avenir_next_semi_bold"
                         android:gravity="center"
-                        android:id="@+id/btnFieldPrevious"
-                        android:elevation="4dp"
-                        android:text="@string/previous"
-                        android:textColor="@color/color_dark_blue"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/backgroung_overlay"
-                        android:layout_margin="8dp" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:text="@string/submit"
-                        android:gravity="center"
-                        android:id="@+id/btnFieldNext"
-                        android:textColor="@color/white"
-                        android:elevation="4dp"
-                        android:textSize="@dimen/sp_16"
-                        android:background="@drawable/card_background"
-                        android:layout_margin="8dp" />
+                        android:background="@drawable/bg_circle_icon"
+                        android:backgroundTint="#E8F5EE"
+                        android:layout_marginEnd="12dp" />
 
+                    <TextView
+                        android:id="@+id/tvFieldHead"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:text="@string/field_ver_field"
+                        android:textColor="@color/color_dark_green"
+                        android:textSize="15sp" />
 
                 </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0F2F5" />
+
+                <LinearLayout
+                    android:id="@+id/verFieldExpand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_field_ver_card" />
+
+                    <TextView
+                        android:id="@+id/fieldRemarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remarkss"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/etFieldRemarks"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/remarks"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/llBtnField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="16dp">
+
+                        <TextView
+                            android:id="@+id/btnFieldPrevious"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="6dp"
+                            android:gravity="center"
+                            android:text="@string/previous"
+                            android:textColor="@color/color_dark_blue"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/backgroung_overlay" />
+
+                        <!-- Submit — green filled for final action -->
+                        <TextView
+                            android:id="@+id/btnFieldNext"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="6dp"
+                            android:gravity="center"
+                            android:text="@string/submit"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:background="@drawable/card_background" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

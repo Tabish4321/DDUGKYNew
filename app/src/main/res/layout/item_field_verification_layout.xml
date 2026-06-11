@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,216 +9,252 @@
     android:layout_marginTop="10dp"
     android:layout_marginEnd="12dp"
     android:layout_marginBottom="4dp"
-    card_view:cardCornerRadius="12dp"
-    card_view:cardElevation="2dp"
-    card_view:cardUseCompatPadding="false"
-    tools:background="@color/white">
+    card_view:cardCornerRadius="14dp"
+    card_view:cardElevation="1dp"
+    card_view:cardBackgroundColor="#FFFFFF"
+    card_view:cardUseCompatPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <!-- 1. PIA Name Row -->
+        <!-- ── Accent top strip (matches ver_card) ────────────── -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/color_dark_blue"
+            android:alpha="0.12" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
 
-            <ImageView
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:contentDescription="PIA Name"
-                android:background="@drawable/bg_circle_icon"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/training_center" />
-
+            <!-- ── 1. Industry Name ────────────────────────────── -->
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="14dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Applicant Industry Name"
-                    android:textColor="@color/color_sub_text"
-                    android:textSize="11sp"
-                    android:fontFamily="@font/avenir_next_semi_bold"
-                    android:textAllCaps="true"
-                    android:letterSpacing="0.04" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="PIA Name"
+                    android:background="@drawable/bg_circle_icon"
+                    android:backgroundTint="#EBF1FA"
+                    android:padding="9dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/training_center" />
 
-                <TextView
-                    android:id="@+id/piaName"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/avenir_next_semi_bold"
-                    android:maxLines="2"
-                    android:textColor="@color/color_text"
-                    android:textSize="15sp"
-                    tools:text="DDU-GKY Training Partner Pvt Ltd" />
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Applicant Industry Name"
+                        android:textColor="#9CA3AF"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:textAllCaps="true"
+                        android:letterSpacing="0.06" />
+
+                    <TextView
+                        android:id="@+id/piaName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:maxLines="2"
+                        android:textColor="#111827"
+                        android:textSize="14.5sp"
+                        android:lineSpacingExtra="1dp"
+                        tools:text="DDU-GKY Training Partner Pvt Ltd" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ── Divider ─────────────────────────────────────── -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#F0F2F5"
+                android:layout_marginBottom="14dp" />
+
+            <!-- ── 2. PRN No ───────────────────────────────────── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="14dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="PRN"
+                    android:background="@drawable/bg_circle_icon"
+                    android:backgroundTint="#EDFAF3"
+                    android:padding="9dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/sanction" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PRN No"
+                        android:textColor="#9CA3AF"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:textAllCaps="true"
+                        android:letterSpacing="0.06" />
+
+                    <TextView
+                        android:id="@+id/prnNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/avenir_next_medium"
+                        android:maxLines="1"
+                        android:textColor="#111827"
+                        android:textSize="14sp"
+                        tools:text="PRN/2025/00125" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ── 3. Address ──────────────────────────────────── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="top"
+                android:layout_marginBottom="14dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="Address"
+                    android:background="@drawable/bg_circle_icon"
+                    android:backgroundTint="#FFF4EB"
+                    android:padding="9dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_location" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Address"
+                        android:textColor="#9CA3AF"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:textAllCaps="true"
+                        android:letterSpacing="0.06" />
+
+                    <TextView
+                        android:id="@+id/address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/avenir_next_medium"
+                        android:maxLines="3"
+                        android:textColor="#111827"
+                        android:textSize="14sp"
+                        android:lineSpacingExtra="1dp"
+                        tools:text="Village XYZ, Main Road, Near Bus Stand, District ABC" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ── Divider ─────────────────────────────────────── -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#F0F2F5"
+                android:layout_marginBottom="14dp" />
+
+            <!-- ── 4. District ─────────────────────────────────── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:contentDescription="District"
+                    android:background="@drawable/bg_circle_icon"
+                    android:backgroundTint="#F3EBFA"
+                    android:padding="9dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_district" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="District"
+                        android:textColor="#9CA3AF"
+                        android:textSize="10sp"
+                        android:fontFamily="@font/avenir_next_semi_bold"
+                        android:textAllCaps="true"
+                        android:letterSpacing="0.06" />
+
+                    <TextView
+                        android:id="@+id/districtName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/avenir_next_medium"
+                        android:maxLines="2"
+                        android:textColor="#111827"
+                        android:textSize="14sp"
+                        tools:text="Bhopal" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
-
-        <!-- 2. PRN No Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:contentDescription="PRN"
-                android:background="@drawable/bg_circle_icon"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/sanction" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="PRN No"
-                    android:textColor="@color/color_sub_text"
-                    android:textSize="11sp"
-                    android:fontFamily="@font/avenir_next_semi_bold"
-                    android:textAllCaps="true"
-                    android:letterSpacing="0.04" />
-
-                <TextView
-                    android:id="@+id/prnNo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/avenir_next_medium"
-                    android:maxLines="1"
-                    android:textColor="@color/color_text"
-                    android:textSize="14sp"
-                    tools:text="PRN/2025/00125" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- 3. Address Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:contentDescription="Address"
-                android:background="@drawable/bg_circle_icon"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_location" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Address"
-                    android:textColor="@color/color_sub_text"
-                    android:textSize="11sp"
-                    android:fontFamily="@font/avenir_next_semi_bold"
-                    android:textAllCaps="true"
-                    android:letterSpacing="0.04" />
-
-                <TextView
-                    android:id="@+id/address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/avenir_next_medium"
-                    android:maxLines="3"
-                    android:textColor="@color/color_text"
-                    android:textSize="14sp"
-                    tools:text="Village XYZ, Main Road, Near Bus Stand, District ABC" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- 4. District Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:contentDescription="District"
-                android:background="@drawable/bg_circle_icon"
-                android:padding="8dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_district" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="District"
-                    android:textColor="@color/color_sub_text"
-                    android:textSize="11sp"
-                    android:fontFamily="@font/avenir_next_semi_bold"
-                    android:textAllCaps="true"
-                    android:letterSpacing="0.04" />
-
-                <TextView
-                    android:id="@+id/districtName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/avenir_next_medium"
-                    android:maxLines="2"
-                    android:textColor="@color/color_text"
-                    android:textSize="14sp"
-                    tools:text="Bhopal" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

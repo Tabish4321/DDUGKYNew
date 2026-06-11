@@ -110,10 +110,10 @@ class FieldVerificationListFragment : BaseFragment<FragmentFieldVerificationList
                 ItemFieldVerificationLayoutBinding.inflate(inflater, parent, false)
             },
             onBind = { item, itemBinding, position ->
-                itemBinding.piaName.text = "PIA Name: ${item.piaName}"
-                itemBinding.prnNo.text = "PRN No: ${item.prnNo}"
-                itemBinding.address.text = "PIA Address: ${item.address}"
-                itemBinding.districtName.text = "District Name: ${item.districtName}"
+                itemBinding.piaName.text = "${item.piaName}"
+                itemBinding.prnNo.text = "${item.prnNo}"
+                itemBinding.address.text = "${item.address}"
+                itemBinding.districtName.text = "${item.districtName}"
 
                 itemBinding.root.setOnClickListener {
                     onItemClick(item)

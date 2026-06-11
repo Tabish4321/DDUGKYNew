@@ -275,6 +275,14 @@ abstract class BaseFragment<VB : ViewBinding>(
         return adapter
     }
 
+    protected fun <T> notifyRecyclerItemChanged(recyclerViewId: Int, position: Int) {
+        try {
+            val helper = recyclerViewHelpers[recyclerViewId] as? RecyclerViewHelper<T>
+            helper?.adapter?.notifyItemChanged(position)
+        } catch (e: Exception) {
+            logCrashlyticsError("notifyRecyclerItemChanged", e)
+        }
+    }
 
 
     protected fun <T, VB : ViewBinding> setupRecyclerView(
@@ -605,6 +613,7 @@ abstract class BaseFragment<VB : ViewBinding>(
                 (adapter as BaseRecyclerAdapter<T, *>).update(newItems)
             } else {
                 adapter.notifyDataSetChanged()
+
             }
         }
     }

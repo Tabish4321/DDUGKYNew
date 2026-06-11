@@ -18,6 +18,11 @@ data class TcDescriptionOtherAreasRequest(
     val openSpace: String,
     val openSpaceImage: String,
     val parkingSpace: String,
-    val parkingSpaceImage: String
-)
+    val parkingSpaceImage: String,
+    val lightsAiCount: String,
+    val fansAiCount: String,
+
+
+    )
+
 
