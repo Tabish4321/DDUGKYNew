@@ -54,5 +54,7 @@ data class TCITLDomainLabDetailsRequest(
     val roomPhotograph: String? = null,
     val roomPhotographAttachment: String? = null,
     val airConditioningRoom: String? = null,
-    val airConditioningRoomAttachment: String? = null
+    val airConditioningRoomAttachment: String? = null,
+    val lightsAiCount: String,
+    val fansAiCount: String,
 )

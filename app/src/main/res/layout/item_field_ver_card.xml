@@ -6,8 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="12dp"
-    android:layout_marginEnd="12dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="4dp"
     card_view:cardCornerRadius="14dp"
@@ -108,7 +108,8 @@
                 android:layout_height="wrap_content"
                 app:singleLine="false"
                 app:chipSpacing="6dp"
-                android:layout_marginTop="14dp" />
+                android:layout_marginTop="14dp"
+                />
 
             <!-- ── Remarks group ───────────────────────────────── -->
             <LinearLayout

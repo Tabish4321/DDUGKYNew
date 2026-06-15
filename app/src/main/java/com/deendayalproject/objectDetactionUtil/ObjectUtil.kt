@@ -86,7 +86,4 @@ import androidx.core.content.ContentProviderCompat.requireContext
 enum class ObjectType {
     LIGHT,
     FAN,
-    TABLE,
-    BIOMETRIC_DEVICES,
-    CHAIR
 }

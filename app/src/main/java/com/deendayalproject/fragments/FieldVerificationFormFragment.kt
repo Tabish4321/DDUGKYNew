@@ -2910,7 +2910,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
         val actions = buildList {
             if (!factoryRegistrationAttachment.isNullOrBlank()) add(DialogAction("View Factory Registration") {
-                openBase64Pdf(apiEpfoAttachmentBase64!!)
+                openBase64PdfN(apiEpfoAttachmentBase64!!)
             })
         }
         showInfoDialog("Industry Incorporation", message, actions)
@@ -2925,13 +2925,13 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
         val actions = buildList {
             if (!apiEpfoAttachmentBase64.isNullOrBlank()) add(DialogAction("View EPFO") {
-                openBase64Pdf(apiEpfoAttachmentBase64!!)
+                openBase64PdfN(apiEpfoAttachmentBase64!!)
             })
             if (!apiEsicAttachmentBase64.isNullOrBlank()) add(DialogAction("View ESIC") {
-                openBase64Pdf(apiEsicAttachmentBase64!!)
+                openBase64PdfN(apiEsicAttachmentBase64!!)
             })
             if (!apiFactoryAttachmentBase64.isNullOrBlank()) add(DialogAction("View Factory") {
-                openBase64Pdf(apiFactoryAttachmentBase64!!)
+                openBase64PdfN(apiFactoryAttachmentBase64!!)
             })
         }
         showInfoDialog("Industry Registration", message, actions)
@@ -2941,7 +2941,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         val message = "Existing staff registered in EPFO: ${apiEpfoExistingStaff ?: "Not Available"}"
         val actions = buildList {
             if (!apiEpfoDocumentUrl.isNullOrBlank()) add(DialogAction("View EPFO Challan") {
-                openBase64Pdf(apiEpfoDocumentUrl!!)
+                openBase64PdfN(apiEpfoDocumentUrl!!)
             })
         }
         showInfoDialog("EPFO Challan (Last 6 Months)", message, actions)
@@ -2954,7 +2954,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         }.trim()
         val actions = buildList {
             if (!apiTanAttachmentBase64.isNullOrBlank()) add(DialogAction("View TAN") {
-                openBase64Pdf(apiTanAttachmentBase64!!)
+                openBase64PdfN(apiTanAttachmentBase64!!)
             })
         }
         showInfoDialog("Tax Details", message, actions)
@@ -2967,13 +2967,13 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         }.trim()
         val actions = buildList {
             if (!apiBankLetterBase64.isNullOrBlank()) add(DialogAction("View BankLetter") {
-                openBase64Pdf(apiBankLetterBase64!!)
+                openBase64PdfN(apiBankLetterBase64!!)
             })
             if (!apiSelfDeclarationBase64.isNullOrBlank()) add(DialogAction("View SelfDeclaration") {
-                openBase64Pdf(apiSelfDeclarationBase64!!)
+                openBase64PdfN(apiSelfDeclarationBase64!!)
             })
             if (!apiBankAccountPassbook.isNullOrBlank()) add(DialogAction("View Passbook") {
-                openBase64Pdf(apiBankAccountPassbook!!)
+                openBase64PdfN(apiBankAccountPassbook!!)
             })
         }
         showInfoDialog("Bank Details", message, actions)
@@ -2983,7 +2983,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         val message = "Residential Facility Available: ${apiResidentialFacilityAvailable ?: "—"}"
         if (!apiResidentialFacilityDocumentBase64.isNullOrBlank()) {
             val actions = listOf(DialogAction("Residential Facilities") {
-                openBase64Pdf(apiResidentialFacilityDocumentBase64!!)
+                openBase64PdfN(apiResidentialFacilityDocumentBase64!!)
             })
             showInfoDialog("Residential Facilities", message, actions)
         } else {
@@ -2993,7 +2993,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
     private fun showDocumentDialog(title: String, base64: String?, buttonText: String) {
         if (!base64.isNullOrBlank()) {
-            showInfoDialog(title, "", listOf(DialogAction(buttonText) { openBase64Pdf(base64) }))
+            showInfoDialog(title, "", listOf(DialogAction(buttonText) { openBase64PdfN(base64) }))
         } else {
             showToast(getString(R.string.no_file_to_view))
         }
@@ -3013,7 +3013,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                     b.tvAmount.text = formatAmount(item.amount)
                     b.btnView.visibility =
                         if (!item.attachmentBase64.isNullOrBlank()) View.VISIBLE else View.GONE
-                    b.btnView.setOnClickListener { openBase64Pdf(item.attachmentBase64!!) }
+                    b.btnView.setOnClickListener { openBase64PdfN(item.attachmentBase64!!) }
                 },
                 noDataConfig = NoDataConfig("No Data Available", "No financial records found")
             )
@@ -3125,7 +3125,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                     b.tvAchieved.text = "Achieved: ${formatNumber(item.targetAchieved)}"
                     b.btnView.visibility =
                         if (!item.attachmentBase64.isNullOrBlank()) View.VISIBLE else View.GONE
-                    b.btnView.setOnClickListener { openBase64Pdf(item.attachmentBase64!!) }
+                    b.btnView.setOnClickListener { openBase64PdfN(item.attachmentBase64!!) }
                 },
                 noDataConfig = NoDataConfig("No Data Available", "No training records found")
             )
@@ -3148,7 +3148,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             items.forEachIndexed { index, item ->
                 if (!item.commencement_certificate.isNullOrBlank())
                     add(DialogAction("📄 View Certificate ${index + 1}") {
-                        openBase64Pdf(item.commencement_certificate)
+                        openBase64PdfN(item.commencement_certificate)
                     })
             }
         }
@@ -3174,7 +3174,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                     b.tvEpfoNumber.text = boldLabel("EPFO No:", item.epfoNumber.toString())
                     b.btnView.visibility =
                         if (!item.proofDocument.isNullOrBlank()) View.VISIBLE else View.GONE
-                    b.btnView.setOnClickListener { openBase64Pdf(item.proofDocument!!) }
+                    b.btnView.setOnClickListener { openBase64PdfN(item.proofDocument!!) }
                 },
                 noDataConfig = NoDataConfig("No Data Available", "No placement records found")
             )
@@ -3496,9 +3496,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         fun Int.dp() = (this * dp).toInt()
 
         // ── Tokens ────────────────────────────────────────────────────
-        val accentColor  = runCatching {
-            ContextCompat.getColor(ctx, R.color.color_dark_blue)
-        }.getOrElse { ContextCompat.getColor(ctx, android.R.color.holo_blue_dark) }
+        val accentColor  = runCatching { ContextCompat.getColor(ctx, R.color.color_dark_blue)}.getOrElse { ContextCompat.getColor(ctx, android.R.color.holo_blue_dark) }
 
         val surfaceColor = Color.parseColor("#FFFFFF")
         val dividerColor = Color.parseColor("#EEF0F4")

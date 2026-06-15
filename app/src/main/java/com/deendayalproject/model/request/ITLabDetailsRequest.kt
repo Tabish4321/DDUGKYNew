@@ -1,5 +1,4 @@
 package com.deendayalproject.model.request
-
 data class ITLabDetailsRequest(
     val loginId: String,
     val imeiNo: String,
@@ -54,5 +53,7 @@ data class ITLabDetailsRequest(
     val roomPhotographAttachment: String,
     val airConditioningRoom: String,
     val airConditioningRoomAttachment: String,
+    val lightsAiCount: String,
+    val fansAiCount: String,
 )
 

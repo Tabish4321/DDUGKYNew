@@ -1,5 +1,6 @@
 package com.deendayalproject.fragments
 
+
 import android.graphics.drawable.GradientDrawable
 import SharedViewModel
 import android.Manifest
@@ -98,6 +99,9 @@ import kotlin.collections.set
 class TrainingFragment : Fragment() {
     private lateinit var Academicadapter: AcademicAreaAdapter
     private var centersList = mutableListOf<wrappedList>()
+    private var lightsAiCount :String =""
+    private var fanAiCount :String = ""
+
     private var RoomNumber: String = ""
     private var RoomType: String = ""
     private lateinit var btnSubmitAdddMore: Button
@@ -877,11 +881,15 @@ class TrainingFragment : Fragment() {
 
     // description of other area
     private var base64ProofUploadImage: String? = null
+    private var base64ProofFansUploadImage: String? = null
+
     private var base64CirculationProofImage: String? = null
     private var base64penSpaceProofImage: String? = null
     private var base64ParkingSpaceProofImage: String? = null
 
     private lateinit var ivProofPreview: ImageView
+    private lateinit var ivProofFanPreview: ImageView
+
     private lateinit var ivCirculationProofPreview: ImageView
     private lateinit var ivOpenSpaceProofPreview: ImageView
     private lateinit var ivParkingProofPreview: ImageView
@@ -1106,6 +1114,8 @@ class TrainingFragment : Fragment() {
 
         //  desc Other areas
         R.id.btnUploadProof to "proofUpload",
+        R.id.btnFanUploadProof to "proofFanUpload",
+
         R.id.btnUploadCirculationProof to "circulationProof",
         R.id.btnUploadParkingProof to "parking",
         R.id.btnUploadOpenSpaceProof to "openSpaceProof",
@@ -1339,12 +1349,26 @@ class TrainingFragment : Fragment() {
     private fun setPhotoPreview(
         iv: ImageView,
         base64Setter: (String) -> Unit,
-        uri: Uri
+        uri: Uri,
+        isObjectDetect: Boolean = false,
+        objects: String = ""
     ) {
         iv.setImageURI(uri)
         iv.visibility = View.VISIBLE
-        AppUtil.imageUriToBase64(requireContext(), uri)?.let { base64Setter(it) }
+
+        AppUtil.imageUriToBase64(requireContext(), uri)?.let { image ->
+            base64Setter(image)
+            if (isObjectDetect) {
+                observeObjectCount(image, objects)
+            }
+        } ?: run {
+            Log.e("PhotoPreview", "Failed to convert image to Base64")
+            toast("Failed to load image")
+        }
     }
+
+
+
 
 //    private fun setPhotoPreview(
 //        iv: ImageView,
@@ -1384,11 +1408,6 @@ class TrainingFragment : Fragment() {
         }
     }
 
-
-
-    private var currentBadgeTarget: ImageView? = null
-
-
     private fun clearBadge(iv: ImageView) {
         val parent = iv.parent
         if (parent is FrameLayout) {
@@ -1405,7 +1424,7 @@ class TrainingFragment : Fragment() {
 //        objects:String
 //    ) {
 //        currentBadgeTarget = targetIv
-//        viewModel.getFansCountAPI(
+//        viewModel.getFansCount(
 //            FansCountReq(
 //                appVersion = BuildConfig.VERSION_NAME,
 //                fansAttachment = fansImage,
@@ -1413,31 +1432,56 @@ class TrainingFragment : Fragment() {
 //            ),AppUtil.getSavedTokenPreference(requireContext()
 //        ))
 //
-//       // viewModel.getFansCountAPI.removeObservers(viewLifecycleOwner)
-////        viewModel.getFansCountAPI.observe(viewLifecycleOwner) { result ->
-////            val target = currentBadgeTarget ?: return@observe
-////
-////            result.onSuccess {
-////                when (it.responseCode) {
-////                    200 -> {
-////                        showCountBadge(target, it.facilityId,requireContext())
-////                    }
-////                    301 -> Toast.makeText(
-////                        requireContext(),
-////                        "Please upgrade your app first.",
-////                        Toast.LENGTH_SHORT
-////                    ).show()
-////                }
-////            }
-////            result.onFailure {
-////                Toast.makeText(
-////                    requireContext(),
-////                    "Something went wrong",
-////                    Toast.LENGTH_SHORT
-////                ).show()
-////            }
-////        }
+//        viewModel.getFansCountAPI.removeObservers(viewLifecycleOwner)
+//        viewModel.getFansCountAPI.observe(viewLifecycleOwner) { result ->
+//            val target = currentBadgeTarget ?: return@observe
+//
+//            result.onSuccess {
+//                when (it.responseCode) {
+//                    200 -> {
+//                        showCountBadge(target, it.facilityId,requireContext())
+//                    }
+//                    301 -> Toast.makeText(
+//                        requireContext(),
+//                        "Please upgrade your app first.",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            }
+//            result.onFailure {
+//                Toast.makeText(
+//                    requireContext(),
+//                    "Something went wrong",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
 //    }
+
+    private fun observeObjectCount(
+        fansImage: String = "",
+        objects:String
+    ) {
+        viewModel.getFansCount(fansImage,objects, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.fansState.removeObservers(viewLifecycleOwner)
+        viewModel.fansState.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when(objects) {
+                    ObjectType.LIGHT.name -> {
+                        lightsAiCount = it.facilityId.toString()
+                    }
+
+                    ObjectType.FAN.name -> {
+                        fanAiCount = it.facilityId.toString()
+                    }
+                }
+            }
+            result.onFailure { its ->
+                its.message?.let { msg -> toast(msg) }
+            }
+        }
+    }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -1491,7 +1535,9 @@ class TrainingFragment : Fragment() {
                     }
                     "overheadTanksProof" -> setPhotoPreview(ivPreviewOverheadTanksProof, { base64ProofOverheadTanks = it }, photoUri)
                     "flooringProof" -> setPhotoPreview(ivPreviewFlooringProof, { base64ProofFlooring = it }, photoUri)
-                    "proofUpload" -> setPhotoPreview(ivProofPreview, { base64ProofUploadImage = it }, photoUri)
+                    "proofUpload" -> setPhotoPreview(ivProofPreview, { base64ProofUploadImage = it }, photoUri,true,
+                        ObjectType.LIGHT.toString())
+                    "proofFanUpload" -> setPhotoPreview(ivProofFanPreview, { base64ProofFansUploadImage = it }, photoUri,true,ObjectType.FAN.toString())
                     "circulationProof" -> setPhotoPreview(ivCirculationProofPreview, { base64CirculationProofImage = it }, photoUri)
                     "openSpaceProof" -> { ivOpenSpaceProofPreview.setImageURI(photoUri)
                         ivOpenSpaceProofPreview.visibility = View.VISIBLE
@@ -1514,8 +1560,8 @@ class TrainingFragment : Fragment() {
                     "itlstoolschairs" -> setPhotoPreview(ivPreviewITLStoolsChairs, { base64ProofITLStoolsChairs = it }, photoUri)
                     "itltrainerchair" -> setPhotoPreview(ivPreviewITLTrainerChair, { base64ProofITLTrainerChair = it }, photoUri)
                     "itltrainertable" -> setPhotoPreview(ivPreviewITLTrainerTable, { base64ProofITLTrainerTable = it }, photoUri)
-                    "itllightsinno" -> setPhotoPreview(ivPreviewITLLightsInNo, { base64ProofITLLightsInNo = it }, photoUri)
-                    "itlfansinno" -> setPhotoPreview(ivPreviewITLFansInNo, { base64ProofITLFansInNo = it }, photoUri)
+                    "itllightsinno" -> setPhotoPreview(ivPreviewITLLightsInNo, { base64ProofITLLightsInNo = it }, photoUri,true, ObjectType.LIGHT.toString())
+                    "itlfansinno" -> setPhotoPreview(ivPreviewITLFansInNo, { base64ProofITLFansInNo = it }, photoUri,true, ObjectType.LIGHT.toString())
                     "itlelectricapowerbackupforthroom" -> setPhotoPreview(ivPreviewITLElectricaPowerBackUpForThRoom, { base64ProofITLElectricaPowerBackUpForThRoom = it }, photoUri)
                     "itlitlabphotograph" -> setPhotoPreview(ivPreviewITLItLabPhotograph, { base64ProofITLItLabPhotograph = it }, photoUri)
                     "itlldoes_the_room_has" -> setPhotoPreview(ivPreviewITLDoes_the_room_has, { base64ProofITLDoes_the_room_has = it }, photoUri)
@@ -1557,8 +1603,9 @@ class TrainingFragment : Fragment() {
                     "btnITCDLInternetConnections" -> setPhotoPreview(ivPreviewITCDLInternetConnections, { base64ProofITCDLInternetConnections = it }, photoUri)
                     "btnITCDLTrainerChair" -> setPhotoPreview(ivPreviewITCDLTrainerChair, { base64ProofITCDLTrainerChair = it }, photoUri)
                     "btnITCDLTrainerTable" -> setPhotoPreview(ivPreviewITCDLTrainerTable, { base64ProofITCDLTrainerTable = it }, photoUri)
-                    "btnITCDLLightsInNo" -> setPhotoPreview(ivPreviewITCDLLightsInNo, { base64ProofITCDLLightsInNo = it }, photoUri)
-                    "btnITCDLFansInNo" -> setPhotoPreview(ivPreviewITCDLFansInNo, { base64ProofITCDLFansInNo = it }, photoUri)
+                    "btnITCDLLightsInNo" -> setPhotoPreview(ivPreviewITCDLLightsInNo, { base64ProofITCDLLightsInNo = it }, photoUri,true, ObjectType.LIGHT.toString())
+                    "btnITCDLFansInNo" -> setPhotoPreview(ivPreviewITCDLFansInNo, { base64ProofITCDLFansInNo = it }, photoUri,true,
+                        ObjectType.FAN.toString())
                     "btnITCDLElectricaPowerBackUpForThRoom" -> setPhotoPreview(ivPreviewITCDLElectricaPowerBackUpForThRoom, { base64ProofITCDLElectricaPowerBackUpForThRoom = it }, photoUri)
                     "btnITCDLItLabPhotograph" -> setPhotoPreview(ivPreviewITCDLItLabPhotograph, { base64ProofITCDLItLabPhotograph = it }, photoUri)
                     "btnITCDLListofDomain" -> setPhotoPreview(ivPreviewITCDLListofDomain, { base64ProofITCDLListofDomain = it }, photoUri)
@@ -1583,8 +1630,8 @@ class TrainingFragment : Fragment() {
                     "btnTCILStoolsChairs" -> setPhotoPreview(ivPreviewTCILStoolsChairs, { base64ProofPreviewTCILStoolsChairs = it }, photoUri)
                     "btnTCILTrainerChair" -> setPhotoPreview(ivPreviewTCILTrainerChair, { base64ProofPreviewTCILTrainerChair = it }, photoUri)
                     "btnTCILTrainerTable" -> setPhotoPreview(ivPreviewTCILTrainerTable, { base64ProofPreviewTCILTrainerTable = it }, photoUri)
-                    "btnTCILLightsInNo" -> setPhotoPreview(ivPreviewTCILLightsInNo, { base64ProofPreviewTCILLightsInNo = it }, photoUri)
-                    "btnTCILFansInNo" -> setPhotoPreview(ivPreviewTCILFansInNo, { base64ProofPreviewTCILFansInNo = it }, photoUri)
+                    "btnTCILLightsInNo" -> setPhotoPreview(ivPreviewTCILLightsInNo, { base64ProofPreviewTCILLightsInNo = it }, photoUri,true, ObjectType.LIGHT.toString())
+                    "btnTCILFansInNo" -> setPhotoPreview(ivPreviewTCILFansInNo, { base64ProofPreviewTCILFansInNo = it }, photoUri,true, ObjectType.FAN.toString())
                     "btnTCILElectricaPowerBackUpForThRoom" -> setPhotoPreview(ivPreviewTCILElectricaPowerBackUpForThRoom, { base64ProofPreviewTCILElectricaPowerBackUpForThRoom = it }, photoUri)
                     "btnTCILTheoryCumItLabPhotogragh" -> setPhotoPreview(ivPreviewTCILTheoryCumItLabPhotogragh, { base64ProofPreviewTCILTheoryCumItLabPhotogragh = it }, photoUri)
                     "btnTCILDoes_the_room_has" -> setPhotoPreview(ivPreviewTCILDoes_the_room_has, { base64ProofPreviewTCILDoes_the_room_has = it }, photoUri)
@@ -1602,8 +1649,10 @@ class TrainingFragment : Fragment() {
                     "btnTCDLUploaadTrainerChair" -> setPhotoPreview(ivPreviewTCDLTrainerChair, { base64ProofPreviewTCDLTrainerChair = it }, photoUri)
                     "btnTCDLTrainerTable" -> setPhotoPreview(ivPreviewTCDLTrainerTable, { base64ProofPreviewTCDLTrainerTable = it }, photoUri)
                     "btnTCDLWritingBoard" -> setPhotoPreview(ivPreviewTCDLWritingBoard, { base64ProofPreviewTCDLWritingBoard = it }, photoUri)
-                    "btnTCDLLightsInNo" -> setPhotoPreview(ivPreviewTCDLLightsInNo, { base64ProofPreviewTCDLLightsInNo = it }, photoUri)
-                    "btnTCDLFansInNo" -> setPhotoPreview(ivPreviewTCDLFansInNo, { base64ProofPreviewTCDLFansInNo = it }, photoUri)
+                    "btnTCDLLightsInNo" -> setPhotoPreview(ivPreviewTCDLLightsInNo, { base64ProofPreviewTCDLLightsInNo = it }, photoUri,true, ObjectType.LIGHT.toString()
+                    )
+                    "btnTCDLFansInNo" -> setPhotoPreview(ivPreviewTCDLFansInNo, { base64ProofPreviewTCDLFansInNo = it }, photoUri,true, ObjectType.FAN.toString()
+                    )
                     "btnTCDLElectricaPowerBackUpForThRoom" -> setPhotoPreview(ivPreviewTCDLElectricaPowerBackUpForThRoom, { base64ProofPreviewTCDLElectricaPowerBackUpForThRoom = it }, photoUri)
                     "btnTCDLListofDomain" -> setPhotoPreview(ivPreviewTCDLListofDomain, { base64ProofPreviewTCDLListofDomain = it }, photoUri)
                     "btnTCDLDomainLabPhotogragh" -> setPhotoPreview(ivPreviewTCDLDomainLabPhotogragh, { base64ProofPreviewTCDLDomainLabPhotogragh = it }, photoUri)
@@ -1622,8 +1671,8 @@ class TrainingFragment : Fragment() {
                     "btnDLUploaadTrainerChair" -> setPhotoPreview(ivPreviewDLTrainerChair, { base64ProofPreviewDLTrainerChair = it }, photoUri)
                     "btnDLTrainerTable" -> setPhotoPreview(ivPreviewDLTrainerTable, { base64ProofPreviewDLTrainerTable = it }, photoUri)
                     "btnDLWritingBoard" -> setPhotoPreview(ivPreviewDLWritingBoard, { base64ProofPreviewDLWritingBoard = it }, photoUri)
-                    "btnDLLightsInNo" -> setPhotoPreview(ivPreviewDLLightsInNo, { base64ProofPreviewDLLightsInNo = it }, photoUri)
-                    "btnDLFansInNo" -> setPhotoPreview(ivPreviewDLFansInNo, { base64ProofPreviewDLFansInNo = it }, photoUri)
+                    "btnDLLightsInNo" -> setPhotoPreview(ivPreviewDLLightsInNo, { base64ProofPreviewDLLightsInNo = it }, photoUri,true, ObjectType.LIGHT.toString())
+                    "btnDLFansInNo" -> setPhotoPreview(ivPreviewDLFansInNo, { base64ProofPreviewDLFansInNo = it }, photoUri,true, ObjectType.FAN.toString())
                     "btnDLElectricaPowerBackUpForThRoom" -> setPhotoPreview(ivPreviewDLElectricaPowerBackUpForThRoom, { base64ProofPreviewDLElectricaPowerBackUpForThRoom = it }, photoUri)
                     "btnDLILListofDomain" -> setPhotoPreview(ivPreviewDLILListofDomain, { base64ProofPreviewDLILListofDomain = it }, photoUri)
                     "btnDLDomainLabPhotogragh" -> setPhotoPreview(ivPreviewDLDomainLabPhotogragh, { base64ProofPreviewDLDomainLabPhotogragh = it }, photoUri)
@@ -1641,8 +1690,8 @@ class TrainingFragment : Fragment() {
                     "btnTCRTrainerChair" -> setPhotoPreview(ivPreviewTCRTrainerChair, { base64ProofPreviewTCRTrainerChair = it }, photoUri)
                     "btnTCRTrainerTable" -> setPhotoPreview(ivPreviewTCRTrainerTable, { base64ProofPreviewTCRTrainerTable = it }, photoUri)
                     "btnTCRWritingBoard" -> setPhotoPreview(ivPreviewTCRWritingBoard, { base64ProofPreviewTCRWritingBoard = it }, photoUri)
-                    "btnTCRLightsInNo" -> setPhotoPreview(ivPreviewTCRLightsInNo, { base64ProofPreviewTCRLightsInNo = it }, photoUri)
-                    "btnTCRFansInNo" -> setPhotoPreview(ivPreviewTCRFansInNo, { base64ProofPreviewTCRFansInNo = it }, photoUri)
+                    "btnTCRLightsInNo" -> setPhotoPreview(ivPreviewTCRLightsInNo, { base64ProofPreviewTCRLightsInNo = it }, photoUri,true, ObjectType.LIGHT.toString())
+                    "btnTCRFansInNo" -> setPhotoPreview(ivPreviewTCRFansInNo, { base64ProofPreviewTCRFansInNo = it }, photoUri,true, ObjectType.FAN.toString())
                     "btnTCRElectricaPowerBackUpForThRoom" -> setPhotoPreview(ivPreviewTCRElectricaPowerBackUpForThRoom, { base64ProofPreviewTCRElectricaPowerBackUpForThRoom = it }, photoUri)
                     "btnTCRDomainLabPhotogragh" -> setPhotoPreview(ivPreviewTCRDomainLabPhotogragh, { base64ProofPreviewTCRDomainLabPhotogragh = it }, photoUri)
                     "btnTCRDoes_the_room_has" -> setPhotoPreview(ivPreviewTCRDoes_the_room_has, { base64ProofPreviewTCRDoes_the_room_has = it }, photoUri)
@@ -2176,6 +2225,8 @@ class TrainingFragment : Fragment() {
         spinnerDirectionBoards = view.findViewById(R.id.spinnerDirectionBoards)
         // Description of other areas
         ivProofPreview = view.findViewById(R.id.ivProofPreview)
+        ivProofFanPreview = view.findViewById(R.id.ivProofFanPreview)
+
         ivCirculationProofPreview = view.findViewById(R.id.ivCirculationProofPreview)
         ivOpenSpaceProofPreview = view.findViewById(R.id.ivOpenSpaceProofPreview)
         ivParkingProofPreview = view.findViewById(R.id.ivParkingProofPreview)
@@ -6139,6 +6190,8 @@ class TrainingFragment : Fragment() {
             parkingSpace = exclusiveParkingSpace,
             parkingSpaceImage = base64ParkingSpaceProofImage ?: "",
             proofImage = base64ProofUploadImage?:"",
+            lightsAiCount = lightsAiCount,
+            fansAiCount = fanAiCount
         )
         viewModel.submitTcDescriptionArea(request, token)
     }
@@ -7122,6 +7175,8 @@ class TrainingFragment : Fragment() {
                 roomPhotographAttachment = base64ProofITLItLabPhotograph ?: "",
                 airConditioningRoom = spinnerITLDoes_the_room_has.selectedItem.toString(),
                 airConditioningRoomAttachment = base64ProofITLDoes_the_room_has ?: "",
+                lightsAiCount = lightsAiCount,
+                fanAiCount
             )
             viewModel.SubmitITLABDataToServer(request, token)
         }
@@ -7360,7 +7415,9 @@ class TrainingFragment : Fragment() {
                 domainRelatedEquipment =ListofDomain.toString(),
                 domainRelatedEquipmentAttachment = base64ProofITCDLListofDomain ?: "",
                 airConditioningRoom = spinnerITCDLDoes_the_room_has.selectedItem.toString(),
-                airConditioningRoomAttachment = base64ProofITCDLDoes_the_room_has ?: ""
+                airConditioningRoomAttachment = base64ProofITCDLDoes_the_room_has ?: "",
+                lightsAiCount = lightsAiCount,
+                fanAiCount
             )
 
 
@@ -7449,7 +7506,9 @@ class TrainingFragment : Fragment() {
                 domainRelatedEquipment = TCILListofDomain.toString(),
                 domainRelatedEquipmentAttachment = base64ProofPreviewTCILListofDomain ?: "",
                 airConditioningRoom = spinnerTCILDLDoes_the_room_has.selectedItem.toString(),
-                airConditioningRoomAttachment = base64ProofPreviewTCILDoes_the_room_has ?: ""
+                airConditioningRoomAttachment = base64ProofPreviewTCILDoes_the_room_has ?: "",
+                lightsAiCount = lightsAiCount,
+                fansAiCount =fanAiCount
             )
 
 
@@ -7529,7 +7588,9 @@ class TrainingFragment : Fragment() {
                 airConditioningRoom = spinnerTCDLDoes_the_room_has.selectedItem.toString(),
                 airConditioningRoomAttachment = base64ProofPreviewTCDLDoes_the_room_has ?: "",
                 writingBoard = spinnerTCDLWritingBoard.selectedItem.toString(),
-                writingBoardAttachment = base64ProofPreviewTCDLWritingBoard ?: ""
+                writingBoardAttachment = base64ProofPreviewTCDLWritingBoard ?: "",
+                lightsAiCount = lightsAiCount,
+                fansAiCount = fanAiCount
             )
             viewModel.SubmitTCDLDataToServer(request, token)
         }
@@ -7606,7 +7667,9 @@ class TrainingFragment : Fragment() {
                 airConditioningRoom=spinnerDLDoes_the_room_has.selectedItem.toString(),
                 airConditioningRoomAttachment=base64ProofPreviewDLDoes_the_room_has?: "",
                 writingBoard=spinnerDLWritingBoard.selectedItem.toString(),
-                writingBoardAttachment=base64ProofPreviewDLWritingBoard?: ""
+                writingBoardAttachment=base64ProofPreviewDLWritingBoard?: "",
+                lightsAiCount = lightsAiCount,
+                fansAiCount = fanAiCount
             )
             viewModel.SubmitDLDataToServer(request, token)
         }
@@ -7675,10 +7738,9 @@ class TrainingFragment : Fragment() {
                 airConditioningRoom=spinnerTCRDoes_the_room_has.selectedItem.toString(),
                 airConditioningRoomAttachment=base64ProofPreviewTCRDoes_the_room_has?: "",
                 writingBoard=spinnerTCRWritingBoard.selectedItem.toString(),
-                writingBoardAttachment=base64ProofPreviewTCRWritingBoard?: ""
-
-
-
+                writingBoardAttachment=base64ProofPreviewTCRWritingBoard?: "",
+                lightsAiCount = lightsAiCount,
+                fansAiCount = fanAiCount
             )
 
 
