@@ -236,7 +236,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
             "TRAINING_CENTER_VERIFICATION" -> navigate(R.id.action_homeFragment_to_QTeamListFragment)
 
             "OJT_SRLM_VERIFICATION_FORM_APP" ->
-                navigate(R.id.action_homeFragment_to_SelectionSrlm)
+                navigate(R.id.action_homeFragment_to_Esop)
+//                navigate(R.id.action_homeFragment_to_SelectionSrlm)
 
             "RESIDENTIAL_FACILITY_FORM" ->
                 navigate(R.id.action_homeFragment_to_rfCenterFragment)
