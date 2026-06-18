@@ -20,7 +20,7 @@ import com.deendayalproject.viewmodel.CandidateVerificationViewModel
 import com.deendayalproject.viewmodel.InspectionViewModel
 import kotlin.getValue
 
-
+//code commit and update 18.06.2026 15.48PM
 class EsopFragment :
     BaseFragment<EsopFragmentBinding>(
         bindingInflater = EsopFragmentBinding::inflate
