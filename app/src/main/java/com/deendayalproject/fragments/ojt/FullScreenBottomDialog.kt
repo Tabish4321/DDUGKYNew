@@ -149,7 +149,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.nio.ByteBuffer
 import java.util.concurrent.TimeUnit
 
-//code commit 13/03/2026 Time 10:51 AM if user login DDUGKYUSER coditions mein static data use ho rhaa hai textView ke case mein  please update
 class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), SurfaceHolder.Callback {
 
 
@@ -391,24 +390,6 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
             binding.circleImageView.setImageBitmap(candidateImage)
         }
 
-//        binding.profileImageLayout.visibility= View.VISIBLE
-//        binding.profileImageLayout.visibility =
-//            if (selectedPosition) View.VISIBLE else View.GONE
-//
-//        binding.profileImageLayout.setOnClickListener {
-//
-////                listener(batch)
-//
-//            selectedPosition = if (selectedPosition == selectedPosition) -1 else selectedPosition
-
-
-//        }
-
-//        binding.btnRecord.setOnClickListener {
-//            dismissKeyboard()
-//            checkPermissionAndRecord()
-//        }
-
 
         binding.imgnavigationttrainingDetails.setOnClickListener {
             istrainingDetailsVisible = !istrainingDetailsVisible
@@ -477,10 +458,6 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         binding.btnLogin.setOnClickListener {
             binding.trainingQuestionDetailsLayout.visibility = View.VISIBLE
             val token = getToken(requireContext())
-//             FIRST — run validation
-//            if (!validateInputs()) {
-//                return@setOnClickListener
-//            }
 
             if (selectedAnswer == "Yes") {
 
@@ -508,14 +485,6 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
                         "Activity did you do on "
                     )
                 ) return@setOnClickListener
-
-
-//            if (!validateRequiredhowManyField(
-//                    binding.etOjtEnterDuringTimes,
-//                    binding.etOjtEnterDuringTimes.text.toString(),
-//                    "How many times during the day did"
-//                )) return@setOnClickListener
-
 
                 // ---------- NOMINATED ----------
                 if (!validateYesNoWithRemark(

@@ -115,16 +115,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.concurrent.TimeUnit
 
 class SRLMBottomDialog( private val batch: List<ChildSRLM>) :  DialogFragment(), SurfaceHolder.Callback {
-
-
-//    private var _binding: FragmentOnJobTrainingBinding? = null
-
-
-
-
-
-
-//    private var _binding: FragmentOnJobTrainingSrlmBinding? = null
 private var _binding: FragmentOnJobTrainingSrlmBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
