@@ -140,7 +140,8 @@ fun OngoingCandidateSectionScreen(
 
         containerColor = Color.White
 
-    ) { padding ->
+    )
+    { padding ->
 
         Column(
             modifier = Modifier
@@ -320,6 +321,9 @@ fun OngoingCandidateSectionScreen(
             }
         }
     }
+
+
+
     if (showUpdateDialog) {
 
         AlertDialog(
