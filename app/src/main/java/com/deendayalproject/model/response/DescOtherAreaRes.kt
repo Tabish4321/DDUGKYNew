@@ -20,5 +20,7 @@ data class CirculationItem(
     val width: String?,
     val descProofImagePath: String?,
     val openSpace: String?,
-    val numberOfFans: String?
+    val numberOfFans: String?,
+    val lightAiCount : Int,
+    val fanAiCount : Int,
 )

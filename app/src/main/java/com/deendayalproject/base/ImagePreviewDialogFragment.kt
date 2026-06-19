@@ -55,10 +55,13 @@ class ImagePreviewDialogFragment : DialogFragment() {
             binding.imageViewPreview.setImageResource(R.drawable.no_data)
         }
 
-        if(count.isNotEmpty() && !count.isBlank()){
+        if (count.isNotBlank()) {
             binding.tvCount.visibility = View.VISIBLE
             binding.tvCount.text = count
+        } else {
+            binding.tvCount.visibility = View.GONE
         }
+
         binding.buttonClose.setOnClickListener {
             dismiss()
         }

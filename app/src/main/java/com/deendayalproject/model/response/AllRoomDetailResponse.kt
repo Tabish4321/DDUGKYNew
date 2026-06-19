@@ -69,6 +69,9 @@ data class RoomDetail(
     val trainerTableImage: String?,
     val fans: String?,   // changed
     val officeComputerImagePath: String?,
-    val ecPowerBackupImage: String?
-)
+    val ecPowerBackupImage: String?,
+    val lightAiCount : Int,
+    val fanAiCount : Int,
+
+    )
 

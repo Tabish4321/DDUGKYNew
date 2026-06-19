@@ -1,81 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginHorizontal="8dp"
-    android:layout_marginVertical="5dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp"
-    app:strokeWidth="0.8dp"
-    app:strokeColor="@color/login_btn"
-
-    >
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="6dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:strokeColor="@color/button_center_color"
+    app:strokeWidth="0.7dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <!-- Header with gradient background -->
+        <!-- Header -->
         <LinearLayout
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/ripple_card_header"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingVertical="20dp"
-            android:paddingHorizontal="24dp"
-            android:background="@color/white_glow"
-            app:strokeColor="@color/black"
-            app:strokeWidth="1.5dp"
-            >
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="18dp">
 
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginEnd="16dp"
+            <!-- Module icon chip -->
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="14dp"
+                android:background="@drawable/bg_module_icon_chip"
                 android:visibility="gone"
-                />
+                >
 
-            <TextView
-                android:id="@+id/tvModuleName"
+                <ImageView
+                    android:id="@+id/ivModuleIcon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_dropdown_arrow"
+                    />
+            </FrameLayout>
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Module Name"
-                android:textColor="@color/login_btn"
-                android:fontFamily="@font/sf_pro_rounded_semibold"
-                android:textSize="14sp"
-                />
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/ivExpandArrow"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_dropdown_arrow"
-                android:tint="@color/login_btn"
-                android:rotation="0" />
+                <TextView
+                    android:id="@+id/tvModuleName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/sf_pro_rounded_semibold"
+                    android:maxLines="1"
+                    android:text="Module Name"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tvModuleStatus"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="5dp"-->
+<!--                    android:background="@drawable/bg_status_chip_pending"-->
+<!--                    android:fontFamily="@font/sf_pro_rounded_semibold"-->
+<!--                    android:paddingHorizontal="10dp"-->
+<!--                    android:paddingVertical="3dp"-->
+<!--                    android:text="Pending"-->
+<!--                    android:textColor="@color/color_pending"-->
+<!--                    android:textSize="11sp" />-->
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="14dp"
+                android:background="@drawable/bg_module_icon_chip">
+
+                <ImageView
+                    android:id="@+id/ivExpandArrow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_dropdown_arrow"
+                    />
+            </FrameLayout>
 
         </LinearLayout>
+
+        <View
+            android:id="@+id/headerDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="18dp"
+            android:background="@color/color_border_subtle"
+            android:visibility="gone" />
 
         <!-- Forms RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvForms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_light_grey"
-            android:paddingVertical="8dp"
-            android:paddingHorizontal="8dp"
+            android:background="@color/colorSurface"
             android:clipToPadding="false"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="8dp"
             android:visibility="gone"
-            tools:listitem="@layout/item_form"
             tools:itemCount="3"
-
-            />
+            tools:listitem="@layout/item_form" />
 
     </LinearLayout>
 

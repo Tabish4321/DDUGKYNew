@@ -410,7 +410,6 @@ abstract class BaseFragment<VB : ViewBinding>(
             .show()
     }
 
-
     protected fun showBase64ImageDialog(
         base64ImageString: String?,
         title: String = "Image",
@@ -441,6 +440,8 @@ abstract class BaseFragment<VB : ViewBinding>(
             logCrashlyticsError("showBase64ImageDialog", e)
         }
     }
+
+
 
     protected fun showBase64ImageWithCountDialog(
         base64ImageString: String?,

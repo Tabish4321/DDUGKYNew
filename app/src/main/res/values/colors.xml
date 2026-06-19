@@ -86,5 +86,12 @@
     <color name="chip_background_selected">#E0F2FE</color>
     <color name="chip_text_selected">#0369A1</color>
 
+    <color name="color_surface">#F5F7FB</color>
+    <color name="color_border_subtle">#E7EAF0</color>
+    <color name="color_icon_chip_bg">#E8EEFF</color>
+    <color name="color_success">#1B8E5A</color>
+    <color name="color_success_bg">#E4F6EC</color>
+    <color name="color_pending">#C97A12</color>
+    <color name="color_pending_bg">#FDF1E0</color>
 
 </resources>
