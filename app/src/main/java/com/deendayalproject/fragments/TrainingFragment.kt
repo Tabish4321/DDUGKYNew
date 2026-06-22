@@ -924,7 +924,7 @@ class TrainingFragment : Fragment() {
     private lateinit var ivFirstAidKitPreview: ImageView
     private var base64FirstAidKit: String? = null
 
-    private val photoUploadButtons: Map<Int, String>  by lazy {mapOf(
+    private val photoUploadButtons: Map<Int, String>  by lazy { mapOf(
         //        ITLAB
         (R.id.btnITLTypeofRoofItLab to "itltypeofroofitlab"),
         (R.id.btnITLFalseCellingProvide to "itlfalsecellingprovide"),
@@ -1328,7 +1328,6 @@ class TrainingFragment : Fragment() {
                 checkAndLaunchCamera()
             }
         }
-
     }
 
     private fun <T : View> View.bindView(id: Int): T = findViewById(id)
@@ -1527,8 +1526,7 @@ class TrainingFragment : Fragment() {
                     "btnITCDLTrainerChair" -> setPhotoPreview(ivPreviewITCDLTrainerChair, { base64ProofITCDLTrainerChair = it }, photoUri)
                     "btnITCDLTrainerTable" -> setPhotoPreview(ivPreviewITCDLTrainerTable, { base64ProofITCDLTrainerTable = it }, photoUri)
                     "btnITCDLLightsInNo" -> setPhotoPreview(ivPreviewITCDLLightsInNo, { base64ProofITCDLLightsInNo = it }, photoUri,true, ObjectType.LIGHT.toString())
-                    "btnITCDLFansInNo" -> setPhotoPreview(ivPreviewITCDLFansInNo, { base64ProofITCDLFansInNo = it }, photoUri,true,
-                        ObjectType.FAN.toString())
+                    "btnITCDLFansInNo" -> setPhotoPreview(ivPreviewITCDLFansInNo, { base64ProofITCDLFansInNo = it }, photoUri,true, ObjectType.FAN.toString())
                     "btnITCDLElectricaPowerBackUpForThRoom" -> setPhotoPreview(ivPreviewITCDLElectricaPowerBackUpForThRoom, { base64ProofITCDLElectricaPowerBackUpForThRoom = it }, photoUri)
                     "btnITCDLItLabPhotograph" -> setPhotoPreview(ivPreviewITCDLItLabPhotograph, { base64ProofITCDLItLabPhotograph = it }, photoUri)
                     "btnITCDLListofDomain" -> setPhotoPreview(ivPreviewITCDLListofDomain, { base64ProofITCDLListofDomain = it }, photoUri)
@@ -1572,10 +1570,8 @@ class TrainingFragment : Fragment() {
                     "btnTCDLUploaadTrainerChair" -> setPhotoPreview(ivPreviewTCDLTrainerChair, { base64ProofPreviewTCDLTrainerChair = it }, photoUri)
                     "btnTCDLTrainerTable" -> setPhotoPreview(ivPreviewTCDLTrainerTable, { base64ProofPreviewTCDLTrainerTable = it }, photoUri)
                     "btnTCDLWritingBoard" -> setPhotoPreview(ivPreviewTCDLWritingBoard, { base64ProofPreviewTCDLWritingBoard = it }, photoUri)
-                    "btnTCDLLightsInNo" -> setPhotoPreview(ivPreviewTCDLLightsInNo, { base64ProofPreviewTCDLLightsInNo = it }, photoUri,true, ObjectType.LIGHT.toString()
-                    )
-                    "btnTCDLFansInNo" -> setPhotoPreview(ivPreviewTCDLFansInNo, { base64ProofPreviewTCDLFansInNo = it }, photoUri,true, ObjectType.FAN.toString()
-                    )
+                    "btnTCDLLightsInNo" -> setPhotoPreview(ivPreviewTCDLLightsInNo, { base64ProofPreviewTCDLLightsInNo = it }, photoUri,true, ObjectType.LIGHT.toString())
+                    "btnTCDLFansInNo" -> setPhotoPreview(ivPreviewTCDLFansInNo, { base64ProofPreviewTCDLFansInNo = it }, photoUri,true, ObjectType.FAN.toString())
                     "btnTCDLElectricaPowerBackUpForThRoom" -> setPhotoPreview(ivPreviewTCDLElectricaPowerBackUpForThRoom, { base64ProofPreviewTCDLElectricaPowerBackUpForThRoom = it }, photoUri)
                     "btnTCDLListofDomain" -> setPhotoPreview(ivPreviewTCDLListofDomain, { base64ProofPreviewTCDLListofDomain = it }, photoUri)
                     "btnTCDLDomainLabPhotogragh" -> setPhotoPreview(ivPreviewTCDLDomainLabPhotogragh, { base64ProofPreviewTCDLDomainLabPhotogragh = it }, photoUri)
@@ -1632,8 +1628,8 @@ class TrainingFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
         }
-
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -4150,9 +4146,6 @@ class TrainingFragment : Fragment() {
                 )
 
                 viewModel.getSectionsStatusData(requestTcInfraReq)
-
-
-
             }
             result.onFailure {
                 Toast.makeText(
@@ -5089,7 +5082,6 @@ class TrainingFragment : Fragment() {
     }
 
     private fun collectTCSupportInfra(content: LinearLayout, icon: ImageView) {
-
         viewModel.getAvailabilitySupportInfra.observe(viewLifecycleOwner) { result ->
             content.visibility = View.VISIBLE
             icon.setImageResource(R.drawable.outline_arrow_upward_24)
@@ -5097,14 +5089,10 @@ class TrainingFragment : Fragment() {
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> {
-
                         val dataInfra = it.wrappedList
-
                         for (x in dataInfra) {
                             val spinnerDetailsMap = mutableMapOf<Any, String?>()
                             val imagesMap = mutableMapOf<ImageView, String?>()
-
-
                             spinnerDetailsMap[spinnerFireFightingEquipment] = x.fireFighterEquip
                             spinnerDetailsMap[spinnerSafeDrinkingWater] = x.drinkingWater
                             spinnerDetailsMap[spinnerFirstAidKit] = x.firstAidKit
@@ -5119,7 +5107,6 @@ class TrainingFragment : Fragment() {
 
                             updateSpinner(spinnerDetailsMap)
                             showBase64Image(imagesMap)
-
                         }
                     }
 
@@ -5182,7 +5169,7 @@ class TrainingFragment : Fragment() {
                             etExclusiveParkingSpace.setText(x.parkingSpace)
 
                             base64ProofUploadImage = x.descProofImagePath.toString()
-                         //   base64ProofFansUploadImage = x.fanProofImagePath.toString()   // ⚠️ अपने actual response model का field name यहाँ डालो
+                         //   base64ProofFansUploadImage = x.fanProofImagePath.toString()
 
                             base64CirculationProofImage = x.circulationAreaImagePath.toString()
                             base64penSpaceProofImage = x.openSpaceImagePath.toString()
@@ -5192,11 +5179,6 @@ class TrainingFragment : Fragment() {
                             imagesMap[ivCirculationProofPreview] = base64CirculationProofImage
                             imagesMap[ivOpenSpaceProofPreview] = base64penSpaceProofImage
                             imagesMap[ivParkingProofPreview] = base64ParkingSpaceProofImage
-  //                          imagesMap[ivProofFanPreview] = base64ProofFansUploadImage     // ye line missing thi
-
-//                            showBase64Image(imagesMap)
-
-                         //   showCountBadge(ivProofPreview ,0,requireContext())
                             showBase64Image(imagesMap) { imageView ->
                                 when (imageView.id) {
                                     R.id.ivProofPreview -> showBadgeSafely(imageView, x.lightAiCount ?: 0, ObjectType.LIGHT.name)
@@ -5269,8 +5251,7 @@ class TrainingFragment : Fragment() {
 
                     301 -> Toast.makeText(
                         requireContext(),
-                        getString(R.string.please_upgrade_your_app)
-                        ,
+                        getString(R.string.please_upgrade_your_app),
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -7808,80 +7789,6 @@ class TrainingFragment : Fragment() {
         }
     }
 
-//    private val mandatoryRoomTypes = listOf(
-//        "Reception Area",
-//        "IT cum Domain Lab",
-//        "Theory Cum IT Lab",
-//        "Theory Cum Domain Lab",
-//        "IT Lab",
-//        "Domain Lab",
-//        "Theory Class Room"
-//    )
-
-
-//    private fun validateMandatoryRooms(list: List<wrappedList>): Boolean {
-//
-//        if (list.isEmpty()) {
-//            Toast.makeText(requireContext(), "Please add required rooms.", Toast.LENGTH_SHORT).show()
-//            return false
-//        }
-//
-//        val roomTypes = list.map { it.roomType.trim() }
-//
-//        if (!roomTypes.contains("Reception Area")) {
-//            Toast.makeText(requireContext(), "Reception Area is mandatory.", Toast.LENGTH_SHORT).show()
-//            return false
-//        }
-//
-//        var hasIT = false
-//        var hasDomain = false
-//        var hasTheory = false
-//
-//        roomTypes.forEach { room ->
-//
-//            when (room) {
-//
-//                "IT Lab" -> hasIT = true
-//
-//                "Domain Lab" -> hasDomain = true
-//
-//                "Theory Class Room" -> hasTheory = true
-//
-//                "IT cum Domain Lab" -> {
-//                    hasIT = true
-//                    hasDomain = true
-//                }
-//
-//                "Theory Cum IT Lab" -> {
-//                    hasTheory = true
-//                    hasIT = true
-//                }
-//
-//                "Theory Cum Domain Lab" -> {
-//                    hasTheory = true
-//                    hasDomain = true
-//                }
-//            }
-//        }
-//
-//        if (!hasIT || !hasDomain || !hasTheory) {
-//
-//            val missing = mutableListOf<String>()
-//
-//            if (!hasIT) missing.add("IT Lab")
-//            if (!hasDomain) missing.add("Domain Lab")
-//            if (!hasTheory) missing.add("Theory Class Room")
-//
-//            Toast.makeText(
-//                requireContext(),
-//                "Missing required facility: ${missing.joinToString()}",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//
-//            return false
-//        }
-//        return true
-//    }
 
     private fun validateMandatoryRooms(list: List<wrappedList>): Boolean {
 
@@ -7909,44 +7816,32 @@ class TrainingFragment : Fragment() {
         return false
     }
 
-
-
-
-
     private val usedNumbers = mutableSetOf<Int>()
 
     fun getNextNumber(valueData: String): Int {
         // Convert current value to Int safely
         var num = valueData.toIntOrNull() ?: 1
-
         // Find the next free number
         while (usedNumbers.contains(num) && num < 1000) {
             num++
         }
-
         if (num > 1000) {
             etroomType.setText("All numbers used")
             throw Exception("No available numbers below 1000")
         }
-
         // Mark this number as used
         usedNumbers.add(num)
-
         // Prepare next number
         val nextValue = (num + 1).toString()
-
         // ✅ Update EditText with next number
         etroomType.setText(nextValue)
         etroomType.isFocusable = false
         etroomType.isClickable = false
-
         Log.d("NextNumber", "Current Number Used = $num, Next Available = $nextValue")
-
         return num
     }
 
     private fun calculateAndShowArea() {
-
         val lengthStr = etLength.text.toString().trim()
         val widthStr = etWidth.text.toString().trim()
 
@@ -7964,5 +7859,4 @@ class TrainingFragment : Fragment() {
     fun View.visible() {
         this.visibility = View.VISIBLE
     }
-
 }
