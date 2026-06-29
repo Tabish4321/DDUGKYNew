@@ -68,20 +68,16 @@
         <!-- Language Icon -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/changeLanguage"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="@color/white_brilliant"
-            android:elevation="2dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:padding="8dp"
             android:scaleType="centerInside"
-            android:src="@drawable/language_update"
+            android:src="@drawable/language"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/CircleImageView"
-            app:strokeColor="@color/white"
-            app:strokeWidth="1.5dp" />
+             />
 
         <!-- Logo (Optional) -->
         <com.google.android.material.imageview.ShapeableImageView

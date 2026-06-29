@@ -31,6 +31,8 @@ class FieldVerificationRepository(context: Context) : BaseRepository<ApiService>
             apiService.getCaptivePiaOfficerSelfie(request)
         }
 
+    
+
     suspend fun getFieldVerificationDetail(request: FieldVerificationDetailRequest): Result<FieldVerificationDetailResponse> =
         safeApiCall {
             apiService.getFieldVerificationDetail(request)

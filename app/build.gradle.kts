@@ -21,15 +21,15 @@ android {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
-        versionCode = 23
-        versionName = "2.0.3"
+        versionCode = 5
+        versionName = "2.0.3" //1.1.2 //1.2.9//1.3.2
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             isDebuggable = false
             applicationIdSuffix = ""
             versionNameSuffix = ""
@@ -69,26 +69,19 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
-    }
-
 
     buildFeatures {
         viewBinding = true
         buildConfig = true
-        compose = true
-
     }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "11"
     }
 }
 
@@ -128,31 +121,21 @@ dependencies {
     // Hilt
     implementation("com.google.dagger:hilt-android:2.51")
     implementation(libs.androidx.datastore.core.android)
-    implementation(libs.androidx.runtime)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.runtime.livedata)
-    implementation(libs.androidx.foundation)
-    implementation(libs.foundation)
-    // implementation(libs.androidx.room.ktx)
     kapt("com.google.dagger:hilt-compiler:2.51")
     kapt("androidx.hilt:hilt-compiler:1.1.0")
 
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
-
-//    video play use
-    implementation("androidx.media3:media3-exoplayer:1.3.1")
-    implementation("androidx.media3:media3-ui:1.3.1")
-
-
-
-
-
-
     // Location Services
     implementation("com.google.android.gms:play-services-location:21.3.0")
+
+//    implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
+//    implementation("com.github.barteksc:android-pdf-viewer:2.8.2")
+    // Firebase
+//    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+//    implementation("com.google.firebase:firebase-crashlytics-ktx")
+//    implementation("com.google.firebase:firebase-analytics-ktx")
+
 
     // Testing
     testImplementation("junit:junit:4.13.2")
@@ -172,18 +155,7 @@ dependencies {
 
     implementation("org.apache.santuario:xmlsec:2.0.3") {
         exclude(group = "org.codehaus.woodstox")
-
-
-
     }
-
-    implementation("androidx.media3:media3-transformer:1.3.1")
-    implementation("androidx.media3:media3-common:1.3.1")
-    implementation("androidx.media3:media3-exoplayer:1.3.1")
-
-
-
-
 
     implementation("com.thoughtworks.xstream:xstream:1.4.7") {
         exclude(group = "xmlpull", module = "xmlpull")
@@ -193,23 +165,6 @@ dependencies {
         kapt("com.github.bumptech.glide:compiler:4.16.0")
 
     }
-
-    //Compose
-
-    implementation(platform("androidx.compose:compose-bom:2024.04.01"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.compose.material:material-icons-extended")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
-    implementation("io.coil-kt:coil-compose:2.5.0")
-    implementation("androidx.compose.foundation:foundation:1.6.7")
-
-
-
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
 }
 
 kapt {

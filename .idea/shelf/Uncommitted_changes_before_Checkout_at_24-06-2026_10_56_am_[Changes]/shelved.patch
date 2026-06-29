@@ -1,0 +1,188 @@
+Index: app/src/main/java/com/deendayalproject/repository/FieldVerificationRepository.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.deendayalproject.repository\r\n\r\nimport android.content.Context\r\nimport com.deendayalproject.base.BaseRepository\r\nimport com.deendayalproject.model.request.FieldVerificationDetailRequest\r\nimport com.deendayalproject.model.request.FieldVerificationFinalSubmit\r\nimport com.deendayalproject.model.request.FieldVerificationListRequest\r\nimport com.deendayalproject.model.response.FieldVerificationDetailResponse\r\nimport com.deendayalproject.model.response.FieldVerificationListResponse\r\nimport com.deendayalproject.network.ApiService\r\n\r\nclass FieldVerificationRepository(context: Context) : BaseRepository<ApiService>(context) {\r\n\r\n    suspend fun fetchFieldVerificationList(\r\n        request: FieldVerificationListRequest,\r\n        token: String\r\n    ): Result<FieldVerificationListResponse> =\r\n        safeApiCallWithToken(token) {\r\n            apiService.getFieldVerificationList(request)\r\n        }\r\n\r\n    suspend fun getFieldVerificationDetail(request: FieldVerificationDetailRequest): Result<FieldVerificationDetailResponse> =\r\n        safeApiCall {\r\n            apiService.getFieldVerificationDetail(request)\r\n        }\r\n\r\n    suspend fun getFieldVerificationFinDetail(request: FieldVerificationDetailRequest): Result<FieldVerificationDetailResponse> =\r\n        safeApiCall {\r\n            apiService.getFieldVerificationFinDetail(request)\r\n        }\r\n\r\n    suspend fun getFieldVerificationTrainingDetail(request: FieldVerificationDetailRequest): Result<FieldVerificationDetailResponse> =\r\n        safeApiCall {\r\n            apiService.getFieldVerificationTrainingDetail(request)\r\n        }\r\n\r\n    suspend fun getFieldVerificationTrainingInfraDetail(request: FieldVerificationDetailRequest): Result<FieldVerificationDetailResponse> =\r\n        safeApiCall {\r\n            apiService.getFieldVerificationTrainingInfraDetail(request)\r\n        }\r\n\r\n    suspend fun getFieldVerificationCertificationDetail(request: FieldVerificationDetailRequest): Result<FieldVerificationDetailResponse> =\r\n        safeApiCall {\r\n            apiService.getFieldVerificationCertificationDetail(request)\r\n        }\r\n\r\n    suspend fun getFieldVerificationPlacementDetail(request: FieldVerificationDetailRequest): Result<FieldVerificationDetailResponse> =\r\n        safeApiCall {\r\n            apiService.getFieldVerificationPlacementDetail(request)\r\n        }\r\n\r\n    suspend fun submitFieldVerification(request: FieldVerificationFinalSubmit): Result<FieldVerificationDetailResponse> =\r\n        safeApiCall {\r\n            apiService.submitFieldVerification(request)\r\n        }\r\n\r\n//    suspend fun submitFieldVerification(\r\n//        request: FieldVerificationFinalSubmit\r\n//    ): Result<FieldVerificationDetailResponse> {\r\n//        safeApiCall {\r\n//            apiService.submitFieldVerification(request)\r\n//        }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/deendayalproject/repository/FieldVerificationRepository.kt b/app/src/main/java/com/deendayalproject/repository/FieldVerificationRepository.kt
+--- a/app/src/main/java/com/deendayalproject/repository/FieldVerificationRepository.kt	(revision 6543cc86cd8ee84a5eaa7fd94fd52bd7616fd2c7)
++++ b/app/src/main/java/com/deendayalproject/repository/FieldVerificationRepository.kt	(date 1782278119967)
+@@ -19,6 +19,8 @@
+             apiService.getFieldVerificationList(request)
+         }
+ 
++    
++
+     suspend fun getFieldVerificationDetail(request: FieldVerificationDetailRequest): Result<FieldVerificationDetailResponse> =
+         safeApiCall {
+             apiService.getFieldVerificationDetail(request)
+Index: app/build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.util.Properties\r\nimport kotlin.apply\r\n\r\nplugins {\r\n    id(\"com.android.application\")\r\n    id(\"org.jetbrains.kotlin.android\")\r\n    id(\"kotlin-kapt\")\r\n    id(\"com.google.dagger.hilt.android\")\r\n    id(\"androidx.navigation.safeargs.kotlin\")\r\n}\r\n\r\nandroid {\r\n    namespace = \"com.deendayalproject\"\r\n    compileSdk = 35\r\n\r\n    val  keystorePropertiesFile = rootProject.file(\"keystore.properties\")\r\n    val  projectProperties=readProperties(keystorePropertiesFile)\r\n\r\n\r\n    defaultConfig {\r\n        applicationId = \"com.deendayalproject\"\r\n        minSdk = 24\r\n        targetSdk = 35\r\n        versionCode = 5\r\n        versionName = \"1.1.3\" //1.1.2 //1.2.9//1.3.2\r\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        getByName(\"release\") {\r\n            isMinifyEnabled = true\r\n            isShrinkResources = true\r\n            isDebuggable = false\r\n            applicationIdSuffix = \"\"\r\n            versionNameSuffix = \"\"\r\n            proguardFiles(\r\n                getDefaultProguardFile(\"proguard-android-optimize.txt\"),\r\n                \"proguard-rules.pro\"\r\n            )\r\n        }\r\n        getByName(\"debug\") {\r\n            isMinifyEnabled = false\r\n            isDebuggable = true\r\n        }\r\n    }\r\n    defaultConfig {\r\n        buildConfigField(\"String\", \"CRYPT_ID\", projectProperties[\"CRYPT_ID\"] as String)\r\n        buildConfigField(\"String\", \"CRYPT_IV\", projectProperties[\"CRYPT_IV\"] as String)\r\n        buildConfigField(\"String\", \"CRYPLIBAES\", projectProperties[\"CRYPLIBAES\"] as String)\r\n        buildConfigField(\"String\", \"WADH_KEY\", projectProperties[\"WADH_KEY\"] as String)\r\n        buildConfigField(\"String\", \"FACE_AUTH_UIADI\", projectProperties[\"FACE_AUTH_UIADI\"] as String)\r\n        buildConfigField(\"String\", \"CAPTURE_INTENT\", projectProperties[\"CAPTURE_INTENT\"] as String)\r\n        buildConfigField(\"String\", \"USER_NAME_FOR_APP\", projectProperties[\"USER_NAME_FOR_APP\"] as String)\r\n    }\r\n\r\n    flavorDimensions += \"environment\"\r\n    productFlavors {\r\n        create(\"prod\") {\r\n            dimension = \"environment\"\r\n            buildConfigField(\"String\", \"BASE_URL\", projectProperties[\"BASE_URL_LIVE\"] as String)\r\n        } //BASE_URL_LIVE\r\n\r\n        create(\"demo\") {\r\n            dimension = \"environment\"\r\n            applicationIdSuffix = \"\"\r\n            versionNameSuffix = \"\"\r\n            buildConfigField(\"String\", \"BASE_URL\", projectProperties[\"BASE_URL_DEMO\"] as String)\r\n        }//BASE_URL_DEMO\r\n    }\r\n\r\n    compileOptions {\r\n        sourceCompatibility = JavaVersion.VERSION_11\r\n        targetCompatibility = JavaVersion.VERSION_11\r\n    }\r\n\r\n    buildFeatures {\r\n        viewBinding = true\r\n        buildConfig = true\r\n    }\r\n}\r\n\r\ntasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {\r\n    kotlinOptions {\r\n        jvmTarget = \"11\"\r\n    }\r\n}\r\n\r\nfun readProperties(propertiesFile: File) = Properties().apply {\r\n    propertiesFile.inputStream().use { fis ->\r\n        load(fis)\r\n    }\r\n}\r\n\r\n\r\ndependencies {\r\n    // AndroidX\r\n    implementation(\"androidx.core:core-ktx:1.12.0\")\r\n    implementation(\"androidx.appcompat:appcompat:1.6.1\")\r\n    implementation(\"androidx.activity:activity-ktx:1.8.0\")\r\n    implementation(\"androidx.constraintlayout:constraintlayout:2.1.4\")\r\n    implementation(\"androidx.core:core-splashscreen:1.0.1\")\r\n    implementation(\"androidx.cardview:cardview:1.0.0\")\r\n    implementation(\"androidx.swiperefreshlayout:swiperefreshlayout:1.1.0\")\r\n\r\n    // Navigation\r\n    implementation(\"androidx.navigation:navigation-fragment-ktx:2.7.7\")\r\n    implementation(\"androidx.navigation:navigation-ui-ktx:2.7.7\")\r\n\r\n    // Lifecycle\r\n    implementation(\"androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0\")\r\n    implementation(\"androidx.lifecycle:lifecycle-livedata-ktx:2.7.0\")\r\n\r\n    // Material Design\r\n    implementation(\"com.google.android.material:material:1.10.0\")\r\n\r\n    // Networking\r\n    implementation(\"com.squareup.retrofit2:retrofit:2.9.0\")\r\n    implementation(\"com.squareup.retrofit2:converter-gson:2.9.0\")\r\n    implementation(\"com.squareup.okhttp3:logging-interceptor:4.12.0\")\r\n\r\n    // Hilt\r\n    implementation(\"com.google.dagger:hilt-android:2.51\")\r\n    implementation(libs.androidx.datastore.core.android)\r\n    kapt(\"com.google.dagger:hilt-compiler:2.51\")\r\n    kapt(\"androidx.hilt:hilt-compiler:1.1.0\")\r\n\r\n    implementation(\"androidx.datastore:datastore-preferences:1.1.1\")\r\n\r\n    // Location Services\r\n    implementation(\"com.google.android.gms:play-services-location:21.3.0\")\r\n\r\n//    implementation(\"com.github.barteksc:android-pdf-viewer:3.2.0-beta.1\")\r\n//    implementation(\"com.github.barteksc:android-pdf-viewer:2.8.2\")\r\n    // Firebase\r\n//    implementation(platform(\"com.google.firebase:firebase-bom:32.7.2\"))\r\n//    implementation(\"com.google.firebase:firebase-crashlytics-ktx\")\r\n//    implementation(\"com.google.firebase:firebase-analytics-ktx\")\r\n\r\n\r\n    // Testing\r\n    testImplementation(\"junit:junit:4.13.2\")\r\n    androidTestImplementation(\"androidx.test.ext:junit:1.1.5\")\r\n    androidTestImplementation(\"androidx.test.espresso:espresso-core:3.5.1\")\r\n\r\n\r\n    implementation(\"org.bouncycastle:bcprov-jdk16:1.46\")\r\n    implementation(\"javax.xml.crypto:jsr105-api:1.0.1\")\r\n    implementation(\"com.fasterxml.jackson.core:jackson-core:2.15.0\")\r\n    implementation(\"com.fasterxml.jackson.core:jackson-databind:2.15.0\")\r\n    implementation(\"com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.0\")\r\n\r\n\r\n    implementation(\"javax.xml.stream:stax-api:1.0-2\")\r\n    implementation(\"com.fasterxml.woodstox:woodstox-core:6.5.1\")\r\n\r\n    implementation(\"org.apache.santuario:xmlsec:2.0.3\") {\r\n        exclude(group = \"org.codehaus.woodstox\")\r\n    }\r\n\r\n    implementation(\"com.thoughtworks.xstream:xstream:1.4.7\") {\r\n        exclude(group = \"xmlpull\", module = \"xmlpull\")\r\n        exclude(group=\"xpp3\", module=\"xpp3_min\")\r\n\r\n        implementation(\"com.github.bumptech.glide:glide:4.16.0\")\r\n        kapt(\"com.github.bumptech.glide:compiler:4.16.0\")\r\n\r\n    }\r\n}\r\n\r\nkapt {\r\n    correctErrorTypes = false\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+--- a/app/build.gradle.kts	(revision 6543cc86cd8ee84a5eaa7fd94fd52bd7616fd2c7)
++++ b/app/build.gradle.kts	(date 1782278235231)
+@@ -22,7 +22,7 @@
+         minSdk = 24
+         targetSdk = 35
+         versionCode = 5
+-        versionName = "1.1.3" //1.1.2 //1.2.9//1.3.2
++        versionName = "2.0.3" //1.1.2 //1.2.9//1.3.2
+         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+     }
+ 
+Index: .idea/codeStyles/codeStyleConfig.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/codeStyles/codeStyleConfig.xml b/.idea/codeStyles/codeStyleConfig.xml
+new file mode 100644
+--- /dev/null	(date 1782278281026)
++++ b/.idea/codeStyles/codeStyleConfig.xml	(date 1782278281026)
+@@ -0,0 +1,5 @@
++<component name="ProjectCodeStyleConfiguration">
++  <state>
++    <option name="USE_PER_PROJECT_SETTINGS" value="true" />
++  </state>
++</component>
+\ No newline at end of file
+Index: .idea/codeStyles/Project.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/codeStyles/Project.xml b/.idea/codeStyles/Project.xml
+new file mode 100644
+--- /dev/null	(date 1782278281023)
++++ b/.idea/codeStyles/Project.xml	(date 1782278281023)
+@@ -0,0 +1,123 @@
++<component name="ProjectCodeStyleConfiguration">
++  <code_scheme name="Project" version="173">
++    <JetCodeStyleSettings>
++      <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
++    </JetCodeStyleSettings>
++    <codeStyleSettings language="XML">
++      <option name="FORCE_REARRANGE_MODE" value="1" />
++      <indentOptions>
++        <option name="CONTINUATION_INDENT_SIZE" value="4" />
++      </indentOptions>
++      <arrangement>
++        <rules>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>xmlns:android</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>^$</XML_NAMESPACE>
++                </AND>
++              </match>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>xmlns:.*</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>^$</XML_NAMESPACE>
++                </AND>
++              </match>
++              <order>BY_NAME</order>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>.*:id</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
++                </AND>
++              </match>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>.*:name</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
++                </AND>
++              </match>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>name</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>^$</XML_NAMESPACE>
++                </AND>
++              </match>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>style</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>^$</XML_NAMESPACE>
++                </AND>
++              </match>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>.*</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>^$</XML_NAMESPACE>
++                </AND>
++              </match>
++              <order>BY_NAME</order>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>.*</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>http://schemas.android.com/apk/res/android</XML_NAMESPACE>
++                </AND>
++              </match>
++              <order>ANDROID_ATTRIBUTE_ORDER</order>
++            </rule>
++          </section>
++          <section>
++            <rule>
++              <match>
++                <AND>
++                  <NAME>.*</NAME>
++                  <XML_ATTRIBUTE />
++                  <XML_NAMESPACE>.*</XML_NAMESPACE>
++                </AND>
++              </match>
++              <order>BY_NAME</order>
++            </rule>
++          </section>
++        </rules>
++      </arrangement>
++    </codeStyleSettings>
++    <codeStyleSettings language="kotlin">
++      <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
++    </codeStyleSettings>
++  </code_scheme>
++</component>
+\ No newline at end of file
