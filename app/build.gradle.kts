@@ -21,8 +21,8 @@ android {
         applicationId = "com.deendayalproject"
         minSdk = 24
         targetSdk = 35
-        versionCode = 23
-        versionName = "2.0.6"
+        versionCode = 24
+        versionName = "2.0.7"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -147,10 +147,6 @@ dependencies {
     implementation("androidx.media3:media3-ui:1.3.1")
 
 
-
-
-
-
     // Location Services
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
@@ -172,8 +168,6 @@ dependencies {
 
     implementation("org.apache.santuario:xmlsec:2.0.3") {
         exclude(group = "org.codehaus.woodstox")
-
-
 
     }
 
@@ -206,9 +200,6 @@ dependencies {
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("androidx.compose.foundation:foundation:1.6.7")
-
-
-
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
 }
 
