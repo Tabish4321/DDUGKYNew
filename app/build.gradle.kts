@@ -16,7 +16,6 @@ android {
     val  keystorePropertiesFile = rootProject.file("keystore.properties")
     val  projectProperties=readProperties(keystorePropertiesFile)
 
-
     defaultConfig {
         applicationId = "com.deendayalproject"
         minSdk = 24
