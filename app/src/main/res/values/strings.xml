@@ -742,7 +742,7 @@
     <string name="field_ver_industry_turnover_fin">The industry must have an annual turnover of ₹25 crore or more in each of the last three financial years. </string>
     <string name="field_ver_industry_turnover_note_fin">A Chartered Accountant (CA) Certificate or audited Balance Sheet.</string>
 
-    <string name="field_ver_industry_networth_fin">The industry must have a positive net worth in at least two out of the last three financial years. </string>
+    <string name="field_ver_industry_networth_fin">The industry must have a positive net worth in atleast two out of the last three financial years. </string>
     <string name="field_ver_industry_networth_note_fin">A Chartered Accountant (CA) Certificate or audited Balance Sheet. </string>
 
     <string name="fin_balance_sheet_button">Balance Sheet (last 3 years)</string>
@@ -754,8 +754,7 @@
     <string name="field_ver_training">Training </string>
 
     <string name="field_ver_exp_training">The organization must have prior training experience of more than two years. </string>
-    <string name="field_ver_exp_note_training">Sanction letters or project approval orders / Proof of targets allocated and achieved / Project completion certificates / Records of training programs conducted in collaboration with corporates or for in-house staff / MoUs or Work Orders with Government or Corporate entities.</string>
-
+    <string name="field_ver_exp_note_training">Sanction letters / project approval orders | Target allocation &amp; achievement proof | Project completion certificates | Training program records (corporate or in-house) | MoUs / work orders (Govt. or corporate)</string>
     <string name="field_ver_hrs_training">Total Number of Training Hours Proposed. </string>
     <string name="field_ver_hrs_note_training">A minimum of 576 hours and a maximum of 2304 hours of training is permissible for each proposed course. </string>
 

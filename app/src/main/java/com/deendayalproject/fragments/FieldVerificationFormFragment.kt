@@ -4,21 +4,36 @@ import SharedViewModel
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.RippleDrawable
 import android.net.Uri
 import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Base64
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -57,6 +72,8 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.material.chip.Chip
+import com.google.android.material.shape.CornerFamily
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.gson.GsonBuilder
 import java.io.File
 import java.io.IOException
@@ -64,6 +81,7 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.text.uppercase
 
 
 // ─────────────────────────────────────────────────────────────
@@ -328,6 +346,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     // ─────────────────────────────────────────────────────────
 
     private fun setupNextButtons() {
+
         binding.btnInfoNext.setOnClickListener {
             onOrgNext()
             //logSectionGson(Requirement.ORG, orgItems)
@@ -485,7 +504,6 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
     private fun onResidentialNext() {
         handleSectionFlow(
-
             section = "RESIDENTIALFACILITY",
 
             recyclerView = binding.recyclerViewResidentialFacility,
@@ -501,7 +519,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             nextExpand = binding.verCertExpand,
 
             nextAction = {
-
+                completedSections.add("RESIDENTIALFACILITY".uppercase())
                 viewModel.getFieldVerificationCertificationDetail(
                     buildDetailRequest()
                 )
@@ -541,7 +559,6 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 viewModel.getFieldVerificationPlacementDetail(
                     buildDetailRequest()
                 )
-
                 observePlacementDetails()
             })
     }
@@ -590,9 +607,10 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             result.onSuccess { response ->
                 if (response.responseCode == 200) {
                     toastShort( "Field verification completed successfully")
-                    val nav = findNavController()
-                    nav.previousBackStackEntry?.savedStateHandle?.set("refresh_pia_list", true)
-                    nav.navigateUp()
+                    findNavController().navigateUp()
+//                    val nav = findNavController()
+//                    nav.previousBackStackEntry?.savedStateHandle?.set("refresh_pia_list", true)
+//                    nav.navigateUp()
                 } else {
                     binding.verFieldExpand.visibility = View.VISIBLE
                     toastShort(response.responseDesc ?: "Failed to submit field verification")
@@ -837,34 +855,155 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             }
     }
 
+
     private fun showAlreadyCompletedDialog(
-
         section: String,
-
         onUpdate: () -> Unit,
-
         onNext: () -> Unit
-
     ) {
+        val ctx = requireContext()
+        val dp  = ctx.resources.displayMetrics.density
+        fun Int.dp() = (this * dp).toInt()
 
-        AlertDialog.Builder(requireContext()).setTitle("${section} Section Already Completed")
+        // ── Tokens ────────────────────────────────────────────────────
+        val accentColor  = runCatching {
+            ContextCompat.getColor(ctx, R.color.color_dark_blue)
+        }.getOrElse { ContextCompat.getColor(ctx, android.R.color.holo_blue_dark) }
 
-            .setMessage(
-                "This section has already been saved successfully.\n\nDo you want to update this section or move to the next section?"
-            )
+        val greenColor   = runCatching {
+            ContextCompat.getColor(ctx, R.color.color_dark_green)
+        }.getOrElse { Color.parseColor("#2D7A4F") }
 
-            .setPositiveButton("Update") { _, _ ->
+        val surfaceColor = Color.parseColor("#FFFFFF")
+        val dividerColor = Color.parseColor("#EEF0F4")
+        val valueColor   = Color.parseColor("#111827")
+        val bodyColor    = Color.parseColor("#374151")
+        val rippleBlue   = ColorUtils.setAlphaComponent(accentColor, 55)
+        val rippleGreen  = ColorUtils.setAlphaComponent(greenColor, 55)
 
-                onUpdate.invoke()
+        // ── Title bar ─────────────────────────────────────────────────
+        val titleBar = LinearLayout(ctx).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity     = android.view.Gravity.CENTER_VERTICAL
+            setPadding(20.dp(), 18.dp(), 20.dp(), 14.dp())
+        }
+        // Green accent bar — "completed" context
+        titleBar.addView(View(ctx).apply {
+            background   = buildRoundRect(dp, greenColor, 3f)
+            layoutParams = LinearLayout.LayoutParams(4.dp(), 22.dp()).apply { marginEnd = 12.dp() }
+        })
+        titleBar.addView(TextView(ctx).apply {
+            text         = "$section Section Already Completed"
+            setTextColor(valueColor)
+            textSize     = 16f
+            typeface     = android.graphics.Typeface.DEFAULT_BOLD
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            isSingleLine = false
+        })
+
+        // ── Message card ──────────────────────────────────────────────
+        val msgCard = LinearLayout(ctx).apply {
+            orientation = LinearLayout.VERTICAL
+            background  = GradientDrawable().apply {
+                setColor(Color.parseColor("#F8FFF9"))   // faint green tint — "success" state
+                cornerRadius = 10.dp().toFloat()
+                setStroke(1.dp(), Color.parseColor("#D1EAD8"))
             }
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { setMargins(16.dp(), 0, 16.dp(), 8.dp()) }
+            setPadding(14.dp(), 12.dp(), 14.dp(), 12.dp())
+        }
 
-            .setNegativeButton("Next") { _, _ ->
+        // ✓ badge + first line
+        val badgeRow = LinearLayout(ctx).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity     = android.view.Gravity.CENTER_VERTICAL
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { bottomMargin = 8.dp() }
+        }
+        badgeRow.addView(TextView(ctx).apply {
+            text         = "✓"
+            setTextColor(greenColor)
+            textSize     = 15f
+            typeface     = android.graphics.Typeface.DEFAULT_BOLD
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { marginEnd = 8.dp() }
+        })
+        badgeRow.addView(TextView(ctx).apply {
+            text         = "This section has been already saved."
+            setTextColor(greenColor)
+            textSize     = 13f
+            typeface     = android.graphics.Typeface.DEFAULT_BOLD
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        })
+        msgCard.addView(badgeRow)
 
-                onNext.invoke()
+        // Body text
+        msgCard.addView(TextView(ctx).apply {
+            text      = "Do you want to update this section or move to the next section?"
+            setTextColor(bodyColor)
+            textSize  = 13.5f
+            isSingleLine = false
+        })
+
+        // ── Action buttons row ────────────────────────────────────────
+        var dialog: AlertDialog? = null
+
+        val btnRow = LinearLayout(ctx).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { setMargins(16.dp(), 8.dp(), 16.dp(), 16.dp()) }
+        }
+
+        // "Update" — outlined, secondary
+        btnRow.addView(buildDialogButton(
+            ctx, dp, "Update",
+            textColor  = accentColor,
+            background = buildOutlineButtonBg(dp, accentColor, rippleBlue),
+            weight     = 1f,
+            marginEnd  = 6.dp()
+        ).apply {
+            setOnClickListener { dialog?.dismiss(); onUpdate.invoke() }
+        })
+
+        // "Next →" — filled primary
+        btnRow.addView(buildDialogButton(
+            ctx, dp, "Next →",
+            textColor  = Color.WHITE,
+            background = buildFilledButtonBg(dp, accentColor, rippleBlue),
+            weight     = 1f,
+            marginStart = 6.dp()
+        ).apply {
+            setOnClickListener { dialog?.dismiss(); onNext.invoke() }
+        })
+
+        // ── Assemble ──────────────────────────────────────────────────
+        val fullView = buildDialogShell(ctx, dp, surfaceColor, dividerColor)
+        fullView.addView(titleBar)
+        fullView.addView(View(ctx).apply {
+            setBackgroundColor(dividerColor)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1)
+        })
+        fullView.addView(msgCard.also {
+            (it.layoutParams as LinearLayout.LayoutParams).topMargin = 14.dp()
+        })
+        fullView.addView(btnRow)
+
+        dialog = AlertDialog.Builder(ctx)
+            .setView(fullView)
+            .create()
+            .also { d ->
+                d.window?.setBackgroundDrawable(
+                    android.graphics.drawable.ColorDrawable(Color.TRANSPARENT)
+                )
             }
-
-            .show()
+        dialog.show()
     }
+
 
 
     private fun handleSectionFlow(
@@ -878,14 +1017,16 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         nextAction: (() -> Unit)? = null
     ) {
         commitFocusedEditText()
+        //syncRecyclerRemarks(recyclerView,items)
         val isCompleted = completedSections.contains(section.uppercase())
         val request = commonFieldVarificationRequest(section, items)
 
         val gson = GsonBuilder().setPrettyPrinting().create()
         Log.d("$section NEW ─────────────> Data", gson.toJson(request))
 
-        if (isCompleted) {
+        if (isCompleted || section.equals("RESIDENTIALFACILITY", ignoreCase = true)) {
             showAlreadyCompletedDialog(section = section, onUpdate = {
+                if (!validateSectionItems(recyclerView, items.toMutableList())) return@showAlreadyCompletedDialog
                 submitSection(
                     request = request,
                     headerView = headerView,
@@ -918,6 +1059,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             )
         }
     }
+
 
     // ─────────────────────────────────────────────────────────
     //  RecyclerView setup
@@ -1095,54 +1237,120 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
 
     private fun buildDocChip(
-        item: FieldVerificationItem, doc: String, section: String, position: Int, showIcons: Boolean
+        item: FieldVerificationItem,
+        doc: String,
+        section: String,
+        position: Int,
+        showIcons: Boolean
     ): Chip {
         return Chip(requireContext()).apply {
+            // Text & Typography
             text = doc
-            isClickable = true
-            isCheckable = false
+            textSize = 14f
+            typeface = ResourcesCompat.getFont(context, R.font.avenir_next_medium)
 
-            if (showIcons) {
-                val iconRes = if (item.uploadEnabled) R.drawable.file else R.drawable.ic_up
-                closeIcon = context.getDrawable(iconRes)
-                closeIconTint = context.getColorStateList(android.R.color.darker_gray)
-                isCloseIconVisible = true
-                iconEndPadding = 8f
-                textEndPadding = 16f
-            } else {
-                isCloseIconVisible = false
-            }
+            // Core Styling - Modern & Clean
+            setChipBackgroundColorResource(R.color.chip_background)
+            setTextColor(ContextCompat.getColor(context, R.color.login_btn))
+            setRippleColorResource(R.color.chip_ripple)
+
+            // Shape & Size
+            shapeAppearanceModel = ShapeAppearanceModel.builder()
+                .setAllCorners(CornerFamily.ROUNDED, 24f)   // More rounded like Material 3
+                .build()
+
+            chipStartPadding = 16f
+            chipEndPadding = 16f
+            textStartPadding = 4f
+            textEndPadding = 8f
+            chipMinHeight =  TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                48f,
+                resources.displayMetrics )
 
             setOnClickListener {
-                if (item.uploadEnabled) onUploadChipClick(section, position, doc)
-                else onViewChipClick(section, position, doc)
+                if (item.uploadEnabled) {
+                    onUploadChipClick(section, position, doc)
+                } else {
+                    onViewChipClick(section, position, doc)
+                }
             }
+
+            setOnLongClickListener {
+                true
+            }
+            elevation = 2f
+            stateListAnimator = null
+
         }
     }
 
-    private fun bindImagePreview(item: FieldVerificationItem, b: ItemFieldVerCardBinding) {
-        if (!item.imageUri.isNullOrBlank()) {
+
+     fun Float.dpToPx(): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            this,
+            resources.displayMetrics
+        )
+    }
+
+    private fun bindImagePreview(
+        item: FieldVerificationItem,
+        b: ItemFieldVerCardBinding
+    ) {
+        val firstImage = item.attachments.firstOrNull()?.value?.firstOrNull()
+        val secondImage = item.attachments.firstOrNull()?.value?.getOrNull(1)
+
+        if (!firstImage.isNullOrBlank()) {
             try {
-                b.imageGroup.visibility = View.VISIBLE
-                val uri = Uri.parse(item.imageUri)
-                if (currentPhotoTarget == "Training Centre") {
-                    b.ivPreview1.setImageURI(uri); b.ivPreview1.visibility = View.VISIBLE
-                    b.ivPreview.visibility = View.GONE
-                } else {
-                    b.ivPreview.setImageURI(uri); b.ivPreview.visibility = View.VISIBLE
-                    b.ivPreview1.visibility = View.GONE
+                val bytes = Base64.decode(firstImage, Base64.DEFAULT)
+                val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                b.ivPreview.setImageBitmap(bitmap)
+                b.ivPreview.visibility = View.VISIBLE
+                b.ivCardPreview.visibility = View.VISIBLE
+
+                b.imageGroup.visibility = View.VISIBLE  // ← ensure parent visible FIRST
+                b.ivPreview.setOnClickListener {
+                    showBase64ImageDialog(firstImage, item.requirement)
                 }
             } catch (e: Exception) {
                 b.ivPreview.visibility = View.GONE
-                b.ivPreview1.visibility = View.GONE
-                b.imageGroup.visibility = View.GONE
+                b.ivCardPreview.visibility = View.GONE
+
             }
         } else {
             b.ivPreview.visibility = View.GONE
+            b.ivCardPreview.visibility = View.GONE
+
+        }
+
+        if (!secondImage.isNullOrBlank()) {
+            try {
+                val bytes = Base64.decode(secondImage, Base64.DEFAULT)
+                val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                b.ivPreview1.setImageBitmap(bitmap)
+                b.ivPreview1.visibility = View.VISIBLE
+                b.ivCardPreview1.visibility = View.VISIBLE
+
+                b.ivPreview1.setOnClickListener {
+                    showBase64ImageDialog(secondImage, item.requirement)
+                }
+            } catch (e: Exception) {
+                b.ivPreview1.visibility = View.GONE
+                b.ivCardPreview1.visibility = View.GONE
+
+            }
+        } else {
             b.ivPreview1.visibility = View.GONE
+            b.ivCardPreview1.visibility = View.GONE
+
+        }
+
+        if (firstImage.isNullOrBlank() && secondImage.isNullOrBlank()) {
             b.imageGroup.visibility = View.GONE
         }
     }
+
 
     private fun bindRemarkInput(item: FieldVerificationItem, b: ItemFieldVerCardBinding) {
         if (!item.allowRemark) {
@@ -1152,18 +1360,24 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         }
 
         b.remarkGroup.visibility = View.VISIBLE
-        val current = item.remarkText.orEmpty()
-        if (b.etSectionRemark.text?.toString() != current) b.etSectionRemark.setText(current)
 
+        // Remove old watcher BEFORE setText to avoid spurious callbacks
         removeExistingWatcher(b)
 
-        val watcher = object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                item.remarkText = s?.toString()?.trim()
-            }
+        // Restore saved text without triggering any watcher
+        val saved = item.remarkText.orEmpty()
+        if (b.etSectionRemark.text?.toString() != saved) {
+            b.etSectionRemark.setText(saved)
+        }
 
+        // Attach a new watcher that writes every change straight into the item
+        val watcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                // item is captured by reference — always the live list element
+                item.remarkText = s?.toString()?.trim()
+            }
         }
         b.etSectionRemark.addTextChangedListener(watcher)
         b.etSectionRemark.tag = watcher
@@ -1215,11 +1429,11 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
     private fun handleOrgView(position: Int, doc: String) {
         when {
-            position == 0 && doc == "Date of Incorporation (PRN)" -> showIndustryIncorporationDialog()
-            position == 1 && doc == "View Registration Document" -> showIndustryRegistrationDialog()
-            position == 2 && doc == "EPFO Challan (6 Months)" -> showEpfoChallanDialog()
-            position == 3 && doc == "View" -> showTaxDetailsDialog()
-            position == 4 && doc == "View Account Details" -> showBankDetailsDialog()
+           doc == "Date of Incorporation (PRN)" -> showIndustryIncorporationDialog()
+            doc == "View Registration Document" -> showIndustryRegistrationDialog()
+             doc == "EPFO Challan (6 Months)" -> showEpfoChallanDialog()
+            doc == "View" -> showTaxDetailsDialog()
+           doc == "View Account Details" -> showBankDetailsDialog()
         }
     }
 
@@ -1229,7 +1443,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 resources.getString(R.string.fin_annual_turnover),
                 apiAnnualTurnoverList?.map { it.toYearlyItem() })
 
-            position == 1 && doc == resources.getString(R.string.fin_turnover_button) -> showFinancialDialog(
+            position == 2 && doc == resources.getString(R.string.fin_turnover_button) -> showFinancialDialog(
                 resources.getString(R.string.fin_net_worth),
                 apiNetWorthList?.map { it.toYearlyItem() })
         }
@@ -1237,50 +1451,50 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
     private fun handleTrainingView(position: Int, doc: String) {
         when {
-            position == 0 && doc == resources.getString(R.string.train_target_button) -> showTrainingDialog(
+             doc == resources.getString(R.string.train_target_button) -> showTrainingDialog(
                 "Training Details", apiTrainingCriteriaList?.map { it.toYearlyTrainingItem() })
 
-            position == 1 && doc == resources.getString(R.string.train_hour_button) -> showTrainingHoursDialog(
+           doc == resources.getString(R.string.train_hour_button) -> showTrainingHoursDialog(
                 "Training Hours", apiTotalTrainingHoursRemarks
             )
 
-            position == 3 && doc == resources.getString(R.string.train_NSQF_course_button) -> showDocumentDialog(
+             doc == resources.getString(R.string.train_NSQF_course_button) -> showDocumentDialog(
                 "Basic Training", apiBasicSelfDeclarationBase64, doc
             )
 
-            position == 4 && doc == resources.getString(R.string.train_commitment1_button) -> showDocumentDialog(
+             doc == resources.getString(R.string.train_commitment1_button) -> showDocumentDialog(
                 "Captive Employers Commitment", apiCommitmentForm1Base64, doc
             )
 
-            position == 4 && doc == resources.getString(R.string.train_commitment2_button) -> showDocumentDialog(
+             doc == resources.getString(R.string.train_commitment2_button) -> showDocumentDialog(
                 "Captive Employers Commitment", apiCommitmentForm2Base64, doc
             )
 
-            position == 5 && doc == resources.getString(R.string.train_tailor_button) -> showDocumentDialog(
+              doc == resources.getString(R.string.train_tailor_button) -> showDocumentDialog(
                 "Tailor Training Doc", apiTailorTrainingDocBase64, doc
             )
 
-            position == 6 && doc == resources.getString(R.string.train_domain1_button) -> showDocumentDialog(
+            doc == resources.getString(R.string.train_domain1_button) -> showDocumentDialog(
                 "Domain Specific Training", apiDomainForm1Base64, doc
             )
 
-            position == 6 && doc == resources.getString(R.string.train_domain2_button) -> showDocumentDialog(
+           doc == resources.getString(R.string.train_domain2_button) -> showDocumentDialog(
                 "Domain Specific Training", apiDomainForm2Base64, doc
             )
         }
     }
 
     private fun handleTrainingInfraView(position: Int, doc: String) {
-        if (position == 1 && doc == "View Residential Facilities") showResidentialFacilitiesDialog()
+        if ( doc == "View Residential Facilities") showResidentialFacilitiesDialog()
     }
 
     private fun handleCertView(position: Int, doc: String) {
         when {
-            position == 0 && doc == "Form 4" -> showDocumentDialog(
+            doc == "Form 4" -> showDocumentDialog(
                 "Awarding Body", apiAwardBodyCommitBase64, "View Form 4"
             )
 
-            position == 1 && doc == "Form 4" -> showDocumentDialog(
+            doc == "Form 4" -> showDocumentDialog(
                 "Certification for 70% Candidates", apiSeventyPctCommitBase64, "View Form 4"
             )
         }
@@ -1292,15 +1506,15 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 "Placement Details", apiPlacementList
             )
 
-            position == 1 && doc == "Form 1" -> showDocumentDialog(
+            position == 2 && doc == "Form 1" -> showDocumentDialog(
                 "Six Months", apiCommitmentSixMonthsBase64, "View Form 1"
             )
 
-            position == 2 && doc == "Form 1" -> showDocumentDialog(
+            position == 3 && doc == "Form 1" -> showDocumentDialog(
                 "Commitment Less than Six Months", apiCommitmentLessSixMonthsBase64, "View Form 1"
             )
 
-            position == 3 && doc == "Form 1" -> showDocumentDialog(
+            position == 4 && doc == "Form 1" -> showDocumentDialog(
                 "Commitment Greater than Six Months",
                 apiCommitmentMoreSixMonthsBase64,
                 "View Form 1"
@@ -1386,6 +1600,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                     apiTailorTrainingDocBase64 = training?.trainingPlacement?.tailorTrainingDoc
                     apiDomainForm1Base64 = training?.domainSpecificTraining?.form1
                     apiDomainForm2Base64 = training?.domainSpecificTraining?.form2
+                    trainingItems = buildTrainingItems()
                     updateRecyclerViewData(binding.recyclerViewTraining.id, trainingItems)
                 } catch (e: Exception) {
                     showErrorToast(
@@ -1667,7 +1882,9 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             remarkText = existing.remarkText
         )
 
-        updateRecyclerViewData(recyclerViewId, items)
+       // updateRecyclerViewData(recyclerViewId, items)
+        notifyRecyclerItemChanged<FieldVerificationItem>(recyclerViewId, position)
+
     }
 
     private fun syncRecyclerRemarks(
@@ -1686,6 +1903,13 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             }
         }
     }
+
+//    private fun syncRecyclerRemarks(
+//        recyclerView: RecyclerView,
+//
+//    ) {
+//        recyclerView.findFocus()?.clearFocus()
+//    }
 
 
     // ── Label resolvers per section ──────────────────────────
@@ -1745,6 +1969,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     private fun resolvePlacementLabel(id: String) = when (id) {
         AttachmentLabel.PLACEMENT_DETAILS -> AttachmentLabel.PLACEMENT_DETAILS
         AttachmentLabel.PLACEMENT_COMMITMENT -> AttachmentLabel.PLACEMENT_COMMITMENT
+        AttachmentLabel.PLACEMENT_OWN_ENTITY -> AttachmentLabel.PLACEMENT_OWN_ENTITY
         else -> id
     }
 
@@ -1752,16 +1977,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     //  Officer verification flow
     // ─────────────────────────────────────────────────────────
 
-    private fun showOfficerVerificationDialog() {
-        AlertDialog.Builder(requireContext()).setTitle("Officer Verification")
-            .setMessage("Please capture selfie and verify current location before starting field verification.")
-            .setCancelable(false).setPositiveButton("Capture Selfie") { _, _ ->
-                currentUploadList = SectionTag.OFFICER_SELFIE
-                currentUploadPosition = 0
-                currentPhotoTarget = SectionTag.OFFICER_SELFIE
-                checkAndLaunchCamera()
-            }.show()
-    }
+
 
     private fun startOfficerVerificationFlow() {
         if (hasLocationPermission()) getOfficerCurrentLocation() else requestLocationPermission()
@@ -2147,38 +2363,26 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         return results[0]
     }
 
+
     private fun validateSectionItems(
-        recyclerView: RecyclerView, items: MutableList<FieldVerificationItem>
+        recyclerView: RecyclerView,
+        items: MutableList<FieldVerificationItem>
     ): Boolean {
         commitFocusedEditText()
-
-        syncRecyclerRemarks(recyclerView, items)
-
+        syncRecyclerRemarks(recyclerView,items)
         val uploadItems = items.filter { it.uploadEnabled }
 
         uploadItems.forEach { item ->
-
             if (item.isAttachmentMandatory && item.attachments.isEmpty()) {
-
-                showToast(
-                    "Please upload document for ${item.requirement}"
-                )
-
+                showToast("Please upload document for ${item.requirement}")
                 return false
             }
-
             if (item.allowRemark && item.remarkText?.trim().isNullOrEmpty()) {
-
-                showToast(
-                    "Please enter remark for ${item.requirement}"
-                )
-
+                showToast("Please enter remark for ${item.requirement}")
                 return false
             }
         }
-
         return true
-
     }
 
 
@@ -2296,33 +2500,6 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             resources.getString(R.string.field_ver_valid_govt_note_doc),
             listOf("Date of Incorporation (PRN)")
         ),
-        viewItem(
-            resources.getString(R.string.field_ver_valid_epfo_esic_doc),
-            resources.getString(R.string.field_ver_valid_epfo_esic_note_doc),
-            listOf("View Registration Document")
-        ),
-        viewItem(
-            resources.getString(R.string.field_ver_epfo_challan_doc),
-            resources.getString(R.string.field_ver_valid_epfo_challan_note_doc),
-            listOf("EPFO Challan (6 Months)")
-        ),
-        viewItem(
-            resources.getString(R.string.field_ver_valid_industry_doc),
-            resources.getString(R.string.field_ver_valid_industry_note_doc),
-            listOf("View")
-        ),
-        viewItem(
-            resources.getString(R.string.field_ver_valid_bank_doc),
-            resources.getString(R.string.field_ver_valid_bank_note_doc),
-            listOf("View Account Details")
-        ),
-        uploadItem(
-            AttachmentLabel.ORG_EXISTENCE,
-            "Industry Existence Verification",
-            "Upload proof of industry existence verification document.",
-            "Upload Industry Existence Document",
-            "Organization"
-        ),
         uploadItem(
             AttachmentLabel.ORG_REGISTRATION,
             "Industry Registration Verification",
@@ -2331,11 +2508,34 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             "Organization"
         ),
         uploadItem(
+            AttachmentLabel.ORG_EXISTENCE,
+            "Industry Existence Verification",
+            "Upload proof of industry existence verification document.",
+            "Upload Industry Existence Document",
+            "Organization"
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_valid_epfo_esic_doc),
+            resources.getString(R.string.field_ver_valid_epfo_esic_note_doc),
+            listOf("View Registration Document")
+        ),
+        uploadItem(
             AttachmentLabel.ORG_EPFO,
             "EPFO Challan Verification",
             "Upload EPFO challan verification document.",
             "Upload EPFO Challan",
             "Organization"
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_epfo_challan_doc),
+            resources.getString(R.string.field_ver_valid_epfo_challan_note_doc),
+            listOf("EPFO Challan (6 Months)")
+        ),
+
+        viewItem(
+            resources.getString(R.string.field_ver_valid_industry_doc),
+            resources.getString(R.string.field_ver_valid_industry_note_doc),
+            listOf("View")
         ),
         uploadItem(
             AttachmentLabel.ORG_TAX,
@@ -2343,6 +2543,11 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             "Upload GST and TAN verification document.",
             "Upload Tax Verification Document",
             "Organization"
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_valid_bank_doc),
+            resources.getString(R.string.field_ver_valid_bank_note_doc),
+            listOf("View Account Details")
         ),
         uploadItem(
             AttachmentLabel.ORG_BANK,
@@ -2366,17 +2571,17 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             resources.getString(R.string.field_ver_industry_turnover_note_fin),
             listOf(resources.getString(R.string.fin_balance_sheet_button))
         ),
-        viewItem(
-            resources.getString(R.string.field_ver_industry_networth_fin),
-            resources.getString(R.string.field_ver_industry_networth_note_fin),
-            listOf(resources.getString(R.string.fin_turnover_button))
-        ),
         uploadItem(
             AttachmentLabel.FIN_TURNOVER,
             "Annual Turnover Self Declaration",
             "Verify the submitted self declaration document for annual turnover details.",
             "upload Annual Turnover Self Declaration",
             "Finance"
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_industry_networth_fin),
+            resources.getString(R.string.field_ver_industry_networth_note_fin),
+            listOf(resources.getString(R.string.fin_turnover_button))
         ),
         uploadItem(
             AttachmentLabel.FIN_NETWORTH,
@@ -2393,16 +2598,42 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             resources.getString(R.string.field_ver_exp_note_training),
             listOf(resources.getString(R.string.train_target_button))
         ),
+        uploadItem(
+            AttachmentLabel.TRAIN_CRITERIA,
+            "Training Criteria Verification",
+            "Verify the submitted self declaration document for training criteria details.",
+            "Upload Training Criteria Self Declaration",
+            "Training"
+        ),
+        uploadItem(
+            AttachmentLabel.TRAIN_PLACEMENT,
+            "Training and Placement Verification",
+            "Verify the submitted self declaration document for training and placement records.",
+            "Upload Training Placement Self Declaration",
+            "Training"
+        ),
         FieldVerificationItem(
-            id = "FIN_TURNOVER",
+            id = "",
             requirement = resources.getString(R.string.field_ver_hrs_training),
             verificationDoc = resources.getString(R.string.field_ver_hrs_note_training),
             documents = listOf(resources.getString(R.string.train_hour_button)),
             uploadEnabled = false,
             allowRemark = false
         ),
+        uploadItem(
+            AttachmentLabel.TRAIN_HOURS,
+            "Total Training Hours Verification",
+            "Verify the submitted self declaration document for total training hours.",
+            "Upload Total Training Hours Self Declaration",
+            "Training"
+        ),
+        viewItem(
+            resources.getString(R.string.field_ver_nsqf_courses_training),
+            resources.getString(R.string.field_ver_nsqf_courses_note_training),
+            listOf(resources.getString(R.string.train_NSQF_course_button))
+        ),
         FieldVerificationItem(
-            id = "FIN_NETWORTH",
+            id = "",
             requirement = resources.getString(R.string.field_ver_course_content_training),
             verificationDoc = if (repetitionClubbingIfraNsqf.equals(
                     "Y", ignoreCase = true
@@ -2412,11 +2643,14 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             uploadEnabled = false,
             allowRemark = false
         ),
-        viewItem(
-            resources.getString(R.string.field_ver_nsqf_courses_training),
-            resources.getString(R.string.field_ver_nsqf_courses_note_training),
-            listOf(resources.getString(R.string.train_NSQF_course_button))
+        uploadItem(
+            AttachmentLabel.TRAIN_NSQF,
+            "Repetition Clubbing and NSQF Verification",
+            "Verify the submitted self declaration document for repetition clubbing and NSQF compliance.",
+            "Upload Repetition Clubbing NSQF Self Declaration",
+            "Training"
         ),
+
         viewItem(
             resources.getString(R.string.field_ver_500_cand_training),
             resources.getString(R.string.field_ver_500_cand_note_training),
@@ -2425,6 +2659,14 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 resources.getString(R.string.train_commitment2_button)
             )
         ),
+        uploadItem(
+            AttachmentLabel.TRAIN_BASIC,
+            "Basic Training Verification",
+            "Verify the submitted self declaration document for basic training details.",
+            "Upload Basic Training Self Declaration",
+            "Training"
+        ),
+
         viewItem(
             resources.getString(R.string.field_ver_job_training),
             resources.getString(R.string.field_ver_job_note_training),
@@ -2439,31 +2681,10 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             )
         ),
         uploadItem(
-            AttachmentLabel.TRAIN_CRITERIA,
-            "Training Criteria Verification",
-            "Verify the submitted self declaration document for training criteria details.",
-            "Upload Training Criteria Self Declaration",
-            "Training"
-        ),
-        uploadItem(
-            AttachmentLabel.TRAIN_HOURS,
-            "Total Training Hours Verification",
-            "Verify the submitted self declaration document for total training hours.",
-            "Upload Total Training Hours Self Declaration",
-            "Training"
-        ),
-        uploadItem(
-            AttachmentLabel.TRAIN_NSQF,
-            "Repetition Clubbing and NSQF Verification",
-            "Verify the submitted self declaration document for repetition clubbing and NSQF compliance.",
-            "Upload Repetition Clubbing NSQF Self Declaration",
-            "Training"
-        ),
-        uploadItem(
-            AttachmentLabel.TRAIN_BASIC,
-            "Basic Training Verification",
-            "Verify the submitted self declaration document for basic training details.",
-            "Upload Basic Training Self Declaration",
+            AttachmentLabel.TRAIN_DOMAIN,
+            "Domain Specific Training Verification",
+            "Verify the submitted self declaration document for domain specific training details.",
+            "Upload Domain Specific Training Self Declaration",
             "Training"
         ),
         uploadItem(
@@ -2473,20 +2694,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             "Upload Commitment Self Declaration",
             "Training"
         ),
-        uploadItem(
-            AttachmentLabel.TRAIN_PLACEMENT,
-            "Training and Placement Verification",
-            "Verify the submitted self declaration document for training and placement records.",
-            "Upload Training Placement Self Declaration",
-            "Training"
-        ),
-        uploadItem(
-            AttachmentLabel.TRAIN_DOMAIN,
-            "Domain Specific Training Verification",
-            "Verify the submitted self declaration document for domain specific training details.",
-            "Upload Domain Specific Training Self Declaration",
-            "Training"
-        ),
+
         FieldVerificationItem(
             id = AttachmentLabel.TC_Latitude,
             requirement = "Training Centre Latitude",
@@ -2526,6 +2734,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             "Upload Certification Self Declaration",
             "Certification"
         ),
+
     )
 
     private fun buildPlacementItems(): MutableList<FieldVerificationItem> = mutableListOf(
@@ -2533,6 +2742,13 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             resources.getString(R.string.field_ver_500_empl_placement),
             resources.getString(R.string.field_ver_empl_note_placement),
             listOf("View Employment Details")
+        ),
+        uploadItem(
+            AttachmentLabel.PLACEMENT_DETAILS,
+            "Placement Details Verification",
+            "Verify the submitted self declaration document for placement details.",
+            "Upload Placement Details Self Declaration",
+            "Placement"
         ),
         viewItem(
             resources.getString(R.string.field_ver_70_per_cand_placement),
@@ -2550,25 +2766,20 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             listOf("Form 1")
         ),
         uploadItem(
-            AttachmentLabel.PLACEMENT_DETAILS,
-            "Placement Details Verification",
-            "Verify the submitted self declaration document for placement details.",
-            "Upload Placement Details Self Declaration",
-            "Placement"
-        ),
-        uploadItem(
             AttachmentLabel.PLACEMENT_COMMITMENT,
             "Placement Commitment Verification",
             "Verify the submitted self declaration document for placement commitment.",
             "Upload Commitment Self Declaration",
             "Placement"
         ),
+        uploadItem(
+            AttachmentLabel.PLACEMENT_OWN_ENTITY,
+            "Own Entity Declaration",
+            "Verify the submitted self declaration for own entity placement.",
+            "Upload Own Entity Declaration",
+            "Placement"
+        ),
     )
-
-
-
-
-
 
     fun buildTrainingInfraItems(): MutableList<FieldVerificationItem> = mutableListOf(
         uploadItem(
@@ -2683,6 +2894,11 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     //  Dialogs
     // ─────────────────────────────────────────────────────────
 
+    // ─────────────────────────────────────────────────────────────────
+//  Drop-in replacement — same function signatures, same logic,
+//  redesigned internal UI: card rows, section chips, copy-on-tap.
+// ─────────────────────────────────────────────────────────────────
+
     private fun showIndustryIncorporationDialog() {
         val message = buildString {
             appendLine("📅 Date of Incorporation")
@@ -2694,9 +2910,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
         val actions = buildList {
             if (!factoryRegistrationAttachment.isNullOrBlank()) add(DialogAction("View Factory Registration") {
-                openBase64Pdf(
-                    apiEpfoAttachmentBase64!!
-                )
+                openBase64PdfN(apiEpfoAttachmentBase64!!)
             })
         }
         showInfoDialog("Industry Incorporation", message, actions)
@@ -2711,32 +2925,23 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
         val actions = buildList {
             if (!apiEpfoAttachmentBase64.isNullOrBlank()) add(DialogAction("View EPFO") {
-                openBase64Pdf(
-                    apiEpfoAttachmentBase64!!
-                )
+                openBase64PdfN(apiEpfoAttachmentBase64!!)
             })
             if (!apiEsicAttachmentBase64.isNullOrBlank()) add(DialogAction("View ESIC") {
-                openBase64Pdf(
-                    apiEsicAttachmentBase64!!
-                )
+                openBase64PdfN(apiEsicAttachmentBase64!!)
             })
             if (!apiFactoryAttachmentBase64.isNullOrBlank()) add(DialogAction("View Factory") {
-                openBase64Pdf(
-                    apiFactoryAttachmentBase64!!
-                )
+                openBase64PdfN(apiFactoryAttachmentBase64!!)
             })
         }
         showInfoDialog("Industry Registration", message, actions)
     }
 
     private fun showEpfoChallanDialog() {
-        val message =
-            "Existing staff registered in EPFO: ${apiEpfoExistingStaff ?: "Not Available"}"
+        val message = "Existing staff registered in EPFO: ${apiEpfoExistingStaff ?: "Not Available"}"
         val actions = buildList {
             if (!apiEpfoDocumentUrl.isNullOrBlank()) add(DialogAction("View EPFO Challan") {
-                openBase64Pdf(
-                    apiEpfoDocumentUrl!!
-                )
+                openBase64PdfN(apiEpfoDocumentUrl!!)
             })
         }
         showInfoDialog("EPFO Challan (Last 6 Months)", message, actions)
@@ -2749,9 +2954,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         }.trim()
         val actions = buildList {
             if (!apiTanAttachmentBase64.isNullOrBlank()) add(DialogAction("View TAN") {
-                openBase64Pdf(
-                    apiTanAttachmentBase64!!
-                )
+                openBase64PdfN(apiTanAttachmentBase64!!)
             })
         }
         showInfoDialog("Tax Details", message, actions)
@@ -2764,19 +2967,13 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         }.trim()
         val actions = buildList {
             if (!apiBankLetterBase64.isNullOrBlank()) add(DialogAction("View BankLetter") {
-                openBase64Pdf(
-                    apiBankLetterBase64!!
-                )
+                openBase64PdfN(apiBankLetterBase64!!)
             })
             if (!apiSelfDeclarationBase64.isNullOrBlank()) add(DialogAction("View SelfDeclaration") {
-                openBase64Pdf(
-                    apiSelfDeclarationBase64!!
-                )
+                openBase64PdfN(apiSelfDeclarationBase64!!)
             })
             if (!apiBankAccountPassbook.isNullOrBlank()) add(DialogAction("View Passbook") {
-                openBase64Pdf(
-                    apiBankAccountPassbook!!
-                )
+                openBase64PdfN(apiBankAccountPassbook!!)
             })
         }
         showInfoDialog("Bank Details", message, actions)
@@ -2786,7 +2983,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         val message = "Residential Facility Available: ${apiResidentialFacilityAvailable ?: "—"}"
         if (!apiResidentialFacilityDocumentBase64.isNullOrBlank()) {
             val actions = listOf(DialogAction("Residential Facilities") {
-                openBase64Pdf(apiResidentialFacilityDocumentBase64!!)
+                openBase64PdfN(apiResidentialFacilityDocumentBase64!!)
             })
             showInfoDialog("Residential Facilities", message, actions)
         } else {
@@ -2796,65 +2993,143 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
     private fun showDocumentDialog(title: String, base64: String?, buttonText: String) {
         if (!base64.isNullOrBlank()) {
-            showInfoDialog(title, "", listOf(DialogAction(buttonText) { openBase64Pdf(base64) }))
+            showInfoDialog(title, "", listOf(DialogAction(buttonText) { openBase64PdfN(base64) }))
         } else {
             showToast(getString(R.string.no_file_to_view))
         }
     }
 
     private fun showFinancialDialog(title: String, list: List<YearlyFinancialItem>?) {
-        if (list.isNullOrEmpty()) {
-            showToast("No $title data found"); return
+        if (list.isNullOrEmpty()) { showToast("No $title data found"); return }
+
+        showListDialog(title) { rv ->
+            setupRecyclerView(
+                recyclerView = rv,
+                items = list,
+                layoutManager = LinearLayoutManager(requireContext()),
+                bindingInflater = ItemFinancialRowBinding::inflate,
+                onBind = { item, b, _ ->
+                    b.tvYear.text = item.year ?: "-"
+                    b.tvAmount.text = formatAmount(item.amount)
+                    b.btnView.visibility =
+                        if (!item.attachmentBase64.isNullOrBlank()) View.VISIBLE else View.GONE
+                    b.btnView.setOnClickListener { openBase64PdfN(item.attachmentBase64!!) }
+                },
+                noDataConfig = NoDataConfig("No Data Available", "No financial records found")
+            )
         }
-        val dialogView = layoutInflater.inflate(R.layout.dialog_simple_list, null)
-        dialogView.findViewById<TextView>(R.id.tvDialogTitle).text = title
-        val rv = dialogView.findViewById<RecyclerView>(R.id.rvDialogList)
-        setupRecyclerView(
-            recyclerView = rv,
-            items = list,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = ItemFinancialRowBinding::inflate,
-            onBind = { item, b, _ ->
-                b.tvYear.text = item.year ?: "-"
-                b.tvAmount.text = formatAmount(item.amount)
-                b.btnView.visibility =
-                    if (!item.attachmentBase64.isNullOrBlank()) View.VISIBLE else View.GONE
-                b.btnView.setOnClickListener { openBase64Pdf(item.attachmentBase64!!) }
-            },
-            noDataConfig = NoDataConfig("No Data Available", "No financial records found")
-        )
-        AlertDialog.Builder(requireContext()).setView(dialogView)
-            .setNegativeButton(resources.getString(R.string.close), null).show()
+    }
+
+    private fun showListDialog(
+        title: String,
+        bindRecycler: (RecyclerView) -> Unit
+    ) {
+        val ctx = requireContext()
+        val dp  = ctx.resources.displayMetrics.density
+        fun Int.dp() = (this * dp).toInt()
+
+        val accentColor  = runCatching {
+            ContextCompat.getColor(ctx, R.color.color_dark_blue)
+        }.getOrElse { ContextCompat.getColor(ctx, android.R.color.holo_blue_dark) }
+
+        val surfaceColor = Color.parseColor("#FFFFFF")
+        val dividerColor = Color.parseColor("#EEF0F4")
+        val valueColor   = Color.parseColor("#111827")
+
+        // ── Title bar ─────────────────────────────────────────────────
+        val titleBar = LinearLayout(ctx).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity     = android.view.Gravity.CENTER_VERTICAL
+            setPadding(20.dp(), 18.dp(), 20.dp(), 14.dp())
+        }
+        titleBar.addView(View(ctx).apply {
+            background = buildRoundRect(dp, accentColor, 3f)
+            layoutParams = LinearLayout.LayoutParams(4.dp(), 22.dp()).apply { marginEnd = 12.dp() }
+        })
+        titleBar.addView(TextView(ctx).apply {
+            text      = title
+            setTextColor(valueColor)
+            textSize  = 17f
+            typeface  = android.graphics.Typeface.DEFAULT_BOLD
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        })
+
+        // ── RecyclerView ──────────────────────────────────────────────
+        val rv = RecyclerView(ctx).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { setMargins(0, 4.dp(), 0, 8.dp()) }
+            overScrollMode = View.OVER_SCROLL_NEVER
+        }
+        bindRecycler(rv)   // ← caller's original bind logic, unchanged
+
+        // ── Scroll wrapper ────────────────────────────────────────────
+        val scroll = ScrollView(ctx).apply {
+            isVerticalScrollBarEnabled = false
+            addView(rv)
+        }
+
+        // ── Outer card ────────────────────────────────────────────────
+        val fullView = LinearLayout(ctx).apply {
+            orientation = LinearLayout.VERTICAL
+            background  = GradientDrawable().apply {
+                setColor(surfaceColor)
+                cornerRadius = 18.dp().toFloat()
+            }
+        }
+        fullView.addView(titleBar)
+        fullView.addView(View(ctx).apply {           // title divider
+            setBackgroundColor(dividerColor)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1)
+        })
+        fullView.addView(scroll)
+
+        // ── Build & show ──────────────────────────────────────────────
+        val dialog = AlertDialog.Builder(ctx)
+            .setView(fullView)
+            .setNegativeButton(resources.getString(R.string.close), null)
+            .create()
+            .also { d ->
+                d.window?.setBackgroundDrawable(
+                    android.graphics.drawable.ColorDrawable(Color.TRANSPARENT)
+                )
+            }
+        dialog.show()
+
+        // Cap scroll at 75 % screen height
+        dialog.window?.decorView?.post {
+            val maxH = (ctx.resources.displayMetrics.heightPixels * 0.75f).toInt()
+            if (scroll.height > maxH) {
+                scroll.layoutParams = FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, maxH
+                )
+            }
+        }
     }
 
     private fun showTrainingDialog(title: String, list: List<YearlyTrainingItem>?) {
-        if (list.isNullOrEmpty()) {
-            showToast("No $title data found"); return
+        if (list.isNullOrEmpty()) { showToast("No $title data found"); return }
+
+        showListDialog(title) { rv ->
+            setupRecyclerView(
+                recyclerView = rv,
+                items = list,
+                layoutManager = LinearLayoutManager(requireContext()),
+                bindingInflater = { inflater, parent, _ ->
+                    ItemTrainingRowBinding.inflate(inflater, parent, false)
+                },
+                onBind = { item, b, _ ->
+                    b.tvYear.text = item.year ?: "-"
+                    b.tvAllocated.text = "Allocated: ${formatNumber(item.targetAllocated)}"
+                    b.tvAchieved.text = "Achieved: ${formatNumber(item.targetAchieved)}"
+                    b.btnView.visibility =
+                        if (!item.attachmentBase64.isNullOrBlank()) View.VISIBLE else View.GONE
+                    b.btnView.setOnClickListener { openBase64PdfN(item.attachmentBase64!!) }
+                },
+                noDataConfig = NoDataConfig("No Data Available", "No training records found")
+            )
         }
-        val dialogView = layoutInflater.inflate(R.layout.dialog_simple_list, null)
-        dialogView.findViewById<TextView>(R.id.tvDialogTitle).text = title
-        val rv = dialogView.findViewById<RecyclerView>(R.id.rvDialogList)
-        setupRecyclerView(
-            recyclerView = rv,
-            items = list,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = { inflater, parent, _ ->
-                ItemTrainingRowBinding.inflate(
-                    inflater, parent, false
-                )
-            },
-            onBind = { item, b, _ ->
-                b.tvYear.text = item.year ?: "-"
-                b.tvAllocated.text = "Allocated: ${formatNumber(item.targetAllocated)}"
-                b.tvAchieved.text = "Achieved: ${formatNumber(item.targetAchieved)}"
-                b.btnView.visibility =
-                    if (!item.attachmentBase64.isNullOrBlank()) View.VISIBLE else View.GONE
-                b.btnView.setOnClickListener { openBase64Pdf(item.attachmentBase64!!) }
-            },
-            noDataConfig = NoDataConfig("No Data Available", "No training records found")
-        )
-        AlertDialog.Builder(requireContext()).setView(dialogView).setNegativeButton("Close", null)
-            .show()
     }
 
     private fun showTrainingHoursDialog(title: String, items: List<TotalTrainingHoursRemark>?) {
@@ -2871,119 +3146,335 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         }.trim()
         val actions = buildList {
             items.forEachIndexed { index, item ->
-                if (!item.commencement_certificate.isNullOrBlank()) add(DialogAction("📄 View Certificate ${index + 1}") {
-                    openBase64Pdf(
-                        item.commencement_certificate
-                    )
-                })
+                if (!item.commencement_certificate.isNullOrBlank())
+                    add(DialogAction("📄 View Certificate ${index + 1}") {
+                        openBase64PdfN(item.commencement_certificate)
+                    })
             }
         }
         showInfoDialog(title, message, actions)
     }
 
     private fun showPlacementDialog(title: String, list: List<YearlyPlacementDetails>?) {
-        if (list.isNullOrEmpty()) {
-            showToast("No Placement data found"); return
-        }
-        val dialogView = layoutInflater.inflate(R.layout.dialog_simple_list, null)
-        dialogView.findViewById<TextView>(R.id.tvDialogTitle).text = title
-        val rv = dialogView.findViewById<RecyclerView>(R.id.rvDialogList)
-        setupRecyclerView(
-            recyclerView = rv,
-            items = list,
-            layoutManager = LinearLayoutManager(requireContext()),
-            bindingInflater = { inflater, parent, _ ->
-                ItemPlacementRowBinding.inflate(
-                    inflater, parent, false
-                )
-            },
-            onBind = { item, b, _ ->
-                b.tvYear.text = boldLabel("Year:", item.year ?: "-")
-                b.tvCandidatePlaced.text =
-                    boldLabel("Candidates Placed:", item.candidatePlaced.toString())
-                b.tvSanctionOrder.text =
-                    boldLabel("Sanction Order:", item.sanctionOrderId.toString())
-                b.tvEsicNumber.text = boldLabel("ESIC No:", item.esicNumber.toString())
-                b.tvEpfoNumber.text = boldLabel("EPFO No:", item.epfoNumber.toString())
-                b.btnView.visibility =
-                    if (!item.proofDocument.isNullOrBlank()) View.VISIBLE else View.GONE
-                b.btnView.setOnClickListener { openBase64Pdf(item.proofDocument!!) }
-            },
-            noDataConfig = NoDataConfig("No Data Available", "No placement records found")
-        )
-        AlertDialog.Builder(requireContext()).setView(dialogView)
-            .setNegativeButton(resources.getString(R.string.close), null).show()
-    }
+        if (list.isNullOrEmpty()) { showToast("No Placement data found"); return }
 
-    private fun showInfoDialog(title: String, message: String, actions: List<DialogAction>) {
-        val ctx = requireContext()
-        val dp = ctx.resources.displayMetrics.density
-
-        val container = LinearLayout(ctx).apply {
-            orientation = LinearLayout.VERTICAL
-            val pad = (14 * dp).toInt()
-            setPadding(pad, pad, pad, (12 * dp).toInt())
-            layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        showListDialog(title) { rv ->
+            setupRecyclerView(
+                recyclerView = rv,
+                items = list,
+                layoutManager = LinearLayoutManager(requireContext()),
+                bindingInflater = { inflater, parent, _ ->
+                    ItemPlacementRowBinding.inflate(inflater, parent, false)
+                },
+                onBind = { item, b, _ ->
+                    b.tvYear.text = boldLabel("Year:", item.year ?: "-")
+                    b.tvCandidatePlaced.text = boldLabel("Candidates Placed:", item.candidatePlaced.toString())
+                    b.tvSanctionOrder.text = boldLabel("Sanction Order:", item.sanctionOrderId.toString())
+                    b.tvEsicNumber.text = boldLabel("ESIC No:", item.esicNumber.toString())
+                    b.tvEpfoNumber.text = boldLabel("EPFO No:", item.epfoNumber.toString())
+                    b.btnView.visibility =
+                        if (!item.proofDocument.isNullOrBlank()) View.VISIBLE else View.GONE
+                    b.btnView.setOnClickListener { openBase64PdfN(item.proofDocument!!) }
+                },
+                noDataConfig = NoDataConfig("No Data Available", "No placement records found")
             )
         }
+    }
 
-        if (message.isNotEmpty()) {
-            container.addView(TextView(ctx).apply {
-                text = message
-                setTextColor(ContextCompat.getColor(ctx, android.R.color.black))
-                textSize = 14f
-            })
+
+    // ─────────────────────────────────────────────────────────────────
+//  showInfoDialog  ←  ONLY THIS FUNCTION IS REDESIGNED INTERNALLY
+//  Signature & logic unchanged. All caller code above is identical.
+// ─────────────────────────────────────────────────────────────────
+    private fun showInfoDialog(title: String, message: String, actions: List<DialogAction>) {
+        val ctx = requireContext()
+        val dp  = ctx.resources.displayMetrics.density
+
+        // ── Design tokens ─────────────────────────────────────────────
+        val accentColor = runCatching {
+            ContextCompat.getColor(ctx, R.color.color_dark_blue)
+        }.getOrElse { ContextCompat.getColor(ctx, android.R.color.holo_blue_dark) }
+
+        val surfaceColor = Color.parseColor("#FFFFFF")
+        val dividerColor = Color.parseColor("#EEF0F4")
+        val labelColor   = Color.parseColor("#6B7280")
+        val valueColor   = Color.parseColor("#111827")
+        val chipBg       = ColorUtils.setAlphaComponent(accentColor, 22)
+        val rippleColor  = ColorUtils.setAlphaComponent(accentColor, 55)
+
+        fun Int.dp()   = (this * dp).toInt()
+        fun Float.dp() = (this * dp).toInt()
+
+        // ── Root ──────────────────────────────────────────────────────
+        val scroll = ScrollView(ctx).apply { isVerticalScrollBarEnabled = false }
+        val root   = LinearLayout(ctx).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(0, 4.dp(), 0, 4.dp())
         }
+        scroll.addView(root)
 
-        if (actions.isNotEmpty()) {
-            val strokeColor = runCatching {
-                ContextCompat.getColor(
-                    ctx, R.color.color_dark_blue
-                )
-            }.getOrElse { ContextCompat.getColor(ctx, android.R.color.holo_blue_dark) }
-            val rippleColor = ColorUtils.setAlphaComponent(strokeColor, 80)
-
-            val row = LinearLayout(ctx).apply {
-                orientation = LinearLayout.HORIZONTAL
-                weightSum = actions.size.toFloat()
+        // ── Info card (label / value rows) ────────────────────────────
+        if (message.isNotEmpty()) {
+            val card = LinearLayout(ctx).apply {
+                orientation = LinearLayout.VERTICAL
+                background  = buildCardBackground(dp, surfaceColor, dividerColor)
                 layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-                ).apply { topMargin = (16 * dp).toInt() }
+                ).apply { setMargins(16.dp(), 8.dp(), 16.dp(), 8.dp()) }
             }
 
-            var dialog: AlertDialog? = null
+            val rows = parseDialogRows(message.lines().filter { it.isNotBlank() })
+
+            rows.forEachIndexed { idx, (label, value) ->
+                if (idx > 0) {
+                    card.addView(View(ctx).apply {
+                        setBackgroundColor(dividerColor)
+                        layoutParams = LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT, 1
+                        ).apply { setMargins(16.dp(), 0, 16.dp(), 0) }
+                    })
+                }
+
+                val row = LinearLayout(ctx).apply {
+                    orientation = LinearLayout.VERTICAL
+                    setPadding(16.dp(), 12.dp(), 16.dp(), 10.dp())
+                    isClickable = true
+                    isFocusable = true
+                    background  = buildRippleBackground(rippleColor)
+                    setOnClickListener {
+                        val cm = ctx.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        cm.setPrimaryClip(ClipData.newPlainText(label, value))
+                        showToast("Copied: $value")
+                    }
+                }
+
+                // Label — uppercase muted
+                if (label.isNotBlank()) {
+                    row.addView(TextView(ctx).apply {
+                        val emojiPrefixes = listOf("📅", "⏳", "🏛️", "🏛", "💳", "📄")
+                        text = emojiPrefixes.fold(label.trim()) { s, p -> s.removePrefix(p) }
+                            .trim().uppercase()
+                        setTextColor(labelColor)
+                        textSize     = 10.5f
+                        typeface     = android.graphics.Typeface.DEFAULT_BOLD
+                        letterSpacing = 0.08f
+                        layoutParams = LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                        ).apply { bottomMargin = 3.dp() }
+                    })
+                }
+
+                // Value
+                row.addView(TextView(ctx).apply {
+                    text = value.trim()
+                    setTextColor(
+                        if (value.trim() in listOf("Not Available", "NA", "—", "N/A", "0"))
+                            labelColor else valueColor
+                    )
+                    textSize     = 14.5f
+                    isSingleLine = false
+                    layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                })
+
+                // "Tap to copy" hint
+                row.addView(TextView(ctx).apply {
+                    text = "Tap to copy"
+                    setTextColor(ColorUtils.setAlphaComponent(labelColor, 120))
+                    textSize = 10f
+                    gravity  = android.view.Gravity.END
+                    layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                    ).apply { topMargin = 3.dp() }
+                })
+
+                card.addView(row)
+            }
+            root.addView(card)
+        }
+
+        // ── Document action buttons ───────────────────────────────────
+        var dialog: AlertDialog? = null
+
+        if (actions.isNotEmpty()) {
+            root.addView(TextView(ctx).apply {
+                text         = "DOCUMENTS"
+                setTextColor(labelColor)
+                textSize     = 10.5f
+                typeface     = android.graphics.Typeface.DEFAULT_BOLD
+                letterSpacing = 0.08f
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply { setMargins(28.dp(), 8.dp(), 28.dp(), 4.dp()) }
+            })
 
             actions.forEach { action ->
-                row.addView(AppCompatButton(ctx).apply {
-                    text = action.label
-                    isAllCaps = false
-                    setTextColor(strokeColor)
-                    layoutParams =
-                        LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-                            .apply {
-                                marginStart = (6 * dp).toInt(); marginEnd = (6 * dp).toInt()
-                            }
-                    minHeight = (44 * dp).toInt()
-                    val pad = (10 * dp).toInt()
-                    setPadding(pad, pad, pad, pad)
-                    background = buildButtonBackground(dp, strokeColor, rippleColor)
-                    stateListAnimator = null
+                val btn = LinearLayout(ctx).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    gravity     = android.view.Gravity.CENTER_VERTICAL
+                    background  = buildActionCardBackground(dp, accentColor, chipBg, rippleColor)
+                    layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                    ).apply { setMargins(16.dp(), 0, 16.dp(), 6.dp()) }
+                    setPadding(16.dp(), 13.dp(), 16.dp(), 13.dp())
+                    isClickable = true
+                    isFocusable = true
                     setOnClickListener { dialog?.dismiss(); action.onClick() }
+                }
+                btn.addView(View(ctx).apply {
+                    background   = buildCircle(accentColor)
+                    layoutParams = LinearLayout.LayoutParams(8.dp(), 8.dp()).apply { marginEnd = 10.dp() }
                 })
+                btn.addView(TextView(ctx).apply {
+                    text         = action.label
+                    setTextColor(accentColor)
+                    textSize     = 13.5f
+                    typeface     = android.graphics.Typeface.DEFAULT_BOLD
+                    layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+                })
+                btn.addView(TextView(ctx).apply {
+                    text     = "›"
+                    setTextColor(accentColor)
+                    textSize = 20f
+                    gravity  = android.view.Gravity.CENTER_VERTICAL
+                })
+                root.addView(btn)
             }
-            container.addView(row)
-
-            dialog = AlertDialog.Builder(ctx).setTitle(title).setView(container)
-                .setNegativeButton(resources.getString(R.string.close), null).create()
-                .also { it.window?.setBackgroundDrawableResource(R.drawable.dialog_background) }
-            dialog.show()
-        } else {
-            AlertDialog.Builder(ctx).setTitle(title).setView(container)
-                .setNegativeButton(resources.getString(R.string.close), null).create()
-                .also { it.window?.setBackgroundDrawableResource(R.drawable.dialog_background) }
-                .show()
         }
+
+        // ── Title bar (accent bar + title text) ───────────────────────
+        val titleBar = LinearLayout(ctx).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity     = android.view.Gravity.CENTER_VERTICAL
+            setPadding(20.dp(), 18.dp(), 20.dp(), 14.dp())
+        }
+        titleBar.addView(View(ctx).apply {
+            background   = buildRoundRect(dp, accentColor, 3f)
+            layoutParams = LinearLayout.LayoutParams(4.dp(), 22.dp()).apply { marginEnd = 12.dp() }
+        })
+        titleBar.addView(TextView(ctx).apply {
+            text         = title
+            setTextColor(valueColor)
+            textSize     = 17f
+            typeface     = android.graphics.Typeface.DEFAULT_BOLD
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        })
+
+        // ── Assemble outer card ───────────────────────────────────────
+        val fullView = LinearLayout(ctx).apply {
+            orientation = LinearLayout.VERTICAL
+            background  = GradientDrawable().apply {
+                setColor(surfaceColor)
+                cornerRadius = 18.dp().toFloat()
+            }
+        }
+        fullView.addView(titleBar)
+        fullView.addView(View(ctx).apply {
+            setBackgroundColor(dividerColor)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1)
+        })
+        root.addView(View(ctx).apply {                      // bottom spacer
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 8.dp())
+        })
+        fullView.addView(scroll)
+
+        // ── Show ──────────────────────────────────────────────────────
+        dialog = AlertDialog.Builder(ctx)
+            .setView(fullView)
+            .setNegativeButton(resources.getString(R.string.close), null)
+            .create()
+            .also { d ->
+                d.window?.setBackgroundDrawable(
+                    android.graphics.drawable.ColorDrawable(Color.TRANSPARENT)
+                )
+            }
+        dialog.show()
+
+        dialog.window?.decorView?.post {
+            val maxH = (ctx.resources.displayMetrics.heightPixels * 0.75f).toInt()
+            if (scroll.height > maxH) {
+                scroll.layoutParams = FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, maxH
+                )
+            }
+        }
+    }
+// ─────────────────────────────────────────────────────────────────
+//  Private drawing helpers  (no external dependency)
+// ─────────────────────────────────────────────────────────────────
+
+    private fun parseDialogRows(lines: List<String>): List<Pair<String, String>> {
+        val result = mutableListOf<Pair<String, String>>()
+        var i = 0
+        while (i < lines.size) {
+            val line = lines[i].trim()
+            when {
+                // "Key: Value" on a single line (not a certificate status line)
+                line.contains(": ") && !line.startsWith("📄") -> {
+                    val split = line.indexOf(": ")
+                    result.add(line.substring(0, split).trim() to line.substring(split + 2).trim())
+                    i++
+                }
+                // Emoji / known-header line followed by an indented value line
+                line.startsWith("📅") || line.startsWith("⏳") ||
+                        line.startsWith("🏛")  || line.startsWith("💳") ||
+                        line.startsWith("📄")  ||
+                        line == "Trade Name"   || line.endsWith("Name")     ||
+                        line.endsWith("Number") || line.endsWith("Duration") ||
+                        line.endsWith("Certificate-") -> {
+                    val value = if (i + 1 < lines.size) lines[i + 1].trim() else ""
+                    result.add(line.trim() to value)
+                    i += 2
+                }
+                // Plain single line — show as value with no label
+                else -> {
+                    result.add("" to line)
+                    i++
+                }
+            }
+        }
+        return result
+    }
+
+    private fun buildCardBackground(dp: Float, surface: Int, border: Int): Drawable =
+        GradientDrawable().apply {
+            setColor(surface)
+            cornerRadius = 12 * dp
+            setStroke((1 * dp).toInt(), border)
+        }
+
+    private fun buildRippleBackground(ripple: Int): Drawable {
+        val content = GradientDrawable().apply { setColor(Color.TRANSPARENT) }
+        val mask    = GradientDrawable().apply { setColor(Color.WHITE) }
+        return RippleDrawable(android.content.res.ColorStateList.valueOf(ripple), content, mask)
+    }
+
+    private fun buildActionCardBackground(dp: Float, stroke: Int, fill: Int, ripple: Int): Drawable {
+        val shape = GradientDrawable().apply {
+            setColor(fill)
+            cornerRadius = 10 * dp
+            setStroke((1 * dp).toInt(), ColorUtils.setAlphaComponent(stroke, 60))
+        }
+        val mask = GradientDrawable().apply { setColor(Color.WHITE); cornerRadius = 10 * dp }
+        return RippleDrawable(android.content.res.ColorStateList.valueOf(ripple), shape, mask)
+    }
+
+    private fun buildCircle(color: Int): Drawable =
+        GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(color) }
+
+    private fun buildRoundRect(dp: Float, color: Int, radius: Float): Drawable =
+        GradientDrawable().apply { setColor(color); cornerRadius = radius * dp }
+
+    // Kept for any legacy references elsewhere in the file
+    private fun buildButtonBackground(dp: Float, stroke: Int, ripple: Int): Drawable {
+        val shape = GradientDrawable().apply {
+            setColor(Color.TRANSPARENT)
+            cornerRadius = 8 * dp
+            setStroke((1.5f * dp).toInt(), stroke)
+        }
+        val mask = GradientDrawable().apply { setColor(Color.WHITE); cornerRadius = 8 * dp }
+        return RippleDrawable(android.content.res.ColorStateList.valueOf(ripple), shape, mask)
     }
 
 
@@ -2997,6 +3488,218 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             "$sectionName ─────────────> Data",
             gson.toJson(collectSectionRemarks(sectionName, list))
         )
+    }
+
+    private fun showOfficerVerificationDialog() {
+        val ctx = requireContext()
+        val dp  = ctx.resources.displayMetrics.density
+        fun Int.dp() = (this * dp).toInt()
+
+        // ── Tokens ────────────────────────────────────────────────────
+        val accentColor  = runCatching { ContextCompat.getColor(ctx, R.color.color_dark_blue)}.getOrElse { ContextCompat.getColor(ctx, android.R.color.holo_blue_dark) }
+
+        val surfaceColor = Color.parseColor("#FFFFFF")
+        val dividerColor = Color.parseColor("#EEF0F4")
+        val valueColor   = Color.parseColor("#111827")
+        val bodyColor    = Color.parseColor("#374151")
+        val rippleBlue   = ColorUtils.setAlphaComponent(accentColor, 55)
+
+        // ── Title bar ─────────────────────────────────────────────────
+        val titleBar = LinearLayout(ctx).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity     = android.view.Gravity.CENTER_VERTICAL
+            setPadding(20.dp(), 18.dp(), 20.dp(), 14.dp())
+        }
+        titleBar.addView(View(ctx).apply {
+            background   = buildRoundRect(dp, accentColor, 3f)
+            layoutParams = LinearLayout.LayoutParams(4.dp(), 22.dp()).apply { marginEnd = 12.dp() }
+        })
+        titleBar.addView(TextView(ctx).apply {
+            text         = "Officer Verification"
+            setTextColor(valueColor)
+            textSize     = 16f
+            typeface     = android.graphics.Typeface.DEFAULT_BOLD
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        })
+
+        // ── Info card ─────────────────────────────────────────────────
+        val infoCard = LinearLayout(ctx).apply {
+            orientation = LinearLayout.VERTICAL
+            background  = GradientDrawable().apply {
+                setColor(Color.parseColor("#F0F5FF"))   // faint blue tint — info state
+                cornerRadius = 10.dp().toFloat()
+                setStroke(1.dp(), Color.parseColor("#C7D9F5"))
+            }
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { setMargins(16.dp(), 0, 16.dp(), 8.dp()) }
+            setPadding(14.dp(), 14.dp(), 14.dp(), 14.dp())
+        }
+
+        // Step rows
+        val steps = listOf(
+            "Capture your selfie to continue verification.",
+            "Your current location coordinates will be captured together with the selfie.")
+        steps.forEachIndexed { index, text ->
+            if (index > 0) {
+                infoCard.addView(View(ctx).apply {
+                    setBackgroundColor(Color.parseColor("#DDE8F5"))
+                    layoutParams = LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, 1
+                    ).apply { setMargins(0, 8.dp(), 0, 8.dp()) }
+                })
+            }
+            val stepRow = LinearLayout(ctx).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity     = android.view.Gravity.CENTER_VERTICAL
+            }
+            stepRow.addView(TextView(ctx).apply {
+                textSize     = 16f
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply { marginEnd = 10.dp() }
+            })
+            stepRow.addView(TextView(ctx).apply {
+                this.text    = text
+                setTextColor(bodyColor)
+                textSize     = 13f
+                isSingleLine = false
+                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            })
+            infoCard.addView(stepRow)
+        }
+
+        // ── Action button ─────────────────────────────────────────────
+        var dialog: AlertDialog? = null
+
+        val btnCapture = buildDialogButton(
+            ctx, dp, "Capture Selfie",
+            textColor  = Color.WHITE,
+            background = buildFilledButtonBg(dp, accentColor, rippleBlue),
+            weight     = 1f
+        ).apply {
+            setOnClickListener {
+                dialog?.dismiss()
+                // ── Original logic — unchanged ────────────────────────
+                currentUploadList    = SectionTag.OFFICER_SELFIE
+                currentUploadPosition = 0
+                currentPhotoTarget   = SectionTag.OFFICER_SELFIE
+                checkAndLaunchCamera()
+            }
+        }
+
+        val btnRow = LinearLayout(ctx).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { setMargins(16.dp(), 8.dp(), 16.dp(), 16.dp()) }
+        }
+        btnRow.addView(btnCapture)
+
+        // ── Assemble ──────────────────────────────────────────────────
+        val fullView = buildDialogShell(ctx, dp, surfaceColor, dividerColor)
+        fullView.addView(titleBar)
+        fullView.addView(View(ctx).apply {
+            setBackgroundColor(dividerColor)
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1)
+        })
+        fullView.addView(infoCard.also {
+            (it.layoutParams as LinearLayout.LayoutParams).topMargin = 14.dp()
+        })
+        fullView.addView(btnRow)
+
+        dialog = AlertDialog.Builder(ctx)
+            .setView(fullView)
+            .setCancelable(true)   // ← original: non-cancelable
+            .create()
+            .also { d ->
+                d.window?.setBackgroundDrawable(
+                    android.graphics.drawable.ColorDrawable(Color.TRANSPARENT)
+                )
+                d.setOnCancelListener {
+                    findNavController().navigateUp()
+                }
+
+//                d.setOnDismissListener {
+//                    findNavController().navigateUp()
+//                }
+            }
+
+        dialog.show()
+    }
+
+
+// ═══════════════════════════════════════════════════════════════════
+//  Private builder helpers  (shared with showInfoDialog helpers)
+// ═══════════════════════════════════════════════════════════════════
+
+    /** White rounded card shell — title + divider added by caller */
+    private fun buildDialogShell(
+        ctx: Context,
+        dp: Float,
+        surfaceColor: Int,
+        @Suppress("UNUSED_PARAMETER") dividerColor: Int
+    ): LinearLayout {
+        fun Int.dp() = (this * dp).toInt()
+        return LinearLayout(ctx).apply {
+            orientation = LinearLayout.VERTICAL
+            background  = GradientDrawable().apply {
+                setColor(surfaceColor)
+                cornerRadius = 18.dp().toFloat()
+            }
+        }
+    }
+
+    /** Full-width TextView styled as a dialog action button */
+    private fun buildDialogButton(
+        ctx: Context,
+        dp: Float,
+        label: String,
+        textColor: Int,
+        background: android.graphics.drawable.Drawable,
+        weight: Float,
+        marginStart: Int = 0,
+        marginEnd: Int = 0
+    ): TextView {
+        fun Int.dp() = (this * dp).toInt()
+        return TextView(ctx).apply {
+            text         = label
+            setTextColor(textColor)
+            textSize     = 14f
+            typeface     = android.graphics.Typeface.DEFAULT_BOLD
+            gravity      = android.view.Gravity.CENTER
+            this.background = background
+            isClickable  = true
+            isFocusable  = true
+            layoutParams = LinearLayout.LayoutParams(
+                0, 48.dp(), weight
+            ).apply {
+                this.marginStart = marginStart
+                this.marginEnd   = marginEnd
+            }
+        }
+    }
+
+    /** Outlined button — transparent fill, colored stroke */
+    private fun buildOutlineButtonBg(dp: Float, stroke: Int, ripple: Int): android.graphics.drawable.Drawable {
+        fun Float.dp() = (this * dp).toInt()
+        val shape = GradientDrawable().apply {
+            setColor(Color.TRANSPARENT)
+            cornerRadius = 10 * dp
+            setStroke((1.5f.dp()), stroke)
+        }
+        val mask = GradientDrawable().apply { setColor(Color.WHITE); cornerRadius = 10 * dp }
+        return RippleDrawable(android.content.res.ColorStateList.valueOf(ripple), shape, mask)
+    }
+
+    /** Filled button — solid accent color */
+    private fun buildFilledButtonBg(dp: Float, fill: Int, ripple: Int): android.graphics.drawable.Drawable {
+        val shape = GradientDrawable().apply {
+            setColor(fill)
+            cornerRadius = 10 * dp
+        }
+        val mask = GradientDrawable().apply { setColor(Color.WHITE); cornerRadius = 10 * dp }
+        return RippleDrawable(android.content.res.ColorStateList.valueOf(ripple), shape, mask)
     }
 
 }

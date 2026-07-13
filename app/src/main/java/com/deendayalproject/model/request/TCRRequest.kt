@@ -48,5 +48,7 @@ data class TCRRequest(
     val roomPhotograph: String? = "",
     val roomPhotographAttachment: String? = "",
     val airConditioningRoom: String? = "",
-    val airConditioningRoomAttachment: String? = ""
+    val airConditioningRoomAttachment: String? = "",
+    val lightsAiCount: String,
+    val fansAiCount: String,
 )

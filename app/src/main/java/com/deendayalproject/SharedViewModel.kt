@@ -3,8 +3,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.model.request.*
 import com.deendayalproject.model.response.*
+import com.deendayalproject.network.UiState
 import com.deendayalproject.repository.repomanager.RepositoryManager
 import com.deendayalproject.uidai.ekyc.UidaiKycRequest
 import com.deendayalproject.uidai.ekyc.UidaiResp
@@ -503,1314 +505,1314 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
-        fun submitElectricalData(request: ElectricalWiringRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.infrastructure.submitWiringDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _insertIpenabledata
-            )
-        }
+    fun submitElectricalData(request: ElectricalWiringRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.infrastructure.submitWiringDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _insertIpenabledata
+        )
+    }
 
-        // Login API call
-        fun loginUser(request: LoginRequest) {
-            _loading.postValue(true)
-            viewModelScope.launch {
-                val result = repositoryManager.auth.loginUser(request)
-                result.onSuccess { response -> }
-                result.onFailure { throwable ->
-                    if (throwable is retrofit2.HttpException && throwable.code() == 401) {
-                        _sessionExpired.postValue(true)
-                    } else {
-                        _errorMessage.postValue(throwable.message ?: "Unknown error")
-                    }
+    // Login API call
+    fun loginUser(request: LoginRequest) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repositoryManager.auth.loginUser(request)
+            result.onSuccess { response -> }
+            result.onFailure { throwable ->
+                if (throwable is retrofit2.HttpException && throwable.code() == 401) {
+                    _sessionExpired.postValue(true)
+                } else {
+                    _errorMessage.postValue(throwable.message ?: "Unknown error")
                 }
-                _loginResult.postValue(result)
-                _loading.postValue(false)
             }
-        }
-
-        // fetch Module and forms
-        fun fetch(modulesRequest: ModulesRequest, token: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.auth.fetchModules(modulesRequest, token) },
-                resultLiveData = _modules
-            )
-        }
-
-        fun fetchTrainingCenters(request: TrainingCenterRequest, token: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.fetchTrainingCenters(request, token) },
-                resultLiveData = _trainingCenters
-            )
-        }
-
-        fun fetchQTeamTrainingList(request: TrainingCenterRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.trainingCenter.fetchQTeamTrainingList(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _trainingCenters
-            )
-        }
-
-        fun fetchFieldVerificationList(request: FieldVerificationListRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.fieldVerification.fetchFieldVerificationList(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _fieldprnDetails
-            )
-        }
-
-        private val _officerSelfieApi =
-            MutableLiveData<Result<CaptivePiaOfficerSelfieResponse>>()
-
-        val officerSelfieApi:
-                LiveData<Result<CaptivePiaOfficerSelfieResponse>> = _officerSelfieApi
-
-        fun getCaptivePiaOfficerSelfie(
-            request: CaptivePiaOfficerSelfieRequest, token: String
-        ) {
-
-            viewModelScope.launch {
-
-                _officerSelfieApi.value = Result.failure(Exception("Loading"))
-
-                val result =
-                    repositoryManager.fieldVerification.getCaptivePiaOfficerSelfie(request, token)
-                _officerSelfieApi.value = result
-            }
-        }
-
-
-        fun fetchSrlmTeamTrainingList(request: TrainingCenterRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.trainingCenter.fetchSrlmTeamTrainingList(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _trainingCenters
-            )
-        }
-
-        fun fetchRfList(request: TrainingCenterRequest, token: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.fetchRfList(request, token) },
-                resultLiveData = _rfTrainingCenters
-            )
-        }
-
-        //IP enabled camera insert
-        fun submitCCTVDataToServer(request: CCTVComplianceRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.infrastructure.submitCCTVDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _insertCCTVdata
-            )
-        }
-
-        //wash basin
-        fun SubmitWashBasinDataToServer(request: ToiletDetailsRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.infrastructure.submitWashbsinDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _insertWashBasinDtails
-            )
-        }
-
-        // general details insert
-        fun submitGeneralDetails(request: InsertTcGeneralDetailsRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.infrastructure.submitGeneralDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _insertGeneralDetails
-            )
-        }
-
-        //TC basic info
-        fun submitTcBasicDataToServer(request: TcBasicInfoRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.infrastructure.submitTcBasicDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _insertTCInfoDeatils
-            )
-        }
-
-        fun submitTcInfoSignageDataToServer(request: TcSignagesInfoBoardRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.infrastructure.submitSignagesBoardsDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _insertSignagesInfoBoardsDetails
-            )
-        }
-
-        fun submitTcSupportInfraDataToserver(
-            request: TcAvailabilitySupportInfraRequest,
-            token: String
-        ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.infrastructure.submitInfraDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _insertSupportInfraDetails
-            )
-        }
-
-        fun submitTcCommonEquipment(request: TcCommonEquipmentRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.infrastructure.submitCommonEquipmentDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _insertCommonEquipDetails
-            )
-        }
-
-        fun submitTcDescriptionArea(request: TcDescriptionOtherAreasRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.infrastructure.submitDescDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _insertDescAreaDetails
-            )
-        }
-
-        fun getTrainerCenterInfo(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getTrainerCenterInfo(request) },
-                resultLiveData = _trainingCentersInfo
-            )
-        }
-
-        fun getTcStaffDetails(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getTcStaffDetails(request) },
-                resultLiveData = _getTcStaffDetails
-            )
-        }
-
-        fun getTrainerCenterInfra(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getTrainerCenterInfra(request) },
-                resultLiveData = _getTrainerCenterInfra
-            )
-        }
-
-        fun getTcAcademicNonAcademicArea(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getTcAcademicNonAcademicArea(request) },
-                resultLiveData = _getTcAcademicNonAcademicArea
-            )
-        }
-
-        fun getTcToiletWashBasin(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getTcToiletWashBasin(request) },
-                resultLiveData = _getTcToiletWashBasin
-            )
-        }
-
-        fun getDescriptionOtherArea(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getDescriptionOtherArea(request) },
-                resultLiveData = _getDescriptionOtherArea
-            )
-        }
-
-        fun getTeachingLearningMaterial(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getTeachingLearningMaterial(request) },
-                resultLiveData = _getTeachingLearningMaterial
-            )
-        }
-
-        fun getGeneralDetails(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getGeneralDetails(request) },
-                resultLiveData = _getGeneralDetails
-            )
-        }
-
-        fun getElectricalWiringStandard(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getElectricalWiringStandard(request) },
-                resultLiveData = _getElectricalWiringStandard
-            )
-        }
-
-        fun getSignagesAndInfoBoard(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getSignagesAndInfoBoard(request) },
-                resultLiveData = _getSignagesAndInfoBoard
-            )
-        }
-
-        fun getIpEnabledCamera(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getIpEnabledcamera(request) },
-                resultLiveData = _getIpEnabledCamera
-            )
-        }
-
-        fun getCommonEquipment(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getCommonEquipment(request) },
-                resultLiveData = _getCommonEquipment
-            )
-        }
-
-        fun getAvailabilitySupportInfra(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getAvailabilitySupportInfra(request) },
-                resultLiveData = _getAvailabilitySupportInfra
-            )
-        }
-
-        fun getAvailabilityStandardForms(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getAvailabilityStandardForms(request) },
-                resultLiveData = _getAvailabilityStandardForms
-            )
-        }
-
-        fun getAcademicRoomDetails(request: AllRoomDetaisReques) {
-            handleApiCall(
-                apiCall = { repositoryManager.academic.getAcademicRoomDetails(request) },
-                resultLiveData = _getAcademicRoomDetails
-            )
-        }
-
-
-        private val _postOnAUAFaceAuthNREGA = MutableLiveData<Result<UidaiResp>>()
-        val postOnAUAFaceAuthNREGA: LiveData<Result<UidaiResp>> = _postOnAUAFaceAuthNREGA
-
-
-        fun postOnAUAFaceAuthNREGA(url: String, uidaiKycRequest: UidaiKycRequest) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.academic.postOnAUAFaceAuthNREGA(
-                        url,
-                        uidaiKycRequest
-                    )
-                },
-                resultLiveData = _postOnAUAFaceAuthNREGA
-            )
-        }
-
-        fun insertQTeamVerification(request: TcQTeamInsertReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.verification.insertQTeamVerification(request) },
-                resultLiveData = _insertQTeamVerification
-            )
-        }
-
-        fun insertSrlmVerification(request: TcQTeamInsertReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.verification.insertSrlmVerification(request) },
-                resultLiveData = _insertSrlmVerification
-            )
-        }
-
-        fun getFinalSubmitData(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getFinalSubmitData(request) },
-                resultLiveData = _getFinalSubmitData
-            )
-        }
-
-        fun getSectionsStatusData(request: TrainingCenterInfo) {
-            handleApiCall(
-                apiCall = { repositoryManager.trainingCenter.getSectionsStatus(request) },
-                resultLiveData = _getSectionsStatusData
-            )
-        }
-
-        fun getStateList(request: StateRequest, token: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.location.getStateList(request, token) },
-                resultLiveData = _stateList
-            )
-        }
-
-        fun getDistrictList(request: DistrictRequest, token: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.location.getDistrictList(request, token) },
-                resultLiveData = _districtList
-            )
-        }
-
-        fun getBlockList(request: BlockRequest, token: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.location.getBlockList(request, token) },
-                resultLiveData = _blockList
-            )
-        }
-
-        fun getGpList(request: GpRequest, token: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.location.getGpList(request, token) },
-                resultLiveData = _gpList
-            )
-        }
-
-        fun getVillageList(request: VillageReq, token: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.location.getVillageList(request, token) },
-                resultLiveData = _villageList
-            )
-        }
-
-
-        private val _getUlbList = MutableLiveData<Result<UlbRes>>()
-        val getUlbList: LiveData<Result<UlbRes>> = _getUlbList
-
-
-        fun getUlbAPI(ulbReq: ULBReq, header: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.location.getUlbAPI(ulbReq, header) },
-                resultLiveData = _getUlbList
-            )
-        }
-
-
-        private val _getWardAPI = MutableLiveData<Result<WardRes>>()
-        val getWardAPI: LiveData<Result<WardRes>> = _getWardAPI
-
-        fun getWardAPI(wardReq: WardReq, header: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.location.getWardAPI(wardReq, header) },
-                resultLiveData = _getWardAPI
-            )
-
-        }
-
-
-        private val _getAttendanceBatchListAPI = MutableLiveData<Result<AttendanceBatchRes>>()
-        val getAttendanceBatchListAPI: LiveData<Result<AttendanceBatchRes>> =
-            _getAttendanceBatchListAPI
-
-        fun getAttendanceBatchListAPI(
-            attendanceBatchListReq: AttendanceBatchListReq,
-            header: String
-        ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.location.getAttendanceBatchListAPI(
-                        attendanceBatchListReq,
-                        header
-                    )
-                },
-                resultLiveData = _getAttendanceBatchListAPI
-            )
-
-        }
-
-
-        private val _getAttendanceCandidateListAPI =
-            MutableLiveData<Result<AttendanceCandidateRes>>()
-        val getAttendanceCandidateListAPI: LiveData<Result<AttendanceCandidateRes>> =
-            _getAttendanceCandidateListAPI
-
-        fun getAttendanceCandidateListAPI(
-            attendanceCandidateListReq: AttendanceCandidateListReq,
-            header: String
-        ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.location.getAttendanceCandidateListAPI(
-                        attendanceCandidateListReq,
-                        header
-                    )
-                },
-                resultLiveData = _getAttendanceCandidateListAPI
-            )
-
-        }
-
-
-        private val _getAttendanceCheckAPI = MutableLiveData<Result<AttendanceCheckRes>>()
-        val getAttendanceCheckAPI: LiveData<Result<AttendanceCheckRes>> = _getAttendanceCheckAPI
-
-        fun getAttendanceCheckAPI(attendanceCheckReq: AttendanceCheckReq, header: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.location.getAttendanceCheckAPI(
-                        attendanceCheckReq,
-                        header
-                    )
-                },
-                resultLiveData = _getAttendanceCheckAPI
-            )
-
-        }
-
-
-        private val _insertAttendance = MutableLiveData<Result<AttendanceInsertRes>>()
-        val insertAttendance: LiveData<Result<AttendanceInsertRes>> = _insertAttendance
-
-        fun insertAttendance(attendanceInsertReq: AttendanceInsertReq, header: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.location.insertAttendance(
-                        attendanceInsertReq,
-                        header
-                    )
-                },
-                resultLiveData = _insertAttendance
-            )
-
-        }
-
-
-        private val _insertFacultyAttandance = MutableLiveData<Result<AttendanceInsertRes>>()
-        val insertFacultyAttandance: LiveData<Result<AttendanceInsertRes>> =
-            _insertFacultyAttandance
-
-        fun insertFacultyAttandance(
-            insertFacultyAttendance: InsertFacultyAttendance,
-            header: String
-        ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.location.insertFacultyAttandance(
-                        insertFacultyAttendance,
-                        header
-                    )
-                },
-                resultLiveData = _insertFacultyAttandance
-            )
-
-        }
-
-
-        private val _getFacultyDetails = MutableLiveData<Result<FacultyDetailsRes>>()
-        val getFacultyDetails: LiveData<Result<FacultyDetailsRes>> = _getFacultyDetails
-
-        fun getFacultyDetails(
-            attendanceCandidateListReq: AttendanceCandidateListReq,
-            header: String
-        ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.location.getFacultyDetails(
-                        attendanceCandidateListReq,
-                        header
-                    )
-                },
-                resultLiveData = _getFacultyDetails
-            )
-
-        }
-
-
-        // Ajit Ranjan (RecyclerView)
-        fun DesriptionAcademicNonList(request: AcademicNonAcademicArea, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.academic.submitDesriptionAcademicNonDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _AcademicNonAcademicResponse
-            )
-        }
-
-        // Ajit Ranjan (IT LAB)
-        fun SubmitITLABDataToServer(request: ITLabDetailsRequest, token: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.academic.submitITLabDataToServer(request, token) },
-                resultLiveData = _insertITTabDtails
-            )
-        }
-
-        // Office Cum(Counselling room) Ajit Ranjan
-        fun SubmitOfficeCumCounsellingRoomDataToServer(
-            request: SubmitOfficeCumCounsellingRoomDetailsRequest,
-            token: String
-        ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.academic.submitOfficeCumCounsellingroomDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _OfficeCumCounsellingroom
-            )
-        }
-
-        // ReceptionArea Ajit Ranjan
-        fun SubmitReceptionAreaDataToServer(
-            request: ReceptionAreaRoomDetailsRequest,
-            token: String
-        ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.academic.submitReceptionAreaDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _ReceptionAreaServices
-            )
-        }
-
-        // Office Room Ajit Ranjan
-        fun SubmitOfficeRoomDataToServer(request: OfficeRoomDetailsRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.academic.submitOfficeRoomDataToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _Officeroom
-            )
-        }
-
-        // IT Come Domain Lab Ajit Ranjan
-        fun SubmitITComeDomainLabDataToServer(
-            request: ITComeDomainLabDetailsRequest,
-            token: String
-        ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.academic.submitItComeDomainlabToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _ITComeDomainLab
-            )
-        }
-
-        // Theory Cum IT Lab Lab
-        fun SubmitTheoryComeItLabDataToServer(
-            request: TCITLDomainLabDetailsRequest,
-            token: String
-        ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.academic.submitTheoryCumITLabToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _TheoryCumITLab
-            )
-        }
-
-        // Theory Cum Domain Lab Lab
-        fun SubmitTCDLDataToServer(request: TCDLRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.academic.submitTheoryCumDomainLabToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _TheoryCumDomainLab
-            )
-        }
-
-        // Domain Lab
-        fun SubmitDLDataToServer(request: DLRequest, token: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.academic.submitDomainLabToServer(request, token) },
-                resultLiveData = _DomainLab
-            )
-        }
-
-        // Theory Class Room
-        fun SubmitTheoryClassRoomDataToServer(request: TCRRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.academic.submitTheoryClassRoomToServer(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _TheoryClassRoom
-            )
-        }
-
-
-        fun SubmitRfToiletDataToServer(request: InsertToiletDataReq, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.residentialFacility.insertRfToiletRoomInformation(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _SubmitRfToiletDataToServer
-            )
-        }
-
-        fun SubmitRfNonLivingAreaDataToServer(request: InsertNonLivingReq) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.residentialFacility.insertRfNonLivingAreaInformation(
-                        request
-                    )
-                },
-                resultLiveData = _insertRfNonLivingAreaInformation
-            )
-        }
-
-        fun SubmitRfIndoorGameDetails(request: IndoorGamesRequest) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.insertRfIndoorGameDetails(request) },
-                resultLiveData = _insertRfIndoorGameDetails
-            )
-        }
-
-        fun SubmitRfAvaibilityDetails(request: InsertResidentialFacility) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.residentialFacility.insertResidentialFacilitiesAvailable(
-                        request
-                    )
-                },
-                resultLiveData = _insertResidentialFacilitiesAvailable
-            )
-        }
-
-        fun SubmitRfSupportFacilitiesDetails(request: InsertSupportFacilitiesReq) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.residentialFacility.insertRFSupportFacilitiesAvailable(
-                        request
-                    )
-                },
-                resultLiveData = _insertRFSupportFacilitiesAvailable
-            )
-        }
-
-        fun SubmitRfBasicInformationToServer(request: insertRfBasicInfoReq, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.residentialFacility.insertRfBasicInformation(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _RfBasicInfo
-            )
-        }
-
-        fun SubmitRfInfraDetailsAndComlianceToServer(
-            request: InsertRfInfraDetaiReq,
-            token: String
-        ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.residentialFacility.insertRfInfraDetailsAndComliance(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _RfInfra
-            )
-        }
-
-        fun SubmitRfLivingAreaInformationToServer(request: InsertLivingAreaReq, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.residentialFacility.insertRfLivingAreaInformation(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _RfLivingArea
-            )
-        }
-
-        // ResidentialFacilityQTeamRequest Ajit Ranjan 16/10/2025
-        fun fetchResidentialFacilityQTeamList(
-            request: ResidentialFacilityQTeamRequest,
-            token: String
-        ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.residentialFacility.fetchResidentialFacilityQTeamist(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _trainingRfCenters
-            )
-        }
-
-        // GetRfBasicInformation AjitRanjan 17/10/2025
-        fun getRfBasicInformationrInfo(request: RfCommonReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.getTRfBasicInfo(request) },
-                resultLiveData = _ResidentialFacilityQTeam
-            )
-        }
-
-        // Ajit Ranjan create 21/October/2025 CompliancesRFQTReqRFQT
-        fun getCompliancesRFQTReqRFQT(request: CompliancesRFQTReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.getCompliancesRFQTReqRFQT(request) },
-                resultLiveData = _CompliancesRFQTReqRFQT
-            )
-        }
-
-        // Ajit Ranjan create 24/October/2025 getRfLivingAreaInformation
-        fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.getRfLivingAreaInformation(request) },
-                resultLiveData = _fLivingAreaInformation
-            )
-        }
-
-        // Ajit Ranjan create 27/October/2025 getlivingRoomListView
-        fun getlivingRoomListView(request: LivingRoomListViewRQ) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.getRflivingRoomListView(request) },
-                resultLiveData = _livingRoomListView
-            )
-        }
-
-        // Ajit Ranjan create 27/October/2025 toiletRoomListView
-        fun getToiletRoomListView(request: ToiletRoomInformationReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.getToiletRoomListView(request) },
-                resultLiveData = _ToiletRoomListView
-            )
-        }
-
-        // Ajit Ranjan create 30/October/2025 getRfToiletRoomInformation
-        fun getRfToiletRoomInformation(request: ToiletRoomReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.getToiletRoomInformation(request) },
-                resultLiveData = _ToiletRoomInformationView
-            )
-        }
-
-        fun getRfLivingRoomListView(request: LivingRoomReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.getRfLivingRoomListView(request) },
-                resultLiveData = _getRfLivingRoomListView
-            )
-        }
-
-        fun deleteLivingRoom(request: DeleteLivingRoomList) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.deleteLivingRoom(request) },
-                resultLiveData = _deleteLivingRoom
-            )
-        }
-
-        fun getRfToiletListView(request: LivingRoomReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.getRfToiletListView(request) },
-                resultLiveData = _getRfToiletListView
-            )
-        }
-
-        fun getToiletSectionListView(request: LivingRoomReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.toiletSectionListView(request) },
-                resultLiveData = _toiletSectionListView
-            )
-        }
-
-        fun deleteToiletRoom(request: ToiletDeleteList) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.deleteToiletRoom(request) },
-                resultLiveData = _deleteToiletRoom
-            )
-        }
-
-        // Ajit Ranjan create 03/November/2025 getRfNonLivingAreaInformation
-        fun getRfNonLivingAreaInformation(request: LivingRoomListViewRQ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.residentialFacility.getRfNonLivingAreaInformation(
-                        request
-                    )
-                },
-                resultLiveData = _NonAreaInformationRoom
-            )
-        }
-
-        // Ajit Ranjan create 04/November/2025 getRfIndoorGameDetails
-        fun getRfIndoorGameDetails(request: RFGameRequest) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.getRfInGaDetails(request) },
-                resultLiveData = _RfIndoorGameDetails
-            )
-        }
-
-        // Ajit Ranjan create 06/November/2025 getResidentialFacilitiesAvailable
-        fun getResidentialFacilitiesAvailable(request: RfCommonReq) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.residentialFacility.getResidentialFacilitiesAvailable(
-                        request
-                    )
-                },
-                resultLiveData = _RFResidentialFacilitiesAvailable
-            )
-        }
-
-        // Ajit Ranjan create 07/November/2025 getRFSupportFacilitiesAvailable
-        fun getRFSupportFacilitiesAvailable(request: RFGameRequest) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.residentialFacility.getRFSupportFacilitiesAvailable(
-                        request
-                    )
-                },
-                resultLiveData = _RFSupportFacilitiesAvailable
-            )
-        }
-
-        // Ajit Ranjan create 07/November/2025 insertRFQteamVerificationRequest
-        fun getFinalSubmitinsertRFQteamVerificationRequestData(request: RFQteamVerificationRequest) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.verification.getFinalSubmitinsertRFQteamVerificationRequestData(
-                        request
-                    )
-                },
-                resultLiveData = _insertRFQteamVerification
-            )
-        }
-
-        // Ajit Ranjan create 07/November/2025 insertRFSrlmVerification
-        fun getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(request: RFQteamVerificationRequest) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.verification.getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(
-                        request
-                    )
-                },
-                resultLiveData = _insertRFSrlmVerification
-            )
-        }
-
-        // Ajit Ranjan create 07/November/2025 getRFSRLMVerification
-        fun getRFSRLMVerification(request: TrainingCenterRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.verification.fetchRFSRLMVerificationList(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _trainingRfCenters
-            )
-        }
-
-        fun getRFSectionStatus(request: SectionReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.getRFSectionStatus(request) },
-                resultLiveData = _getRFSectionStatus
-            )
-        }
-
-        fun insertRFFinalSubmission(request: RfFinalSubmitReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.rfOperations.insertRFFinalSubmission(request) },
-                resultLiveData = _insertRFFinalSubmission
-            )
-        }
-
-        fun saveInitialResidentialFacility(request: AddNewRFReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.rfOperations.saveInitialResidentialFacility(request) },
-                resultLiveData = _saveInitialResidentialFacility
-            )
-        }
-
-        fun getResidentialList(request: ModifyRfList) {
-            handleApiCall(
-                apiCall = { repositoryManager.rfOperations.getResidentialList(request) },
-                resultLiveData = _getResidentialList
-            )
-        }
-
-        fun insertRfToiletWashRoomDetail(request: UrinalWashbasinReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.rfOperations.insertRfToiletWashRoomDetail(request) },
-                resultLiveData = _insertRfToiletWashRoomDetail
-            )
-        }
-
-        fun getToiletWashbasinDetails(request: GetUrinalWashReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.getToiletWashbasinDetails(request) },
-                resultLiveData = _getToiletWashbasinDetails
-            )
-        }
-
-        // Ajit Ranjan create 17/Nov/2025 getToiletCountList
-        fun getToiletCountList(request: ToiletCountListReq) {
-            handleApiCall(
-                apiCall = { repositoryManager.residentialFacility.getToiletCountList(request) },
-                resultLiveData = _ToiletCountListView
-            )
-        }
-
-
-        // Ajit Ranjan create 27/Jan/2026 OJT Implimentation
-        fun fetchOJTSanctionOrderNumber(request: ModulesOJTSanctionOrderRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.ojt.fetchOJTSanctionOrderNumberList(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _ojtSanctionNo
-            )
-        }
-
-        fun fetchOJTTrainingCenter(request: ModulesOJTTrainingCenterRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.ojt.fetchOJTTrainingCenterList(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _ojtTrainingCenterRequest
-            )
-        }
-
-
-        fun fetchOJTBatch(request: ModulesOJTBatchRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.ojt.fetchOJTBatchList(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _ojtBatchRequest
-            )
-        }
-
-        private val _VerifiedBatchList = MutableLiveData<Result<OJT_VerifiedBatchListSRLM_Res>>()
-
-        val VerifiedBatchList: LiveData<Result<OJT_VerifiedBatchListSRLM_Res>> = _VerifiedBatchList
-
-        fun fetchgetVerifiedBatchList(request: ModulesOJTBatchRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.ojt.fetchgetVerifiedBatchList(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _VerifiedBatchList
-            )
-        }
-
-
-        fun fetchOJTgetCompleteOjt(request: ModulesOJTCompleteOjtRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.ojt.fetchOJTCompleteOjtList(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _CompleteOjt
-            )
-        }
-
-
-        private val _VerifiedCompleteChildOjt = MutableLiveData<Result<OjtListChildSRLMRes>>()
-
-        val VerifiedCompleteChildOjt: LiveData<Result<OjtListChildSRLMRes>> =
-            _VerifiedCompleteChildOjt
-
-        fun getVerifiedCompleteOjt(request: ModulesOJTCompleteOjtRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.ojt.getVerifiedCompleteOjt(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _VerifiedCompleteChildOjt
-            )
-        }
-
-
-        fun fetchgetCandidateOjtVerification(request: ModulesOJTCompleteOjtRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.ojt.fetchgetCandidateOjtVerificationList(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _CandidateOjtVerificationDetails
-            )
-        }
+            _loginResult.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    // fetch Module and forms
+    fun fetch(modulesRequest: ModulesRequest, token: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.auth.fetchModules(modulesRequest, token) },
+            resultLiveData = _modules
+        )
+    }
+
+    fun fetchTrainingCenters(request: TrainingCenterRequest, token: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.fetchTrainingCenters(request, token) },
+            resultLiveData = _trainingCenters
+        )
+    }
+
+    fun fetchQTeamTrainingList(request: TrainingCenterRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.trainingCenter.fetchQTeamTrainingList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _trainingCenters
+        )
+    }
+
+    fun fetchFieldVerificationList(request: FieldVerificationListRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.fieldVerification.fetchFieldVerificationList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _fieldprnDetails
+        )
+    }
+
+    private val _officerSelfieApi =
+        MutableLiveData<Result<CaptivePiaOfficerSelfieResponse>>()
+
+    val officerSelfieApi:
+            LiveData<Result<CaptivePiaOfficerSelfieResponse>> = _officerSelfieApi
+
+    fun getCaptivePiaOfficerSelfie(
+        request: CaptivePiaOfficerSelfieRequest, token: String
+    ) {
+
+        viewModelScope.launch {
+
+            _officerSelfieApi.value = Result.failure(Exception("Loading"))
+
+            val result =
+                repositoryManager.fieldVerification.getCaptivePiaOfficerSelfie(request, token)
+            _officerSelfieApi.value = result
+        }
+    }
+
+
+    fun fetchSrlmTeamTrainingList(request: TrainingCenterRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.trainingCenter.fetchSrlmTeamTrainingList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _trainingCenters
+        )
+    }
+
+    fun fetchRfList(request: TrainingCenterRequest, token: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.fetchRfList(request, token) },
+            resultLiveData = _rfTrainingCenters
+        )
+    }
+
+    //IP enabled camera insert
+    fun submitCCTVDataToServer(request: CCTVComplianceRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.infrastructure.submitCCTVDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _insertCCTVdata
+        )
+    }
+
+    //wash basin
+    fun SubmitWashBasinDataToServer(request: ToiletDetailsRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.infrastructure.submitWashbsinDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _insertWashBasinDtails
+        )
+    }
+
+    // general details insert
+    fun submitGeneralDetails(request: InsertTcGeneralDetailsRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.infrastructure.submitGeneralDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _insertGeneralDetails
+        )
+    }
+
+    //TC basic info
+    fun submitTcBasicDataToServer(request: TcBasicInfoRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.infrastructure.submitTcBasicDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _insertTCInfoDeatils
+        )
+    }
+
+    fun submitTcInfoSignageDataToServer(request: TcSignagesInfoBoardRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.infrastructure.submitSignagesBoardsDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _insertSignagesInfoBoardsDetails
+        )
+    }
+
+    fun submitTcSupportInfraDataToserver(
+        request: TcAvailabilitySupportInfraRequest,
+        token: String
+    ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.infrastructure.submitInfraDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _insertSupportInfraDetails
+        )
+    }
+
+    fun submitTcCommonEquipment(request: TcCommonEquipmentRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.infrastructure.submitCommonEquipmentDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _insertCommonEquipDetails
+        )
+    }
+
+    fun submitTcDescriptionArea(request: TcDescriptionOtherAreasRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.infrastructure.submitDescDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _insertDescAreaDetails
+        )
+    }
+
+    fun getTrainerCenterInfo(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getTrainerCenterInfo(request) },
+            resultLiveData = _trainingCentersInfo
+        )
+    }
+
+    fun getTcStaffDetails(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getTcStaffDetails(request) },
+            resultLiveData = _getTcStaffDetails
+        )
+    }
+
+    fun getTrainerCenterInfra(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getTrainerCenterInfra(request) },
+            resultLiveData = _getTrainerCenterInfra
+        )
+    }
+
+    fun getTcAcademicNonAcademicArea(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getTcAcademicNonAcademicArea(request) },
+            resultLiveData = _getTcAcademicNonAcademicArea
+        )
+    }
+
+    fun getTcToiletWashBasin(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getTcToiletWashBasin(request) },
+            resultLiveData = _getTcToiletWashBasin
+        )
+    }
+
+    fun getDescriptionOtherArea(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getDescriptionOtherArea(request) },
+            resultLiveData = _getDescriptionOtherArea
+        )
+    }
+
+    fun getTeachingLearningMaterial(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getTeachingLearningMaterial(request) },
+            resultLiveData = _getTeachingLearningMaterial
+        )
+    }
+
+    fun getGeneralDetails(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getGeneralDetails(request) },
+            resultLiveData = _getGeneralDetails
+        )
+    }
+
+    fun getElectricalWiringStandard(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getElectricalWiringStandard(request) },
+            resultLiveData = _getElectricalWiringStandard
+        )
+    }
+
+    fun getSignagesAndInfoBoard(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getSignagesAndInfoBoard(request) },
+            resultLiveData = _getSignagesAndInfoBoard
+        )
+    }
+
+    fun getIpEnabledCamera(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getIpEnabledcamera(request) },
+            resultLiveData = _getIpEnabledCamera
+        )
+    }
+
+    fun getCommonEquipment(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getCommonEquipment(request) },
+            resultLiveData = _getCommonEquipment
+        )
+    }
+
+    fun getAvailabilitySupportInfra(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getAvailabilitySupportInfra(request) },
+            resultLiveData = _getAvailabilitySupportInfra
+        )
+    }
+
+    fun getAvailabilityStandardForms(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getAvailabilityStandardForms(request) },
+            resultLiveData = _getAvailabilityStandardForms
+        )
+    }
+
+    fun getAcademicRoomDetails(request: AllRoomDetaisReques) {
+        handleApiCall(
+            apiCall = { repositoryManager.academic.getAcademicRoomDetails(request) },
+            resultLiveData = _getAcademicRoomDetails
+        )
+    }
+
+
+    private val _postOnAUAFaceAuthNREGA = MutableLiveData<Result<UidaiResp>>()
+    val postOnAUAFaceAuthNREGA: LiveData<Result<UidaiResp>> = _postOnAUAFaceAuthNREGA
+
+
+    fun postOnAUAFaceAuthNREGA(url: String, uidaiKycRequest: UidaiKycRequest) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.academic.postOnAUAFaceAuthNREGA(
+                    url,
+                    uidaiKycRequest
+                )
+            },
+            resultLiveData = _postOnAUAFaceAuthNREGA
+        )
+    }
+
+    fun insertQTeamVerification(request: TcQTeamInsertReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.verification.insertQTeamVerification(request) },
+            resultLiveData = _insertQTeamVerification
+        )
+    }
+
+    fun insertSrlmVerification(request: TcQTeamInsertReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.verification.insertSrlmVerification(request) },
+            resultLiveData = _insertSrlmVerification
+        )
+    }
+
+    fun getFinalSubmitData(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getFinalSubmitData(request) },
+            resultLiveData = _getFinalSubmitData
+        )
+    }
+
+    fun getSectionsStatusData(request: TrainingCenterInfo) {
+        handleApiCall(
+            apiCall = { repositoryManager.trainingCenter.getSectionsStatus(request) },
+            resultLiveData = _getSectionsStatusData
+        )
+    }
+
+    fun getStateList(request: StateRequest, token: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.location.getStateList(request, token) },
+            resultLiveData = _stateList
+        )
+    }
+
+    fun getDistrictList(request: DistrictRequest, token: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.location.getDistrictList(request, token) },
+            resultLiveData = _districtList
+        )
+    }
+
+    fun getBlockList(request: BlockRequest, token: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.location.getBlockList(request, token) },
+            resultLiveData = _blockList
+        )
+    }
+
+    fun getGpList(request: GpRequest, token: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.location.getGpList(request, token) },
+            resultLiveData = _gpList
+        )
+    }
+
+    fun getVillageList(request: VillageReq, token: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.location.getVillageList(request, token) },
+            resultLiveData = _villageList
+        )
+    }
+
+
+    private val _getUlbList = MutableLiveData<Result<UlbRes>>()
+    val getUlbList: LiveData<Result<UlbRes>> = _getUlbList
+
+
+    fun getUlbAPI(ulbReq: ULBReq, header: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.location.getUlbAPI(ulbReq, header) },
+            resultLiveData = _getUlbList
+        )
+    }
+
+
+    private val _getWardAPI = MutableLiveData<Result<WardRes>>()
+    val getWardAPI: LiveData<Result<WardRes>> = _getWardAPI
+
+    fun getWardAPI(wardReq: WardReq, header: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.location.getWardAPI(wardReq, header) },
+            resultLiveData = _getWardAPI
+        )
+
+    }
+
+
+    private val _getAttendanceBatchListAPI = MutableLiveData<Result<AttendanceBatchRes>>()
+    val getAttendanceBatchListAPI: LiveData<Result<AttendanceBatchRes>> =
+        _getAttendanceBatchListAPI
+
+    fun getAttendanceBatchListAPI(
+        attendanceBatchListReq: AttendanceBatchListReq,
+        header: String
+    ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.location.getAttendanceBatchListAPI(
+                    attendanceBatchListReq,
+                    header
+                )
+            },
+            resultLiveData = _getAttendanceBatchListAPI
+        )
+
+    }
+
+
+    private val _getAttendanceCandidateListAPI =
+        MutableLiveData<Result<AttendanceCandidateRes>>()
+    val getAttendanceCandidateListAPI: LiveData<Result<AttendanceCandidateRes>> =
+        _getAttendanceCandidateListAPI
+
+    fun getAttendanceCandidateListAPI(
+        attendanceCandidateListReq: AttendanceCandidateListReq,
+        header: String
+    ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.location.getAttendanceCandidateListAPI(
+                    attendanceCandidateListReq,
+                    header
+                )
+            },
+            resultLiveData = _getAttendanceCandidateListAPI
+        )
+
+    }
+
+
+    private val _getAttendanceCheckAPI = MutableLiveData<Result<AttendanceCheckRes>>()
+    val getAttendanceCheckAPI: LiveData<Result<AttendanceCheckRes>> = _getAttendanceCheckAPI
+
+    fun getAttendanceCheckAPI(attendanceCheckReq: AttendanceCheckReq, header: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.location.getAttendanceCheckAPI(
+                    attendanceCheckReq,
+                    header
+                )
+            },
+            resultLiveData = _getAttendanceCheckAPI
+        )
+
+    }
+
+
+    private val _insertAttendance = MutableLiveData<Result<AttendanceInsertRes>>()
+    val insertAttendance: LiveData<Result<AttendanceInsertRes>> = _insertAttendance
+
+    fun insertAttendance(attendanceInsertReq: AttendanceInsertReq, header: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.location.insertAttendance(
+                    attendanceInsertReq,
+                    header
+                )
+            },
+            resultLiveData = _insertAttendance
+        )
+
+    }
+
+
+    private val _insertFacultyAttandance = MutableLiveData<Result<AttendanceInsertRes>>()
+    val insertFacultyAttandance: LiveData<Result<AttendanceInsertRes>> =
+        _insertFacultyAttandance
+
+    fun insertFacultyAttandance(
+        insertFacultyAttendance: InsertFacultyAttendance,
+        header: String
+    ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.location.insertFacultyAttandance(
+                    insertFacultyAttendance,
+                    header
+                )
+            },
+            resultLiveData = _insertFacultyAttandance
+        )
+
+    }
+
+
+    private val _getFacultyDetails = MutableLiveData<Result<FacultyDetailsRes>>()
+    val getFacultyDetails: LiveData<Result<FacultyDetailsRes>> = _getFacultyDetails
+
+    fun getFacultyDetails(
+        attendanceCandidateListReq: AttendanceCandidateListReq,
+        header: String
+    ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.location.getFacultyDetails(
+                    attendanceCandidateListReq,
+                    header
+                )
+            },
+            resultLiveData = _getFacultyDetails
+        )
+
+    }
+
+
+    // Ajit Ranjan (RecyclerView)
+    fun DesriptionAcademicNonList(request: AcademicNonAcademicArea, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.academic.submitDesriptionAcademicNonDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _AcademicNonAcademicResponse
+        )
+    }
+
+    // Ajit Ranjan (IT LAB)
+    fun SubmitITLABDataToServer(request: ITLabDetailsRequest, token: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.academic.submitITLabDataToServer(request, token) },
+            resultLiveData = _insertITTabDtails
+        )
+    }
+
+    // Office Cum(Counselling room) Ajit Ranjan
+    fun SubmitOfficeCumCounsellingRoomDataToServer(
+        request: SubmitOfficeCumCounsellingRoomDetailsRequest,
+        token: String
+    ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.academic.submitOfficeCumCounsellingroomDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _OfficeCumCounsellingroom
+        )
+    }
+
+    // ReceptionArea Ajit Ranjan
+    fun SubmitReceptionAreaDataToServer(
+        request: ReceptionAreaRoomDetailsRequest,
+        token: String
+    ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.academic.submitReceptionAreaDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _ReceptionAreaServices
+        )
+    }
+
+    // Office Room Ajit Ranjan
+    fun SubmitOfficeRoomDataToServer(request: OfficeRoomDetailsRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.academic.submitOfficeRoomDataToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _Officeroom
+        )
+    }
+
+    // IT Come Domain Lab Ajit Ranjan
+    fun SubmitITComeDomainLabDataToServer(
+        request: ITComeDomainLabDetailsRequest,
+        token: String
+    ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.academic.submitItComeDomainlabToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _ITComeDomainLab
+        )
+    }
+
+    // Theory Cum IT Lab Lab
+    fun SubmitTheoryComeItLabDataToServer(
+        request: TCITLDomainLabDetailsRequest,
+        token: String
+    ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.academic.submitTheoryCumITLabToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _TheoryCumITLab
+        )
+    }
+
+    // Theory Cum Domain Lab Lab
+    fun SubmitTCDLDataToServer(request: TCDLRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.academic.submitTheoryCumDomainLabToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _TheoryCumDomainLab
+        )
+    }
+
+    // Domain Lab
+    fun SubmitDLDataToServer(request: DLRequest, token: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.academic.submitDomainLabToServer(request, token) },
+            resultLiveData = _DomainLab
+        )
+    }
+
+    // Theory Class Room
+    fun SubmitTheoryClassRoomDataToServer(request: TCRRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.academic.submitTheoryClassRoomToServer(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _TheoryClassRoom
+        )
+    }
+
+
+    fun SubmitRfToiletDataToServer(request: InsertToiletDataReq, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.residentialFacility.insertRfToiletRoomInformation(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _SubmitRfToiletDataToServer
+        )
+    }
+
+    fun SubmitRfNonLivingAreaDataToServer(request: InsertNonLivingReq) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.residentialFacility.insertRfNonLivingAreaInformation(
+                    request
+                )
+            },
+            resultLiveData = _insertRfNonLivingAreaInformation
+        )
+    }
+
+    fun SubmitRfIndoorGameDetails(request: IndoorGamesRequest) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.insertRfIndoorGameDetails(request) },
+            resultLiveData = _insertRfIndoorGameDetails
+        )
+    }
+
+    fun SubmitRfAvaibilityDetails(request: InsertResidentialFacility) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.residentialFacility.insertResidentialFacilitiesAvailable(
+                    request
+                )
+            },
+            resultLiveData = _insertResidentialFacilitiesAvailable
+        )
+    }
+
+    fun SubmitRfSupportFacilitiesDetails(request: InsertSupportFacilitiesReq) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.residentialFacility.insertRFSupportFacilitiesAvailable(
+                    request
+                )
+            },
+            resultLiveData = _insertRFSupportFacilitiesAvailable
+        )
+    }
+
+    fun SubmitRfBasicInformationToServer(request: insertRfBasicInfoReq, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.residentialFacility.insertRfBasicInformation(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _RfBasicInfo
+        )
+    }
+
+    fun SubmitRfInfraDetailsAndComlianceToServer(
+        request: InsertRfInfraDetaiReq,
+        token: String
+    ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.residentialFacility.insertRfInfraDetailsAndComliance(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _RfInfra
+        )
+    }
+
+    fun SubmitRfLivingAreaInformationToServer(request: InsertLivingAreaReq, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.residentialFacility.insertRfLivingAreaInformation(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _RfLivingArea
+        )
+    }
+
+    // ResidentialFacilityQTeamRequest Ajit Ranjan 16/10/2025
+    fun fetchResidentialFacilityQTeamList(
+        request: ResidentialFacilityQTeamRequest,
+        token: String
+    ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.residentialFacility.fetchResidentialFacilityQTeamist(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _trainingRfCenters
+        )
+    }
+
+    // GetRfBasicInformation AjitRanjan 17/10/2025
+    fun getRfBasicInformationrInfo(request: RfCommonReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.getTRfBasicInfo(request) },
+            resultLiveData = _ResidentialFacilityQTeam
+        )
+    }
+
+    // Ajit Ranjan create 21/October/2025 CompliancesRFQTReqRFQT
+    fun getCompliancesRFQTReqRFQT(request: CompliancesRFQTReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.getCompliancesRFQTReqRFQT(request) },
+            resultLiveData = _CompliancesRFQTReqRFQT
+        )
+    }
+
+    // Ajit Ranjan create 24/October/2025 getRfLivingAreaInformation
+    fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.getRfLivingAreaInformation(request) },
+            resultLiveData = _fLivingAreaInformation
+        )
+    }
+
+    // Ajit Ranjan create 27/October/2025 getlivingRoomListView
+    fun getlivingRoomListView(request: LivingRoomListViewRQ) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.getRflivingRoomListView(request) },
+            resultLiveData = _livingRoomListView
+        )
+    }
+
+    // Ajit Ranjan create 27/October/2025 toiletRoomListView
+    fun getToiletRoomListView(request: ToiletRoomInformationReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.getToiletRoomListView(request) },
+            resultLiveData = _ToiletRoomListView
+        )
+    }
+
+    // Ajit Ranjan create 30/October/2025 getRfToiletRoomInformation
+    fun getRfToiletRoomInformation(request: ToiletRoomReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.getToiletRoomInformation(request) },
+            resultLiveData = _ToiletRoomInformationView
+        )
+    }
+
+    fun getRfLivingRoomListView(request: LivingRoomReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.getRfLivingRoomListView(request) },
+            resultLiveData = _getRfLivingRoomListView
+        )
+    }
+
+    fun deleteLivingRoom(request: DeleteLivingRoomList) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.deleteLivingRoom(request) },
+            resultLiveData = _deleteLivingRoom
+        )
+    }
+
+    fun getRfToiletListView(request: LivingRoomReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.getRfToiletListView(request) },
+            resultLiveData = _getRfToiletListView
+        )
+    }
+
+    fun getToiletSectionListView(request: LivingRoomReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.toiletSectionListView(request) },
+            resultLiveData = _toiletSectionListView
+        )
+    }
+
+    fun deleteToiletRoom(request: ToiletDeleteList) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.deleteToiletRoom(request) },
+            resultLiveData = _deleteToiletRoom
+        )
+    }
+
+    // Ajit Ranjan create 03/November/2025 getRfNonLivingAreaInformation
+    fun getRfNonLivingAreaInformation(request: LivingRoomListViewRQ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.residentialFacility.getRfNonLivingAreaInformation(
+                    request
+                )
+            },
+            resultLiveData = _NonAreaInformationRoom
+        )
+    }
+
+    // Ajit Ranjan create 04/November/2025 getRfIndoorGameDetails
+    fun getRfIndoorGameDetails(request: RFGameRequest) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.getRfInGaDetails(request) },
+            resultLiveData = _RfIndoorGameDetails
+        )
+    }
+
+    // Ajit Ranjan create 06/November/2025 getResidentialFacilitiesAvailable
+    fun getResidentialFacilitiesAvailable(request: RfCommonReq) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.residentialFacility.getResidentialFacilitiesAvailable(
+                    request
+                )
+            },
+            resultLiveData = _RFResidentialFacilitiesAvailable
+        )
+    }
+
+    // Ajit Ranjan create 07/November/2025 getRFSupportFacilitiesAvailable
+    fun getRFSupportFacilitiesAvailable(request: RFGameRequest) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.residentialFacility.getRFSupportFacilitiesAvailable(
+                    request
+                )
+            },
+            resultLiveData = _RFSupportFacilitiesAvailable
+        )
+    }
+
+    // Ajit Ranjan create 07/November/2025 insertRFQteamVerificationRequest
+    fun getFinalSubmitinsertRFQteamVerificationRequestData(request: RFQteamVerificationRequest) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.verification.getFinalSubmitinsertRFQteamVerificationRequestData(
+                    request
+                )
+            },
+            resultLiveData = _insertRFQteamVerification
+        )
+    }
+
+    // Ajit Ranjan create 07/November/2025 insertRFSrlmVerification
+    fun getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(request: RFQteamVerificationRequest) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.verification.getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(
+                    request
+                )
+            },
+            resultLiveData = _insertRFSrlmVerification
+        )
+    }
+
+    // Ajit Ranjan create 07/November/2025 getRFSRLMVerification
+    fun getRFSRLMVerification(request: TrainingCenterRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.verification.fetchRFSRLMVerificationList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _trainingRfCenters
+        )
+    }
+
+    fun getRFSectionStatus(request: SectionReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.getRFSectionStatus(request) },
+            resultLiveData = _getRFSectionStatus
+        )
+    }
+
+    fun insertRFFinalSubmission(request: RfFinalSubmitReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.rfOperations.insertRFFinalSubmission(request) },
+            resultLiveData = _insertRFFinalSubmission
+        )
+    }
+
+    fun saveInitialResidentialFacility(request: AddNewRFReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.rfOperations.saveInitialResidentialFacility(request) },
+            resultLiveData = _saveInitialResidentialFacility
+        )
+    }
+
+    fun getResidentialList(request: ModifyRfList) {
+        handleApiCall(
+            apiCall = { repositoryManager.rfOperations.getResidentialList(request) },
+            resultLiveData = _getResidentialList
+        )
+    }
+
+    fun insertRfToiletWashRoomDetail(request: UrinalWashbasinReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.rfOperations.insertRfToiletWashRoomDetail(request) },
+            resultLiveData = _insertRfToiletWashRoomDetail
+        )
+    }
+
+    fun getToiletWashbasinDetails(request: GetUrinalWashReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.getToiletWashbasinDetails(request) },
+            resultLiveData = _getToiletWashbasinDetails
+        )
+    }
+
+    // Ajit Ranjan create 17/Nov/2025 getToiletCountList
+    fun getToiletCountList(request: ToiletCountListReq) {
+        handleApiCall(
+            apiCall = { repositoryManager.residentialFacility.getToiletCountList(request) },
+            resultLiveData = _ToiletCountListView
+        )
+    }
+
+
+    // Ajit Ranjan create 27/Jan/2026 OJT Implimentation
+    fun fetchOJTSanctionOrderNumber(request: ModulesOJTSanctionOrderRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchOJTSanctionOrderNumberList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _ojtSanctionNo
+        )
+    }
+
+    fun fetchOJTTrainingCenter(request: ModulesOJTTrainingCenterRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchOJTTrainingCenterList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _ojtTrainingCenterRequest
+        )
+    }
+
+
+    fun fetchOJTBatch(request: ModulesOJTBatchRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchOJTBatchList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _ojtBatchRequest
+        )
+    }
+
+    private val _VerifiedBatchList = MutableLiveData<Result<OJT_VerifiedBatchListSRLM_Res>>()
+
+    val VerifiedBatchList: LiveData<Result<OJT_VerifiedBatchListSRLM_Res>> = _VerifiedBatchList
+
+    fun fetchgetVerifiedBatchList(request: ModulesOJTBatchRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchgetVerifiedBatchList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _VerifiedBatchList
+        )
+    }
+
+
+    fun fetchOJTgetCompleteOjt(request: ModulesOJTCompleteOjtRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchOJTCompleteOjtList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _CompleteOjt
+        )
+    }
+
+
+    private val _VerifiedCompleteChildOjt = MutableLiveData<Result<OjtListChildSRLMRes>>()
+
+    val VerifiedCompleteChildOjt: LiveData<Result<OjtListChildSRLMRes>> =
+        _VerifiedCompleteChildOjt
+
+    fun getVerifiedCompleteOjt(request: ModulesOJTCompleteOjtRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.getVerifiedCompleteOjt(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _VerifiedCompleteChildOjt
+        )
+    }
+
+
+    fun fetchgetCandidateOjtVerification(request: ModulesOJTCompleteOjtRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchgetCandidateOjtVerificationList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _CandidateOjtVerificationDetails
+        )
+    }
 
 //    getCandidateByOjt
 
-        fun fetchOJTsaveCandidateOjtVerification(
-            request: CandidateOjtVerificationRequest,
-            token: String
-        ) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.ojt.CandidateOjtVerification(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _SaveCandidateOjtVerification
-            )
-        }
-
-
-        fun fetchOJTgetOjtListByBatch(request: ModulesCandidateByOjtRequest2, token: String) {
-            handleApiCall(
-                apiCall = {
-
-                    repositoryManager.ojt.fetchOJTgetOjtListBy(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _ListByBatch
-            )
-        }
-
-
-        fun fetchCandidateByOjtBy(request: ModulesCandidateByOjtRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-
-                    repositoryManager.ojt.fetchCandidateByOjtBy(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _OjtListByBatch
-            )
-        }
-
-
-        fun fetchgetSanctionOrderListOjt(request: ModulesOJTSanctionOrderRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-
-                    repositoryManager.ojt.fetchgetSanctionOrderListOjt(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _SanctionOrderListOjt
-            )
-        }
-
-
-        private val _CompOjtTrainingCenter =
-            MutableLiveData<Result<OJT_OjtVerifiedTrainingCenter_Res>>()
-
-        val CompOjtTrainingCenter: LiveData<Result<OJT_OjtVerifiedTrainingCenter_Res>> =
-            _CompOjtTrainingCenter
-
-        fun fetchgetCompOjtTrainingCenter(request: ModulesOJTTrainingCenterRequest, token: String) {
-            handleApiCall(
-                apiCall = {
-                    repositoryManager.ojt.fetchgetCompOjtTrainingCenter(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _CompOjtTrainingCenter
-            )
-        }
-
-
-        private val _VerifiedBatchCandidateSRLMCandidateList =
-            MutableLiveData<Result<OjtListByBatchSRLMRes>>()
-
-        val VerifiedBatchCandidateSRLMCandidateList: LiveData<Result<OjtListByBatchSRLMRes>> =
-            _VerifiedBatchCandidateSRLMCandidateList
-
-
-        fun fetchgetVerifiedBatchCandidateList(
-            request: ModulesCandidateByOjtRequest2,
-            token: String
-        ) {
-            handleApiCall(
-                apiCall = {
-
-                    repositoryManager.ojt.fetVerifiedBatchCandidateList(
-                        request,
-                        token
-                    )
-                },
-                resultLiveData = _VerifiedBatchCandidateSRLMCandidateList
-            )
-        }
-
-
-        private val _uploadOjtResponse =
-            MutableLiveData<Result<ResponseBody>>()
-
-        val uploadOjtResponse:
-                LiveData<Result<ResponseBody>>
-        get() = _uploadOjtResponse
-        fun uploadCandidateOjtVerification(
-
-            token: String,
-
-            map: Map<String, RequestBody>,
-
-            videoPart: MultipartBody.Part,
-            imagePart: MultipartBody.Part?
-
-        ) {
-
-            handleApiCall(
-
-                apiCall = {
-
-                    repositoryManager.ojt
-                        .uploadCandidateOjtVerification(
-                            token,
-                            map,
-                            videoPart
-                        )
-                },
-
-                resultLiveData = _uploadOjtResponse
-            )
-        }
-
-
-        private val _uploadOjtSRLMResponse = MutableLiveData<Result<ResponseBody>>()
-
-        val uploadOjtSRLMResponse:
-                LiveData<Result<ResponseBody>>
-        get() = _uploadOjtSRLMResponse
-        fun uploadCandidateOjtSRLMVerification(
-
-            token: String,
-
-            map: Map<String, RequestBody>,
-
-            videoPart: MultipartBody.Part,
-            imagePart: MultipartBody.Part?
-
-        ) {
-
-            handleApiCall(
-
-                apiCall = {
-
-                    repositoryManager.ojt
-                        .uploadCandidateOjtSRLMVerification(
-                            token,
-                            map,
-                            videoPart
-                        )
-                },
-
-                resultLiveData = _uploadOjtSRLMResponse
-            )
-        }
-
-
-        private val _getLogOutAPI = MutableLiveData<Result<LoginResponse>>()
-        val getLogOutAPI: LiveData<Result<LoginResponse>> = _getLogOutAPI
-
-        fun getLogOutAPI(token: String) {
-            handleApiCall(
-                apiCall = { repositoryManager.auth.logOutUser(token) },
-                resultLiveData = _getLogOutAPI
-            )
-        }
-
-
-//    private val _fansState = MutableLiveData<UiState>()
-//    val fansState: LiveData<UiState> = _fansState
-//
-//    fun getFansCount(base64: String) {
-//
-//        val request = FansCountReq(
-//            appVersion = BuildConfig.VERSION_NAME,
-//            fansAttachment = base64
-//        )
-//        _fansState.value = UiState.Loading
-//
-//        viewModelScope.launch {
-//
-//            val result = repositoryManager.location.getFansCountAPI(request)
-//
-//            if (result.isSuccess && result. != null) {
-//
-//                val data = result.body()!!
-//
-//                if (data.responseCode == 200) {
-//                    _fansState.value =
-//                        FansUiState.ShowResult(base64, data.facilityId)
-//                } else {
-//                    _fansState.value =
-//                        FansUiState.Error(data.responseDesc)
-//                }
-//
-//            } else {
-//                _fansState.value =
-//                    FansUiState.Error("API Failed")
-//            }
-//        }
-//    }
-
-
+    fun fetchOJTsaveCandidateOjtVerification(
+        request: CandidateOjtVerificationRequest,
+        token: String
+    ) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.CandidateOjtVerification(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _SaveCandidateOjtVerification
+        )
     }
+
+
+    fun fetchOJTgetOjtListByBatch(request: ModulesCandidateByOjtRequest2, token: String) {
+        handleApiCall(
+            apiCall = {
+
+                repositoryManager.ojt.fetchOJTgetOjtListBy(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _ListByBatch
+        )
+    }
+
+
+    fun fetchCandidateByOjtBy(request: ModulesCandidateByOjtRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+
+                repositoryManager.ojt.fetchCandidateByOjtBy(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _OjtListByBatch
+        )
+    }
+
+
+    fun fetchgetSanctionOrderListOjt(request: ModulesOJTSanctionOrderRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+
+                repositoryManager.ojt.fetchgetSanctionOrderListOjt(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _SanctionOrderListOjt
+        )
+    }
+
+
+    private val _CompOjtTrainingCenter =
+        MutableLiveData<Result<OJT_OjtVerifiedTrainingCenter_Res>>()
+
+    val CompOjtTrainingCenter: LiveData<Result<OJT_OjtVerifiedTrainingCenter_Res>> =
+        _CompOjtTrainingCenter
+
+    fun fetchgetCompOjtTrainingCenter(request: ModulesOJTTrainingCenterRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.ojt.fetchgetCompOjtTrainingCenter(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _CompOjtTrainingCenter
+        )
+    }
+
+
+    private val _VerifiedBatchCandidateSRLMCandidateList =
+        MutableLiveData<Result<OjtListByBatchSRLMRes>>()
+
+    val VerifiedBatchCandidateSRLMCandidateList: LiveData<Result<OjtListByBatchSRLMRes>> =
+        _VerifiedBatchCandidateSRLMCandidateList
+
+
+    fun fetchgetVerifiedBatchCandidateList(
+        request: ModulesCandidateByOjtRequest2,
+        token: String
+    ) {
+        handleApiCall(
+            apiCall = {
+
+                repositoryManager.ojt.fetVerifiedBatchCandidateList(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _VerifiedBatchCandidateSRLMCandidateList
+        )
+    }
+
+
+    private val _uploadOjtResponse =
+        MutableLiveData<Result<ResponseBody>>()
+
+    val uploadOjtResponse:
+            LiveData<Result<ResponseBody>>
+        get() = _uploadOjtResponse
+
+    fun uploadCandidateOjtVerification(
+
+        token: String,
+
+        map: Map<String, RequestBody>,
+
+        videoPart: MultipartBody.Part,
+        imagePart: MultipartBody.Part?
+
+    ) {
+
+        handleApiCall(
+
+            apiCall = {
+
+                repositoryManager.ojt
+                    .uploadCandidateOjtVerification(
+                        token,
+                        map,
+                        videoPart
+                    )
+            },
+
+            resultLiveData = _uploadOjtResponse
+        )
+    }
+
+
+    private val _uploadOjtSRLMResponse = MutableLiveData<Result<ResponseBody>>()
+
+    val uploadOjtSRLMResponse:
+            LiveData<Result<ResponseBody>>
+        get() = _uploadOjtSRLMResponse
+
+    fun uploadCandidateOjtSRLMVerification(
+
+        token: String,
+
+        map: Map<String, RequestBody>,
+
+        videoPart: MultipartBody.Part,
+        imagePart: MultipartBody.Part?
+
+    ) {
+
+        handleApiCall(
+
+            apiCall = {
+
+                repositoryManager.ojt
+                    .uploadCandidateOjtSRLMVerification(
+                        token,
+                        map,
+                        videoPart
+                    )
+            },
+
+            resultLiveData = _uploadOjtSRLMResponse
+        )
+    }
+
+
+    private val _getLogOutAPI = MutableLiveData<Result<LoginResponse>>()
+    val getLogOutAPI: LiveData<Result<LoginResponse>> = _getLogOutAPI
+
+    fun getLogOutAPI(token: String) {
+        handleApiCall(
+            apiCall = { repositoryManager.auth.logOutUser(token) },
+            resultLiveData = _getLogOutAPI
+        )
+    }
+
+
+    private val _fansState = MutableLiveData<Result<FansCountRes>>()
+
+    val fansState: LiveData<Result<FansCountRes>> =_fansState
+
+
+    fun getFansCount(base64: String, detectObjectType: String, token: String) {
+
+        val request = FansCountReq(
+
+            appVersion = BuildConfig.VERSION_NAME,
+
+            fansAttachment = base64,
+
+            detObject = detectObjectType
+        )
+
+        handleApiCall(
+            apiCall = {
+                repositoryManager.location
+                    .getFansCountAPI(
+                        request,
+                        token
+                    )
+            },
+            resultLiveData = _fansState
+        )
+    }
+
+
+}
+
+
+
+
 

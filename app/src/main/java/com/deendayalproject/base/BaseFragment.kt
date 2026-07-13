@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -275,6 +276,14 @@ abstract class BaseFragment<VB : ViewBinding>(
         return adapter
     }
 
+    protected fun <T> notifyRecyclerItemChanged(recyclerViewId: Int, position: Int) {
+        try {
+            val helper = recyclerViewHelpers[recyclerViewId] as? RecyclerViewHelper<T>
+            helper?.adapter?.notifyItemChanged(position)
+        } catch (e: Exception) {
+            logCrashlyticsError("notifyRecyclerItemChanged", e)
+        }
+    }
 
 
     protected fun <T, VB : ViewBinding> setupRecyclerView(
@@ -401,7 +410,6 @@ abstract class BaseFragment<VB : ViewBinding>(
             .show()
     }
 
-
     protected fun showBase64ImageDialog(
         base64ImageString: String?,
         title: String = "Image",
@@ -432,6 +440,8 @@ abstract class BaseFragment<VB : ViewBinding>(
             logCrashlyticsError("showBase64ImageDialog", e)
         }
     }
+
+
 
     protected fun showBase64ImageWithCountDialog(
         base64ImageString: String?,
@@ -501,6 +511,67 @@ abstract class BaseFragment<VB : ViewBinding>(
         } catch (e: Exception) {
             logCrashlyticsError("openBase64Pdf", e)
             showToast("Failed to open PDF")
+        }
+    }
+
+    protected fun openBase64PdfN(base64: String, context: Context = requireContext()) {
+        try {
+            val cleanBase64 = base64
+                .replace("data:application/pdf;base64,", "")
+                .trim()
+
+            val pdfBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
+
+            if (pdfBytes.isEmpty() || !String(pdfBytes.copyOfRange(0, 4)).startsWith("%PDF")) {
+                showToast("Invalid PDF data")
+                return
+            }
+
+            val pdfFile = File.createTempFile("temp_", ".pdf", context.cacheDir)
+            pdfFile.outputStream().use { it.write(pdfBytes) }
+
+            // Grant read permission for all apps
+            pdfFile.setReadable(true, false)
+
+            val uri: Uri = FileProvider.getUriForFile(
+                context,
+                "${context.packageName}.provider",
+                pdfFile
+            )
+
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(uri, "application/pdf")
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+            }
+
+            // Better intent resolution check
+            val packageManager = context.packageManager
+            val resolveInfoList = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+
+            if (resolveInfoList.isNotEmpty()) {
+                context.startActivity(Intent.createChooser(intent, "Open PDF with"))
+            } else {
+                // Fallback: Try opening with browser
+                showToast("No PDF viewer found. Trying browser...")
+                openPdfInBrowser(uri, context)
+            }
+
+        } catch (e: Exception) {
+            logCrashlyticsError("openBase64Pdf", e)
+            showToast("Failed to open PDF")
+        }
+    }
+
+    private fun openPdfInBrowser(uri: Uri, context: Context) {
+        try {
+            val browserIntent = Intent(Intent.ACTION_VIEW, uri).apply {
+                setDataAndType(uri, "application/pdf")
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            context.startActivity(browserIntent)
+        } catch (e: Exception) {
+            showToast("Please install a PDF viewer app")
         }
     }
 
@@ -605,6 +676,7 @@ abstract class BaseFragment<VB : ViewBinding>(
                 (adapter as BaseRecyclerAdapter<T, *>).update(newItems)
             } else {
                 adapter.notifyDataSetChanged()
+
             }
         }
     }

@@ -87,6 +87,5 @@ enum class ObjectType {
     LIGHT,
     FAN,
     TABLE,
-    BIOMETRIC_DEVICES,
     CHAIR
 }

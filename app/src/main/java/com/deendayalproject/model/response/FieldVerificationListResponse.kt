@@ -8,8 +8,9 @@ data class FieldVerificationItem(
     val stateName: String?,
     val captiveApplicationId: String?,
     val remarks: String?,
-    val captiveEmpanelmentId: Int?
-)
+    val captiveEmpanelmentId: Int?,
+    val proposedFvDate: String?,
+    )
 
 // Full response wrapper
 data class FieldVerificationListResponse(

@@ -2948,13 +2948,34 @@
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
 
+                    <ImageView
+                        android:id="@+id/ivProofFanPreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_image_preview"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnUploadProof"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="44dp"
                         android:layout_marginTop="8dp"
-                        android:text="@string/upload"
+                        android:text="Lights Upload"
+                        android:textAllCaps="false"
+                        android:textSize="14sp"
+                        app:cornerRadius="8dp"
+                        app:icon="@drawable/ic_upload" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnFanUploadProof"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Fan Upload"
                         android:textAllCaps="false"
                         android:textSize="14sp"
                         app:cornerRadius="8dp"

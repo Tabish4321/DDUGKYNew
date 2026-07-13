@@ -54,7 +54,9 @@ data class ITComeDomainLabDetailsRequest(
     var domainRelatedEquipment: String = "",
     var domainRelatedEquipmentAttachment: String = "",
     var airConditioningRoom: String = "",
-    var airConditioningRoomAttachment: String = ""
+    var airConditioningRoomAttachment: String = "",
+    val lightsAiCount: String,
+    val fansAiCount: String,
 )
 
 

@@ -1542,9 +1542,16 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
                         yesNoPowerBackup.text = safeText(data.ecPowerBackup)
                         yesNoLabPhoto.text = safeText(data.roomsPhotographs)
                         yesNoAirConditioning.text = safeText(data.airConditionRoom)
+                       // data.lightAiCount
                     }
                     fansRoomImage=safeText(data.fansImage)
                     setupTheoryClassRoomImageClicks(binding, data)
+//                    showBase64Image(imagesMap) { imageView ->
+//                        when (imageView.id) {
+//                            R.id.ivProofPreview -> showBadgeSafely(imageView, x.lightAiCount ?: 0, ObjectType.LIGHT.name)
+//                            //R.id.ivProofFanPreview -> showBadgeSafely(imageView, x.fanAiCount ?: 0, ObjectType.FAN.name)
+//                        }
+//                    }
                 } else {
                     showToast(getString(R.string.no_data_available))
                 }
@@ -1560,6 +1567,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
     }
 
     private fun setupTheoryClassRoomImageClicks(binding: TheoryClassRoomBinding, data: Any) {
+        val c= data as? RoomDetail
         binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Roof Type Image") }
         binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling Image") }
         binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Ceiling Height Image") }
@@ -1574,8 +1582,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.valueWritingBoard.setOnClickListener { showBase64ImageDialog(writingBoardImage, "Writing Board Image") }
         binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair Image") }
         binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table Image") }
-        binding.valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights Image") }
-        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansRoomImage, "Fans Image") }
+        binding.valueLights.setOnClickListener { showBase64ImageWithCountDialog(lightsImage, "Lights Image",c?.lightAiCount.toString() ) }
+        binding.valueFans.setOnClickListener { showBase64ImageWithCountDialog(fansRoomImage, "Fans Image",c?.fanAiCount.toString()) }
         binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup Image") }
         binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "Room Photos") }
         binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning Image") }
@@ -1872,7 +1880,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.backButton.setOnClickListener { dialog.dismiss() }
     }
 
-    private fun setupItCumDomainLabImageClicks(binding: ItCumDomainLabLayoutBinding, data: Any) {
+    private fun setupItCumDomainLabImageClicks(binding: ItCumDomainLabLayoutBinding, data: RoomDetail) {
         binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Roof Type") }
         binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
         binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Height of Ceiling") }
@@ -1888,8 +1896,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.valueTablets.setOnClickListener { showBase64ImageDialog(tabletImage, "Tablets") }
         binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
         binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
-        binding.valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
-        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansImage, "Fans") } //showBase64ImageDialog(fansImage, "Fans") }
+        binding.valueLights.setOnClickListener { showBase64ImageWithCountDialog(lightsImage, "Lights",data?.lightAiCount.toString()) }
+        binding.valueFans.setOnClickListener { showBase64ImageWithCountDialog(fansImage, "Fans",data?.fanAiCount.toString()) }
         binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
         binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
         binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "IT cum Domain Lab Photo") }
@@ -1961,7 +1969,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.backButton.setOnClickListener { dialog.dismiss() }
     }
 
-    private fun setupTheoryCumItLabImageClicks(binding: TheoryCumItLabLayoutBinding, data: Any) {
+    private fun setupTheoryCumItLabImageClicks(binding: TheoryCumItLabLayoutBinding, data: RoomDetail) {
         binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Type of Roof") }
         binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
         binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Height of Ceiling") }
@@ -1978,8 +1986,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.valueStools.setOnClickListener { showBase64ImageDialog(candidateChairImage, "Candidate Chair") }
         binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
         binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
-        binding.valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
-        binding.valueFans.setOnClickListener { showBase64ImageDialog(fansRoomImage, "Fans") }
+        binding.valueLights.setOnClickListener { showBase64ImageWithCountDialog(lightsImage, "Lights",data?.lightAiCount.toString()) }
+        binding.valueFans.setOnClickListener { showBase64ImageWithCountDialog(fansRoomImage, "Fans",data?.fanAiCount.toString()) }
         binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
         binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "IT Lab Photograph") }
         binding.valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(domainEquipmentImage, "Domain Equipment") }
@@ -2050,7 +2058,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.backButton.setOnClickListener { dialog.dismiss() }
     }
 
-    private fun setupItLabImageClicks(binding: ItLabLayoutBinding, data: Any) {
+    private fun setupItLabImageClicks(binding: ItLabLayoutBinding, data: RoomDetail) {
         binding.valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Type of Roof") }
         binding.valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
         binding.valueHeightCeiling.setOnClickListener { showBase64ImageDialog(ceilingHeightImage, "Height of Ceiling") }
@@ -2067,8 +2075,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.valueStools.setOnClickListener { showBase64ImageDialog(candidateChairImage, "Stools / Chairs") }
         binding.valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
         binding.valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
-        binding.valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
-        binding.valueFans.setOnClickListener {showBase64ImageDialog(fansImage, title = "Fans") }// showBase64ImageDialog(fansImage, "Fans") }
+        binding.valueLights.setOnClickListener { showBase64ImageWithCountDialog(lightsImage, "Lights",data?.lightAiCount.toString()) }
+        binding.valueFans.setOnClickListener {showBase64ImageWithCountDialog(fansImage, title = "Fans",data?.fanAiCount.toString()) }
         binding.valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
         binding.valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
         binding.valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "IT Lab Photo") }
@@ -2141,7 +2149,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.backButton.setOnClickListener { dialog.dismiss() }
     }
 
-    private fun setupDomainLabImageClicks(binding: DomainLabLayoutBinding, data: Any) {
+    private fun setupDomainLabImageClicks(binding: DomainLabLayoutBinding, data: RoomDetail) {
         binding.apply {
             valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Type of Roof") }
             valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
@@ -2157,14 +2165,13 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             valueWritingBoard.setOnClickListener { showBase64ImageDialog(writingBoardImage, "Writing Board") }
             valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
             valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
-            valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
-            valueFans.setOnClickListener { showBase64ImageDialog(fansRoomImage, "Fans") }
+            valueLights.setOnClickListener { showBase64ImageWithCountDialog(lightsImage, "Lights",data?.lightAiCount.toString()) }
+            valueFans.setOnClickListener { showBase64ImageWithCountDialog(fansRoomImage, "Fans",data?.fanAiCount.toString()) }
             valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
             valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "Domain Lab Photo") }
             valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(domainEquipmentImage, "Domain Related Equipment") }
             valueAirConditioning.setOnClickListener { showBase64ImageDialog(airConditionRoomImage, "Air Conditioning") }
         }
-
     }
 
 
@@ -2236,7 +2243,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
         binding.backButton.setOnClickListener { dialog.dismiss() }
     }
 
-    private fun setupTheoryCumDomainLabImageClicks(binding: TheoryCumDomainLabLayoutBinding, data: Any) {
+    private fun setupTheoryCumDomainLabImageClicks(binding: TheoryCumDomainLabLayoutBinding, data: RoomDetail) {
         binding.apply {
             valueTypeOfRoof.setOnClickListener { showBase64ImageDialog(roofTypeImage, "Type of Roof") }
             valueFalseCeiling.setOnClickListener { showBase64ImageDialog(falseCeilingImage, "False Ceiling") }
@@ -2254,8 +2261,8 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
             valueStools.setOnClickListener { showBase64ImageDialog(candidateChairImage, "Candidate Chair") }
             valueTrainerChair.setOnClickListener { showBase64ImageDialog(trainerChairImage, "Trainer Chair") }
             valueTrainerTable.setOnClickListener { showBase64ImageDialog(trainerTableImage, "Trainer Table") }
-            valueLights.setOnClickListener { showBase64ImageDialog(lightsImage, "Lights") }
-            valueFans.setOnClickListener { showBase64ImageDialog(fansRoomImage, "Fans") }
+            valueLights.setOnClickListener { showBase64ImageWithCountDialog(lightsImage, "Lights",  data?.lightAiCount.toString()) }
+            valueFans.setOnClickListener { showBase64ImageWithCountDialog(fansRoomImage, "Fans",  data?.fanAiCount.toString()) }
             valuePowerBackup.setOnClickListener { showBase64ImageDialog(ecPowerBackupImage, "Power Backup") }
             valueITLabPhoto.setOnClickListener { showBase64ImageDialog(roomsPhotographsImage, "IT Lab Photograph") }
             valuedomainrelatedequipPhoto.setOnClickListener { showBase64ImageDialog(domainEquipmentImage, "Domain Equipment") }

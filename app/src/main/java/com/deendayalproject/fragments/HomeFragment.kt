@@ -162,8 +162,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
             .start()
     }
 
+//    private fun toggleExpand(position: Int) {
+//        expandedPosition = if (expandedPosition == position) -1 else position
+//    }
+
     private fun toggleExpand(position: Int) {
+        val previous = expandedPosition
         expandedPosition = if (expandedPosition == position) -1 else position
+        if (previous != -1) adapter.notifyItemChanged(previous)
+        adapter.notifyItemChanged(position)
     }
 
     fun update(newList: List<Module>) {
@@ -204,7 +211,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                 updateExpansionUI(binding, isExpanded)
 
                 // Handle module click
-                binding.root.setOnClickListener {
+                binding.cardView.setOnClickListener {
                     toggleExpand(position)
                     adapter.notifyDataSetChanged()
                 }

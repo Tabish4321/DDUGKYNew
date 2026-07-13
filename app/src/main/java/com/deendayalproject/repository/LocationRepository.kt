@@ -115,5 +115,14 @@ class LocationRepository(context: Context) : BaseRepository<ApiService>(context)
 
 
 
+    suspend fun getFansCountAPI(fansCountReq: FansCountReq, header :String): Result<FansCountRes> =
+        safeApiCallWithToken(token = header) {
+            apiService.getFansCountAPI(fansCountReq)
+        }
+
+
+
+
+
 
 }
