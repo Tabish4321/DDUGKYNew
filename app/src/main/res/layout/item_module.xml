@@ -10,7 +10,7 @@
     app:cardCornerRadius="16dp"
     app:cardElevation="2dp"
     app:strokeColor="@color/button_center_color"
-    app:strokeWidth="0.7dp">
+    app:strokeWidth="0.2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:fontFamily="@font/sf_pro_rounded_semibold"
+                    android:fontFamily="@font/avenir_next_demi_bold"
                     android:maxLines="1"
                     android:text="Module Name"
                     android:textColor="@color/black"
@@ -81,6 +81,7 @@
             </LinearLayout>
 
             <FrameLayout
+                android:id="@+id/expandIconContainer"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="14dp"
@@ -120,5 +121,6 @@
             tools:listitem="@layout/item_form" />
 
     </LinearLayout>
+
 
 </com.google.android.material.card.MaterialCardView>

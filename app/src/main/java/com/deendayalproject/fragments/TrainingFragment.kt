@@ -1359,7 +1359,7 @@ class TrainingFragment : Fragment() {
         AppUtil.imageUriToBase64(requireContext(), uri)?.let { image ->
             base64Setter(image)
             if (isObjectDetect) {
-                AiBadgeHelper.showLoading(iv, requireContext())
+               // AiBadgeHelper.showLoading(iv, requireContext())
                 observeObjectCount(image, objects, iv)
             }
             iv.setOnClickListener {
@@ -1377,8 +1377,13 @@ class TrainingFragment : Fragment() {
         viewModel.fansState.removeObservers(viewLifecycleOwner)
         viewModel.fansState.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                val count = it.facilityId.toString().toIntOrNull() ?: 0
-                AiBadgeHelper.showCount(iv, count, objects, requireContext())
+                val count =  it.facilityId
+
+                if (count > 0) {
+                    AiBadgeHelper.showCount(iv, count, objects, requireContext())
+                } else {
+                    AiBadgeHelper.clear(iv)
+                }
                 when (objects) {
                     ObjectType.LIGHT.name -> lightsAiCount = count.toString()
                     ObjectType.FAN.name -> fanAiCount = count.toString()
@@ -1387,7 +1392,7 @@ class TrainingFragment : Fragment() {
             }
             result.onFailure { its ->
                 AiBadgeHelper.clear(iv)
-                its.message?.let { msg -> toast(msg) }
+               // its.message?.let(::toast)
             }
         }
     }
@@ -5221,7 +5226,12 @@ class TrainingFragment : Fragment() {
         imageView.postDelayed({
             if (!imageView.isAttachedToWindow) return@postDelayed
             try {
-                AiBadgeHelper.showCount(imageView, count, objectType, requireContext())
+                if (count > 0) {
+                    AiBadgeHelper.showCount(imageView, count, objectType, requireContext())
+                } else {
+                    AiBadgeHelper.clear(imageView)
+                }
+               // AiBadgeHelper.showCount(imageView, count, objectType, requireContext())
             } catch (e: Exception) {
                 Log.e("AI_BADGE", "Error showing badge: ${e.message}")
             }

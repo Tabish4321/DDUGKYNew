@@ -189,15 +189,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
             onBind = { module, binding, position ->
 
                 binding.tvModuleName.text = module.moduleName
-
                 //  var  lists = List(4) { module.forms }.flatten() // for testing
 
-                // Set up nested form adapter
+             //   val isSingleModuleInList = adapter.itemCount == 1
+                val isSingleFormInModule = module.forms.size == 1
+
+                // Set up nested form adapter (still needed even for single form, in case you ever show it)
                 val formAdapter = BaseRecyclerAdapter(
-                    items = module.forms, //lists,
-                    bindingInflater = ItemFormBinding::inflate, onBind = { form, formBinding, _ ->
+                    items =  module.forms, //lists,
+                    bindingInflater = ItemFormBinding::inflate,
+                    onBind = { form, formBinding, _ ->
                         formBinding.tvFormName.text = form.formName
-                    }, onItemClick = { form, _ ->
+                    },
+                    onItemClick = { form, _ ->
                         handleFormClick(form)
                     })
 
@@ -206,14 +210,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                     adapter = formAdapter
                 }
 
-                // Apply expand/collapse state
-                val isExpanded = position == expandedPosition
-                updateExpansionUI(binding, isExpanded)
+                when {
+                    // Case 1: only one form inside this module -> no expand, card click goes straight to the form
+                    isSingleFormInModule -> {
+                        updateExpansionUI(binding, isExpanded = false)
+                        binding.expandIconContainer.visibility = View.VISIBLE
+                        binding.ivExpandArrow.setImageResource(R.drawable.outline_chevron_right_24)
+                        binding.cardView.setOnClickListener {
+                            handleFormClick(module.forms.first())
+                        }
+                    }
 
-                // Handle module click
-                binding.cardView.setOnClickListener {
-                    toggleExpand(position)
-                    adapter.notifyDataSetChanged()
+                    else -> {
+                        val isExpanded = position == expandedPosition
+                        updateExpansionUI(binding, isExpanded)
+                        binding.expandIconContainer.visibility = View.VISIBLE
+                        binding.cardView.setOnClickListener {
+                            toggleExpand(position)
+                            adapter.notifyDataSetChanged()
+                        }
+                    }
                 }
             },
             diffChecker = { old, new -> old.id == new.id },

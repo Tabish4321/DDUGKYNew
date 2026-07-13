@@ -2115,8 +2115,6 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                         )
 
                     }
-
-
                     if (::fieldAdapter.isInitialized) refreshFieldItems()
                 } else {
                     showToast("Unable to get location")

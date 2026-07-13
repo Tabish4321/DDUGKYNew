@@ -1549,7 +1549,7 @@ class QTeamFormFragment : BaseFragment<FragmentQTeamFormBinding>(
 //                    showBase64Image(imagesMap) { imageView ->
 //                        when (imageView.id) {
 //                            R.id.ivProofPreview -> showBadgeSafely(imageView, x.lightAiCount ?: 0, ObjectType.LIGHT.name)
-//                            //R.id.ivProofFanPreview -> showBadgeSafely(imageView, x.fanAiCount ?: 0, ObjectType.FAN.name)
+                            //R.id.ivProofFanPreview -> showBadgeSafely(imageView, x.fanAiCount ?: 0, ObjectType.FAN.name)
 //                        }
 //                    }
                 } else {
