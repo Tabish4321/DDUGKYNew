@@ -595,6 +595,28 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
 
+    private val _officerExitingSelfieApi =
+        MutableLiveData<Result<CaptivePiaOfficerSelfieResponse>>()
+
+    val officerExitingSelfieApi: LiveData<Result<CaptivePiaOfficerSelfieResponse>>
+            = _officerExitingSelfieApi
+
+    fun getExitingCaptivePiaOfficerSelfie(
+        request: CaptivePiaOfficerSelfieRequest,
+        token: String
+    ) {
+        viewModelScope.launch {
+
+            _officerExitingSelfieApi.value =
+                Result.failure(Exception("Loading"))
+
+            val result = repositoryManager.fieldVerification
+                .getExitingCaptivePiaOfficerSelfie(request, token)
+
+            _officerExitingSelfieApi.value = result
+        }
+    }
+
     fun fetchSrlmTeamTrainingList(request: TrainingCenterRequest, token: String) {
         handleApiCall(
             apiCall = {

@@ -458,6 +458,24 @@ object AppUtil {
         sharedPreferences.edit().clear().apply()
     }
 
+
+    const val PREF_OFFICER_SELFIE = "pref_officer_selfie"
+
+    fun isOfficerSelfieCaptured(context: Context): Boolean {
+        val pref = context.getSharedPreferences("field_verification", Context.MODE_PRIVATE)
+        return pref.getBoolean(PREF_OFFICER_SELFIE, false)
+    }
+
+    fun saveOfficerSelfieStatus(context: Context) {
+        val pref = context.getSharedPreferences("field_verification", Context.MODE_PRIVATE)
+        pref.edit().putBoolean(PREF_OFFICER_SELFIE, true).apply()
+    }
+
+    fun clearOfficerSelfieStatus(context: Context) {
+        val pref = context.getSharedPreferences("field_verification", Context.MODE_PRIVATE)
+        pref.edit().remove(PREF_OFFICER_SELFIE).apply()
+    }
+
     fun decodeBase64ToBitmap(base64Str: String?) =
         try {
             base64Str?.let {

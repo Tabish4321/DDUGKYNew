@@ -1075,6 +1075,11 @@ interface ApiService {
     suspend fun getCandidateByOjt(@Body request: ModulesCandidateByOjtRequest): Response<OjtRes>
 
     @POST("getCaptivePiaOfficerSelfie")
+    suspend fun getExitingCaptivePiaOfficerSelfie(
+        @Body request: CaptivePiaOfficerSelfieRequest
+    ): Response<CaptivePiaOfficerSelfieResponse>
+
+    @POST("saveCaptivePiaOfficerSelfie")
     suspend fun getCaptivePiaOfficerSelfie(
         @Body request: CaptivePiaOfficerSelfieRequest
     ): Response<CaptivePiaOfficerSelfieResponse>

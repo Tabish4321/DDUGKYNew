@@ -133,6 +133,8 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
     private var currentUploadList: String = ""
 
     private val completedSections = mutableSetOf<String>()
+    private var officerVerificationDialog: AlertDialog? = null
+
 
     // ── Section item lists ───────────────────────────────────
 
@@ -226,7 +228,8 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         setupRecyclerViews()
         setupLocationClient()
         hideAllSections()
-        showOfficerVerificationDialog()
+        //showOfficerVerificationDialog()
+        checkOfficerSelfie()
     }
 
     override fun setupObservers() {
@@ -375,6 +378,48 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
             onFieldFinalSubmitN()
         }
     }
+
+    // Slefie Check
+
+    private fun checkOfficerSelfie() {
+        officerVerificationDialog?.dismiss()
+        val request = CaptivePiaOfficerSelfieRequest(
+            appVersion = BuildConfig.VERSION_NAME,
+            comment = "Officer Photo captured now",
+            officerLatitude = latitude,
+            officerLongitude = longitude,
+            officerPhoto = officerSelfieBase64 ?: "",
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            createdBy = AppUtil.getSavedLoginIdPreference(requireContext())
+        )
+        showProgressBar()
+        viewModel.getExitingCaptivePiaOfficerSelfie(request, "")
+
+        viewModel.officerExitingSelfieApi.removeObservers(viewLifecycleOwner)
+
+        viewModel.officerExitingSelfieApi.observe(viewLifecycleOwner) { result ->
+
+            hideProgressBar()
+
+            result.onSuccess { response ->
+
+                if (response.responseCode == 200 &&
+                    !response.wrappedList.isNullOrEmpty()
+                ) {
+                    officerSelfieBase64 = response.wrappedList.first().officerPhoto
+                    isSelfieVerificationDone = true
+                    revealOrgSection()
+                } else {
+                    showOfficerVerificationDialog()
+                }
+            }.onFailure {
+                showOfficerVerificationDialog()
+            }
+        }
+    }
+
+
+
 
     // ── Organisation ─────────────────────────────────────────
 
@@ -1728,7 +1773,10 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
                 if (granted) launchCamera()
-                else showToast(getString(R.string.camera_permission_is_required))
+                else {
+                    showToast(getString(R.string.camera_permission_is_required))
+                    if (currentPhotoTarget == SectionTag.OFFICER_SELFIE) showOfficerVerificationDialog()
+                }
             }
     }
 
@@ -1980,7 +2028,9 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
 
     private fun startOfficerVerificationFlow() {
-        if (hasLocationPermission()) getOfficerCurrentLocation() else requestLocationPermission()
+        if (hasLocationPermission())
+            getOfficerCurrentLocation()
+        else requestLocationPermission()
     }
 
     @SuppressLint("MissingPermission")
@@ -1994,10 +2044,16 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                     longitude = location.longitude.toString()
                     Log.d(TAG, "Officer location — $latitude, $longitude")
                     callOfficerSelfieApi()
+                    //checkOfficerSelfie()
                 } else {
                     showToast("Unable to fetch current location")
+                    showOfficerVerificationDialog()
                 }
-            }.addOnFailureListener { hideProgressBar(); showToast("Failed to fetch location") }
+            }.addOnFailureListener {
+                hideProgressBar();
+                showToast("Failed to fetch location")
+                showOfficerVerificationDialog()
+            }
     }
 
     private fun callOfficerSelfieApi() {
@@ -2025,20 +2081,25 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                         revealOrgSection()
                     } else {
                         showToast(response.responseDesc ?: "Verification failed")
+                        showOfficerVerificationDialog()
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
                     showToast("Failed to process verification response")
+                    showOfficerVerificationDialog()
                 }
             }.onFailure {
                 hideProgressBar()
                 Log.e(TAG, "Selfie API failed: ${it.message}")
                 showToast(it.message ?: "Officer verification failed")
+                showOfficerVerificationDialog()
             }
         }
     }
 
     private fun revealOrgSection() {
+        officerVerificationDialog?.dismiss()
+        officerVerificationDialog = null
         binding.verOrg.visibility = View.VISIBLE
         binding.trainingInfraExpand.visibility = View.VISIBLE
         binding.recyclerView.visibility = View.VISIBLE
@@ -2072,6 +2133,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
                 if (!isSelfieVerificationDone) getOfficerCurrentLocation() else getCurrentLocation()
             } else {
                 showToast(getString(R.string.location_permission_denied))
+                if (!isSelfieVerificationDone) showOfficerVerificationDialog()
             }
         }
 
@@ -3568,6 +3630,7 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
         }
 
         // ── Action button ─────────────────────────────────────────────
+        officerVerificationDialog?.dismiss()
         var dialog: AlertDialog? = null
 
         val btnCapture = buildDialogButton(
@@ -3608,9 +3671,10 @@ class FieldVerificationFormFragment : BaseFragment<FragmentFieldVerFormBinding>(
 
         dialog = AlertDialog.Builder(ctx)
             .setView(fullView)
-            .setCancelable(true)   // ← original: non-cancelable
+            .setCancelable(true)
             .create()
             .also { d ->
+                officerVerificationDialog = d
                 d.window?.setBackgroundDrawable(
                     android.graphics.drawable.ColorDrawable(Color.TRANSPARENT)
                 )
