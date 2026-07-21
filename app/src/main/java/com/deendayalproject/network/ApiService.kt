@@ -2,6 +2,10 @@ package com.deendayalproject.network
 
 import PreviousInspectionItemResponse
 import com.deendayalproject.base.BaseResponse
+import com.deendayalproject.esop.exam.FinalSubmitResponse
+import com.deendayalproject.esop.exam.InsertRequest
+import com.deendayalproject.esop.result.GetResultItem
+import com.deendayalproject.esop.result.GetResultViewRequest
 import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.AddNewRFReq
 import com.deendayalproject.model.request.AllRoomDetaisReques
@@ -18,6 +22,8 @@ import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
+import com.deendayalproject.model.request.EsopCandidateRequest
+import com.deendayalproject.model.request.EsopResultRequest
 import com.deendayalproject.model.request.FansCountReq
 import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
@@ -152,6 +158,7 @@ import com.deendayalproject.model.response.DistrictResponse
 import com.deendayalproject.model.response.DueDiligenceItemResponse
 import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
+import com.deendayalproject.model.response.EsopCandidateRes
 import com.deendayalproject.model.response.FacultyDetailsRes
 import com.deendayalproject.model.response.FansCountRes
 import com.deendayalproject.model.response.FieldVerificationDetailResponse
@@ -240,6 +247,12 @@ import com.deendayalproject.model.uistate.GetCandidateInspectionRequest
 import com.deendayalproject.model.uistate.PreviousInspectionObservationDto
 import com.deendayalproject.uidai.ekyc.UidaiKycRequest
 import com.deendayalproject.uidai.ekyc.UidaiResp
+import com.example.esop.AswersOptionSubmit.SubmitExamRequest
+import com.example.esop.AswersOptionSubmit.SubmitResponse
+import com.example.esop.fialAnsweredSubmitApi.ResultInsertReq
+import com.example.esop.mytest.MyTestResponse
+import com.example.esop.quetions_esop.QuestionResponse
+import com.example.esop.quetions_esop.QuestiontReq
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -311,6 +324,13 @@ interface ApiService {
     suspend fun getFieldVerificationFinDetail(
         @Body request: FieldVerificationDetailRequest
     ): Response<FieldVerificationDetailResponse>
+
+
+
+
+
+
+
 
     @POST("getCaptiveTrainingDetails")
     suspend fun getFieldVerificationTrainingDetail(
@@ -1141,7 +1161,52 @@ interface ApiService {
 
 
 
+    @POST("getresult")
+    suspend fun getresultDetail(
+        @Body request: FieldVerificationDetailRequest
+    ): Response<FieldVerificationDetailResponse>
 
 
+    @POST("exam/rolecategory")
+    suspend fun esoprolecategory(
+        @Body request: EsopCandidateRequest
+    ): Response<EsopCandidateRes>
+
+
+//    @POST("mbexamsubmit/getresult")
+    @POST("mbexamsubmit/getresult")
+    suspend fun getresultAll(
+        @Body request: EsopResultRequest
+    ): Response<MyTestResponse>
+
+
+
+
+
+    @POST("mbexamsubmit/getResultView")
+    suspend fun getResultView(
+        @Body request: GetResultViewRequest
+    ): Response<GetResultItem>
+
+
+    @POST("exam/createexam")
+    suspend fun getQuestionsView(
+        @Body request: QuestiontReq
+    ): Response<QuestionResponse>
+
+
+
+    @POST("mbexamsubmit/insertsubmit")
+    suspend fun insertresultsubmit(
+//        @Body request: ResultInsertReq
+        @Body request: SubmitExamRequest
+    ): Response<SubmitResponse>
+
+
+
+    @POST("mbexamsubmit/insertresult")
+    suspend fun insertfinalsubmit(
+        @Body request: InsertRequest
+    ): Response<FinalSubmitResponse>
 
 }

@@ -18,17 +18,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 
+
+import androidx.compose.foundation.clickable
+import kotlin.String
+
 @Composable
 fun DashboardCard(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String,
-    icon: ImageVector
+    icon: ImageVector,
+    onClick: () -> Unit = {},
+    candidateName: String,
+    candidateMobileNo: String
+
+
+
+// <-- Add this
+
 ) {
 
     Card(
         modifier = modifier
-            .height(120.dp),
+            .height(120.dp)
+            .clickable {
+                onClick()
+            },
 
         shape = RoundedCornerShape(16.dp),
 

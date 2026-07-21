@@ -140,6 +140,37 @@ class OJTChildSRLMFragment :
         )
     }
 
+
+
+
+
+
+
+
+
+
+//     private val _esoprolecategory =
+//        MutableLiveData<Result<EsopCandidateRes>>()
+//
+//    val esoprolecategory: LiveData<Result<EsopCandidateRes>> =
+//        _esoprolecategory
+//
+//    fun esoprolecategory(request: EsopCandidateRequest, token: String) {
+//        handleApiCall(
+//            apiCall = {
+//                repositoryManager.esop.esoprolecategory(
+//                    request,
+//                    token
+//                )
+//            },
+//            resultLiveData = _esoprolecategory
+//        )
+//    }
+
+
+
+
+
     override fun setupObservers() {
         observeViewModel()
     }

@@ -182,8 +182,9 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer:1.3.1")
 
 
-
-
+//      Empliment Library use in
+    implementation("com.intuit.sdp:sdp-android:1.1.1")
+    implementation("com.intuit.ssp:ssp-android:1.1.1")
 
     implementation("com.thoughtworks.xstream:xstream:1.4.7") {
         exclude(group = "xmlpull", module = "xmlpull")
@@ -206,10 +207,31 @@ dependencies {
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
     implementation("androidx.compose.foundation:foundation:1.6.7")
-
-
-
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
+
+//        Face Matched Code use in other library use tenser flow
+
+    // CameraX
+//    implementation("androidx.camera:camera-camera2:1.3.4")
+//    implementation("androidx.camera:camera-lifecycle:1.3.4")
+//    implementation("androidx.camera:camera-view:1.3.4")
+//
+//    // ML Kit Face Detection (blink, landmarks)
+//    implementation("com.google.mlkit:face-detection:16.1.7")
+//
+//    // TensorFlow Lite (face embedding/matching)
+//    implementation("org.tensorflow:tensorflow-lite:2.14.0")
+//    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+//
+//    // Compose Camera preview support
+//    implementation("androidx.compose.ui:ui:1.6.8")
+//    implementation("androidx.activity:activity-compose:1.9.0")
+
+
+
+
+
+
 }
 
 kapt {

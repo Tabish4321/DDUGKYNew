@@ -3,11 +3,13 @@ package com.deendayalproject.repository
 import android.content.Context
 import com.deendayalproject.base.BaseRepository
 import com.deendayalproject.model.request.CaptivePiaOfficerSelfieRequest
+import com.deendayalproject.model.request.EsopCandidateRequest
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
 import com.deendayalproject.model.request.FieldVerificationFinalSubmitNEW
 import com.deendayalproject.model.request.FieldVerificationListRequest
 import com.deendayalproject.model.response.CaptivePiaOfficerSelfieResponse
+import com.deendayalproject.model.response.EsopCandidateRes
 import com.deendayalproject.model.response.FieldVerificationDetailResponse
 import com.deendayalproject.model.response.FieldVerificationDetailResponseNEW
 import com.deendayalproject.model.response.FieldVerificationListResponse
@@ -61,21 +63,25 @@ class FieldVerificationRepository(context: Context) : BaseRepository<ApiService>
             apiService.getFieldVerificationPlacementDetail(request)
         }
 
-    suspend fun submitFieldVerification(request: FieldVerificationFinalSubmit): Result<FieldVerificationDetailResponse> =
-        safeApiCall {
-            apiService.submitFieldVerification(request)
-        }
+//    suspend fun submitFieldVerification(request: FieldVerificationFinalSubmit): Result<FieldVerificationDetailResponse> =
+//        safeApiCall {
+//            apiService.submitFieldVerification(request)
+//        }
 
     suspend fun submitFieldVerificationNEW(request: FieldVerificationFinalSubmitNEW): Result<FieldVerificationDetailResponseNEW> =
         safeApiCall {
             apiService.submitFieldVerificationNEW(request)
         }
 
-//    suspend fun submitFieldVerification(
-//        request: FieldVerificationFinalSubmit
-//    ): Result<FieldVerificationDetailResponse> {
-//        safeApiCall {
-//            apiService.submitFieldVerification(request)
-//        }
+
+
+
+    suspend fun getgetresultDetail(request: FieldVerificationDetailRequest): Result<FieldVerificationDetailResponse> =
+        safeApiCall {
+            apiService.getresultDetail(request)
+        }
+
+
+
 
 }

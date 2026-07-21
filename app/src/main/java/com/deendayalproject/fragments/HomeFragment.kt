@@ -236,8 +236,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
             "TRAINING_CENTER_VERIFICATION" -> navigate(R.id.action_homeFragment_to_QTeamListFragment)
 
             "OJT_SRLM_VERIFICATION_FORM_APP" ->
-                navigate(R.id.action_homeFragment_to_Esop)
-//                navigate(R.id.action_homeFragment_to_SelectionSrlm)
+                navigate(R.id.action_homeFragment_to_SelectionSrlm)
 
             "RESIDENTIAL_FACILITY_FORM" ->
                 navigate(R.id.action_homeFragment_to_rfCenterFragment)
@@ -252,7 +251,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
 
             "DDUGKY_CANDIDATE_ATTENDANCE_APP" -> navigate(R.id.action_homeFragment_to_attendanceBatchListFragment)
 
-            "OJT_VERIFICATION_FORM_APP" -> navigate(R.id.action_homeFragment_to_SelectionFragment)
+            "ESOP_FORM" ->  navigate(R.id.action_homeFragment_to_Esop)
+
+            "OJT_VERIFICATION_FORM_APP" ->  navigate(R.id.action_homeFragment_to_SelectionFragment)
+//                navigate(R.id.action_homeFragment_to_SelectionFragment)
 
             "DUE_DILIGENCE_INSPECTION_FORM" -> navigate(R.id.action_homeFragment_to_inspectionListFragment)
 

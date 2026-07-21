@@ -4,6 +4,7 @@ import android.content.Context
 import com.deendayalproject.repository.AcademicRepository
 import com.deendayalproject.repository.AuthRepository
 import com.deendayalproject.repository.CandidateerificationRepository
+import com.deendayalproject.repository.EsopRepository
 import com.deendayalproject.repository.FieldVerificationRepository
 import com.deendayalproject.repository.InfrastructureRepository
 import com.deendayalproject.repository.InspectionRepository
@@ -31,6 +32,7 @@ class RepositoryManager private constructor(context: Context) {
     // Lazy initialization of all repositories
     val auth: AuthRepository by lazy { AuthRepository(context) }
     val ojt: OJTRepository by lazy { OJTRepository(context) }
+    val esop: EsopRepository by lazy { EsopRepository(context) }
     val trainingCenter: TrainingCenterRepository by lazy { TrainingCenterRepository(context) }
     val fieldVerification: FieldVerificationRepository by lazy { FieldVerificationRepository(context) }
     val infrastructure: InfrastructureRepository by lazy { InfrastructureRepository(context) }
@@ -42,5 +44,9 @@ class RepositoryManager private constructor(context: Context) {
     val inspectionRepo: InspectionRepository by lazy { InspectionRepository(context) }
     val candidateVerification: CandidateerificationRepository by lazy { CandidateerificationRepository(context) }
 
-
+//
+////           suspend fun esoprolecategory(request: EsopCandidateRequest): Result<EsopCandidateRes> =
+////        safeApiCall {
+////            apiService.esoprolecategory(request)
+////        }
 }

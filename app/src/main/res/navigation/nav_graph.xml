@@ -686,30 +686,92 @@
 
 
     <fragment
+        android:id="@+id/esopTestFragment"
+        android:name="com.deendayalproject.esop.mytest.MyTestFragment"
+        android:label="EsopTestFragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/esopgetWrongFragment"
+        android:name="com.deendayalproject.esop.result.EsopGetWrongQuestionsScreenFragment"
+        android:label="EsopWrongFragment" >
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/esopgetCertificateFragment"
+        android:name="com.deendayalproject.esop.certificate.ESOPCertificateScreenFragment"
+        android:label="EsopCertificateFragment" >
+
+
+    </fragment>
+
+<!--    TestInstructionsScreenFragment-->
+
+    <fragment
+        android:id="@+id/esopgetTestInstructionsFragment"
+        android:name="com.deendayalproject.esop.exam.TestInstructionsScreenFragment"
+        android:label="EsopTestInstructionsFragment" >
+        <action
+            android:id="@+id/action_esopFragment_to_esopgetTestScreenFragment"
+            app:destination="@id/esopgetTestScreenFragment" >
+        </action>
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/esopgetTestScreenFragment"
+        android:name="com.deendayalproject.esop.exam.TestScreenFragment"
+        android:label="EsopTestScreenFragment" >
+
+
+    </fragment>
+
+
+
+    <fragment
+        android:id="@+id/esopResultFragment"
+        android:name="com.deendayalproject.esop.result.MyResultFragment"
+        android:label="EsopResultFragment" >
+
+        <action
+            android:id="@+id/action_esopFragment_to_EsopWrongFragment"
+            app:destination="@id/esopgetWrongFragment" >
+        </action>
+
+        <action
+            android:id="@+id/action_esopFragment_to_CertificateScreenFragment"
+            app:destination="@id/esopgetCertificateFragment" >
+        </action>
+    </fragment>
+
+    <fragment
         android:id="@+id/esopFragment"
         android:name="com.deendayalproject.esop.EsopFragment"
         android:label="EsopFragment" >
-<!--        <action-->
-<!--            android:id="@+id/action_inspectionListFragment_to_inspectionBasicDetailsFragment"-->
-<!--            app:destination="@id/inspectionBasicDetailsFragment" >-->
+        <action
+            android:id="@+id/action_esopFragment_to_esopTestFragment"
+            app:destination="@id/esopTestFragment" >
+        </action>
+
+        <action
+            android:id="@+id/action_esopFragment_to_esopResultFragment"
+            app:destination="@id/esopResultFragment" >
+        </action>
 
 
-<!--            <argument-->
-<!--                android:name="prnNumber"-->
-<!--                app:argType="string" />-->
 
-<!--            <argument-->
-<!--                android:name="sanctionOrder"-->
-<!--                app:argType="string" />-->
 
-<!--            <argument-->
-<!--                android:name="inspectionType"-->
-<!--                app:argType="string" />-->
-<!--            <argument-->
-<!--                android:name="trainingCenterId"-->
-<!--                app:argType="integer" />-->
 
-<!--        </action>-->
+        <action
+            android:id="@+id/action_esopFragment_to_TestInstructionsFragment"
+            app:destination="@id/esopgetTestInstructionsFragment" >
+        </action>
+
+
     </fragment>
 
 

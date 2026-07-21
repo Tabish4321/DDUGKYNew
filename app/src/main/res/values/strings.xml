@@ -1185,5 +1185,7 @@
 
     <string name="esop">eSOP</string>
     <string name="age">Age : %1$s</string>
+    <string name="my_test">My Test</string>
+    <string name="results">Results</string>
 
 </resources>
