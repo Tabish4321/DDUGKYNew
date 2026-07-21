@@ -86,6 +86,14 @@ class EsopGetWrongQuestionsScreenFragment :
             departmentCetegory
         )
 
+//        val request = GetResultViewRequest(
+//            BuildConfig.VERSION_NAME,
+//            candidateLoginId,
+//            "2",
+//            certificateType,
+//            departmentCetegory
+//        )
+
         showProgressDialog("Loading...")
 
         viewModel.getResultView(

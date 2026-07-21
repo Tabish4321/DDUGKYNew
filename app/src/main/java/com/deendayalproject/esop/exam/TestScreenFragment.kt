@@ -580,7 +580,7 @@ class TestScreenFragment :
                                     val submitList = questionList.mapIndexed { index, question ->
                                         SubmitAnswer(
                                             question_id = question.questionId,
-                                            answer_given = answeredQuestions[index] ?: "NA"
+                                            answer_given = answeredQuestions[index] ?: ""
                                         )
                                     }
                                     val token = getToken(requireContext())
@@ -1490,7 +1490,7 @@ class TestScreenFragment :
                             val submitList = questionList.mapIndexed { index, question ->
                                 SubmitAnswer(
                                     question_id = question.questionId,
-                                    answer_given = answeredQuestions[index] ?: "NA"
+                                    answer_given = answeredQuestions[index] ?: ""
                                 )
                             }
                             val token = getToken(requireContext())

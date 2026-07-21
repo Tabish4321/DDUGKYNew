@@ -11,7 +11,7 @@ import javax.crypto.IllegalBlockSizeException
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import java.nio.charset.StandardCharsets;
-
+import java.security.MessageDigest
 
 
 object AESCryptography {
@@ -71,6 +71,42 @@ object AESCryptography {
             ""
         }
     }
+
+
+
+//    const val EncryptionConfigESOP = "\$A4E@TN2#V"
+//    const val SECRET_KEY_AADHAREsop = "\$R2B@JKD4#WJ7PK&"
+
+    fun decryptIntoStringEsop(inputText: String, secretKey: String, ivKey: String): String {
+
+        return try {
+
+            // Generate AES-256 Key using SHA-256 (same as Java)
+            val digest = MessageDigest.getInstance("SHA-256")
+            val keyBytes = digest.digest(secretKey.toByteArray(StandardCharsets.UTF_8))
+            val keySpec = SecretKeySpec(keyBytes, "AES")
+
+            // IV
+            val ivSpec = IvParameterSpec(ivKey.toByteArray(StandardCharsets.UTF_8))
+
+//            val cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
+            val cipher = Cipher.getInstance(AppConstant.CRYPLIBAES)
+            cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec)
+
+            val decodedBytes = Base64.decode(inputText, Base64.DEFAULT)
+            val decryptedBytes = cipher.doFinal(decodedBytes)
+
+            String(decryptedBytes, StandardCharsets.UTF_8)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+
+
+
 
 
     private fun convertByteArrayToHexString(byteArray: ByteArray): String {

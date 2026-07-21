@@ -1,8 +1,21 @@
 package com.deendayalproject.esop
 
 import SharedViewModel
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
+import android.os.SystemClock
+import android.util.Base64
+import android.view.KeyEvent
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -51,10 +65,32 @@ import com.deendayalproject.esop.dashboard.DashboardSection
 import com.deendayalproject.esop.profile.CandidateInfoCard
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
 import com.deendayalproject.model.request.EsopCandidateRequest
+import com.deendayalproject.model.request.InsertFacultyAttendance
 import com.deendayalproject.model.response.EsopCandidateRes
 import com.deendayalproject.network.SecurePreferenceManager.getToken
+import com.deendayalproject.uidai.XstreamCommonMethods
+import com.deendayalproject.uidai.XstreamCommonMethods.respDecodedXmlToPojoAuth
+import com.deendayalproject.uidai.capture.CaptureResponse
+import com.deendayalproject.uidai.ekyc.UidaiKycRequest
+import com.deendayalproject.util.AESCryptography
+import com.deendayalproject.util.AppConstant
+import com.deendayalproject.util.AppConstant.LANGUAGE
+import com.deendayalproject.util.AppConstant.PRODUCTION
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.util.decodeBase64
+import com.deendayalproject.util.toastLong
+import com.deendayalproject.util.toastShort
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import java.security.SecureRandom
+import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 import kotlin.getValue
 
 //code commit and update 18.06.2026 15.48PM
@@ -78,8 +114,12 @@ class EsopFragment :
     private var candidateMobileNo by mutableStateOf("")
     private var candidateGender by mutableStateOf("")
     private var candidateLoginId by mutableStateOf("")
+    private var aadhaarNumber by mutableStateOf("")
+    private var decryptedAadhaar = ""
     private var candidateLoginEmail by mutableStateOf("")
     private val categoryList = mutableListOf<String>()
+
+
 
     private var ESOPCandidateList: List<EsopCandidateRes.EsopCandidate> = emptyList()
 
@@ -137,7 +177,13 @@ class EsopFragment :
                         candidateGender = candidate.gender ?: ""
                         candidateLoginId = candidate.loginId
 
-                        // Purani list clear kar do (optional)
+                        aadhaarNumber =AESCryptography. decryptIntoStringEsop(
+                            candidate.aadhaarNumber,
+                            AppConstant.ENCRYPT_IV_KEYESOP,
+                            AppConstant.ENCRYPT_KEYESOP
+                        )
+
+
                         categoryList.clear()
 
                         // Saari categories add karo
@@ -145,7 +191,7 @@ class EsopFragment :
 
 //                        Toast.makeText(
 //                            requireContext(),
-//                            categoryList.joinToString(", "),
+//                            decryptedAadhaar,
 //                            Toast.LENGTH_LONG
 //                        ).show()
                     }
@@ -224,6 +270,7 @@ class EsopFragment :
                                 mobile = candidateMobileNo,
                                 email = candidateLoginEmail,
                                 gender = candidateGender,
+                                aadhaarNumber = aadhaarNumber,
                                 categoryList = categoryList
                             )
 
@@ -262,6 +309,7 @@ class EsopFragment :
         mobile: String,
         email: String,
         gender: String,
+        aadhaarNumber: String,
         categoryList: List<String>,
         modifier: Modifier = Modifier
     ) {
@@ -288,6 +336,7 @@ class EsopFragment :
                         "gender" to gender,
                         "candidateLoginId" to candidateLoginId,
                         "candidateMobileNo" to candidateMobileNo,
+                        "aadhaarNumber" to aadhaarNumber,
                         "categoryList" to ArrayList(categoryList)
                     )
 
@@ -359,146 +408,20 @@ class EsopFragment :
             }
         }
     }
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
 
-//class EsopFragment :
-//    BaseFragment<EsopFragmentBinding>(
-//        bindingInflater = EsopFragmentBinding::inflate
-//    )  {
-//    private val viewModel: SharedViewModel by viewModels()
-//
-//
-//    private var candidateId = ""
-//    private var batchId = ""
-//
-//    private lateinit var navController: NavController
-//
-//    private var candidateName by mutableStateOf("")
-//    private var candidateMobileNo by mutableStateOf("")
-//    private var candidateGender by mutableStateOf("")
-//    private var candidateLoginId by mutableStateOf("")
-//    private var ESOPCandidateList: List<EsopCandidateRes.EsopCandidate> = emptyList()
-//
-//
-//    @RequiresApi(Build.VERSION_CODES.R)
-//    override fun initializeViews() {
-//        hideStatusBar()
-//
-//
-//
-//
-//        val token = getToken(requireContext())
-//
-//        val request = EsopCandidateRequest(
-//            BuildConfig.VERSION_NAME,
-//            AppUtil.getSavedLoginIdPreference(requireContext())
-//
-//        )
-//
-//        showProgressDialog("Loading...")
-//
-//        viewModel.esoprolecategory(
-//            request,
-//            "Bearer $token"
-//        )
-//        viewModel.esoprolecategory.observe(viewLifecycleOwner) { response ->
-//
-//            response.onSuccess { data ->
-//
-//                dismissProgressDialog()
-//                if (data.responseDesc == "No data available.") {
-//
-//                    Toast.makeText(
-//                        requireContext(),
-//                        data.responseDesc,
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//
-//                } else {
-//
-//                    ESOPCandidateList = data.wrappedList
-//                    if (ESOPCandidateList.isNotEmpty()) {
-//
-//                        val candidate = ESOPCandidateList.first()
-//
-//                        candidateName = candidate.userName
-//                        candidateMobileNo = candidate.mobile
-//                        candidateGender = candidate.gender ?: ""
-//                        candidateLoginId = candidate.loginId
-//                    }
-//                }
-//            }
-//
-//            response.onFailure { error ->
-//                dismissProgressDialog()
-//                Toast.makeText(requireContext(), error.message, Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//
-//
-//        binding.composeESOP.apply {
-//
-//            setViewCompositionStrategy(
-//                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-//            )
-//
-//
-//            setContent {
-//                Scaffold(
-//                    topBar = {
-//
-//                        PremiumTopBar(
-//                            dynamicTitle = context.getString(R.string.esop),
-//                            onBackClick = {
-//                                findNavController().popBackStack()
-//                            }
-//                        )
-//                    },
-//
-//                    containerColor = Color.White
-//
-//                ) { paddingValues ->
-//
-//                    LazyColumn(
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .padding(paddingValues),
-//                        contentPadding = PaddingValues(12.dp)
-//                    ) {
-//
-//                        item {
-//
-//                            CandidateInfoCard(
-//                                loginId = candidateLoginId,
-//                                userName = candidateName,
-//                                mobile = candidateMobileNo,
-//                                gender = candidateGender
-//                            )
-//
-//                            Spacer(modifier = Modifier.height(12.dp))
-//                            StartTestCard()
-//
-//                            Spacer(modifier = Modifier.height(12.dp))
-//
-//                            DashboardSection()
-//
-//
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//      override fun setupObservers() {
-//      }
-//
-//      override fun setupClickListeners() {
-//      }
-//
-//      override fun loadInitialData() {
-//      }
-//
-//
-//  }
+
+

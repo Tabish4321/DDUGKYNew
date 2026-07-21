@@ -16,30 +16,12 @@ data class EsopCandidateRes(
         val mobile: String,
         val emailId: String,
         val categories: List<EsopCategory>,
-        val userName: String
+        val userName: String,
+        val aadhaarNumber: String,
     )
+
 
     data class EsopCategory(
         val category: String
     )
 }
-
-//   "wrappedList": [
-//        {
-//            "loginId": "SUNITA",
-//            "gender": null,
-//            "dob": null,
-//            "mobile": "8077637093",
-//            "emailId": "kaushalgrameen@gmail.com",
-//            "categories": [
-//                {
-//                    "category": "Operation"
-//                }
-//            ],
-//            "userName": "SUNITA YADAV"
-//        }
-//    ],
-//    "errorsMap": {},
-//    "responseCode": 200,
-//    "responseDesc": "OK",
-//    "facilityId": 0,

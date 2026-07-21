@@ -113,32 +113,9 @@ class ESOPCertificateScreenFragment :
         departmentCetegory = arguments?.getString("departmentCetegory").orEmpty()
 
 
-
-//        val bundle = bundleOf(
-//                                    "wrongAns" to wrongAns,
-//                                    "numberofAttempt" to numberofAttempt,
-//                                    "percentage" to percentage,
-//                                    "correctAns" to correctAns,
-//                                    "result" to result,
-//                                    "candidateName" to candidateName,
-//                                    "candidateMobileNo" to candidateMobileNo,
-//                                )
-
-
-
         hideStatusBar()
 
         binding.composeESOPCertificateScreen.setContent {
-
-//              wrongAns = arguments?.getString("wrongAns").orEmpty()
-//        numberofAttempt = arguments?.getString("numberofAttempt").orEmpty()
-//        percentage = arguments?.getString("percentage").orEmpty()
-//        correctAns = arguments?.getString("correctAns").orEmpty()
-//        result = arguments?.getString("result").orEmpty()
-//        candidateName = arguments?.getString("candidateName").orEmpty()
-//        candidateMobileNo = arguments?.getString("candidateMobileNo").orEmpty()
-//        departmentCetegory = arguments?.getString("departmentCetegory").orEmpty()
-//        certificateType = arguments?.getString("certificateType").orEmpty()
 
 
             ESOPCertificateScreen(
