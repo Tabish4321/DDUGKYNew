@@ -1558,6 +1558,27 @@
 
                                         />
                                 </LinearLayout>
+
+
+                                <Button
+                                    android:id="@+id/btnLogin"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/dp_50"
+                                    android:text="@string/submit_button"
+                                    android:textSize="16sp"
+                                    android:textColor="@color/white"
+                                    android:backgroundTint="@color/login_btn"
+                                    android:fontFamily="@font/avenir_next_medium"
+                                    android:layout_margin="12dp"/>
+
+                                <LinearLayout
+
+                                    android:layout_width="match_parent"
+                                    android:layout_height="20dp"
+                                    android:paddingTop="5dp"/>
+
+
+
                             </LinearLayout>
                         </LinearLayout>
 
@@ -1580,16 +1601,7 @@
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:text="@string/submit_button"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/login_btn"
-        android:fontFamily="@font/avenir_next_medium"
-        android:layout_margin="12dp"/>
+
 
 
 
