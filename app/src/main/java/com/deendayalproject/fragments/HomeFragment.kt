@@ -79,6 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                 }
 
                 R.id.nav_contact -> {
+
                     openWebPage(DDUGKY_CONTACTS_WEB_URL)
                 }
 
@@ -209,6 +210,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                     adapter.notifyDataSetChanged()
                 }
             },
+
             diffChecker = { old, new -> old.id == new.id },
             recyclerViewParent = binding.container,
             noDataTitle = getString(R.string.no_modules_available_for_your_account),
@@ -217,14 +219,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
         binding.rvModules.layoutManager = LinearLayoutManager(requireContext())
         binding.rvModules.adapter = adapter
 
-//        adapter = ModuleAdapter(emptyList()) { form: Form ->
-//            handleFormClick(form)
-//        }
-//
-//        binding.rvModules.apply {
-//            layoutManager = LinearLayoutManager(requireContext())
-//            adapter = this@HomeFragment.adapter
-//        }
     }
 
     private fun handleFormClick(form: Form) {
@@ -301,6 +295,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(
                         adapter.notifyDataSetChanged()
 
                         if (updated.isEmpty()) {
+
                             showToast(getString(R.string.no_modules_available_for_your_account))
                         }
                     },

@@ -183,8 +183,12 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
     private var currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK
 
     private var countDownTimer: CountDownTimer? = null
+    private var isPaused = false
 
     private val RECORD_TIME = 180000L
+
+
+    private var remainingRecordingTime = RECORD_TIME
 //    private val RECORD_TIME = 60000L
 
     private var completed = false
@@ -838,6 +842,885 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
 
 
 
+//        binding.surfaceView.holder.addCallback(this)
+//
+//        ActivityCompat.requestPermissions(
+//            requireActivity(),
+//            arrayOf(
+//                Manifest.permission.CAMERA,
+//                Manifest.permission.RECORD_AUDIO
+//            ),
+//            101
+//        )
+//
+//        binding.btnRecord.setOnClickListener {
+//            binding.btnPlayPause.visibility = View.GONE
+//            binding.btnStop.visibility = View.VISIBLE
+//            binding.btnSwitch.visibility = View.VISIBLE
+//            binding.btnStop.visibility = View.VISIBLE
+//
+////            binding.videoContainer.visibility = View.VISIBLE
+//
+//            if (!isRecording) {
+//                resetUI()
+//                startRecording()
+//            }
+//        }
+//
+//
+//        binding.btnPlayPause.setOnClickListener {
+//
+//            if (isPlaying) {
+//                playVideo()
+//                binding.videoView.pause()
+//
+//                binding.btnPlayPause.text = getString(R.string.pause)
+////                binding.btnPlayPause.setImageResource(R.drawable.ic_pause)
+//                isPlaying = false
+//
+//            } else {
+//
+//                binding.videoView.start()
+//                binding.btnPlayPause.text = getString(R.string.playing)
+////                binding.btnPlayPause.setImageResource(R.drawable.ic_play)
+//                isPlaying = true
+//            }
+//        }
+//        binding.btnStop.setOnClickListener {
+//            binding.btnPlayPause.visibility = View.VISIBLE
+//            binding.btnStop.visibility = View.GONE
+//            binding.btnSwitch.visibility = View.GONE
+//            if (isRecording) stopRecordingManually()
+//        }
+//
+//        binding.btnSwitch.setOnClickListener {
+//            if (!isRecording) switchCamera()
+//
+//
+//            if (isSelfie) {
+//
+//                binding.btnSwitch.text = getString(R.string.back)
+//                isSelfie = false
+//
+//            } else {
+//
+//
+//                binding.btnSwitch.text = getString(R.string.front)
+//                isSelfie = true
+//            }
+//        }
+//
+//        binding.btnDelete.setOnClickListener {
+//            binding.btnSwitch.visibility = View.VISIBLE
+//            binding.btnPlayPause.visibility = View.GONE
+//            deleteVideo()
+//        }
+//    }
+//
+//    // ---------------- Camera ----------------
+//
+//    private fun openCamera() {
+//
+//        camera = Camera.open(currentCameraId)
+//
+//        camera?.setDisplayOrientation(90)
+//
+//        camera?.setPreviewDisplay(binding.surfaceView.holder)
+//
+//        camera?.startPreview()
+//    }
+//
+//    private fun switchCamera() {
+//
+//        camera?.release()
+//
+//        currentCameraId =
+//            if (currentCameraId == Camera.CameraInfo.CAMERA_FACING_BACK)
+//                Camera.CameraInfo.CAMERA_FACING_FRONT
+//            else
+//                Camera.CameraInfo.CAMERA_FACING_BACK
+//
+//        openCamera()
+//    }
+//
+//    override fun surfaceCreated(holder: SurfaceHolder) {
+//        openCamera()
+//    }
+//
+//    override fun surfaceDestroyed(holder: SurfaceHolder) {
+//        camera?.release()
+//    }
+//
+//    override fun surfaceChanged(
+//        holder: SurfaceHolder,
+//        format: Int,
+//        width: Int,
+//        height: Int
+//    ) {}
+//
+//    // ---------------- Recording ----------------
+//
+//    private fun startRecording() {
+//
+//        completed = false
+//
+//        outputFile = File(
+//            requireContext().getExternalFilesDir(null),
+//            "VIDEO_${System.currentTimeMillis()}.mp4"
+//        )
+//
+//        camera?.stopPreview()
+//        camera?.unlock()
+//
+//        mediaRecorder = MediaRecorder()
+//
+//        mediaRecorder?.apply {
+//            setCamera(camera)
+//
+//            setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
+//            setVideoSource(MediaRecorder.VideoSource.CAMERA)
+//
+//            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+//
+//            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+//            setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+//            setVideoSize(640, 480)
+//            setVideoFrameRate(20)
+//
+//            setVideoEncodingBitRate(300 * 1000)
+//            setAudioEncodingBitRate(64 * 1000)
+//
+//            setOrientationHint(
+//                if (currentCameraId ==
+//                    Camera.CameraInfo.CAMERA_FACING_FRONT
+//                ) 270 else 90
+//            )
+//
+//            setOutputFile(outputFile!!.absolutePath)
+//
+//            setPreviewDisplay(binding.surfaceView.holder.surface)
+//
+//            prepare()
+//            start()
+//
+//        }
+//
+//        isRecording = true
+//        binding.btnSwitch.visibility = View.GONE
+//        startTimer()
+//    }
+//
+//    // ---------------- Recording Timer ----------------
+//
+//    private fun startTimer() {
+//
+//        countDownTimer = object : CountDownTimer(RECORD_TIME, 1000) {
+//
+//            override fun onTick(millisUntilFinished: Long) {
+//
+//                val sec = millisUntilFinished / 1000
+//
+//                binding.tvTimer.text =
+//                    String.format("%02d:%02d", sec / 60, sec % 60)
+//            }
+//
+//            override fun onFinish() {
+//
+//                completed = true
+//
+//                stopAndSave()
+//            }
+//
+//        }.start()
+//    }
+//
+//    // ---------------- Stop Recording ----------------
+//
+//    private fun stopRecordingManually() {
+//
+//        countDownTimer?.cancel()
+//
+//        try {
+//            mediaRecorder?.stop()
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//
+//        mediaRecorder?.release()
+//        mediaRecorder = null
+//
+//        camera?.lock()
+//
+//        isRecording = false
+//
+//        binding.btnStop.visibility = View.GONE
+//        binding.surfaceView.visibility = View.GONE
+//        binding.btnSwitch.visibility = View.GONE
+//        binding.videoView.visibility = View.VISIBLE
+//        binding.btnDelete.visibility = View.VISIBLE
+//        binding.btnPlayPause.visibility = View.VISIBLE
+//
+////        playVideo()
+//        outputFile?.let { file ->
+//
+//            val path = file.absolutePath
+//            finalVideoPath=path
+//
+//
+//        }
+//    }
+//
+//    private fun stopAndSave() {
+//
+//        try {
+//            mediaRecorder?.stop()
+//        } catch (e: Exception) {}
+//
+//        mediaRecorder?.release()
+//        mediaRecorder = null
+//
+//        camera?.lock()
+//
+//        isRecording = false
+//
+//        binding.btnStop.visibility = View.GONE
+//        binding.surfaceView.visibility = View.GONE
+//        binding.videoView.visibility = View.VISIBLE
+//        binding.btnDelete.visibility = View.VISIBLE
+//        binding.btnSwitch.visibility = View.GONE
+//        binding.btnPlayPause.visibility = View.VISIBLE
+//
+//
+//        outputFile?.let { file ->
+//
+//            val path = file.absolutePath
+//            finalVideoPath=path
+//
+//
+//        }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+////        playVideo()
+//    }
+//
+//    // ---------------- Play Video ----------------
+//
+//    private fun playVideo() {
+//
+//        outputFile?.let { file ->
+//
+//            val path = file.absolutePath
+//
+//            binding.videoView.setVideoPath(path)
+//
+//            binding.videoView.setOnPreparedListener {
+//
+//                binding.videoView.start()
+//
+//                startPlaybackTimer()
+//
+//                val sizeMB =
+//                    file.length().toDouble() / (1024 * 1024)
+//
+////                Toast.makeText(
+////                    requireContext(),
+////                    "Saved Path:\n$sizeMB",
+////                    Toast.LENGTH_LONG
+////                ).show()
+//
+//                binding.btnStop.visibility = View.GONE
+//
+//                finalVideoPath=path
+//
+////                android.app.AlertDialog.Builder(requireContext())
+////                    .setTitle("Recording Completed")
+////                    .setMessage(
+////                        "Size: %.2f MB\n\nPath:\n$path".format(sizeMB)
+////                    )
+////                    .setPositiveButton("OK", null)
+////                    .show()
+//            }
+//        }
+//    }
+//
+//    // ---------------- Playback Timer ----------------
+//
+//    private fun startPlaybackTimer() {
+//
+//        playbackRunnable = object : Runnable {
+//
+//            override fun run() {
+//
+//                if (binding.videoView.isPlaying) {
+//
+//                    val current =
+//                        binding.videoView.currentPosition
+//
+//                    val duration =
+//                        binding.videoView.duration
+//
+//                    val currentSec = current / 1000
+//                    val totalSec = duration / 1000
+//
+//                    val currentMin = currentSec / 60
+//                    val currentSecond = currentSec % 60
+//
+//                    val totalMin = totalSec / 60
+//                    val totalSecond = totalSec % 60
+//
+//                    binding.tvTimer.text =
+//                        String.format(
+//                            "%02d:%02d / %02d:%02d",
+//                            currentMin,
+//                            currentSecond,
+//                            totalMin,
+//                            totalSecond
+//                        )
+//
+//                    handler.postDelayed(this, 500)
+//                }
+//            }
+//        }
+//
+//        handler.post(playbackRunnable!!)
+//    }
+//
+//    // ---------------- Delete Video ----------------
+//
+//    private fun deleteVideo() {
+//
+//        outputFile?.let {
+//
+//            if (it.exists()) it.delete()
+//        }
+//
+//        binding.videoView.stopPlayback()
+//
+//        binding.videoView.visibility = View.GONE
+//
+//        binding.surfaceView.visibility = View.VISIBLE
+//
+//        binding.btnDelete.visibility = View.GONE
+//
+//        binding.tvTimer.text = "03:00"
+//
+//        openCamera()
+//
+//        Toast.makeText(
+//            requireContext(),
+//            "Video Deleted",
+//            Toast.LENGTH_SHORT
+//        ).show()
+//    }
+//
+//    // ---------------- Reset UI ----------------
+//
+//    private fun resetUI() {
+//
+//        binding.surfaceView.visibility = View.VISIBLE
+//
+//        binding.videoView.visibility = View.GONE
+//
+//        binding.btnDelete.visibility = View.GONE
+//
+//        binding.tvTimer.text = "03:00"
+//    }
+
+
+//  changes code with use in pause functionlity useed 23/07/2026
+
+
+//        binding.surfaceView.holder.addCallback(this)
+//
+//        ActivityCompat.requestPermissions(
+//            requireActivity(),
+//            arrayOf(
+//                Manifest.permission.CAMERA,
+//                Manifest.permission.RECORD_AUDIO
+//            ),
+//            101
+//        )
+//
+//
+//
+//        binding.btnPause.setOnClickListener {
+//
+//            if (isRecording) {
+//
+//                if (!isPaused) {
+//
+//                    pauseRecording()
+//
+//                } else {
+//
+//                    resumeRecording()
+//                }
+//            }
+//        }
+//
+//        binding.btnRecord.setOnClickListener {
+//            binding.btnPlayPause.visibility = View.GONE
+//            binding.btnStop.visibility = View.VISIBLE
+//            binding.btnSwitch.visibility = View.VISIBLE
+//            binding.btnStop.visibility = View.VISIBLE
+//            binding.btnSwitch.visibility = View.GONE
+//
+////            binding.videoContainer.visibility = View.VISIBLE
+//
+//            if (!isRecording) {
+//                resetUI()
+//                startRecording()
+//            }
+//        }
+//
+//
+//        binding.btnPlayPause.setOnClickListener {
+//
+//            if (isPlaying) {
+//                playVideo()
+//                binding.videoView.pause()
+//
+//                binding.btnPlayPause.text = getString(R.string.pause)
+////                binding.btnPlayPause.setImageResource(R.drawable.ic_pause)
+//                isPlaying = false
+//
+//            } else {
+//
+//                binding.videoView.start()
+//                binding.btnPlayPause.text = getString(R.string.playing)
+////                binding.btnPlayPause.setImageResource(R.drawable.ic_play)
+//                isPlaying = true
+//            }
+//        }
+//        binding.btnStop.setOnClickListener {
+//            binding.btnPlayPause.visibility = View.VISIBLE
+//            binding.btnStop.visibility = View.GONE
+//            binding.btnSwitch.visibility = View.GONE
+//            if (isRecording) stopRecordingManually()
+//        }
+//
+//        binding.btnSwitch.setOnClickListener {
+//            if (!isRecording) switchCamera()
+//
+//
+//            if (isSelfie) {
+//
+//                binding.btnSwitch.text = getString(R.string.front)
+//                isSelfie = false
+//
+//            } else {
+//
+//
+//                binding.btnSwitch.text = getString(R.string.back)
+//                isSelfie = true
+//            }
+//        }
+//
+//        binding.btnDelete.setOnClickListener {
+//            binding.btnSwitch.visibility = View.VISIBLE
+//            binding.btnPlayPause.visibility = View.GONE
+//            deleteVideo()
+//        }
+//    }
+//
+//    // ---------------- Camera ----------------
+//
+//    private fun openCamera() {
+//
+//        camera = Camera.open(currentCameraId)
+//
+//        camera?.setDisplayOrientation(90)
+//
+//        camera?.setPreviewDisplay(binding.surfaceView.holder)
+//
+//        camera?.startPreview()
+//    }
+//
+//    private fun switchCamera() {
+//
+//        camera?.release()
+//
+//        currentCameraId =
+//            if (currentCameraId == Camera.CameraInfo.CAMERA_FACING_BACK)
+//                Camera.CameraInfo.CAMERA_FACING_FRONT
+//            else
+//                Camera.CameraInfo.CAMERA_FACING_BACK
+//
+//        openCamera()
+//    }
+//
+//    override fun surfaceCreated(holder: SurfaceHolder) {
+//        openCamera()
+//    }
+//
+//    override fun surfaceDestroyed(holder: SurfaceHolder) {
+//        camera?.release()
+//    }
+//
+//    override fun surfaceChanged(
+//        holder: SurfaceHolder,
+//        format: Int,
+//        width: Int,
+//        height: Int
+//    ) {}
+//    private fun pauseRecording() {
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//
+//            mediaRecorder?.pause()
+//
+//            countDownTimer?.cancel()
+//
+//            isPaused = true
+//
+//            binding.btnPause.text = "Resume"
+//
+//            Toast.makeText(
+//                requireContext(),
+//                "Recording Paused",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        }
+//    }
+//
+//    private fun resumeRecording() {
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//
+//            mediaRecorder?.resume()
+//
+//            isPaused = false
+//
+//            binding.btnPause.text = "Pause"
+//
+//            startTimer()
+//
+//            Toast.makeText(
+//                requireContext(),
+//                "Recording Resumed",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        }
+//    }
+//    // ---------------- Recording ----------------
+//    private fun startRecording() {
+//
+//        completed = false
+//
+//        remainingRecordingTime = RECORD_TIME
+//
+//        binding.btnPause.visibility = View.VISIBLE
+//
+//        outputFile = File(
+//            requireContext().getExternalFilesDir(null),
+//            "VIDEO_${System.currentTimeMillis()}.mp4"
+//        )
+//
+//        camera?.stopPreview()
+//
+//        camera?.unlock()
+//
+//        mediaRecorder = MediaRecorder()
+//
+//        mediaRecorder?.apply {
+//
+//            setCamera(camera)
+//
+//            setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
+//
+//            setVideoSource(MediaRecorder.VideoSource.CAMERA)
+//
+//            setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+//
+//            setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+//
+//            setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+//
+//            setVideoSize(640, 480)
+//
+//            setVideoFrameRate(20)
+//
+//            setVideoEncodingBitRate(300 * 1000)
+//
+//            setAudioEncodingBitRate(64 * 1000)
+//
+//            setOrientationHint(
+//                if (
+//                    currentCameraId ==
+//                    Camera.CameraInfo.CAMERA_FACING_FRONT
+//                ) 270 else 90
+//            )
+//
+//            setOutputFile(outputFile!!.absolutePath)
+//
+//            setPreviewDisplay(binding.surfaceView.holder.surface)
+//
+//            prepare()
+//
+//            start()
+//        }
+//
+//        isRecording = true
+//
+//        isPaused = false
+//
+//        binding.btnPause.text = "Pause"
+//
+//        startTimer()
+//    }
+//
+//    // ---------------- Recording Timer ----------------
+//    private fun startTimer() {
+//
+//        countDownTimer = object : CountDownTimer(
+//            remainingRecordingTime,
+//            1000
+//        ) {
+//
+//            override fun onTick(
+//                millisUntilFinished: Long
+//            ) {
+//
+//                remainingRecordingTime =
+//                    millisUntilFinished
+//
+//                val sec =
+//                    millisUntilFinished / 1000
+//
+//                binding.tvTimer.text =
+//                    String.format(
+//                        "%02d:%02d",
+//                        sec / 60,
+//                        sec % 60
+//                    )
+//            }
+//
+//            override fun onFinish() {
+//
+//                completed = true
+//
+//                stopAndSave()
+//            }
+//
+//        }.start()
+//    }
+//
+//
+//    // ---------------- Stop Recording ----------------
+//
+//    private fun stopRecordingManually() {
+//
+//        countDownTimer?.cancel()
+//
+//        try {
+//
+//            mediaRecorder?.stop()
+//
+//        } catch (e: Exception) {
+//
+//            e.printStackTrace()
+//        }
+//
+//        mediaRecorder?.release()
+//
+//        mediaRecorder = null
+//
+//        camera?.lock()
+//
+//        isRecording = false
+//
+//        isPaused = false
+//
+//        binding.btnPause.visibility = View.GONE
+//
+//        binding.btnStop.visibility = View.GONE
+//
+//        binding.surfaceView.visibility = View.GONE
+//
+//        binding.videoView.visibility = View.VISIBLE
+//
+//        binding.btnDelete.visibility = View.VISIBLE
+//
+//        binding.btnPlayPause.visibility = View.VISIBLE
+//    }
+//
+//    private fun stopAndSave() {
+//
+//        try {
+//            mediaRecorder?.stop()
+//        } catch (e: Exception) {}
+//
+//        mediaRecorder?.release()
+//        mediaRecorder = null
+//
+//        camera?.lock()
+//
+//        isRecording = false
+//
+//        binding.btnStop.visibility = View.GONE
+//        binding.surfaceView.visibility = View.GONE
+//        binding.videoView.visibility = View.VISIBLE
+//        binding.btnDelete.visibility = View.VISIBLE
+//        binding.btnSwitch.visibility = View.GONE
+//        binding.btnPlayPause.visibility = View.VISIBLE
+//
+//
+//        outputFile?.let { file ->
+//
+//            val path = file.absolutePath
+//            finalVideoPath=path
+//
+//
+//        }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+////        playVideo()
+//    }
+//
+//    // ---------------- Play Video ----------------
+//
+//    private fun playVideo() {
+//
+//        outputFile?.let { file ->
+//
+//            val path = file.absolutePath
+//
+//            binding.videoView.setVideoPath(path)
+//
+//            binding.videoView.setOnPreparedListener {
+//
+//                binding.videoView.start()
+//
+//                startPlaybackTimer()
+//
+//                val sizeMB =
+//                    file.length().toDouble() / (1024 * 1024)
+//
+////                Toast.makeText(
+////                    requireContext(),
+////                    "Saved Path:\n$path",
+////                    Toast.LENGTH_LONG
+////                ).show()
+//
+//                binding.btnStop.visibility = View.GONE
+//
+//                finalVideoPath=path
+//
+////                android.app.AlertDialog.Builder(requireContext())
+////                    .setTitle("Recording Completed")
+////                    .setMessage(
+////                        "Size: %.2f MB\n\nPath:\n$path".format(sizeMB)
+////                    )
+////                    .setPositiveButton("OK", null)
+////                    .show()
+//            }
+//        }
+//    }
+//
+//    // ---------------- Playback Timer ----------------
+//
+//    private fun startPlaybackTimer() {
+//
+//        playbackRunnable = object : Runnable {
+//
+//            override fun run() {
+//
+//                if (binding.videoView.isPlaying) {
+//
+//                    val current =
+//                        binding.videoView.currentPosition
+//
+//                    val duration =
+//                        binding.videoView.duration
+//
+//                    val currentSec = current / 1000
+//                    val totalSec = duration / 1000
+//
+//                    val currentMin = currentSec / 60
+//                    val currentSecond = currentSec % 60
+//
+//                    val totalMin = totalSec / 60
+//                    val totalSecond = totalSec % 60
+//
+//                    binding.tvTimer.text =
+//                        String.format(
+//                            "%02d:%02d / %02d:%02d",
+//                            currentMin,
+//                            currentSecond,
+//                            totalMin,
+//                            totalSecond
+//                        )
+//
+//                    handler.postDelayed(this, 500)
+//                }
+//            }
+//        }
+//
+//        handler.post(playbackRunnable!!)
+//    }
+//
+//    // ---------------- Delete Video ----------------
+//
+//    private fun deleteVideo() {
+//
+//        outputFile?.let {
+//
+//            if (it.exists()) it.delete()
+//        }
+//
+//        binding.videoView.stopPlayback()
+//
+//        binding.videoView.visibility = View.GONE
+//
+//        binding.surfaceView.visibility = View.VISIBLE
+//
+//        binding.btnDelete.visibility = View.GONE
+//
+//        binding.tvTimer.text = "03:00"
+//
+//        openCamera()
+//
+//        Toast.makeText(
+//            requireContext(),
+//            "Video Deleted",
+//            Toast.LENGTH_SHORT
+//        ).show()
+//    }
+//
+//    // ---------------- Reset UI ----------------
+//
+//    private fun resetUI() {
+//
+//        binding.surfaceView.visibility = View.VISIBLE
+//
+//        binding.videoView.visibility = View.GONE
+//
+//        binding.btnDelete.visibility = View.GONE
+//
+//        binding.tvTimer.text = "03:00"
+//    }
+//
+
+
+
         binding.surfaceView.holder.addCallback(this)
 
         ActivityCompat.requestPermissions(
@@ -849,11 +1732,29 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
             101
         )
 
+
+
+        binding.btnPause.setOnClickListener {
+
+            if (isRecording) {
+
+                if (!isPaused) {
+
+                    pauseRecording()
+
+                } else {
+
+                    resumeRecording()
+                }
+            }
+        }
+
         binding.btnRecord.setOnClickListener {
             binding.btnPlayPause.visibility = View.GONE
             binding.btnStop.visibility = View.VISIBLE
             binding.btnSwitch.visibility = View.VISIBLE
             binding.btnStop.visibility = View.VISIBLE
+            binding.btnSwitch.visibility = View.GONE
 
 //            binding.videoContainer.visibility = View.VISIBLE
 
@@ -895,13 +1796,13 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
 
             if (isSelfie) {
 
-                binding.btnSwitch.text = getString(R.string.back)
+                binding.btnSwitch.text = getString(R.string.front)
                 isSelfie = false
 
             } else {
 
 
-                binding.btnSwitch.text = getString(R.string.front)
+                binding.btnSwitch.text = getString(R.string.back)
                 isSelfie = true
             }
         }
@@ -953,12 +1854,57 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         width: Int,
         height: Int
     ) {}
+    private fun pauseRecording() {
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+            mediaRecorder?.pause()
+
+            countDownTimer?.cancel()
+
+            isPaused = true
+
+            binding.btnPause.text = "Resume"
+
+            Toast.makeText(
+                requireContext(),
+                "Recording Paused",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    private fun resumeRecording() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+            mediaRecorder?.resume()
+
+            isPaused = false
+
+            binding.btnPause.text = "Pause"
+
+            startTimer()
+
+            Toast.makeText(
+                requireContext(),
+                "Recording Resumed",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
     // ---------------- Recording ----------------
+
+    // NEW: 23 MB hard cap for the recorded file
+    private val MAX_FILE_SIZE_BYTES = 23L * 1024L * 1024L // 23 MB
 
     private fun startRecording() {
 
         completed = false
+
+        remainingRecordingTime = RECORD_TIME
+
+        binding.btnPause.visibility = View.VISIBLE
 
         outputFile = File(
             requireContext().getExternalFilesDir(null),
@@ -966,28 +1912,36 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         )
 
         camera?.stopPreview()
+
         camera?.unlock()
 
         mediaRecorder = MediaRecorder()
 
         mediaRecorder?.apply {
+
             setCamera(camera)
 
             setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
+
             setVideoSource(MediaRecorder.VideoSource.CAMERA)
 
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
 
             setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+
             setVideoEncoder(MediaRecorder.VideoEncoder.H264)
+
             setVideoSize(640, 480)
+
             setVideoFrameRate(20)
 
             setVideoEncodingBitRate(300 * 1000)
+
             setAudioEncodingBitRate(64 * 1000)
 
             setOrientationHint(
-                if (currentCameraId ==
+                if (
+                    currentCameraId ==
                     Camera.CameraInfo.CAMERA_FACING_FRONT
                 ) 270 else 90
             )
@@ -996,28 +1950,62 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
 
             setPreviewDisplay(binding.surfaceView.holder.surface)
 
-            prepare()
-            start()
+            // NEW: hard file-size cap — MediaRecorder stops itself once the
+            // output file reaches this size, and fires onInfo below.
+            setMaxFileSize(MAX_FILE_SIZE_BYTES)
 
+            setOnInfoListener { _, what, _ ->
+                if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED) {
+                    activity?.runOnUiThread {
+                        completed = true
+                        Toast.makeText(
+                            requireContext(),
+                            "Recording reached 23 MB limit. Video saved automatically.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        stopAndSave()
+                    }
+                }
+            }
+
+            prepare()
+
+            start()
         }
 
         isRecording = true
-        binding.btnSwitch.visibility = View.GONE
+
+        isPaused = false
+
+        binding.btnPause.text = "Pause"
+
         startTimer()
     }
 
     // ---------------- Recording Timer ----------------
-
     private fun startTimer() {
 
-        countDownTimer = object : CountDownTimer(RECORD_TIME, 1000) {
+        countDownTimer = object : CountDownTimer(
+            remainingRecordingTime,
+            1000
+        ) {
 
-            override fun onTick(millisUntilFinished: Long) {
+            override fun onTick(
+                millisUntilFinished: Long
+            ) {
 
-                val sec = millisUntilFinished / 1000
+                remainingRecordingTime =
+                    millisUntilFinished
+
+                val sec =
+                    millisUntilFinished / 1000
 
                 binding.tvTimer.text =
-                    String.format("%02d:%02d", sec / 60, sec % 60)
+                    String.format(
+                        "%02d:%02d",
+                        sec / 60,
+                        sec % 60
+                    )
             }
 
             override fun onFinish() {
@@ -1030,6 +2018,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         }.start()
     }
 
+
     // ---------------- Stop Recording ----------------
 
     private fun stopRecordingManually() {
@@ -1037,36 +2026,40 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
         countDownTimer?.cancel()
 
         try {
+
             mediaRecorder?.stop()
+
         } catch (e: Exception) {
+
             e.printStackTrace()
         }
 
         mediaRecorder?.release()
+
         mediaRecorder = null
 
         camera?.lock()
 
         isRecording = false
 
+        isPaused = false
+
+        binding.btnPause.visibility = View.GONE
+
         binding.btnStop.visibility = View.GONE
+
         binding.surfaceView.visibility = View.GONE
-        binding.btnSwitch.visibility = View.GONE
+
         binding.videoView.visibility = View.VISIBLE
+
         binding.btnDelete.visibility = View.VISIBLE
+
         binding.btnPlayPause.visibility = View.VISIBLE
-
-//        playVideo()
-        outputFile?.let { file ->
-
-            val path = file.absolutePath
-            finalVideoPath=path
-
-
-        }
     }
 
     private fun stopAndSave() {
+
+        countDownTimer?.cancel()
 
         try {
             mediaRecorder?.stop()
@@ -1129,7 +2122,7 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
 
 //                Toast.makeText(
 //                    requireContext(),
-//                    "Saved Path:\n$sizeMB",
+//                    "Saved Path:\n$path",
 //                    Toast.LENGTH_LONG
 //                ).show()
 
@@ -1230,6 +2223,12 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
 
         binding.tvTimer.text = "03:00"
     }
+
+
+
+
+
+
 
 
 
@@ -2268,6 +3267,12 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
             )
 
             // VIDEO
+//            .addFormDataPart(
+//                "verificationVideo",
+//                "",
+//                videoRequestBody
+//            )
+
             .addFormDataPart(
                 "verificationVideo",
                 videoFile.name,
@@ -2375,28 +3380,22 @@ class FullScreenDialog( private val batch: List<OJTList>) :  DialogFragment(), S
                         } catch (e: Exception) {
 
                             AlertDialog.Builder(requireContext())
-                                .setTitle("Video size")
-                                .setMessage("Video Quality size is very large lessthen 24 MB")
-                                .setPositiveButton("OK") { dialog, _ ->
-
-                                    dialog.dismiss()
-
-                                    parentFragmentManager.setFragmentResult(
-                                        "REFRESH_DATA",
-                                        Bundle()
-                                    )
-                                    this@FullScreenDialog.dismissAllowingStateLoss()
-                                }
+                                .setTitle("Server Error")
+                                .setMessage("${response.code}\n\n${context?.getString(R.string.internal_server_error)}")
+                                .setPositiveButton("OK", null)
                                 .show()
                         }
 
                     } else {
 
+
+//                        Log.e("UPLOAD_EXCEPTION", "")
+                        Log.e("UPLOAD_EXCEPTION", response.code.toString())
+
+
                         AlertDialog.Builder(requireContext())
                             .setTitle("Server Error")
-                            .setMessage(
-                                "HTTP ${response.code}\n\n$responseBody"
-                            )
+                            .setMessage("${response.code}\n\n${context?.getString(R.string.internal_server_error)}")
                             .setPositiveButton("OK", null)
                             .show()
                     }

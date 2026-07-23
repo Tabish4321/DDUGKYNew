@@ -18,7 +18,6 @@ import org.tensorflow.lite.Interpreter
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.channels.FileChannel
-import kotlin.math.sqrt
 
 /**
  * Wraps a MobileFaceNet-style TFLite model to turn a cropped face bitmap
@@ -69,11 +68,12 @@ class FaceEmbeddingUtil(context: Context) {
     }
 
     /** Returns null if the model failed to load — callers must handle this case. */
-    fun getEmbedding(faceBitmap: Bitmap): FloatArray? {
+    fun getEmbedding(faceBitmap: Bitmap?): FloatArray? {
         val model = interpreter ?: return null
         return try {
-            val resized = Bitmap.createScaledBitmap(faceBitmap, INPUT_SIZE, INPUT_SIZE, true)
-            val input = bitmapToByteBuffer(resized)
+            val resized =
+                faceBitmap?.let { Bitmap.createScaledBitmap(it, INPUT_SIZE, INPUT_SIZE, true) }
+            val input = resized?.let { bitmapToByteBuffer(it) }
             val output = Array(1) { FloatArray(EMBEDDING_SIZE) }
             model.run(input, output)
             normalize(output[0])

@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -177,7 +178,18 @@ class TestInstructionsScreenFragment :
             Toast.makeText(requireContext(), "Camera permission required for face verification", Toast.LENGTH_SHORT).show()
         }
     }
+    override fun onResume() {
+        super.onResume()
+        requireActivity().requestedOrientation =
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().requestedOrientation =
+            ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+
+    }
     private fun hasCameraPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             requireContext(), Manifest.permission.CAMERA
@@ -373,7 +385,9 @@ class TestInstructionsScreenFragment :
                             colors = CardDefaults.cardColors(containerColor = Color(0xFFF3F4F8)),
                             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
                         ) {
-                            Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp)) {
+                            Column(modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 12.dp)) {
                                 Text(text = "Department Selected", fontSize = 14.sp, color = Color.Gray)
                                 Spacer(modifier = Modifier.height(6.dp))
 
@@ -385,7 +399,9 @@ class TestInstructionsScreenFragment :
                                         value = selectedDepartment.ifEmpty { "Select Department" },
                                         onValueChange = {},
                                         readOnly = true,
-                                        modifier = Modifier.fillMaxWidth().menuAnchor(),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .menuAnchor(),
                                         textStyle = LocalTextStyle.current.copy(fontWeight = FontWeight.Bold, fontSize = 16.sp),
                                         trailingIcon = {
                                             Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null)
@@ -460,21 +476,21 @@ class TestInstructionsScreenFragment :
                                 }
                                 else -> {
 
-                                    val bundle = bundleOf(
-                                        "loginId" to loginId,
-                                        "userName" to userName,
-                                        "mobile" to mobile,
-                                        "email" to email,
-                                        "gender" to gender,
-                                        "candidateLoginId" to candidateLoginId,
-                                        "candidateMobileNo" to candidateMobileNo,
-                                        "selectedCertificateType" to selectedCertificateType,
-                                        "selectedDepartment" to selectedDepartment
-                                    )
+//                                    val bundle = bundleOf(
+//                                        "loginId" to loginId,
+//                                        "userName" to userName,
+//                                        "mobile" to mobile,
+//                                        "email" to email,
+//                                        "gender" to gender,
+//                                        "candidateLoginId" to candidateLoginId,
+//                                        "candidateMobileNo" to candidateMobileNo,
+//                                        "selectedCertificateType" to selectedCertificateType,
+//                                        "selectedDepartment" to selectedDepartment
+//                                    )
+//
+//                                    navController.navigate(R.id.action_esopFragment_to_esopgetTestScreenFragment,bundle)
 
-                                    navController.navigate(R.id.action_esopFragment_to_esopgetTestScreenFragment,bundle)
-
-//                                    invokeCaptureIntent()
+                                    invokeCaptureIntent()
 
 
 
@@ -485,7 +501,9 @@ class TestInstructionsScreenFragment :
                                 }
                             }
                         },
-                        modifier = Modifier.fillMaxWidth().height(56.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(56.dp),
                         shape = RoundedCornerShape(16.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2962FF))
                     ) {
@@ -517,7 +535,9 @@ class TestInstructionsScreenFragment :
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(imageVector = icon, contentDescription = null, tint = Color(0xFF2962FF), modifier = Modifier.size(28.dp))
@@ -581,9 +601,7 @@ class TestInstructionsScreenFragment :
                 // Process the response to generate the PoiType or other required fields
                 val poiType = XstreamCommonMethods.processPidBlockEkyc(
                     response.toXML(),
-                    "456718077531",
-//                    aadhaarNumber,
-
+                    aadhaarNumber,
                     false,
                     requireContext()
                 )
@@ -607,7 +625,7 @@ class TestInstructionsScreenFragment :
                 // Handle Aadhaar authentication or additional processing here if required
             } else {
                 dismissProgressDialog()
-                toastLong(getString(R.string.failed_attendance))
+                toastLong(getString(R.string.not_authenticated_please_try_again))
 
             }
 
@@ -693,39 +711,60 @@ class TestInstructionsScreenFragment :
                                 val bitmap =
                                     BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
 
-                                userPhotoUIADI = bitmap
-                                ekycImage = kycResp.uidData.pht ?: ""
-
-                                name = kycResp.uidData.poi.name ?: "N/A"
-                                photo = kycResp.uidData.pht ?: "N/A"
+//                                userPhotoUIADI = bitmap
+//                                ekycImage = kycResp.uidData.pht ?: ""
+//
+//                                name = kycResp.uidData.poi.name ?: "N/A"
+//                                photo = kycResp.uidData.pht ?: "N/A"
                                 gender = kycResp.uidData.poi.gender ?: "N/A"
-                                dob = kycResp.uidData.poi.dob ?: "N/A"
-                                careOf = kycResp.uidData.poa.co ?: "N/A"
-                                state = kycResp.uidData.poa.state ?: "N/A"
-                                dist = kycResp.uidData.poa.dist ?: "N/A"
-                                block = kycResp.uidData.poa.subdist ?: "N/A"
-                                village = kycResp.uidData.poa.vtc ?: "N/A"
-                                street = kycResp.uidData.poa.loc ?: "N/A"
-                                po = kycResp.uidData.poa.po ?: "N/A"
-                                pinCode = kycResp.uidData.poa.pc ?: "N/A"
+//                                dob = kycResp.uidData.poi.dob ?: "N/A"
+//                                careOf = kycResp.uidData.poa.co ?: "N/A"
+//                                state = kycResp.uidData.poa.state ?: "N/A"
+//                                dist = kycResp.uidData.poa.dist ?: "N/A"
+//                                block = kycResp.uidData.poa.subdist ?: "N/A"
+//                                village = kycResp.uidData.poa.vtc ?: "N/A"
+//                                street = kycResp.uidData.poa.loc ?: "N/A"
+//                                po = kycResp.uidData.poa.po ?: "N/A"
+//                                pinCode = kycResp.uidData.poa.pc ?: "N/A"
 
 //                                Toast.makeText(requireContext(), kycResp.uidData.poi.name ?: getString(R.string.failed),Toast.LENGTH_SHORT)
 //                                    .show()
 
-                                val bundle = bundleOf(
-                                    "loginId" to loginId,
-                                    "userName" to userName,
-                                    "mobile" to mobile,
-                                    "email" to email,
-                                    "gender" to gender,
-                                    "candidateLoginId" to candidateLoginId,
-                                    "candidateMobileNo" to candidateMobileNo,
-                                    "selectedCertificateType" to selectedCertificateType,
-                                    "selectedDepartment" to selectedDepartment
-                                )
 
-                                navController.navigate(R.id.action_esopFragment_to_esopgetTestScreenFragment,bundle)
 
+
+//                                val poiName = kycResp?.uidData?.poi?.name
+
+                                if (!gender.isNullOrBlank() && !gender.equals("NA", ignoreCase = true) && !gender.equals("N/A", ignoreCase = true)) {
+                                    // Valid Name milne par hi navigate karega
+                                    val bundle = bundleOf(
+                                        "loginId" to loginId,
+                                        "userName" to userName,
+                                        "mobile" to mobile,
+                                        "email" to email,
+                                        "gender" to gender,
+                                        "candidateLoginId" to candidateLoginId,
+                                        "candidateMobileNo" to candidateMobileNo,
+                                        "selectedCertificateType" to selectedCertificateType,
+                                        "selectedDepartment" to selectedDepartment
+                                    )
+
+                                    navController.navigate(
+                                        R.id.action_esopFragment_to_esopgetTestScreenFragment,
+                                        bundle
+                                    )
+                                } else {
+
+                                    Toast.makeText(
+                                        context, // Ya requireContext()
+                                        getString(R.string.no_data_available),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+
+
+//
 //                                collectFacultyInsertAttendance()
 
 
@@ -778,44 +817,6 @@ class TestInstructionsScreenFragment :
             toastShort("Failed to open capture app")
         }
 
-    }
-
-    private fun collectFacultyInsertAttendance() {
-        lifecycleScope.launch {
-            viewModel.insertFacultyAttandance.observe(viewLifecycleOwner) { it ->
-                it.onSuccess { response ->
-                    dismissProgressDialog()
-
-                    when (response.responseCode) {
-                        200 -> {
-
-//                            showBottomSheet(userPhotoUIADI,name,gender,dob,careOf)
-
-                        }
-
-                        //  populateSpinnerVillage((response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>, spinnerSelectULB )
-
-                        202 -> Toast.makeText(
-                            requireContext(), getString(R.string.no_data_available), Toast.LENGTH_SHORT
-                        ).show()
-
-                        301 -> Toast.makeText(
-                            requireContext(), getString(R.string.please_upgrade_your_app), Toast.LENGTH_SHORT
-                        ).show()
-
-                        401 -> AppUtil.showSessionExpiredDialog(
-                            findNavController(), requireContext()
-                        )
-                    }
-                }
-                it.onFailure {
-                    dismissProgressDialog()
-                    Toast.makeText(requireContext(), it.message ?: getString(R.string.failed),Toast.LENGTH_SHORT)
-                        .show()
-
-                }
-            }
-        }
     }
 
 }

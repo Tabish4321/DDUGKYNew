@@ -1187,5 +1187,7 @@
     <string name="age">Age : %1$s</string>
     <string name="my_test">My Test</string>
     <string name="results">Results</string>
+    <string name="internal_server_error">Internal Server Error</string>
+    <string name="not_authenticated_please_try_again">Not Authenticated. Please try again.</string>
 
 </resources>
