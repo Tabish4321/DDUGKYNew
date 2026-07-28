@@ -3,6 +3,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.deendayalproject.esop.certificate.CertificateRequest
 import com.deendayalproject.esop.exam.FinalSubmitResponse
 import com.deendayalproject.esop.exam.InsertRequest
 import com.deendayalproject.esop.result.GetResultItem
@@ -106,6 +107,17 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     val insertsubmit: LiveData<Result<SubmitResponse>> =
         _insertsubmit
+
+
+
+    private val _certificate =
+        MutableLiveData<Result<CertificateRes>>()
+
+    val certificate: LiveData<Result<CertificateRes>> =
+        _certificate
+
+
+
 
     private val _rfTrainingCenters = MutableLiveData<Result<RfListResponse>>()
     val rfTrainingCenters: LiveData<Result<RfListResponse>> = _rfTrainingCenters
@@ -1913,6 +1925,23 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             resultLiveData = _insertresultsubmit
         )
     }
+
+
+
+
+    fun getcertificate(request: CertificateRequest, token: String) {
+        handleApiCall(
+            apiCall = {
+                repositoryManager.esop.getcertificate(
+                    request,
+                    token
+                )
+            },
+            resultLiveData = _certificate
+        )
+    }
+
+
 
 
 

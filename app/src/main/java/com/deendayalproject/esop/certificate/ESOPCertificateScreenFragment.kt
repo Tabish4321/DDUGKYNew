@@ -54,10 +54,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.os.bundleOf
+import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.EsopCertificatescreenBinding
 import com.deendayalproject.databinding.EsopMytestFragmentBinding
+import com.deendayalproject.esop.exam.InsertRequest
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
 import com.deendayalproject.model.request.EsopCandidateRequest
 import com.deendayalproject.model.request.EsopResultRequest
@@ -80,11 +82,13 @@ class ESOPCertificateScreenFragment :
 
     // Candidate info
     private var wrongAns by mutableStateOf("")
+    private val viewModel: SharedViewModel by viewModels()
     private var numberofAttempt by mutableStateOf("")
     private var id: Int = 0
     private var percentage by mutableStateOf("")
     private var departmentCetegory by mutableStateOf("")
     private var certificateType by mutableStateOf("")
+    private var candidateLoginId by mutableStateOf("")
     private var totalQuestions by mutableStateOf("")
     private var resultText by mutableStateOf("")
     private var correctAns by mutableStateOf("")
@@ -107,6 +111,7 @@ class ESOPCertificateScreenFragment :
         candidateName = arguments?.getString("candidateName").orEmpty()
         candidateMobileNo = arguments?.getString("candidateMobileNo").orEmpty()
 
+        candidateLoginId = arguments?.getString("candidateLoginId").orEmpty()
         certificateType = arguments?.getString("certificateType").orEmpty()
         totalQuestions = (arguments?.getInt("totalQuestions") ?: 0).toString()
         resultText = arguments?.getString("resultText").orEmpty()
@@ -115,7 +120,17 @@ class ESOPCertificateScreenFragment :
 
         hideStatusBar()
 
+
+
+
+
         binding.composeESOPCertificateScreen.setContent {
+
+
+
+
+
+
 
 
             ESOPCertificateScreen(
@@ -130,6 +145,7 @@ class ESOPCertificateScreenFragment :
                 certificationType = certificateType,
                 totalQuestions=totalQuestions,
                 resultText=resultText,
+                candidateLoginId=candidateLoginId,
                 id=id,
                 onBackClick = { findNavController().popBackStack() }
             )

@@ -763,7 +763,10 @@
             app:destination="@id/esopResultFragment" >
         </action>
 
-
+        <action
+            android:id="@+id/action_esopFragment_to_esopgetCertificateFragment"
+            app:destination="@id/esopgetCertificateFragment" >
+        </action>
 
 
 

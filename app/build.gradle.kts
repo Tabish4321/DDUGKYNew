@@ -209,8 +209,12 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:1.6.7")
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
 
-//        Face Matched Code use in other library use tenser flow
 
+
+//        28.07.2026 14.57PM
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
     // CameraX
 
     implementation("com.google.mlkit:face-detection:16.1.6")

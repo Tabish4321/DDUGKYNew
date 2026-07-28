@@ -80,24 +80,30 @@ fun DashboardSection(
             candidateMobileNo=candidateMobileNo
         )
 
-//        Spacer(modifier = Modifier.height(12.dp))
-//
-//        DashboardCard(
-//            modifier = Modifier.fillMaxWidth(),
-//            title = "Certificate",
-//            subtitle = "View & Download",
-//            icon = Icons.Default.CardMembership,
-//            onClick = {
-//
-//                Toast.makeText(
-//                    context,
-//                    "Certificate",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            },
-//            candidateName=candidateName,
-//            candidateMobileNo=candidateMobileNo
-//        )
+        Spacer(modifier = Modifier.height(12.dp))
+
+        DashboardCard(
+            modifier = Modifier.fillMaxWidth(),
+            title = "Certificate",
+            subtitle = "View & Download",
+            icon = Icons.Default.CardMembership,
+            onClick = {
+
+                val bundle = bundleOf(
+
+                    "candidateName" to candidateName,
+                    "candidateMobileNo" to candidateMobileNo,
+                )
+                navController.navigate(R.id.action_esopFragment_to_esopgetCertificateFragment,bundle)
+                Toast.makeText(
+                    context,
+                    "Certificate",
+                    Toast.LENGTH_SHORT
+                ).show()
+            },
+            candidateName=candidateName,
+            candidateMobileNo=candidateMobileNo
+        )
     }
 
 }

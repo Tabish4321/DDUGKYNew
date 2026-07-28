@@ -1,5 +1,6 @@
 package com.deendayalproject.esop.certificate
 
+import SharedViewModel
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
@@ -116,6 +117,7 @@ import kotlin.math.sin
 
 
 import android.graphics.Paint
+import android.util.Log
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontStyle
@@ -143,6 +145,17 @@ import kotlin.math.sin
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.filled.QrCode2
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
@@ -153,7 +166,375 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.deendayalproject.model.response.CertificateRes
+import com.deendayalproject.network.SecurePreferenceManager.getToken
+import com.deendayalproject.util.AppUtil
+import com.deendayalproject.util.ProgressDialogUtil.dismissProgressDialog
+import kotlinx.coroutines.launch
 import java.util.Calendar
+import java.util.TimeZone
+import kotlin.getValue
+
+
+
+//@SuppressLint("UnrememberedMutableState")
+//@RequiresApi(Build.VERSION_CODES.Q)
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun ESOPCertificateScreen(
+//    wrongAns: String,
+//    numberofAttempt: String,
+//    percentage: String,
+//    correctAns: String,
+//    result: String,
+//    candidateName: String,
+//    candidateMobileNo: String,
+//    departmentCetegory: String,
+//    certificationType: String,
+//    totalQuestions: String,
+//    resultText: String,
+//    candidateLoginId: String,
+//    id: Int,
+//    onBackClick: () -> Unit
+//) {
+//    val viewModel: SharedViewModel = viewModel()
+//    val context = LocalContext.current
+//    val view = LocalView.current
+//    val density = LocalDensity.current
+//    var resultValue by remember { mutableStateOf(0) }
+//    var CertificateList by mutableStateOf<List<CertificateRes.Certificate>>(emptyList())
+
+//    var cardBounds by remember { mutableStateOf<androidx.compose.ui.geometry.Rect?>(null) }
+
+//    val currentDate = remember {
+//        SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date())
+//    }
+//    var CertificateTimeValid by rememberSaveable { mutableStateOf("") }
+//    var CertificateNumber by rememberSaveable { mutableStateOf("") }
+//    var callCertificateApi by remember { mutableStateOf(false) }
+//    val validityDate = remember {
+//        val calendar = Calendar.getInstance()
+//        calendar.add(Calendar.DAY_OF_YEAR, 365)
+//        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
+//    }
+
+//    val score = "$percentage / $totalQuestions"
+//    val result = if (resultValue == 0) "FAIL" else "PASS"
+//    val token = getToken(context)
+
+//    // 👇 Screen states
+//    var isLoading by remember { mutableStateOf(false) }
+//    var errorMessage by remember { mutableStateOf<String?>(null) }
+//    var showEmptyDialog by remember { mutableStateOf(false) }
+//    var ESOPResultList by remember { mutableStateOf(listOf<Any>()) } // apne actual type se replace karein
+
+//    // 👇 Snackbar setup
+//    val snackbarHostState = remember { SnackbarHostState() }
+//    val scope = rememberCoroutineScope()
+
+//    // ---------- 1) TOP-LEVEL AUTO CALL — sirf ek baar chalega ----------
+//    LaunchedEffect(Unit) {
+//        if (!departmentCetegory.isNullOrEmpty()) {
+//            isLoading = true
+//            val request = CertificateRequest(
+//                loginId = candidateLoginId,
+//                category = departmentCetegory,
+//                certificateType = certificationType
+//            )
+//            viewModel.getcertificate(request, "Bearer $token")
+//        }
+//    }
+
+//    // ---------- 2) OBSERVATION — ek hi jagah, dono call-sites (top-call + dropdown-click) yahin handle honge ----------
+//    val certificateResponse by viewModel.certificate.observeAsState()
+
+//    LaunchedEffect(certificateResponse) {
+//        certificateResponse?.let { response ->
+//            dismissProgressDialog()
+//            isLoading = false
+
+//            response.onSuccess { data ->
+//                Log.d("GET_RESULT", "Response = $data")
+
+//                if (data.responseCode != 200) {
+//                    errorMessage = data.responseDesc
+//                    scope.launch {
+//                        snackbarHostState.showSnackbar(data.responseDesc ?: "Something went wrong")
+//                    }
+//                    return@onSuccess
+//                }
+
+//                CertificateList = data.wrappedList
+//                showEmptyDialog = ESOPResultList.isEmpty()
+
+//                // 👇 First item se CertificateNumber aur CertificateExpire nikaalna
+//                CertificateList.firstOrNull()?.let { item ->
+
+//                    CertificateNumber = item.CertificateNumber
+//                    CertificateTimeValid = item.CertificateExpire.toString()
+//                }
+
+//                errorMessage = null
+//                scope.launch {
+//                    snackbarHostState.showSnackbar(data.responseDesc ?: "Success")
+//                }
+//            }
+
+//            response.onFailure { error ->
+//                isLoading = false
+//                val msg = error.localizedMessage ?: "Something went wrong"
+//                errorMessage = msg
+//                scope.launch {
+//                    snackbarHostState.showSnackbar(msg)
+//                }
+//            }
+//        }
+//    }
+
+//    Scaffold(
+//        containerColor = Color(0xFFF4F7FB),
+//        snackbarHost = { SnackbarHost(snackbarHostState) },
+//        topBar = {
+//            TopAppBar(
+//                title = {
+//                    Text(text = "Certificate", fontWeight = FontWeight.Bold, color = Color(0xFF111827))
+//                },
+//                navigationIcon = {
+//                    IconButton(onClick = onBackClick) {
+//                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color(0xFF111827))
+//                    }
+//                },
+//                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
+//            )
+//        },
+//        bottomBar = {
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .background(Color.White)
+//                    .padding(12.dp),
+//                horizontalArrangement = Arrangement.spacedBy(12.dp)
+//            ) {
+//                Button(
+//                    onClick = {
+//                        cardBounds?.let { bounds ->
+//                            val fullBitmap = getBitmapFromView(view)
+//                            val paddingPx = with(density) { 30.dp.toPx() }
+//                            val croppedBitmap = cropBitmap(fullBitmap, bounds, paddingPx)
+//                            savePdfToDownloads(context = context, bitmap = croppedBitmap)
+//                        } ?: Toast.makeText(context, "Please wait, loading...", Toast.LENGTH_SHORT).show()
+//                    },
+//                    modifier = Modifier.weight(1f).height(46.dp),
+//                    shape = RoundedCornerShape(6.dp),
+//                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF075CE8))
+//                ) {
+//                    Text("Download PDF", color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+//                }
+
+//                OutlinedButton(
+//                    onClick = {
+//                        cardBounds?.let { bounds ->
+//                            val fullBitmap = getBitmapFromView(view)
+//                            val paddingPx = with(density) { 30.dp.toPx() }
+//                            val croppedBitmap = cropBitmap(fullBitmap, bounds, paddingPx)
+//                            val pdfFile = createPdf(context, croppedBitmap)
+//                            sharePdf(context, pdfFile)
+//                        } ?: Toast.makeText(context, "Please wait, loading...", Toast.LENGTH_SHORT).show()
+//                    },
+//                    modifier = Modifier.weight(1f).height(46.dp),
+//                    shape = RoundedCornerShape(6.dp),
+//                    border = BorderStroke(1.dp, Color(0xFFB7C7E8)),
+//                    colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF075CE8))
+//                ) {
+//                    Text("Share Certificate", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+//                }
+//            }
+//        }
+//    )
+//    { paddingValues ->
+
+//        var expanded by remember { mutableStateOf(false) }
+//        var expandedCertificate by remember { mutableStateOf(false) }
+//        var selectedDepartment by remember { mutableStateOf("Select") }
+//        var selectedCertificate by remember { mutableStateOf("Select") }
+//        val departments = listOf("-----Select-----", "Finance", "Operation", "PAA")
+//        val certificateTypeOf = listOf("-----Select-----", "Master", "Professional")
+
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(paddingValues)
+//                .verticalScroll(rememberScrollState())
+//        ) {
+
+//            if (departmentCetegory.isNullOrEmpty()) {
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(horizontal = 16.dp, vertical = 12.dp)
+//                ) {
+//                    // ---------- Department Dropdown ----------
+//                    ExposedDropdownMenuBox(
+//                        expanded = expanded,
+//                        onExpandedChange = { expanded = !expanded }
+//                    ) {
+//                        OutlinedTextField(
+//                            value = selectedDepartment,
+//                            onValueChange = {},
+//                            readOnly = true,
+//                            colors = OutlinedTextFieldDefaults.colors(
+//                                focusedContainerColor = Color.White,
+//                                unfocusedContainerColor = Color.White,
+//                                focusedTextColor = Color.Black,
+//                                unfocusedTextColor = Color.Black,
+//                                focusedBorderColor = Color.Gray,
+//                                unfocusedBorderColor = Color.LightGray
+//                            ),
+//                            label = { Text(text = "Select Department", color = Color.Black) },
+//                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+//                            modifier = Modifier.fillMaxWidth().menuAnchor()
+//                        )
+//                        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+//                            departments.forEach { department ->
+//                                DropdownMenuItem(
+//                                    text = { Text(text = department, color = Color.Black) },
+//                                    onClick = {
+//                                        selectedDepartment = department
+//                                        expanded = false
+//                                    }
+//                                )
+//                            }
+//                        }
+//                    }
+
+//                    Spacer(modifier = Modifier.height(10.dp))
+
+//                    // ---------- Certificate Dropdown ----------
+//                    ExposedDropdownMenuBox(
+//                        expanded = expandedCertificate,
+//                        onExpandedChange = { expandedCertificate = !expandedCertificate }
+//                    )
+//                    {
+//                        OutlinedTextField(
+//                            value = selectedCertificate,
+//                            onValueChange = {},
+//                            readOnly = true,
+//                            colors = OutlinedTextFieldDefaults.colors(
+//                                focusedContainerColor = Color.White,
+//                                unfocusedContainerColor = Color.White,
+//                                focusedTextColor = Color.Black,
+//                                unfocusedTextColor = Color.Black,
+//                                focusedBorderColor = Color.Gray,
+//                                unfocusedBorderColor = Color.LightGray
+//                            ),
+//                            label = { Text(text = "Select Certificate", color = Color.Black) },
+//                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedCertificate) },
+//                            modifier = Modifier.fillMaxWidth().menuAnchor()
+//                        )
+//                        ExposedDropdownMenu(expanded = expandedCertificate, onDismissRequest = { expandedCertificate = false }) {
+//                            certificateTypeOf.forEach { certificate ->
+//                                DropdownMenuItem(
+//                                    text = { Text(text = certificate, color = Color.Black) },
+//                                    onClick = {
+//                                        selectedCertificate = certificate
+//                                        expandedCertificate = false
+
+//                                        // 👇 Validation: dono dropdowns properly select hue ya nahi
+//                                        if (selectedDepartment == "Select" || selectedCertificate == "Select") {
+//                                            scope.launch {
+//                                                snackbarHostState.showSnackbar("Please select both Department and Certificate")
+
+
+//                                                val request = CertificateRequest(
+//                                                    loginId = candidateLoginId,
+//                                                    category = selectedDepartment,
+//                                                    certificateType = selectedCertificate
+//                                                )
+//                                                viewModel.getcertificate(request, "Bearer $token")
+
+
+//                                            }
+//                                            return@DropdownMenuItem
+//                                        }
+
+//                                        callCertificateApi = true
+//                                        isLoading = true
+
+
+//                                    }
+//                                )
+//                            }
+//                        }
+
+
+////                        ExposedDropdownMenu(expanded = expandedCertificate, onDismissRequest = { expandedCertificate = false }) {
+////                            certificateTypeOf.forEach { certificate ->
+////                                DropdownMenuItem(
+////                                    text = { Text(text = certificate, color = Color.Black) },
+////                                    onClick = {
+////                                        selectedCertificate = certificate
+////                                        expandedCertificate = false
+////                                        callCertificateApi = true
+////
+////                                        // ---------- 3) DROPDOWN-CLICK CALL — bas call karo, observation upar already set hai ----------
+////                                        isLoading = true
+////
+////
+////
+////
+////                                        val request = CertificateRequest(
+////                                            loginId = candidateLoginId,
+////                                            category = departmentCetegory,
+////                                            certificateType = certificationType
+////                                        )
+////                                        viewModel.getcertificate(request, "Bearer $token")
+////                                    }
+////                                )
+////                            }
+////                        }
+//                    }
+//                }
+//            }
+
+//            // ---------- Certificate Card ----------
+//            Box(
+//                modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 16.dp),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Column(
+//                    modifier = Modifier.onGloballyPositioned { coordinates ->
+//                        cardBounds = coordinates.boundsInWindow()
+//                    }
+//                ) {
+
+//                    CertificateCard(
+//                        candidateName = candidateName,
+//                        score = score,
+//                        result = resultText,
+//                        date = currentDate,
+//                        departmentType = departmentCetegory,
+//                        certificationType = certificationType,
+//                        certificateNumber = CertificateNumber,
+//                        validityDate = CertificateTimeValid,
+
+//                    )
+////                    CertificateCard(
+////                        candidateName = candidateName,
+////                        score = score,
+////                        result = resultText,
+////                        date = currentDate,
+////                        departmentType = departmentCetegory,
+////                        certificationType = certificationType,
+////                        certificateNumber = "${departmentCetegory.take(3)}/${certificationType.take(3)}/$id",
+////                        validityDate = CertificateTimeValid,
+////                        CertificateNumber = CertificateNumber
+////                    )
+//                }
+//            }
+//        }
+//    }
 
 
 
@@ -173,55 +554,128 @@ fun ESOPCertificateScreen(
     certificationType: String,
     totalQuestions: String,
     resultText: String,
+    candidateLoginId: String,
     id: Int,
     onBackClick: () -> Unit
 ) {
-
+    val viewModel: SharedViewModel = viewModel()
     val context = LocalContext.current
     val view = LocalView.current
     val density = LocalDensity.current
-    var resultValue by mutableStateOf(0)
+    var resultValue by remember { mutableStateOf(0) }
+    var CertificateList by remember { mutableStateOf<List<CertificateRes.Certificate>>(emptyList()) }
 
-    // 👇 CertificateCard ke exact bounds record karne ke liye
     var cardBounds by remember { mutableStateOf<androidx.compose.ui.geometry.Rect?>(null) }
 
     val currentDate = remember {
         SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date())
     }
-
+    var CertificateTimeValid by rememberSaveable { mutableStateOf("") }
+    var CertificateNumber by rememberSaveable { mutableStateOf("") }
+    var callCertificateApi by remember { mutableStateOf(false) }
     val validityDate = remember {
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_YEAR, 365)
         SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.time)
     }
-
+    var showCertificate by remember { mutableStateOf(false) }
     val score = "$percentage / $totalQuestions"
-
     val result = if (resultValue == 0) "FAIL" else "PASS"
+    val token = getToken(context)
+
+    // 👇 Screen states
+    var isLoading by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+    var showEmptyDialog by remember { mutableStateOf(false) }
+    var ESOPResultList by remember { mutableStateOf(listOf<Any>()) } // apne actual type se replace karein
+
+    // 👇 Snackbar setup
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    // ---------- 1) TOP-LEVEL AUTO CALL — sirf ek baar chalega ----------
+    LaunchedEffect(Unit) {
+        if (!departmentCetegory.isNullOrEmpty()) {
+            isLoading = true
+            val request = CertificateRequest(
+                loginId = candidateLoginId,
+                category = departmentCetegory,
+                certificateType = certificationType
+            )
+            viewModel.getcertificate(request, "Bearer $token")
+        }
+    }
+
+    // ---------- 2) OBSERVATION — ek hi jagah, dono call-sites (top-call + dropdown-click) yahin handle honge ----------
+    val certificateResponse by viewModel.certificate.observeAsState()
+
+    LaunchedEffect(certificateResponse) {
+        certificateResponse?.let { response ->
+            dismissProgressDialog()
+            isLoading = false
+
+            response.onSuccess { data ->
+                Log.d("GET_RESULT", "Response = $data")
+
+                if (data.responseCode != 200) {
+                    showCertificate = false
+                    errorMessage = data.responseDesc
+                    scope.launch {
+                        snackbarHostState.showSnackbar(data.responseDesc ?: "Something went wrong")
+                    }
+                    return@onSuccess
+                }
+
+                CertificateList = data.wrappedList
+                showEmptyDialog = CertificateList.isEmpty()
+
+                // 👇 First item se CertificateNumber aur CertificateExpire nikaalna
+                CertificateList.firstOrNull()?.let { item ->
+                    CertificateNumber = item.CertificateNumber
+                    CertificateTimeValid = item.CertificateExpire.toString()
+                }
+
+                errorMessage = null
+
+                if (data.responseDesc=="Certificate Fetched Successfully.") {
+                    showCertificate = true
+                }
+                else{
+
+                    showCertificate = false
+                    scope.launch {
+                        snackbarHostState.showSnackbar(data.responseDesc ?: "")
+                    }
+                }
+
+            }
+
+            response.onFailure { error ->
+                showCertificate = false
+                isLoading = false
+                val msg = error.localizedMessage ?: "Something went wrong"
+                errorMessage = msg
+                scope.launch {
+                    snackbarHostState.showSnackbar(msg)
+                }
+            }
+        }
+    }
 
     Scaffold(
         containerColor = Color(0xFFF4F7FB),
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = "Certificate",
-                        fontWeight = FontWeight.Bold,
-                        color = Color(0xFF111827)
-                    )
+                    Text(text = "Certificate", fontWeight = FontWeight.Bold, color = Color(0xFF111827))
                 },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back",
-                            tint = Color(0xFF111827)
-                        )
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color(0xFF111827))
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White
-                )
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
             )
         },
         bottomBar = {
@@ -238,26 +692,14 @@ fun ESOPCertificateScreen(
                             val fullBitmap = getBitmapFromView(view)
                             val paddingPx = with(density) { 30.dp.toPx() }
                             val croppedBitmap = cropBitmap(fullBitmap, bounds, paddingPx)
-                            savePdfToDownloads(
-                                context = context,
-                                bitmap = croppedBitmap
-                            )
+                            savePdfToDownloads(context = context, bitmap = croppedBitmap)
                         } ?: Toast.makeText(context, "Please wait, loading...", Toast.LENGTH_SHORT).show()
                     },
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(46.dp),
+                    modifier = Modifier.weight(1f).height(46.dp),
                     shape = RoundedCornerShape(6.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF075CE8)
-                    )
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF075CE8))
                 ) {
-                    Text(
-                        text = "Download PDF",
-                        color = Color.White,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Text("Download PDF", color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold)
                 }
 
                 OutlinedButton(
@@ -270,54 +712,313 @@ fun ESOPCertificateScreen(
                             sharePdf(context, pdfFile)
                         } ?: Toast.makeText(context, "Please wait, loading...", Toast.LENGTH_SHORT).show()
                     },
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(46.dp),
+                    modifier = Modifier.weight(1f).height(46.dp),
                     shape = RoundedCornerShape(6.dp),
                     border = BorderStroke(1.dp, Color(0xFFB7C7E8)),
-                    colors = ButtonDefaults.outlinedButtonColors(
-                        contentColor = Color(0xFF075CE8)
-                    )
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = Color(0xFF075CE8))
                 ) {
-                    Text(
-                        text = "Share Certificate",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Text("Share Certificate", fontSize = 14.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
-    ) { paddingValues ->
+    )
+    { paddingValues ->
 
-        Box(
+        var expanded by remember { mutableStateOf(false) }
+        var expandedCertificate by remember { mutableStateOf(false) }
+        var selectedDepartment by remember { mutableStateOf("-----Select-----") }
+        var selectedCertificate by remember { mutableStateOf("-----Select-----") }
+        val departments = listOf("-----Select-----", "Finance", "Operation", "PAA")
+        val certificateTypeOf = listOf("-----Select-----", "Master", "Professional")
+
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 10.dp, vertical = 16.dp),
-            contentAlignment = Alignment.Center
         ) {
-            Column(
-                modifier = Modifier
-                    .onGloballyPositioned { coordinates ->
-                        // 👇 CertificateCard ke exact bounds capture
-                        cardBounds = coordinates.boundsInWindow()
+
+            if (departmentCetegory.isNullOrEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 12.dp)
+                ) {
+                    // ---------- Department Dropdown ----------
+                    ExposedDropdownMenuBox(
+                        expanded = expanded,
+                        onExpandedChange = { expanded = !expanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selectedDepartment,
+                            onValueChange = {},
+                            readOnly = true,
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedContainerColor = Color.White,
+                                unfocusedContainerColor = Color.White,
+                                focusedTextColor = Color.Black,
+                                unfocusedTextColor = Color.Black,
+                                focusedBorderColor = Color.Gray,
+                                unfocusedBorderColor = Color.LightGray
+                            ),
+                            label = { Text(text = "Select Department", color = Color.Black) },
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                            modifier = Modifier.fillMaxWidth().menuAnchor()
+                        )
+                        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                            departments.forEach { department ->
+                                DropdownMenuItem(
+                                    text = { Text(text = department, color = Color.Black) },
+                                    onClick = {
+                                        selectedDepartment = department
+                                        expanded = false
+                                    }
+                                )
+                            }
+                        }
                     }
-            ) {
-                CertificateCard(
-                    candidateName = candidateName,
-                    score = score,
-                    result = resultText,
-                    date = currentDate,
-                    departmentType = departmentCetegory,
-                    certificationType = certificationType,
-                    certificateNumber = "${departmentCetegory.take(3)}/${certificationType.take(3)}/$id",
-                    validityDate = validityDate
-                )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    // ---------- Certificate Dropdown ----------
+                    ExposedDropdownMenuBox(
+                        expanded = expandedCertificate,
+                        onExpandedChange = { expandedCertificate = !expandedCertificate }
+                    ) {
+                        OutlinedTextField(
+                            value = selectedCertificate,
+                            onValueChange = {},
+                            readOnly = true,
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedContainerColor = Color.White,
+                                unfocusedContainerColor = Color.White,
+                                focusedTextColor = Color.Black,
+                                unfocusedTextColor = Color.Black,
+                                focusedBorderColor = Color.Gray,
+                                unfocusedBorderColor = Color.LightGray
+                            ),
+                            label = { Text(text = "Select Certificate", color = Color.Black) },
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedCertificate) },
+                            modifier = Modifier.fillMaxWidth().menuAnchor()
+                        )
+                        ExposedDropdownMenu(expanded = expandedCertificate, onDismissRequest = { expandedCertificate = false }) {
+                            certificateTypeOf.forEach { certificate ->
+                                DropdownMenuItem(
+                                    text = { Text(text = certificate, color = Color.Black) },
+                                    onClick = {
+                                        selectedCertificate = certificate
+                                        expandedCertificate = false
+
+                                        // 👇 Validation: dono dropdowns properly select hue ya nahi
+                                        if (selectedDepartment == "-----Select-----" || selectedCertificate == "-----Select-----") {
+                                            scope.launch {
+                                                snackbarHostState.showSnackbar("Please select both Department and Certificate")
+                                            }
+                                            return@DropdownMenuItem
+                                        }
+
+                                        // ---------- API CALL — sirf tab jab dono valid select ho chuke hon ----------
+                                        callCertificateApi = true
+                                        isLoading = true
+
+                                        val request = CertificateRequest(
+                                            loginId = candidateLoginId,
+                                            category = selectedDepartment,
+                                            certificateType = selectedCertificate
+                                        )
+                                        viewModel.getcertificate(request, "Bearer $token")
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            // ---------- Certificate Card — sirf success ke baad dikhega ----------
+            if (showCertificate) {
+                Box(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        modifier = Modifier.onGloballyPositioned { coordinates ->
+                            // 👇 Yehi exact bounds hain jo PDF crop/share ke liye use honge — sirf card, baaki screen nahi
+                            cardBounds = coordinates.boundsInWindow()
+                        }
+                    ) {
+                        CertificateCard(
+                            candidateName = candidateName,
+                            score = score,
+                            result = resultText,
+                            date = currentDate,
+                            departmentType = departmentCetegory,
+                            certificationType = certificationType,
+                            certificateNumber = CertificateNumber,
+                            validityDate = CertificateTimeValid,
+                        )
+                    }
+                }
+            } else if (errorMessage != null) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = errorMessage ?: "",
+                        color = Color(0xFFB91C1C),
+                        fontSize = 13.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
         }
     }
 }
+//    { paddingValues ->
+//
+//        var expanded by remember { mutableStateOf(false) }
+//        var expandedCertificate by remember { mutableStateOf(false) }
+//        var selectedDepartment by remember { mutableStateOf("-----Select-----") }
+//        var selectedCertificate by remember { mutableStateOf("-----Select-----") }
+//        var candidateId by remember { mutableStateOf("") }
+//        val departments = listOf("-----Select-----", "Finance", "Operation", "PAA")
+//        val certificateTypeOf = listOf("-----Select-----", "Master", "Professional")
+//
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(paddingValues)
+//                .verticalScroll(rememberScrollState())
+//        ) {
+//
+//            if (departmentCetegory.isNullOrEmpty()) {
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(horizontal = 16.dp, vertical = 12.dp)
+//                ) {
+//                    // ---------- Department Dropdown ----------
+//                    ExposedDropdownMenuBox(
+//                        expanded = expanded,
+//                        onExpandedChange = { expanded = !expanded }
+//                    ) {
+//                        OutlinedTextField(
+//                            value = selectedDepartment,
+//                            onValueChange = {},
+//                            readOnly = true,
+//                            colors = OutlinedTextFieldDefaults.colors(
+//                                focusedContainerColor = Color.White,
+//                                unfocusedContainerColor = Color.White,
+//                                focusedTextColor = Color.Black,
+//                                unfocusedTextColor = Color.Black,
+//                                focusedBorderColor = Color.Gray,
+//                                unfocusedBorderColor = Color.LightGray
+//                            ),
+//                            label = { Text(text = "Select Department", color = Color.Black) },
+//                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+//                            modifier = Modifier.fillMaxWidth().menuAnchor()
+//                        )
+//                        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+//                            departments.forEach { department ->
+//                                DropdownMenuItem(
+//                                    text = { Text(text = department, color = Color.Black) },
+//                                    onClick = {
+//                                        selectedDepartment = department
+//                                        expanded = false
+//                                    }
+//                                )
+//                            }
+//                        }
+//                    }
+//
+//                    Spacer(modifier = Modifier.height(10.dp))
+//
+//                    // ---------- Certificate Dropdown ----------
+//                    ExposedDropdownMenuBox(
+//                        expanded = expandedCertificate,
+//                        onExpandedChange = { expandedCertificate = !expandedCertificate }
+//                    ) {
+//                        OutlinedTextField(
+//                            value = selectedCertificate,
+//                            onValueChange = {},
+//                            readOnly = true,
+//                            colors = OutlinedTextFieldDefaults.colors(
+//                                focusedContainerColor = Color.White,
+//                                unfocusedContainerColor = Color.White,
+//                                focusedTextColor = Color.Black,
+//                                unfocusedTextColor = Color.Black,
+//                                focusedBorderColor = Color.Gray,
+//                                unfocusedBorderColor = Color.LightGray
+//                            ),
+//                            label = { Text(text = "Select Certificate", color = Color.Black) },
+//                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedCertificate) },
+//                            modifier = Modifier.fillMaxWidth().menuAnchor()
+//                        )
+//                        ExposedDropdownMenu(expanded = expandedCertificate, onDismissRequest = { expandedCertificate = false }) {
+//                            certificateTypeOf.forEach { certificate ->
+//                                DropdownMenuItem(
+//                                    text = { Text(text = certificate, color = Color.Black) },
+//                                    onClick = {
+//                                        selectedCertificate = certificate
+//                                        expandedCertificate = false
+//
+//                                        // 👇 Validation: dono dropdowns properly select hue ya nahi
+//                                        if (selectedDepartment == "-----Select-----" || selectedCertificate == "-----Select-----") {
+//                                            scope.launch {
+//                                                snackbarHostState.showSnackbar("Please select both Department and Certificate")
+//                                            }
+//                                            return@DropdownMenuItem
+//                                        }
+//
+//                                        // ---------- API CALL — sirf tab jab dono valid select ho chuke hon ----------
+//                                        callCertificateApi = true
+//                                        isLoading = true
+//
+//                                        val request = CertificateRequest(
+//                                            loginId = AppUtil.getSavedLoginIdPreference(context),
+//                                            category = selectedDepartment,
+//                                            certificateType = selectedCertificate
+//                                        )
+//                                        viewModel.getcertificate(request, "Bearer $token")
+//                                    }
+//                                )
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            // ---------- Certificate Card ----------
+//            Box(
+//                modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 16.dp),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Column(
+//                    modifier = Modifier.onGloballyPositioned { coordinates ->
+//                        cardBounds = coordinates.boundsInWindow()
+//                    }
+//                ) {
+//                    CertificateCard(
+//                        candidateName = candidateName,
+//                        score = score,
+//                        result = resultText,
+//                        date = currentDate,
+//                        departmentType = departmentCetegory,
+//                        certificationType = certificationType,
+//                        certificateNumber = CertificateNumber,
+//                        validityDate = CertificateTimeValid,
+//                    )
+//                }
+//            }
+//        }
+//    }
+
+
+
+
 
 private fun getBitmapFromView(view: View): Bitmap {
     val bitmap = Bitmap.createBitmap(
@@ -448,7 +1149,7 @@ private fun CertificateCard(
     date: String,
     departmentType: String,
     certificationType: String,
-    certificateNumber: String = "",
+    certificateNumber: String,
     validityDate: String
 ) {
     val purple = Color(0xFF2E1065)
@@ -503,7 +1204,7 @@ private fun CertificateCard(
                     Spacer(modifier = Modifier.width(8.dp))
 
                     Image(
-                        painter = painterResource(id = R.drawable.ddugky),
+                        painter = painterResource(id = R.drawable.ddugky_logo_transparent),
                         contentDescription = "DDU-GKY",
                         modifier = Modifier.height(30.dp),
                         contentScale = ContentScale.Fit
@@ -647,19 +1348,19 @@ private fun CertificateCard(
                         Image(
                             painter = painterResource(id = R.drawable.gold_logo),
                             contentDescription = "Certified Seal",
-                            modifier = Modifier.size(52.dp)
+                            modifier = Modifier.size(45.dp)
                         )
 
                         Spacer(modifier = Modifier.height(6.dp))
 
                         Text(
-                            text = "VALIDITY THROUGH",
+                            text = "VALIDITY TILL",
                             color = orange,
                             fontSize = 7.sp,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = validityDate,
+                            text = formatDate(validityDate),
                             color = Color.White,
                             fontSize = 8.sp
                         )
@@ -714,4 +1415,36 @@ fun Modifier.dashedBorder(
         style = stroke,
         cornerRadius = CornerRadius(cornerRadiusPx, cornerRadiusPx)
     )
+}
+
+fun formatDate(rawDate: String): String {
+
+    if (rawDate.isBlank()) return ""
+
+    val inputFormats = listOf(
+        "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+        "yyyy-MM-dd'T'HH:mm:ssXXX",
+        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+        "yyyy-MM-dd'T'HH:mm:ss'Z'"
+    )
+
+    for (pattern in inputFormats) {
+        try {
+            val parser = SimpleDateFormat(pattern, Locale.getDefault())
+            parser.timeZone = TimeZone.getTimeZone("UTC")
+
+            val date = parser.parse(rawDate) ?: continue
+
+            // Sirf Date
+            val outputFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+            outputFormat.timeZone = TimeZone.getDefault()
+
+            return outputFormat.format(date)
+
+        } catch (e: Exception) {
+            // Try next format
+        }
+    }
+
+    return rawDate
 }

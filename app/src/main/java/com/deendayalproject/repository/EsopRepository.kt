@@ -2,6 +2,7 @@ package com.deendayalproject.repository
 
 import android.content.Context
 import com.deendayalproject.base.BaseRepository
+import com.deendayalproject.esop.certificate.CertificateRequest
 import com.deendayalproject.esop.exam.FinalSubmitResponse
 import com.deendayalproject.esop.exam.InsertRequest
 import com.deendayalproject.esop.result.GetResultItem
@@ -19,6 +20,7 @@ import com.deendayalproject.model.request.TrainingCenterOpenStatusReq
 import com.deendayalproject.model.response.CandidateOjtVerificationDetails
 import com.deendayalproject.model.response.CandidateOjtVerificationRequest
 import com.deendayalproject.model.response.CaptivePiaOfficerSelfieResponse
+import com.deendayalproject.model.response.CertificateRes
 import com.deendayalproject.model.response.EsopCandidateRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.OJTList_Res
@@ -88,6 +90,10 @@ class EsopRepository(context: Context) : BaseRepository<ApiService>(context) {
             apiService.insertfinalsubmit(request)
         }
 
+    suspend fun getcertificate(request: CertificateRequest, token: String): Result<CertificateRes> =
+        safeApiCallWithToken(token) {
+            apiService.getcertificate(request)
+        }
 
 
 

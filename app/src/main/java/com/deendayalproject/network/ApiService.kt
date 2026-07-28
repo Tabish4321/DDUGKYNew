@@ -2,6 +2,7 @@ package com.deendayalproject.network
 
 import PreviousInspectionItemResponse
 import com.deendayalproject.base.BaseResponse
+import com.deendayalproject.esop.certificate.CertificateRequest
 import com.deendayalproject.esop.exam.FinalSubmitResponse
 import com.deendayalproject.esop.exam.InsertRequest
 import com.deendayalproject.esop.result.GetResultItem
@@ -152,6 +153,7 @@ import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.CandidateOjtVerificationDetails
 import com.deendayalproject.model.response.CandidateOjtVerificationRequest
 import com.deendayalproject.model.response.CaptivePiaOfficerSelfieResponse
+import com.deendayalproject.model.response.CertificateRes
 import com.deendayalproject.model.response.CommonEquipmentRes
 import com.deendayalproject.model.response.DescOtherAreaRes
 import com.deendayalproject.model.response.DistrictResponse
@@ -1208,5 +1210,11 @@ interface ApiService {
     suspend fun insertfinalsubmit(
         @Body request: InsertRequest
     ): Response<FinalSubmitResponse>
+
+
+    @POST("mbexamsubmit/getcertificate")
+    suspend fun getcertificate(
+        @Body request: CertificateRequest
+    ): Response<CertificateRes>
 
 }

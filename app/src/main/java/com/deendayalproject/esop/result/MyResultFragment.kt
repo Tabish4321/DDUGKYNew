@@ -106,10 +106,11 @@ class MyResultFragment :
     private var expandedCertificate by mutableStateOf(false)
     private var selectedDepartment by mutableStateOf("Select")
     private var selectedCertificate by mutableStateOf("Select")
-
-    private val departments = listOf("Select", "Finance", "Operation","PAA")
-
-    private val certificateTypeOf = listOf("Select", "Master", "Professional")
+    val departments = listOf("-----Select-----", "Finance", "Operation", "PAA")
+    val certificateTypeOf = listOf("-----Select-----", "Master", "Professional")
+//    private val departments = listOf("Select", "Finance", "Operation","PAA")
+//
+//    private val certificateTypeOf = listOf("Select", "Master", "Professional")
 
     @OptIn(ExperimentalMaterial3Api::class)
     @RequiresApi(Build.VERSION_CODES.R)
@@ -299,18 +300,19 @@ class MyResultFragment :
 
 
                                 val bundle = bundleOf(
-                                    "wrongAns" to wrongAns,
-                                    "numberofAttempt" to numberofAttempt,
-                                    "percentage" to percentage,
-                                    "correctAns" to correctAns,
-                                    "result" to result,
+//                                    "wrongAns" to wrongAns,
+//                                    "numberofAttempt" to numberofAttempt,
+//                                    "percentage" to percentage,
+//                                    "correctAns" to correctAns,
+//                                    "result" to result,
                                     "departmentCetegory" to departmentCetegory,
                                     "certificateType" to certificateType,
                                     "candidateName" to candidateName,
                                     "candidateMobileNo" to candidateMobileNo,
-                                    "totalQuestions" to totalQuestions,
-                                    "resultText" to resultText,
-                                    "id" to id,
+                                    "candidateLoginId" to candidateLoginId,
+//                                    "totalQuestions" to totalQuestions,
+//                                    "resultText" to resultText,
+//                                    "id" to id,
                                 )
                                navController.navigate(R.id.action_esopFragment_to_CertificateScreenFragment,bundle)
 
