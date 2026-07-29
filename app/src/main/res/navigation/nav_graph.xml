@@ -727,7 +727,11 @@
         android:id="@+id/esopgetTestScreenFragment"
         android:name="com.deendayalproject.esop.exam.TestScreenFragment"
         android:label="EsopTestScreenFragment" >
-
+        <action
+            android:id="@+id/action_esopFragment_to_mainHomePage"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
 
     </fragment>
 

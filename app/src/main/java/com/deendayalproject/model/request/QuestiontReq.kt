@@ -1,4 +1,4 @@
-package com.example.esop.quetions_esop
+package com.deendayalproject.model.request
 
 import com.google.gson.annotations.SerializedName
 

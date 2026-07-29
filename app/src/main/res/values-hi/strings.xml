@@ -1624,4 +1624,89 @@ CCTV सबमिशन विफल: %1$s
     <string name="front">सामने</string>
     <string name="back">पीछे</string>
     <string name="pause">रोकें</string>
+
+
+
+    <string name="label_yes">हाँ</string>
+    <string name="label_no">नहीं</string>
+
+    <string name="srlm_on_job_training">एसआरएलएम ऑन-द-जॉब प्रशिक्षण</string>
+    <string name="select_pia_name_sanctionOrderNo">पीआईए का नाम एवं स्वीकृति आदेश संख्या चुनें</string>
+    <string name="pia_name_ojt">पीआईए का नाम</string>
+    <string name="verification_status">सत्यापन स्थिति</string>
+    <string name="ojtplanid">ओजेटी योजना आईडी</string>
+    <string name="ojt_candidate_srlm_list">एसआरएलएम ओजेटी अभ्यर्थी सूची</string>
+
+    <string name="srlm_on_job_training_verification_complete">एसआरएलएम ओजेटी सत्यापन विवरण</string>
+
+    <string name="srlm_on_job_training_verification">एसआरएलएम ऑन-द-जॉब प्रशिक्षण सत्यापन</string>
+    <string name="search_pia_name">पीआईए का नाम खोजें</string>
+    <string name="ojt_plan_id">ओजेटी योजना आईडी</string>
+
+    <string name="esop">ई-एसओपी</string>
+    <string name="age">आयु : %1$s</string>
+    <string name="my_test">मेरी परीक्षा</string>
+    <string name="results">परिणाम</string>
+    <string name="internal_server_error">आंतरिक सर्वर त्रुटि</string>
+    <string name="not_authenticated_please_try_again">प्रमाणीकरण नहीं हो सका। कृपया पुनः प्रयास करें।</string>
+    <string name="certificate">प्रमाणपत्र</string>
+    <string name="view_download">देखें एवं डाउनलोड करें</string>
+    <string name="view_your_results">अपने परिणाम देखें</string>
+    <string name="my_tests">मेरी परीक्षाएँ</string>
+    <string name="view_your_tests">अपनी परीक्षाएँ देखें</string>
+    <string name="department_category">विभाग श्रेणी : %1$s</string>
+    <string name="certificate_type">प्रमाणपत्र प्रकार : %1$s</string>
+    <string name="date">दिनांक: %1$s</string>
+    <string name="exit_exam">परीक्षा से बाहर निकलें</string>
+    <string name="do_you_want_to_exit_exam">क्या आप परीक्षा से बाहर निकलना चाहते हैं?</string>
+    <string name="no_face_detected_please_position_your_face_in_the_frame">कोई चेहरा नहीं मिला। कृपया अपना चेहरा फ्रेम के भीतर रखें।</string>
+    <string name="face_verification">चेहरा सत्यापन</string>
+    <string name="blink_detected_hold_on">पलक झपकना पहचान लिया गया... कृपया प्रतीक्षा करें</string>
+    <string name="verified_starting_exam">सत्यापन सफल! परीक्षा प्रारंभ की जा रही है...</string>
+    <string name="look_at_the_camera_and_blink_naturally">कैमरे की ओर देखें और स्वाभाविक रूप से पलक झपकाएँ</string>
+    <string name="time_over">समय समाप्त</string>
+    <string name="time_is_over_please_complete_your_test">समय समाप्त हो गया है। कृपया अपनी परीक्षा पूर्ण करें।</string>
+
+    <string name="i_acknowledge_that_my_aadhar">मैं मानता/मानती हूँ कि मेरी पहचान की पुष्टि सबसे पहले मेरे लाइव चेहरे की तस्वीर का मेरे आधार से जुड़ी तस्वीर से मिलान करके की जाएगी। सफल पुष्टि के बाद, आँख झपकाने (लाइवनेस) का वेरिफिकेशन किया जाएगा। परीक्षा के दौरान, परीक्षा की सुरक्षा और निष्पक्षता बनाए रखने के लिए डिवाइस के कैमरे से समय-समय पर मेरे चेहरे का वेरिफिकेशन किया जा सकता है। पहचान की पुष्टि, लाइवनेस वेरिफिकेशन या बाद में चेहरे के वेरिफिकेशन को पूरा न कर पाने, या किसी अनधिकृत व्यक्ति के पाए जाने पर परीक्षा को रोका या रद्द किया जा सकता है।</string>
+<!--    <string name="i_acknowledge_that_my_aadhar">मैं यह स्वीकार करता हूँ और सहमति देता हूँ कि मेरी पहचान का सत्यापन सबसे पहले मेरी लाइव चेहरे की तस्वीर का मेरे आधार से जुड़ी तस्वीर से मिलान करके किया जाएगा। सफल सत्यापन के बाद, अपनी भौतिक उपस्थिति की पुष्टि करने के लिए मुझे आँख झपकाने (लाइवनेस) का सत्यापन पूरा करना होगा। परीक्षा के दौरान, परीक्षा की सुरक्षा और निष्पक्षता सुनिश्चित करने के लिए डिवाइस के कैमरे के माध्यम से मेरे चेहरे की लगातार या समय-समय पर निगरानी और सत्यापन किया जा सकता है। यदि पहचान का सत्यापन, लाइवनेस सत्यापन, या बाद में चेहरे का सत्यापन विफल हो जाता है, या यदि कोई अनधिकृत व्यक्ति पाया जाता है, तो परीक्षा दिशानिर्देशों के अनुसार परीक्षा को निलंबित या समाप्त किया जा सकता है।</string>-->
+
+    <string name="start_test_now">अभी परीक्षा प्रारंभ करें</string>
+    <string name="attempt_a_new_esop_exam">नई ई-एसओपी परीक्षा दें</string>
+    <string name="name_user">उम्मीदवार का नाम : %1$s</string>
+    <string name="please_select_certificate_type">कृपया प्रमाणपत्र का प्रकार चुनें</string>
+    <string name="please_select_department">कृपया विभाग चुनें</string>
+    <string name="please_acknowledge_the_terms">कृपया नियम एवं शर्तों की स्वीकृति दें</string>
+    <string name="start_new_test">नई परीक्षा प्रारंभ करें</string>
+    <string name="mark_per_question">प्रति प्रश्न अंक</string>
+    <string name="test_instructions">परीक्षा निर्देश</string>
+    <string name="please_select_your_certificate_of_type">कृपया अपना प्रमाणपत्र प्रकार चुनें</string>
+    <string name="total_questions">कुल प्रश्न</string>
+    <string name="time_duration">समय अवधि</string>
+    <string name="department_selected">चयनित विभाग</string>
+    <string name="no_result_available">कोई परिणाम उपलब्ध नहीं है</string>
+    <string name="please_conduct_the_exam_first">कृपया पहले परीक्षा दें।</string>
+    <string name="select_department">विभाग चुनें</string>
+    <string name="no_result_found">कोई परिणाम नहीं मिला</string>
+    <string name="no_data_available_for_department">%1$s विभाग के लिए कोई डेटा उपलब्ध नहीं है</string>
+    <string name="wrong_answers">गलत उत्तर</string>
+    <string name="correct_answers">सही उत्तर</string>
+    <string name="passing">उत्तीर्ण प्रतिशत</string>
+    <string name="score">अंक</string>
+    <string name="no_result_is_available">कोई परिणाम उपलब्ध नहीं है</string>
+    <string name="please_conduct_exam">कृपया परीक्षा दें</string>
+    <string name="view_certificate">प्रमाणपत्र देखें</string>
+    <string name="select_certificate">प्रमाणपत्र चुनें</string>
+    <string name="your_result">आपका परिणाम</string>
+    <string name="sorry_you">क्षमा करें! आप</string>
+    <string name="congratulations_you">बधाई हो! आप</string>
+    <string name="please_try_again_to_improve_your_score">अपने अंक बेहतर करने के लिए कृपया पुनः प्रयास करें।</string>
+    <string name="well_done_you_have_successfully">बहुत बढ़िया! आपने सफलतापूर्वक</string>
+    <string name="cleared_the_test">परीक्षा उत्तीर्ण कर ली है।</string>
+    <string name="correct">सही</string>
+    <string name="fail">अनुत्तीर्ण</string>
+    <string name="pass">उत्तीर्ण</string>
+
+    <string name="share_certificate">प्रमाणपत्र साझा करें</string>
+    <string name="download_pdf">पीडीएफ डाउनलोड करें</string>
+
 </resources>

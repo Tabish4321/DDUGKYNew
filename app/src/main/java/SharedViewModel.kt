@@ -3,11 +3,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.deendayalproject.esop.certificate.CertificateRequest
-import com.deendayalproject.esop.exam.FinalSubmitResponse
-import com.deendayalproject.esop.exam.InsertRequest
-import com.deendayalproject.esop.result.GetResultItem
-import com.deendayalproject.esop.result.GetResultViewRequest
+import com.deendayalproject.model.request.CertificateRequest
+import com.deendayalproject.model.response.FinalSubmitResponse
+import com.deendayalproject.model.request.InsertRequest
+import com.deendayalproject.model.response.GetResultItem
+import com.deendayalproject.model.request.GetResultViewRequest
 import com.deendayalproject.model.request.*
 import com.deendayalproject.model.response.*
 import com.deendayalproject.repository.repomanager.RepositoryManager
@@ -15,17 +15,13 @@ import com.deendayalproject.uidai.ekyc.UidaiKycRequest
 import com.deendayalproject.uidai.ekyc.UidaiResp
 import com.example.esop.AswersOptionSubmit.SubmitExamRequest
 import com.example.esop.AswersOptionSubmit.SubmitResponse
-import com.example.esop.fialAnsweredSubmitApi.ResultInsertReq
 import com.example.esop.mytest.MyTestResponse
 import com.example.esop.quetions_esop.QuestionResponse
-import com.example.esop.quetions_esop.QuestiontReq
+import com.deendayalproject.model.request.QuestiontReq
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.POST
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 

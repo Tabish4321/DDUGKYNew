@@ -19,8 +19,6 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.camera.core.ImageCapture
-import androidx.camera.view.PreviewView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -78,7 +76,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -89,7 +86,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.deendayalproject.BuildConfig
@@ -102,49 +98,26 @@ import com.deendayalproject.network.SecurePreferenceManager.getToken
 import com.example.esop.AswersOptionSubmit.SubmitAnswer
 import com.example.esop.AswersOptionSubmit.SubmitExamRequest
 import com.example.esop.quetions_esop.Question
-import com.example.esop.quetions_esop.QuestiontReq
-import com.example.esop.quetions_esop.SummaryCard
+import com.deendayalproject.model.request.QuestiontReq
+import com.deendayalproject.esop.questions.SummaryCard
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-import java.util.concurrent.Executors
 import kotlin.collections.set
 import kotlin.getValue
 
 import androidx.compose.ui.window.DialogProperties
-import kotlin.hashCode
 
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.delay
+import androidx.compose.ui.res.stringResource
+import com.deendayalproject.R
+import com.deendayalproject.model.request.InsertRequest
 
 @AndroidEntryPoint
 class TestScreenFragment :
@@ -326,6 +299,9 @@ class TestScreenFragment :
                     .setMessage(data.responseDesc)
                     .setCancelable(false)
                     .setPositiveButton("OK") { dialog, _ ->
+
+
+                            findNavController().navigate(TestScreenFragmentDirections.actionEsopFragmentToMainHomePage())
                         dialog.dismiss()
                     }
                     .show()
@@ -480,106 +456,20 @@ class TestScreenFragment :
             }
         }
 
-//        viewModel.QuestiontReq.observe(viewLifecycleOwner) { response ->
-//            response.onSuccess { data ->
-//                dismissProgressDialog()
-//
-//                binding.composeESOPTestScreen.apply {
-//                    val message = data.status.trim()
-//                    if (message.equals("error")) {
-//                        MaterialAlertDialogBuilder(requireContext())
-//                            .setTitle("Message")
-//                            .setMessage(data.message)
-//                            .setCancelable(false)
-//                            .setPositiveButton("Yes") { dialog, _ ->
-//                                dialog.dismiss()
-//                                backPressedCallback.isEnabled = false
-//                                requireActivity().onBackPressedDispatcher.onBackPressed()
-//                            }
-//                            .setNegativeButton("No") { dialog, _ ->
-//                                dialog.dismiss()
-//                                navController.popBackStack()
-//                            }
-//                            .show()
-//                    } else {
-//                        questionList = data.Questions
-//                        val summary = data.summary
-//
-//                        totalQuestions = summary.totalQuestions
-//                        easyCount = summary.easyCount
-//                        mediumCount = summary.mediumCount
-//                        hardCount = summary.hardCount
-//                        numberofAttempt = summary.numberofAttempt
-//
-//                        easyPercentage = summary.easyPercentage
-//                        mediumPercentage = summary.mediumPercentage
-//                        hardPercentage = summary.hardPercentage
-//
-//                        setContent {
-//                            Scaffold(
-//                                containerColor = Color.White
-//                            ) { paddingValues ->
-//                                Box(
-//                                    modifier = Modifier.padding(paddingValues)
-//                                ) {
-//                                    if (!isFaceVerified) {
-//                                        if (cameraPermissionGranted) {
-//                                            FaceVerificationScreen(
-//                                                onVerified = { embedding ->
-//                                                    referenceEmbedding = embedding
-//                                                    isFaceVerified = true
-//                                                }
-//                                            )
-//                                        } else {
-//                                            Box(
-//                                                modifier = Modifier.fillMaxSize(),
-//                                                contentAlignment = Alignment.Center
-//                                            ) {
-//                                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//                                                    Text("Camera permission is required to start the exam.")
-//                                                    Spacer(modifier = Modifier.height(12.dp))
-//                                                    Button(onClick = {
-//                                                        cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-//                                                    }) {
-//                                                        Text("Grant Camera Permission")
-//                                                    }
-//                                                }
-//                                            }
-//                                        }
-//                                    } else {
-//                                        ExamScreen(
-//                                            questionList = questionList
-//                                        )
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//
-//            response.onFailure { error ->
-//                dismissProgressDialog()
-//                Toast.makeText(
-//                    requireContext(),
-//                    error.message ?: "Something went wrong",
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//        }
+
     }
 
     private fun showExitExamDialog() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Exit Exam")
-            .setMessage("Do you want to exit exam?")
+            .setTitle(getString(R.string.exit_exam))
+            .setMessage(getString(R.string.do_you_want_to_exit_exam))
             .setCancelable(false)
-            .setPositiveButton("Yes") { dialog, _ ->
+            .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
                 dialog.dismiss()
                 backPressedCallback.isEnabled = false
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
-            .setNegativeButton("No") { dialog, _ ->
+            .setNegativeButton(getString(R.string.no)) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
@@ -592,7 +482,7 @@ class TestScreenFragment :
         var lastFaceBitmap by remember { mutableStateOf<Bitmap?>(null) }
 
         var statusText by remember {
-            mutableStateOf("No face detected. Please position your face in the frame")
+            mutableStateOf(getString(R.string.no_face_detected_please_position_your_face_in_the_frame))
         }
 
         val eyeClosedThreshold = 0.3f
@@ -606,7 +496,7 @@ class TestScreenFragment :
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Face Verification",
+                text = stringResource(R.string.face_verification),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
@@ -635,12 +525,12 @@ class TestScreenFragment :
                             when {
                                 left < eyeClosedThreshold && right < eyeClosedThreshold -> {
                                     eyesWereClosed = true
-                                    statusText = "Blink detected... hold on"
+                                    statusText = getString(R.string.blink_detected_hold_on)
                                 }
 
                                 eyesWereClosed && left > eyeOpenThreshold && right > eyeOpenThreshold -> {
                                     blinkConfirmed = true
-                                    statusText = "Verified! Starting exam..."
+                                    statusText = getString(R.string.verified_starting_exam)
 
                                     val bmp = lastFaceBitmap
                                     val embedding =
@@ -654,12 +544,13 @@ class TestScreenFragment :
                                 }
 
                                 else -> {
-                                    statusText = "Look at the camera and blink naturally"
+                                    statusText =
+                                        getString(R.string.look_at_the_camera_and_blink_naturally)
                                 }
                             }
                         },
                         onNoFaceDetected = {
-                            statusText = "No face detected. Please position your face in the frame"
+                            statusText = getString(R.string.no_face_detected_please_position_your_face_in_the_frame)
                         }
                     )
                 }
@@ -826,8 +717,8 @@ class TestScreenFragment :
                     if (showDialogTime.value) {
                         AlertDialog(
                             onDismissRequest = { },
-                            title = { Text("Time Over") },
-                            text = { Text("Time is over. Please complete your test.") },
+                            title = { Text(stringResource(R.string.time_over)) },
+                            text = { Text(stringResource(R.string.time_is_over_please_complete_your_test)) },
                             confirmButton = {
                                 TextButton(
                                     onClick = {
@@ -945,6 +836,7 @@ class TestScreenFragment :
                                 .verticalScroll(scrollState)
                         ) {
                             question.options.forEach { option ->
+
                                 Box(
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -969,16 +861,31 @@ class TestScreenFragment :
                                         }
                                         .padding(horizontal = 16.dp, vertical = 14.dp)
                                 ) {
+
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
+
                                         RadioButton(
                                             enabled = isFaceMatched,
                                             selected = selectedAnswer == option.option_Key,
-                                            onClick = { selectedAnswer = option.option_Key }
+                                            onClick = {
+                                                selectedAnswer = option.option_Key
+                                            }
                                         )
-                                        Spacer(modifier = Modifier.width(12.dp))
+
+                                        Spacer(modifier = Modifier.width(4.dp))
+
+                                        Text(
+                                            text = option.option_Key,
+                                            modifier = Modifier.width(24.dp),
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.Bold
+                                        )
+
+                                        Spacer(modifier = Modifier.width(8.dp))
+
                                         Text(
                                             text = option.option_value,
                                             modifier = Modifier.weight(1f),
@@ -987,6 +894,7 @@ class TestScreenFragment :
                                     }
                                 }
                             }
+
                             Spacer(modifier = Modifier.height(28.dp))
                         }
                     }
@@ -1016,20 +924,23 @@ class TestScreenFragment :
                                     when (text) {
                                         "Save & Next" -> {
                                             if (selectedAnswer.isNotEmpty()) {
-                                                answeredQuestions[currentQuestionIndex] = selectedAnswer
+                                                answeredQuestions[currentQuestionIndex] =
+                                                    selectedAnswer
                                             }
                                             reviewQuestions.remove(currentQuestionIndex)
                                             markedQuestions.remove(currentQuestionIndex)
 
                                             if (currentQuestionIndex < questionList.lastIndex) {
                                                 currentQuestionIndex++
-                                                selectedAnswer = answeredQuestions[currentQuestionIndex] ?: ""
+                                                selectedAnswer =
+                                                    answeredQuestions[currentQuestionIndex] ?: ""
                                             }
                                         }
 
                                         "Save & Review" -> {
                                             if (selectedAnswer.isNotEmpty()) {
-                                                answeredQuestions[currentQuestionIndex] = selectedAnswer
+                                                answeredQuestions[currentQuestionIndex] =
+                                                    selectedAnswer
                                             }
                                             if (!reviewQuestions.contains(currentQuestionIndex)) {
                                                 reviewQuestions.add(currentQuestionIndex)
@@ -1038,7 +949,8 @@ class TestScreenFragment :
 
                                             if (currentQuestionIndex < questionList.lastIndex) {
                                                 currentQuestionIndex++
-                                                selectedAnswer = answeredQuestions[currentQuestionIndex] ?: ""
+                                                selectedAnswer =
+                                                    answeredQuestions[currentQuestionIndex] ?: ""
                                             }
                                         }
 
@@ -1049,12 +961,14 @@ class TestScreenFragment :
                                             reviewQuestions.remove(currentQuestionIndex)
 
                                             if (selectedAnswer.isNotEmpty()) {
-                                                answeredQuestions[currentQuestionIndex] = selectedAnswer
+                                                answeredQuestions[currentQuestionIndex] =
+                                                    selectedAnswer
                                             }
 
                                             if (currentQuestionIndex < questionList.lastIndex) {
                                                 currentQuestionIndex++
-                                                selectedAnswer = answeredQuestions[currentQuestionIndex] ?: ""
+                                                selectedAnswer =
+                                                    answeredQuestions[currentQuestionIndex] ?: ""
                                             }
                                         }
 
@@ -1264,7 +1178,10 @@ class TestScreenFragment :
                                     modifier = Modifier
                                         .padding(6.dp)
                                         .size(60.dp)
-                                        .background(color = bgColor, shape = RoundedCornerShape(10.dp))
+                                        .background(
+                                            color = bgColor,
+                                            shape = RoundedCornerShape(10.dp)
+                                        )
                                         .clickable {
                                             currentQuestionIndex = index
                                             selectedAnswer = answeredQuestions[index] ?: ""

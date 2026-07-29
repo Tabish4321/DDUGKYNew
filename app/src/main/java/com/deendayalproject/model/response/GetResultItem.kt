@@ -1,8 +1,7 @@
-package com.deendayalproject.esop.result
+package com.deendayalproject.model.response
 
 
 
-import com.example.esop.mytest.MyTestItem
 import com.google.gson.annotations.SerializedName
 data class GetResultItem(
 

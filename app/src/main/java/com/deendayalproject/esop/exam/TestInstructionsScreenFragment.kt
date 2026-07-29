@@ -70,6 +70,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -285,9 +286,6 @@ class TestInstructionsScreenFragment :
 //        var selectedCertificateType by remember { mutableStateOf("") }
 
         var isDeptDropdownExpanded by remember { mutableStateOf(false) }
-
-//        var selectedDepartment by remember {
-//            mutableStateOf(if (categoryList.size == 1) categoryList[0] else "")
         selectedDepartment = if (categoryList.size == 1) categoryList[0] else ""
 //        }
 
@@ -313,7 +311,7 @@ class TestInstructionsScreenFragment :
 
                 item {
                     Text(
-                        text = "Test Instructions",
+                        text = stringResource(R.string.test_instructions),
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
@@ -328,7 +326,7 @@ class TestInstructionsScreenFragment :
                         onExpandedChange = { isCertDropdownExpanded = !isCertDropdownExpanded }
                     ) {
                         OutlinedTextField(
-                            value = selectedCertificateType.ifEmpty { "Please Select Your Certificate of Type" },
+                            value = selectedCertificateType.ifEmpty { stringResource(R.string.please_select_your_certificate_of_type) },
 //                            value = selectedCertificateType.ifEmpty { aadhaarNumber },
                             onValueChange = {},
                             readOnly = true,
@@ -363,19 +361,18 @@ class TestInstructionsScreenFragment :
                     }
                 }
 
-                item {
-                    InfoCard(icon = Icons.Default.Assignment, label = "Total Questions", value = totalQuestions.toString())
-                }
+//                item { InfoCard(icon = Icons.Default.Assignment, label = "Total Questions", value = totalQuestions.toString()) }
+                item { InfoCard(icon = Icons.Default.Assignment, label = stringResource(R.string.total_questions), value = "50") }
 
                 item {
-                    InfoCard(icon = Icons.Default.AccessTime, label = "Time Duration", value = timeDuration)
+                    InfoCard(icon = Icons.Default.AccessTime, label = stringResource(R.string.time_duration), value = timeDuration)
                 }
 
                 item {
                     if (categoryList.size <= 1) {
                         InfoCard(
                             icon = Icons.Default.LocalFireDepartment,
-                            label = "Department Selected",
+                            label = stringResource(R.string.department_selected),
                             value = if (categoryList.isNotEmpty()) categoryList[0] else "Not Available"
                         )
                     } else {
@@ -388,7 +385,7 @@ class TestInstructionsScreenFragment :
                             Column(modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp, vertical = 12.dp)) {
-                                Text(text = "Department Selected", fontSize = 14.sp, color = Color.Gray)
+                                Text(text =stringResource(R.string.department_selected), fontSize = 14.sp, color = Color.Gray)
                                 Spacer(modifier = Modifier.height(6.dp))
 
                                 ExposedDropdownMenuBox(
@@ -435,7 +432,7 @@ class TestInstructionsScreenFragment :
                 }
 
                 item {
-                    InfoCard(icon = Icons.Default.LocalFireDepartment, label = "Mark per Question", value = markPerQuestion.toString())
+                    InfoCard(icon = Icons.Default.LocalFireDepartment, label = stringResource(R.string.mark_per_question), value = markPerQuestion.toString())
                 }
 
                 item {
@@ -447,7 +444,8 @@ class TestInstructionsScreenFragment :
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "I acknowledge that my identity will be verified through facial recognition using eye-blink detection before the examination begins. For security and examination integrity purposes, the camera may remain active throughout the test, and my face may be verified periodically until the examination is completed. If face verification fails or an unauthorized person is detected, the examination may be suspended or terminated.",
+//                            text = "I acknowledge that my identity will be verified through facial recognition using eye-blink detection before the examination begins. For security and examination integrity purposes, the camera may remain active throughout the test, and my face may be verified periodically until the examination is completed. If face verification fails or an unauthorized person is detected, the examination may be suspended or terminated.",
+                            text = stringResource(R.string.i_acknowledge_that_my_aadhar),
                             fontSize = 13.sp,
                             color = Color.DarkGray,
                             lineHeight = 18.sp,
@@ -463,34 +461,37 @@ class TestInstructionsScreenFragment :
                         onClick = {
                             when {
                                 selectedCertificateType.isEmpty() -> {
-                                    Toast.makeText(navController.context, "Please select certificate type", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(navController.context,
+                                        getString(R.string.please_select_certificate_type), Toast.LENGTH_SHORT).show()
                                 }
                                 categoryList.size > 1 && selectedDepartment.isEmpty() -> {
-                                    Toast.makeText(navController.context, "Please select department", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(navController.context,
+                                        getString(R.string.please_select_department), Toast.LENGTH_SHORT).show()
                                 }
                                 !isAcknowledged -> {
-                                    Toast.makeText(navController.context, "Please acknowledge the terms", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(navController.context,
+                                        getString(R.string.please_acknowledge_the_terms), Toast.LENGTH_SHORT).show()
                                 }
                                 !hasCameraPermission() -> {
                                     onRequestPermission()
                                 }
                                 else -> {
 
-//                                    val bundle = bundleOf(
-//                                        "loginId" to loginId,
-//                                        "userName" to userName,
-//                                        "mobile" to mobile,
-//                                        "email" to email,
-//                                        "gender" to gender,
-//                                        "candidateLoginId" to candidateLoginId,
-//                                        "candidateMobileNo" to candidateMobileNo,
-//                                        "selectedCertificateType" to selectedCertificateType,
-//                                        "selectedDepartment" to selectedDepartment
-//                                    )
-//
-//                                    navController.navigate(R.id.action_esopFragment_to_esopgetTestScreenFragment,bundle)
+                                    val bundle = bundleOf(
+                                        "loginId" to loginId,
+                                        "userName" to userName,
+                                        "mobile" to mobile,
+                                        "email" to email,
+                                        "gender" to gender,
+                                        "candidateLoginId" to candidateLoginId,
+                                        "candidateMobileNo" to candidateMobileNo,
+                                        "selectedCertificateType" to selectedCertificateType,
+                                        "selectedDepartment" to selectedDepartment
+                                    )
 
-                                    invokeCaptureIntent()
+                                    navController.navigate(R.id.action_esopFragment_to_esopgetTestScreenFragment,bundle)
+
+//                                    invokeCaptureIntent()
 
 
 
@@ -507,7 +508,7 @@ class TestInstructionsScreenFragment :
                         shape = RoundedCornerShape(16.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2962FF))
                     ) {
-                        Text(text = "Start New Test", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                        Text(text = stringResource(R.string.start_new_test), color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -602,6 +603,8 @@ class TestInstructionsScreenFragment :
                 val poiType = XstreamCommonMethods.processPidBlockEkyc(
                     response.toXML(),
                     aadhaarNumber,
+//                    "286745174282",
+//                    "456718077531",
                     false,
                     requireContext()
                 )
@@ -710,33 +713,9 @@ class TestInstructionsScreenFragment :
                                 val bytes = Base64.decode(kycResp.uidData.pht, Base64.DEFAULT)
                                 val bitmap =
                                     BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-
-//                                userPhotoUIADI = bitmap
-//                                ekycImage = kycResp.uidData.pht ?: ""
-//
-//                                name = kycResp.uidData.poi.name ?: "N/A"
-//                                photo = kycResp.uidData.pht ?: "N/A"
                                 gender = kycResp.uidData.poi.gender ?: "N/A"
-//                                dob = kycResp.uidData.poi.dob ?: "N/A"
-//                                careOf = kycResp.uidData.poa.co ?: "N/A"
-//                                state = kycResp.uidData.poa.state ?: "N/A"
-//                                dist = kycResp.uidData.poa.dist ?: "N/A"
-//                                block = kycResp.uidData.poa.subdist ?: "N/A"
-//                                village = kycResp.uidData.poa.vtc ?: "N/A"
-//                                street = kycResp.uidData.poa.loc ?: "N/A"
-//                                po = kycResp.uidData.poa.po ?: "N/A"
-//                                pinCode = kycResp.uidData.poa.pc ?: "N/A"
-
-//                                Toast.makeText(requireContext(), kycResp.uidData.poi.name ?: getString(R.string.failed),Toast.LENGTH_SHORT)
-//                                    .show()
-
-
-
-
-//                                val poiName = kycResp?.uidData?.poi?.name
 
                                 if (!gender.isNullOrBlank() && !gender.equals("NA", ignoreCase = true) && !gender.equals("N/A", ignoreCase = true)) {
-                                    // Valid Name milne par hi navigate karega
                                     val bundle = bundleOf(
                                         "loginId" to loginId,
                                         "userName" to userName,
@@ -762,10 +741,6 @@ class TestInstructionsScreenFragment :
                                     ).show()
                                 }
 
-
-
-//
-//                                collectFacultyInsertAttendance()
 
 
                             }

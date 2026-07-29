@@ -1,4 +1,4 @@
-package com.deendayalproject.esop.result
+package com.deendayalproject.model.response
 
 import com.google.gson.annotations.SerializedName
 

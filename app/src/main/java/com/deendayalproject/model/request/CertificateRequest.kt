@@ -1,4 +1,4 @@
-package com.deendayalproject.esop.certificate
+package com.deendayalproject.model.request
 
 import com.google.gson.annotations.SerializedName
 

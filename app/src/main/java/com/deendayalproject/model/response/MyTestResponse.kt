@@ -15,18 +15,6 @@ data class MyTestResponse(
     val wrappedList: List<MyTestItem> = emptyList()
 )
 
-//data class MyTestResponse(
-//
-//
-//    val responseCode: Int,
-//
-//    val responseDesc: String,
-//
-//    val wrappedList: List<MyTestItem>
-//
-//
-//)
-
 
 
 

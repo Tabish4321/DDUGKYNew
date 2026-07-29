@@ -48,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -340,9 +341,10 @@ class EsopFragment :
                         "categoryList" to ArrayList(categoryList)
                     )
 
-                    navController.navigate(R.id.action_esopFragment_to_TestInstructionsFragment,bundle)
-
-
+                    navController.navigate(
+                        R.id.action_esopFragment_to_TestInstructionsFragment,
+                        bundle
+                    )
 
 
 //                    Toast.makeText(
@@ -377,7 +379,7 @@ class EsopFragment :
                 ) {
 
                     Text(
-                        text = "Start Test Now",
+                        text = stringResource(R.string.start_test_now),
                         color = Color.White,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
@@ -386,7 +388,7 @@ class EsopFragment :
                     Spacer(modifier = Modifier.height(6.dp))
 
                     Text(
-                        text = "Attempt a new eSOP exam",
+                        text = stringResource(R.string.attempt_a_new_esop_exam),
                         color = Color.White.copy(alpha = 0.85f),
                         fontSize = 14.sp
                     )

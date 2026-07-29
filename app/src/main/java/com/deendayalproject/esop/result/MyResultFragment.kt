@@ -184,8 +184,8 @@ class MyResultFragment :
         if (showEmptyDialog) {
             AlertDialog(
                 onDismissRequest = { },
-                title = { Text("No Result is Available") },
-                text = { Text("Please Conduct Exam") },
+                title = { Text(stringResource(R.string.no_result_is_available)) },
+                text = { Text(stringResource(R.string.please_conduct_exam)) },
                 confirmButton = {
                     TextButton(onClick = {
                         navController.popBackStack()
@@ -326,7 +326,7 @@ class MyResultFragment :
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF075CE8))
                         ) {
                             Text(
-                                text = "View Certificate",
+                                text = stringResource(R.string.view_certificate),
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp
@@ -386,7 +386,7 @@ class MyResultFragment :
                                     focusedBorderColor = Color.Gray,
                                     unfocusedBorderColor = Color.LightGray
                                 ),
-                                label = { Text(text = "Select Department", color = Color.Black) },
+                                label = { Text(text = stringResource(R.string.select_department), color = Color.Black) },
                                 trailingIcon = {
                                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                                 },
@@ -431,7 +431,7 @@ class MyResultFragment :
                                     focusedBorderColor = Color.Gray,
                                     unfocusedBorderColor = Color.LightGray
                                 ),
-                                label = { Text(text = "Select Certificate", color = Color.Black) },
+                                label = { Text(text = stringResource(R.string.select_certificate), color = Color.Black) },
                                 trailingIcon = {
                                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedCertificate)
                                 },
@@ -473,7 +473,7 @@ class MyResultFragment :
                                     )
                             ) {
                                 Text(
-                                    text = "Your Result",
+                                    text = stringResource(R.string.your_result),
                                     color = Color.White,
                                     fontSize = 20.sp,
                                     fontWeight = FontWeight.Bold,
@@ -498,7 +498,9 @@ class MyResultFragment :
 
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Text(
-                                            text = if (result == 0) "Sorry! You " else "Congratulations! You ",
+                                            text = if (result == 0) stringResource(R.string.sorry_you) else stringResource(
+                                                R.string.congratulations_you
+                                            ),
                                             color = Color.White,
                                             fontSize = 20.sp,
                                             fontWeight = FontWeight.Bold
@@ -518,9 +520,9 @@ class MyResultFragment :
 
                                     Text(
                                         text = if (result == 0)
-                                            "Please try again to improve your score."
+                                            stringResource(R.string.please_try_again_to_improve_your_score)
                                         else
-                                            "Well done! You have successfully",
+                                            stringResource(R.string.well_done_you_have_successfully),
                                         color = Color.White,
                                         fontSize = 13.sp
                                     )
@@ -535,7 +537,7 @@ class MyResultFragment :
 
                                     if (result != 0) {
                                         Text(
-                                            text = "cleared the test.",
+                                            text = stringResource(R.string.cleared_the_test),
                                             color = Color.White,
                                             fontSize = 13.sp
                                         )
@@ -549,8 +551,8 @@ class MyResultFragment :
                                 score = score,
                                 rank = when {
                                     showEmptyDialog || filteredResult == null -> "NA"
-                                    result == 0 -> "Fail"
-                                    else -> "Pass"
+                                    result == 0 -> stringResource(R.string.fail)
+                                    else -> stringResource(R.string.pass)
                                 },
                                 onIncorrectClick = {
                                     // TODO: replace with your real nav-graph action id / route
@@ -678,15 +680,15 @@ private fun ResultStatsCard(
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ResultStatItem(title = "Correct", value = correct, valueColor = Color(0xFF19A64A))
+            ResultStatItem(title = stringResource(R.string.correct), value = correct, valueColor = Color(0xFF19A64A))
             ResultStatItem(
                 title = "Incorrect",
                 value = incorrect,
                 valueColor = Color(0xFFE53935),
                 onClick = onIncorrectClick
             )
-            ResultStatItem(title = "Score", value = score, valueColor = Color(0xFF1D9BF0))
-            ResultStatItem(title = "Result", value = rank, valueColor = Color(0xFF111827))
+            ResultStatItem(title =  stringResource(R.string.score), value = score, valueColor = Color(0xFF1D9BF0))
+            ResultStatItem(title =  stringResource(R.string.results), value = rank, valueColor = Color(0xFF111827))
         }
     }
 }

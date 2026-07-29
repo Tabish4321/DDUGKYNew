@@ -4,7 +4,6 @@ data class WrappedListaItem(
 
     val result: Int,
     val totalQuestions: Int,
-//    val numberofAttempt: Int,
     val wrongAns: Int,
     val scoredPercentage: Int,
     val passingPercentage: Int,

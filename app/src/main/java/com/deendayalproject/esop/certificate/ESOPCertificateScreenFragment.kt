@@ -59,7 +59,7 @@ import com.deendayalproject.R
 import com.deendayalproject.base.BaseFragment
 import com.deendayalproject.databinding.EsopCertificatescreenBinding
 import com.deendayalproject.databinding.EsopMytestFragmentBinding
-import com.deendayalproject.esop.exam.InsertRequest
+import com.deendayalproject.model.request.InsertRequest
 import com.deendayalproject.fragments.composeui.common.PremiumTopBar
 import com.deendayalproject.model.request.EsopCandidateRequest
 import com.deendayalproject.model.request.EsopResultRequest
@@ -125,28 +125,14 @@ class ESOPCertificateScreenFragment :
 
 
         binding.composeESOPCertificateScreen.setContent {
-
-
-
-
-
-
-
-
             ESOPCertificateScreen(
-                wrongAns = wrongAns,
-                numberofAttempt = numberofAttempt,
                 percentage = percentage,
-                correctAns = correctAns,
-                result = result,
                 candidateName = candidateName,
-                candidateMobileNo = candidateMobileNo,
                 departmentCetegory = departmentCetegory,
                 certificationType = certificateType,
                 totalQuestions=totalQuestions,
                 resultText=resultText,
                 candidateLoginId=candidateLoginId,
-                id=id,
                 onBackClick = { findNavController().popBackStack() }
             )
         }

@@ -47,7 +47,6 @@ import com.deendayalproject.R
 import com.deendayalproject.esop.dashboard.DashboardCard
 import com.deendayalproject.util.AppUtil.base64ToBitmap
 
-
 @Composable
 fun CandidateInfoCard(
 
@@ -113,192 +112,71 @@ fun CandidateInfoCard(
                 )
             }
         }
-
-//        Spacer(modifier = Modifier.height(16.dp))
-//
-//        Row(
-//            modifier = Modifier.fillMaxWidth()
-//        )
-//        {
-//
-//            DashboardCard(
-//                modifier = Modifier.weight(1f),
-//                title = "My Tests",
-//                subtitle = "View your tests",
-//                icon = Icons.Default.Assignment
-//            )
-//
-//            Spacer(modifier = Modifier.width(8.dp))
-//
-//            DashboardCard(
-//                modifier = Modifier.weight(1f),
-//                title = "Results",
-//                subtitle = "View your results",
-//                icon = Icons.Default.BarChart
-//            )
-//        }
-//
-//        Spacer(modifier = Modifier.height(8.dp))
-//
-//        Row(
-//            modifier = Modifier.fillMaxWidth()
-//        )
-//        {
-//
-//            DashboardCard(
-//                modifier = Modifier.weight(1f),
-//                title = "Certificate",
-//                subtitle = "View & Download",
-//                icon = Icons.Default.CardMembership
-//            )
-//
-//            Spacer(modifier = Modifier.width(8.dp))
-//
-//            DashboardCard(
-//                modifier = Modifier.weight(1f),
-//                title = "Profile",
-//                subtitle = "View & Edit",
-//                icon = Icons.Default.Person
-//            )
-//        }
     }
 }
-
-
-
 //@Composable
 //fun CandidateInfoCard(
-//    name: String,
-//    age: String,
-//    designation: String,
-//    mobileNo: String,
-//    gender: String,
-//    imageUrl: String?
+//
+//    loginId: String,
+//    userName: String,
+//    mobile: String,
+//    email: String,
+//    gender: String
 //) {
-//    val bitmap = remember(imageUrl) {
-//        base64ToBitmap(imageUrl.toString())
-//    }
-//    Card(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(16.dp),
 //
-//        shape = RoundedCornerShape(16.dp),
+//    Column {
 //
-//        colors = CardDefaults.cardColors(
-//            containerColor = Color.White
-//        ),
-//
-//        elevation = CardDefaults.cardElevation(
-//            defaultElevation = 10.dp
-//        )
-//    ) {
-//
-//        Row(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(16.dp),
-//
-//            verticalAlignment = Alignment.CenterVertically
+//        // Candidate Details Card
+//        Card(
+//            modifier = Modifier.fillMaxWidth(),
+//            elevation = CardDefaults.cardElevation(5.dp),
+//            colors = CardDefaults.cardColors(Color.White)
 //        ) {
 //
 //            Column(
-//                modifier = Modifier.weight(1f)
+//                modifier = Modifier.padding(16.dp)
 //            ) {
 //
 //                Text(
-//                    text = "Ajit Ranjan",
-//                    fontSize = 20.sp,
+//                    text = stringResource(R.string.candidate_details),
 //                    fontWeight = FontWeight.Bold,
-//                    color = Color.Black
+//                    fontSize = 18.sp
 //                )
 //
-//                Spacer(
-//                    modifier = Modifier.height(10.dp)
-//                )
+//                Spacer(modifier = Modifier.height(12.dp))
 //
 //                Text(
-//                    text = stringResource(R.string.age, age),
-//                    color = Color.DarkGray
+//                    text = stringResource(R.string.name, userName),
+//                    fontSize = 15.sp
 //                )
 //
-//                Text(
-//                    text = stringResource(R.string.designation, designation),
-//                    color = Color.DarkGray
-//                )
+//                Spacer(modifier = Modifier.height(6.dp))
 //
 //                Text(
-//                    text = stringResource(R.string.mobile_no, mobileNo),
-//                    color = Color.DarkGray
+//                    text = stringResource(R.string.login_id, loginId),
+//                    fontSize = 15.sp
 //                )
 //
+//                Spacer(modifier = Modifier.height(6.dp))
+//
 //                Text(
-//                    text = stringResource(R.string.gender, designation),
-//                    color = Color.DarkGray
+//                    text = stringResource(R.string.mobile_no, mobile),
+//                    fontSize = 15.sp
+//                )
+//                Spacer(modifier = Modifier.height(6.dp))
+//
+//                Text(
+//                    text = stringResource(R.string.email_id, email),
+//                    fontSize = 15.sp
+//                )
+//
+//
+//                Spacer(modifier = Modifier.height(6.dp))
+//
+//                Text(
+////                    text = "Gender : ${gender.ifEmpty { "N/A" }}",
+//                    text = stringResource(R.string.gender, gender.ifEmpty { "N/A" }),
+//                    fontSize = 15.sp
 //                )
 //            }
-//
-//            Spacer(
-//                modifier = Modifier.width(16.dp)
-//            )
-//            if (bitmap != null) {
-//
-//                Image(
-//                    bitmap = bitmap.asImageBitmap(),
-//                    contentDescription = "Candidate Image",
-//
-//                    modifier = Modifier
-//                        .size(100.dp)
-//                        .clip(CircleShape)
-//                        .border(
-//                            2.dp,
-//                            Color(0xFF075CE8),
-//                            CircleShape
-//                        ),
-//
-//                    contentScale = ContentScale.Crop
-//                )
-//
-//            } else {
-//
-//                Box(
-//                    modifier = Modifier
-//                        .size(100.dp)
-//                        .clip(CircleShape)
-//                        .background(Color.LightGray),
-//
-//                    contentAlignment = Alignment.Center
-//                ) {
-//
-//                    Icon(
-//                        imageVector = Icons.Default.Person,
-//                        contentDescription = null,
-//                        tint = Color.White,
-//                        modifier = Modifier.size(50.dp)
-//                    )
-//                }
-//            }
-//
-//
-//
-//
-//
-//
-////            AsyncImage(
-////                model = imageUrl,
-////                contentDescription = "Candidate Image",
-////
-////                modifier = Modifier
-////                    .size(100.dp)
-////                    .clip(CircleShape)
-////                    .border(
-////                        width = 2.dp,
-////                        color = Color(0xFF075CE8),
-////                        shape = CircleShape
-////                    ),
-////
-////                contentScale = ContentScale.Crop
-////            )
-//        }
-//    }
-//}
+//        }}}

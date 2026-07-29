@@ -1,6 +1,4 @@
-package com.deendayalproject.esop.exam
-
-import com.example.esop.AswersOptionSubmit.WrappedListaItem
+package com.example.esop.AswersOptionSubmit
 
 data class SubmitResponse(
 

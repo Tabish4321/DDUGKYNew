@@ -1158,6 +1158,9 @@
     <string name="front">Front</string>
     <string name="back">Back</string>
     <string name="pause">pause</string>
+
+
+
     <string name="label_yes">Yes</string>
     <string name="label_no">No</string>
 
@@ -1189,5 +1192,61 @@
     <string name="results">Results</string>
     <string name="internal_server_error">Internal Server Error</string>
     <string name="not_authenticated_please_try_again">Not Authenticated. Please try again.</string>
+    <string name="certificate">Certificate</string>
+    <string name="view_download"><![CDATA[View & Download]]></string>
+    <string name="view_your_results">View your results</string>
+    <string name="my_tests">My Tests</string>
+    <string name="view_your_tests">View your tests</string>
+    <string name="department_category">Department Category : %1$s</string>
+    <string name="certificate_type">Certificate Type</string>
+    <string name="date">Date: %1$s</string>
+    <string name="exit_exam">Exit Exam</string>
+    <string name="do_you_want_to_exit_exam">Do you want to exit exam?</string>
+    <string name="no_face_detected_please_position_your_face_in_the_frame">No face detected. Please position your face in the frame</string>
+    <string name="face_verification">Face Verification</string>
+    <string name="blink_detected_hold_on">Blink detected... hold on</string>
+    <string name="verified_starting_exam">Verified! Starting exam...</string>
+    <string name="look_at_the_camera_and_blink_naturally">Look at the camera and blink naturally</string>
+    <string name="time_over">Time Over</string>
+    <string name="time_is_over_please_complete_your_test">Time is over. Please complete your test.</string>
+    <string name="i_acknowledge_that_my_aadhar">I acknowledge that my identity will first be authenticated by matching my live facial image with my Aadhaar-linked photograph. After successful authentication, an eye-blink (liveness) verification will be performed. During the examination, my face may be periodically verified through the device camera to maintain examination security and integrity. Failure to complete identity authentication, liveness verification, or subsequent face verification, or detection of an unauthorized person, may result in suspension or termination of the examination.</string>
+    <string name="start_test_now">Start Test Now</string>
+    <string name="attempt_a_new_esop_exam">Attempt a new eSOP exam</string>
+    <string name="name_user">Name User : %1$s</string>
+    <string name="please_select_certificate_type">Please select certificate type</string>
+    <string name="please_select_department">Please select department</string>
+    <string name="please_acknowledge_the_terms">Please acknowledge the terms</string>
+    <string name="start_new_test">Start New Test</string>
+    <string name="mark_per_question">Mark per Question</string>
+    <string name="test_instructions">Test Instructions</string>
+    <string name="please_select_your_certificate_of_type">Please Select Your Certificate of Type</string>
+    <string name="total_questions">Total Questions</string>
+    <string name="time_duration">Time Duration</string>
+    <string name="department_selected">Department Selected</string>
+    <string name="no_result_available">No Result Available</string>
+    <string name="please_conduct_the_exam_first">Please conduct the exam first.</string>
+    <string name="select_department">Select Department</string>
+    <string name="no_result_found">No Result Found</string>
+    <string name="no_data_available_for_department">No data available for %1$s department</string>
+    <string name="wrong_answers">Wrong Answers</string>
+    <string name="correct_answers">Correct Answers</string>
+    <string name="passing">Passing %</string>
+    <string name="score">Score</string>
+    <string name="no_result_is_available">No Result is Available</string>
+    <string name="please_conduct_exam">Please Conduct Exam</string>
+    <string name="view_certificate">View Certificate</string>
+    <string name="select_certificate">Select Certificate</string>
+    <string name="your_result">Your Result</string>
+    <string name="sorry_you">"Sorry! You "</string>
+    <string name="congratulations_you">"Congratulations! You "</string>
+    <string name="please_try_again_to_improve_your_score">Please try again to improve your score.</string>
+    <string name="well_done_you_have_successfully">Well done! You have successfully</string>
+    <string name="cleared_the_test">cleared the test.</string>
+    <string name="correct">Correct</string>
+    <string name="fail">Fail</string>
+    <string name="pass">Pass</string>
+    <string name="share_certificate">Share Certificate</string>
+    <string name="download_pdf">Download PDF</string>
+    <!--    <string name="i_acknowledge_that_my_aadhar">I acknowledge and consent that my identity will first be authenticated by matching my live facial image with my Aadhaar-linked photograph. Upon successful authentication, I will be required to complete an eye-blink (liveness) verification to confirm my physical presence. During the examination, my face may be continuously or periodically monitored and verified through the device camera to ensure examination security and integrity. If identity authentication, liveness verification, or subsequent face verification fails, or if an unauthorized person is detected, the examination may be suspended or terminated in accordance with the examination guidelines.</string>-->
 
 </resources>

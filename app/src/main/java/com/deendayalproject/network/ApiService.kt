@@ -2,11 +2,11 @@ package com.deendayalproject.network
 
 import PreviousInspectionItemResponse
 import com.deendayalproject.base.BaseResponse
-import com.deendayalproject.esop.certificate.CertificateRequest
-import com.deendayalproject.esop.exam.FinalSubmitResponse
-import com.deendayalproject.esop.exam.InsertRequest
-import com.deendayalproject.esop.result.GetResultItem
-import com.deendayalproject.esop.result.GetResultViewRequest
+import com.deendayalproject.model.request.CertificateRequest
+import com.deendayalproject.model.response.FinalSubmitResponse
+import com.deendayalproject.model.request.InsertRequest
+import com.deendayalproject.model.response.GetResultItem
+import com.deendayalproject.model.request.GetResultViewRequest
 import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.AddNewRFReq
 import com.deendayalproject.model.request.AllRoomDetaisReques
@@ -25,7 +25,6 @@ import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.EsopCandidateRequest
 import com.deendayalproject.model.request.EsopResultRequest
-import com.deendayalproject.model.request.FansCountReq
 import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
 import com.deendayalproject.model.request.FieldVerificationFinalSubmit
@@ -115,7 +114,6 @@ import com.deendayalproject.model.request.assesmentInspection.GetInspectionStand
 import com.deendayalproject.model.request.assesmentInspection.GetResidentialFacilityVerificationRequest
 import com.deendayalproject.model.request.assesmentInspection.GetTrainerAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.InsertInspectionFinalDetailsRequest
-import com.deendayalproject.model.request.assesmentInspection.PreviousInspectionObservationRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAssessmentInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveCandidateAttendanceInspectionRequest
 import com.deendayalproject.model.request.assesmentInspection.SaveDistributedLearningMaterialInspectionRequest
@@ -143,12 +141,10 @@ import com.deendayalproject.model.response.CandidateAssessmentResponse.Entitleme
 import com.deendayalproject.model.response.CandidateAssessmentResponse.InsertInspectionFinalDetailsResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.InspectionSectionStatusResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.InspectionStandardFormDto
-import com.deendayalproject.model.response.CandidateAssessmentResponse.PreviousInspectionObservationResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.ResidentialFacilityVerificationResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.SaveInspectionStandardFormResponse
 import com.deendayalproject.model.response.CandidateAssessmentResponse.TrainerAttendanceInspectionResponse
 import com.deendayalproject.model.response.CandidateInspectionDetails
-import com.deendayalproject.model.response.CandidateInspectionDetailsResponse
 import com.deendayalproject.model.response.CandidatePreviousBatchRes
 import com.deendayalproject.model.response.CandidateOjtVerificationDetails
 import com.deendayalproject.model.response.CandidateOjtVerificationRequest
@@ -162,12 +158,10 @@ import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.EsopCandidateRes
 import com.deendayalproject.model.response.FacultyDetailsRes
-import com.deendayalproject.model.response.FansCountRes
 import com.deendayalproject.model.response.FieldVerificationDetailResponse
 import com.deendayalproject.model.response.FieldVerificationDetailResponseNEW
 import com.deendayalproject.model.response.FieldVerificationListResponse
 import com.deendayalproject.model.response.FinalSubmitRes
-import com.deendayalproject.model.response.FinancialDetailsResponse
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GetAttendanceDetailsRes
 import com.deendayalproject.model.response.GetDDSaveDataRes
@@ -212,7 +206,6 @@ import com.deendayalproject.model.response.RfFinalSubmitRes
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
 import com.deendayalproject.model.response.RfQTeamListRes
-import com.deendayalproject.model.response.SaltResponse
 import com.deendayalproject.model.response.SaveCandidateOjtVerificationResponse
 import com.deendayalproject.model.response.SectionResponse
 import com.deendayalproject.model.response.SectionStatusRes
@@ -233,7 +226,6 @@ import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.TeachingLearningRes
 import com.deendayalproject.model.response.ToiletCountList
 import com.deendayalproject.model.response.ToiletListRes
-import com.deendayalproject.model.response.ToiletRes
 import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.ToiletRoomInformationViewRes
 import com.deendayalproject.model.response.ToiletViewRes
@@ -251,14 +243,12 @@ import com.deendayalproject.uidai.ekyc.UidaiKycRequest
 import com.deendayalproject.uidai.ekyc.UidaiResp
 import com.example.esop.AswersOptionSubmit.SubmitExamRequest
 import com.example.esop.AswersOptionSubmit.SubmitResponse
-import com.example.esop.fialAnsweredSubmitApi.ResultInsertReq
 import com.example.esop.mytest.MyTestResponse
 import com.example.esop.quetions_esop.QuestionResponse
-import com.example.esop.quetions_esop.QuestiontReq
+import com.deendayalproject.model.request.QuestiontReq
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Header
